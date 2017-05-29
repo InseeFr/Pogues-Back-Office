@@ -1,0 +1,1749 @@
+{
+   "id" : "fr.insee-POPO-QPO-EVA2016",
+   "depth" : 0,
+   "genericName" : "QUESTIONNAIRE",
+   "agency" : "fr.insee",
+   "Name" : "EVA2016",
+   "Label" : [ "EVA 2016 - L'entrée dans la vie adulte (1)" ],
+   "Child" : [ {
+      "id" : "j0mdmwot",
+      "depth" : 1,
+      "genericName" : "MODULE",
+      "type" : "SequenceType",
+      "Name" : "S1 - ETUDES",
+      "Label" : [ "VOS ETUDES" ],
+      "Child" : [ {
+         "id" : "j0mdjj5a",
+         "depth" : 2,
+         "genericName" : "SUBMODULE",
+         "type" : "SequenceType",
+         "Name" : "S1-S1",
+         "Label" : [ "Dernier diplôme obtenu" ],
+         "Child" : [ {
+            "id" : "j0l6dkdv",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S1-S1-Q1",
+            "Label" : [ "##{\"label\":\"Au 1er mars 2016, le plus haut diplôme que vous possédiez était …\",\"conditions\":[]} Au 1er mars 2016, le plus haut diplôme que vous possédiez était …" ],
+            "Response" : [ {
+               "mandatory" : true,
+               "CodeListReference" : "j0l6oo82",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6a6p2",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S1-S1-Q2",
+            "Label" : [ "##{\"label\":\"À quelle date avez-vous obtenu ce diplôme ?\",\"conditions\":[]} À quelle date avez-vous obtenu ce diplôme ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "DATE",
+                  "type" : "DateDatatypeType",
+                  "Format" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l65gqe",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S1-S1-Q3",
+            "Label" : [ "##{\"label\":\"Quel est l'intitulé du diplôme ?\\n\",\"conditions\":[]} Quel est l'intitulé du diplôme ?" ],
+            "Declaration" : [ {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "Exemples : DNB, CAP, CAPA, titre professionnel, bac général, bac pro, bac technologique, BTS, licence pro\n"
+            }, {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "Si formation étrangère : indiquer l’équivalent français. Éviter les abréviations personnelles.\n"
+            } ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 50,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l76wlz",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S1-S1-Q4",
+            "Label" : [ "##{\"label\":\"Quelle est la spécialité, discipline ou série du diplôme ?\\n\",\"conditions\":[]} Quelle est la spécialité, discipline ou série du diplôme ?" ],
+            "Declaration" : [ {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "exemples : ES, ST2S, mécanique automobile,vente, psychologie, agent de sécurité, aide à domicile\n"
+            } ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 50,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l5uxqd",
+            "questionType" : "MULTIPLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S1-S1-Q5",
+            "Label" : [ "##{\"label\":\"Quel(s) autre(s) diplôme(s) aviez-vous ?\",\"conditions\":[]} Quel(s) autre(s) diplôme(s) aviez-vous ?" ],
+            "Response" : [ {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            } ],
+            "ResponseStructure" : {
+               "Dimension" : [ {
+                  "dimensionType" : "PRIMARY",
+                  "dynamic" : "0",
+                  "CodeListReference" : "j0l72tdv"
+               }, {
+                  "dimensionType" : "MEASURE",
+                  "dynamic" : "0"
+               } ]
+            }
+         }, {
+            "id" : "j0l61x92",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S1-S1-Q6",
+            "Label" : [ "##{\"label\":\"Au 1er mars 2016, suiviez-vous des études ou une formation préparant à un diplôme ou à un titre reconnu ?\",\"conditions\":[]} Au 1er mars 2016, suiviez-vous des études ou une formation préparant à un diplôme ou à un titre reconnu ?" ],
+            "Declaration" : [ {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "Concerne les formations de plus de 6 mois, y compris apprentissage, contrat de professionnalisation, préparation encadrée à un concours ou formation par correspondance,. Même si vous étiez en stage ou en vacances.  Non compris les certificats de qualification professionnelle, de compétence professionnelle, les CACES, Bafa, etc.\n"
+            } ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7hhfj",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         } ]
+      }, {
+         "id" : "j0mdux14",
+         "depth" : 2,
+         "genericName" : "SUBMODULE",
+         "type" : "SequenceType",
+         "Name" : "S1-S2",
+         "Label" : [ "Vos études au 1er mars 2016" ],
+         "Child" : [ {
+            "id" : "j0l64vrp",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S1-S2-Q1",
+            "Label" : [ "##{\"label\":\"Au 1er mars 2016, prépariez-vous un diplôme, un concours ou un titre … \",\"conditions\":[]} Au 1er mars 2016, prépariez-vous un diplôme, un concours ou un titre …" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7cbqg",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6fezc",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S1-S2-Q2",
+            "Label" : [ "##{\"label\":\"Précisez la classe ou année d’études\\n\",\"conditions\":[]} Précisez la classe ou année d’études" ],
+            "Declaration" : [ {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "Si formation étrangère : indiquer l’équivalent français.\n"
+            } ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 50,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0m7i1no",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S1-S2-Q3",
+            "Label" : [ "##{\"label\":\"Précisez le diplôme préparé puis la spécialité\\n\",\"conditions\":[]} Précisez le diplôme préparé puis la spécialité" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 50,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l66xwx",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S1-S2-Q4",
+            "Label" : [ "##{\"label\":\"Étiez-vous apprenti(e) ou en contrat de professionnalisation ?\",\"conditions\":[]} Étiez-vous apprenti(e) ou en contrat de professionnalisation ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7hhfj",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "RADIO",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l61fgw",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S1-S2-Q5",
+            "Label" : [ "##{\"label\":\"À quelle date avez-vous arrêté vos études ou votre dernière formation diplômante ?\",\"conditions\":[]} À quelle date avez-vous arrêté vos études ou votre dernière formation diplômante ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "DATE",
+                  "type" : "DateDatatypeType",
+                  "Format" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l5x87r",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S1-S2-Q6",
+            "Label" : [ "##{\"label\":\"Le diplôme, concours ou titre que vous prépariez alors était … \",\"conditions\":[]} Le diplôme, concours ou titre que vous prépariez alors était …" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7rsow",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l5zt37",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S1-S2-Q7",
+            "Label" : [ "##{\"label\":\"Précisez la classe ou année d’études\\n\",\"conditions\":[]} Précisez la classe ou année d’études" ],
+            "Declaration" : [ {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "Si formation étrangère : indiquer l’équivalent français.\n"
+            } ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 50,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0m78l6z",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S1-S2-Q8",
+            "Label" : [ "##{\"label\":\"Précisez le diplôme préparé puis la spécialité\\n\",\"conditions\":[]} Précisez le diplôme préparé puis la spécialité" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 50,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6hokh",
+            "questionType" : "MULTIPLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S1-S2-Q9",
+            "Label" : [ "##{\"label\":\"Pour quelle(s) raison(s) avez-vous arrêté ces études ?\\n\",\"conditions\":[]} Pour quelle(s) raison(s) avez-vous arrêté ces études ?" ],
+            "Response" : [ {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            } ],
+            "ResponseStructure" : {
+               "Dimension" : [ {
+                  "dimensionType" : "PRIMARY",
+                  "dynamic" : "0",
+                  "CodeListReference" : "j0l7u81o"
+               }, {
+                  "dimensionType" : "MEASURE",
+                  "dynamic" : "0"
+               } ]
+            }
+         }, {
+            "id" : "j0l69ew5",
+            "questionType" : "MULTIPLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S1-S2-Q10",
+            "Label" : [ "##{\"label\":\" Depuis la fin de ces études, avez-vous suivi une ou plusieurs des formations suivantes ?\",\"conditions\":[]} Depuis la fin de ces études, avez-vous suivi une ou plusieurs des formations suivantes ?" ],
+            "Response" : [ {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            } ],
+            "ResponseStructure" : {
+               "Dimension" : [ {
+                  "dimensionType" : "PRIMARY",
+                  "dynamic" : "0",
+                  "CodeListReference" : "j0l7sidx"
+               }, {
+                  "dimensionType" : "MEASURE",
+                  "dynamic" : "0"
+               } ]
+            }
+         } ]
+      } ]
+   }, {
+      "id" : "j0mdtxda",
+      "depth" : 1,
+      "genericName" : "MODULE",
+      "type" : "SequenceType",
+      "Name" : "S2 - EMPLOI",
+      "Label" : [ "VOS EMPLOIS" ],
+      "Child" : [ {
+         "id" : "j0l6hfz1",
+         "questionType" : "SINGLE_CHOICE",
+         "type" : "QuestionType",
+         "Name" : "S2-Q1",
+         "Label" : [ "##{\"label\":\"Quelle était votre situation vis-à-vis du travail au 1er mars 2016?\\n\",\"conditions\":[]} Quelle était votre situation vis-à-vis du travail au 1er mars 2016?" ],
+         "Response" : [ {
+            "mandatory" : false,
+            "CodeListReference" : "j0l7z2n4",
+            "Datatype" : {
+               "typeName" : "TEXT",
+               "visualizationHint" : "CHECKBOX",
+               "type" : "TextDatatypeType",
+               "MaxLength" : 1,
+               "Pattern" : ""
+            }
+         } ]
+      }, {
+         "id" : "j0me1tdu",
+         "depth" : 2,
+         "genericName" : "SUBMODULE",
+         "type" : "SequenceType",
+         "Name" : "S2-S1",
+         "Label" : [ "Recherche d'emploi" ],
+         "Child" : [ {
+            "id" : "j0l64egm",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S2-S1-Q1",
+            "Label" : [ "##{\"label\":\"Depuis quelle date recherchiez-vous un emploi ?\",\"conditions\":[]} Depuis quelle date recherchiez-vous un emploi ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "DATE",
+                  "type" : "DateDatatypeType",
+                  "Format" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6h50x",
+            "questionType" : "MULTIPLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S2-S1-Q2",
+            "Label" : [ "##{\"label\":\"En février 2016, quels moyens avez-vous utilisés pour chercher un emploi ?\",\"conditions\":[]} En février 2016, quels moyens avez-vous utilisés pour chercher un emploi ?" ],
+            "Declaration" : [ {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "Inclure les démarches par internet et réseaux sociaux dans les réponses\n"
+            } ],
+            "Response" : [ {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            } ],
+            "ResponseStructure" : {
+               "Dimension" : [ {
+                  "dimensionType" : "PRIMARY",
+                  "dynamic" : "0",
+                  "CodeListReference" : "j0l7m4gn"
+               }, {
+                  "dimensionType" : "MEASURE",
+                  "dynamic" : "0"
+               } ]
+            }
+         } ]
+      }, {
+         "id" : "j0me0j59",
+         "depth" : 2,
+         "genericName" : "SUBMODULE",
+         "type" : "SequenceType",
+         "Name" : "S2-S2",
+         "Label" : [ "Absence de recherche d'emploi" ],
+         "Child" : [ {
+            "id" : "j0l6d3mo",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S2-S3-Q1",
+            "Label" : [ "##{\"label\":\"Pourquoi ne recherchiez- vous pas d’emploi ?\",\"conditions\":[]} Pourquoi ne recherchiez- vous pas d’emploi ?" ],
+            "Declaration" : [ {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "Indiquer la raison principale\n"
+            } ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7qs7t",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         } ]
+      }, {
+         "id" : "j0mdsac1",
+         "depth" : 2,
+         "genericName" : "SUBMODULE",
+         "type" : "SequenceType",
+         "Name" : "S2-S3",
+         "Label" : [ "Sans emploi au 1er mars 2016" ],
+         "Child" : [ {
+            "id" : "j0l6413p",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S2-S3-Q1",
+            "Label" : [ "##{\"label\":\"Étiez-vous inscrit(e) à Pôle emploi ?\",\"conditions\":[]} Étiez-vous inscrit(e) à Pôle emploi ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7hhfj",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "RADIO",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6cd44",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S2-S3-Q2",
+            "Label" : [ "##{\"label\":\"Étiez-vous suivi(e) par une mission locale ?\",\"conditions\":[]} Étiez-vous suivi(e) par une mission locale ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7hhfj",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "RADIO",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         } ]
+      }, {
+         "id" : "j0mdr94u",
+         "depth" : 2,
+         "genericName" : "SUBMODULE",
+         "type" : "SequenceType",
+         "Name" : "S2-S4",
+         "Label" : [ "Votre emploi au 1er mars 2016" ],
+         "Child" : [ {
+            "id" : "j0l6gq0p",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S2-S4-Q1",
+            "Label" : [ "##{\"label\":\"Au 1er mars 2016, quel était votre statut ou contrat de travail dans votre emploi principal ?\",\"conditions\":[]} Au 1er mars 2016, quel était votre statut ou contrat de travail dans votre emploi principal ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7xl5d",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6fdd9",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S2-S4-Q2",
+            "Label" : [ "##{\"label\":\"Vous travailliez … \",\"conditions\":[]} Vous travailliez …" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l82j7i",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6223l",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S2-S4-Q3",
+            "Label" : [ "##{\"label\":\"Dans votre emploi, vous étiez … \",\"conditions\":[]} Dans votre emploi, vous étiez …" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l81u4w",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6ib3t",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S2-S4-Q4",
+            "Label" : [ "##{\"label\":\"Quel était le montant net de votre salaire mensuel correspondant à cet emploi en mars 2016 ? (y compris les primes)\",\"conditions\":[]} Quel était le montant net de votre salaire mensuel correspondant à cet emploi en mars 2016 ? (y compris les primes)" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "NUMERIC",
+                  "type" : "NumericDatatypeType"
+               }
+            } ]
+         }, {
+            "id" : "j0l6mahy",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S2-S4-Q5",
+            "Label" : [ "##{\"label\":\"Indiquez le plus précisément possible la profession exercée dans cet emploi\",\"conditions\":[]} Indiquez le plus précisément possible la profession exercée dans cet emploi" ],
+            "Declaration" : [ {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "Soyez très précis sur votre métier : « Caissière » (et non « employée »), « Fleuriste » (et non « Commerçant »), « Professeur des écoles»\n"
+            } ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 150,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l681fn",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S2-S4-Q6",
+            "Label" : [ "##{\"label\":\"Depuis quelle date travailliez-vous dans cette entreprise / dans la fonction publique ?\",\"conditions\":[]} Depuis quelle date travailliez-vous dans cette entreprise / dans la fonction publique ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "DATE",
+                  "type" : "DateDatatypeType",
+                  "Format" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6mef5",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S2-S4-Q7",
+            "Label" : [ "##{\"label\":\"Toujours au 1er mars 2016, vous travailliez … \",\"conditions\":[]} Toujours au 1er mars 2016, vous travailliez …" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l83v9y",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6d6w5",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S2-S4-Q8",
+            "Label" : [ "##{\"label\":\"Quelle est l’activité de l’établissement qui vous employait ou que vous dirigiez ?\",\"conditions\":[]} Quelle est l’activité de l’établissement qui vous employait ou que vous dirigiez ?" ],
+            "Declaration" : [ {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "Soyez très précis : « Réparation automobile », « Fabrication de pneumatiques », « Gros oeuvre de bâtiment », « Vente de vêtements au détail », « Services en informatique », « Pour un particulier »…\n"
+            } ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 50,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6dndl",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S2-S4-Q9",
+            "Label" : [ "##{\"label\":\"Nombre de salariés de l’établissement qui vous employait ou que vous dirigiez ?\",\"conditions\":[]} Nombre de salariés de l’établissement qui vous employait ou que vous dirigiez ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l8bxe0",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         } ]
+      } ]
+   }, {
+      "id" : "j0l6j5g9",
+      "depth" : 1,
+      "genericName" : "MODULE",
+      "type" : "SequenceType",
+      "Name" : "S3 - SITUATIONPERSO",
+      "Label" : [ "VOTRE SITUATION PERSONNELLE" ],
+      "Child" : [ {
+         "id" : "j0me3vrc",
+         "depth" : 2,
+         "genericName" : "SUBMODULE",
+         "type" : "SequenceType",
+         "Name" : "S3-S1",
+         "Label" : [ "Situation au 1er mars 2016" ],
+         "Child" : [ {
+            "id" : "j0l64mez",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S3-S1-Q1",
+            "Label" : [ "##{\"label\":\"Au 1er mars 2016, aviez-vous le permis de conduire (B) ?\",\"conditions\":[]} Au 1er mars 2016, aviez-vous le permis de conduire (B) ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7hhfj",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "RADIO",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6m73e",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S3-S1-Q2",
+            "Label" : [ "##{\"label\":\"Au 1er mars 2016, viviez-vous alors en couple ?\",\"conditions\":[]} Au 1er mars 2016, viviez-vous alors en couple ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7hhfj",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "RADIO",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6ii4m",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S3-S1-Q3",
+            "Label" : [ "##{\"label\":\"Au 1er mars 2016, aviez-vous un ou des enfants ?\",\"conditions\":[]} Au 1er mars 2016, aviez-vous un ou des enfants ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7hhfj",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "RADIO",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l66koz",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S3-S1-Q4",
+            "Label" : [ "##{\"label\":\"Mois et année de naissance ou d’adoption du premier enfant\",\"conditions\":[]} Mois et année de naissance ou d’adoption du premier enfant" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "DATE",
+                  "type" : "DateDatatypeType",
+                  "Format" : ""
+               }
+            } ]
+         } ]
+      }, {
+         "id" : "j0m7tqkv",
+         "depth" : 2,
+         "genericName" : "SUBMODULE",
+         "type" : "SequenceType",
+         "Name" : "S3-S2",
+         "Label" : [ "En 2016" ],
+         "Child" : [ {
+            "id" : "j0l65coe",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S3-S2-Q1",
+            "Label" : [ "##{\"label\":\"En mars 2016, avec qui habitiez-vous principalement pendant la semaine ?\",\"conditions\":[]} En mars 2016, avec qui habitiez-vous principalement pendant la semaine ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l8h8r6",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6oy3k",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S3-S2-Q2",
+            "Label" : [ "##{\"label\":\"Le logement que vous occupiez était … \",\"conditions\":[]} Le logement que vous occupiez était …" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l7zkkf",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6lmn4",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S3-S2-Q3",
+            "Label" : [ "##{\"label\":\"Dans ce logement, vous ou votre petit(e) ami(e), votre conjoint(e) étiez …\",\"conditions\":[]} Dans ce logement, vous ou votre petit(e) ami(e), votre conjoint(e) étiez …" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l8eaga",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6gbsu",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S3-S2-Q4",
+            "Label" : [ "##{\"label\":\"Vos parents, votre famille ou celle de votre conjoint(e) contribuaient-ils en partie aux dépenses de logement ? \",\"conditions\":[]} Vos parents, votre famille ou celle de votre conjoint(e) contribuaient-ils en partie aux dépenses de logement ?" ],
+            "Declaration" : [ {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "(loyer, charges, mensualités d’emprunt, apport initial …)\n"
+            } ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l88pih",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l69iv9",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S3-S2-Q5",
+            "Label" : [ "##{\"label\":\"Précisez votre commune de résidence\",\"conditions\":[]} Précisez votre commune de résidence" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 100,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0l6epv7",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S3-S2-Q6",
+            "Label" : [ "##{\"label\":\"En ce qui concerne votre avenir professionnel, vous êtes … \",\"conditions\":[]} En ce qui concerne votre avenir professionnel, vous êtes …" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l8nolf",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         } ]
+      }, {
+         "id" : "j0m87awz",
+         "depth" : 2,
+         "genericName" : "SUBMODULE",
+         "type" : "SequenceType",
+         "Name" : "S3-S3",
+         "Label" : [ "En 2015" ],
+         "Child" : [ {
+            "id" : "j0l6ke1h",
+            "questionType" : "MULTIPLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S3-S3-Q1",
+            "Label" : [ "##{\"label\":\"Quelles ont été vos ressources personnelles depuis juillet 2015 ?\",\"conditions\":[]} Quelles ont été vos ressources personnelles depuis juillet 2015 ?" ],
+            "Response" : [ {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            } ],
+            "ResponseStructure" : {
+               "Dimension" : [ {
+                  "dimensionType" : "PRIMARY",
+                  "dynamic" : "0",
+                  "CodeListReference" : "j0l8nbyh"
+               }, {
+                  "dimensionType" : "MEASURE",
+                  "dynamic" : "0"
+               } ]
+            }
+         }, {
+            "id" : "j0l6nhs8",
+            "questionType" : "MULTIPLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S3-S3-Q2",
+            "Label" : [ "##{\"label\":\"Depuis juillet 2015, avez-vous rencontré un des problèmes suivants ?\",\"conditions\":[]} Depuis juillet 2015, avez-vous rencontré un des problèmes suivants ?" ],
+            "Response" : [ {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            }, {
+               "Datatype" : {
+                  "typeName" : "BOOLEAN",
+                  "type" : "BooleanDatatypeType"
+               }
+            } ],
+            "ResponseStructure" : {
+               "Dimension" : [ {
+                  "dimensionType" : "PRIMARY",
+                  "dynamic" : "0",
+                  "CodeListReference" : "j0l8alze"
+               }, {
+                  "dimensionType" : "MEASURE",
+                  "dynamic" : "0"
+               } ]
+            }
+         }, {
+            "id" : "j0l6cuyc",
+            "questionType" : "SINGLE_CHOICE",
+            "type" : "QuestionType",
+            "Name" : "S3-S3-Q3",
+            "Label" : [ "##{\"label\":\"Quelle était votre situation vis-à-vis de l’emploi au 1er mars 2015 ?\",\"conditions\":[]} Quelle était votre situation vis-à-vis de l’emploi au 1er mars 2015 ?" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "CodeListReference" : "j0l8mxsm",
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "visualizationHint" : "CHECKBOX",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 1,
+                  "Pattern" : ""
+               }
+            } ]
+         } ]
+      } ]
+   }, {
+      "id" : "j0mebchz",
+      "depth" : 1,
+      "genericName" : "MODULE",
+      "type" : "SequenceType",
+      "Name" : "S4 - COORDONNEES",
+      "Label" : [ "VOS COORDONNEES" ],
+      "Child" : [ {
+         "id" : "j0m7sbxy",
+         "depth" : 2,
+         "genericName" : "SUBMODULE",
+         "type" : "SequenceType",
+         "Name" : "S4-S1",
+         "Label" : [ "Vos coordonnées actuelles" ],
+         "Child" : [ {
+            "id" : "j0m7l5xm",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S4-S1-Q1",
+            "Label" : [ "##{\"label\":\"Téléphone fixe\",\"conditions\":[]} Téléphone fixe" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 15,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0m7e3i0",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S4-S1-Q2",
+            "Label" : [ "##{\"label\":\"Téléphone portable\",\"conditions\":[]} Téléphone portable" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 15,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0m7d6ay",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S4-S1-Q3",
+            "Label" : [ "##{\"label\":\"Adresse e-mail\",\"conditions\":[]} Adresse e-mail" ],
+            "Declaration" : [ {
+               "declarationType" : "INSTRUCTION",
+               "position" : "AFTER_QUESTION_TEXT",
+               "Text" : "En majuscules\n"
+            } ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 50,
+                  "Pattern" : ""
+               }
+            } ]
+         } ]
+      }, {
+         "id" : "j0m7saro",
+         "depth" : 2,
+         "genericName" : "SUBMODULE",
+         "type" : "SequenceType",
+         "Name" : "S4-S2",
+         "Label" : [ "Déménagement" ],
+         "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "Text" : "Si vous venez de déménager ou si vous allez déménager dans les prochains mois, merci de bien vouloir préciser ci-dessous une adresse en France à laquelle nous pourrons vous joindre le plus sûrement l’an prochain.\n"
+         } ],
+         "Child" : [ {
+            "id" : "j0m7hszg",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S4-S2-Q1",
+            "Label" : [ "##{\"label\":\"Nom\",\"conditions\":[]} Nom" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 100,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0m7fq5s",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S4-S2-Q2",
+            "Label" : [ "##{\"label\":\"Prénom\",\"conditions\":[]} Prénom" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 100,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0m7mwz0",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S4-S2-Q3",
+            "Label" : [ "##{\"label\":\"Adresse\",\"conditions\":[]} Adresse" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 200,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0m7y8l2",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S4-S2-Q4",
+            "Label" : [ "##{\"label\":\"Code postal\",\"conditions\":[]} Code postal" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 6,
+                  "Pattern" : ""
+               }
+            } ]
+         }, {
+            "id" : "j0m7naup",
+            "questionType" : "SIMPLE",
+            "type" : "QuestionType",
+            "Name" : "S4-S2-Q5",
+            "Label" : [ "##{\"label\":\"Commune\\n\",\"conditions\":[]} Commune" ],
+            "Response" : [ {
+               "mandatory" : false,
+               "Datatype" : {
+                  "typeName" : "TEXT",
+                  "type" : "TextDatatypeType",
+                  "MaxLength" : 50,
+                  "Pattern" : ""
+               }
+            } ]
+         } ]
+      } ]
+   } ],
+   "Survey" : {
+      "id" : "j0l644di",
+      "agency" : "fr.insee",
+      "Name" : "POPO"
+   },
+   "ComponentGroup" : [ {
+      "id" : "j0mjlbl0",
+      "Name" : "PAGE_1",
+      "Label" : [ "Components for page 1" ],
+      "MemberReference" : [ "j0mdmwot", "j0mdjj5a", "j0l6dkdv", "j0l6a6p2", "j0l65gqe", "j0l76wlz", "j0l5uxqd", "j0l61x92", "j0mdux14", "j0l64vrp", "j0l6fezc", "j0m7i1no", "j0l66xwx", "j0l61fgw", "j0l5x87r", "j0l5zt37", "j0m78l6z", "j0l6hokh", "j0l69ew5", "j0mdtxda", "j0l6hfz1", "j0me1tdu", "j0l64egm", "j0l6h50x", "j0me0j59", "j0l6d3mo", "j0mdsac1", "j0l6413p", "j0l6cd44", "j0mdr94u", "j0l6gq0p", "j0l6fdd9", "j0l6223l", "j0l6ib3t", "j0l6mahy", "j0l681fn", "j0l6mef5", "j0l6d6w5", "j0l6dndl", "j0l6j5g9", "j0me3vrc", "j0l64mez", "j0l6m73e", "j0l6ii4m", "j0l66koz", "j0m7tqkv", "j0l65coe", "j0l6oy3k", "j0l6lmn4", "j0l6gbsu", "j0l69iv9", "j0l6epv7", "j0m87awz", "j0l6ke1h", "j0l6nhs8", "j0l6cuyc", "j0mebchz", "j0m7sbxy", "j0m7l5xm", "j0m7e3i0", "j0m7d6ay", "j0m7saro", "j0m7hszg", "j0m7fq5s", "j0m7mwz0", "j0m7y8l2", "j0m7naup" ]
+   } ],
+   "CodeLists" : {
+      "CodeList" : [ {
+         "id" : "j0l6oo82",
+         "Name" : "",
+         "Label" : "S1-S1-Q1",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "un diplôme de l’enseignement secondaire(de brevet des collèges, DNB, à baccalauréat)"
+         }, {
+            "Value" : "",
+            "Label" : "un diplôme de l’enseignement supérieur (y compris BTS)"
+         }, {
+            "Value" : "",
+            "Label" : "aucun diplôme"
+         } ]
+      }, {
+         "id" : "j0l72tdv",
+         "Name" : "",
+         "Label" : "S1-S1-Q5",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Aucun"
+         }, {
+            "Value" : "",
+            "Label" : "Brevet des collèges, DNB, certificat de formation générale"
+         }, {
+            "Value" : "",
+            "Label" : "CAP, BEP et équivalents"
+         }, {
+            "Value" : "",
+            "Label" : "Baccalauréat professionnel, brevet professionnel,brevet de technicien et équivalents"
+         }, {
+            "Value" : "",
+            "Label" : "Baccalauréat technologique (STMG, STI2D, STD2A, STL, ST2S, STAV, TMD, hôtellerie)"
+         }, {
+            "Value" : "",
+            "Label" : "Baccalauréat général (L, ES, S)"
+         }, {
+            "Value" : "",
+            "Label" : "Diplôme du supérieur court : Deug, BTS, DUT, diplôme des professions de la santé et du social"
+         }, {
+            "Value" : "",
+            "Label" : "Licence, licence pro, maîtrise, master 1"
+         }, {
+            "Value" : "",
+            "Label" : "Master 2 (recherche ou professionnel), diplôme d’une école d’ingénieurs ou de commerce reconnu"
+         } ]
+      }, {
+         "id" : "j0l7cbqg",
+         "Name" : "",
+         "Label" : "S1-S2-Q1",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "de l’enseignement secondaire (de brevet des collèges, DNB, à baccalauréat)"
+         }, {
+            "Value" : "",
+            "Label" : "de l’enseignement supérieur (y compris BTS)"
+         } ]
+      }, {
+         "id" : "j0l7hhfj",
+         "Name" : "",
+         "Label" : "OuiNon",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "oui"
+         }, {
+            "Value" : "",
+            "Label" : "non"
+         } ]
+      }, {
+         "id" : "j0l7m4gn",
+         "Name" : "",
+         "Label" : "S2-S1-Q2",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Contact avec Pôle emploi, une mission locale ou une agence de placement (APEC, INGEUS …)"
+         }, {
+            "Value" : "",
+            "Label" : "Contact avec une agence d’intérim"
+         }, {
+            "Value" : "",
+            "Label" : "Passer des annonces, lire ou répondre à des annonces"
+         }, {
+            "Value" : "",
+            "Label" : "Relations personnelles ou professionnelles"
+         }, {
+            "Value" : "",
+            "Label" : "Concours administratif, recrutement par un PACTE"
+         }, {
+            "Value" : "",
+            "Label" : "Candidature spontanée auprès d’un employeur, autre démarche directe"
+         }, {
+            "Value" : "",
+            "Label" : "Visite d’un salon professionnel, bourse d’emploi, forum des métiers"
+         }, {
+            "Value" : "",
+            "Label" : "Démarches, recherches diverses pour créer ou reprendre une entreprise, une exploitation, un cabinet"
+         }, {
+            "Value" : "",
+            "Label" : "Autres moyens, autres contacts"
+         } ]
+      }, {
+         "id" : "j0l7qs7t",
+         "Name" : "",
+         "Label" : "S2-S3-Q1",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Vous étiez en études, en formation"
+         }, {
+            "Value" : "",
+            "Label" : "Pour des raisons de santé"
+         }, {
+            "Value" : "",
+            "Label" : "Pour vous occuper de vos enfants ou d’une personne dépendante, pour d’autres raisons personnelles ou familiales"
+         }, {
+            "Value" : "",
+            "Label" : "Pour vous, il n’y avait pas d’emploi disponible dans votre domaine de compétence"
+         }, {
+            "Value" : "",
+            "Label" : "Vous pensiez que vous ne trouveriez pas d’emploi"
+         }, {
+            "Value" : "",
+            "Label" : "Vous attendiez le résultat de démarches antérieures (concours, entretien, démarches pour vous installer …)"
+         }, {
+            "Value" : "",
+            "Label" : "Autre raison"
+         } ]
+      }, {
+         "id" : "j0l7rsow",
+         "Name" : "",
+         "Label" : "S1-S2-Q6",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "votre plus haut diplôme, déjà décrit en question 1"
+         }, {
+            "Value" : "",
+            "Label" : "un autre diplôme de l’enseignement secondaire,(de brevet des collèges, DNB, à baccalauréat)"
+         }, {
+            "Value" : "",
+            "Label" : "un autre diplôme de l’enseignement supérieur,(y compris BTS)"
+         } ]
+      }, {
+         "id" : "j0l7sidx",
+         "Name" : "",
+         "Label" : "S1-S2-Q10",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Formation financée ou organisée par l’employeur ou une agence d’intérim (hors apprentissage et contrats de professionnalisation)"
+         }, {
+            "Value" : "",
+            "Label" : "Formation donnée par une école de la 2e chance, par l’EPIDE "
+         }, {
+            "Value" : "",
+            "Label" : "Formation conseillée ou organisée par Pôle emploi, par une mission locale, une chambre des métiers, une agence de placement (APEC, INGEUS, …), (y compris ateliers de techniques de recherche d’emploi, ateliers CV)"
+         }, {
+            "Value" : "",
+            "Label" : "Une formation professionnalisante ou à but professionnel (pour trouver un emploi, améliorer votre situation, …)"
+         }, {
+            "Value" : "",
+            "Label" : "Aucune de ces formations depuis la fin des études, même pour quelques jours"
+         } ]
+      }, {
+         "id" : "j0l7u81o",
+         "Name" : "",
+         "Label" : "S1-S2-Q9",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Vous n’aviez pas des résultats suffisants pour continuer, vous n’aviez pas obtenu le diplôme préparé"
+         }, {
+            "Value" : "",
+            "Label" : "La filière suivie ne vous convenait pas, mauvaise orientation"
+         }, {
+            "Value" : "",
+            "Label" : "Vous n’étiez plus motivé(e)"
+         }, {
+            "Value" : "",
+            "Label" : "Vous aviez atteint le niveau de formation souhaité"
+         }, {
+            "Value" : "",
+            "Label" : "Les établissements scolaires ou universitaires possibles étaient trop éloignés"
+         }, {
+            "Value" : "",
+            "Label" : "Votre famille ou vous-même ne pouvaient financer des études plus longues"
+         }, {
+            "Value" : "",
+            "Label" : "Problème administratif : (pas d’entreprise pour une formation en alternance, filière fermée, problème d’inscription, …) Vous aviez trouvé du travail"
+         }, {
+            "Value" : "",
+            "Label" : "Pour des raisons personnelles :(santé, déménagement, raisons familiales,…)"
+         }, {
+            "Value" : "",
+            "Label" : "Autre raison"
+         } ]
+      }, {
+         "id" : "j0l7xl5d",
+         "Name" : "",
+         "Label" : "S2-S4-Q1",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Contrat d’apprentissage ou de professionnalisation (en alternance)"
+         }, {
+            "Value" : "",
+            "Label" : "Contrat aidé : contrat d’accompagnement dans l’emploi (CUI-CAE), contrat initiative emploi (CUI, CIE), emploi d’avenir, contrat de génération"
+         }, {
+            "Value" : "",
+            "Label" : "CDD, contrat saisonnier, vacataire"
+         }, {
+            "Value" : "",
+            "Label" : "Mission d’intérim ou de travail temporaire"
+         }, {
+            "Value" : "",
+            "Label" : "CDI, fonctionnaire, fonctionnaire stagiaire"
+         }, {
+            "Value" : "",
+            "Label" : "Stage rémunéré en entreprise ou dans une administration, service civique"
+         }, {
+            "Value" : "",
+            "Label" : "À votre compte, en libéral, chef d’entreprise même salarié, gérant de SARL"
+         }, {
+            "Value" : "",
+            "Label" : "Aide familial non salarié, conjoint collaborateur"
+         } ]
+      }, {
+         "id" : "j0l7z2n4",
+         "Name" : "",
+         "Label" : "S2-Q1",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Vous aviez un emploi : (CDI, CDD, apprenti, contrat aidé, intérim, stage rémunéré, congé maladie ou de maternité, à votre compte, aide familial, conjoint collaborateur,volontariat)"
+         }, {
+            "Value" : "",
+            "Label" : "Vous n’aviez pas d’emploi et vous en cherchiez, ou vous en aviez trouvé un qui commençait plus tard"
+         }, {
+            "Value" : "",
+            "Label" : "Vous n’aviez pas d’emploi et vous n’en cherchiez pas"
+         } ]
+      }, {
+         "id" : "j0l7zkkf",
+         "Name" : "",
+         "Label" : "S3-S2-Q2",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "une chambre ou un appartement en résidence étudiante, en cité universitaire, en internat de lycée ou d’école"
+         }, {
+            "Value" : "",
+            "Label" : "dans un foyer (jeunes étudiants, FJT)"
+         }, {
+            "Value" : "",
+            "Label" : "un appartement ou une maison"
+         }, {
+            "Value" : "",
+            "Label" : "un autre type de logement (caravane, hôtel, caserne, …)"
+         } ]
+      }, {
+         "id" : "j0l81u4w",
+         "Name" : "",
+         "Label" : "S2-S4-Q3",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "manoeuvre, ouvrier spécialisé"
+         }, {
+            "Value" : "",
+            "Label" : "ouvrier qualifié ou hautement qualifié, technicien d’atelier"
+         }, {
+            "Value" : "",
+            "Label" : "technicien (non cadre)"
+         }, {
+            "Value" : "",
+            "Label" : "agent de catégorie B ou assimilé (fonction publique) ; sous-officier"
+         }, {
+            "Value" : "",
+            "Label" : "contremaître, agent de maîtrise, maîtrise administrative et commerciale, VRP"
+         }, {
+            "Value" : "",
+            "Label" : "agent de catégorie A ou assimilé (fonction publique) ; officier"
+         }, {
+            "Value" : "",
+            "Label" : "ingénieur ou cadre d’entreprise"
+         }, {
+            "Value" : "",
+            "Label" : "agent de catégorie C ou assimilé (fonction publique) ; militaire du rang"
+         }, {
+            "Value" : "",
+            "Label" : "employé de bureau, de commerce ou autre activité tertiaire ; employé de maison"
+         } ]
+      }, {
+         "id" : "j0l82j7i",
+         "Name" : "",
+         "Label" : "S2-S4-Q2",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "dans une entreprise privée, chez un artisan"
+         }, {
+            "Value" : "",
+            "Label" : "pour un (des) particulier(s)"
+         }, {
+            "Value" : "",
+            "Label" : "dans une association"
+         }, {
+            "Value" : "",
+            "Label" : "dans une entreprise publique (EDF, SNCF, la Poste, RATP …)"
+         }, {
+            "Value" : "",
+            "Label" : "dans la fonction publique d’État (y compris Éducation nationale et Défense)"
+         }, {
+            "Value" : "",
+            "Label" : "autres fonctions publiques (collectivités territoriales, hôpitaux publics), HLM, sécurité sociale"
+         } ]
+      }, {
+         "id" : "j0l83v9y",
+         "Name" : "",
+         "Label" : "S2-S4-Q7",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "à temps complet"
+         }, {
+            "Value" : "",
+            "Label" : "à temps partiel 80 % ou plus"
+         }, {
+            "Value" : "",
+            "Label" : "de mi-temps à moins de 80 %"
+         }, {
+            "Value" : "",
+            "Label" : "moins d’un mi-temps"
+         } ]
+      }, {
+         "id" : "j0l88pih",
+         "Name" : "",
+         "Label" : "S3-S2-Q4",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Non, pas du tout"
+         }, {
+            "Value" : "",
+            "Label" : "Oui, ils payaient moins de la moitié des dépenses totales du logement"
+         }, {
+            "Value" : "",
+            "Label" : "Oui, plus de la moitié"
+         } ]
+      }, {
+         "id" : "j0l8alze",
+         "Name" : "",
+         "Label" : "S3-S3-Q2",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Problèmes durables pour trouver un logement"
+         }, {
+            "Value" : "",
+            "Label" : "Difficultés régulières de transport pour vous rendre sur votre lieu d’études ou de travail"
+         }, {
+            "Value" : "",
+            "Label" : "Problèmes pour payer vos dépenses de base : (logement, nourriture, soins, études, transports, …)"
+         }, {
+            "Value" : "",
+            "Label" : "Problèmes de handicap, de santé (maladie/accident grave, dépression, …)"
+         }, {
+            "Value" : "",
+            "Label" : "Problèmes familiaux ou relationnels : (décès, séparation, isolement,…)"
+         }, {
+            "Value" : "",
+            "Label" : "Aucun de ces problèmes importants"
+         } ]
+      }, {
+         "id" : "j0l8bxe0",
+         "Name" : "",
+         "Label" : "S2-S4-Q9",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "0 salarié"
+         }, {
+            "Value" : "",
+            "Label" : "1 à 9 salariés"
+         }, {
+            "Value" : "",
+            "Label" : "10 à 49 salariés"
+         }, {
+            "Value" : "",
+            "Label" : "50 à 499 salariés"
+         }, {
+            "Value" : "",
+            "Label" : "50 à 499 salariés 500 salariés et plus"
+         } ]
+      }, {
+         "id" : "j0l8eaga",
+         "Name" : "",
+         "Label" : "S3-S2-Q3",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "locataire, colocataire ou sous-locataire (vous ou votre conjoint(e) payiez un loyer)"
+         }, {
+            "Value" : "",
+            "Label" : "propriétaire, accédant(e) à la propriété"
+         }, {
+            "Value" : "",
+            "Label" : "logé(e) gratuitement"
+         } ]
+      }, {
+         "id" : "j0l8h8r6",
+         "Name" : "",
+         "Label" : "S3-S2-Q1",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Avec vos parents, vos grands-parents ou autres ascendants"
+         }, {
+            "Value" : "",
+            "Label" : "Chez la famille de votre conjoint(e) ou de votre petit(e) ami(e) (avec qui vous vivez en couple)"
+         }, {
+            "Value" : "",
+            "Label" : "Seul(e) ou avec votre conjoint(e), votre petit(e) ami(e)"
+         }, {
+            "Value" : "",
+            "Label" : "Avec d’autres personnes (amis, fratrie, colocataires …)"
+         } ]
+      }, {
+         "id" : "j0l8mxsm",
+         "Name" : "",
+         "Label" : "S3-S3-Q3",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Vous aviez un emploi … :  CDI, CDD, apprenti, contrat aidé, intérim, stage rémunéré; congé maladie ou de maternité; à votre compte, aide familial, conjoint collaborateur, volontariat"
+         }, {
+            "Value" : "",
+            "Label" : "Vous n’aviez pas d’emploi et vous n’en cherchiez pas"
+         } ]
+      }, {
+         "id" : "j0l8nbyh",
+         "Name" : "",
+         "Label" : "S3-S3-Q1",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "Travail régulier y compris contrat d’apprentissage, contrat de professionnalisation, rémunération d’élève fonctionnaire, allocation de recherche"
+         }, {
+            "Value" : "",
+            "Label" : "Travail occasionnel ou pendant les vacances"
+         }, {
+            "Value" : "",
+            "Label" : "Indemnité de stage"
+         }, {
+            "Value" : "",
+            "Label" : "Aide financière de votre famille"
+         }, {
+            "Value" : "",
+            "Label" : "Ressources de votre conjoint(e) ou de votre petit(e) ami(e)"
+         }, {
+            "Value" : "",
+            "Label" : "Allocation logement, aide au logement (APL, ALS, ALF)"
+         }, {
+            "Value" : "",
+            "Label" : "Allocation chômage, allocation de retour à l’emploi"
+         }, {
+            "Value" : "",
+            "Label" : "Prestations familiales (allocations, PAJE, aides pour la garde des enfants, …), prestations sociales (RSA, prime activité, garantie jeune, AAH)"
+         }, {
+            "Value" : "",
+            "Label" : "Autre ressource"
+         }, {
+            "Value" : "",
+            "Label" : "Aucune ressource personnelle depuis juillet 2015, aucune aide financière"
+         } ]
+      }, {
+         "id" : "j0l8nolf",
+         "Name" : "",
+         "Label" : "S3-S2-Q6",
+         "Code" : [ {
+            "Value" : "",
+            "Label" : "plutôt optimiste"
+         }, {
+            "Value" : "",
+            "Label" : "plutôt inquiet(e)"
+         }, {
+            "Value" : "",
+            "Label" : "vous ne savez pas"
+         } ]
+      } ]
+   }
+}
