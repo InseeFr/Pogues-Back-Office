@@ -36,6 +36,18 @@ public class JSONFunctions {
 	}
 	
 	
+	public static String getJSON(Map<String, String> data) {
+
+		String jSONResult = "{";
+		for(Entry<String, String> entry : data.entrySet()) {
+			String valeur = entry.getValue();
+			jSONResult = jSONResult + "\"" + entry.getKey() + "\":\"" + valeur + "\",";
+		}
+		return jSONResult.substring(0, jSONResult.length()-1)+"}" ;
+
+	}
+	
+	
 	public static Map<String, String> getMap(String questionnaireListJSON) {
 
 		Map<String, String> mapResult = new HashMap<String,String>();

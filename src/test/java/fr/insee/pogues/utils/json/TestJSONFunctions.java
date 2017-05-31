@@ -22,13 +22,22 @@ public class TestJSONFunctions {
 	private String json2 = "{\"id\":\"2\",\"Name\":\"FIRSTQUESTIONNAIRE2\"}";
 	private String jsonArray = "[{\"id\":\"1\",\"Name\":\"FIRSTQUESTIONNAIRE\"},{\"id\":\"2\",\"Name\":\"FIRSTQUESTIONNAIRE2\"}]";
 	
+	private HashMap<String, String> data = new HashMap<String, String>();
+	
 	@Test
 	public void getJSONArray() {
-		HashMap<String, String> data = new HashMap<String, String>();
 		data.put("2",json2);
 		data.put("1",json1);
 		String expected = jsonArray;
 		assertEquals(expected,fr.insee.pogues.utils.json.JSONFunctions.getJSONArray(data));
+	}
+	
+	@Test
+	public void getJSON() {
+		data.put("id", "1");
+		data.put("Name", "FIRSTQUESTIONNAIRE");
+		String expected = json1;
+		assertEquals(expected,fr.insee.pogues.utils.json.JSONFunctions.getJSON(data));
 	}
 	
 	@Test
