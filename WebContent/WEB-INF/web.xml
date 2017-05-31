@@ -4,16 +4,16 @@
 	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	id="WebApp_ID" version="3.1">
 
-	<display-name>Pogues-BO</display-name>
+	<display-name>Pogues-Back-Office</display-name>
 
 	<welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 	</welcome-file-list>
-	
-	<error-page>
-  		<error-code>404</error-code>
-  		<location>/index.html</location>
-	</error-page>
+
+	<!-- <error-page> -->
+	<!-- <error-code>404</error-code> -->
+	<!-- <location>/index.html</location> -->
+	<!-- </error-page> -->
 
 	<servlet>
 		<servlet-name>PoguesBackOffice</servlet-name>
@@ -34,10 +34,10 @@
 		<url-pattern>/pogues/*</url-pattern>
 	</servlet-mapping>
 
-<!-- 	<servlet-mapping> -->
-<!-- 	    <servlet-name>default</servlet-name> -->
-<!-- 	    <url-pattern>/*</url-pattern> -->
-<!-- 	</servlet-mapping>   -->
+	<!-- <servlet-mapping> -->
+	<!-- <servlet-name>default</servlet-name> -->
+	<!-- <url-pattern>/*</url-pattern> -->
+	<!-- </servlet-mapping> -->
 
 	<filter>
 		<filter-name>CorsFilter</filter-name>
@@ -55,5 +55,31 @@
 		<filter-name>CorsFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+
+	<security-constraint>
+		<display-name>Security Constraint for Pogues</display-name>
+
+		<web-resource-collection>
+			<web-resource-name>Pogues UI and services</web-resource-name>
+			<url-pattern>/*</url-pattern>
+			<http-method>GET</http-method>
+			<http-method>POST</http-method>
+		</web-resource-collection>
+
+		<auth-constraint>
+			<role-name>user</role-name>
+		</auth-constraint>
+
+	</security-constraint>
+
+	<login-config>
+		<auth-method>FORM</auth-method>
+		<form-login-config>
+			<form-login-page>/login.jsp</form-login-page>
+			<form-error-page>/error.jsp</form-error-page>
+		</form-login-config>
+	</login-config>
+
 
 </web-app>
