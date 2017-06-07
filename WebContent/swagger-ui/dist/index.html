@@ -73,8 +73,9 @@
 window.onload = function() {
   // Build a system
   const ui = SwaggerUIBundle({
-    url: "http://localhost:8080/Pogues-Back-Office/pogues/swagger.json",
+    url: "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/swagger.json",
     dom_id: '#swagger-ui',
+    validatorUrl: 'false',
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset

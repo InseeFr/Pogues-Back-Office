@@ -11,7 +11,6 @@
 <form method="POST" action="j_security_check">
 
 Login : <select id="j_username" name="j_username" onchange="updatePassword(this.value);">
-<option value="I6VWID">Werquin Benoît</option>
 <option value="D5WQNO">Koumarianos Heïdi</option>
 <option value="ETGAIL">Duffes Guillaume</option>
 <option value="SRMTXN">Bichler Guillaume</option>
