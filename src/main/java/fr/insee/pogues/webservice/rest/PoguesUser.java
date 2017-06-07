@@ -1,7 +1,5 @@
 package fr.insee.pogues.webservice.rest;
 
-import java.util.HashMap;
-
 import javax.inject.Singleton;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
@@ -15,6 +13,9 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.log4j.Logger;
 
 import fr.insee.pogues.user.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 /**
  * WebService class for the Identity Service
@@ -31,6 +32,9 @@ import fr.insee.pogues.user.service.UserService;
  */
 @Singleton
 @Path("/user")
+@Api(value = "PoguesUser", authorizations = {
+	      @Authorization(value="sampleoauth", scopes = {})
+	    })
 public class PoguesUser {
 
 	
@@ -46,6 +50,9 @@ public class PoguesUser {
 	 */
 	@GET
 	@Path("helloworld")
+	@ApiOperation(value = "Hello world",
+		    notes = "Dummy GET Helloworld, used in unit tests",
+		    response = String.class)
 	public String helloworld() {
 		return "Hello world";
 	}
@@ -64,6 +71,9 @@ public class PoguesUser {
 	@GET
 	@Path("id")
     @Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "getID",
+    notes = "Get the user id of the connected user",
+    response = String.class)
 	public Response getID() {
 		UserService service = new UserService(request);
 		String jsonResultat = service.getUserID();
