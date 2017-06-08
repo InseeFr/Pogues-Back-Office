@@ -14,6 +14,9 @@ import javax.ws.rs.core.Response.Status;
 import org.apache.log4j.Logger;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
 
 /**
  * WebService class for the Questionnaire Persistence
@@ -31,6 +34,9 @@ import fr.insee.pogues.persistence.service.QuestionnairesService;
  *
  */
 @Path("/persistence")
+@Api(value = "PoguesPersistence", authorizations = {
+	      @Authorization(value="sampleoauth", scopes = {})
+	    })
 public class PoguesPersistence {
 
 	final static Logger logger = Logger.getLogger(PoguesPersistence.class);
@@ -69,6 +75,9 @@ public class PoguesPersistence {
 	@GET
 	@Path("questionnaire/{id}")
     @Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Get questionnaire",
+    notes = "Gets the questionnaire with id {id}",
+    response = String.class)
 	public Response getQuestionnaire(@PathParam(value = "id") String id) {
 		QuestionnairesService service = new QuestionnairesService();
 		String jsonResultat = service.getQuestionnaireByID(id);
@@ -98,6 +107,9 @@ public class PoguesPersistence {
 	@GET
 	@Path("questionnaires")
     @Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Get questionnaires",
+    notes = "Gets the `QuestionnaireList` object",
+    response = String.class)
 	public Response getQuestionnaireList() {
 		QuestionnairesService service = new QuestionnairesService();
 		String jsonResultat = service.getQuestionnaireList();
@@ -142,6 +154,9 @@ public class PoguesPersistence {
 	@PUT
 	@Path("questionnaire/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "createOrReplaceQuestionnaire",
+    notes = "Creates or replaces a `Questionnaire` object",
+    response = String.class)
 	public Response createOrReplaceQuestionnaire(@PathParam(value = "id") String id, String jsonContent) {
 
 		if ((jsonContent == null) || (jsonContent.length() == 0)) {
@@ -222,6 +237,9 @@ public class PoguesPersistence {
 	@POST
 	@Path("questionnaires")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "createQuestionnaire",
+    notes = "Creates a new `Questionnaire`",
+    response = String.class)
 	public Response createQuestionnaire(String jsonContent) {
 		if ((jsonContent == null) || (jsonContent.length() == 0)) {
     		logger.error("Null or empty content received, returning BAD REQUEST response");
@@ -251,6 +269,9 @@ public class PoguesPersistence {
 	@PUT
 	@Path("questionnaires")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "createOrReplaceQuestionnaireList",
+    notes = "Creates or replaces the `QuestionnaireList` object",
+    response = String.class)
 	public Response createOrReplaceQuestionnaireList(String jsonContent) {
 
 		return Response.status(Status.NOT_IMPLEMENTED).build();
