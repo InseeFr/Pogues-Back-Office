@@ -17,6 +17,8 @@ public interface QuestionnairesServiceQuery {
 	
 	public String getQuestionnaireByID(String id);
 	
+	public void deleteQuestionnaireByID(String id);
+	
 	public Map<String, String> getQuestionnairesByOwner(String owner);
 	
 	public void createOrReplaceQuestionnaire(String id, String questionnaires);

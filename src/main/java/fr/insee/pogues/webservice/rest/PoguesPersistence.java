@@ -1,6 +1,7 @@
 package fr.insee.pogues.webservice.rest;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -48,6 +49,7 @@ public class PoguesPersistence {
 	 */
 	@GET
 	@Path("helloworld")
+	@Produces(MediaType.TEXT_HTML)
 	public String helloworld() {
 		return "Hello world";
 	}
@@ -89,6 +91,39 @@ public class PoguesPersistence {
 		return Response.status(Status.OK).entity(jsonResultat).build();
 	}
 
+	
+	/**
+	 * Delete the questionnaire with id {id}
+	 * 
+	 * @param name:
+	 *            id
+	 * 
+	 *            in: path
+	 * 
+	 *            description: The identifier of the questionnaire to delete
+	 * 
+	 *            type: string
+	 * 
+	 * 
+	 * @return Response code
+	 * 
+	 *         200: description: Successful response
+	 * 
+	 *         404: description: Questionnaire not found
+	 *
+	 */
+	@DELETE
+	@Path("questionnaire/{id}")
+	@ApiOperation(value = "Get questionnaire",
+    notes = "Gets the questionnaire with id {id}",
+    response = String.class)
+	public Response deleteQuestionnaire(@PathParam(value = "id") String id) {
+		QuestionnairesService service = new QuestionnairesService();
+		service.deleteQuestionnaireByID(id);
+		service.close();
+		logger.info("Questionnaire "+ id +" deleted");
+		return Response.status(Status.OK).build();
+	}
 	
 	
 
@@ -171,45 +206,7 @@ public class PoguesPersistence {
 
 	}
 	
-	
-//	/**
-//	 * Delete a `Questionnaire` object.
-//	 * 
-//	 * @param name:
-//	 *            id
-//	 * 
-//	 *            in: path
-//	 * 
-//	 *            description: The identifier of the questionnaire to create or
-//	 *            save
-//	 * 
-//	 *            type: string
-//	 * 
-//	 * 
-//	 * @return 200: description: The questionnaire was deleted
-//	 *
-//	 *         400: description: Malformed object in the query
-//	 * 
-//	 *         401: description: The client is not authorized for this operation
-//	 */
-//	@PUT
-//	@Path("questionnaire/{id}")
-//	@Consumes(MediaType.APPLICATION_JSON)
-//	public Response deleteQuestionnaire(@PathParam(value = "id") String id, String jsonContent) {
-//
-//		if ((jsonContent == null) || (jsonContent.length() == 0)) {
-//    		logger.error("Null or empty content received, returning BAD REQUEST response");
-//    		return Response.status(Status.BAD_REQUEST).build();
-//    	}
-//		QuestionnairesService service = new QuestionnairesService();
-//		service.createOrReplaceQuestionnaire(id,jsonContent);
-//		service.close();
-//		logger.info("Questionnaire "+ id +" created");
-//		return Response.status(Status.OK).build();
-//
-//	}
-//	
-	
+
 
 	/**
 	 * Creates a new `Questionnaire`
@@ -241,6 +238,7 @@ public class PoguesPersistence {
     notes = "Creates a new `Questionnaire`",
     response = String.class)
 	public Response createQuestionnaire(String jsonContent) {
+		logger.info("Essai");
 		if ((jsonContent == null) || (jsonContent.length() == 0)) {
     		logger.error("Null or empty content received, returning BAD REQUEST response");
     		return Response.status(Status.BAD_REQUEST).build();
@@ -251,7 +249,8 @@ public class PoguesPersistence {
 		String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
 		service.close();
 		logger.info("New questionnaire created , uri :" + uriQuestionnaire);
-		return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();	
+		return Response.status(Status.BAD_REQUEST).build();
+		//return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();	
 	}
 
 	/**

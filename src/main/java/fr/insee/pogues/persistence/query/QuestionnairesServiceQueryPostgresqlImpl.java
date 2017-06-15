@@ -31,9 +31,9 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 	private ResultSet rs = null;
 
-	
 	/**
-	 * Contructor for Questionnaire Service Query Postrgesql implementation, init the connection.
+	 * Contructor for Questionnaire Service Query Postrgesql implementation,
+	 * init the connection.
 	 * 
 	 */
 	public QuestionnairesServiceQueryPostgresqlImpl() {
@@ -69,17 +69,41 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 * 
 	 */
 	public void close() {
-		try {
-			rs.close();
-			stmt.close();
-		} catch (SQLException e) {
-			logger.error("SQLException - Impossible to close the connection");
-			e.printStackTrace();
+		if (rs != null) {
+			try {
+				rs.close();
+			} catch (SQLException e) {
+				logger.error("SQLException - Impossible to close the ResultSet");
+				e.printStackTrace();
+			}
+		}
+		if (stmt != null) {
+			try {
+				stmt.close();
+			} catch (SQLException e) {
+				logger.error("SQLException - Impossible to close the Statement");
+				e.printStackTrace();
+			}
+		}
+		if (prepStmt != null) {
+			try {
+				prepStmt.close();
+			} catch (SQLException e) {
+				logger.error("SQLException - Impossible to close the PreparedStatement");
+				e.printStackTrace();
+			}
+		}
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (SQLException e) {
+				logger.error("SQLException - Impossible to close the Connection");
+				e.printStackTrace();
+			}
 		}
 
 	}
 
-	
 	/**
 	 * A method to get the `QuestionnaireList` object in the database
 	 * 
@@ -105,7 +129,8 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	/**
 	 * A method to get the questionnaire with an id
 	 * 
-	 * @param the id of the questionnaire
+	 * @param the
+	 *            id of the questionnaire
 	 * @return the JSON description of the questionnaire
 	 */
 	public String getQuestionnaireByID(String id) {
@@ -126,9 +151,27 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	}
 
 	/**
+	 * A method to delete the questionnaire with an id
+	 * 
+	 * @param the
+	 *            id of the questionnaire
+	 */
+	public void deleteQuestionnaireByID(String id) {
+		try {
+			prepStmt = connection.prepareStatement("DELETE FROM pogues where id=?");
+			prepStmt.setString(1, id);
+			prepStmt.execute();
+		} catch (SQLException e) {
+			logger.error("SQLException");
+			e.printStackTrace();
+		}
+	}
+
+	/**
 	 * A method to get the `QuestionnaireList` with an owner in the database
 	 * 
-	 * @param the owner of the questionnaire
+	 * @param the
+	 *            owner of the questionnaire
 	 * @return the questionnaires list Map<String,String>, key : the id of the
 	 *         questionnaire, value : the JSON description of the questionnaire
 	 */
@@ -136,11 +179,13 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		// TODO
 		return null;
 	}
-	
+
 	/**
 	 * A method to create or replace a `Questionnaire` object.
 	 * 
-	 * @param the id of the questionnaire, the JSON description of the questionnaire
+	 * @param the
+	 *            id of the questionnaire, the JSON description of the
+	 *            questionnaire
 	 */
 	public void createOrReplaceQuestionnaire(String id, String questionnaire) {
 		logger.debug("Try to insert or update Questionnaire :  " + id);
@@ -156,28 +201,24 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 				i++;
 			}
 			if (i == 1) {
-				logger.debug("Try to update the questionnaire");
+				logger.debug("Try to update the questionnaire" + id);
 				prepStmt = connection.prepareStatement("update pogues set data=? where id=?");
 				prepStmt.setObject(1, dataObject);
 				prepStmt.setString(2, id);
 				prepStmt.executeUpdate();
-				prepStmt.close();
 				logger.info("Questionnaire updated");
 			} else if (i == 0) {
-				logger.debug("Try to insert the questionnaire");
+				logger.debug("Try to insert the questionnaire" + id);
 				prepStmt = connection.prepareStatement("insert into pogues (id, data) values (?, ?)");
 				prepStmt.setString(1, id);
 				prepStmt.setObject(2, dataObject);
 				prepStmt.executeUpdate();
-				prepStmt.close();
-				logger.info("Questionnaire created");
+				logger.info("Questionnaire" + id + " created");
 			}
 		} catch (SQLException e) {
 			logger.error("SQLException");
 			e.printStackTrace();
 		}
-		
-		
 
 	}
 

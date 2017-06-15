@@ -65,6 +65,12 @@ public class QuestionnairesService {
 		return questionnaireServiceQuery.getQuestionnaireByID(id);
 
 	}
+	
+	public void deleteQuestionnaireByID(String id) {
+
+		questionnaireServiceQuery.deleteQuestionnaireByID(id);
+
+	}
 
 	public void createOrReplaceQuestionnaire(String id, String questionnaire) {
 
