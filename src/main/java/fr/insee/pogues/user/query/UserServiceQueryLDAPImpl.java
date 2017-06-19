@@ -93,6 +93,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 				// TODO externalisation of the parameter
 				name = entree.getAttributes().get("cn").get().toString();
 				permission = entree.getAttributes().get("inseeUniteDN").get().toString();
+				// TODO Fix it with a regex
 				permission = permission.split(",")[0].split("=")[1];
 			}
 		} catch (NamingException e) {
