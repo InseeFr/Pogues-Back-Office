@@ -83,7 +83,7 @@
 		</web-resource-collection>
 
 		<auth-constraint>
-			<role-name>user</role-name>
+			<role-name>Utilisateurs_Pogues</role-name>
 		</auth-constraint>
 
 	</security-constraint>

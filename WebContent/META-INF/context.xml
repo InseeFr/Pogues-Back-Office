@@ -2,6 +2,6 @@
 <Context>
 	<Realm className="org.apache.catalina.realm.JNDIRealm"
 		connectionURL="ldap://annuaire.insee.fr:389" userPattern="uid={0},ou=Personnes,o=insee,c=fr"
-		userPassword="uid" commonRole="user" roleBase="ou=Applications,o=insee,c=fr"
+		userPassword="uid" commonRole="Utilisateurs_Pogues" roleBase="ou=Applications,o=insee,c=fr"
 		roleName="cn" roleSearch="(uniqueMember={0})" />
 </Context>
