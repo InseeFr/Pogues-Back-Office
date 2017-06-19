@@ -238,7 +238,6 @@ public class PoguesPersistence {
     notes = "Creates a new `Questionnaire`",
     response = String.class)
 	public Response createQuestionnaire(String jsonContent) {
-		logger.info("Essai");
 		if ((jsonContent == null) || (jsonContent.length() == 0)) {
     		logger.error("Null or empty content received, returning BAD REQUEST response");
     		return Response.status(Status.BAD_REQUEST).build();
@@ -249,8 +248,7 @@ public class PoguesPersistence {
 		String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
 		service.close();
 		logger.info("New questionnaire created , uri :" + uriQuestionnaire);
-		return Response.status(Status.BAD_REQUEST).build();
-		//return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();	
+		return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();	
 	}
 
 	/**
