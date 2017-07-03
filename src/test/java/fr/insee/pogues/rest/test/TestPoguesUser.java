@@ -53,6 +53,18 @@ public class TestPoguesUser {
 
 	}
 
+	/**
+	 * getPermissions test
+	 */
+	@Test
+	public void getPermissions() {
+		logger.debug(
+				"Trying to reach /Pogues-BO/pogues/user/permissions with Status = 200");
+		RestAssured.expect().statusCode(200).contentType(MediaType.APPLICATION_JSON).when()
+				.get("/Pogues-BO/pogues/user/permissions");
+
+	}
+
 	
 
 }

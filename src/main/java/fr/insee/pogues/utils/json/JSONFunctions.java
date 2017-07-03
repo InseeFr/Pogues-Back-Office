@@ -34,6 +34,14 @@ public class JSONFunctions {
 		return jSONResult.substring(0, jSONResult.length()-1)+"]" ;
 
 	}
+
+	public static String getJSONArray(List<String> data){
+		JSONArray json = new JSONArray();
+		for(String permission: data){
+			json.add(permission);
+		}
+		return json.toJSONString();
+	}
 	
 	
 	public static String getJSON(Map<String, String> data) {
