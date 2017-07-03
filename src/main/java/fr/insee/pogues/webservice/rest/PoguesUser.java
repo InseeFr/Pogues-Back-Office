@@ -17,6 +17,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 
+import java.util.List;
+
 /**
  * WebService class for the Identity Service
  *
@@ -106,7 +108,7 @@ public class PoguesUser {
      * Get the user permissions list
      *
      * @return Response code
-     * <p>
+     *
      * 200: description: Successful response
      */
     @GET
@@ -114,16 +116,11 @@ public class PoguesUser {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPermissions() {
         UserService service = new UserService(request);
-        String json = null;
         try {
-            json = service.getPermissions();
+            return Response.ok(service.getPermissions()).build();
         } catch (Exception e) {
             logger.error(e.getMessage());
             return Response.status(Status.SERVICE_UNAVAILABLE).build();
         }
-        if ((json == null) || (json.length() == 0)) {
-            return Response.status(Status.NOT_FOUND).build();
-        }
-        return Response.status(Status.OK).entity(json).build();
     }
 }

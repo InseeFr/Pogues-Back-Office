@@ -26,8 +26,8 @@ public class UserService {
 	 * 
 	 */
 	public UserService(HttpServletRequest request){
-		this.request=request;
-		serviceQuery = new UserServiceQueryLDAPImpl();
+		this.request = request;
+		this.serviceQuery = new UserServiceQueryLDAPImpl();
 	}
 	
 	/**
@@ -57,11 +57,14 @@ public class UserService {
 		return JSONFunctions.getJSON(attributes);
 
 	}
-
-	public String getPermissions() throws Exception {
+	/**
+	 * A method to list all available permissions
+	 *
+	 * @return the permissions list
+	 */
+	public List<String> getPermissions() throws Exception {
 		try {
-			List<String> permissions = this.serviceQuery.getPermissions();
-			return JSONFunctions.getJSONArray(permissions);
+			return this.serviceQuery.getPermissions();
 		} catch(Exception e) {
 			throw e;
 		} finally {
