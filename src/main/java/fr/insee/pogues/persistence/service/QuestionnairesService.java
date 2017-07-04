@@ -1,11 +1,15 @@
 package fr.insee.pogues.persistence.service;
 
-import java.util.Map;
-import java.util.Map.Entry;
-
+import fr.insee.pogues.persistence.query.EntityNotFoundException;
+import fr.insee.pogues.persistence.query.NonUniqueResultException;
 import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
 import fr.insee.pogues.persistence.query.QuestionnairesServiceQueryPostgresqlImpl;
 import fr.insee.pogues.utils.json.JSONFunctions;
+import fr.insee.pogues.webservice.rest.PoguesException;
+import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
+
+import java.util.Map;
 
 
 /**
@@ -20,6 +24,8 @@ import fr.insee.pogues.utils.json.JSONFunctions;
 public class QuestionnairesService {
 
 	private QuestionnairesServiceQuery questionnaireServiceQuery;
+
+	final static Logger logger = Logger.getLogger(QuestionnairesService.class);
 
 	/**
 	 * Contructor for Questionnaires Service, init the transaction if needed
@@ -43,55 +49,96 @@ public class QuestionnairesService {
 	 * 
 	 * @return the questionnaires list JSON description of the questionnaires
 	 */
-	public String getQuestionnaireList() {
-
-		Map<String, String> questionnaires = questionnaireServiceQuery.getQuestionnaires();
-		String questionnaireList = JSONFunctions.getJSONArray(questionnaires);
-		return questionnaireList;
-
-	}
-	
-	public String getQuestionnairesByOwner(String owner) {
-
-		Map<String, String> questionnaires = questionnaireServiceQuery.getQuestionnairesByOwner(owner);
-		String questionnaireList = JSONFunctions.getJSONArray(questionnaires);
-		return questionnaireList;
+	public Map<String, JSONObject> getQuestionnaireList() throws Exception {
+		try {
+			return questionnaireServiceQuery.getQuestionnaires();
+		} catch(Exception e){
+			e.printStackTrace();
+			throw e;
+		}
 
 	}
 	
+	public Map<String, JSONObject> getQuestionnairesByOwner(String owner)throws Exception {
 
-	public String getQuestionnaireByID(String id) {
-
-		return questionnaireServiceQuery.getQuestionnaireByID(id);
-
-	}
-	
-	public void deleteQuestionnaireByID(String id) {
-
-		questionnaireServiceQuery.deleteQuestionnaireByID(id);
-
-	}
-
-	public void createOrReplaceQuestionnaire(String id, String questionnaire) {
-
-		questionnaireServiceQuery.createOrReplaceQuestionnaire(id, questionnaire);
+		try {
+			return questionnaireServiceQuery.getQuestionnairesByOwner(owner);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 
 	}
 	
-	public String createQuestionnaire(String questionnaire) {
-		String id = JSONFunctions.getQuestionnaireIDinQuestionnaire(questionnaire);
-		this.createOrReplaceQuestionnaire(id,questionnaire);
-		return id;
+
+	public JSONObject getQuestionnaireByID(String id) throws Exception {
+		try {
+			JSONObject questionnaire = questionnaireServiceQuery.getQuestionnaireByID(id);
+			if(questionnaire.isEmpty()){
+				throw new PoguesException(404, "Not found", "Pas de questionnaire pour cet identifiant");
+			}
+			return questionnaire;
+		}  catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+	}
+	
+	public void deleteQuestionnaireByID(String id) throws Exception {
+
+		try {
+			questionnaireServiceQuery.deleteQuestionnaireByID(id);
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+	}
+
+	public void createOrReplaceQuestionnaire(String id, JSONObject questionnaire) throws Exception {
+
+		try {
+			questionnaireServiceQuery.createOrReplaceQuestionnaire(id, questionnaire);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+
+	}
+	
+	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
+		try {
+			this.questionnaireServiceQuery.createQuestionnaire(questionnaire);
+		} catch(NonUniqueResultException e) {
+			logger.error(e.getMessage());
+			throw new PoguesException(400, "Bad request", e.getMessage());
+		} catch(Exception e){
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
+	public void updateQuestionnaire(JSONObject questionnaire) throws Exception {
+		try {
+			this.questionnaireServiceQuery.updateQuestionnaire(questionnaire);
+		} catch(EntityNotFoundException e) {
+			logger.error(e.getMessage());
+			throw new PoguesException(404, "Not found", e.getMessage());
+		} catch(Exception e){
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	public void createOrReplaceQuestionnaireList(String questionnaireList) {
 		
 		Map<String, String> questionnaires = JSONFunctions.getMap(questionnaireList);
-		for(Entry<String, String> entry : questionnaires.entrySet()) {
-			String id = entry.getKey();
-			String questionnaire = entry.getValue();
-			this.createOrReplaceQuestionnaire(id,questionnaire);
-		}
+//		for(Entry<String, String> entry : questionnaires.entrySet()) {
+//			String id = entry.getKey();
+//			String questionnaire = entry.getValue();
+//			this.createOrReplaceQuestionnaire(id,questionnaire);
+//		}
 	}
 	
 	
