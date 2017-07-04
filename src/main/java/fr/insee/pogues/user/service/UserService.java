@@ -1,12 +1,13 @@
 package fr.insee.pogues.user.service;
 
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
 import fr.insee.pogues.user.query.UserServiceQuery;
 import fr.insee.pogues.user.query.UserServiceQueryLDAPImpl;
 import fr.insee.pogues.utils.json.JSONFunctions;
+import org.json.simple.JSONArray;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 /**
  * User Service to assume the identity service of Pogues UI in JSON
@@ -25,8 +26,8 @@ public class UserService {
 	 * 
 	 */
 	public UserService(HttpServletRequest request){
-		this.request=request;
-		serviceQuery = new UserServiceQueryLDAPImpl();
+		this.request = request;
+		this.serviceQuery = new UserServiceQueryLDAPImpl();
 	}
 	
 	/**
@@ -55,6 +56,20 @@ public class UserService {
 		serviceQuery.close();
 		return JSONFunctions.getJSON(attributes);
 
+	}
+	/**
+	 * A method to list all available permissions
+	 *
+	 * @return the permissions list
+	 */
+	public List<String> getPermissions() throws Exception {
+		try {
+			return this.serviceQuery.getPermissions();
+		} catch(Exception e) {
+			throw e;
+		} finally {
+			this.serviceQuery.close();
+		}
 	}
 	
 	

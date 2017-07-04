@@ -1,10 +1,6 @@
 package fr.insee.pogues.user.query;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import org.apache.log4j.Logger;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
@@ -13,8 +9,7 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
-
-import org.apache.log4j.Logger;
+import java.util.*;
 
 /**
  * User Service Query for the LDAP implementation to assume the identity service
@@ -133,7 +128,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 				String permission = entree.getAttributes().get("ou").get().toString();
 				// TODO externalisation of the parameter
 				if (!permission.equals("AUTRE")) {
-					permissions.add("\"" + permission + "\"");
+					permissions.add(permission);
 				}
 			}
 		} catch (NamingException e) {
