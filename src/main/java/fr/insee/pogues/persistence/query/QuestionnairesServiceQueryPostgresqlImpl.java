@@ -9,6 +9,7 @@ import org.postgresql.util.PGobject;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Questionnaire Service Query for the Postgresql implementation to assume the
@@ -125,7 +126,10 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			logger.error("Parser Exception");
 			throw e;
 		}
-//        questionnaires.keySet().removeIf(Objects::isNull);
+		/* TODO: add integrity constraints to prohibit creating objects without ID
+		 *  -> Then remove next line
+		 */
+        questionnaires.keySet().removeIf(Objects::isNull);
 		return questionnaires;
 
 	}
