@@ -10,6 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 import static com.jayway.restassured.RestAssured.expect;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 
 /**
@@ -68,8 +69,14 @@ public class TestPoguesUser {
     public void getUserID() {
         logger.debug(
                 "Trying to reach /Pogues-BO/pogues/user/id with Status = 200");
-        String id = expect().statusCode(200).contentType(MediaType.APPLICATION_JSON).when()
-                .get("/pogues/user/id").body().jsonPath().get("id");
+        String id = expect()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON)
+                .when()
+                .get("/pogues/user/id")
+                .body()
+                .jsonPath()
+                .get("id");
         assertEquals(id, jUsername);
     }
 
@@ -80,11 +87,16 @@ public class TestPoguesUser {
     public void getPermissions() {
         logger.debug(
                 "Trying to reach /Pogues-BO/pogues/user/permissions with Status = 200");
-        expect().statusCode(200)
+        int listSize = expect()
+                .statusCode(200)
                 .contentType(MediaType.APPLICATION_JSON)
                 .when()
-                .get("/pogues/user/permissions");
-
+                .get("/pogues/user/permissions")
+                .body()
+                .jsonPath()
+                .getList("$")
+                .size();
+        assertNotEquals(listSize, 0);
     }
 
 
