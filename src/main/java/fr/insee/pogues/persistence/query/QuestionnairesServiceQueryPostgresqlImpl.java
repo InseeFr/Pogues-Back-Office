@@ -200,6 +200,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 *            id of the questionnaire, the JSON description of the
 	 *            questionnaire
 	 */
+	/* TODO do we still need this one ?*/
 	public void createOrReplaceQuestionnaire(String id, JSONObject questionnaire) throws Exception {
 		logger.debug("Try to insert or update Questionnaire :  " + id);
 		PGobject dataObject = new PGobject();
