@@ -1,5 +1,7 @@
 package fr.insee.pogues.persistence.query;
 
+import org.json.simple.JSONObject;
+
 import java.util.Map;
 
 /**
@@ -13,14 +15,19 @@ public interface QuestionnairesServiceQuery {
 	
 	public void close();
 
-	public Map<String, String> getQuestionnaires();
+	public Map<String, JSONObject> getQuestionnaires() throws Exception;
 	
-	public String getQuestionnaireByID(String id);
+	public JSONObject getQuestionnaireByID(String id) throws Exception;
 	
-	public void deleteQuestionnaireByID(String id);
+	public void deleteQuestionnaireByID(String id) throws Exception;
 	
-	public Map<String, String> getQuestionnairesByOwner(String owner);
+	public Map<String, JSONObject> getQuestionnairesByOwner(String owner) throws Exception;
 	
-	public void createOrReplaceQuestionnaire(String id, String questionnaires);
-	
+	public void createOrReplaceQuestionnaire(String id, JSONObject questionnaire) throws Exception;
+
+	public void createQuestionnaire(JSONObject questionnaire) throws Exception;
+
+	public void updateQuestionnaire(JSONObject questionnaire) throws Exception;
+
+
 }
