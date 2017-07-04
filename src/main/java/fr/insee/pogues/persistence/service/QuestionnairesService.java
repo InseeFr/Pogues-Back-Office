@@ -32,7 +32,7 @@ public class QuestionnairesService {
 	 * 
 	 */
 	public QuestionnairesService() {
-		// TODO externalisation of the implementation parameter
+		// TODO use dependency injection
 		questionnaireServiceQuery = new QuestionnairesServiceQueryPostgresqlImpl();
 	}
 	
@@ -60,7 +60,6 @@ public class QuestionnairesService {
 	}
 	
 	public Map<String, JSONObject> getQuestionnairesByOwner(String owner)throws Exception {
-
 		try {
 			return questionnaireServiceQuery.getQuestionnairesByOwner(owner);
 		} catch (Exception e) {
@@ -69,8 +68,12 @@ public class QuestionnairesService {
 		}
 
 	}
-	
 
+	/**
+	 * A method to get a `Questionnaire` object in the database given its ID
+	 *
+	 * @return the questionnaire matching the id
+	 */
 	public JSONObject getQuestionnaireByID(String id) throws Exception {
 		try {
 			JSONObject questionnaire = questionnaireServiceQuery.getQuestionnaireByID(id);
@@ -78,7 +81,10 @@ public class QuestionnairesService {
 				throw new PoguesException(404, "Not found", "Pas de questionnaire pour cet identifiant");
 			}
 			return questionnaire;
-		}  catch (Exception e) {
+		}  catch (NonUniqueResultException e) {
+			logger.error(e.getMessage());
+			throw e;
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
@@ -86,25 +92,12 @@ public class QuestionnairesService {
 	}
 	
 	public void deleteQuestionnaireByID(String id) throws Exception {
-
 		try {
 			questionnaireServiceQuery.deleteQuestionnaireByID(id);
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;
 		}
-
-	}
-
-	public void createOrReplaceQuestionnaire(String id, JSONObject questionnaire) throws Exception {
-
-		try {
-			questionnaireServiceQuery.createOrReplaceQuestionnaire(id, questionnaire);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw e;
-		}
-
 	}
 	
 	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
