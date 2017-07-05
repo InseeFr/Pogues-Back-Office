@@ -15,31 +15,24 @@ import java.util.Map;
 
 /**
  * Questionnaire Service to assume the persistance of Pogues UI in JSON
- * 
+ *
  * @author I6VWID
- * 
+ *
  * @see /Pogues-BO/src/main/java/fr/insee/pogues/webservice/rest/
  *      PoguesPersistenceQuestionnaireList.java
  *
  */
 @Service
-public class QuestionnairesService {
+public class QuestionnairesServiceImpl implements QuestionnairesService {
 
 	private QuestionnairesServiceQuery questionnaireServiceQuery;
 
 	final static Logger logger = Logger.getLogger(QuestionnairesService.class);
 
-	/**
-	 * A method to close the transaction if needed.
-	 * 
-	 */
-	public void close(){
-		questionnaireServiceQuery.close();
-	}
 
 	/**
 	 * A method to get the `QuestionnaireList` object in the database
-	 * 
+	 *
 	 * @return the questionnaires list JSON description of the questionnaires
 	 */
 	public Map<String, JSONObject> getQuestionnaireList() throws Exception {
@@ -51,7 +44,7 @@ public class QuestionnairesService {
 		}
 
 	}
-	
+
 	public Map<String, JSONObject> getQuestionnairesByOwner(String owner)throws Exception {
 		try {
 			return questionnaireServiceQuery.getQuestionnairesByOwner(owner);
@@ -83,7 +76,7 @@ public class QuestionnairesService {
 		}
 
 	}
-	
+
 	public void deleteQuestionnaireByID(String id) throws Exception {
 		try {
 			questionnaireServiceQuery.deleteQuestionnaireByID(id);
@@ -92,7 +85,7 @@ public class QuestionnairesService {
 			throw e;
 		}
 	}
-	
+
 	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
 		try {
 			this.questionnaireServiceQuery.createQuestionnaire(questionnaire);
@@ -118,7 +111,7 @@ public class QuestionnairesService {
 	}
 
 	public void createOrReplaceQuestionnaireList(String questionnaireList) {
-		
+
 		Map<String, String> questionnaires = JSONFunctions.getMap(questionnaireList);
 //		for(Entry<String, String> entry : questionnaires.entrySet()) {
 //			String id = entry.getKey();
@@ -131,14 +124,14 @@ public class QuestionnairesService {
 	public void setQuestionnaireServiceQuery(QuestionnairesServiceQuery questionnaireServiceQuery) {
 		this.questionnaireServiceQuery = questionnaireServiceQuery;
 	}
-	
-	
 
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
+
+
 
 }

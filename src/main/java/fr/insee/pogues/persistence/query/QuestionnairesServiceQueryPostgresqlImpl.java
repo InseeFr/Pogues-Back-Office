@@ -5,6 +5,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.postgresql.util.PGobject;
+import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.util.HashMap;
@@ -18,6 +19,7 @@ import java.util.Objects;
  * @author I6VWID
  *
  */
+@Service
 public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesServiceQuery {
 
 	final static Logger logger = Logger.getLogger(QuestionnairesServiceQueryPostgresqlImpl.class);
@@ -31,31 +33,13 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	private ResultSet rs = null;
 
 	private final JSONParser jsonParser = new JSONParser();
-	/**
-	 * Contructor for Questionnaire Service Query Postrgesql implementation,
-	 * init the connection.
-	 * 
-	 */
-	public QuestionnairesServiceQueryPostgresqlImpl() {
 
-		try {
-			init();
-		} catch (ClassNotFoundException e) {
-			logger.error("Postgresql Driver not found");
-			e.printStackTrace();
-		} catch (SQLException e) {
-			logger.error("SQLException - Impossible to init the connection");
-			e.printStackTrace();
-		}
-
-	}
 
 	/**
 	 * A method to init the connection to the database.
 	 * 
 	 */
 	private void init() throws SQLException, ClassNotFoundException {
-
 		Class.forName("org.postgresql.Driver");
 		// TODO externalisation of the parameter
 		connection = DriverManager.getConnection(
@@ -115,6 +99,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 		Map<String, JSONObject> questionnaires = new HashMap<String, JSONObject>();
 		try {
+			this.init();
 			rs = stmt.executeQuery("SELECT * FROM pogues");
 			while (rs.next()) {
 				questionnaires.put(rs.getString(1), (JSONObject)jsonParser.parse(rs.getString(2)));
@@ -125,6 +110,8 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		} catch(ParseException e){
 			logger.error("Parser Exception");
 			throw e;
+		} finally {
+			this.close();
 		}
 		/* TODO: add integrity constraints to prohibit creating objects without ID
 		 *  -> Then remove next line
@@ -143,6 +130,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 */
 	public JSONObject getQuestionnaireByID(String id) throws Exception {
 		try {
+			this.init();
 			prepStmt = connection.prepareStatement("SELECT * FROM pogues where id=?");
 			prepStmt.setString(1, id);
 			rs = prepStmt.executeQuery();
@@ -161,6 +149,8 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		} catch(ParseException e){
 			logger.error("Parser Exception");
 			throw e;
+		} finally {
+			this.close();
 		}
 	}
 
@@ -172,13 +162,16 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 */
 	public void deleteQuestionnaireByID(String id) throws Exception {
 		try {
+			this.init();
 			prepStmt = connection.prepareStatement("DELETE FROM pogues where id=?");
 			prepStmt.setString(1, id);
 			prepStmt.execute();
 		} catch (SQLException e) {
             logger.error("SQLException");
             throw e;
-        }
+        } finally {
+			this.close();
+		}
 	}
 
 	/**
@@ -206,6 +199,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		PGobject dataObject = new PGobject();
 		dataObject.setType("json");
 		try {
+			this.init();
 			dataObject.setValue(questionnaire.toJSONString());
 			prepStmt = connection.prepareStatement("SELECT * FROM pogues where id=?");
 			prepStmt.setString(1, id);
@@ -233,6 +227,8 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			logger.error("SQLException");
 			e.printStackTrace();
 			throw e;
+		} finally {
+			this.close();
 		}
 
 	}
@@ -243,6 +239,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
             if(!this.getQuestionnaireByID(id).isEmpty()){
                 throw new NonUniqueResultException("Entity already exists");
             }
+            this.init();
             PGobject dataObject = new PGobject();
             dataObject.setType("json");
             dataObject.setValue(questionnaire.toJSONString());
@@ -252,7 +249,9 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
             prepStmt.executeUpdate();
         } catch (Exception e) {
             throw e;
-        }
+        } finally {
+        	this.close();
+		}
     }
 
     public void updateQuestionnaire(JSONObject questionnaire) throws Exception {
@@ -261,6 +260,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
             if(this.getQuestionnaireByID(id).isEmpty()){
                 throw new EntityNotFoundException("Not found");
             }
+            this.init();
             PGobject dataObject = new PGobject();
             dataObject.setType("json");
             dataObject.setValue(questionnaire.toJSONString());
@@ -275,7 +275,9 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
             throw e;
         } catch(Exception e) {
             throw e;
-        }
+        } finally {
+        	this.close();
+		}
     }
 
 }

@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.Authorization;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -28,11 +30,14 @@ import java.util.Map;
  *         produces: - application/json
  *
  */
+@Component
 @Path("/persistence")
 @Api(value = "PoguesPersistence", authorizations = {
 	      @Authorization(value="sampleoauth", scopes = {})
 	    })
 public class PoguesPersistence {
+
+	private QuestionnairesService questionnaireService;
 
 	final static Logger logger = Logger.getLogger(PoguesPersistence.class);
 
@@ -65,9 +70,8 @@ public class PoguesPersistence {
     notes = "Gets the questionnaire with id {id}",
     response = String.class)
 	public Response getQuestionnaire(@PathParam(value = "id") String id) throws Exception {
-		QuestionnairesService service = new QuestionnairesService();
 		try {
-			JSONObject result = service.getQuestionnaireByID(id);
+			JSONObject result = this.questionnaireService.getQuestionnaireByID(id);
 			return Response.status(Status.OK).entity(result).build();
 		} catch(PoguesException e) {
 			throw e;
@@ -104,14 +108,11 @@ public class PoguesPersistence {
     notes = "Gets the questionnaire with id {id}",
     response = String.class)
 	public Response deleteQuestionnaire(@PathParam(value = "id") String id) throws Exception {
-		QuestionnairesService service = new QuestionnairesService();
 		try {
-			service.deleteQuestionnaireByID(id);
+			this.questionnaireService.deleteQuestionnaireByID(id);
 		} catch (Exception e) {
 			throw e;
-		} finally {
-		    service.close();
-        }
+		}
 		logger.info("Questionnaire "+ id +" deleted");
 		return Response.status(Status.NO_CONTENT).build();
 	}
@@ -137,9 +138,8 @@ public class PoguesPersistence {
     notes = "Gets the `QuestionnaireList` object",
     response = String.class)
 	public Response getQuestionnaireList() {
-		QuestionnairesService service = new QuestionnairesService();
 		try {
-			Map<String, JSONObject> questionnaires = service.getQuestionnaireList();
+			Map<String, JSONObject> questionnaires = this.questionnaireService.getQuestionnaireList();
 			if ((questionnaires == null) || (questionnaires.size() == 0)) {
 				logger.info("QuestionnaireList not found, returning NOT_FOUND response");
 				return Response.status(Status.NOT_FOUND).build();
@@ -147,8 +147,6 @@ public class PoguesPersistence {
 			return Response.status(Status.OK).entity(questionnaires).build();
 		} catch(Exception e) {
 			return Response.status(Status.SERVICE_UNAVAILABLE).build();
-		} finally {
-			service.close();
 		}
 
 	}
@@ -170,15 +168,12 @@ public class PoguesPersistence {
     notes = "Update a `Questionnaire` object",
     response = String.class)
 	public Response updateQuestionnaire(JSONObject jsonContent) throws Exception {
-        QuestionnairesService service = new QuestionnairesService();
         try {
-            service.updateQuestionnaire(jsonContent);
+			this.questionnaireService.updateQuestionnaire(jsonContent);
         } catch(PoguesException e){
             throw e;
         } catch (Exception e) {
             throw e;
-        } finally {
-            service.close();
         }
         String id = (String) jsonContent.get("id");
 		logger.info("Questionnaire "+ id +" created");
@@ -211,16 +206,13 @@ public class PoguesPersistence {
     notes = "Creates a new `Questionnaire`",
     response = String.class)
 	public Response createQuestionnaire(JSONObject jsonContent) throws Exception {
-        QuestionnairesService service = new QuestionnairesService();
         try {
-            service.createQuestionnaire(jsonContent);
+			this.questionnaireService.createQuestionnaire(jsonContent);
         } catch(PoguesException e){
             throw e;
         } catch (Exception e) {
 			throw e;
-		} finally {
-		    service.close();
-        }
+		}
 		//TODO return a generic uri
         String id = (String) jsonContent.get("id");
 		String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
@@ -245,5 +237,9 @@ public class PoguesPersistence {
 
 	}
 
+	@Autowired
+	public void setQuestionnaireService(QuestionnairesService questionnaireService) {
+		this.questionnaireService = questionnaireService;
+	}
 
 }

@@ -7,8 +7,7 @@ import java.util.Map;
 /**
  * Created by acordier on 05/07/17.
  */
-public interface QuestionnaireService {
-    void close();
+public interface QuestionnairesService {
     Map<String, JSONObject> getQuestionnaireList() throws Exception;
     Map<String, JSONObject> getQuestionnairesByOwner(String owner)throws Exception;
     JSONObject getQuestionnaireByID(String id) throws Exception;

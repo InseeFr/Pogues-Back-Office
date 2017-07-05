@@ -1,6 +1,13 @@
 package fr.insee.pogues.webservice.rest;
 
-import javax.inject.Singleton;
+import fr.insee.pogues.user.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -9,15 +16,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.apache.log4j.Logger;
-
-import fr.insee.pogues.user.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
-
-import java.util.List;
 
 /**
  * WebService class for the Identity Service
@@ -30,7 +28,7 @@ import java.util.List;
  *         <p>
  *         produces: - application/json
  */
-@Singleton
+@Component
 @Path("/user")
 @Api(value = "PoguesUser", authorizations = {
         @Authorization(value = "sampleoauth", scopes = {})
@@ -40,6 +38,8 @@ public class PoguesUser {
 
     @Context
     HttpServletRequest request;
+
+    private UserService userService;
 
     final static Logger logger = Logger.getLogger(PoguesUser.class);
 
@@ -73,8 +73,7 @@ public class PoguesUser {
             notes = "Get the user id of the connected user",
             response = String.class)
     public Response getID() {
-        UserService service = new UserService(request);
-        String jsonResultat = service.getUserID();
+        String jsonResultat = this.userService.getUserID(request);
         if ((jsonResultat == null) || (jsonResultat.length() == 0)) {
             logger.info("No user connected , returning NOT_FOUND response");
             return Response.status(Status.NOT_FOUND).build();
@@ -95,8 +94,7 @@ public class PoguesUser {
     @Path("attributes")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAttribute() {
-        UserService service = new UserService(request);
-        String jsonResultat = service.getNameAndPermission();
+        String jsonResultat = this.userService.getNameAndPermission(request);
         if ((jsonResultat == null) || (jsonResultat.length() == 0)) {
             logger.info("No user connected , returning NOT_FOUND response");
             return Response.status(Status.NOT_FOUND).build();
@@ -115,12 +113,17 @@ public class PoguesUser {
     @Path("permissions")
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPermissions() {
-        UserService service = new UserService(request);
         try {
-            return Response.ok(service.getPermissions()).build();
+            return Response.ok(this.userService.getPermissions()).build();
         } catch (Exception e) {
             logger.error(e.getMessage());
             return Response.status(Status.SERVICE_UNAVAILABLE).build();
         }
     }
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
 }
