@@ -5,8 +5,13 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.postgresql.util.PGobject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +25,8 @@ import java.util.Objects;
  *
  */
 @Service
+@Configuration
+@PropertySource("classpath:pogues-bo.properties")
 public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesServiceQuery {
 
 	final static Logger logger = Logger.getLogger(QuestionnairesServiceQueryPostgresqlImpl.class);
@@ -34,31 +41,45 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 	private final JSONParser jsonParser = new JSONParser();
 
+	@Autowired
+	private Environment env;
+
+	private String jdbcUrl;
+	private String dbUser;
+	private String dbPassword;
+
+
+	@PostConstruct
+	public void init(){
+		String dbHost = this.env.getProperty("fr.insee.pogues.persistence.database.host");
+		String dbPort = this.env.getProperty("fr.insee.pogues.persistence.database.port");
+		String dbSchema = this.env.getProperty("fr.insee.pogues.persistence.database.schema");
+		dbUser = this.env.getProperty("fr.insee.pogues.persistence.database.user");
+		dbPassword = this.env.getProperty("fr.insee.pogues.persistence.database.pasword");
+		jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbSchema);
+	}
 
 	/**
-	 * A method to init the connection to the database.
+	 * A method to initConnection the connection to the database.
 	 * 
 	 */
-	private void init() throws SQLException, ClassNotFoundException {
+	private void initConnection() throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
-		// TODO externalisation of the parameter
-		connection = DriverManager.getConnection(
-				"jdbc:postgresql://dvrmspogfoldb01.ad.insee.intra:1983/di_pg_rmspogfo_dv01", "user_rmspogfo_loc",
-				"rmeS6789");
+		connection = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword);
 		stmt = connection.createStatement();
 	}
 
 
 	/**
-	 * A method to close the connection to the database.
+	 * A method to closeConnection the connection to the database.
 	 * 
 	 */
-	public void close() {
+	public void closeConnection() {
 		if (rs != null) {
 			try {
 				rs.close();
 			} catch (SQLException e) {
-				logger.error("SQLException - Impossible to close the ResultSet");
+				logger.error("SQLException - Impossible to closeConnection the ResultSet");
 				e.printStackTrace();
 			}
 		}
@@ -66,7 +87,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			try {
 				stmt.close();
 			} catch (SQLException e) {
-				logger.error("SQLException - Impossible to close the Statement");
+				logger.error("SQLException - Impossible to closeConnection the Statement");
 				e.printStackTrace();
 			}
 		}
@@ -74,7 +95,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			try {
 				prepStmt.close();
 			} catch (SQLException e) {
-				logger.error("SQLException - Impossible to close the PreparedStatement");
+				logger.error("SQLException - Impossible to closeConnection the PreparedStatement");
 				e.printStackTrace();
 			}
 		}
@@ -82,7 +103,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			try {
 				connection.close();
 			} catch (SQLException e) {
-				logger.error("SQLException - Impossible to close the Connection");
+				logger.error("SQLException - Impossible to closeConnection the Connection");
 				e.printStackTrace();
 			}
 		}
@@ -99,7 +120,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 		Map<String, JSONObject> questionnaires = new HashMap<String, JSONObject>();
 		try {
-			this.init();
+			this.initConnection();
 			rs = stmt.executeQuery("SELECT * FROM pogues");
 			while (rs.next()) {
 				questionnaires.put(rs.getString(1), (JSONObject)jsonParser.parse(rs.getString(2)));
@@ -111,7 +132,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			logger.error("Parser Exception");
 			throw e;
 		} finally {
-			this.close();
+			this.closeConnection();
 		}
 		/* TODO: add integrity constraints to prohibit creating objects without ID
 		 *  -> Then remove next line
@@ -130,7 +151,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 */
 	public JSONObject getQuestionnaireByID(String id) throws Exception {
 		try {
-			this.init();
+			this.initConnection();
 			prepStmt = connection.prepareStatement("SELECT * FROM pogues where id=?");
 			prepStmt.setString(1, id);
 			rs = prepStmt.executeQuery();
@@ -150,7 +171,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			logger.error("Parser Exception");
 			throw e;
 		} finally {
-			this.close();
+			this.closeConnection();
 		}
 	}
 
@@ -162,7 +183,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 */
 	public void deleteQuestionnaireByID(String id) throws Exception {
 		try {
-			this.init();
+			this.initConnection();
 			prepStmt = connection.prepareStatement("DELETE FROM pogues where id=?");
 			prepStmt.setString(1, id);
 			prepStmt.execute();
@@ -170,7 +191,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
             logger.error("SQLException");
             throw e;
         } finally {
-			this.close();
+			this.closeConnection();
 		}
 	}
 
@@ -199,7 +220,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		PGobject dataObject = new PGobject();
 		dataObject.setType("json");
 		try {
-			this.init();
+			this.initConnection();
 			dataObject.setValue(questionnaire.toJSONString());
 			prepStmt = connection.prepareStatement("SELECT * FROM pogues where id=?");
 			prepStmt.setString(1, id);
@@ -228,7 +249,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			e.printStackTrace();
 			throw e;
 		} finally {
-			this.close();
+			this.closeConnection();
 		}
 
 	}
@@ -239,7 +260,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
             if(!this.getQuestionnaireByID(id).isEmpty()){
                 throw new NonUniqueResultException("Entity already exists");
             }
-            this.init();
+            this.initConnection();
             PGobject dataObject = new PGobject();
             dataObject.setType("json");
             dataObject.setValue(questionnaire.toJSONString());
@@ -250,7 +271,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
         } catch (Exception e) {
             throw e;
         } finally {
-        	this.close();
+        	this.closeConnection();
 		}
     }
 
@@ -260,7 +281,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
             if(this.getQuestionnaireByID(id).isEmpty()){
                 throw new EntityNotFoundException("Not found");
             }
-            this.init();
+            this.initConnection();
             PGobject dataObject = new PGobject();
             dataObject.setType("json");
             dataObject.setValue(questionnaire.toJSONString());
@@ -276,7 +297,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
         } catch(Exception e) {
             throw e;
         } finally {
-        	this.close();
+        	this.closeConnection();
 		}
     }
 

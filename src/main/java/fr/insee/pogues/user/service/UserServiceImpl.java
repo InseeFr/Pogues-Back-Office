@@ -2,6 +2,7 @@ package fr.insee.pogues.user.service;
 
 import fr.insee.pogues.user.query.UserServiceQuery;
 import fr.insee.pogues.utils.json.JSONFunctions;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,8 @@ import java.util.Map;
 public class UserServiceImpl implements UserService {
 
 	private UserServiceQuery userServiceQuery;
-	
+
+	private static Logger logger = Logger.getLogger(UserServiceImpl.class);
 
 	public String getUserID(HttpServletRequest request) {
 		String id = request.getUserPrincipal().getName();
@@ -30,11 +32,16 @@ public class UserServiceImpl implements UserService {
 	
 
 	public String getNameAndPermission(HttpServletRequest request) {
-		
-		String id = request.getUserPrincipal().getName();
-		Map<String, String> attributes = this.userServiceQuery.getNameAndPermissionByID(id);
-		this.userServiceQuery.close();
-		return JSONFunctions.getJSON(attributes);
+		try {
+			String id = request.getUserPrincipal().getName();
+			Map<String, String> attributes = this.userServiceQuery.getNameAndPermissionByID(id);
+			return JSONFunctions.getJSON(attributes);
+		} catch(Exception e){
+			e.printStackTrace();
+			logger.error(e.getMessage());
+			return null;
+		}
+
 
 	}
 
@@ -43,8 +50,6 @@ public class UserServiceImpl implements UserService {
 			return this.userServiceQuery.getPermissions();
 		} catch(Exception e) {
 			throw e;
-		} finally {
-			this.userServiceQuery.close();
 		}
 	}
 

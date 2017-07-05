@@ -13,8 +13,6 @@ import java.util.Map;
 
 public interface QuestionnairesServiceQuery {
 	
-	public void close();
-
 	public Map<String, JSONObject> getQuestionnaires() throws Exception;
 	
 	public JSONObject getQuestionnaireByID(String id) throws Exception;

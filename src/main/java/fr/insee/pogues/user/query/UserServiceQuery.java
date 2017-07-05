@@ -22,10 +22,5 @@ public interface UserServiceQuery {
 	 * @return the name and the permission in a map<String,String>
 	 */
 	List<String> getPermissions();
-	/**
-	 * A method to close the connection to the LDAP.
-	 *
-	 */
-	void close();
 	
 }
