@@ -1,6 +1,13 @@
 package fr.insee.pogues.webservice.rest;
 
-import javax.inject.Singleton;
+import fr.insee.pogues.user.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,109 +17,113 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import org.apache.log4j.Logger;
-
-import fr.insee.pogues.user.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
-
 /**
  * WebService class for the Identity Service
- * 
- * 
- * @author I6VWID
- * 
- *         schemes: - http
- * 
- *         consumes: - application/json
- * 
- *         produces: - application/json
  *
+ * @author I6VWID
+ *         <p>
+ *         schemes: - http
+ *         <p>
+ *         consumes: - application/json
+ *         <p>
+ *         produces: - application/json
  */
-@Singleton
+@Component
 @Path("/user")
 @Api(value = "PoguesUser", authorizations = {
-	      @Authorization(value="sampleoauth", scopes = {})
-	    })
+        @Authorization(value = "sampleoauth", scopes = {})
+})
 public class PoguesUser {
 
-	
-	@Context
+
+    @Context
     HttpServletRequest request;
-	
-	final static Logger logger = Logger.getLogger(PoguesUser.class);
 
-	/**
-	 * Dummy GET Helloworld used in unit tests
-	 * 
-	 * @return "Hello world" as a String
-	 */
-	@GET
-	@Path("helloworld")
-	@ApiOperation(value = "Hello world",
-		    notes = "Dummy GET Helloworld, used in unit tests",
-		    response = String.class)
-	public String helloworld() {
-		return "Hello world";
-	}
+    private UserService userService;
 
-	/**
-	 * Get the user id of the connected user
-	 * 
-	 * 
-	 * @return Response code
-	 * 
-	 *         200: description: Successful response
-	 * 
-	 *         404: description: Questionnaire not found
-	 *
-	 */
-	@GET
-	@Path("id")
+    final static Logger logger = Logger.getLogger(PoguesUser.class);
+
+    /**
+     * Dummy GET Helloworld used in unit tests
+     *
+     * @return "Hello world" as a String
+     */
+    @GET
+    @Path("helloworld")
+    @ApiOperation(value = "Hello world",
+            notes = "Dummy GET Helloworld, used in unit tests",
+            response = String.class)
+    public String helloworld() {
+        return "Hello world";
+    }
+
+    /**
+     * Get the user id of the connected user
+     *
+     * @return Response code
+     * <p>
+     * 200: description: Successful response
+     * <p>
+     * 404: description: Questionnaire not found
+     */
+    @GET
+    @Path("id")
     @Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "getID",
-    notes = "Get the user id of the connected user",
-    response = String.class)
-	public Response getID() {
-		UserService service = new UserService(request);
-		String jsonResultat = service.getUserID();
-		if ((jsonResultat == null) || (jsonResultat.length() == 0)) {
-    		logger.info("No user connected , returning NOT_FOUND response");
-    		return Response.status(Status.NOT_FOUND).build();
-    	}
-		return Response.status(Status.OK).entity(jsonResultat).build();
-	}
-	
-	/**
-	 * Get the user attribute of the connected user
-	 * 
-	 * 
-	 * @return Response code
-	 * 
-	 *         200: description: Successful response
-	 * 
-	 *         404: description: Questionnaire not found
-	 *
-	 */
-	@GET
-	@Path("attributes")
+    @ApiOperation(value = "getID",
+            notes = "Get the user id of the connected user",
+            response = String.class)
+    public Response getID() {
+        String jsonResultat = this.userService.getUserID(request);
+        if ((jsonResultat == null) || (jsonResultat.length() == 0)) {
+            logger.info("No user connected , returning NOT_FOUND response");
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.status(Status.OK).entity(jsonResultat).build();
+    }
+
+    /**
+     * Get the user attribute of the connected user
+     *
+     * @return Response code
+     * <p>
+     * 200: description: Successful response
+     * <p>
+     * 404: description: Questionnaire not found
+     */
+    @GET
+    @Path("attributes")
     @Produces(MediaType.APPLICATION_JSON)
-	public Response getAttribute() {
-		UserService service = new UserService(request);
-		String jsonResultat = service.getNameAndPermission();
-		if ((jsonResultat == null) || (jsonResultat.length() == 0)) {
-    		logger.info("No user connected , returning NOT_FOUND response");
-    		return Response.status(Status.NOT_FOUND).build();
-    	}
-		return Response.status(Status.OK).entity(jsonResultat).build();
-	}
-	
-	
+    public Response getAttribute() {
+        String jsonResultat = this.userService.getNameAndPermission(request);
+        if ((jsonResultat == null) || (jsonResultat.length() == 0)) {
+            logger.info("No user connected , returning NOT_FOUND response");
+            return Response.status(Status.NOT_FOUND).build();
+        }
+        return Response.status(Status.OK).entity(jsonResultat).build();
+    }
 
-	
-	
+    /**
+     * Get the user permissions list
+     *
+     * @return Response code
+     *
+     * 200: description: Successful response
+     */
+    @GET
+    @Path("permissions")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getPermissions() {
+        try {
+            return Response.ok(this.userService.getPermissions()).build();
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return Response.status(Status.SERVICE_UNAVAILABLE).build();
+        }
+    }
 
-	
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 
 }
