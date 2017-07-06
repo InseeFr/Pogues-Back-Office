@@ -1,9 +1,7 @@
 package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
+import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,9 +36,10 @@ import java.util.Map;
 	    })
 public class PoguesPersistence {
 
-	private QuestionnairesService questionnaireService;
+    final static Logger logger = Logger.getLogger(PoguesPersistence.class);
 
-	final static Logger logger = Logger.getLogger(PoguesPersistence.class);
+    @Autowired
+	private QuestionnairesService questionnaireService;
 
 	/**
 	 * Dummy GET Helloworld used in unit tests
@@ -54,25 +53,22 @@ public class PoguesPersistence {
 		return "Hello world";
 	}
 
-    /**
-	 * Gets the questionnaire with id {id}
-	 *
-	 * @return Response code
-	 *
-	 *         200: description: Successful response
-	 *
-	 *         404: description: Questionnaire not found
-	 *
-	 */
+
 	@GET
 	@Path("questionnaire/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get questionnaire",
-    notes = "Gets the questionnaire with id {id}",
-    response = String.class)
+	@ApiOperation(
+	        value = "Get questionnaire",
+            notes = "Gets the questionnaire with id {id}",
+            response = String.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 404, message = "Not found")
+    })
 	public Response getQuestionnaire(@PathParam(value = "id") String id) throws Exception {
 		try {
-			JSONObject result = this.questionnaireService.getQuestionnaireByID(id);
+			JSONObject result = questionnaireService.getQuestionnaireByID(id);
 			return Response.status(Status.OK).entity(result).build();
 		} catch(PoguesException e) {
 			throw e;
@@ -82,66 +78,46 @@ public class PoguesPersistence {
 
 	}
 
-    /**
-     * Gets the questionnaire
-     *
-     * @return Response code
-     *
-     *         200: description: Successful response
-     *
-     *         404: description: Questionnaire not found
-     *
-     */
     @GET
     @Path("questionnaires/search")
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get questionnaire",
-            notes = "Gets the questionnaire with id {id}",
-            response = String.class)
-    public Response getQuestionnaireByOwner(
+    @ApiOperation(
+            value = "Search questionnaires",
+            notes = "Search questionnaires matching query params",
+            response = Map.class
+    )
+    @ApiResponses(
+            @ApiResponse(code = 200, message="Success")
+    )
+    @ApiParam(name = "owner", defaultValue = "Owner of questionnaire", required = false)
+    public Response searchQuestionnaire(
             @QueryParam("owner") String owner
     ) throws Exception {
         try {
             Map<String, JSONObject> questionnaires = new HashMap<>();
             if(null != owner){
-                questionnaires.putAll(this.questionnaireService.getQuestionnairesByOwner(owner));
+                questionnaires.putAll(questionnaireService.getQuestionnairesByOwner(owner));
             }
-            logger.debug("XXXXX owner: " + owner);
             return Response.status(Status.OK).entity(questionnaires).build();
         } catch (Exception e) {
             throw e;
         }
 
     }
-	
-	/**
-	 * Delete the questionnaire with id {id}
-	 * 
-	 *
-	 *            id
-	 * 
-	 *            in: path
-	 * 
-	 *            description: The identifier of the questionnaire to delete
-	 * 
-	 *            type: string
-	 * 
-	 * 
-	 * @return Response code
-	 * 
-	 *         200: description: Successful response
-	 * 
-	 *         404: description: Questionnaire not found
-	 *
-	 */
+
 	@DELETE
 	@Path("questionnaire/{id}")
-	@ApiOperation(value = "Get questionnaire",
-    notes = "Gets the questionnaire with id {id}",
-    response = String.class)
+	@ApiOperation(
+	        value = "Delete questionnaire",
+            notes = "Delete questionnaire with id {id}"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "No content"),
+            @ApiResponse(code = 404, message = "Not found")
+    })
 	public Response deleteQuestionnaire(@PathParam(value = "id") String id) throws Exception {
 		try {
-			this.questionnaireService.deleteQuestionnaireByID(id);
+			questionnaireService.deleteQuestionnaireByID(id);
 			logger.info("Questionnaire "+ id +" deleted");
 			return Response.status(Status.NO_CONTENT).build();
 		} catch (Exception e) {
@@ -152,11 +128,18 @@ public class PoguesPersistence {
 
 	@DELETE
 	@Path("questionnaires")
-	@ApiOperation(value = "Get questionnaire",
-			response = String.class)
+	@ApiOperation(
+	        value = "Get questionnaire",
+			response = String.class,
+            notes = "Temporary endpoint for development, clean db"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "No content"),
+            @ApiResponse(code = 404, message = "Not found")
+    })
 	public Response deleteAllQuestionnaires() throws Exception {
 		try {
-			this.questionnaireService.deleteAllQuestionnaires();
+			questionnaireService.deleteAllQuestionnaires();
 			return Response.status(Status.NO_CONTENT).build();
 		} catch (Exception e) {
 			throw e;
@@ -164,28 +147,21 @@ public class PoguesPersistence {
 
 	}
 
-
-	/**
-	 * Gets the `QuestionnaireList` object.
-	 * 
-	 * @return Response code
-	 * 
-	 *         200: description: Successful response 
-	 *         
-	 *         		schema:  $ref: '#/definitions/QuestionnaireList'
-	 * 
-	 *         404: description: List not found
-	 *
-	 */
 	@GET
 	@Path("questionnaires")
     @Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get questionnaires",
-    notes = "Gets the `QuestionnaireList` object",
-    response = String.class)
+	@ApiOperation(
+	        value = "Get questionnaires",
+            notes = "Gets the `QuestionnaireList` object",
+            response = Map.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 404, message = "Not found")
+    })
 	public Response getQuestionnaireList() throws Exception {
 		try {
-			Map<String, JSONObject> questionnaires = this.questionnaireService.getQuestionnaireList();
+			Map<String, JSONObject> questionnaires = questionnaireService.getQuestionnaireList();
 			return Response.status(Status.OK).entity(questionnaires).build();
 		} catch(PoguesException e) {
 			throw e;
@@ -196,24 +172,21 @@ public class PoguesPersistence {
 	}
 	
 	
-	/**
-	 * Creates or replaces a `Questionnaire` object.
-	 * 
-	 * @return 201: description: The questionnaire was created or updated
-	 *
-	 *         400: description: Malformed object in the query
-	 * 
-	 *         401: description: The client is not authorized for this operation
-	 */
+
 	@PUT
 	@Path("questionnaire")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "updateQuestionnaire",
-    notes = "Update a `Questionnaire` object",
-    response = String.class)
+	@ApiOperation(
+	        value = "Update questionnaire",
+            notes = "Update a `Questionnaire` object"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 404, message = "Not found")
+    })
 	public Response updateQuestionnaire(JSONObject jsonContent) throws Exception {
         try {
-			this.questionnaireService.updateQuestionnaire(jsonContent);
+			questionnaireService.updateQuestionnaire(jsonContent);
 			String id = (String) jsonContent.get("id");
 			logger.info("Questionnaire "+ id +" created");
 			return Response.status(Status.NO_CONTENT).build();
@@ -223,34 +196,21 @@ public class PoguesPersistence {
             throw e;
         }
 	}
-	
 
-
-	/**
-	 * Creates a new `Questionnaire`
-	 *
-	 * @return 201: description: The questionnaire was created
-	 * 
-	 *         headers: Location: description: The URI of the new questionnaire
-	 *         type: string
-	 * 
-	 *         Slug: description: The id of the questionnaire that was submitted
-	 *         type: string
-	 * 
-	 *         400: description: Malformed object in the query
-	 * 
-	 *         401: description: The client is not authorized for this operation
-	 * 
-	 */
 	@POST
 	@Path("questionnaires")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "createQuestionnaire",
-    notes = "Creates a new `Questionnaire`",
-    response = String.class)
+	@ApiOperation(
+	        value = "Create Questionnaire",
+            notes = "Creates a new `Questionnaire`"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400, message = "Entity already exists")
+    })
 	public Response createQuestionnaire(JSONObject jsonContent) throws Exception {
         try {
-			this.questionnaireService.createQuestionnaire(jsonContent);
+			questionnaireService.createQuestionnaire(jsonContent);
 			//TODO return a generic uri
 			String id = (String) jsonContent.get("id");
 			String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
@@ -261,12 +221,6 @@ public class PoguesPersistence {
         } catch (Exception e) {
 			throw e;
 		}
-	}
-
-
-	@Autowired
-	public void setQuestionnaireService(QuestionnairesService questionnaireService) {
-		this.questionnaireService = questionnaireService;
 	}
 
 }

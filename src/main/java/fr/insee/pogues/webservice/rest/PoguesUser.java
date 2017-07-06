@@ -1,10 +1,9 @@
 package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.user.service.UserService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
+import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.util.Map;
 
 /**
  * WebService class for the Identity Service
@@ -39,6 +39,7 @@ public class PoguesUser {
     @Context
     HttpServletRequest request;
 
+    @Autowired
     private UserService userService;
 
     final static Logger logger = Logger.getLogger(PoguesUser.class);
@@ -57,73 +58,69 @@ public class PoguesUser {
         return "Hello world";
     }
 
-    /**
-     * Get the user id of the connected user
-     *
-     * @return Response code
-     * <p>
-     * 200: description: Successful response
-     * <p>
-     * 404: description: Questionnaire not found
-     */
+
     @GET
     @Path("id")
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "getID",
+    @ApiOperation(
+            value = "Get Id",
             notes = "Get the user id of the connected user",
-            response = String.class)
-    public Response getID() {
-        String jsonResultat = this.userService.getUserID(request);
-        if ((jsonResultat == null) || (jsonResultat.length() == 0)) {
-            logger.info("No user connected , returning NOT_FOUND response");
-            return Response.status(Status.NOT_FOUND).build();
+            response = String.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Created"),
+            @ApiResponse(code = 403, message = "Not authenticated")
+    })
+    public Response getID() throws Exception {
+        try {
+            JSONObject result = userService.getUserID(request);
+            return Response.status(Status.OK).entity(result).build();
+        } catch (PoguesException e) {
+            throw e;
         }
-        return Response.status(Status.OK).entity(jsonResultat).build();
     }
 
-    /**
-     * Get the user attribute of the connected user
-     *
-     * @return Response code
-     * <p>
-     * 200: description: Successful response
-     * <p>
-     * 404: description: Questionnaire not found
-     */
+
     @GET
     @Path("attributes")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getAttribute() {
-        String jsonResultat = this.userService.getNameAndPermission(request);
-        if ((jsonResultat == null) || (jsonResultat.length() == 0)) {
-            logger.info("No user connected , returning NOT_FOUND response");
-            return Response.status(Status.NOT_FOUND).build();
+    @ApiOperation(
+            value = "Get Id",
+            notes = "Get the user id of the connected user",
+            response = String.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Created"),
+            @ApiResponse(code = 403, message = "Not authenticated")
+    })
+    public Response getAttribute() throws Exception {
+        try {
+            Map<String, String> result = userService.getNameAndPermission(request);
+            return Response.status(Status.OK).entity(result).build();
+        } catch(Exception e){
+            throw e;
         }
-        return Response.status(Status.OK).entity(jsonResultat).build();
+
     }
 
-    /**
-     * Get the user permissions list
-     *
-     * @return Response code
-     *
-     * 200: description: Successful response
-     */
+
     @GET
     @Path("permissions")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getPermissions() {
+    @ApiOperation(
+            value = "Get permissions",
+            notes = "Get all available permissions",
+            response = String.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+    })
+    public Response getPermissions() throws Exception {
         try {
-            return Response.ok(this.userService.getPermissions()).build();
+            return Response.ok(userService.getPermissions()).build();
         } catch (Exception e) {
-            logger.error(e.getMessage());
-            return Response.status(Status.SERVICE_UNAVAILABLE).build();
+            throw e;
         }
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
     }
 
 }

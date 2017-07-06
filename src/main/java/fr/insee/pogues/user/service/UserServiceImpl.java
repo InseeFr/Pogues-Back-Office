@@ -1,12 +1,14 @@
 package fr.insee.pogues.user.service;
 
 import fr.insee.pogues.user.query.UserServiceQuery;
-import fr.insee.pogues.utils.json.JSONFunctions;
+import fr.insee.pogues.webservice.rest.PoguesException;
 import org.apache.log4j.Logger;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 import java.util.List;
 import java.util.Map;
 
@@ -25,22 +27,29 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserServiceQuery userServiceQuery;
 
-	public String getUserID(HttpServletRequest request) {
-		String id = request.getUserPrincipal().getName();
-		String json = "{\"id\":\""+id+"\"}";
-		return json;
+	public JSONObject getUserID(HttpServletRequest request) throws Exception {
+		try {
+			Principal principal = request.getUserPrincipal();
+			if (null == principal) {
+				throw new PoguesException(403, "Not authenticated", "No user principal found, are you authenticated ?");
+			}
+			JSONObject json = new JSONObject();
+			json.put("id", principal.getName());
+			return json;
+		} catch(Exception e){
+			e.printStackTrace();
+			throw e;
+		}
 	}
 	
 
-	public String getNameAndPermission(HttpServletRequest request) {
+	public Map<String, String> getNameAndPermission(HttpServletRequest request) {
 		try {
 			String id = request.getUserPrincipal().getName();
-			Map<String, String> attributes = this.userServiceQuery.getNameAndPermissionByID(id);
-			return JSONFunctions.getJSON(attributes);
+			return this.userServiceQuery.getNameAndPermissionByID(id);
 		} catch(Exception e){
 			e.printStackTrace();
-			logger.error(e.getMessage());
-			return null;
+			throw e;
 		}
 
 
@@ -50,6 +59,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			return this.userServiceQuery.getPermissions();
 		} catch(Exception e) {
+			e.printStackTrace();
 			throw e;
 		}
 	}
