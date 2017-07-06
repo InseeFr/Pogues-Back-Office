@@ -10,11 +10,17 @@ import java.util.Map;
  * 
  */
 public interface UserServiceQuery {
-
-	public Map<String, String> getNameAndPermissionByID(String id);
-	
-	public List<String> getPermissions();
-	
-	public void close(); 
+	/**
+	 * A method to get the Permissions List from the LDAP
+	 *
+	 * @return the Permissions List List<String>
+	 */
+	Map<String, String> getNameAndPermissionByID(String id);
+	/**
+	 * A method to get the name and the permission by user ID
+	 *
+	 * @return the name and the permission in a map<String,String>
+	 */
+	List<String> getPermissions();
 	
 }
