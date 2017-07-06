@@ -20,9 +20,10 @@ import java.util.Map;
 @Service
 public class UserServiceImpl implements UserService {
 
-	private UserServiceQuery userServiceQuery;
-
 	private static Logger logger = Logger.getLogger(UserServiceImpl.class);
+
+	@Autowired
+	private UserServiceQuery userServiceQuery;
 
 	public String getUserID(HttpServletRequest request) {
 		String id = request.getUserPrincipal().getName();
@@ -53,9 +54,4 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@Autowired
-	public void setUserServiceQuery(UserServiceQuery userServiceQuery) {
-		this.userServiceQuery = userServiceQuery;
-	}
-	
 }

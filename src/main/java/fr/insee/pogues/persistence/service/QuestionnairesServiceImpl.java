@@ -25,9 +25,10 @@ import java.util.Map;
 @Service
 public class QuestionnairesServiceImpl implements QuestionnairesService {
 
-	private QuestionnairesServiceQuery questionnaireServiceQuery;
-
 	final static Logger logger = Logger.getLogger(QuestionnairesService.class);
+
+	@Autowired
+	private QuestionnairesServiceQuery questionnaireServiceQuery;
 
 
 	/**
@@ -131,10 +132,6 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 //		}
 	}
 
-	@Autowired
-	public void setQuestionnaireServiceQuery(QuestionnairesServiceQuery questionnaireServiceQuery) {
-		this.questionnaireServiceQuery = questionnaireServiceQuery;
-	}
 
 
 
