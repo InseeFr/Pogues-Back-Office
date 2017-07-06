@@ -1,13 +1,12 @@
 package fr.insee.pogues.rest.test;
 
 import com.jayway.restassured.RestAssured;
+import fr.insee.pogues.rest.test.utils.RestAssuredConfig;
 import org.apache.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import javax.ws.rs.core.MediaType;
-
-import static com.jayway.restassured.RestAssured.expect;
 
 /**
  * Test Class used to test the REST Web Service PoguesPersistence, called by
@@ -18,8 +17,6 @@ import static com.jayway.restassured.RestAssured.expect;
  */
 public class TestPoguesPersistence {
 
-	private static String jUsername = "D5WQNO";
-	private static String jPassword = "D5WQNO";
 
 	final static Logger logger = Logger.getLogger(TestPoguesPersistence.class);
 
@@ -28,23 +25,7 @@ public class TestPoguesPersistence {
 	 */
 	@BeforeClass
 	public static void setUp() {
-		logger.debug("Setting the RestAssured base Uri to http://localhost:8080 : for local tests");
-		RestAssured.baseURI = "http://localhost:8080";
-        /* All this boilerplate thing to handle Form auth with tomcat */
-		String sessionId;
-		sessionId = expect().statusCode(200).log().all()
-				.when().get("/").sessionId();
-		expect().statusCode(302).log().all()
-				.given().param("j_username", jUsername)
-				.param("j_password", jPassword).cookie("JSESSIONID", sessionId)
-				.post("j_security_check");
-		sessionId = expect()
-				.statusCode(404)
-				.log().all()
-				.given().cookie("JSESSIONID", sessionId)
-				.when()
-				.get().sessionId();
-		RestAssured.sessionId = sessionId;
+        RestAssuredConfig.configure();
 	}
 
 	/**
@@ -64,13 +45,14 @@ public class TestPoguesPersistence {
 	@Test
 	public void postQuestionnaire() {
 		logger.debug("Trying to post on /pogues/persistence/questionnaires with Created = 201");
-		String json1 = "{\"id\":\"17\",\"Name\":\"FIRSTQUESTIONNAIRE\"}";
+		String json1 = "{\"id\":\"17\", \"owner\":\"D5WQNO\",\"Name\":\"FIRSTQUESTIONNAIRE\"}";
 		RestAssured.expect()
 				.statusCode(201)
 				.when()
 				.given()
 				.contentType(MediaType.APPLICATION_JSON)
-				.body(json1).when()
+				.body(json1)
+				.when()
 				.post("/pogues/persistence/questionnaires");
 
 	}
@@ -83,7 +65,13 @@ public class TestPoguesPersistence {
 		logger.debug(
 				"Trying to put a questionnaire on /pogues/persistence/questionnaire with Status = 204");
 		String json1 = "{\"id\":\"18\",\"Name\":\"FIRSTQUESTIONNAIRE\"}";
-		RestAssured.expect().statusCode(404).when().given().contentType(MediaType.APPLICATION_JSON).body(json1).when()
+		RestAssured.expect()
+				.statusCode(404)
+				.when()
+				.given()
+				.contentType(MediaType.APPLICATION_JSON)
+				.body(json1)
+				.when()
 				.put("/pogues/persistence/questionnaire");
 
 	}
@@ -95,7 +83,17 @@ public class TestPoguesPersistence {
 	public void getQuestionnaireById() {
 		logger.debug("Trying to reach /pogues/persistence/17 with Status = 200");
 		RestAssured.expect().statusCode(200).when().get("/pogues/persistence/questionnaire/17");
+	}
 
+	@Test
+	public void getQuestionnaireByOwner(){
+        logger.debug("Trying to reach /pogues/persistence/questionnaires/search with Status = 200");
+        RestAssured.expect()
+				.statusCode(200)
+				.when()
+				.given()
+				.param("owner", RestAssuredConfig.jUsername)
+				.get("/pogues/persistence/questionnaires/search");
 	}
 
 	/**
@@ -104,7 +102,10 @@ public class TestPoguesPersistence {
 	@Test
 	public void getQuestionnaires() {
 		logger.debug("Trying to reach /pogues/persistence/questionnaires with Status = 200");
-		RestAssured.expect().statusCode(200).when().get("/pogues/persistence/questionnaires");
+		RestAssured.expect()
+				.statusCode(200)
+				.when()
+				.get("/pogues/persistence/questionnaires");
 
 	}
 

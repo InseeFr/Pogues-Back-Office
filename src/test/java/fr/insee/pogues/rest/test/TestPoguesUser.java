@@ -1,7 +1,7 @@
 package fr.insee.pogues.rest.test;
 
-import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
+import fr.insee.pogues.rest.test.utils.RestAssuredConfig;
 import org.apache.log4j.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -20,8 +20,6 @@ import static org.junit.Assert.assertNotEquals;
  */
 public class TestPoguesUser {
 
-    private static String jUsername = "D5WQNO";
-    private static String jPassword = "D5WQNO";
 
     final static Logger logger = Logger.getLogger(TestPoguesUser.class);
 
@@ -30,23 +28,7 @@ public class TestPoguesUser {
      */
     @BeforeClass
     public static void setUp() {
-        logger.debug("Setting the RestAssured base Uri to http://localhost:8080 : for local tests");
-        RestAssured.baseURI = "http://localhost:8080";
-        /* All this boilerplate thing to handle Form auth with tomcat */
-        String sessionId;
-        sessionId = expect().statusCode(200).log().all()
-                .when().get("/").sessionId();
-        expect().statusCode(302).log().all()
-                .given().param("j_username", jUsername)
-                .param("j_password", jPassword).cookie("JSESSIONID", sessionId)
-                .post("j_security_check");
-        sessionId = expect()
-                .statusCode(404)
-                .log().all()
-                .given().cookie("JSESSIONID", sessionId)
-                .when()
-                .get().sessionId();
-        RestAssured.sessionId = sessionId;
+        RestAssuredConfig.configure();
     }
 
     /**
@@ -77,7 +59,7 @@ public class TestPoguesUser {
                 .body()
                 .jsonPath()
                 .get("id");
-        assertEquals(id, jUsername);
+        assertEquals(id, RestAssuredConfig.jUsername);
     }
 
     /**
