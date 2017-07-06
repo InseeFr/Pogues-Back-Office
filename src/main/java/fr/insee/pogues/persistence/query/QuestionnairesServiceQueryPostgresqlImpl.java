@@ -223,7 +223,27 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 *         questionnaire, value : the JSON description of the questionnaire
 	 */
     public Map<String, JSONObject> getQuestionnairesByOwner(String owner) throws Exception {
-        throw new Exception("Not implemented");
+        try {
+			Map<String, JSONObject> questionnaires = new HashMap<String, JSONObject>();
+        	this.initConnection();
+        	String queryString =
+        		"SELECT * FROM pogues WHERE data @> ?::jsonb";
+        	JSONObject param = new JSONObject();
+        	param.put("owner", owner);
+			prepStmt = connection.prepareStatement(queryString);
+			prepStmt.setString(1, param.toJSONString());
+			rs = prepStmt.executeQuery();
+			while(rs.next()){
+				questionnaires.put(rs.getString(1), (JSONObject)jsonParser.parse(rs.getString(2)));
+			}
+			return questionnaires;
+		} catch(SQLException e) {
+        	throw e;
+		} catch(Exception e) {
+        	throw e;
+		} finally {
+        	this.closeConnection();
+		}
     }
 
 	/**

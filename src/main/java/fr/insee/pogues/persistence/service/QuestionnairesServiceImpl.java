@@ -37,12 +37,15 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	 */
 	public Map<String, JSONObject> getQuestionnaireList() throws Exception {
 		try {
-			return questionnaireServiceQuery.getQuestionnaires();
+			Map<String, JSONObject> questionnaires = questionnaireServiceQuery.getQuestionnaires();
+			if(questionnaires.isEmpty()){
+				throw new PoguesException(404, "Not found", "Aucun questionnaire enregistré");
+			}
+			return questionnaires;
 		} catch(Exception e){
 			e.printStackTrace();
 			throw e;
 		}
-
 	}
 
 	public Map<String, JSONObject> getQuestionnairesByOwner(String owner)throws Exception {
@@ -52,7 +55,6 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 			e.printStackTrace();
 			throw e;
 		}
-
 	}
 
 	/**

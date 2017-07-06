@@ -13,6 +13,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -81,6 +82,37 @@ public class PoguesPersistence {
 
 	}
 
+    /**
+     * Gets the questionnaire
+     *
+     * @return Response code
+     *
+     *         200: description: Successful response
+     *
+     *         404: description: Questionnaire not found
+     *
+     */
+    @GET
+    @Path("questionnaires/search")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Get questionnaire",
+            notes = "Gets the questionnaire with id {id}",
+            response = String.class)
+    public Response getQuestionnaireByOwner(
+            @QueryParam("owner") String owner
+    ) throws Exception {
+        try {
+            Map<String, JSONObject> questionnaires = new HashMap<>();
+            if(null != owner){
+                questionnaires.putAll(this.questionnaireService.getQuestionnairesByOwner(owner));
+            }
+            logger.debug("XXXXX owner: " + owner);
+            return Response.status(Status.OK).entity(questionnaires).build();
+        } catch (Exception e) {
+            throw e;
+        }
+
+    }
 	
 	/**
 	 * Delete the questionnaire with id {id}
@@ -110,11 +142,12 @@ public class PoguesPersistence {
 	public Response deleteQuestionnaire(@PathParam(value = "id") String id) throws Exception {
 		try {
 			this.questionnaireService.deleteQuestionnaireByID(id);
+			logger.info("Questionnaire "+ id +" deleted");
+			return Response.status(Status.NO_CONTENT).build();
 		} catch (Exception e) {
 			throw e;
 		}
-		logger.info("Questionnaire "+ id +" deleted");
-		return Response.status(Status.NO_CONTENT).build();
+
 	}
 
 	@DELETE
@@ -124,13 +157,12 @@ public class PoguesPersistence {
 	public Response deleteAllQuestionnaires() throws Exception {
 		try {
 			this.questionnaireService.deleteAllQuestionnaires();
+			return Response.status(Status.NO_CONTENT).build();
 		} catch (Exception e) {
 			throw e;
 		}
-		return Response.status(Status.NO_CONTENT).build();
+
 	}
-
-
 
 
 	/**
@@ -151,16 +183,14 @@ public class PoguesPersistence {
 	@ApiOperation(value = "Get questionnaires",
     notes = "Gets the `QuestionnaireList` object",
     response = String.class)
-	public Response getQuestionnaireList() {
+	public Response getQuestionnaireList() throws Exception {
 		try {
 			Map<String, JSONObject> questionnaires = this.questionnaireService.getQuestionnaireList();
-			if ((questionnaires == null) || (questionnaires.size() == 0)) {
-				logger.info("QuestionnaireList not found, returning NOT_FOUND response");
-				return Response.status(Status.NOT_FOUND).build();
-			}
 			return Response.status(Status.OK).entity(questionnaires).build();
+		} catch(PoguesException e) {
+			throw e;
 		} catch(Exception e) {
-			return Response.status(Status.SERVICE_UNAVAILABLE).build();
+			throw e;
 		}
 
 	}
@@ -184,15 +214,14 @@ public class PoguesPersistence {
 	public Response updateQuestionnaire(JSONObject jsonContent) throws Exception {
         try {
 			this.questionnaireService.updateQuestionnaire(jsonContent);
+			String id = (String) jsonContent.get("id");
+			logger.info("Questionnaire "+ id +" created");
+			return Response.status(Status.NO_CONTENT).build();
         } catch(PoguesException e){
             throw e;
         } catch (Exception e) {
             throw e;
         }
-        String id = (String) jsonContent.get("id");
-		logger.info("Questionnaire "+ id +" created");
-		return Response.status(Status.NO_CONTENT).build();
-
 	}
 	
 
@@ -222,34 +251,18 @@ public class PoguesPersistence {
 	public Response createQuestionnaire(JSONObject jsonContent) throws Exception {
         try {
 			this.questionnaireService.createQuestionnaire(jsonContent);
-        } catch(PoguesException e){
+			//TODO return a generic uri
+			String id = (String) jsonContent.get("id");
+			String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
+			logger.info("New questionnaire created , uri :" + uriQuestionnaire);
+			return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();
+		} catch(PoguesException e){
             throw e;
         } catch (Exception e) {
 			throw e;
 		}
-		//TODO return a generic uri
-        String id = (String) jsonContent.get("id");
-		String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
-		logger.info("New questionnaire created , uri :" + uriQuestionnaire);
-		return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();	
 	}
 
-	/**
-	 * Creates or replaces the `QuestionnaireList` object.
-
-	 * @return 501: description: Not implemented
-	 */
-	@PUT
-	@Path("questionnaires")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "createOrReplaceQuestionnaireList",
-    notes = "Creates or replaces the `QuestionnaireList` object",
-    response = String.class)
-	public Response updateQuestionnaire(String jsonContent) {
-
-		return Response.status(Status.NOT_IMPLEMENTED).build();
-
-	}
 
 	@Autowired
 	public void setQuestionnaireService(QuestionnairesService questionnaireService) {
