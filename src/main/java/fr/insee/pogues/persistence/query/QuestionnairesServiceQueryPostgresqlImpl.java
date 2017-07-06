@@ -196,6 +196,25 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	}
 
 	/**
+	 * Dev only: utility method to clear db
+	 *
+	 *
+	 */
+	public void deleteAllQuestionnaires() throws Exception {
+		try {
+			this.initConnection();
+			prepStmt = connection.prepareStatement("DELETE FROM pogues");
+			prepStmt.execute();
+		} catch (SQLException e) {
+			logger.error("SQLException");
+			throw e;
+		} finally {
+			this.closeConnection();
+		}
+	}
+
+
+	/**
 	 * A method to get the `QuestionnaireList` with an owner in the database
 	 * 
 	 * @param owner

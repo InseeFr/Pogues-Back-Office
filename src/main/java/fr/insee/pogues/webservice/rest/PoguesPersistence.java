@@ -116,8 +116,22 @@ public class PoguesPersistence {
 		logger.info("Questionnaire "+ id +" deleted");
 		return Response.status(Status.NO_CONTENT).build();
 	}
-	
-	
+
+	@DELETE
+	@Path("questionnaires")
+	@ApiOperation(value = "Get questionnaire",
+			response = String.class)
+	public Response deleteAllQuestionnaires() throws Exception {
+		try {
+			this.questionnaireService.deleteAllQuestionnaires();
+		} catch (Exception e) {
+			throw e;
+		}
+		return Response.status(Status.NO_CONTENT).build();
+	}
+
+
+
 
 	/**
 	 * Gets the `QuestionnaireList` object.
@@ -231,7 +245,7 @@ public class PoguesPersistence {
 	@ApiOperation(value = "createOrReplaceQuestionnaireList",
     notes = "Creates or replaces the `QuestionnaireList` object",
     response = String.class)
-	public Response createOrReplaceQuestionnaireList(String jsonContent) {
+	public Response updateQuestionnaire(String jsonContent) {
 
 		return Response.status(Status.NOT_IMPLEMENTED).build();
 

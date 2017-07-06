@@ -18,7 +18,9 @@ public interface QuestionnairesServiceQuery {
 	public JSONObject getQuestionnaireByID(String id) throws Exception;
 	
 	public void deleteQuestionnaireByID(String id) throws Exception;
-	
+
+	public void deleteAllQuestionnaires() throws Exception;
+
 	public Map<String, JSONObject> getQuestionnairesByOwner(String owner) throws Exception;
 	
 	public void createOrReplaceQuestionnaire(String id, JSONObject questionnaire) throws Exception;

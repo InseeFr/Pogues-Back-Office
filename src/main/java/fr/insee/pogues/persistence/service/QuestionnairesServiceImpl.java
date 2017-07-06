@@ -86,6 +86,15 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 	}
 
+	public void deleteAllQuestionnaires() throws Exception {
+		try {
+			questionnaireServiceQuery.deleteAllQuestionnaires();
+		} catch(Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
+	}
+
 	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
 		try {
 			this.questionnaireServiceQuery.createQuestionnaire(questionnaire);
