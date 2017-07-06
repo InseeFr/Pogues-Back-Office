@@ -15,12 +15,12 @@ public interface UserServiceQuery {
 	 *
 	 * @return the Permissions List List<String>
 	 */
-	Map<String, String> getNameAndPermissionByID(String id);
+	Map<String, String> getNameAndPermissionByID(String id) throws Exception;
 	/**
 	 * A method to get the name and the permission by user ID
 	 *
 	 * @return the name and the permission in a map<String,String>
 	 */
-	List<String> getPermissions();
+	List<String> getPermissions() throws Exception;
 	
 }

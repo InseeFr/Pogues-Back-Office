@@ -85,7 +85,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 	}
 
 
-	public Map<String, String> getNameAndPermissionByID(String id) {
+	public Map<String, String> getNameAndPermissionByID(String id) throws Exception {
 		this.initConnection();
 		Map<String, String> attributes = new HashMap<>();
 		attributes.put("id", id);
@@ -108,6 +108,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 			}
 		} catch (NamingException e) {
 			e.printStackTrace();
+			throw e;
 		} finally {
 			this.closeConnection();
 		}
@@ -118,7 +119,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 	}
 
 
-	public List<String> getPermissions() {
+	public List<String> getPermissions() throws Exception{
 		this.initConnection();
 		List<String> permissions = new ArrayList<String>();
 
@@ -142,6 +143,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 			}
 		} catch (NamingException e) {
 			e.printStackTrace();
+			throw e;
 		} finally {
 			this.closeConnection();
 		}

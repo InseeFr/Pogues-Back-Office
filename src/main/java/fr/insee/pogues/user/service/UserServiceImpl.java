@@ -43,21 +43,20 @@ public class UserServiceImpl implements UserService {
 	}
 	
 
-	public Map<String, String> getNameAndPermission(HttpServletRequest request) {
+	public Map<String, String> getNameAndPermission(HttpServletRequest request) throws Exception {
 		try {
 			String id = request.getUserPrincipal().getName();
-			return this.userServiceQuery.getNameAndPermissionByID(id);
+			return userServiceQuery.getNameAndPermissionByID(id);
 		} catch(Exception e){
 			e.printStackTrace();
 			throw e;
 		}
-
-
 	}
+
 
 	public List<String> getPermissions() throws Exception {
 		try {
-			return this.userServiceQuery.getPermissions();
+			return userServiceQuery.getPermissions();
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;

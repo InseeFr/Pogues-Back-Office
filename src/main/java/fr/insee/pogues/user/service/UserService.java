@@ -21,7 +21,7 @@ public interface UserService {
      *
      * @return the user
      */
-    Map<String, String> getNameAndPermission(HttpServletRequest request);
+    Map<String, String> getNameAndPermission(HttpServletRequest request) throws Exception;
     /**
      * A method to list all available permissions
      *
