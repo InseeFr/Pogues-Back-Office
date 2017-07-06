@@ -1,8 +1,10 @@
 package fr.insee.pogues.rest.test;
 
+import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.http.ContentType;
 import fr.insee.pogues.rest.test.utils.RestAssuredConfig;
 import org.apache.log4j.Logger;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -29,6 +31,11 @@ public class TestPoguesUser {
     @BeforeClass
     public static void setUp() {
         RestAssuredConfig.configure();
+    }
+
+    @AfterClass
+    public static void tearDown(){
+        RestAssured.reset();
     }
 
     /**

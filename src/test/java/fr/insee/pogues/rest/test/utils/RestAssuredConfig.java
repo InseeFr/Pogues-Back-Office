@@ -30,4 +30,5 @@ public class RestAssuredConfig {
                 .get().sessionId();
         RestAssured.sessionId = sessionId;
     }
+
 }

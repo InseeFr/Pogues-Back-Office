@@ -3,6 +3,7 @@ package fr.insee.pogues.rest.test;
 import com.jayway.restassured.RestAssured;
 import fr.insee.pogues.rest.test.utils.RestAssuredConfig;
 import org.apache.log4j.Logger;
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -27,6 +28,11 @@ public class TestPoguesPersistence {
 	public static void setUp() {
         RestAssuredConfig.configure();
 	}
+
+    @AfterClass
+    public static void tearDown(){
+        RestAssured.reset();
+    }
 
 	/**
 	 * Dummy helloworld test, should return "Hello world"
