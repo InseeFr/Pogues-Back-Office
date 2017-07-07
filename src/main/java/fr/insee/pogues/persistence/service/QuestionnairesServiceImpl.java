@@ -3,6 +3,7 @@ package fr.insee.pogues.persistence.service;
 import fr.insee.pogues.persistence.query.EntityNotFoundException;
 import fr.insee.pogues.persistence.query.NonUniqueResultException;
 import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
+import fr.insee.pogues.user.query.UserServiceQuery;
 import fr.insee.pogues.utils.json.JSONFunctions;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.apache.log4j.Logger;
@@ -30,6 +31,9 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	@Autowired
 	private QuestionnairesServiceQuery questionnaireServiceQuery;
 
+	@Autowired
+	private UserServiceQuery userServiceQuery;
+
 
 	/**
 	 * A method to get the `QuestionnaireList` object in the database
@@ -49,8 +53,14 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 	}
 
-	public Map<String, JSONObject> getQuestionnairesByOwner(String owner)throws Exception {
+	public Map<String, JSONObject> getQuestionnairesByOwner(String id)throws Exception {
 		try {
+			String owner = userServiceQuery
+					.getNameAndPermissionByID(id)
+					.get("permission");
+			if(null == owner || owner.isEmpty()){
+				throw new PoguesException(503, "Service unavailable", "This user has no permission defined");
+			}
 			return questionnaireServiceQuery.getQuestionnairesByOwner(owner);
 		} catch (Exception e) {
 			e.printStackTrace();
