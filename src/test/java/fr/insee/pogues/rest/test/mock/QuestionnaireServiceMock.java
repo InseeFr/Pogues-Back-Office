@@ -3,8 +3,8 @@ package fr.insee.pogues.rest.test.mock;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import org.json.simple.JSONObject;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -13,37 +13,34 @@ import java.util.stream.Collectors;
 
 public class QuestionnaireServiceMock implements QuestionnairesService {
 
-    private Map<String, JSONObject> db;
+    private List<JSONObject> db;
 
     public QuestionnaireServiceMock(){
-        db = new HashMap<>();
+        db = new ArrayList<>();
         JSONObject questionnaire = createMockQuestionnaire();
-        db.put((String)questionnaire.get("id"), questionnaire);
+        db.add(questionnaire);
     }
 
     @Override
-    public Map<String, JSONObject> getQuestionnaireList() throws Exception {
+    public List<JSONObject> getQuestionnaireList() throws Exception {
         return db;
     }
 
     @Override
-    public Map<String, JSONObject> getQuestionnairesByOwner(String owner) throws Exception {
-        return db.entrySet()
+    public List<JSONObject> getQuestionnairesByOwner(String owner) throws Exception {
+        return db
                 .stream()
-                .filter(entry-> entry.getKey() == "owner")
-                .filter(entry-> entry.getValue().get("owner") == owner)
-                .collect(Collectors.toMap(entry-> entry.getKey(), entry -> entry.getValue()));
+                .filter(entry-> entry.get("owner") == owner)
+                .collect(Collectors.toList());
     }
 
     @Override
     public JSONObject getQuestionnaireByID(String id) throws Exception {
-        return db.get(id);
+        return null;
     }
 
     @Override
     public void deleteQuestionnaireByID(String id) throws Exception {
-        db.remove(id);
-
     }
 
     @Override
@@ -53,12 +50,11 @@ public class QuestionnaireServiceMock implements QuestionnairesService {
 
     @Override
     public void createQuestionnaire(JSONObject questionnaire) throws Exception {
-        db.put((String)questionnaire.get("id"), questionnaire);
+        db.add(questionnaire);
     }
 
     @Override
     public void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception {
-        db.put(id, questionnaire);
     }
 
     public JSONObject createMockQuestionnaire(){

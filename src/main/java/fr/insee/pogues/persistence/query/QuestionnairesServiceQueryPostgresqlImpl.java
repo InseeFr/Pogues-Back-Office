@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.sql.*;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * Questionnaire Service Query for the Postgresql implementation to assume the
@@ -116,14 +114,14 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 * @return the questionnaires list Map<String,String>, key : the id of the
 	 *         questionnaire, value : the JSON description of the questionnaire
 	 */
-	public Map<String, JSONObject> getQuestionnaires() throws Exception{
+	public List<JSONObject> getQuestionnaires() throws Exception{
 
-		Map<String, JSONObject> questionnaires = new HashMap<String, JSONObject>();
+		List<JSONObject> questionnaires = new ArrayList<>();
 		try {
 			this.initConnection();
 			rs = stmt.executeQuery("SELECT * FROM pogues");
 			while (rs.next()) {
-				questionnaires.put(rs.getString(1), (JSONObject)jsonParser.parse(rs.getString(2)));
+				questionnaires.add((JSONObject)jsonParser.parse(rs.getString(2)));
 			}
 		} catch (SQLException e) {
 			logger.error("SQLException");
@@ -134,10 +132,6 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		} finally {
 			this.closeConnection();
 		}
-		/* TODO: add integrity constraints to prohibit creating objects without ID
-		 *  -> Then remove next line
-		 */
-        questionnaires.keySet().removeIf(Objects::isNull);
 		return questionnaires;
 
 	}
@@ -222,9 +216,9 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 * @return the questionnaires list Map<String,String>, key : the id of the
 	 *         questionnaire, value : the JSON description of the questionnaire
 	 */
-    public Map<String, JSONObject> getQuestionnairesByOwner(String owner) throws Exception {
+    public List<JSONObject> getQuestionnairesByOwner(String owner) throws Exception {
         try {
-			Map<String, JSONObject> questionnaires = new HashMap<String, JSONObject>();
+			List<JSONObject> questionnaires = new ArrayList<>();
         	this.initConnection();
         	String queryString =
         		"SELECT * FROM pogues WHERE data @> ?::jsonb";
@@ -234,7 +228,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			prepStmt.setString(1, param.toJSONString());
 			rs = prepStmt.executeQuery();
 			while(rs.next()){
-				questionnaires.put(rs.getString(1), (JSONObject)jsonParser.parse(rs.getString(2)));
+				questionnaires.add((JSONObject)jsonParser.parse(rs.getString(2)));
 			}
 			return questionnaires;
 		} catch(SQLException e) {
