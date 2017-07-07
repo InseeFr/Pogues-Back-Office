@@ -11,6 +11,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -40,9 +41,9 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	 *
 	 * @return the questionnaires list JSON description of the questionnaires
 	 */
-	public Map<String, JSONObject> getQuestionnaireList() throws Exception {
+	public List<JSONObject> getQuestionnaireList() throws Exception {
 		try {
-			Map<String, JSONObject> questionnaires = questionnaireServiceQuery.getQuestionnaires();
+			List<JSONObject> questionnaires = questionnaireServiceQuery.getQuestionnaires();
 			if(questionnaires.isEmpty()){
 				throw new PoguesException(404, "Not found", "Aucun questionnaire enregistré");
 			}
@@ -53,7 +54,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 	}
 
-	public Map<String, JSONObject> getQuestionnairesByOwner(String id)throws Exception {
+	public List<JSONObject> getQuestionnairesByOwner(String id)throws Exception {
 		try {
 			String owner = userServiceQuery
 					.getNameAndPermissionByID(id)

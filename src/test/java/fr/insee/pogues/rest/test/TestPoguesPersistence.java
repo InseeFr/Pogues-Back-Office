@@ -110,7 +110,7 @@ public class TestPoguesPersistence {
                 .get("/pogues/persistence/questionnaires/search")
                 .body()
                 .jsonPath()
-                .getMap("$")
+                .getList("$")
                 .size();
 //        assertNotEquals(listSize, 0);
     }

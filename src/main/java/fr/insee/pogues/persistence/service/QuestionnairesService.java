@@ -2,13 +2,14 @@ package fr.insee.pogues.persistence.service;
 
 import org.json.simple.JSONObject;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by acordier on 05/07/17.
  */
 public interface QuestionnairesService {
-    Map<String, JSONObject> getQuestionnaireList() throws Exception;
+
+    List<JSONObject> getQuestionnaireList() throws Exception;
 
     /**
      *
@@ -16,7 +17,7 @@ public interface QuestionnairesService {
      * @return A collection of questionnaire objects mapped to their id
      * @throws Exception
      */
-    Map<String, JSONObject> getQuestionnairesByOwner(String id)throws Exception;
+    List<JSONObject> getQuestionnairesByOwner(String id)throws Exception;
 
     /**
      *

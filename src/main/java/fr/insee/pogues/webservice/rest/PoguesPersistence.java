@@ -11,7 +11,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -94,9 +95,9 @@ public class PoguesPersistence {
             @QueryParam("owner") String owner
     ) throws Exception {
         try {
-            Map<String, JSONObject> questionnaires = new HashMap<>();
+			List<JSONObject> questionnaires = new ArrayList<>();
             if(null != owner){
-                questionnaires.putAll(questionnaireService.getQuestionnairesByOwner(owner));
+                questionnaires.addAll(questionnaireService.getQuestionnairesByOwner(owner));
             }
             return Response.status(Status.OK).entity(questionnaires).build();
         } catch (Exception e) {
@@ -161,7 +162,7 @@ public class PoguesPersistence {
     })
 	public Response getQuestionnaireList() throws Exception {
 		try {
-			Map<String, JSONObject> questionnaires = questionnaireService.getQuestionnaireList();
+			List<JSONObject> questionnaires = questionnaireService.getQuestionnaireList();
 			return Response.status(Status.OK).entity(questionnaires).build();
 		} catch(PoguesException e) {
 			throw e;
