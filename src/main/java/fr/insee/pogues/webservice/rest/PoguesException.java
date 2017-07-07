@@ -1,9 +1,11 @@
 package fr.insee.pogues.webservice.rest;
 
+import java.io.IOException;
+
 /**
  * Created by acordier on 04/07/17.
  */
-public class PoguesException extends Exception {
+public class PoguesException extends IOException {
 
     private int status;
     private String details;

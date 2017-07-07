@@ -1,10 +1,10 @@
 package fr.insee.pogues.user.service;
 
+import fr.insee.pogues.user.model.User;
 import org.json.simple.JSONObject;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by acordier on 05/07/17.
@@ -21,7 +21,7 @@ public interface UserService {
      *
      * @return the user
      */
-    Map<String, String> getNameAndPermission(HttpServletRequest request);
+    User getNameAndPermission(HttpServletRequest request) throws Exception;
     /**
      * A method to list all available permissions
      *
