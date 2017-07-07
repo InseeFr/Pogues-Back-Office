@@ -51,5 +51,5 @@ public interface QuestionnairesService {
      * @param questionnaire
      * @throws Exception
      */
-    void updateQuestionnaire(JSONObject questionnaire) throws Exception;
+    void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception;
 }

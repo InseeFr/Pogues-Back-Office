@@ -295,6 +295,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
 	    String id  = (String)questionnaire.get("id");
+	    logger.debug("XXX " + id);
         try {
             if(!this.getQuestionnaireByID(id).isEmpty()){
                 throw new NonUniqueResultException("Entity already exists");
@@ -314,8 +315,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		}
     }
 
-    public void updateQuestionnaire(JSONObject questionnaire) throws Exception {
-        String id  = (String)questionnaire.get("id");
+    public void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception {
         try {
             if(this.getQuestionnaireByID(id).isEmpty()){
                 throw new EntityNotFoundException("Not found");

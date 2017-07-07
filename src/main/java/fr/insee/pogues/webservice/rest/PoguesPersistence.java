@@ -174,7 +174,7 @@ public class PoguesPersistence {
 	
 
 	@PUT
-	@Path("questionnaire")
+	@Path("questionnaire/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 	        value = "Update questionnaire",
@@ -184,11 +184,10 @@ public class PoguesPersistence {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 404, message = "Not found")
     })
-	public Response updateQuestionnaire(JSONObject jsonContent) throws Exception {
+	public Response updateQuestionnaire(@PathParam(value = "id") String id, JSONObject jsonContent) throws Exception {
         try {
-			questionnaireService.updateQuestionnaire(jsonContent);
-			String id = (String) jsonContent.get("id");
-			logger.info("Questionnaire "+ id +" created");
+			questionnaireService.updateQuestionnaire(id, jsonContent);
+			logger.info("Questionnaire "+ id +" updated");
 			return Response.status(Status.NO_CONTENT).build();
         } catch(PoguesException e){
             throw e;

@@ -120,9 +120,9 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 	}
 
-	public void updateQuestionnaire(JSONObject questionnaire) throws Exception {
+	public void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception {
 		try {
-			this.questionnaireServiceQuery.updateQuestionnaire(questionnaire);
+			this.questionnaireServiceQuery.updateQuestionnaire(id, questionnaire);
 		} catch(EntityNotFoundException e) {
 			logger.error(e.getMessage());
 			throw new PoguesException(404, "Not found", e.getMessage());
