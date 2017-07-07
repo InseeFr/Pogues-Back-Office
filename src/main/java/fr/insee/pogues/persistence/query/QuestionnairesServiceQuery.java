@@ -27,7 +27,7 @@ public interface QuestionnairesServiceQuery {
 
 	public void createQuestionnaire(JSONObject questionnaire) throws Exception;
 
-	public void updateQuestionnaire(JSONObject questionnaire) throws Exception;
+	public void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception;
 
 
 }

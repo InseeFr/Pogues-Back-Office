@@ -69,6 +69,21 @@ public class TestPoguesUser {
         assertEquals(id, RestAssuredConfig.jUsername);
     }
 
+    @Test
+    public void getAttributes(){
+        logger.debug(
+                "Trying to reach /Pogues-BO/pogues/user/id with Status = 200");
+        String id = expect()
+                .statusCode(200)
+                .contentType(MediaType.APPLICATION_JSON)
+                .when()
+                .get(String.format("/pogues/user/attributes/%", RestAssuredConfig.jUsername))
+                .body()
+                .jsonPath()
+                .get("id");
+        assertEquals(id, RestAssuredConfig.jUsername);
+    }
+
     /**
      * getPermissions test
      */

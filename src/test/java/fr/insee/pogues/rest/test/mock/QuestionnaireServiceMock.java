@@ -57,8 +57,8 @@ public class QuestionnaireServiceMock implements QuestionnairesService {
     }
 
     @Override
-    public void updateQuestionnaire(JSONObject questionnaire) throws Exception {
-        db.put((String)questionnaire.get("id"), questionnaire);
+    public void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception {
+        db.put(id, questionnaire);
     }
 
     public JSONObject createMockQuestionnaire(){
