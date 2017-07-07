@@ -16,7 +16,11 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User Service Query for the LDAP implementation to assume the identity service
@@ -46,6 +50,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 	private String ldapPermissionName;
 	private String ldapPermissionDescription;
 	private String ldapPermissionOther;
+	private String ldapPermissionRegex;
 
 	@Autowired
 	private Environment env;
@@ -64,6 +69,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 		ldapPermissionOther = env.getProperty("fr.insee.pogues.permission.ldap.permission.other");
 		ldapPermissions = env.getProperty("fr.insee.pogues.permission.ldap.user.permission");
 		ldapPermissionFilter = env.getProperty("fr.insee.pogues.permission.ldap.permission.filtre");
+		ldapPermissionRegex = env.getProperty("fr.insee.pogues.permission.ldap.user.permission.regex");
 	}
 
 	public void initConnection(){
@@ -108,8 +114,12 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 				SearchResult entree = results.next();
 				name = entree.getAttributes().get(ldapUserCommonName).get().toString();
 				permission = entree.getAttributes().get(ldapPermissions).get().toString();
-				// TODO Fix it with a regex
-				permission = permission.split(",")[0].split("=")[1];
+				Matcher matcher = Pattern
+						.compile(ldapPermissionRegex)
+						.matcher(permission);
+				if(matcher.find()){
+					permission = matcher.group(1);
+				}
 				firstName = entree.getAttributes().get(ldapUserGivenName).get().toString();
 				lastName = entree.getAttributes().get(ldapUserSn).get().toString();
 			}
