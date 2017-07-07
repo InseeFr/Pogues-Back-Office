@@ -37,7 +37,7 @@ public class OwnerSpecificFilter implements ContainerRequestFilter {
             }
             String permission = userServiceQuery
                     .getNameAndPermissionByID(principal.getName())
-                    .get("permission");
+                    .getPermission();
             if (null == permission || !permission.equals(json.get("owner"))) {
                 throw new PoguesException(403, "Unauthorized", "This object is not yours");
             }

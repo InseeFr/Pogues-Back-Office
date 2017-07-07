@@ -1,5 +1,6 @@
 package fr.insee.pogues.webservice.rest;
 
+import fr.insee.pogues.user.model.User;
 import fr.insee.pogues.user.service.UserService;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
@@ -15,7 +16,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-import java.util.Map;
 
 /**
  * WebService class for the Identity Service
@@ -95,8 +95,8 @@ public class PoguesUser {
     })
     public Response getAttribute() throws Exception {
         try {
-            Map<String, String> result = userService.getNameAndPermission(request);
-            return Response.status(Status.OK).entity(result).build();
+            User user = userService.getNameAndPermission(request);
+            return Response.status(Status.OK).entity(user).build();
         } catch(Exception e){
             throw e;
         }

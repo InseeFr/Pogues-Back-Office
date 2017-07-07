@@ -1,5 +1,6 @@
 package fr.insee.pogues.user.service;
 
+import fr.insee.pogues.user.model.User;
 import fr.insee.pogues.user.query.UserServiceQuery;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.apache.log4j.Logger;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Service;
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 /**
  * User Service to assume the identity service of Pogues UI in JSON
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 
-	public Map<String, String> getNameAndPermission(HttpServletRequest request) throws Exception {
+	public User getNameAndPermission(HttpServletRequest request) throws Exception {
 		try {
 			String id = request.getUserPrincipal().getName();
 			return userServiceQuery.getNameAndPermissionByID(id);

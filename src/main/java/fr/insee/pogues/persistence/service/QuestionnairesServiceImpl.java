@@ -57,7 +57,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		try {
 			String owner = userServiceQuery
 					.getNameAndPermissionByID(id)
-					.get("permission");
+					.getPermission();
 			if(null == owner || owner.isEmpty()){
 				throw new PoguesException(503, "Service unavailable", "This user has no permission defined");
 			}
