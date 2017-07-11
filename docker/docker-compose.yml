@@ -1,0 +1,14 @@
+version: "2"
+
+services:
+  ldap:
+    build: ./ldap
+    volumes:
+     - ./ldap/data:/var/lib/ldap
+     - ./ldap/config:/etc/ldap/slapd.d
+    ports:
+      - "1389:389"
+  postgresql:
+    build: ./postgresql
+    ports:
+      - "15432:5432"
