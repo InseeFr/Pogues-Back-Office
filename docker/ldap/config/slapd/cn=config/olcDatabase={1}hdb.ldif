@@ -1,0 +1,31 @@
+# AUTO-GENERATED FILE - DO NOT EDIT!! Use ldapmodify.
+# CRC32 44bbaece
+dn: olcDatabase={1}hdb
+objectClass: olcDatabaseConfig
+objectClass: olcHdbConfig
+olcDatabase: {1}hdb
+olcDbDirectory: /var/lib/ldap
+olcLastMod: TRUE
+olcRootPW:: e1NTSEF9Yno2NzZja0N2a2lMZjA4VCthRFFBVWpmZkpsVEwwSSs=
+olcDbCheckpoint: 512 30
+olcDbConfig: {0}set_cachesize 0 2097152 0
+olcDbConfig: {1}set_lk_max_objects 1500
+olcDbConfig: {2}set_lk_max_locks 1500
+olcDbConfig: {3}set_lk_max_lockers 1500
+structuralObjectClass: olcHdbConfig
+entryUUID: d322e998-fa7e-1036-8ee3-1f80f95ec340
+creatorsName: cn=admin,cn=config
+createTimestamp: 20170711121843Z
+olcDbIndex: uid eq
+olcDbIndex: mail eq
+olcDbIndex: memberOf eq
+olcDbIndex: entryCSN eq
+olcDbIndex: entryUUID eq
+olcDbIndex: objectClass eq
+olcSuffix: o=insee,c=fr
+olcRootDN: cn=admin,o=insee,c=fr
+olcAccess: {0}to * by dn.base="gidNumber=0+uidNumber=0,cn=peercred,cn=extern
+ al,cn=auth" write by dn.base="cn=admin,o=insee,c=fr" write by * none
+entryCSN: 20170711121856.222410Z#000000#000#000000
+modifiersName: cn=admin,cn=config
+modifyTimestamp: 20170711121856Z

@@ -7,7 +7,7 @@ ENV POSTGRES_USER pogues
 ENV POSTGRES_PASSWORD pogues
 ENV POSTGRES_DB pogues
 
-COPY data.sql /docker-entrypoint-initdb.d/
+COPY db/data.sql /docker-entrypoint-initdb.d/
 
 #ENTRYPOINT ["/docker-entrypoint.sh"]
 
