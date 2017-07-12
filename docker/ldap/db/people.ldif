@@ -1,0 +1,36 @@
+dn: uid=SRMTXN,ou=people,o=insee,c=fr
+objectClass: inetOrgPerson
+objectClass: person
+objectClass: organizationalPerson
+objectClass: top
+cn: Bichler Guillaume
+givenName: Guillaume
+mail: guillaume.bichler@openstack.org
+sn: Bichler
+uid: SRMTXN
+memberof: cn=DG75-L120,ou=groups,o=insee,c=fr
+
+dn: uid=ETGAIL,ou=people,o=insee,c=fr
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Duffes Guillaume
+givenName: Guillaume
+mail: guillaume.duffes@openstack.org
+sn: Duffes
+uid: ETGAIL
+memberof: cn=DG75-L120,ou=groups,o=insee,c=fr
+
+
+dn: uid=D5WQNO,ou=people,o=insee,c=fr
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Koumarianos Heidi
+givenName:: SGXDr2Rp
+mail: heidi.koumarianos@openstack.org
+sn: Koumarianos
+uid: D5WQNO
+memberof: cn=DG75-L120,ou=groups,o=insee,c=fr
