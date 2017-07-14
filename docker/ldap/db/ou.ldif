@@ -2,12 +2,17 @@ dn: o=insee,c=fr
 objectClass: organization
 o: I.N.S.E.E.
 
-dn: ou=people,o=insee,c=fr
-ou: people
+dn: ou=Personnes,o=insee,c=fr
+ou: Personnes
 objectClass: top
 objectclass: organizationalunit
 
 dn: ou=groups,o=insee,c=fr
 ou: groups
+objectClass: top
+objectclass: organizationalunit
+
+dn: ou=Applications,o=insee,c=fr
+ou: Applications
 objectClass: top
 objectclass: organizationalunit
