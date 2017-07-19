@@ -29,7 +29,7 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login*").permitAll()
-                .anyRequest().fullyAuthenticated()
+                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .usernameParameter("username")
