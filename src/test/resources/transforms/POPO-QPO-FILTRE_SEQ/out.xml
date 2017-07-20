@@ -1,0 +1,1610 @@
+<DDIInstance xmlns:pr="ddi:ddiprofile:3_2" xmlns:c="ddi:conceptualcomponent:3_2" xmlns:d="ddi:datacollection:3_2" xmlns:g="ddi:group:3_2" xmlns:cm="ddi:comparative:3_2" xmlns:l="ddi:logicalproduct:3_2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:pogues="http://xml.insee.fr/schema/applis/pogues" xmlns:r="ddi:reusable:3_2" xmlns:s="ddi:studyunit:3_2">
+    <r:Agency>fr.insee</r:Agency>
+    <r:ID>INSEE-FILTRE_SEQ</r:ID>
+    <r:Version>0.1.0</r:Version>
+    <r:Citation>
+        <r:Title>
+            <r:String xml:lang="fr-FR">De Pogues vers ENO : DDI déréférencé</r:String>
+            <r:String xml:lang="en-IE">From Pogues to ENO: dereferenced DDI</r:String>
+        </r:Title>
+    </r:Citation>
+    <s:StudyUnit>
+        <r:Agency>fr.insee</r:Agency>
+        <r:ID>INSEE-FILTRE_SEQ-SU</r:ID>
+        <r:Version>0.1.0</r:Version>
+        <d:Instrument xmlns="ddi:studyunit:3_2" xmlns:a="ddi:archive:3_2">
+            <r:Agency>fr.insee</r:Agency>
+            <r:ID>v1</r:ID>
+            <r:Version>0.1.0</r:Version>
+            <r:Label>
+                <r:Content xml:lang="fr-FR">Questionnaire DDI 3.2 déréférencé de
+                            Pogues</r:Content>
+            </r:Label>
+            <d:TypeOfInstrument>DDI XFORMS</d:TypeOfInstrument>
+            <d:ControlConstructReference>
+                <r:Agency>fr.insee</r:Agency>
+                <d:Sequence xmlns="ddi:instance:3_2">
+                    <r:Agency>fr.insee</r:Agency>
+                    <r:ID>INSEE-FILTRE_SEQ-SEQ</r:ID>
+                    <r:Version>0.1.0</r:Version>
+                    <r:Label>
+                        <r:Content>Questionnaire élémentaire pour tester les goto séquences ultérieures</r:Content>
+                    </r:Label>
+                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Modele</d:TypeOfSequence>
+                    <d:ControlConstructReference xmlns="">
+                        <r:Agency>fr.insee</r:Agency>
+                        <d:Sequence>
+                            <r:Agency>fr.insee</r:Agency>
+                            <r:ID>INSEE-FILTRE_SEQ-SEQ-1</r:ID>
+                            <r:Version>0.1.0</r:Version>
+                            <r:Label>
+                                <r:Content xml:lang="fr-FR">Votre usage personnel d’internet</r:Content>
+                            </r:Label>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                            <d:ControlConstructReference>
+                                <r:Agency>fr.insee</r:Agency>
+                                <d:QuestionConstruct>
+                                    <r:Agency>fr.insee</r:Agency>
+                                    <r:ID>INSEE-FILTRE_SEQ-QC-1-1</r:ID>
+                                    <r:Version>0.1.0</r:Version>
+                                    <r:QuestionReference>
+                                        <r:Agency>fr.insee</r:Agency>
+                                        <d:QuestionItem>
+                                            <r:Agency>fr.insee</r:Agency>
+                                            <r:ID>INSEE-FILTRE_SEQ-QI-1-1</r:ID>
+                                            <r:Version>0.1.0</r:Version>
+                                            <r:OutParameter isArray="false">
+                                                <r:Agency>fr.insee</r:Agency>
+                                                <r:ID>INSEE-FILTRE_SEQ-QOP-1-1-1</r:ID>
+                                                <r:Version>0.1.0</r:Version>
+                                                <r:ParameterName>
+                                                    <r:String xml:lang="fr-FR">NUSEWEB</r:String>
+                                                </r:ParameterName>
+                                            </r:OutParameter>
+                                            <r:Binding>
+                                                <r:SourceParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-1-1-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                </r:SourceParameterReference>
+                                                <r:TargetParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-1-1-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                </r:TargetParameterReference>
+                                            </r:Binding>
+                                            <d:QuestionText>
+                                                <d:LiteralText>
+                                                    <d:Text xml:lang="fr-FR">Personnellement, quand avez-vous utilisé internet pour la dernière fois&#160;? (quel que soit le lieu ou le type d’accès)</d:Text>
+                                                </d:LiteralText>
+                                            </d:QuestionText>
+                                            <d:CodeDomain>
+                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                <r:CodeListReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <l:CodeList>
+                                                        <r:Agency>fr.insee</r:Agency>
+                                                        <r:ID>INSEE-FILTRE_SEQ-CL-L_NUSEWEB</r:ID>
+                                                        <r:Version>0.1.0</r:Version>
+                                                        <r:Label>
+                                                            <r:Content xml:lang="fr-FR">L_NUSEWEB</r:Content>
+                                                        </r:Label>
+                                                        <l:HierarchyType>Regular</l:HierarchyType>
+                                                        <l:Level levelNumber="1">
+                                                            <l:CategoryRelationship>Ordinal</l:CategoryRelationship>
+                                                        </l:Level>
+                                                        <l:Code levelNumber="1" isDiscrete="true">
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-CL-L_NUSEWEB-1</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:CategoryReference>
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <l:Category>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-CA-L_NUSEWEB-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:Label>
+                                                                        <r:Content xml:lang="fr-FR">Au cours des trois derniers mois</r:Content>
+                                                                    </r:Label>
+                                                                </l:Category>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:TypeOfObject>Category</r:TypeOfObject>
+                                                            </r:CategoryReference>
+                                                            <r:Value>1</r:Value>
+                                                        </l:Code>
+                                                        <l:Code levelNumber="1" isDiscrete="true">
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-CL-L_NUSEWEB-2</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:CategoryReference>
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <l:Category>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-CA-L_NUSEWEB-2</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:Label>
+                                                                        <r:Content xml:lang="fr-FR">Entre trois mois et un an</r:Content>
+                                                                    </r:Label>
+                                                                </l:Category>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:TypeOfObject>Category</r:TypeOfObject>
+                                                            </r:CategoryReference>
+                                                            <r:Value>2</r:Value>
+                                                        </l:Code>
+                                                        <l:Code levelNumber="1" isDiscrete="true">
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-CL-L_NUSEWEB-3</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:CategoryReference>
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <l:Category>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-CA-L_NUSEWEB-3</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:Label>
+                                                                        <r:Content xml:lang="fr-FR">Il y a plus d’un an</r:Content>
+                                                                    </r:Label>
+                                                                </l:Category>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:TypeOfObject>Category</r:TypeOfObject>
+                                                            </r:CategoryReference>
+                                                            <r:Value>3</r:Value>
+                                                        </l:Code>
+                                                        <l:Code levelNumber="1" isDiscrete="true">
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-CL-L_NUSEWEB-4</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:CategoryReference>
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <l:Category>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-CA-L_NUSEWEB-4</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:Label>
+                                                                        <r:Content xml:lang="fr-FR">Vous n’avez jamais utilisé internet</r:Content>
+                                                                    </r:Label>
+                                                                </l:Category>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:TypeOfObject>Category</r:TypeOfObject>
+                                                            </r:CategoryReference>
+                                                            <r:Value>4</r:Value>
+                                                        </l:Code>
+                                                    </l:CodeList>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>CodeList</r:TypeOfObject>
+                                                </r:CodeListReference>
+                                                <r:OutParameter isArray="false">
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-1-1-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:CodeRepresentation>
+                                                        <r:CodeListReference>
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-CL-L_NUSEWEB</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:TypeOfObject>CodeList</r:TypeOfObject>
+                                                        </r:CodeListReference>
+                                                    </r:CodeRepresentation>
+                                                </r:OutParameter>
+                                                <r:ResponseCardinality maximumResponses="1"/>
+                                            </d:CodeDomain>
+                                        </d:QuestionItem>
+                                        <r:Version>0.1.0</r:Version>
+                                        <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+                                    </r:QuestionReference>
+                                </d:QuestionConstruct>
+                                <r:Version>0.1.0</r:Version>
+                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                            </d:ControlConstructReference>
+                            <d:ControlConstructReference>
+                                <r:Agency>fr.insee</r:Agency>
+                                <d:IfThenElse>
+                                    <r:Agency>fr.insee</r:Agency>
+                                    <r:ID>INSEE-FILTRE_SEQ-ITE-1</r:ID>
+                                    <r:Version>0.1.0</r:Version>
+                                    <d:IfCondition>
+                                        <r:Command>
+                                            <r:ProgramLanguage>xpath</r:ProgramLanguage>
+                                            <r:InParameter isArray="false">
+                                                <r:Agency>fr.insee</r:Agency>
+                                                <r:ID>INSEE-FILTRE_SEQ-ITEIP-1-1</r:ID>
+                                                <r:Version>0.1.0</r:Version>
+                                                <r:ParameterName>
+                                                    <r:String xml:lang="fr-FR"/>
+                                                </r:ParameterName>
+                                            </r:InParameter>
+                                            <r:Binding>
+                                                <r:SourceParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-1-1-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                </r:SourceParameterReference>
+                                                <r:TargetParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-ITEIP-1-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>InParameter</r:TypeOfObject>
+                                                </r:TargetParameterReference>
+                                            </r:Binding>
+                                            <r:CommandContent>not (INSEE-FILTRE_SEQ-ITEIP-1-1='4')</r:CommandContent>
+                                        </r:Command>
+                                    </d:IfCondition>
+                                    <d:ThenConstructReference>
+                                        <r:Agency>fr.insee</r:Agency>
+                                        <d:Sequence>
+                                            <r:Agency>fr.insee</r:Agency>
+                                            <r:ID>INSEE-FILTRE_SEQ-SEQI-1</r:ID>
+                                            <r:Version>0.1.0</r:Version>
+                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                            <d:ControlConstructReference>
+                                                <r:Agency>fr.insee</r:Agency>
+                                                <d:IfThenElse>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-ITE-2</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <d:IfCondition>
+                                                        <r:Command>
+                                                            <r:ProgramLanguage>xpath</r:ProgramLanguage>
+                                                            <r:InParameter isArray="false">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-ITEIP-2-1</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:ParameterName>
+                                                                    <r:String xml:lang="fr-FR"/>
+                                                                </r:ParameterName>
+                                                            </r:InParameter>
+                                                            <r:Binding>
+                                                                <r:SourceParameterReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-1-1-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                </r:SourceParameterReference>
+                                                                <r:TargetParameterReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-ITEIP-2-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>InParameter</r:TypeOfObject>
+                                                                </r:TargetParameterReference>
+                                                            </r:Binding>
+                                                            <r:CommandContent>not (INSEE-FILTRE_SEQ-ITEIP-2-1='3')</r:CommandContent>
+                                                        </r:Command>
+                                                    </d:IfCondition>
+                                                    <d:ThenConstructReference>
+                                                        <r:Agency>fr.insee</r:Agency>
+                                                        <d:Sequence>
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-SEQI-2</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                            <d:ControlConstructReference>
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <d:IfThenElse>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-ITE-3</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <d:IfCondition>
+                                                                        <r:Command>
+                                                                            <r:ProgramLanguage>xpath</r:ProgramLanguage>
+                                                                            <r:InParameter isArray="false">
+                                                                                <r:Agency>fr.insee</r:Agency>
+                                                                                <r:ID>INSEE-FILTRE_SEQ-ITEIP-3-1</r:ID>
+                                                                                <r:Version>0.1.0</r:Version>
+                                                                                <r:ParameterName>
+                                                                                    <r:String xml:lang="fr-FR"/>
+                                                                                </r:ParameterName>
+                                                                            </r:InParameter>
+                                                                            <r:Binding>
+                                                                                <r:SourceParameterReference>
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-1-1-1</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                                </r:SourceParameterReference>
+                                                                                <r:TargetParameterReference>
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-ITEIP-3-1</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:TypeOfObject>InParameter</r:TypeOfObject>
+                                                                                </r:TargetParameterReference>
+                                                                            </r:Binding>
+                                                                            <r:CommandContent>not (INSEE-FILTRE_SEQ-ITEIP-3-1='2')</r:CommandContent>
+                                                                        </r:Command>
+                                                                    </d:IfCondition>
+                                                                    <d:ThenConstructReference>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <d:Sequence>
+                                                                            <r:Agency>fr.insee</r:Agency>
+                                                                            <r:ID>INSEE-FILTRE_SEQ-SEQI-3</r:ID>
+                                                                            <r:Version>0.1.0</r:Version>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:ControlConstructReference>
+                                                                                <r:Agency>fr.insee</r:Agency>
+                                                                                <d:QuestionConstruct>
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-QC-1-2</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:QuestionReference>
+                                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                                        <d:QuestionItem>
+                                                                                            <r:Agency>fr.insee</r:Agency>
+                                                                                            <r:ID>INSEE-FILTRE_SEQ-QI-1-2</r:ID>
+                                                                                            <r:Version>0.1.0</r:Version>
+                                                                                            <r:OutParameter isArray="false">
+                                                                                                <r:Agency>fr.insee</r:Agency>
+                                                                                                <r:ID>INSEE-FILTRE_SEQ-QOP-1-2-1</r:ID>
+                                                                                                <r:Version>0.1.0</r:Version>
+                                                                                                <r:ParameterName>
+                                                                                                    <r:String xml:lang="fr-FR">USEWEB</r:String>
+                                                                                                </r:ParameterName>
+                                                                                            </r:OutParameter>
+                                                                                            <r:Binding>
+                                                                                                <r:SourceParameterReference>
+                                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-1-2-1</r:ID>
+                                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                                                </r:SourceParameterReference>
+                                                                                                <r:TargetParameterReference>
+                                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-1-2-1</r:ID>
+                                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                                                </r:TargetParameterReference>
+                                                                                            </r:Binding>
+                                                                                            <d:QuestionText>
+                                                                                                <d:LiteralText>
+                                                                                                    <d:Text xml:lang="fr-FR">Au cours des trois derniers mois, en moyenne, vous avez utilisé internet… (quel que soit le lieu ou le type d’accès)</d:Text>
+                                                                                                </d:LiteralText>
+                                                                                            </d:QuestionText>
+                                                                                            <d:TextDomain maxLength="1">
+                                                                                                <r:OutParameter isArray="false">
+                                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-1-2-1</r:ID>
+                                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                                    <r:TextRepresentation maxLength="1"/>
+                                                                                                </r:OutParameter>
+                                                                                            </d:TextDomain>
+                                                                                        </d:QuestionItem>
+                                                                                        <r:Version>0.1.0</r:Version>
+                                                                                        <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+                                                                                    </r:QuestionReference>
+                                                                                </d:QuestionConstruct>
+                                                                                <r:Version>0.1.0</r:Version>
+                                                                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                                                                            </d:ControlConstructReference>
+                                                                            <d:ControlConstructReference>
+                                                                                <r:Agency>fr.insee</r:Agency>
+                                                                                <d:QuestionConstruct>
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-QC-1-3</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:QuestionReference>
+                                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                                        <d:QuestionItem>
+                                                                                            <r:Agency>fr.insee</r:Agency>
+                                                                                            <r:ID>INSEE-FILTRE_SEQ-QI-1-3</r:ID>
+                                                                                            <r:Version>0.1.0</r:Version>
+                                                                                            <r:OutParameter isArray="false">
+                                                                                                <r:Agency>fr.insee</r:Agency>
+                                                                                                <r:ID>INSEE-FILTRE_SEQ-QOP-1-3-1</r:ID>
+                                                                                                <r:Version>0.1.0</r:Version>
+                                                                                                <r:ParameterName>
+                                                                                                    <r:String xml:lang="fr-FR">OUWEBX</r:String>
+                                                                                                </r:ParameterName>
+                                                                                            </r:OutParameter>
+                                                                                            <r:Binding>
+                                                                                                <r:SourceParameterReference>
+                                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-1-3-1</r:ID>
+                                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                                                </r:SourceParameterReference>
+                                                                                                <r:TargetParameterReference>
+                                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-1-3-1</r:ID>
+                                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                                                </r:TargetParameterReference>
+                                                                                            </r:Binding>
+                                                                                            <d:QuestionText>
+                                                                                                <d:LiteralText>
+                                                                                                    <d:Text xml:lang="fr-FR">Au cours des trois derniers mois, en dehors de chez vous, vous avez utilisé internet… Plusieurs réponses possibles</d:Text>
+                                                                                                </d:LiteralText>
+                                                                                            </d:QuestionText>
+                                                                                            <d:TextDomain maxLength="1">
+                                                                                                <r:OutParameter isArray="false">
+                                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-1-3-1</r:ID>
+                                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                                    <r:TextRepresentation maxLength="1"/>
+                                                                                                </r:OutParameter>
+                                                                                            </d:TextDomain>
+                                                                                        </d:QuestionItem>
+                                                                                        <r:Version>0.1.0</r:Version>
+                                                                                        <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+                                                                                    </r:QuestionReference>
+                                                                                </d:QuestionConstruct>
+                                                                                <r:Version>0.1.0</r:Version>
+                                                                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                                                                            </d:ControlConstructReference>
+                                                                        </d:Sequence>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:TypeOfObject>Sequence</r:TypeOfObject>
+                                                                    </d:ThenConstructReference>
+                                                                </d:IfThenElse>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:TypeOfObject>IfThenElse</r:TypeOfObject>
+                                                            </d:ControlConstructReference>
+                                                        </d:Sequence>
+                                                        <r:Version>0.1.0</r:Version>
+                                                        <r:TypeOfObject>Sequence</r:TypeOfObject>
+                                                    </d:ThenConstructReference>
+                                                </d:IfThenElse>
+                                                <r:Version>0.1.0</r:Version>
+                                                <r:TypeOfObject>IfThenElse</r:TypeOfObject>
+                                            </d:ControlConstructReference>
+                                        </d:Sequence>
+                                        <r:Version>0.1.0</r:Version>
+                                        <r:TypeOfObject>Sequence</r:TypeOfObject>
+                                    </d:ThenConstructReference>
+                                </d:IfThenElse>
+                                <r:Version>0.1.0</r:Version>
+                                <r:TypeOfObject>IfThenElse</r:TypeOfObject>
+                            </d:ControlConstructReference>
+                        </d:Sequence>
+                        <r:Version>0.1.0</r:Version>
+                        <r:TypeOfObject>Sequence</r:TypeOfObject>
+                    </d:ControlConstructReference>
+                    <d:ControlConstructReference xmlns="">
+                        <r:Agency>fr.insee</r:Agency>
+                        <d:IfThenElse>
+                            <r:Agency>fr.insee</r:Agency>
+                            <r:ID>INSEE-FILTRE_SEQ-ITE-4</r:ID>
+                            <r:Version>0.1.0</r:Version>
+                            <d:IfCondition>
+                                <r:Command>
+                                    <r:ProgramLanguage>xpath</r:ProgramLanguage>
+                                    <r:InParameter isArray="false">
+                                        <r:Agency>fr.insee</r:Agency>
+                                        <r:ID>INSEE-FILTRE_SEQ-ITEIP-4-1</r:ID>
+                                        <r:Version>0.1.0</r:Version>
+                                        <r:ParameterName>
+                                            <r:String xml:lang="fr-FR"/>
+                                        </r:ParameterName>
+                                    </r:InParameter>
+                                    <r:Binding>
+                                        <r:SourceParameterReference>
+                                            <r:Agency>fr.insee</r:Agency>
+                                            <r:ID>INSEE-FILTRE_SEQ-QOP-1-1-1</r:ID>
+                                            <r:Version>0.1.0</r:Version>
+                                            <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                        </r:SourceParameterReference>
+                                        <r:TargetParameterReference>
+                                            <r:Agency>fr.insee</r:Agency>
+                                            <r:ID>INSEE-FILTRE_SEQ-ITEIP-4-1</r:ID>
+                                            <r:Version>0.1.0</r:Version>
+                                            <r:TypeOfObject>InParameter</r:TypeOfObject>
+                                        </r:TargetParameterReference>
+                                    </r:Binding>
+                                    <r:CommandContent>not (INSEE-FILTRE_SEQ-ITEIP-4-1='4')</r:CommandContent>
+                                </r:Command>
+                            </d:IfCondition>
+                            <d:ThenConstructReference>
+                                <r:Agency>fr.insee</r:Agency>
+                                <d:Sequence>
+                                    <r:Agency>fr.insee</r:Agency>
+                                    <r:ID>INSEE-FILTRE_SEQ-SEQI-4</r:ID>
+                                    <r:Version>0.1.0</r:Version>
+                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                    <d:ControlConstructReference>
+                                        <r:Agency>fr.insee</r:Agency>
+                                        <d:IfThenElse>
+                                            <r:Agency>fr.insee</r:Agency>
+                                            <r:ID>INSEE-FILTRE_SEQ-ITE-5</r:ID>
+                                            <r:Version>0.1.0</r:Version>
+                                            <d:IfCondition>
+                                                <r:Command>
+                                                    <r:ProgramLanguage>xpath</r:ProgramLanguage>
+                                                    <r:InParameter isArray="false">
+                                                        <r:Agency>fr.insee</r:Agency>
+                                                        <r:ID>INSEE-FILTRE_SEQ-ITEIP-5-1</r:ID>
+                                                        <r:Version>0.1.0</r:Version>
+                                                        <r:ParameterName>
+                                                            <r:String xml:lang="fr-FR"/>
+                                                        </r:ParameterName>
+                                                    </r:InParameter>
+                                                    <r:Binding>
+                                                        <r:SourceParameterReference>
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-QOP-1-1-1</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                        </r:SourceParameterReference>
+                                                        <r:TargetParameterReference>
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-ITEIP-5-1</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:TypeOfObject>InParameter</r:TypeOfObject>
+                                                        </r:TargetParameterReference>
+                                                    </r:Binding>
+                                                    <r:CommandContent>not (INSEE-FILTRE_SEQ-ITEIP-5-1='3')</r:CommandContent>
+                                                </r:Command>
+                                            </d:IfCondition>
+                                            <d:ThenConstructReference>
+                                                <r:Agency>fr.insee</r:Agency>
+                                                <d:Sequence>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-SEQI-5</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                    <d:ControlConstructReference>
+                                                        <r:Agency>fr.insee</r:Agency>
+                                                        <d:Sequence>
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-SEQ-2</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:Label>
+                                                                <r:Content xml:lang="fr-FR">Votre utilisation des services administratifs sur internet</r:Content>
+                                                            </r:Label>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                                            <d:ControlConstructReference>
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <d:QuestionConstruct>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-QC-2-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:QuestionReference>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <d:QuestionItem>
+                                                                            <r:Agency>fr.insee</r:Agency>
+                                                                            <r:ID>INSEE-FILTRE_SEQ-QI-2-1</r:ID>
+                                                                            <r:Version>0.1.0</r:Version>
+                                                                            <r:OutParameter isArray="false">
+                                                                                <r:Agency>fr.insee</r:Agency>
+                                                                                <r:ID>INSEE-FILTRE_SEQ-QOP-2-1-1</r:ID>
+                                                                                <r:Version>0.1.0</r:Version>
+                                                                                <r:ParameterName>
+                                                                                    <r:String xml:lang="fr-FR">ADMX</r:String>
+                                                                                </r:ParameterName>
+                                                                            </r:OutParameter>
+                                                                            <r:Binding>
+                                                                                <r:SourceParameterReference>
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-2-1-1</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                                </r:SourceParameterReference>
+                                                                                <r:TargetParameterReference>
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-2-1-1</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                                </r:TargetParameterReference>
+                                                                            </r:Binding>
+                                                                            <d:QuestionText>
+                                                                                <d:LiteralText>
+                                                                                    <d:Text xml:lang="fr-FR">Au cours des douze derniers mois, hors usage professionnel et quel que soit le lieu d’utilisation, avez-vous personnellement utilisé internet pour contacter une administration ou un service public pour&#160;… (exclure les e-mails) Plusieurs réponses possibles</d:Text>
+                                                                                </d:LiteralText>
+                                                                            </d:QuestionText>
+                                                                            <d:TextDomain maxLength="1">
+                                                                                <r:OutParameter isArray="false">
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-2-1-1</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:TextRepresentation maxLength="1"/>
+                                                                                </r:OutParameter>
+                                                                            </d:TextDomain>
+                                                                        </d:QuestionItem>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+                                                                    </r:QuestionReference>
+                                                                </d:QuestionConstruct>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                                                            </d:ControlConstructReference>
+                                                            <d:ControlConstructReference>
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <d:QuestionConstruct>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-QC-2-2</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:QuestionReference>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <d:QuestionItem>
+                                                                            <r:Agency>fr.insee</r:Agency>
+                                                                            <r:ID>INSEE-FILTRE_SEQ-QI-2-2</r:ID>
+                                                                            <r:Version>0.1.0</r:Version>
+                                                                            <r:OutParameter isArray="false">
+                                                                                <r:Agency>fr.insee</r:Agency>
+                                                                                <r:ID>INSEE-FILTRE_SEQ-QOP-2-2-1</r:ID>
+                                                                                <r:Version>0.1.0</r:Version>
+                                                                                <r:ParameterName>
+                                                                                    <r:String xml:lang="fr-FR">RAISADMX</r:String>
+                                                                                </r:ParameterName>
+                                                                            </r:OutParameter>
+                                                                            <r:Binding>
+                                                                                <r:SourceParameterReference>
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-2-2-1</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                                </r:SourceParameterReference>
+                                                                                <r:TargetParameterReference>
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-2-2-1</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                                </r:TargetParameterReference>
+                                                                            </r:Binding>
+                                                                            <d:QuestionText>
+                                                                                <d:LiteralText>
+                                                                                    <d:Text xml:lang="fr-FR">Pour quelles raisons n’avez-vous pas transmis de formulaires administratifs par internet au cours des douze derniers mois?</d:Text>
+                                                                                </d:LiteralText>
+                                                                            </d:QuestionText>
+                                                                            <d:TextDomain maxLength="1">
+                                                                                <r:OutParameter isArray="false">
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-2-2-1</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:TextRepresentation maxLength="1"/>
+                                                                                </r:OutParameter>
+                                                                            </d:TextDomain>
+                                                                        </d:QuestionItem>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+                                                                    </r:QuestionReference>
+                                                                </d:QuestionConstruct>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                                                            </d:ControlConstructReference>
+                                                        </d:Sequence>
+                                                        <r:Version>0.1.0</r:Version>
+                                                        <r:TypeOfObject>Sequence</r:TypeOfObject>
+                                                    </d:ControlConstructReference>
+                                                </d:Sequence>
+                                                <r:Version>0.1.0</r:Version>
+                                                <r:TypeOfObject>Sequence</r:TypeOfObject>
+                                            </d:ThenConstructReference>
+                                        </d:IfThenElse>
+                                        <r:Version>0.1.0</r:Version>
+                                        <r:TypeOfObject>IfThenElse</r:TypeOfObject>
+                                    </d:ControlConstructReference>
+                                    <d:ControlConstructReference>
+                                        <r:Agency>fr.insee</r:Agency>
+                                        <d:Sequence>
+                                            <r:Agency>fr.insee</r:Agency>
+                                            <r:ID>INSEE-FILTRE_SEQ-SEQ-3</r:ID>
+                                            <r:Version>0.1.0</r:Version>
+                                            <r:Label>
+                                                <r:Content xml:lang="fr-FR">Vos habitudes de consommation sur internet</r:Content>
+                                            </r:Label>
+                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                            <d:ControlConstructReference>
+                                                <r:Agency>fr.insee</r:Agency>
+                                                <d:QuestionConstruct>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-QC-3-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:QuestionReference>
+                                                        <r:Agency>fr.insee</r:Agency>
+                                                        <d:QuestionItem>
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-QI-3-1</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:OutParameter isArray="false">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-QOP-3-1-1</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:ParameterName>
+                                                                    <r:String xml:lang="fr-FR">ECOM</r:String>
+                                                                </r:ParameterName>
+                                                            </r:OutParameter>
+                                                            <r:Binding>
+                                                                <r:SourceParameterReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-3-1-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                </r:SourceParameterReference>
+                                                                <r:TargetParameterReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-3-1-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                </r:TargetParameterReference>
+                                                            </r:Binding>
+                                                            <d:QuestionText>
+                                                                <d:LiteralText>
+                                                                    <d:Text xml:lang="fr-FR">Avez-vous déjà, personnellement, acheté ou commandé des produits ou des services sur internet&#160;pour un usage privé&#160;(c'est-à-dire hors usage professionnel)&#160;?</d:Text>
+                                                                </d:LiteralText>
+                                                            </d:QuestionText>
+                                                            <d:CodeDomain>
+                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">type d'affichage liste de réponses non définie</r:GenericOutputFormat>
+                                                                <r:CodeListReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:CodeList>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CL-cl_ouinon</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Oui / Non</r:Content>
+                                                                        </r:Label>
+                                                                        <l:HierarchyType>Regular</l:HierarchyType>
+                                                                        <l:Level levelNumber="1">
+                                                                            <l:CategoryRelationship>Ordinal</l:CategoryRelationship>
+                                                                        </l:Level>
+                                                                        <l:Code levelNumber="1" isDiscrete="true">
+                                                                            <r:Agency>fr.insee</r:Agency>
+                                                                            <r:ID>INSEE-FILTRE_SEQ-CL-cl_ouinon-1</r:ID>
+                                                                            <r:Version>0.1.0</r:Version>
+                                                                            <r:CategoryReference>
+                                                                                <r:Agency>fr.insee</r:Agency>
+                                                                                <l:Category>
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-CA-cl_ouinon-1</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:Label>
+                                                                                        <r:Content xml:lang="fr-FR">Oui</r:Content>
+                                                                                    </r:Label>
+                                                                                </l:Category>
+                                                                                <r:Version>0.1.0</r:Version>
+                                                                                <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                            </r:CategoryReference>
+                                                                            <r:Value>1</r:Value>
+                                                                        </l:Code>
+                                                                        <l:Code levelNumber="1" isDiscrete="true">
+                                                                            <r:Agency>fr.insee</r:Agency>
+                                                                            <r:ID>INSEE-FILTRE_SEQ-CL-cl_ouinon-2</r:ID>
+                                                                            <r:Version>0.1.0</r:Version>
+                                                                            <r:CategoryReference>
+                                                                                <r:Agency>fr.insee</r:Agency>
+                                                                                <l:Category>
+                                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                                    <r:ID>INSEE-FILTRE_SEQ-CA-cl_ouinon-2</r:ID>
+                                                                                    <r:Version>0.1.0</r:Version>
+                                                                                    <r:Label>
+                                                                                        <r:Content xml:lang="fr-FR">Non</r:Content>
+                                                                                    </r:Label>
+                                                                                </l:Category>
+                                                                                <r:Version>0.1.0</r:Version>
+                                                                                <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                            </r:CategoryReference>
+                                                                            <r:Value>0</r:Value>
+                                                                        </l:Code>
+                                                                    </l:CodeList>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>CodeList</r:TypeOfObject>
+                                                                </r:CodeListReference>
+                                                                <r:OutParameter isArray="false">
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-3-1-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:CodeRepresentation>
+                                                                        <r:CodeListReference>
+                                                                            <r:Agency>fr.insee</r:Agency>
+                                                                            <r:ID>INSEE-FILTRE_SEQ-CL-cl_ouinon</r:ID>
+                                                                            <r:Version>0.1.0</r:Version>
+                                                                            <r:TypeOfObject>CodeList</r:TypeOfObject>
+                                                                        </r:CodeListReference>
+                                                                    </r:CodeRepresentation>
+                                                                </r:OutParameter>
+                                                                <r:ResponseCardinality maximumResponses="1"/>
+                                                            </d:CodeDomain>
+                                                        </d:QuestionItem>
+                                                        <r:Version>0.1.0</r:Version>
+                                                        <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+                                                    </r:QuestionReference>
+                                                </d:QuestionConstruct>
+                                                <r:Version>0.1.0</r:Version>
+                                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                                            </d:ControlConstructReference>
+                                            <d:ControlConstructReference>
+                                                <r:Agency>fr.insee</r:Agency>
+                                                <d:QuestionConstruct>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-QC-3-2</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:QuestionReference>
+                                                        <r:Agency>fr.insee</r:Agency>
+                                                        <d:QuestionItem>
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-QI-3-2</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:OutParameter isArray="false">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-QOP-3-2-1</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:ParameterName>
+                                                                    <r:String xml:lang="fr-FR">DATECOM</r:String>
+                                                                </r:ParameterName>
+                                                            </r:OutParameter>
+                                                            <r:Binding>
+                                                                <r:SourceParameterReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-3-2-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                </r:SourceParameterReference>
+                                                                <r:TargetParameterReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-3-2-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                </r:TargetParameterReference>
+                                                            </r:Binding>
+                                                            <d:QuestionText>
+                                                                <d:LiteralText>
+                                                                    <d:Text xml:lang="fr-FR">La dernière fois, était-ce&#160;?</d:Text>
+                                                                </d:LiteralText>
+                                                            </d:QuestionText>
+                                                            <d:TextDomain maxLength="1">
+                                                                <r:OutParameter isArray="false">
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-3-2-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TextRepresentation maxLength="1"/>
+                                                                </r:OutParameter>
+                                                            </d:TextDomain>
+                                                        </d:QuestionItem>
+                                                        <r:Version>0.1.0</r:Version>
+                                                        <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+                                                    </r:QuestionReference>
+                                                </d:QuestionConstruct>
+                                                <r:Version>0.1.0</r:Version>
+                                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                                            </d:ControlConstructReference>
+                                        </d:Sequence>
+                                        <r:Version>0.1.0</r:Version>
+                                        <r:TypeOfObject>Sequence</r:TypeOfObject>
+                                    </d:ControlConstructReference>
+                                    <d:ControlConstructReference>
+                                        <r:Agency>fr.insee</r:Agency>
+                                        <d:Sequence>
+                                            <r:Agency>fr.insee</r:Agency>
+                                            <r:ID>INSEE-FILTRE_SEQ-SEQ-4</r:ID>
+                                            <r:Version>0.1.0</r:Version>
+                                            <r:Label>
+                                                <r:Content xml:lang="fr-FR">Vos compétences en informatique</r:Content>
+                                            </r:Label>
+                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                            <d:ControlConstructReference>
+                                                <r:Agency>fr.insee</r:Agency>
+                                                <d:QuestionConstruct>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-QC-4-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:QuestionReference>
+                                                        <r:Agency>fr.insee</r:Agency>
+                                                        <d:QuestionItem>
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-QI-4-1</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:OutParameter isArray="false">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-QOP-4-1-1</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:ParameterName>
+                                                                    <r:String xml:lang="fr-FR">COMPINFX</r:String>
+                                                                </r:ParameterName>
+                                                            </r:OutParameter>
+                                                            <r:Binding>
+                                                                <r:SourceParameterReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-4-1-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                </r:SourceParameterReference>
+                                                                <r:TargetParameterReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-4-1-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                                </r:TargetParameterReference>
+                                                            </r:Binding>
+                                                            <d:QuestionText>
+                                                                <d:LiteralText>
+                                                                    <d:Text xml:lang="fr-FR">Concernant vos compétences en informatique, au cours des douze derniers mois, avez-vous déjà … Plusieurs réponses possibles</d:Text>
+                                                                </d:LiteralText>
+                                                            </d:QuestionText>
+                                                            <d:TextDomain maxLength="1">
+                                                                <r:OutParameter isArray="false">
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-4-1-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TextRepresentation maxLength="1"/>
+                                                                </r:OutParameter>
+                                                            </d:TextDomain>
+                                                        </d:QuestionItem>
+                                                        <r:Version>0.1.0</r:Version>
+                                                        <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+                                                    </r:QuestionReference>
+                                                </d:QuestionConstruct>
+                                                <r:Version>0.1.0</r:Version>
+                                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                                            </d:ControlConstructReference>
+                                        </d:Sequence>
+                                        <r:Version>0.1.0</r:Version>
+                                        <r:TypeOfObject>Sequence</r:TypeOfObject>
+                                    </d:ControlConstructReference>
+                                </d:Sequence>
+                                <r:Version>0.1.0</r:Version>
+                                <r:TypeOfObject>Sequence</r:TypeOfObject>
+                            </d:ThenConstructReference>
+                        </d:IfThenElse>
+                        <r:Version>0.1.0</r:Version>
+                        <r:TypeOfObject>IfThenElse</r:TypeOfObject>
+                    </d:ControlConstructReference>
+                    <d:ControlConstructReference xmlns="">
+                        <r:Agency>fr.insee</r:Agency>
+                        <d:Sequence>
+                            <r:Agency>fr.insee</r:Agency>
+                            <r:ID>INSEE-FILTRE_SEQ-SEQ-5</r:ID>
+                            <r:Version>0.1.0</r:Version>
+                            <r:Label>
+                                <r:Content xml:lang="fr-FR">Votre situation professionnelle</r:Content>
+                            </r:Label>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                            <d:ControlConstructReference>
+                                <r:Agency>fr.insee</r:Agency>
+                                <d:QuestionConstruct>
+                                    <r:Agency>fr.insee</r:Agency>
+                                    <r:ID>INSEE-FILTRE_SEQ-QC-5-1</r:ID>
+                                    <r:Version>0.1.0</r:Version>
+                                    <r:QuestionReference>
+                                        <r:Agency>fr.insee</r:Agency>
+                                        <d:QuestionItem>
+                                            <r:Agency>fr.insee</r:Agency>
+                                            <r:ID>INSEE-FILTRE_SEQ-QI-5-1</r:ID>
+                                            <r:Version>0.1.0</r:Version>
+                                            <r:OutParameter isArray="false">
+                                                <r:Agency>fr.insee</r:Agency>
+                                                <r:ID>INSEE-FILTRE_SEQ-QOP-5-1-1</r:ID>
+                                                <r:Version>0.1.0</r:Version>
+                                                <r:ParameterName>
+                                                    <r:String xml:lang="fr-FR">SITUA</r:String>
+                                                </r:ParameterName>
+                                            </r:OutParameter>
+                                            <r:Binding>
+                                                <r:SourceParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-5-1-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                </r:SourceParameterReference>
+                                                <r:TargetParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-5-1-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                </r:TargetParameterReference>
+                                            </r:Binding>
+                                            <d:QuestionText>
+                                                <d:LiteralText>
+                                                    <d:Text xml:lang="fr-FR">Quelle est votre situation principale vis-à vis du travail&#160;? (si vous avez plusieurs employeurs ou plusieurs activités rémunérées, prendre en considération l’activité principale à vos yeux)</d:Text>
+                                                </d:LiteralText>
+                                            </d:QuestionText>
+                                            <d:TextDomain maxLength="1">
+                                                <r:OutParameter isArray="false">
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-5-1-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TextRepresentation maxLength="1"/>
+                                                </r:OutParameter>
+                                            </d:TextDomain>
+                                        </d:QuestionItem>
+                                        <r:Version>0.1.0</r:Version>
+                                        <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+                                    </r:QuestionReference>
+                                </d:QuestionConstruct>
+                                <r:Version>0.1.0</r:Version>
+                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                            </d:ControlConstructReference>
+                            <d:ControlConstructReference>
+                                <r:Agency>fr.insee</r:Agency>
+                                <d:QuestionConstruct>
+                                    <r:Agency>fr.insee</r:Agency>
+                                    <r:ID>INSEE-FILTRE_SEQ-QC-5-2</r:ID>
+                                    <r:Version>0.1.0</r:Version>
+                                    <r:QuestionReference>
+                                        <r:Agency>fr.insee</r:Agency>
+                                        <d:QuestionItem>
+                                            <r:Agency>fr.insee</r:Agency>
+                                            <r:ID>INSEE-FILTRE_SEQ-QI-5-2</r:ID>
+                                            <r:Version>0.1.0</r:Version>
+                                            <r:OutParameter isArray="false">
+                                                <r:Agency>fr.insee</r:Agency>
+                                                <r:ID>INSEE-FILTRE_SEQ-QOP-5-2-1</r:ID>
+                                                <r:Version>0.1.0</r:Version>
+                                                <r:ParameterName>
+                                                    <r:String xml:lang="fr-FR">NUMERIQUEL</r:String>
+                                                </r:ParameterName>
+                                            </r:OutParameter>
+                                            <r:Binding>
+                                                <r:SourceParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-5-2-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                </r:SourceParameterReference>
+                                                <r:TargetParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-5-2-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                </r:TargetParameterReference>
+                                            </r:Binding>
+                                            <d:QuestionText>
+                                                <d:LiteralText>
+                                                    <d:Text xml:lang="fr-FR">texte long</d:Text>
+                                                </d:LiteralText>
+                                            </d:QuestionText>
+                                            <d:TextDomain maxLength="1">
+                                                <r:OutParameter isArray="false">
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-5-2-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TextRepresentation maxLength="1"/>
+                                                </r:OutParameter>
+                                            </d:TextDomain>
+                                        </d:QuestionItem>
+                                        <r:Version>0.1.0</r:Version>
+                                        <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+                                    </r:QuestionReference>
+                                </d:QuestionConstruct>
+                                <r:Version>0.1.0</r:Version>
+                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                            </d:ControlConstructReference>
+                            <d:ControlConstructReference>
+                                <r:Agency>fr.insee</r:Agency>
+                                <d:QuestionConstruct>
+                                    <r:Agency>fr.insee</r:Agency>
+                                    <r:ID>INSEE-FILTRE_SEQ-QC-5-3</r:ID>
+                                    <r:Version>0.1.0</r:Version>
+                                    <r:QuestionReference>
+                                        <r:Agency>fr.insee</r:Agency>
+                                        <d:QuestionItem>
+                                            <r:Agency>fr.insee</r:Agency>
+                                            <r:ID>INSEE-FILTRE_SEQ-QI-5-3</r:ID>
+                                            <r:Version>0.1.0</r:Version>
+                                            <r:OutParameter isArray="false">
+                                                <r:Agency>fr.insee</r:Agency>
+                                                <r:ID>INSEE-FILTRE_SEQ-QOP-5-3-1</r:ID>
+                                                <r:Version>0.1.0</r:Version>
+                                                <r:ParameterName>
+                                                    <r:String xml:lang="fr-FR">NUMERIQUEC</r:String>
+                                                </r:ParameterName>
+                                            </r:OutParameter>
+                                            <r:Binding>
+                                                <r:SourceParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-5-3-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                </r:SourceParameterReference>
+                                                <r:TargetParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-5-3-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                </r:TargetParameterReference>
+                                            </r:Binding>
+                                            <d:QuestionText>
+                                                <d:LiteralText>
+                                                    <d:Text xml:lang="fr-FR">texte court</d:Text>
+                                                </d:LiteralText>
+                                            </d:QuestionText>
+                                            <d:TextDomain maxLength="1">
+                                                <r:OutParameter isArray="false">
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-5-3-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TextRepresentation maxLength="1"/>
+                                                </r:OutParameter>
+                                            </d:TextDomain>
+                                        </d:QuestionItem>
+                                        <r:Version>0.1.0</r:Version>
+                                        <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+                                    </r:QuestionReference>
+                                </d:QuestionConstruct>
+                                <r:Version>0.1.0</r:Version>
+                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                            </d:ControlConstructReference>
+                        </d:Sequence>
+                        <r:Version>0.1.0</r:Version>
+                        <r:TypeOfObject>Sequence</r:TypeOfObject>
+                    </d:ControlConstructReference>
+                    <d:ControlConstructReference xmlns="">
+                        <r:Agency>fr.insee</r:Agency>
+                        <d:Sequence>
+                            <r:Agency>fr.insee</r:Agency>
+                            <r:ID>INSEE-FILTRE_SEQ-SEQ-6</r:ID>
+                            <r:Version>0.1.0</r:Version>
+                            <r:Label>
+                                <r:Content xml:lang="fr-FR">séquence de test</r:Content>
+                            </r:Label>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                            <d:ControlConstructReference>
+                                <r:Agency>fr.insee</r:Agency>
+                                <d:QuestionConstruct>
+                                    <r:Agency>fr.insee</r:Agency>
+                                    <r:ID>INSEE-FILTRE_SEQ-QC-6-1</r:ID>
+                                    <r:Version>0.1.0</r:Version>
+                                    <r:QuestionReference>
+                                        <r:Agency>fr.insee</r:Agency>
+                                        <d:QuestionGrid>
+                                            <r:Agency>fr.insee</r:Agency>
+                                            <r:ID>INSEE-FILTRE_SEQ-QG-6-1</r:ID>
+                                            <r:Version>0.1.0</r:Version>
+                                            <r:OutParameter isArray="false">
+                                                <r:Agency>fr.insee</r:Agency>
+                                                <r:ID>INSEE-FILTRE_SEQ-QOP-6-1-1</r:ID>
+                                                <r:Version>0.1.0</r:Version>
+                                                <r:ParameterName>
+                                                    <r:String xml:lang="fr-FR">QUESTIONMU</r:String>
+                                                </r:ParameterName>
+                                            </r:OutParameter>
+                                            <r:Binding>
+                                                <r:SourceParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-RDOP-6-1-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                </r:SourceParameterReference>
+                                                <r:TargetParameterReference>
+                                                    <r:Agency>fr.insee</r:Agency>
+                                                    <r:ID>INSEE-FILTRE_SEQ-QOP-6-1-1</r:ID>
+                                                    <r:Version>0.1.0</r:Version>
+                                                    <r:TypeOfObject>OutParameter</r:TypeOfObject>
+                                                </r:TargetParameterReference>
+                                            </r:Binding>
+                                            <d:QuestionText>
+                                                <d:LiteralText>
+                                                    <d:Text xml:lang="fr-FR">question multiple</d:Text>
+                                                </d:LiteralText>
+                                            </d:QuestionText>
+                                            <d:GridDimension displayCode="false" displayLabel="false" rank="1">
+                                                <d:CodeDomain>
+                                                    <r:CodeListReference>
+                                                        <r:Agency>fr.insee</r:Agency>
+                                                        <l:CodeList>
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:Label>
+                                                                <r:Content xml:lang="fr-FR">NA2008 - Niveau A17</r:Content>
+                                                            </r:Label>
+                                                            <l:HierarchyType>Regular</l:HierarchyType>
+                                                            <l:Level levelNumber="1">
+                                                                <l:CategoryRelationship>Ordinal</l:CategoryRelationship>
+                                                            </l:Level>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-1</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-1</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Agriculture, sylviculture et pêche</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>AZ</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-2</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-2</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Fabrication de denrées alimentaires, de boissons et  de produits à base de tabac</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>C1</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-3</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-3</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Cokéfaction et raffinage</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>C2</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-4</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-4</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Fabrication d'équipements électriques, électroniques, informatiques ; fabrication de machines</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>C3</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-5</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-5</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Fabrication de matériels de transport</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>C4</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-6</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-6</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Fabrication d'autres produits industriels</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>C5</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-7</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-7</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Industries extractives,  énergie, eau, gestion des déchets et dépollution</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>DE</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-8</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-8</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Construction</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>FZ</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-9</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-9</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Commerce ; réparation d'automobiles et de motocycles</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>GZ</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-10</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-10</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Transports et entreposage</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>HZ</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-11</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-11</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Hébergement et restauration</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>IZ</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-12</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-12</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Information et communication</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>JZ</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-13</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-13</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Activités financières et d'assurance</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>KZ</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-14</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-14</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Activités immobilières</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>LZ</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-15</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-15</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Activités scientifiques et techniques ; services administratifs et de soutien</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>MN</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-16</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-16</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Administration publique, enseignement, santé humaine et action sociale</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>OQ</r:Value>
+                                                            </l:Code>
+                                                            <l:Code levelNumber="1" isDiscrete="true">
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-17</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:CategoryReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <l:Category>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-17</r:ID>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:Label>
+                                                                            <r:Content xml:lang="fr-FR">Autres activités de services</r:Content>
+                                                                        </r:Label>
+                                                                    </l:Category>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                </r:CategoryReference>
+                                                                <r:Value>RU</r:Value>
+                                                            </l:Code>
+                                                        </l:CodeList>
+                                                        <r:Version>0.1.0</r:Version>
+                                                        <r:TypeOfObject>CodeList</r:TypeOfObject>
+                                                    </r:CodeListReference>
+                                                </d:CodeDomain>
+                                            </d:GridDimension>
+                                            <d:StructuredMixedGridResponseDomain>
+                                                <d:GridResponseDomain>
+                                                    <d:CodeDomain>
+                                                        <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">caseacocher</r:GenericOutputFormat>
+                                                        <r:CodeListReference>
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <l:CodeList>
+                                                                <r:Agency>fr.insee</r:Agency>
+                                                                <r:ID>INSEE-FILTRE_SEQ-CL-cl_ouinon</r:ID>
+                                                                <r:Version>0.1.0</r:Version>
+                                                                <r:Label>
+                                                                    <r:Content xml:lang="fr-FR">Oui / Non</r:Content>
+                                                                </r:Label>
+                                                                <l:HierarchyType>Regular</l:HierarchyType>
+                                                                <l:Level levelNumber="1">
+                                                                    <l:CategoryRelationship>Ordinal</l:CategoryRelationship>
+                                                                </l:Level>
+                                                                <l:Code levelNumber="1" isDiscrete="true">
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-CL-cl_ouinon-1</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:CategoryReference>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <l:Category>
+                                                                            <r:Agency>fr.insee</r:Agency>
+                                                                            <r:ID>INSEE-FILTRE_SEQ-CA-cl_ouinon-1</r:ID>
+                                                                            <r:Version>0.1.0</r:Version>
+                                                                            <r:Label>
+                                                                                <r:Content xml:lang="fr-FR">Oui</r:Content>
+                                                                            </r:Label>
+                                                                        </l:Category>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                    </r:CategoryReference>
+                                                                    <r:Value>1</r:Value>
+                                                                </l:Code>
+                                                                <l:Code levelNumber="1" isDiscrete="true">
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-CL-cl_ouinon-2</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:CategoryReference>
+                                                                        <r:Agency>fr.insee</r:Agency>
+                                                                        <l:Category>
+                                                                            <r:Agency>fr.insee</r:Agency>
+                                                                            <r:ID>INSEE-FILTRE_SEQ-CA-cl_ouinon-2</r:ID>
+                                                                            <r:Version>0.1.0</r:Version>
+                                                                            <r:Label>
+                                                                                <r:Content xml:lang="fr-FR">Non</r:Content>
+                                                                            </r:Label>
+                                                                        </l:Category>
+                                                                        <r:Version>0.1.0</r:Version>
+                                                                        <r:TypeOfObject>Category</r:TypeOfObject>
+                                                                    </r:CategoryReference>
+                                                                    <r:Value>0</r:Value>
+                                                                </l:Code>
+                                                            </l:CodeList>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:TypeOfObject>CodeList</r:TypeOfObject>
+                                                        </r:CodeListReference>
+                                                        <r:OutParameter isArray="false">
+                                                            <r:Agency>fr.insee</r:Agency>
+                                                            <r:ID>INSEE-FILTRE_SEQ-RDOP-6-1-1</r:ID>
+                                                            <r:Version>0.1.0</r:Version>
+                                                            <r:CodeRepresentation>
+                                                                <r:CodeListReference>
+                                                                    <r:Agency>fr.insee</r:Agency>
+                                                                    <r:ID>INSEE-FILTRE_SEQ-CL-cl_ouinon</r:ID>
+                                                                    <r:Version>0.1.0</r:Version>
+                                                                    <r:TypeOfObject>CodeList</r:TypeOfObject>
+                                                                </r:CodeListReference>
+                                                            </r:CodeRepresentation>
+                                                        </r:OutParameter>
+                                                        <r:ResponseCardinality maximumResponses="1"/>
+                                                    </d:CodeDomain>
+                                                    <d:GridAttachment>
+                                                        <d:CellCoordinatesAsDefined>
+                                                            <d:SelectDimension rank="1" rangeMinimum="1" rangeMaximum="1"/>
+                                                        </d:CellCoordinatesAsDefined>
+                                                    </d:GridAttachment>
+                                                </d:GridResponseDomain>
+                                            </d:StructuredMixedGridResponseDomain>
+                                        </d:QuestionGrid>
+                                        <r:Version>0.1.0</r:Version>
+                                        <r:TypeOfObject>QuestionGrid</r:TypeOfObject>
+                                    </r:QuestionReference>
+                                </d:QuestionConstruct>
+                                <r:Version>0.1.0</r:Version>
+                                <r:TypeOfObject>QuestionConstruct</r:TypeOfObject>
+                            </d:ControlConstructReference>
+                        </d:Sequence>
+                        <r:Version>0.1.0</r:Version>
+                        <r:TypeOfObject>Sequence</r:TypeOfObject>
+                    </d:ControlConstructReference>
+                </d:Sequence>
+            </d:ControlConstructReference>
+        </d:Instrument>
+    </s:StudyUnit>
+</DDIInstance>

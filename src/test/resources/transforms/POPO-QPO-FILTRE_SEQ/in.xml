@@ -1,0 +1,233 @@
+<Questionnaire xmlns="http://xml.insee.fr/schema/applis/pogues" id="fr.insee-POPO-QPO-FILTRE_SEQ" depth="0" genericName="QUESTIONNAIRE" agency="fr.insee">
+    <Name>FILTRE_SEQ</Name>
+    <Label>Questionnaire élémentaire pour tester les goto séquences ultérieures</Label>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="imevu8o1" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>VOTREUSAGE</Name>
+        <Label>Votre usage personnel d’internet</Label>
+        <Child id="imevkq68" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>NUSEWEB</Name>
+            <Label>##{"label":"Personnellement, quand avez-vous utilisé internet pour la dernière fois&#160;? (quel que soit le lieu ou le type d’accès)","conditions":[]} Personnellement, quand avez-vous utilisé internet pour la dernière fois&#160;? (quel que soit le lieu ou le type d’accès)</Label>
+            <GoTo id="imhqcz9u">
+                <Expression>${S1-Q1-R1}='3'</Expression>
+                <IfTrue>imevsmip</IfTrue>
+            </GoTo>
+            <GoTo id="imhql58j">
+                <Expression>${S1-Q1-R1}='2'</Expression>
+                <IfTrue>imevnmuu</IfTrue>
+            </GoTo>
+            <GoTo id="in73y9fj">
+                <Expression>${S1-Q1-R1}='4'</Expression>
+                <IfTrue>imevvdhs</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>imeyazt7</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="imevr2da" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>USEWEB</Name>
+            <Label>##{"label":"Au cours des trois derniers mois, en moyenne, vous avez utilisé internet… (quel que soit le lieu ou le type d’accès)","conditions":[]} Au cours des trois derniers mois, en moyenne, vous avez utilisé internet… (quel que soit le lieu ou le type d’accès)</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="imevjvpw" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>OUWEBX</Name>
+            <Label>##{"label":"Au cours des trois derniers mois, en dehors de chez vous, vous avez utilisé internet… Plusieurs réponses possibles","conditions":[]} Au cours des trois derniers mois, en dehors de chez vous, vous avez utilisé internet… Plusieurs réponses possibles</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="imevt6pm" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>VOTREUTILI</Name>
+        <Label>Votre utilisation des services administratifs sur internet</Label>
+        <Child id="imevnmuu" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>ADMX</Name>
+            <Label>##{"label":"Au cours des douze derniers mois, hors usage professionnel et quel que soit le lieu d’utilisation, avez-vous personnellement utilisé internet pour contacter une administration ou un service public pour&#160;… (exclure les e-mails) Plusieurs réponses possibles","conditions":[]} Au cours des douze derniers mois, hors usage professionnel et quel que soit le lieu d’utilisation, avez-vous personnellement utilisé internet pour contacter une administration ou un service public pour&#160;… (exclure les e-mails) Plusieurs réponses possibles</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="imevu4wf" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>RAISADMX</Name>
+            <Label>##{"label":"Pour quelles raisons n’avez-vous pas transmis de formulaires administratifs par internet au cours des douze derniers mois? ","conditions":[]} Pour quelles raisons n’avez-vous pas transmis de formulaires administratifs par internet au cours des douze derniers mois?</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="imevm4y9" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>VOSHABITUD</Name>
+        <Label>Vos habitudes de consommation sur internet</Label>
+        <Child id="imevsmip" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>ECOM</Name>
+            <Label>##{"label":"Avez-vous déjà, personnellement, acheté ou commandé des produits ou des services sur internet&#160;pour un usage privé&#160;(c'est-à-dire hors usage professionnel)&#160;?","conditions":[]} Avez-vous déjà, personnellement, acheté ou commandé des produits ou des services sur internet&#160;pour un usage privé&#160;(c'est-à-dire hors usage professionnel)&#160;?</Label>
+            <Response mandatory="false">
+                <CodeListReference>cl_ouinon</CodeListReference>
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="imevoopv" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>DATECOM</Name>
+            <Label>##{"label":"La dernière fois, était-ce&#160;?","conditions":[]} La dernière fois, était-ce&#160;?</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="imevsk9g" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>VOSCOMPTEN</Name>
+        <Label>Vos compétences en informatique</Label>
+        <Child id="imevt97i" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>COMPINFX</Name>
+            <Label>##{"label":"Concernant vos compétences en informatique, au cours des douze derniers mois, avez-vous déjà … Plusieurs réponses possibles","conditions":[]} Concernant vos compétences en informatique, au cours des douze derniers mois, avez-vous déjà … Plusieurs réponses possibles</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="imevlu9b" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>VOTRESITUA</Name>
+        <Label>Votre situation professionnelle</Label>
+        <Child id="imevvdhs" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>SITUA</Name>
+            <Label>##{"label":"Quelle est votre situation principale vis-à vis du travail&#160;? (si vous avez plusieurs employeurs ou plusieurs activités rémunérées, prendre en considération l’activité principale à vos yeux)","conditions":[]} Quelle est votre situation principale vis-à vis du travail&#160;? (si vous avez plusieurs employeurs ou plusieurs activités rémunérées, prendre en considération l’activité principale à vos yeux)</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ipz734au" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>NUMERIQUEL</Name>
+            <Label>##{"label":"texte long","conditions":[]} texte long</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ipz6y56p" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>NUMERIQUEC</Name>
+            <Label>##{"label":"texte court","conditions":[]} texte court</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="iroxi6f5" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>SQUENCEDET</Name>
+        <Label>séquence de test</Label>
+        <Child id="irox8wr2" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>QUESTIONMU</Name>
+            <Label>##{"label":"question multiple","conditions":[]} question multiple</Label>
+            <Response>
+                <CodeListReference>cl_ouinon</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>http://dvrmessnclas01.ad.insee.intra:8080/datalift/codes/na2008a17/a17</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+    </Child>
+    <Survey id="imevkwoy" agency="fr.insee">
+        <Name>POPO</Name>
+    </Survey>
+    <ComponentGroup id="itv5t8nt">
+        <Name>PAGE_1</Name>
+        <Label>Components for page 1</Label>
+        <MemberReference>imevu8o1</MemberReference>
+        <MemberReference>imevkq68</MemberReference>
+        <MemberReference>imevr2da</MemberReference>
+        <MemberReference>imevjvpw</MemberReference>
+        <MemberReference>imevt6pm</MemberReference>
+        <MemberReference>imevnmuu</MemberReference>
+        <MemberReference>imevu4wf</MemberReference>
+        <MemberReference>imevm4y9</MemberReference>
+        <MemberReference>imevsmip</MemberReference>
+        <MemberReference>imevoopv</MemberReference>
+        <MemberReference>imevsk9g</MemberReference>
+        <MemberReference>imevt97i</MemberReference>
+        <MemberReference>imevlu9b</MemberReference>
+        <MemberReference>imevvdhs</MemberReference>
+        <MemberReference>ipz734au</MemberReference>
+        <MemberReference>ipz6y56p</MemberReference>
+        <MemberReference>iroxi6f5</MemberReference>
+        <MemberReference>irox8wr2</MemberReference>
+    </ComponentGroup>
+    <CodeLists>
+        <CodeList id="cl_ouinon">
+            <Name>cl_ouinon</Name>
+            <Label>Oui / Non</Label>
+            <Code>
+                <Value>1</Value>
+                <Label>Oui</Label>
+            </Code>
+            <Code>
+                <Value>0</Value>
+                <Label>Non</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="imeyazt7">
+            <Name>L_NUSEWEB</Name>
+            <Label>L_NUSEWEB</Label>
+            <Code>
+                <Value/>
+                <Label>Au cours des trois derniers mois</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Entre trois mois et un an</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Il y a plus d’un an</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Vous n’avez jamais utilisé internet</Label>
+            </Code>
+        </CodeList>
+        <CodeListSpecification id="http://dvrmessnclas01.ad.insee.intra:8080/datalift/codes/na2008a17/a17">
+            <Name>NA2008NIVE</Name>
+            <Label>NA2008 - Niveau A17</Label>
+            <retrievalQuery>PREFIX skos:&amp;lt;http://www.w3.org/2004/02/skos/core#&amp;gt; PREFIX xkos:&amp;lt;http://rdf-vocabulary.ddialliance.org/xkos#&amp;gt; SELECT ?code ?intitule  WHERE {&amp;lt;http://dvrmessnclas01.ad.insee.intra:8080/datalift/codes/na2008a17/a17&amp;gt; skos:member ?poste . ?poste skos:notation ?code ; skos:prefLabel ?intitule .} ORDER BY ?code</retrievalQuery>
+        </CodeListSpecification>
+    </CodeLists>
+</Questionnaire>
