@@ -90,6 +90,8 @@
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>9.4-1200-jdbc41</version>
+			<!-- TODO This should be provided by the container -->
+			<!--<scope>provided</scope>-->
 		</dependency>
 		<dependency>
 			<groupId>com.jayway.restassured</groupId>
@@ -113,11 +115,18 @@
 			<version>9.7.0-8</version>
 		</dependency>
 		<dependency>
+			<groupId>org.xmlunit</groupId>
+			<artifactId>xmlunit-matchers</artifactId>
+			<version>2.3.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 			<version>2.5</version>
+			<!-- TODO This should be provided by the container -->
+			<!--<scope>provided</scope>-->
 		</dependency>
-
 		<dependency>
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-jersey2-jaxrs</artifactId>
