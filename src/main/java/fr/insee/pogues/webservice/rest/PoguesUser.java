@@ -99,7 +99,7 @@ public class PoguesUser {
             return Response.status(Status.OK).entity(user).build();
         } catch(Exception e){
             throw e;
-        }
+            }
 
     }
 

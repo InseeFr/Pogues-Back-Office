@@ -83,7 +83,7 @@ public class TestPoguesPersistence {
                 .contentType(MediaType.APPLICATION_JSON)
                 .body(json1)
                 .when()
-                .put("/pogues/persistence/questionnaire");
+                .put("/pogues/persistence/questionnaire/18");
 
     }
 

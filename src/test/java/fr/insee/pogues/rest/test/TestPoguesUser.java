@@ -77,7 +77,7 @@ public class TestPoguesUser {
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_JSON)
                 .when()
-                .get(String.format("/pogues/user/attributes/%", RestAssuredConfig.jUsername))
+                .get(String.format("/pogues/user/attributes", RestAssuredConfig.jUsername))
                 .body()
                 .jsonPath()
                 .get("id");

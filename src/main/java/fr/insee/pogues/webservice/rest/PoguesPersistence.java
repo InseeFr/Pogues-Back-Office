@@ -13,7 +13,6 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * WebService class for the Questionnaire Persistence
@@ -67,7 +66,10 @@ public class PoguesPersistence {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 404, message = "Not found")
     })
-	public Response getQuestionnaire(@PathParam(value = "id") String id) throws Exception {
+	public Response getQuestionnaire(
+			@ApiParam(value = "This is the id of the object we want to retrieve", required = true)
+			@PathParam(value = "id") String id
+	) throws Exception {
 		try {
 			JSONObject result = questionnaireService.getQuestionnaireByID(id);
 			return Response.status(Status.OK).entity(result).build();
@@ -85,13 +87,13 @@ public class PoguesPersistence {
     @ApiOperation(
             value = "Search questionnaires",
             notes = "Search questionnaires matching query params",
-            response = Map.class
+            response = List.class
     )
     @ApiResponses(
             @ApiResponse(code = 200, message="Success")
     )
-    @ApiParam(name = "owner", defaultValue = "Owner of questionnaire", required = false)
-    public Response searchQuestionnaire(
+    public Response searchQuestionnaires(
+			@ApiParam(value = "A user id matching owner permission on each object of the collection", required = false)
             @QueryParam("owner") String owner
     ) throws Exception {
         try {
@@ -103,7 +105,6 @@ public class PoguesPersistence {
         } catch (Exception e) {
             throw e;
         }
-
     }
 
 	@DELETE
@@ -116,7 +117,10 @@ public class PoguesPersistence {
             @ApiResponse(code = 204, message = "No content"),
             @ApiResponse(code = 404, message = "Not found")
     })
-	public Response deleteQuestionnaire(@PathParam(value = "id") String id) throws Exception {
+	public Response deleteQuestionnaire(
+			@ApiParam(value = "The id of the object that need to be deleted", required = true)
+			@PathParam(value = "id") String id
+	) throws Exception {
 		try {
 			questionnaireService.deleteQuestionnaireByID(id);
 			logger.info("Questionnaire "+ id +" deleted");
@@ -124,7 +128,6 @@ public class PoguesPersistence {
 		} catch (Exception e) {
 			throw e;
 		}
-
 	}
 
 	@DELETE
@@ -145,7 +148,6 @@ public class PoguesPersistence {
 		} catch (Exception e) {
 			throw e;
 		}
-
 	}
 
 	@GET
@@ -154,7 +156,7 @@ public class PoguesPersistence {
 	@ApiOperation(
 	        value = "Get questionnaires",
             notes = "Gets the `QuestionnaireList` object",
-            response = Map.class
+            response = List.class
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
@@ -169,7 +171,6 @@ public class PoguesPersistence {
 		} catch(Exception e) {
 			throw e;
 		}
-
 	}
 	
 	
@@ -185,7 +186,10 @@ public class PoguesPersistence {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 404, message = "Not found")
     })
-	public Response updateQuestionnaire(@PathParam(value = "id") String id, JSONObject jsonContent) throws Exception {
+	public Response updateQuestionnaire(
+			@ApiParam(value = "The id of the object that need to be updated", required = true)
+			@PathParam(value = "id") String id, JSONObject jsonContent
+	) throws Exception {
         try {
 			questionnaireService.updateQuestionnaire(id, jsonContent);
 			logger.info("Questionnaire "+ id +" updated");

@@ -54,11 +54,8 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 	}
 
-	public List<JSONObject> getQuestionnairesByOwner(String id)throws Exception {
+	public List<JSONObject> getQuestionnairesByOwner(String owner)throws Exception {
 		try {
-			String owner = userServiceQuery
-					.getNameAndPermissionByID(id)
-					.getPermission();
 			if(null == owner || owner.isEmpty()){
 				throw new PoguesException(503, "Service unavailable", "This user has no permission defined");
 			}
