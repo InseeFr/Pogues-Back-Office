@@ -1,9 +1,20 @@
 package fr.insee.pogues.webservice.rest;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-
+import fr.insee.pogues.transforms.TransformService;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+import java.io.IOException;
+import java.io.OutputStream;
 
 /**
  * Main WebService class of the PoguesModelToDDI service
@@ -16,55 +27,33 @@ public class PoguesModelToDDI {
 
 	final static Logger logger = Logger.getLogger(PoguesModelToDDI.class);
 
-	/**
-	 * Dummy GET Helloworld used in unit tests
-	 * 
-	 * @return "Hello world" as a String
-	 */
-	@GET
-	@Path("helloworld")
-	public String helloworld() {
-		return "Hello world";
+	@Autowired
+	private TransformService transformService;
+
+	@POST
+	@Produces(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_XML)
+	@ApiOperation(
+			value = "Get DDI From Pogues Model",
+			notes = "Get Transformed DDI document from Pogues XML"
+	)
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "OK"),
+	})
+	public Response transform(@Context final HttpServletRequest request) {
+		try {
+			StreamingOutput stream = new StreamingOutput() {
+				public void write(OutputStream output) throws IOException, WebApplicationException {
+					try {
+						transformService.transform(request.getInputStream(), output);
+					} catch (Exception e) {
+						throw new PoguesException(500, e.getMessage(), null);
+					}
+				}
+			};
+			return Response.ok(stream).build();
+		} catch(Exception e) {
+			throw e;
+		}
 	}
-
-//	/**
-//	 * Main WS method called to generate a questionnaire from an input xml DDI
-//	 * file
-//	 * 
-//	 * @param uploadedInputStream
-//	 *            The inputStream that will be used to write the file locally
-//	 * @param fileDetail
-//	 *            The proper file that was sent to the method
-//	 * @return a Response Object (.ok) with the created generator if everything
-//	 *         went as expected OR a Response Object (.ok) with the error that
-//	 *         occured during the generation if something wrong happened
-//	 */
-//	@POST
-//	@Path("Generation")
-//	@Consumes(MediaType.MULTIPART_FORM_DATA)
-//	public Response generation(@FormDataParam("file") InputStream uploadedInputStream,
-//			@FormDataParam("file") FormDataContentDisposition fileDetail,
-//			@FormDataParam("parameters") InputStream parametersInputStream,
-//			@FormDataParam("parameters") FormDataContentDisposition parametersDetail) {
-//
-//	
-//		logger.debug("WebService called with parameter file : " + fileDetail);
-//		logger.debug("WebService called with parameter parameters : " + parametersDetail);
-//		try {
-//			
-//
-//			return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
-//					.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").build();
-//
-//		} catch (Exception e) {
-//
-//			logger.error("Error during the generation :" + e.getMessage());
-//			logger.error(e, e);
-//
-//			return Response.ok("Error during the generation : " + e.toString()).build();
-//		}
-//	}
-
-
-
 }
