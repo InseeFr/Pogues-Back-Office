@@ -86,29 +86,29 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 	}
 
 
-	public void closeConnection() {
+	public void closeConnection() throws Exception {
 		try {
 			this.context.close();
-		} catch (NamingException e) {
-			logger.error("NamingException - Impossible to closeConnection the LDAP connection");
-			e.printStackTrace();
+		} catch (Exception e) {
+			logger.error("Exception - Impossible to closeConnection the LDAP connection");
+			throw e;
 		}
 	}
 
 
 	public User getNameAndPermissionByID(String id) throws Exception {
-		this.initConnection();
 		String name = null;
 		String permission = null;
 		String firstName = null;
 		String lastName = null;
-		// Criteria specification for the permission search
-		SearchControls controls = new SearchControls();
-		controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
-		controls.setReturningAttributes(new String[] {ldapUserCommonName, ldapPermissions, ldapUserGivenName, ldapUserSn});
-		String filter = "(" + ldapUserFilter + id + ")";
-		NamingEnumeration<SearchResult> results;
 		try {
+			this.initConnection();
+			// Criteria specification for the permission search
+			SearchControls controls = new SearchControls();
+			controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+			controls.setReturningAttributes(new String[] {ldapUserCommonName, ldapPermissions, ldapUserGivenName, ldapUserSn});
+			String filter = "(" + ldapUserFilter + id + ")";
+			NamingEnumeration<SearchResult> results;
 			results = context.search(ldapUserBaseDn, filter, controls);
 			while (results.hasMore()) {
 				SearchResult entree = results.next();
@@ -123,8 +123,8 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 				firstName = entree.getAttributes().get(ldapUserGivenName).get().toString();
 				lastName = entree.getAttributes().get(ldapUserSn).get().toString();
 			}
-		} catch (NamingException e) {
-			e.printStackTrace();
+		}  catch(Exception e){
+			logger.error(e.getMessage());
 			throw e;
 		} finally {
 			this.closeConnection();
@@ -134,19 +134,17 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 
 
 	public List<String> getPermissions() throws Exception{
-		this.initConnection();
 		List<String> permissions = new ArrayList<String>();
-
-		// Criteria specification for the permission search
-		SearchControls controls = new SearchControls();
-		controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
-		controls.setReturningAttributes(new String[] {
-				ldapPermissionName,
-				ldapPermissionDescription
-		});
-
-		NamingEnumeration<SearchResult> results;
 		try {
+			this.initConnection();
+			// Criteria specification for the permission search
+			SearchControls controls = new SearchControls();
+			controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+			controls.setReturningAttributes(new String[] {
+					ldapPermissionName,
+					ldapPermissionDescription
+			});
+			NamingEnumeration<SearchResult> results;
 			results = this.context.search(ldapUnitesBaseDn, ldapPermissionFilter, controls);
 			while (results.hasMore()) {
 				SearchResult entree = results.next();
