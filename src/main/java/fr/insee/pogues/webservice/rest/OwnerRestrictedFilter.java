@@ -16,10 +16,10 @@ import java.security.Principal;
  * Created by acordier on 06/07/17.
  */
 @PreMatching
-@OwnerSpecific
-public class OwnerSpecificFilter implements ContainerRequestFilter {
+@OwnerRestricted
+public class OwnerRestrictedFilter implements ContainerRequestFilter {
 
-    static final Logger logger = Logger.getLogger(OwnerSpecificFilter.class);
+    static final Logger logger = Logger.getLogger(OwnerRestrictedFilter.class);
 
     @Autowired
     private UserServiceQuery userServiceQuery;
@@ -27,6 +27,7 @@ public class OwnerSpecificFilter implements ContainerRequestFilter {
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
         try {
+            logger.debug("XXX FILTER CALLED");
             ContainerRequest request = (ContainerRequest) requestContext;
             request.bufferEntity();
             JSONObject json = request.readEntity(JSONObject.class);

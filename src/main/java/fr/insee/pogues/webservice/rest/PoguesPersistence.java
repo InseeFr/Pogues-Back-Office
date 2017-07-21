@@ -177,6 +177,7 @@ public class PoguesPersistence {
 
 	@PUT
 	@Path("questionnaire/{id}")
+	@OwnerRestricted
 	@Consumes(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 	        value = "Update questionnaire",
