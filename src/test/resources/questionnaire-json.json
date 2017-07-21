@@ -1,43 +1,163 @@
 {
-   "j4tv05xr": {
-      "controls": [],
-      "agency": "fr.insee",
-      "componentGroups": {
-         "0": {
-            "name": "PAGE_1",
-            "id": "",
-            "label": "Components for page 1",
-            "Member": []
-         },
-         "id": "j4tuvjqf",
-         "owner": "DG75-F410"
-      },
-      "genericName": "QUESTIONNAIRE",
-      "codeLists": {
-         "codeListSpecification": [],
-         "codeList": []
-      },
-      "label": [
-         "This is a questionnaire"
-      ],
-      "type": "SequenceType",
-      "declarations": [],
-      "goTos": [],
-      "depth": 0,
-      "children": [],
-      "survery": {
-         "agency": "fr.insee",
-         "name": "POPO",
-         "id": "j4tuwf7x",
-         "owner": "DG75-F410"
-      },
-      "name": "THISISAQUE",
-      "survey": {
-         "agency": "fr.insee",
-         "name": "POPO",
+   "controls": [],
+   "agency": "fr.insee",
+   "componentGroups": [
+      {
+         "name": "PAGE_1",
          "id": "",
-         "owner": "DG75-F410"
-      },
-      "id": "j4tv05xr"
-   }
+         "label": "Components for page 1",
+         "Member": []
+      }
+   ],
+   "genericName": "QUESTIONNAIRE",
+   "codeLists": {
+      "codeListSpecification": [],
+      "codeList": [
+         {
+            "codes": [
+               {
+                  "code": "",
+                  "id": "j5cjv5h9",
+                  "label": "dqsfqsdf"
+               },
+               {
+                  "code": "",
+                  "id": "j5cjztqf",
+                  "label": "dsfsqdf"
+               }
+            ],
+            "name": "QSDFSDF",
+            "id": "j5cjuzv4",
+            "label": "qsdfsdf"
+         }
+      ]
+   },
+   "label": [
+      "Q3"
+   ],
+   "type": "SequenceType",
+   "declarations": [],
+   "goTos": [],
+   "depth": 0,
+   "children": [
+      {
+         "depth": 1,
+         "controls": [],
+         "children": [
+            {
+               "controls": [],
+               "genericName": "",
+               "responseStructure": {
+                  "dimensions": [
+                     {
+                        "dimensionType": "PRIMARY",
+                        "codeListReference": "j5cjuzv4",
+                        "dynamic": 0
+                     },
+                     {
+                        "dimensionType": "MEASURE",
+                        "dynamic": 0,
+                        "label": "qsdfqsdf"
+                     },
+                     {
+                        "dimensionType": "MEASURE",
+                        "dynamic": 0,
+                        "label": "qsdfqsdf"
+                     }
+                  ]
+               },
+               "label": [
+                  "Q1"
+               ],
+               "type": "QuestionType",
+               "declarations": [],
+               "goTos": [],
+               "depth": 2,
+               "children": [],
+               "name": "Q1",
+               "responses": [
+                  {
+                     "datatype": {
+                        "pattern": "",
+                        "typeName": "TEXT",
+                        "type": "TextDatatypeType",
+                        "maxLength": 255
+                     }
+                  }
+               ],
+               "id": "j5cjni7h",
+               "questionType": "SIMPLE"
+            },
+            {
+               "controls": [],
+               "genericName": "",
+               "responseStructure": {
+                  "dimensions": [
+                     {
+                        "dimensionType": "PRIMARY",
+                        "codeListReference": "j5cjuzv4",
+                        "dynamic": 0
+                     },
+                     {
+                        "dimensionType": "MEASURE",
+                        "dynamic": 0,
+                        "label": "qsdfqsdf"
+                     },
+                     {
+                        "dimensionType": "MEASURE",
+                        "dynamic": 0,
+                        "label": "qsdfqsdf"
+                     }
+                  ]
+               },
+               "label": [
+                  "Q3"
+               ],
+               "type": "QuestionType",
+               "declarations": [],
+               "goTos": [],
+               "depth": 2,
+               "children": [],
+               "name": "Q3",
+               "responses": [
+                  {
+                     "datatype": {
+                        "pattern": "",
+                        "typeName": "TEXT",
+                        "type": "TextDatatypeType",
+                        "maxLength": 255
+                     }
+                  },
+                  {
+                     "datatype": {
+                        "typeName": "BOOLEAN",
+                        "type": "BooleanDatatypeType"
+                     }
+                  }
+               ],
+               "id": "j5cjgp1d",
+               "questionType": "TABLE"
+            }
+         ],
+         "genericName": "MODULE",
+         "name": "S1",
+         "responses": [],
+         "id": "j5cjsys2",
+         "label": [
+            "S1"
+         ],
+         "type": "SequenceType",
+         "questionType": "",
+         "declarations": [],
+         "goTos": []
+      }
+   ],
+   "name": "Q3",
+   "survey": {
+      "agency": "fr.insee",
+      "name": "POPO",
+      "id": ""
+   },
+   "id": "j5cjl0kv",
+   "owner": "DG75-L120"
 }

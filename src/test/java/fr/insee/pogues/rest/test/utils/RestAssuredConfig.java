@@ -14,6 +14,7 @@ public class RestAssuredConfig {
 
     public static String jUsername = "D5WQNO";
     public static String jPassword = "D5WQNO";
+    public static String jUserPermission = "DG75-L120";
 
 
     public static void configure(){
