@@ -186,6 +186,7 @@ public class PoguesPersistence {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 404, message = "Not found")
     })
+	@OwnerRestricted
 	public Response updateQuestionnaire(
 			@ApiParam(value = "The id of the object that need to be updated", required = true)
 			@PathParam(value = "id") String id, JSONObject jsonContent
