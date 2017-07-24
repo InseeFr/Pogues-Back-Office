@@ -28,9 +28,10 @@ public class XmlDiff {
             transformService.transform(input, output);
             return DiffBuilder
                     .compare(Input.fromStream(expectedOutput))
-                    .withTest(new String(((ByteArrayOutputStream) output).toByteArray()))
-                    .checkForIdentical()
+                    .withTest(new String(((ByteArrayOutputStream) output).toByteArray(), "UTF-8"))
                     .ignoreWhitespace()
+                    .normalizeWhitespace()
+                    .checkForIdentical()
                     .build();
         } catch (Exception e) {
             throw e;

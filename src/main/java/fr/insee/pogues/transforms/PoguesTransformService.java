@@ -73,6 +73,7 @@ public class PoguesTransformService implements  TransformService {
         out.setOutputProperty(Serializer.Property.METHOD, "xml");
         out.setOutputProperty(Serializer.Property.INDENT, "yes");
         out.setOutputProperty(Serializer.Property.OMIT_XML_DECLARATION, "yes");
+        out.setOutputProperty(Serializer.Property.ENCODING, "utf-8");
         return out;
     }
 
