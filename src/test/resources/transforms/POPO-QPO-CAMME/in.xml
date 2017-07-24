@@ -1,0 +1,1699 @@
+<Questionnaire xmlns="http://xml.insee.fr/schema/applis/pogues" id="fr.insee-POPO-QPO-CAMME_TEST1" depth="0" genericName="QUESTIONNAIRE" agency="fr.insee">
+    <Name>CAMME_TEST1</Name>
+    <Label>Enquête Conjoncture auprès des ménages</Label>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="iju7m4un" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>MOD_GEST</Name>
+        <Label>Module gestion</Label>
+        <Declaration>
+            <Text>Madame, Monsieur, l’Insee a envoyé à votre adresse un courrier annonçant la réalisation d'une enquête de conjoncture auprès des ménages sur internet. Le destinataire de ce courrier, ou son conjoint, fait partie de l’échantillon de cette enquête. </Text>
+        </Declaration>
+        <Declaration>
+            <Text>Madame, Monsieur, l’Insee poursuit la réalisation d'une enquête de conjoncture sur internet pour laquelle votre ménage a déjà été contacté (si NUMVAGUE = 2) &lt;le mois dernier&gt; (si NUMVAGUE = 3) &lt;il y a deux mois&gt;</Text>
+        </Declaration>
+        <Child id="iju78kxz" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>DESTINAT</Name>
+            <Label>##{"label":"Êtes-vous le destinataire du courrier présentant l’enquête ou son(sa) conjoint(e) ?","conditions":[]} Êtes-vous le destinataire du courrier présentant l’enquête ou son(sa) conjoint(e) ?</Label>
+            <GoTo id="imn76bcb">
+                <Expression>${S1-Q1-R1}='0'</Expression>
+                <IfTrue>ikqywg3r</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>cl_ouinon</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ikjhw7ar" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>CONFADR</Name>
+            <Label>##{"label":"Avez-vous déménagé depuis le 1er janvier 2014 ?","conditions":[]} Avez-vous déménagé depuis le 1er janvier 2014 ?</Label>
+            <GoTo id="imn6wq9t">
+                <Expression>${S1-Q2-R1}='1'</Expression>
+                <IfTrue>ikr2y8ed</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>cl_ouinon</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ikqyogw3" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>RESPRIN</Name>
+            <Label>##{"label":"Le logement auquel vous avez reçu le courrier présentant l’enquête est-il votre résidence principale ?","conditions":[]} Le logement auquel vous avez reçu le courrier présentant l’enquête est-il votre résidence principale ?</Label>
+            <GoTo id="inzp0ee1">
+                <Expression>${S1-Q3-R1}='1'</Expression>
+                <IfTrue>ig2b3tc1</IfTrue>
+            </GoTo>
+            <GoTo id="inzoo4my">
+                <Expression>${S1-Q3-R1}='2'</Expression>
+                <IfTrue>ikr37bab</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>ikqyt729</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ikqyp5zz" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>CONFADR2</Name>
+            <Label>##{"label":"Avez-vous déménagé depuis le mois dernier ?","conditions":[]} Avez-vous déménagé depuis le mois dernier ?</Label>
+            <Response mandatory="false">
+                <CodeListReference>cl_ouinon</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ikqyrkal" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>RESPRINR</Name>
+            <Label>##{"label":"Le logement auquel vous avez reçu le courrier présentant l’enquête est-il toujours votre résidence principale ?","conditions":[]} Le logement auquel vous avez reçu le courrier présentant l’enquête est-il toujours votre résidence principale ?</Label>
+            <Response mandatory="false">
+                <CodeListReference>ikqyt729</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ikqywg3r" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>RESID</Name>
+            <Label>##{"label":"Le destinataire du courrier ou son(sa) conjoint(e) réside-t-il(elle) toujours à l’adresse indiquée ?","conditions":[]} Le destinataire du courrier ou son(sa) conjoint(e) réside-t-il(elle) toujours à l’adresse indiquée ?</Label>
+            <Response mandatory="false">
+                <CodeListReference>cl_ouinon</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ikr0kpod" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>INTROB</Name>
+        <Label>Introduction</Label>
+        <Declaration>
+            <Text>Merci de bien vouloir faire remplir ce questionnaire par le destinataire du courrier (ou son conjoint) avant le DATE1. En effet, cette personne a été sélectionnée pour prendre en compte la diversité des caractéristiques de la population et ainsi assurer la qualité statistique des résultats. Sa participation à cette enquête est donc importante.</Text>
+        </Declaration>
+        <Child id="ikr0goar" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>POURSUIT</Name>
+            <Label>##{"label":"Souhaitez-vous :","conditions":[]} Souhaitez-vous :</Label>
+            <Response mandatory="false">
+                <CodeListReference>ikqz2fbb</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ig2b9je4" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>MODULECONJ</Name>
+        <Label>Module Conjoncture</Label>
+        <Declaration>
+            <Text>Je vais maintenant vous poser quelques questions générales&#160;:</Text>
+        </Declaration>
+        <Child id="ig2b3tc1" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>SITUAECO</Name>
+            <Label>##{"label":"À votre avis, au cours des douze derniers mois, la situation économique générale de la France","conditions":[]} À votre avis, au cours des douze derniers mois, la situation économique générale de la France</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju5zwog</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ig2b0nd9" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>ECOFUT</Name>
+            <Label>##{"label":"À votre avis, au cours des douze prochains mois, la situation économique générale de la France va","conditions":[]} À votre avis, au cours des douze prochains mois, la situation économique générale de la France va</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju5x4kz</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ig2bez6d" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>CHOMEURS</Name>
+            <Label>##{"label":"Pensez-vous que, dans les douze prochains mois le nombre de chômeurs va","conditions":[]} Pensez-vous que, dans les douze prochains mois le nombre de chômeurs va</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju5zedz</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ig2bc17u" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>PRIX</Name>
+            <Label>##{"label":"Pensez-vous qu’au cours des douze derniers mois les prix ont","conditions":[]} Pensez-vous qu’au cours des douze derniers mois les prix ont</Label>
+            <GoTo id="ikh37dr3">
+                <Expression>${S3-Q4-R1} ='5'</Expression>
+                <IfTrue>iju61f8d</IfTrue>
+            </GoTo>
+            <GoTo id="ikh3k2pw">
+                <Expression>${S3-Q4-R1} ='4' or ${S3-Q4-R1} =''</Expression>
+                <IfTrue>iju6fk3z</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>iju5vrxk</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju6a39d" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>PRIXPLUS</Name>
+            <Label>##{"label":"De quel pourcentage pensez-vous que les prix ont augmenté au cours des douze derniers mois ? ","conditions":[]} De quel pourcentage pensez-vous que les prix ont augmenté au cours des douze derniers mois ?</Label>
+            <GoTo id="iky0eqff">
+                <Expression>${S3-Q4-R1}='1' or ${S3-Q4-R1}='2' or ${S3-Q4-R1}='3'</Expression>
+                <IfTrue>iju6fk3z</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>100</Maximum>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju61f8d" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>PRIXBAIS</Name>
+            <Label>##{"label":"De quel pourcentage pensez-vous que les prix ont baissé au cours des douze derniers mois ?","conditions":[]} De quel pourcentage pensez-vous que les prix ont baissé au cours des douze derniers mois ?</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju6fk3z" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>EVOLPRIX</Name>
+            <Label>##{"label":"Par rapport aux douze derniers mois, quelle sera à votre avis l’évolution des prix au cours des douze prochains mois&#160;?","conditions":[]} Par rapport aux douze derniers mois, quelle sera à votre avis l’évolution des prix au cours des douze prochains mois&#160;?</Label>
+            <GoTo id="ikxzpong">
+                <Expression>${S3-Q7-R1}='4' or ${S3-Q7-R1}=''</Expression>
+                <IfTrue>iju63omo</IfTrue>
+            </GoTo>
+            <GoTo id="ikxzya1n">
+                <Expression>${S3-Q7-R1}='5'</Expression>
+                <IfTrue>iju5y2wt</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>iju6vzop</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju68aae" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>EVPRIPLU</Name>
+            <Label>##{"label":"De quel pourcentage pensez-vous que les prix vont augmenter au cours des douze prochains mois&#160;?&#160;","conditions":[]} De quel pourcentage pensez-vous que les prix vont augmenter au cours des douze prochains mois&#160;?&#160;</Label>
+            <GoTo id="iky0km0j">
+                <Expression>${S3-Q7-R1}='1' or ${S3-Q7-R1}='2' or ${S3-Q7-R1}='3'</Expression>
+                <IfTrue>iju63omo</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>100</Maximum>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju5y2wt" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>EVPRIBAI</Name>
+            <Label>##{"label":"De quel pourcentage pensez-vous que les prix vont baisser au cours des douze prochains mois&#160;?","conditions":[]} De quel pourcentage pensez-vous que les prix vont baisser au cours des douze prochains mois&#160;?</Label>
+            <Response mandatory="false">
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>100</Maximum>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju63omo" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>ACHATS</Name>
+            <Label>##{"label":"Dans la situation économique actuelle, pensez-vous que les gens aient intérêt à faire des achats importants&#160;?","conditions":[]} Dans la situation économique actuelle, pensez-vous que les gens aient intérêt à faire des achats importants&#160;?</Label>
+            <Declaration>
+                <Text>(meubles, électroménager, matériels électroniques ou informatiques...)</Text>
+            </Declaration>
+            <Response mandatory="false">
+                <CodeListReference>iju69jce</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju5y2ss" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>EPARGNER</Name>
+            <Label>##{"label":"Dans la situation économique actuelle, pensez-vous que ce soit le bon moment pour épargner ?","conditions":[]} Dans la situation économique actuelle, pensez-vous que ce soit le bon moment pour épargner ?</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju69fee</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju63on9" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>NIVPASS</Name>
+            <Label>##{"label":"A votre avis, au cours des douze derniers mois, le niveau de vie en France, dans l’ensemble …","conditions":[]} A votre avis, au cours des douze derniers mois, le niveau de vie en France, dans l’ensemble …</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju6danv</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju5xhj7" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>NIVFUT</Name>
+            <Label>##{"label":"A votre avis, au cours des douze prochains mois, le niveau de vie en France, dans l’ensemble, va…","conditions":[]} A votre avis, au cours des douze prochains mois, le niveau de vie en France, dans l’ensemble, va…</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju5x4kz</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju63hvt" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>FINANCES</Name>
+            <Label>##{"label":"Laquelle des affirmations suivantes vous semble décrire le mieux la situation financière actuelle de votre foyer ?","conditions":[]} Laquelle des affirmations suivantes vous semble décrire le mieux la situation financière actuelle de votre foyer ?</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju6tn8q</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju5yvo0" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>FINANPAS</Name>
+            <Label>##{"label":"Au cours des douze derniers mois, la situation financière de votre foyer …","conditions":[]} Au cours des douze derniers mois, la situation financière de votre foyer …</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju5zwog</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju6af5k" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>FINANFUT</Name>
+            <Label>##{"label":"Pensez-vous qu’au cours des douze prochains mois, la situation financière de votre foyer va…","conditions":[]} Pensez-vous qu’au cours des douze prochains mois, la situation financière de votre foyer va…</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju5x4kz</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju61hp0" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>ECONOMIS</Name>
+            <Label>##{"label":"Pensez-vous réussir à mettre de l'argent de côté au cours des douze prochains mois&#160;?","conditions":[]} Pensez-vous réussir à mettre de l'argent de côté au cours des douze prochains mois&#160;?</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju69fee</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju6dx3m" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>EQUIPAS</Name>
+            <Label>##{"label":"Avez-vous fait des achats importants au cours des douze derniers mois&#160;?","conditions":[]} Avez-vous fait des achats importants au cours des douze derniers mois&#160;?</Label>
+            <Declaration>
+                <Text>  (meubles, électroménager, matériels électroniques ou informatiques...) </Text>
+            </Declaration>
+            <Response mandatory="false">
+                <CodeListReference>cl_ouinon</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju688h6" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>EQUIPFUT</Name>
+            <Label>##{"label":"Avez-vous l'intention d'effectuer des achats importants au cours des douze prochains mois ?","conditions":[]} Avez-vous l'intention d'effectuer des achats importants au cours des douze prochains mois ?</Label>
+            <GoTo id="ikibtkqx">
+                <Expression>${S3-Q18-R1} !='1'  or (${S3-Q19-R1} !='1' and ${S3-Q19-R1} !='2') </Expression>
+                <IfTrue>iju6cmhe</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>iju69fee</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju60ei7" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>DEPENSES</Name>
+            <Label>##{"label":"Au cours des douze prochains mois, par rapport aux douze mois passés, avez-vous l'intention de dépenser, pour effectuer des achats importants…","conditions":[]} Au cours des douze prochains mois, par rapport aux douze mois passés, avez-vous l'intention de dépenser, pour effectuer des achats importants…</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju6peun</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju6cmhe" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>LOGEMENT</Name>
+            <Label>##{"label":"Envisagez-vous d'acheter un logement neuf ou ancien (ou de faire construire) au cours des douze prochains mois&#160;?","conditions":[]} Envisagez-vous d'acheter un logement neuf ou ancien (ou de faire construire) au cours des douze prochains mois&#160;?</Label>
+            <Declaration>
+                <Text> (logement principal pour vous ou un membre de votre famille, résidence secondaire, logement destiné à la location… )</Text>
+            </Declaration>
+            <Response mandatory="false">
+                <CodeListReference>iju69fee</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju6jygt" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>DEPENSLO</Name>
+            <Label>##{"label":"Avez-vous l'intention d'engager des dépenses importantes pour l’amélioration ou la rénovation d'un logement (quel qu'il soit) au cours des douze prochains mois ? ","conditions":[]} Avez-vous l'intention d'engager des dépenses importantes pour l’amélioration ou la rénovation d'un logement (quel qu'il soit) au cours des douze prochains mois ?</Label>
+            <Declaration>
+                <Text>(chauffage, équipement sanitaire...)</Text>
+            </Declaration>
+            <Response mandatory="false">
+                <CodeListReference>iju69fee</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju67xz0" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>AUTO</Name>
+            <Label>##{"label":"Avez-vous l'intention d'acheter une automobile au cours des douze prochains mois ?","conditions":[]} Avez-vous l'intention d'acheter une automobile au cours des douze prochains mois ?</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju69fee</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="iju6vl9q" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>MODULESOCI</Name>
+        <Label>Module socio-démographique</Label>
+        <Declaration>
+            <Text>Je vais maintenant vous poser quelques questions concernant votre ménage et votre logement.</Text>
+        </Declaration>
+        <Child id="iju6xfm6" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>ANNAISS</Name>
+            <Label>##{"label":"Quelle est votre année de naissance ?","conditions":[]} Quelle est votre année de naissance ?</Label>
+            <Declaration>
+                <Text>Saisissez quatre chiffres pour l’année</Text>
+            </Declaration>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju6x5bc" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>DIPLOME</Name>
+            <Label>##{"label":"Quel est votre diplôme le plus élevé&#160;?","conditions":[]} Quel est votre diplôme le plus élevé&#160;?</Label>
+            <GoTo id="ikjiueef">
+                <Expression>${S4-Q2-R1}='7' or ${S4-Q2-R1}='8' or ${S4-Q2-R1}='9' or ${S4-Q2-R1}='10' or ${S4-Q2-R1}='11' or ${S4-Q2-R1}='12' or  ${S4-Q2-R1}=''</Expression>
+                <IfTrue>iju70nt2</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>iju7hltj</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7evn1" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>NIVETUD</Name>
+            <Label>##{"label":"Quel est votre niveau d'études ?","conditions":[]} Quel est votre niveau d'études ?</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju7xsg7</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju70nt2" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>OCCUPA2</Name>
+            <Label>##{"label":"Quelle est votre situation principale actuelle vis-à-vis du travail&#160;?","conditions":[]} Quelle est votre situation principale actuelle vis-à-vis du travail&#160;?</Label>
+            <Declaration>
+                <Text>- Si vous avez plusieurs employeurs ou plusieurs activités rémunérées, retenez l’activité principale à vos yeux.</Text>
+            </Declaration>
+            <Declaration>
+                <Text>- Si vous êtes actuellement en stage rémunéré, choisissez la modalité «&#160;Occupe un emploi&#160;».</Text>
+            </Declaration>
+            <GoTo id="ilrwdeig">
+                <Expression>${S4-Q4-R1}='3' or ${S4-Q4-R1}='4' or ${S4-Q4-R1}='6' or ${S4-Q4-R1}='7' or ${S4-Q4-R1}='8' or ${S4-Q4-R1}='9'</Expression>
+                <IfTrue>iju70jso</IfTrue>
+            </GoTo>
+            <GoTo id="ilrw6czf">
+                <Expression>${S4-Q4-R1}='5'</Expression>
+                <IfTrue>iju75j13</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>iju80syi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7dc0k" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>TYPEMPL2</Name>
+            <Label>##{"label":"Quel est votre type d’emploi&#160;?","conditions":[]} Quel est votre type d’emploi&#160;?</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju7trgx</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7562e" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>QUOTITE2</Name>
+            <Label>##{"label":"Travaillez-vous&#160;: ","conditions":[]} Travaillez-vous&#160;:</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju7kzgf</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7dlxp" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>PROFESIO</Name>
+            <Label>##{"label":"Quelle est votre profession?","conditions":[]} Quelle est votre profession?</Label>
+            <Declaration>
+                <Text>Intitulé en clair</Text>
+            </Declaration>
+            <GoTo id="ilrwtisz">
+                <Expression>${S4-Q4-R1}='1' or ${S4-Q4-R1}='2'</Expression>
+                <IfTrue>iju7dblp</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju70jso" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>DEJATRA</Name>
+            <Label>##{"label":"Avez-vous déjà travaillé ?","conditions":[]} Avez-vous déjà travaillé ?</Label>
+            <GoTo id="ilxv21i5">
+                <Expression>${S4-Q8-R1}='0'</Expression>
+                <IfTrue>iju7ffgm</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>cl_ouinon</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju79sbc" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>DERPROF</Name>
+            <Label>##{"label":"Quelle était votre dernière profession ?","conditions":[]} Quelle était votre dernière profession ?</Label>
+            <Declaration>
+                <Text>Intitulé en clair</Text>
+            </Declaration>
+            <GoTo id="ils0xqwp">
+                <Expression>${S4-Q4-R1}!='1' and ${S4-Q4-R1}!='2' and ${S4-Q4-R1}!='5' and ${S4-Q8-R1}!='0'</Expression>
+                <IfTrue>iju7dblp</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju75j13" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>PRINPROF</Name>
+            <Label>##{"label":"Quelle a été votre profession principale ? ","conditions":[]} Quelle a été votre profession principale ?</Label>
+            <Declaration>
+                <Text>Intitulé en clair</Text>
+            </Declaration>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7dblp" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>STATUT2</Name>
+            <Label>##{"label":"Vous êtes ou vous étiez…","conditions":[]} Vous êtes ou vous étiez…</Label>
+            <GoTo id="im39lpkk">
+                <Expression>(${S4-Q11-R1}='3' or ${S4-Q11-R1}='4') and (${S4-Q4-R1}='1' or ${S4-Q4-R1}='2') </Expression>
+                <IfTrue>iju79jfa</IfTrue>
+            </GoTo>
+            <GoTo id="im39ywur">
+                <Expression>((${S4-Q11-R1}='3' or ${S4-Q11-R1}='4') and (${S4-Q4-R1}!='1' and ${S4-Q4-R1}!='2')) or (${S4-Q11-R1}='5' or ${S4-Q11-R1}='6')</Expression>
+                <IfTrue>iju7ffgm</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>iju862pn</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju76327" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>GRADE2</Name>
+            <Label>##{"label":"Quel est ou quel était votre grade ?","conditions":[]} Quel est ou quel était votre grade ?</Label>
+            <GoTo id="im1vx6uj">
+                <Expression>${S4-Q11-R1}='1' or ${S4-Q11-R1}='2' or ${S4-Q11-R1}='7'</Expression>
+                <IfTrue>iju7ffgm</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>iju7rvlc</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju79jfa" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>CLASPRO2</Name>
+            <Label>##{"label":"Dans quelle classification professionnelle ?","conditions":[]} Dans quelle classification professionnelle ?</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju81qq1</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7ffgm" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>CONJOINT</Name>
+            <Label>##{"label":"Vivez-vous en couple ?","conditions":[]} Vivez-vous en couple ?</Label>
+            <GoTo id="imn6cbxd">
+                <Expression>${S4-Q14-R1}='0'</Expression>
+                <IfTrue>iju73uv0</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>cl_ouinon</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju73ejo" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>ANNAISCJ</Name>
+            <Label>##{"label":"Quelle est l’année de naissance de votre conjoint(e)? ","conditions":[]} Quelle est l’année de naissance de votre conjoint(e)?</Label>
+            <Declaration>
+                <Text>Saisissez quatre chiffres pour l’année</Text>
+            </Declaration>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju74fbq" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>DIPLOMEC</Name>
+            <Label>##{"label":"Quel est le diplôme le plus élevé de votre conjoint(e)&#160;?","conditions":[]} Quel est le diplôme le plus élevé de votre conjoint(e)&#160;?</Label>
+            <GoTo id="iky9qife">
+                <Expression>${S4-Q16-R1}='7' or ${S4-Q16-R1}='8' or ${S4-Q16-R1}='9' or ${S4-Q16-R1}='10' or ${S4-Q16-R1}='11' or ${S4-Q16-R1}='12' or  ${S4-Q16-R1}=''</Expression>
+                <IfTrue>iju7axsp</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>iju7hltj</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7ay2s" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>ETUDCONJ</Name>
+            <Label>##{"label":"Quel est le niveau d’études de votre conjoint(e)?","conditions":[]} Quel est le niveau d’études de votre conjoint(e)?</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju7xsg7</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7axsp" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>OCCUPCJ2</Name>
+            <Label>##{"label":"Quelle est la situation principale actuelle de votre conjoint(e) vis-à-vis du travail&#160;?","conditions":[]} Quelle est la situation principale actuelle de votre conjoint(e) vis-à-vis du travail&#160;?</Label>
+            <GoTo id="im39ot4q">
+                <Expression>${S4-Q18-R1}='3' or ${S4-Q18-R1}='4' or ${S4-Q18-R1}='6' or ${S4-Q18-R1}='7' or ${S4-Q18-R1}='8' or ${S4-Q18-R1}='9'</Expression>
+                <IfTrue>iju76qfh</IfTrue>
+            </GoTo>
+            <GoTo id="im39seft">
+                <Expression>${S4-Q18-R1}='5'</Expression>
+                <IfTrue>iju6zegu</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>iju80syi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju6y09l" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>TYPEMPC2</Name>
+            <Label>##{"label":"Quel est le type d’emploi de votre conjoint(e)&#160;?","conditions":[]} Quel est le type d’emploi de votre conjoint(e)&#160;?</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju7trgx</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju78y4s" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>QUOTITC2</Name>
+            <Label>##{"label":"Votre conjoint(e) travaille-t-il(elle)&#160;: ","conditions":[]} Votre conjoint(e) travaille-t-il(elle)&#160;:</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju7kzgf</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju71qur" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>PROFESCJ</Name>
+            <Label>##{"label":"Quelle est la profession de votre conjoint(e)? ","conditions":[]} Quelle est la profession de votre conjoint(e)?</Label>
+            <Declaration>
+                <Text>Intitulé en clair</Text>
+            </Declaration>
+            <GoTo id="im3a1spl">
+                <Expression>${S4-Q18-R1}='1' or ${S4-Q18-R1}='2'</Expression>
+                <IfTrue>iju7af2t</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju76qfh" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>DEJTRACJ</Name>
+            <Label>##{"label":"Votre conjoint(e) a-t-il(elle) déjà travaillé? ","conditions":[]} Votre conjoint(e) a-t-il(elle) déjà travaillé?</Label>
+            <GoTo id="im3p7n2p">
+                <Expression>${S4-Q22-R1}='0'</Expression>
+                <IfTrue>iju73uv0</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>cl_ouinon</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju73k3c" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>DERPROCJ</Name>
+            <Label>##{"label":"Quelle était la dernière profession de votre conjoint(e)&#160;? ","conditions":[]} Quelle était la dernière profession de votre conjoint(e)&#160;?</Label>
+            <Declaration>
+                <Text>Intitulé en clair</Text>
+            </Declaration>
+            <GoTo id="im3a7goo">
+                <Expression>${S4-Q18-R1}!='1' and ${S4-Q18-R1}!='2' and ${S4-Q18-R1}!='5' and ${S4-Q22-R1}!='0'</Expression>
+                <IfTrue>iju7af2t</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju6zegu" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>PRINPRCJ</Name>
+            <Label>##{"label":"Quelle a été la profession principale de votre conjoint(e) ? ","conditions":[]} Quelle a été la profession principale de votre conjoint(e) ?</Label>
+            <Declaration>
+                <Text>Intitulé en clair</Text>
+            </Declaration>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7af2t" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>STATUTC2</Name>
+            <Label>##{"label":"Votre conjoint(e) est ou était…","conditions":[]} Votre conjoint(e) est ou était…</Label>
+            <GoTo id="im3a7tc1">
+                <Expression>(${S4-Q25-R1}='3' or ${S4-Q25-R1}='4') and (${S4-Q18-R1}='1' or ${S4-Q18-R1}='2') </Expression>
+                <IfTrue>iju7apkz</IfTrue>
+            </GoTo>
+            <GoTo id="imn6qqbn">
+                <Expression>((${S4-Q25-R1}='3' or ${S4-Q25-R1}='4') and (${S4-Q18-R1}!='1' and ${S4-Q18-R1}!='2')) or (${S4-Q25-R1}='5' or ${S4-Q25-R1}='6')</Expression>
+                <IfTrue>iju73uv0</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>iju862pn</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7arws" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>GRADEC2</Name>
+            <Label>##{"label":"Quel est ou quel était le grade de votre conjoint(e)&#160;?","conditions":[]} Quel est ou quel était le grade de votre conjoint(e)&#160;?</Label>
+            <GoTo id="im3a5j6m">
+                <Expression>${S4-Q25-R1}='1' or ${S4-Q25-R1}='2' or ${S4-Q25-R1}='7'</Expression>
+                <IfTrue>iju73uv0</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>iju7rvlc</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7apkz" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>CLASPRC2</Name>
+            <Label>##{"label":"Quelle est ou était la classification professionnelle de votre conjoint(e)&#160;? ","conditions":[]} Quelle est ou était la classification professionnelle de votre conjoint(e)&#160;?</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju81qq1</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="iju79bkt" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>MOD_SOC_LOG</Name>
+        <Label>Module socio-démographique : votre logement</Label>
+        <Child id="iju73uv0" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>NBPERS</Name>
+            <Label>##{"label":"Quel est le nombre de personnes habitant votre logement?","conditions":[]} Quel est le nombre de personnes habitant votre logement?</Label>
+            <Declaration>
+                <Text>Entrer une valeur numérique comprise entre 01 et 19 y compris :</Text>
+            </Declaration>
+            <Declaration>
+                <Text>- les personnes temporairement absentes du logement (malades à l'hôpital, personnes en voyage d'affaire ou d'agrément)</Text>
+            </Declaration>
+            <Declaration>
+                <Text>- les personnes du ménage résidant provisoirement dans un logement collectif (élèves internes, étudiants en cité universitaire)</Text>
+            </Declaration>
+            <Declaration>
+                <Text>- les domestiques ou salariés logés dans le logement </Text>
+            </Declaration>
+            <Declaration>
+                <Text>- les conjoints occupant occasionnellement un autre logement</Text>
+            </Declaration>
+            <Declaration>
+                <Text>- les sous-locataires occupant des pièces non-indépendantes</Text>
+            </Declaration>
+            <Declaration>
+                <Text> - les personnes placées jour et nuit dans le ménage</Text>
+            </Declaration>
+            <Control id="ir6bzgw2" criticity="ERROR">
+                <Expression>${S4-Q14-R1}='1' and NUM(${S5-Q1-R1})&lt;2 and ${S5-Q1-R1}!=''</Expression>
+                <FailMessage>Valeur impossible. Vous avez déclaré vivre en couple, il ne peut donc y avoir moins de deux personnes dans le logement. Merci de corriger vos réponses.</FailMessage>
+            </Control>
+            <Response mandatory="false">
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>50</Maximum>
+                    <Decimals>1</Decimals>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju730zf" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>NBENFANT</Name>
+            <Label>##{"label":"Quel est le nombre d’enfants de moins de 14 ans vivant dans votre logement ?","conditions":[]} Quel est le nombre d’enfants de moins de 14 ans vivant dans votre logement ?</Label>
+            <Control id="ir6c56oc" criticity="ERROR">
+                <Expression>NUM(${S5-Q2-R1})-NUM(${S5-Q1-R1})&gt;0 and ${S5-Q2-R1}!='' and ${S5-Q1-R1}!=''</Expression>
+                <FailMessage>Valeur impossible, le nombre d’enfants de moins de 14 ans déclaré est supérieur au nombre de personnes habitant le logement. Merci de corriger vos réponses.</FailMessage>
+            </Control>
+            <Response mandatory="false">
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>50</Maximum>
+                    <Decimals>1</Decimals>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7el7v" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>NBACTIF</Name>
+            <Label>##{"label":"Quel est le nombre de personnes en emploi ou au chômage et à la recherche d’un emploi dans votre logement?","conditions":[]} Quel est le nombre de personnes en emploi ou au chômage et à la recherche d’un emploi dans votre logement?</Label>
+            <Control id="ir6c5a5s" criticity="ERROR">
+                <Expression>NUM(${S5-Q2-R1})+NUM(${S5-Q3-R1})-NUM(${S5-Q1-R1})&gt;0 and ${S5-Q2-R1}!='' and ${S5-Q1-R1}!='' and ${S5-Q3-R1}!=''</Expression>
+                <FailMessage>Valeur impossible, le nombre de personnes habitant le logement doit être supérieur ou égal au nombre d’enfants de moins de 14 ans cumulé au nombre d’actifs vivant dans le logement. Merci de corriger vos réponses. </FailMessage>
+            </Control>
+            <Response mandatory="false">
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>50</Maximum>
+                    <Decimals>1</Decimals>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju78xl9" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>REVENU</Name>
+            <Label>##{"label":"Quel est, au total, le revenu mensuel moyen de votre ménage ?","conditions":[]} Quel est, au total, le revenu mensuel moyen de votre ménage ?</Label>
+            <GoTo id="iky0vd3w">
+                <Expression>${S5-Q4-R1}!=''</Expression>
+                <IfTrue>iju7bfu6</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>50000</Maximum>
+                    <Decimals>1</Decimals>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7lyni" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>REVNUTRA</Name>
+            <Label>##{"label":"Pouvez-vous néanmoins situer votre revenu mensuel moyen dans l’une des tranches suivantes?","conditions":[]} Pouvez-vous néanmoins situer votre revenu mensuel moyen dans l’une des tranches suivantes?</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju8cbg2</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="iju7mbku" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>MOD_SOC_REPOND</Name>
+        <Label>Module socio-démo : qui répond</Label>
+        <Child id="iju7bfu6" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>QUIREPON</Name>
+            <Label>##{"label":"Indiquez qui a répondu au questionnaire","conditions":[]} Indiquez qui a répondu au questionnaire</Label>
+            <Response mandatory="false">
+                <CodeListReference>iju8934e</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="iju7maco" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>SEXE</Name>
+            <Label>##{"label":"La personne ayant répondu est&#160;:","conditions":[]} La personne ayant répondu est&#160;:</Label>
+            <GoTo id="iky32a74">
+                <Expression>${S6-Q2-R1}!=''</Expression>
+                <IfTrue>ikr3nd3q</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>cl_sexe</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ikr37bab" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>FINA</Name>
+        <Label>Fin de l'enquête</Label>
+        <Declaration>
+            <Text>Votre réponse nous conduit à arrêter là cette enquête. En effet, l’Insee réalise son étude uniquement auprès des ménages en résidence principale au moment de l’enquête. Nous vous remercions néanmoins d’avoir répondu à ces quelques questions.</Text>
+        </Declaration>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ikr36v08" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>FINB</Name>
+        <Label>Fin de l'enquête</Label>
+        <Declaration>
+            <Text>Votre réponse nous conduit à arrêter là cette enquête. En effet, le destinataire du courrier (ou son conjoint) a été sélectionné pour prendre en compte la diversité des caractéristiques de la population et ainsi assurer la qualité statistique des résultats. Il n’est donc pas possible de vous substituer à cette personne. Nous vous remercions néanmoins d’avoir répondu à ces quelques questions.</Text>
+        </Declaration>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ikr2y8ed" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>FINC</Name>
+        <Label>Fin de l'enquête</Label>
+        <Declaration>
+            <Text>Votre réponse nous conduit à arrêter là cette enquête. Comme vous avez changé d’adresse, vous n’êtes plus concerné par l’enquête de conjoncture auprès des ménages. Nous vous remercions néanmoins d’avoir répondu à ces quelques questions.</Text>
+        </Declaration>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ikr3nd3q" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>FINR</Name>
+        <Label>Fin de l'enquête</Label>
+        <Child id="ikr40kz5" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>COMFIN</Name>
+            <Label>##{"label":"L’enquête est terminée. Si vous le souhaitez, vous pouvez ajouter un commentaire.","conditions":[]} L’enquête est terminée. Si vous le souhaitez, vous pouvez ajouter un commentaire.</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>400</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ikr3yf3o" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>MAIL</Name>
+            <Label>##{"label":"Pour poursuivre cette étude, l'Insee aura besoin de votre collaboration le mois prochain, au cours duquel vous serez à nouveau contacté. A cet effet, pourriez-vous nous communiquer votre adresse-mail ?","conditions":[]} Pour poursuivre cette étude, l'Insee aura besoin de votre collaboration le mois prochain, au cours duquel vous serez à nouveau contacté. A cet effet, pourriez-vous nous communiquer votre adresse-mail ?</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>100</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ikr3xvl5" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>CONFMAIL</Name>
+            <Label>##{"label":"Pour poursuivre cette étude, l'Insee aura besoin de votre collaboration le mois prochain, au cours duquel vous serez contacté une dernière fois. A cet effet, pourriez-vous nous confirmer votre adresse-mail ?","conditions":[]} Pour poursuivre cette étude, l'Insee aura besoin de votre collaboration le mois prochain, au cours duquel vous serez contacté une dernière fois. A cet effet, pourriez-vous nous confirmer votre adresse-mail ?</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>100</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Survey id="ig2asfhm" agency="fr.insee">
+        <Name>POPO</Name>
+    </Survey>
+    <ComponentGroup id="j3pmxw72">
+        <Name>PAGE_1</Name>
+        <Label>Components for page 1</Label>
+        <MemberReference>iju7m4un</MemberReference>
+        <MemberReference>iju78kxz</MemberReference>
+        <MemberReference>ikjhw7ar</MemberReference>
+        <MemberReference>ikqyogw3</MemberReference>
+        <MemberReference>ikqyp5zz</MemberReference>
+        <MemberReference>ikqyrkal</MemberReference>
+        <MemberReference>ikqywg3r</MemberReference>
+        <MemberReference>ikr0kpod</MemberReference>
+        <MemberReference>ikr0goar</MemberReference>
+        <MemberReference>ig2b9je4</MemberReference>
+        <MemberReference>ig2b3tc1</MemberReference>
+        <MemberReference>ig2b0nd9</MemberReference>
+        <MemberReference>ig2bez6d</MemberReference>
+        <MemberReference>ig2bc17u</MemberReference>
+        <MemberReference>iju6a39d</MemberReference>
+        <MemberReference>iju61f8d</MemberReference>
+        <MemberReference>iju6fk3z</MemberReference>
+        <MemberReference>iju68aae</MemberReference>
+        <MemberReference>iju5y2wt</MemberReference>
+        <MemberReference>iju63omo</MemberReference>
+        <MemberReference>iju5y2ss</MemberReference>
+        <MemberReference>iju63on9</MemberReference>
+        <MemberReference>iju5xhj7</MemberReference>
+        <MemberReference>iju63hvt</MemberReference>
+        <MemberReference>iju5yvo0</MemberReference>
+        <MemberReference>iju6af5k</MemberReference>
+        <MemberReference>iju61hp0</MemberReference>
+        <MemberReference>iju6dx3m</MemberReference>
+        <MemberReference>iju688h6</MemberReference>
+        <MemberReference>iju60ei7</MemberReference>
+        <MemberReference>iju6cmhe</MemberReference>
+        <MemberReference>iju6jygt</MemberReference>
+        <MemberReference>iju67xz0</MemberReference>
+        <MemberReference>iju6vl9q</MemberReference>
+        <MemberReference>iju6xfm6</MemberReference>
+        <MemberReference>iju6x5bc</MemberReference>
+        <MemberReference>iju7evn1</MemberReference>
+        <MemberReference>iju70nt2</MemberReference>
+        <MemberReference>iju7dc0k</MemberReference>
+        <MemberReference>iju7562e</MemberReference>
+        <MemberReference>iju7dlxp</MemberReference>
+        <MemberReference>iju70jso</MemberReference>
+        <MemberReference>iju79sbc</MemberReference>
+        <MemberReference>iju75j13</MemberReference>
+        <MemberReference>iju7dblp</MemberReference>
+        <MemberReference>iju76327</MemberReference>
+        <MemberReference>iju79jfa</MemberReference>
+        <MemberReference>iju7ffgm</MemberReference>
+        <MemberReference>iju73ejo</MemberReference>
+        <MemberReference>iju74fbq</MemberReference>
+        <MemberReference>iju7ay2s</MemberReference>
+        <MemberReference>iju7axsp</MemberReference>
+        <MemberReference>iju6y09l</MemberReference>
+        <MemberReference>iju78y4s</MemberReference>
+        <MemberReference>iju71qur</MemberReference>
+        <MemberReference>iju76qfh</MemberReference>
+        <MemberReference>iju73k3c</MemberReference>
+        <MemberReference>iju6zegu</MemberReference>
+        <MemberReference>iju7af2t</MemberReference>
+        <MemberReference>iju7arws</MemberReference>
+        <MemberReference>iju7apkz</MemberReference>
+        <MemberReference>iju79bkt</MemberReference>
+        <MemberReference>iju73uv0</MemberReference>
+        <MemberReference>iju730zf</MemberReference>
+        <MemberReference>iju7el7v</MemberReference>
+        <MemberReference>iju78xl9</MemberReference>
+        <MemberReference>iju7lyni</MemberReference>
+        <MemberReference>iju7mbku</MemberReference>
+        <MemberReference>iju7bfu6</MemberReference>
+        <MemberReference>iju7maco</MemberReference>
+        <MemberReference>ikr37bab</MemberReference>
+        <MemberReference>ikr36v08</MemberReference>
+        <MemberReference>ikr2y8ed</MemberReference>
+        <MemberReference>ikr3nd3q</MemberReference>
+        <MemberReference>ikr40kz5</MemberReference>
+        <MemberReference>ikr3yf3o</MemberReference>
+        <MemberReference>ikr3xvl5</MemberReference>
+    </ComponentGroup>
+    <CodeLists>
+        <CodeList id="cl_ouinon">
+            <Name>cl_ouinon</Name>
+            <Label>Oui / Non</Label>
+            <Code>
+                <Value>1</Value>
+                <Label>Oui</Label>
+            </Code>
+            <Code>
+                <Value>0</Value>
+                <Label>Non</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="cl_sexe">
+            <Name>cl_sexe</Name>
+            <Label>Sexe</Label>
+            <Code>
+                <Value>0</Value>
+                <Label>Homme</Label>
+            </Code>
+            <Code>
+                <Value>1</Value>
+                <Label>Femme</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ig2bg2o2">
+            <Name>test_liste_camme</Name>
+            <Label>test_liste_camme</Label>
+            <Code>
+                <Value/>
+                <Label>fortement augmenté</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>modérément augmenté</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>un peu augmenté</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>stagné</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>diminué</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Ne sait pas</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju5vrxk">
+            <Name>Camme_conj4</Name>
+            <Label>Camme_conj4</Label>
+            <Code>
+                <Value/>
+                <Label>fortement augmenté</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>modérément augmenté</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>un peu augmenté</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>stagné</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>diminué</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju5x4kz">
+            <Name>camme_conj2</Name>
+            <Label>camme_conj2</Label>
+            <Code>
+                <Value/>
+                <Label>nettement s’améliorer</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>un peu s’améliorer</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>rester stationnaire</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>un peu se dégrader</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>nettement se dégrader</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju5zedz">
+            <Name>camme_conj3</Name>
+            <Label>camme_conj3</Label>
+            <Code>
+                <Value/>
+                <Label>fortement augmenter</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>un peu augmenter</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>rester stationnaire</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>un peu diminuer</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>fortement diminuer</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju5zwog">
+            <Name>camme_conj1</Name>
+            <Label>camme_conj1</Label>
+            <Code>
+                <Value/>
+                <Label>s’est nettement améliorée</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>s’est un peu améliorée</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>est restée stationnaire</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>s’est un peu dégradée</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>s’est nettement dégradée</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju69fee">
+            <Name>camme_conj_ON_nuances</Name>
+            <Label>camme_conj_ON_nuances</Label>
+            <Code>
+                <Value/>
+                <Label>Oui, certainement</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Oui, peut-être</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Non, probablement pas</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Non, certainement pas</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju69jce">
+            <Name>camme_conj_achats</Name>
+            <Label>camme_conj_achats</Label>
+            <Code>
+                <Value/>
+                <Label>Oui, le moment est plutôt favorable</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Le moment n'est ni favorable ni défavorable</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label> Non, le moment est plutôt défavorable</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju6danv">
+            <Name>camme_conjNIV</Name>
+            <Label>camme_conjNIV</Label>
+            <Code>
+                <Value/>
+                <Label>s’est nettement amélioré</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>s’est un peu amélioré</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>est resté stationnaire</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>s’est un peu dégradé</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>s’est nettement dégradé</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju6hbgx">
+            <Name>camme_conj5</Name>
+            <Label>camme_conj5</Label>
+            <Code>
+                <Value/>
+                <Label>La hausse va être plus rapide</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>La hausse va être moins rapide</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>La hausse va être moins rapide</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Les prix vont rester stationnaires</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Les prix vont diminuer</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju6peun">
+            <Name>camme_conj_depenses</Name>
+            <Label>camme_conj_depenses</Label>
+            <Code>
+                <Value/>
+                <Label>beaucoup plus</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>un peu plus</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>autant</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>un peu moins</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>beaucoup moins</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju6tn8q">
+            <Name>camme_conj_finances</Name>
+            <Label>camme_conj_finances</Label>
+            <Code>
+                <Value/>
+                <Label>Vous arrivez à mettre beaucoup d'argent de côté</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Vous arrivez à mettre un peu d'argent de côté</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Vous bouclez juste votre budget</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Vous tirez un peu sur vos réserves</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Vous êtes en train de vous endetter</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju6vzop">
+            <Name>camme_conj5cor</Name>
+            <Label>camme_conj5cor</Label>
+            <Code>
+                <Value/>
+                <Label>La hausse va être plus rapide</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>La hausse va se poursuivre au même rythme</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>La hausse va être moins rapide</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Les prix vont rester stationnaires</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Les prix vont diminuer</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju7hltj">
+            <Name>camme_conj_diplome</Name>
+            <Label>camme_conj_diplome</Label>
+            <Code>
+                <Value/>
+                <Label>Aucun diplôme</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Un CEP (certificat d’études primaires) ou diplôme étranger de même niveau</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Le brevet des collèges, BEPC, brevet élémentaire ou diplôme étranger de même niveauu</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>CAP, BEP ou diplôme de même niveau</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Baccalauréat général, technologique ou professionnel ou diplôme étranger de même niveau</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Diplôme de la santé et du travail social de niveau BAC</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Capacité en droit, DAEU, ESEU</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Diplôme de niveau BAC + 2 (DEUG, BTS, DUT, diplôme d’infirmier(ère) jusqu’à 2011, de kinésithérapeute, d’assistant(e) social(e), etc.)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Licence, licence pro., diplôme d’infirmier(ère) depuis 2012, maîtrise, master 1</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Master, DEA, DESS, diplôme de grandes écoles de niveau BAC + 5 (ingénieur, commerce) ou équivalent</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Doctorat de santé (médecine, pharmacie, dentaire)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Doctorat hors santé</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju7kzgf">
+            <Name>camme_soc_quotite</Name>
+            <Label>camme_soc_quotite</Label>
+            <Code>
+                <Value/>
+                <Label>à temps complet&#160;?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>à temps partiel ou incomplet (mi temps, 90&#160;%, 80&#160;%,etc.)&#160;?</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju7rvlc">
+            <Name>camme_soc_grade</Name>
+            <Label>camme_soc_grade</Label>
+            <Code>
+                <Value/>
+                <Label>Catégorie A ou assimilé</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Catégorie B ou assimilé</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Catégorie C ou assimilé</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju7trgx">
+            <Name>camme_soc_empl</Name>
+            <Label>camme_soc_empl</Label>
+            <Code>
+                <Value/>
+                <Label>Emploi sans limite de durée (CDI, titulaire de la fonction publique ou indépendant)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Emploi à durée déterminée (CDD, intérim, saisonnier, apprentissage, contrat d’avenir, etc.)</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju7xsg7">
+            <Name>camme_conj_etud</Name>
+            <Label>camme_conj_etud</Label>
+            <Code>
+                <Value/>
+                <Label>Pas d’études</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Primaire</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Secondaire</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Supérieur</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju80syi">
+            <Name>camme_conj_occupa</Name>
+            <Label>camme_conj_occupa</Label>
+            <Code>
+                <Value/>
+                <Label>Occupe un emploi (salarié(e) ou indépendant(e))</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>En contrat d’apprentissage ou de professionnalisation</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Étudiant(e), élève en formation, en stage non rémunéré</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Chômeur(euse), inscrit(e) ou non à Pôle emploi</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Retraité(e) ou préretraité(e) retiré(e) des affaires</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Au foyer, occupé(e) à des tâches d’entretien de la maison ou de garde d’enfant(s) </Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Au foyer, en incapacité permanente de travail</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>En service civique</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Autre inactif(ve) </Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju81qq1">
+            <Name>camme_soc_claspro</Name>
+            <Label>camme_soc_claspro</Label>
+            <Code>
+                <Value/>
+                <Label>Manœuvre ou ouvrier(ère) spécialisé(e)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Ouvrier(ère) qualifié(e) ou hautement qualifié(e), technicien(ne) d’atelier</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Technicien(ne)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Agent de maîtrise, maîtrise administrative ou commerciale, VRP (non cadre)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Ingénieur, cadre (à l’exception des directeurs généraux ou de ses adjoints directs)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Employé(e) de bureau, employé(e) de commerce, personnel de services</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Directeur général, adjoint direct</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju862pn">
+            <Name>camme_soc_statut</Name>
+            <Label>camme_soc_statut</Label>
+            <Code>
+                <Value/>
+                <Label> salarié(e) de l'État</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label> salarié(e) d’une collectivité territoriale</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>salarié(e) d’une entreprise, d’un artisan, d’une association</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>salarié(e) d’un ou plusieurs particulier(s)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>chef d’entreprise salarié(e), PDG, gérant(e) minoritaire, associé(e)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>indépendant(e) ou à votre compte</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>salarié(e) des hôpitaux publics ou du secteur public social et médico-social</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju8934e">
+            <Name>camme_soc_quirepon</Name>
+            <Label>camme_soc_quirepon</Label>
+            <Code>
+                <Value/>
+                <Label>Le titulaire de la ligne</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Son conjoint</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="iju8cbg2">
+            <Name>camme_soc_revenu</Name>
+            <Label>camme_soc_revenu</Label>
+            <Code>
+                <Value/>
+                <Label> Moins de 400 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 400 € à moins de 600 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 600 € à moins de 800 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 800 € à moins de 1000 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 1000 € à moins de 1200 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 1200 € à moins de 1500 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 1500 € à moins de 1800 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 1800 € à moins de 2000 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 2000 € à moins de 2500 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 2500 € à moins de 3000 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 3000 € à moins de 4000 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 4000 € à moins de 6000 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>De 6000 € à moins de 10 000 €</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>10 000 € ou plus</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ikqyt729">
+            <Name>ON_NSP</Name>
+            <Label>ON_NSP</Label>
+            <Code>
+                <Value/>
+                <Label>Oui</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Non</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Ne sait pas</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ikqz2fbb">
+            <Name>liste_fin_gestion</Name>
+            <Label>liste_fin_gestion</Label>
+            <Code>
+                <Value/>
+                <Label>Commencer immédiatement cette enquêteavec le destinataire du courrier ou son conjoint ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Quitter l’enquête et vous reconnecter ultérieurementavec le destinataire du courrier ou son conjoint ?</Label>
+            </Code>
+        </CodeList>
+    </CodeLists>
+</Questionnaire>
