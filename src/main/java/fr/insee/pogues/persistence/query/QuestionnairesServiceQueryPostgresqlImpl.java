@@ -289,7 +289,6 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
 	    String id  = (String)questionnaire.get("id");
-	    logger.debug("XXX " + id);
         try {
             if(!this.getQuestionnaireByID(id).isEmpty()){
                 throw new NonUniqueResultException("Entity already exists");
