@@ -81,7 +81,7 @@ public class TestPoguesTransform {
     }
 
     private String getDiffMessage(Diff diff, String path) {
-        return String.format("Transformed ouput for %s should match expected DDI document: %s", path, diff.toString());
+        return String.format("Transformed output for %s should match expected DDI document:\n %s", path, diff.toString());
     }
 
 
