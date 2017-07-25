@@ -1,0 +1,3608 @@
+<Questionnaire xmlns="http://xml.insee.fr/schema/applis/pogues" id="fr.insee-POPO-QPO-CIS2017Q_E" depth="0" genericName="QUESTIONNAIRE" agency="fr.insee">
+    <Name>CIS2017Q_E</Name>
+    <Label>CIS2017Q_EnquÃªte communautaire sur lâinnovation 2017</Label>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbls41j" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>donneescadrage</Name>
+        <Label>DonnÃ©es de cadrage</Label>
+        <Child id="ixitlc6d" depth="2" genericName="SUBMODULE" xsi:type="SequenceType">
+            <Name>donneescadrage_ss1</Name>
+            <Label>Groupe, rÃ©seau d'enseigne</Label>
+            <Declaration declarationType="INSTRUCTION">
+                <Text>Si votre entreprise appartient Ã&#160; un groupe et/ou un rÃ©seau dâenseigne : veuillez ne prendre en compte dans votre rÃ©ponse que lâactivitÃ© de votre entreprise (unitÃ© lÃ©gale).
+</Text>
+            </Declaration>
+            <Child id="ixg5ncf8" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+                <Name>donneescadrage1a</Name>
+                <Label>##{"label":"En 2016, votre entreprise faisait-elle partie dâun groupe dâenseigne ?","conditions":[]} En 2016, votre entreprise faisait-elle partie dâun groupe dâenseigne ?</Label>
+                <GoTo id="ixj2jymo">
+                    <Expression>${S1-S1-Q1-R1}!='1'</Expression>
+                    <IfTrue>ixblt38f</IfTrue>
+                </GoTo>
+                <Response mandatory="false">
+                    <CodeListReference>ixbmkl0n</CodeListReference>
+                    <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                        <MaxLength>1</MaxLength>
+                        <Pattern/>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="ixbw23v1" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+                <Name>donneescadrage1b</Name>
+                <Label>##{"label":"Dans quel pays se trouve lâentreprise Ã&#160; la tÃªte de votre groupe ?","conditions":[]} Dans quel pays se trouve lâentreprise Ã&#160; la tÃªte de votre groupe ?</Label>
+                <Response mandatory="false">
+                    <CodeListReference>ixbw9tja</CodeListReference>
+                    <Datatype typeName="TEXT" visualizationHint="DROPDOWN" xsi:type="TextDatatypeType">
+                        <MaxLength>1</MaxLength>
+                        <Pattern/>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="ixblt38f" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+                <Name>donneescadrage1c</Name>
+                <Label>##{"label":"En 2016, votre entreprise faisait-elle partie dâun rÃ©seau dâenseigne ?","conditions":[]} En 2016, votre entreprise faisait-elle partie dâun rÃ©seau dâenseigne ?</Label>
+                <GoTo id="ixj2p1we">
+                    <Expression>${S1-S1-Q3-R1}!='1'</Expression>
+                    <IfTrue>ixbma0px</IfTrue>
+                </GoTo>
+                <Response mandatory="false">
+                    <CodeListReference>ixbmkl0n</CodeListReference>
+                    <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                        <MaxLength>1</MaxLength>
+                        <Pattern/>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="ixbvteqv" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+                <Name>donneescadrage1d</Name>
+                <Label>##{"label":"Dans quel pays se trouve lâentreprise Ã&#160; la tÃªte de votre rÃ©seau dâenseigne ?","conditions":[]} Dans quel pays se trouve lâentreprise Ã&#160; la tÃªte de votre rÃ©seau dâenseigne ?</Label>
+                <Response mandatory="false">
+                    <CodeListReference>ixbw9tja</CodeListReference>
+                    <Datatype typeName="TEXT" visualizationHint="DROPDOWN" xsi:type="TextDatatypeType">
+                        <MaxLength>1</MaxLength>
+                        <Pattern/>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+        <Child id="ixit763n" depth="2" genericName="SUBMODULE" xsi:type="SequenceType">
+            <Name>donneescadrage_ss2</Name>
+            <Label>Changements concernant l'activitÃ© de l'entreprise</Label>
+            <Child id="ixbma0px" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+                <Name>donneescadrage2</Name>
+                <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle :","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle :</Label>
+                <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                    <Text>Si votre entreprise appartient Ã&#160; un groupe et-ou un rÃ©seau dâenseigne : veuillez ne prendre en compte dans votre rÃ©ponse que lâactivitÃ© de votre entreprise (unitÃ© lÃ©gale).</Text>
+                </Declaration>
+                <Response>
+                    <CodeListReference>ixbmkl0n</CodeListReference>
+                    <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                        <MaxLength>1</MaxLength>
+                        <Pattern/>
+                    </Datatype>
+                </Response>
+                <Response>
+                    <CodeListReference>ixbmkl0n</CodeListReference>
+                    <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                        <MaxLength>1</MaxLength>
+                        <Pattern/>
+                    </Datatype>
+                </Response>
+                <ResponseStructure>
+                    <Dimension dimensionType="PRIMARY" dynamic="0">
+                        <CodeListReference>ixbo486p</CodeListReference>
+                    </Dimension>
+                    <Dimension dimensionType="MEASURE" dynamic="0"/>
+                </ResponseStructure>
+            </Child>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbm7aop" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>I</Name>
+        <Label>Informations gÃ©nÃ©rales sur lâentreprise</Label>
+        <Child id="ixblxy4o" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>I.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, sur quels marchÃ©s gÃ©ographiques votre entreprise a-t-elle vendu des biens ou des prestations de services ?","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, sur quels marchÃ©s gÃ©ographiques votre entreprise a-t-elle vendu des biens ou des prestations de services ?</Label>
+            <Declaration declarationType="HELP" position="DETACHABLE">
+                <Text>(\*) Pays associÃ©s : Albanie, Bosnie-HerzÃ©govine, Kosovo, Liechtenstein, MacÃ©doine, MontÃ©nÃ©gro, NorvÃ¨ge, Serbie, Suisse et Turquie.
+</Text>
+            </Declaration>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbmdl17</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbmjy7e" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>I.2</Name>
+            <Label>##{"label":"Laquelle de ces aires gÃ©ographiques reprÃ©sente votre marchÃ© le plus important en termes de chiffre dâaffaires ?","conditions":[]} Laquelle de ces aires gÃ©ographiques reprÃ©sente votre marchÃ© le plus important en termes de chiffre dâaffaires ?</Label>
+            <Control id="ixkgnlsd" criticity="ERROR">
+                <Expression>${S2-Q2-R1}='1' and ${S2-Q1-R1}!='1'</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce marchÃ© Ã&#160; la question prÃ©cÃ©dente. 
+Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixkh5kcf" criticity="ERROR">
+                <Expression>${S2-Q2-R1}='2' and ${S2-Q1-R2}!='1'</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce marchÃ© Ã&#160; la question prÃ©cÃ©dente. 
+Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixkgwy0s" criticity="ERROR">
+                <Expression>${S2-Q2-R1}='3' and ${S2-Q1-R3}!='1'</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce marchÃ© Ã&#160; la question prÃ©cÃ©dente. 
+Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixkgu0o7" criticity="ERROR">
+                <Expression>${S2-Q2-R1}='4' and ${S2-Q1-R4}!='1'</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce marchÃ© Ã&#160; la question prÃ©cÃ©dente. 
+Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Response mandatory="false">
+                <CodeListReference>ixbmdl17</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbmzdtn" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>II</Name>
+        <Label>Innovations de produits (biens ou prestations de services)</Label>
+        <Declaration declarationType="COMMENT">
+            <Text>Une **innovation de produit** est **lâintroduction sur le marchÃ© dâun bien ou service nouveau ou significativement amÃ©liorÃ©** par rapport aux produits prÃ©cÃ©demment Ã©laborÃ©s par lâentreprise au regard de ses caractÃ©ristiques essentielles, de sa convivialitÃ© (facilitÃ© dâusage), ses composants (ou son utilisation) et des Ã©lÃ©ments intÃ©grÃ©s.
+</Text>
+        </Declaration>
+        <Declaration declarationType="COMMENT">
+            <Text>**Les innovations de produits doivent Ãªtre nouvelles pour votre entreprise, mais il nâest pas nÃ©cessaire quâelles soient nouvelles pour votre marchÃ©**. Elles peuvent avoir Ã©tÃ© dÃ©veloppÃ©es Ã&#160; lâorigine par votre entreprise ou par dâautres entreprises ou organismes.
+</Text>
+        </Declaration>
+        <Child id="ixbn4bzk" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>II.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle introduit :","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle introduit :</Label>
+            <Control id="ixkj9n2e" criticity="ERROR">
+                <Expression>${S3-Q1-R1}='' or ${S3-Q1-R2}=''</Expression>
+                <FailMessage>Vous nâavez pas rÃ©pondu entiÃ¨rement rÃ©pondu Ã&#160; la question 1 qui est essentielle dans ce questionnaire. Il est prÃ©fÃ©rable de le faire avant de passer Ã&#160; la suite.</FailMessage>
+            </Control>
+            <GoTo id="ixj2mham">
+                <Expression>${S3-Q1-R1}='2' and ${S3-Q1-R2}='2'</Expression>
+                <IfTrue>ixbojeij</IfTrue>
+            </GoTo>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbmx8np</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbmtbz1" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>II.2</Name>
+            <Label>##{"label":"Qui a dÃ©veloppÃ© ces innovations de produits ?","conditions":[]} Qui a dÃ©veloppÃ© ces innovations de produits ?</Label>
+            <Declaration declarationType="HELP" position="DETACHABLE">
+                <Text>(\*) : entreprises indÃ©pendantes ou autres unitÃ©s du groupe : filiales, tÃªte de groupe, entreprises-sÅurs (contrÃ´lÃ©es par la mÃªme tÃªte de groupe), etc. Sont Ã©galement pris en compte les Ã©tablissements dâenseignement supÃ©rieur, les organismes de recherche, les institutions Ã&#160; but non lucratif, etc.
+</Text>
+            </Declaration>
+            <Control id="ixkjjwwf" criticity="ERROR">
+                <Expression>${S3-Q1-R1}='' and ${S3-Q2-R1}='1'</Expression>
+                <FailMessage>Vous indiquez nâavoir introduit aucune innovation de bien Ã&#160; la question prÃ©cÃ©dente, veuillez revoir votre rÃ©ponse.</FailMessage>
+            </Control>
+            <Control id="ixkm9636" criticity="ERROR">
+                <Expression>${S3-Q1-R1}='' and ${S3-Q2-R2}='1'</Expression>
+                <FailMessage>Vous indiquez nâavoir introduit aucune innovation de bien Ã&#160; la question prÃ©cÃ©dente, veuillez revoir votre rÃ©ponse.</FailMessage>
+            </Control>
+            <Control id="ixkma0sb" criticity="ERROR">
+                <Expression>${S3-Q1-R1}='' and ${S3-Q2-R3}='1'</Expression>
+                <FailMessage>Vous indiquez nâavoir introduit aucune innovation de bien Ã&#160; la question prÃ©cÃ©dente, veuillez revoir votre rÃ©ponse.</FailMessage>
+            </Control>
+            <Control id="ixkmj3la" criticity="ERROR">
+                <Expression>${S3-Q1-R1}='' and ${S3-Q2-R4}='1'</Expression>
+                <FailMessage>Vous indiquez nâavoir introduit aucune innovation de bien Ã&#160; la question prÃ©cÃ©dente, veuillez revoir votre rÃ©ponse.</FailMessage>
+            </Control>
+            <Control id="ixkmmqyp" criticity="ERROR">
+                <Expression>${S3-Q1-R2}='' and ${S3-Q2-R1}='2'</Expression>
+                <FailMessage>Vous indiquez nâavoir introduit aucune innovation de bien Ã&#160; la question prÃ©cÃ©dente, veuillez revoir votre rÃ©ponse.</FailMessage>
+            </Control>
+            <Control id="ixkm8a7a" criticity="ERROR">
+                <Expression>${S3-Q1-R2}='' and ${S3-Q2-R2}='2'</Expression>
+                <FailMessage>Vous indiquez nâavoir introduit aucune innovation de bien Ã&#160; la question prÃ©cÃ©dente, veuillez revoir votre rÃ©ponse.</FailMessage>
+            </Control>
+            <Control id="ixkmivpe" criticity="ERROR">
+                <Expression>${S3-Q1-R2}='' and ${S3-Q2-R3}='2'</Expression>
+                <FailMessage>Vous indiquez nâavoir introduit aucune innovation de bien Ã&#160; la question prÃ©cÃ©dente, veuillez revoir votre rÃ©ponse.</FailMessage>
+            </Control>
+            <Control id="ixkm8umb" criticity="ERROR">
+                <Expression>${S3-Q1-R2}='' and ${S3-Q2-R4}='2'</Expression>
+                <FailMessage>Vous indiquez nâavoir introduit aucune innovation de bien Ã&#160; la question prÃ©cÃ©dente, veuillez revoir votre rÃ©ponse.</FailMessage>
+            </Control>
+            <Response>
+                <CodeListReference>ixbn8cnw</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbn8cnw</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbn8cnw</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbn8cnw</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbn79ll</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbnpc2o" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>II.3</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, certaines de vos innovations de produits introduites Ã©taient-elles :","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, certaines de vos innovations de produits introduites Ã©taient-elles :</Label>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbnuc6w</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbnrm4e" questionType="TABLE" xsi:type="QuestionType">
+            <Name>II.4</Name>
+            <Label>##{"label":"Estimez la part de votre chiffre dâaffaires en 2016 relative Ã&#160; :","conditions":[]} Estimez la part de votre chiffre dâaffaires en 2016 relative Ã&#160; :</Label>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>_Pour les Ã©tablissements de crÃ©dit, estimez la part des intÃ©rÃªts et produits assimilÃ©s ; pour les sociÃ©tÃ©s dâassurance, estimez la part des primes brutes Ã©mises._
+</Text>
+            </Declaration>
+            <Control id="ixkmj305" criticity="ERROR">
+                <Expression>${S3-Q3-R1}='2' and ${S3-Q4-R1}!=''</Expression>
+                <FailMessage>Vous indiquez un pourcentage de CA correspondant Ã&#160; des produits nouveaux pour lâun de vos marchÃ©s et vous indiquez ne pas avoir introduit de produit nouveau pour votre marchÃ© Ã&#160; la question II.3-a. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixkmw2pf" criticity="ERROR">
+                <Expression>${S3-Q3-R2}='2' and ${S3-Q4-R2}!=''</Expression>
+                <FailMessage>Vous indiquez un pourcentage de CA correspondant Ã&#160; des produits nouveaux pour votre entreprise  et vous indiquez ne pas avoir introduit de produit nouveau pour votre entreprise Ã&#160; la question II.3-b. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixkmhux8" criticity="ERROR">
+                <Expression>NUM(${S3-Q4-R1})+NUM(${S3-Q4-R2})+NUM(${S3-Q4-R3})&lt;98</Expression>
+                <FailMessage>Le total est infÃ©rieur Ã&#160; 98% !</FailMessage>
+            </Control>
+            <Control id="ixkmk1lt" criticity="ERROR">
+                <Expression>NUM(${S3-Q4-R1})+NUM(${S3-Q4-R2})+NUM(${S3-Q4-R3})&gt;102</Expression>
+                <FailMessage>Le total est supÃ©rieur Ã&#160; 102% !</FailMessage>
+            </Control>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>100</Maximum>
+                </Datatype>
+            </Response>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>100</Maximum>
+                </Datatype>
+            </Response>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>100</Maximum>
+                </Datatype>
+            </Response>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>100</Maximum>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbne3db</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0">
+                    <Label>Pourcentage</Label>
+                </Dimension>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbo3dvl" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>II.5</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, lâune de vos innovations de produits Ã©tait-elle une nouveautÃ© sur :","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, lâune de vos innovations de produits Ã©tait-elle une nouveautÃ© sur :</Label>
+            <Declaration declarationType="HELP" position="DETACHABLE">
+                <Text>_(\*) : Pays de lâUnion europÃ©enne (UE) et pays associÃ©s (Albanie, Bosnie-HerzÃ©govine, Kosovo, Liechtenstein, MacÃ©doine, MontÃ©nÃ©gro, NorvÃ¨ge, Serbie, Suisse, Turquie). Les autres pays dâEurope hors UE28 ou non listÃ©s (ex : Russie, Ukraine etc.) sont Ã&#160; classer dans "marchÃ© mondial"._
+</Text>
+            </Declaration>
+            <Control id="iy09wz33" criticity="ERROR">
+                <Expression>${S3-Q3-R1}!='1' and ${S3-Q5-R1}='1'</Expression>
+                <FailMessage>Vous ne pouvez pas rÃ©pondre Ã&#160; cette question car vous avez indiquÃ© quâaucune de vos innovations n'est une nouveautÃ© sur votre marchÃ© Ã&#160; la question II.3-a. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="iy09owyp" criticity="ERROR">
+                <Expression>${S3-Q3-R1}!='1' and ${S3-Q5-R2}='1'</Expression>
+                <FailMessage>Vous ne pouvez pas rÃ©pondre Ã&#160; cette question car vous avez indiquÃ© quâaucune de vos innovations n'est une nouveautÃ© sur votre marchÃ© Ã&#160; la question II.3-a. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="iy09tra6" criticity="ERROR">
+                <Expression>${S3-Q3-R1}!='1' and ${S3-Q5-R3}='1'</Expression>
+                <FailMessage>Vous ne pouvez pas rÃ©pondre Ã&#160; cette question car vous avez indiquÃ© quâaucune de vos innovations n'est une nouveautÃ© sur votre marchÃ© Ã&#160; la question II.3-a. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Response>
+                <CodeListReference>ixbo5u84</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbo5u84</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbo5u84</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbntzfw</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbojeij" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>III</Name>
+        <Label>Innovations de procÃ©dÃ©s</Label>
+        <Declaration declarationType="COMMENT">
+            <Text>Une** innovation de procÃ©dÃ©** est la mise en Åuvre dâun **procÃ©dÃ© de production**, dâune **mÃ©thode de distribution** ou dâune **activitÃ© de soutien** ou support **nouveau** ou **significativement amÃ©liorÃ©**. 
+
+â
+
+- Lâinnovation de procÃ©dÃ© d**oit Ãªtre nouvelle pour votre entreprise**, mais** il nâest pas nÃ©cessaire quâelle le soit pour votre marchÃ©**. 
+
+- Lâinnovation peut avoir Ã©tÃ© dÃ©veloppÃ©e Ã&#160; lâorigine par votre entreprise ou par dâautres entreprises ou organismes. 
+
+- Exclure les innovations nâayant trait quâÃ&#160; lâorganisation ou **au marketing** - celles-ci sont couvertes par le module VIII et IX.
+</Text>
+        </Declaration>
+        <Child id="ixbop7sg" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>III.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle introduit des nouveautÃ©s ou des amÃ©liorations significatives concernant :","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle introduit des nouveautÃ©s ou des amÃ©liorations significatives concernant :</Label>
+            <Control id="ixlvxllo" criticity="WARN">
+                <Expression>${S4-Q1-R1}='' or ${S4-Q1-R2}='' or ${S4-Q1-R3}=''</Expression>
+                <FailMessage>Vous nâavez pas rÃ©pondu entiÃ¨rement rÃ©pondu Ã&#160; la question, qui est essentielle dans ce questionnaire. Il est prÃ©fÃ©rable de le faire avant de passer Ã&#160; la suite.</FailMessage>
+            </Control>
+            <GoTo id="ixj2ln4x">
+                <Expression>${S4-Q1-R1}='2' and ${S4-Q1-R2}='2' and ${S4-Q1-R3}='2'</Expression>
+                <IfTrue>ixboyzym</IfTrue>
+            </GoTo>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbopyb8</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixboj4f1" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>III.2</Name>
+            <Label>##{"label":"Qui a dÃ©veloppÃ© ces innovations de procÃ©dÃ©s ?","conditions":[]} Qui a dÃ©veloppÃ© ces innovations de procÃ©dÃ©s ?</Label>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>Cochez toutes les cases pertinentes
+</Text>
+            </Declaration>
+            <Declaration declarationType="COMMENT" position="DETACHABLE">
+                <Text>(\*) : entreprises indÃ©pendantes ou autres unitÃ©s du groupe : filiales, tÃªte de groupe, entreprises-sÅurs (contrÃ´lÃ©es par la mÃªme tÃªte de groupe), etc. Sont Ã©galement pris en compte les Ã©tablissements dâenseignement supÃ©rieur, les organismes de recherche, les institutions Ã&#160; but non lucratif, etc
+</Text>
+            </Declaration>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbolciu</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbp3s49" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>III.3</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle mis en oeuvre un procÃ©dÃ© nouveau, ou amÃ©liorÃ© de maniÃ¨re significative un procÃ©dÃ© existant qui nâÃ©tait pas disponible chez vos concurrents ?","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle mis en oeuvre un procÃ©dÃ© nouveau, ou amÃ©liorÃ© de maniÃ¨re significative un procÃ©dÃ© existant qui nâÃ©tait pas disponible chez vos concurrents ?</Label>
+            <Response mandatory="false">
+                <CodeListReference>ixbo5u84</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixboyzym" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>IV</Name>
+        <Label>ActivitÃ©s dâinnovation en cours ou abandonnÃ©es pour les innovations de produits ou de procÃ©dÃ©s</Label>
+        <Declaration declarationType="COMMENT">
+            <Text>Les **activitÃ©s dâinnovation** incluent lâacquisition de machines, dâÃ©quipements, de bÃ¢timents, de logiciels et de licences, les travaux dâingÃ©nierie et de dÃ©veloppement, le design industriel, la formation et le marketing sâils sont entrepris spÃ©cifiquement pour dÃ©velopper ou mettre en oeuvre une innovation de produit ou de procÃ©dÃ©. **Elles incluent Ã©galement tous types dâactivitÃ©s de R&amp;D.**
+</Text>
+        </Declaration>
+        <Child id="ixbp1pmx" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>IV.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle eu des activitÃ©s dâinnovation qui nâont pas abouti en une innovation de produit (bien ou prestation de services) ou de procÃ©dÃ© parce que ces activitÃ©s","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle eu des activitÃ©s dâinnovation qui nâont pas abouti en une innovation de produit (bien ou prestation de services) ou de procÃ©dÃ© parce que ces activitÃ©s</Label>
+            <Control id="ixlvtkmr" criticity="WARN">
+                <Expression>${S5-Q1-R1}='' or ${S5-Q1-R2}=''</Expression>
+                <FailMessage>Vous nâavez pas rÃ©pondu entiÃ¨rement rÃ©pondu Ã&#160; la question, qui est essentielle dans ce questionnaire. Il est prÃ©fÃ©rable de le faire avant de passer Ã&#160; la suite.</FailMessage>
+            </Control>
+            <GoTo id="ixj2hxcw">
+                <Expression>${S3-Q1-R1}='2' and ${S3-Q1-R2}='2' and ${S4-Q1-R1}='2' and ${S4-Q1-R2}='2' and ${S4-Q1-R3}='2' and ${S5-Q1-R1}='2' and ${S5-Q1-R2}='2'</Expression>
+                <IfTrue>ixbsi58v</IfTrue>
+            </GoTo>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbotwtf</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbp998t" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>V</Name>
+        <Label>ActivitÃ©s et dÃ©penses pour les innovations de produits ou de procÃ©dÃ©s</Label>
+        <Child id="ixbp20kj" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>V.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle Ã©tÃ© engagÃ©e dans les activitÃ©s dâinnovation suivantes :","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle Ã©tÃ© engagÃ©e dans les activitÃ©s dâinnovation suivantes :</Label>
+            <Declaration declarationType="COMMENT" position="DETACHABLE">
+                <Text>**Recherche et DÃ©veloppement (R&amp;D)**
+
+La R&amp;D est lâensemble des activitÃ©s de recherche et dÃ©veloppement visant Ã&#160; augmenter le stock de connaissances ou rÃ©soudre des problÃ¨mes scientifiques ou techniques (y compris le dÃ©veloppement de logiciels qui entrent dans ce cadre)
+</Text>
+            </Declaration>
+            <Declaration declarationType="COMMENT" position="DETACHABLE">
+                <Text>**Recherche et DÃ©veloppement (R&amp;D) rÃ©alisÃ©e en interne**
+
+R&amp;D interne pour le compte de votre propre entreprise ou de votre groupe, ou sous contrat pour dâautres entreprises ou organismes         
+</Text>
+            </Declaration>
+            <Declaration declarationType="COMMENT" position="DETACHABLE">
+                <Text>**Recherche et DÃ©veloppement (R&amp;D) rÃ©alisÃ©e en externe**
+
+ActivitÃ©s de R&amp;D effectuÃ©es par dâautres entreprises (y compris entreprises du mÃªme groupe ou du mÃªme rÃ©seau) ou par des organismes de recherche publics ou privÃ©s sans but lucratif             
+</Text>
+            </Declaration>
+            <Declaration declarationType="COMMENT" position="DETACHABLE">
+                <Text>**Acquisition de machines, Ã©quipements, logiciels ou bÃ¢timents**
+
+Acquisition de machines perfectionnÃ©es, dâÃ©quipement, logiciels informatiques ou bÃ¢timents pour obtenir des produits (biens, prestations de services), ou des procÃ©dÃ©s, nouveaux ou significativement amÃ©liorÃ©s 
+</Text>
+            </Declaration>
+            <Declaration declarationType="COMMENT" position="DETACHABLE">
+                <Text>**Acquisition de connaissances dÃ©jÃ&#160; existantes auprÃ¨s  dâautres entreprises  ou organismes**
+
+Acquisition de connaissances existantes, de travaux protÃ©gÃ©s par copyright, dâinventions brevetÃ©es ou non-brevetÃ©es etc. auprÃ¨s dâentreprises ou organismes pour le dÃ©veloppement ou lâamÃ©lioration significative de produits ou procÃ©dÃ©s
+</Text>
+            </Declaration>
+            <Declaration declarationType="COMMENT" position="DETACHABLE">
+                <Text>** Formation**
+
+Formation en interne ou en externe de votre personnel, liÃ©e directement et spÃ©cifiquement aux innovations de produits (biens, prestations de services) ou de procÃ©dÃ©s (dÃ©veloppement ou introduction de ces innovations)
+</Text>
+            </Declaration>
+            <Declaration declarationType="COMMENT" position="DETACHABLE">
+                <Text>**Mise sur le marchÃ© de produits innovants**
+
+ActivitÃ©s internes ou externes pour introduire sur le marchÃ© un bien ou service nouveau ou significativement amÃ©liorÃ©, y compris la recherche de marchÃ© et la publicitÃ© de lancement
+</Text>
+            </Declaration>
+            <Declaration declarationType="COMMENT" position="DETACHABLE">
+                <Text>** Design**
+
+ActivitÃ©s internes ou externes pour concevoir ou modifier la forme, lâapparence ou lâutilisation pratique de biens ou services
+</Text>
+            </Declaration>
+            <Declaration declarationType="COMMENT" position="DETACHABLE">
+                <Text>**Autres**
+
+Autres activitÃ©s internes ou externes pour obtenir des produits ou procÃ©dÃ©s nouveaux ou significativement amÃ©liorÃ©s, telles que les Ã©tudes de faisabilitÃ©, les tests, lâachat de matÃ©riel, lâingÃ©nierie industrielle etc. 
+</Text>
+            </Declaration>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbp06y4</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbpawql" questionType="TABLE" xsi:type="QuestionType">
+            <Name>V.2</Name>
+            <Label>##{"label":"Pour la seule annÃ©e 2016, combien votre entreprise a-t-elle dÃ©pensÃ© pour chacune de ces activitÃ©s dâinnovation ?","conditions":[]} Pour la seule annÃ©e 2016, combien votre entreprise a-t-elle dÃ©pensÃ© pour chacune de ces activitÃ©s dâinnovation ?</Label>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>_Inclure les dÃ©penses courantes (y compris les coÃ»ts du travail, les activitÃ©s sous-traitÃ©es et autres dÃ©penses liÃ©es) ainsi que les dÃ©penses de capital en bÃ¢timents et en Ã©quipements._
+</Text>
+            </Declaration>
+            <Declaration declarationType="INSTRUCTION" position="DETACHABLE">
+                <Text>**R&amp;D rÃ©alisÃ©e en interne**
+
+inclure les dÃ©penses courantes, y compris coÃ»ts du travail et dÃ©penses en capital sur  les bÃ¢timents et les Ã©quipements directement liÃ©es Ã&#160; la R&amp;D 
+</Text>
+            </Declaration>
+            <Declaration declarationType="INSTRUCTION" position="DETACHABLE">
+                <Text>**Acquisition de machines, Ã©quipements, logiciels ou bÃ¢timents**
+
+exclure les dÃ©penses liÃ©es Ã&#160; la R&amp;D 
+</Text>
+            </Declaration>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>Inscrivez "0" si votre entreprise nâa pas effectuÃ© de dÃ©penses dâinnovation en 2016
+</Text>
+            </Declaration>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>**Estimation en milliers dâeuros**
+</Text>
+            </Declaration>
+            <Control id="ixlv70ik" criticity="ERROR">
+                <Expression>${S6-Q1-R1}!='1' and ${S6-Q2-R1}!=''</Expression>
+                <FailMessage>Vous n'avez pas indiquÃ© avoir Ã©tÃ© engagÃ© dans cette (ces) activitÃ©(s) d'innovation Ã&#160; la question prÃ©cÃ©dente. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlvnp5h" criticity="ERROR">
+                <Expression>${S6-Q1-R2}!='1' and ${S6-Q2-R2}!=''</Expression>
+                <FailMessage>Vous n'avez pas indiquÃ© avoir Ã©tÃ© engagÃ© dans cette (ces) activitÃ©(s) d'innovation Ã&#160; la question prÃ©cÃ©dente. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlvkez5" criticity="ERROR">
+                <Expression>${S6-Q1-R3}!='1' and ${S6-Q2-R3}!=''</Expression>
+                <FailMessage>Vous n'avez pas indiquÃ© avoir Ã©tÃ© engagÃ© dans cette (ces) activitÃ©(s) d'innovation Ã&#160; la question prÃ©cÃ©dente. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlve52d" criticity="ERROR">
+                <Expression>${S6-Q1-R4}!='1' and ${S6-Q2-R4}!=''</Expression>
+                <FailMessage>Vous n'avez pas indiquÃ© avoir Ã©tÃ© engagÃ© dans cette (ces) activitÃ©(s) d'innovation Ã&#160; la question prÃ©cÃ©dente. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlvf3j0" criticity="ERROR">
+                <Expression>${S6-Q1-R5}='2' and ${S6-Q1-R6}='2' and ${S6-Q1-R7}='2' and ${S6-Q1-R8}='2' and  ${S6-Q2-R5}!=''</Expression>
+                <FailMessage>Vous n'avez pas indiquÃ© avoir Ã©tÃ© engagÃ© dans cette (ces) activitÃ©(s) d'innovation Ã&#160; la question prÃ©cÃ©dente. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlwql5f" criticity="WARN">
+                <Expression>NUM(${S6-Q2-R6})!=NUM(${S6-Q2-R1})+NUM(${S6-Q2-R2})+NUM(${S6-Q2-R3})+NUM(${S6-Q2-R4})+NUM(${S6-Q2-R5})</Expression>
+                <FailMessage>Le total renseignÃ© ne correspond pas Ã&#160; la somme des valeurs saisies.</FailMessage>
+            </Control>
+            <Control id="iy0ath7d" criticity="ERROR">
+                <Expression>${S6-Q2-R6}!='' and (${S6-Q2-R1}='' and ${S6-Q2-R2}='' and ${S6-Q2-R3}='' and ${S6-Q2-R4}='' and ${S6-Q2-R5}='')</Expression>
+                <FailMessage>Vous indiquez le montant total de vos dÃ©penses pour les activitÃ©s dâinnovation mais vous nâavez pas renseignÃ© les postes de dÃ©penses par type dâactivitÃ©.</FailMessage>
+            </Control>
+            <Control id="iy0anchw" criticity="ERROR">
+                <Expression>(${S6-Q2-R1}!='' or ${S6-Q2-R2}!='' or ${S6-Q2-R3}!='' or ${S6-Q2-R4}!='' or ${S6-Q2-R5}!='') and ${S6-Q2-R6}!=''</Expression>
+                <FailMessage>Vous indiquez une rÃ©partition des dÃ©penses dont la somme diffÃ¨re du montant total des dÃ©penses que vous avez dÃ©clarÃ©. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="iy0awc9a" criticity="ERROR">
+                <Expression>(${S6-Q2-R1}!='' or ${S6-Q2-R2}!='' or ${S6-Q2-R3}!='' or ${S6-Q2-R4}!='' or ${S6-Q2-R5}!='') and ${S6-Q2-R6}!=''</Expression>
+                <FailMessage>Vous indiquez une rÃ©partition des dÃ©penses dont la somme diffÃ¨re du montant total des dÃ©penses que vous avez dÃ©clarÃ©. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>99999999</Maximum>
+                </Datatype>
+            </Response>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>99999999</Maximum>
+                </Datatype>
+            </Response>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>99999999</Maximum>
+                </Datatype>
+            </Response>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>99999999</Maximum>
+                </Datatype>
+            </Response>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>99999999</Maximum>
+                </Datatype>
+            </Response>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>99999999</Maximum>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbreres</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0">
+                    <Label>Estimation en milliers dâeuros (kâ¬)</Label>
+                </Dimension>
+            </ResponseStructure>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbrnbch" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>VI</Name>
+        <Label>Soutien financier pour les activitÃ©s dâinnovation</Label>
+        <Child id="ixbrrekb" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>VI.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle reÃ§u un soutien financier public spÃ©cifiquement pour ses activitÃ©s dâinnovation ?","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle reÃ§u un soutien financier public spÃ©cifiquement pour ses activitÃ©s dâinnovation ?</Label>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbrr18e</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbrk9u9" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>VII</Name>
+        <Label>Sources d'information et de coopÃ©ration pour les innovations de produits et de procÃ©dÃ©s</Label>
+        <Child id="ixbructb" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>VII.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, quelles ont Ã©tÃ© vos principales sources dâinformation pour vos activitÃ©s dâinnovation ?","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, quelles ont Ã©tÃ© vos principales sources dâinformation pour vos activitÃ©s dâinnovation ?</Label>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>_Cochez la case __**"non utilisÃ©**__" si la source citÃ©e nâa pas permis __**dâobtenir**__ dâinformation ou nâa pas Ã©tÃ© utilisÃ©e_
+</Text>
+            </Declaration>
+            <Response>
+                <CodeListReference>ixbs0x9j</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbs0x9j</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbs0x9j</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbs0x9j</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbs0x9j</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbs0x9j</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbs0x9j</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbs0x9j</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbs0x9j</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbs0x9j</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbs0x9j</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbsci0w</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbs7uge" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>VII.2</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle coopÃ©rÃ© avec dâautres entreprises ou organismes pour ses activitÃ©s dâinnovation ?","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle coopÃ©rÃ© avec dâautres entreprises ou organismes pour ses activitÃ©s dâinnovation ?</Label>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>La coopÃ©ration est ici entendue comme la participation active avec dâautres entreprises (y compris au sein de votre groupe) ou organismes pour les activitÃ©s dâinnovation. Les deux partenaires ne bÃ©nÃ©ficient pas nÃ©cessairement commercialement de la coopÃ©ration. Exclure la sous-traitance "pure" sans coopÃ©ration active.
+</Text>
+            </Declaration>
+            <GoTo id="ixj2jhf5">
+                <Expression>${S8-Q2-R1}='2'</Expression>
+                <IfTrue>ixbsi58v</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ixbs5xt4" questionType="TABLE" xsi:type="QuestionType">
+            <Name>VII.3</Name>
+            <Label>##{"label":"Avec quel(s) partenaire(s) et dans quel(s) pays ?","conditions":[]} Avec quel(s) partenaire(s) et dans quel(s) pays ?</Label>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>_**Plusieurs rÃ©ponses possibles : cochez toutes les cases pertinentes**_
+</Text>
+            </Declaration>
+            <Declaration declarationType="HELP" position="DETACHABLE">
+                <Text>(1) parmi les 13 rÃ©gions mÃ©tropolitaines et les 5 DOM.
+
+(2) Union europÃ©enne et pays associÃ©s (Albanie, Bosnie-HerzÃ©govine, Kosovo, Liechtenstein, MacÃ©doine, MontÃ©nÃ©gro, NorvÃ¨ge, Serbie, Suisse et Turquie).
+</Text>
+            </Declaration>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbs9qt1</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0">
+                    <Label>MÃªme rÃ©gion que vous (1A)</Label>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0">
+                    <Label>France, en dehors de votre rÃ©gion (1B)</Label>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0">
+                    <Label>Autres Pays dâ Europe (2)</Label>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0">
+                    <Label>Ãtats-Unis (3)</Label>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0">
+                    <Label>Chine ou Inde (4)</Label>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0">
+                    <Label>Autres pays (5)</Label>
+                </Dimension>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbscnti" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>VII.4</Name>
+            <Label>##{"label":"Lequel de ces partenaires a Ã©tÃ© le plus important pour les activitÃ©s dâinnovation de votre entreprise ?","conditions":[]} Lequel de ces partenaires a Ã©tÃ© le plus important pour les activitÃ©s dâinnovation de votre entreprise ?</Label>
+            <Control id="ixlwrzll" criticity="ERROR">
+                <Expression>${S8-Q4-R1}='1' and (${S8-Q3-R1}='' and ${S8-Q3-R9}='' and ${S8-Q3-R17}='' and ${S8-Q3-R25}='' and ${S8-Q3-R33}='' and ${S8-Q3-R41}='')</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce partenaire Ã&#160; la question 3. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlwpoum" criticity="ERROR">
+                <Expression>${S8-Q4-R1}='2' and (${S8-Q3-R2}='' and ${S8-Q3-R10}='' and ${S8-Q3-R18}='' and ${S8-Q3-R26}='' and ${S8-Q3-R34}='' and ${S8-Q3-R42}='')</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce partenaire Ã&#160; la question 3. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlxynst" criticity="ERROR">
+                <Expression>${S8-Q4-R1}='3' and (${S8-Q3-R3}='' and ${S8-Q3-R11}='' and ${S8-Q3-R19}='' and ${S8-Q3-R27}='' and ${S8-Q3-R35}='' and ${S8-Q3-R43}='')</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce partenaire Ã&#160; la question 3. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlxzh7p" criticity="ERROR">
+                <Expression>${S8-Q4-R1}='4' and (${S8-Q3-R4}='' and ${S8-Q3-R12}='' and ${S8-Q3-R20}='' and ${S8-Q3-R28}='' and ${S8-Q3-R36}='' and ${S8-Q3-R44}='')</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce partenaire Ã&#160; la question 3. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlxre18" criticity="ERROR">
+                <Expression>${S8-Q4-R1}='5' and (${S8-Q3-R5}='' and ${S8-Q3-R13}='' and ${S8-Q3-R21}='' and ${S8-Q3-R29}='' and ${S8-Q3-R37}='' and ${S8-Q3-R45}='')</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce partenaire Ã&#160; la question 3. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlxzm00" criticity="ERROR">
+                <Expression>${S8-Q4-R1}='6' and (${S8-Q3-R6}='' and ${S8-Q3-R14}='' and ${S8-Q3-R22}='' and ${S8-Q3-R30}='' and ${S8-Q3-R38}='' and ${S8-Q3-R46}='')</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce partenaire Ã&#160; la question 3. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlxmxmu" criticity="ERROR">
+                <Expression>${S8-Q4-R1}='7' and (${S8-Q3-R7}='' and ${S8-Q3-R15}='' and ${S8-Q3-R23}='' and ${S8-Q3-R31}='' and ${S8-Q3-R39}='' and ${S8-Q3-R47}='')</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce partenaire Ã&#160; la question 3. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Control id="ixlxypoo" criticity="ERROR">
+                <Expression>${S8-Q4-R1}='8' and (${S8-Q3-R8}='' and ${S8-Q3-R16}='' and ${S8-Q3-R24}='' and ${S8-Q3-R32}='' and ${S8-Q3-R40}='' and ${S8-Q3-R48}='')</Expression>
+                <FailMessage>Vous n'avez pas renseignÃ© ce partenaire Ã&#160; la question 3. Merci de bien vouloir vous assurer de vos rÃ©ponses.</FailMessage>
+            </Control>
+            <Response mandatory="false">
+                <CodeListReference>ixbs9qt1</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbsi58v" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>VIII</Name>
+        <Label>Innovations dâorganisation</Label>
+        <Declaration declarationType="INSTRUCTION">
+            <Text>Une **innovation dâorganisation** est un **nouveau mode de fonctionnement** de votre entreprise (y compris la gestion des connaissances), une **nouvelle mÃ©thode dâorganisation** du travail ou de ses relations externes qui **nâÃ©taient pas utilisÃ©s prÃ©cÃ©demment dans votre entreprise**.  
+
+- Elle doit rÃ©sulter des dÃ©cisions stratÃ©giques prises par la direction. 
+
+- Exclure les fusions ou acquisitions, mÃªme si ces opÃ©rations affectent lâentreprise pour la premiÃ¨re fois.
+</Text>
+        </Declaration>
+        <Child id="ixbsuwcx" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>VIII.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle introduit les innovations dâorganisation suivantes :","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle introduit les innovations dâorganisation suivantes :</Label>
+            <Declaration declarationType="INSTRUCTION" position="DETACHABLE">
+                <Text>**de nouveaux modes de fonctionnement dans lâorganisation des procÃ©dures ? **
+
+(reconfiguration des processus, introduction dâun systÃ¨me de gestion de la chaÃ®ne dâapprovisionnement, dâamÃ©lioration continue des flux de production, dâun systÃ¨me de gestion des connaissances, dâun systÃ¨me de gestion de la qualitÃ©, etc.) 
+</Text>
+            </Declaration>
+            <Declaration declarationType="INSTRUCTION" position="DETACHABLE">
+                <Text>** de nouvelles mÃ©thodes dâorganisation du travail et de prise de dÃ©cision ?**
+
+(nouvelle rÃ©partition des responsabilitÃ©s / du pouvoir de dÃ©cision parmi les salariÃ©s, travail dâÃ©quipe, dÃ©centralisation, adaptation de la structure hiÃ©rarchique de lâentreprise (fusion, dissociation de services, systÃ¨me de formation, etc.) 
+</Text>
+            </Declaration>
+            <Declaration declarationType="INSTRUCTION" position="DETACHABLE">
+                <Text>**de nouvelles mÃ©thodes dâorganisation des relations externes avec dâautres entreprises ou organismes ?**
+
+(mise en place pour la premiÃ¨re fois dâalliances, de partenariats, dâexternalisation dâactivitÃ©s ou de sous-traitance etc.) 
+</Text>
+            </Declaration>
+            <Control id="ixlvbvxy" criticity="WARN">
+                <Expression>${S9-Q1-R1}='' or ${S9-Q1-R2}='' or ${S9-Q1-R3}=''</Expression>
+                <FailMessage>Vous nâavez pas rÃ©pondu entiÃ¨rement rÃ©pondu Ã&#160; cette question, qui est essentielle dans ce questionnaire. Il est prÃ©fÃ©rable de le faire avant de passer Ã&#160; la suite.</FailMessage>
+            </Control>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbspxaj</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbt4odg" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>IX</Name>
+        <Label>Innovations de marketing (commercialisation)</Label>
+        <Declaration declarationType="INSTRUCTION">
+            <Text>Une innovation de **marketing** est la mise en Åuvre de **concepts nouveaux** ou de **stratÃ©gies de vente nouvelles** qui **diffÃ¨rent significativement des mÃ©thodes de vente existant dans votre entreprise** et qui nâavaient pas Ã©tÃ© utilisÃ©s auparavant.  
+
+- Ceci requiert des changements dans le design, lâemballage ou la prÃ©sentation dâun bien ou dâune prestation de services, son positionnement, sa promotion ou son prix sâils ont un impact significatif. 
+
+- Exclure les changements saisonniers, rÃ©guliers ou habituels dans les mÃ©thodes de marketing.
+</Text>
+        </Declaration>
+        <Child id="ixbt9hd9" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>IX.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle introduit les innovations de marketing suivantes :","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle introduit les innovations de marketing suivantes :</Label>
+            <Control id="ixlvgndm" criticity="WARN">
+                <Expression>${S10-Q1-R1}='' or ${S10-Q1-R2}='' or ${S10-Q1-R3}='' or ${S10-Q1-R4}=''</Expression>
+                <FailMessage>Vous nâavez pas rÃ©pondu entiÃ¨rement rÃ©pondu Ã&#160; cette question, qui est essentielle dans ce questionnaire. Il est prÃ©fÃ©rable de le faire avant de passer Ã&#160; la suite.</FailMessage>
+            </Control>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbt385c</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbtibua" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>X</Name>
+        <Label>Droits de propriÃ©tÃ© intellectuelle</Label>
+        <Child id="ixbtb0ql" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>X.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle : ","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle :</Label>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbtkkqt</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbtiswp" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>X.2</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle :","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle :</Label>
+            <Declaration declarationType="INSTRUCTION" position="DETACHABLE">
+                <Text>(\*) : exclure lâacquisition de licences pour les logiciels de bureautique courants tels que les systÃ¨mes dâexploitation, traitement de texte, tableurs etc.
+</Text>
+            </Declaration>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbthipt</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbta7l2" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>X.3</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle utilisÃ© l'un des moyens de protection suivants :","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle utilisÃ© l'un des moyens de protection suivants :</Label>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbtozb2</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbtoui0" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>XI</Name>
+        <Label>Innovations de logistique</Label>
+        <Declaration declarationType="INSTRUCTION">
+            <Text>_La __**logistique**__ est un ensemble dâactivitÃ©s destinÃ©es Ã&#160; planifier, mettre en place et contrÃ´ler efficacement les flux de matiÃ¨res premiÃ¨res, de marchandises ou dâinformations, de leur point d'origine Ã&#160; leur point de consommation. Elle concerne les achats, l'emballage, le stockage et lâentreposage, la manutention, le transport des marchandises mais aussi le traitement des commandes, la prÃ©vision de la demande, le type de service offert aux clients, la communication liÃ©e Ã&#160; la distribution ainsi que le service aprÃ¨s vente, le traitement des marchandises retournÃ©es, la nÃ©gociation ou la rÃ©utilisation d'Ã©lÃ©ments rÃ©cupÃ©rables ou mis au rebut (logistique inverse ou logistique des retours).  _
+</Text>
+        </Declaration>
+        <Child id="ixbt9x5a" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>XI.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle introduit une innovation dans les domaines de logistique suivants ?","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, votre entreprise a-t-elle introduit une innovation dans les domaines de logistique suivants ?</Label>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbmkl0n</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbtisuv</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbti5fr" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>XI.2</Name>
+            <Label>##{"label":"Estimez la part de vos dÃ©penses d'exploitation consacrÃ©es Ã&#160; la logistique en 2016","conditions":[]} Estimez la part de vos dÃ©penses d'exploitation consacrÃ©es Ã&#160; la logistique en 2016</Label>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>Inclure toutes les dÃ©penses d'exploitation liÃ©es Ã&#160; la planification, Ã&#160; l'organisation, Ã&#160; la gestion, Ã&#160; l'exÃ©cution et au suivi des flux d'informations sur les matÃ©riaux, les marchandises et les informations connexes de votre entreprise.
+</Text>
+            </Declaration>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>Veuillez insÃ©rer "0" si votre entreprise n'a pas eu de coÃ»ts pour l'innovation de logistique.
+</Text>
+            </Declaration>
+            <GoTo id="ixj23qe3">
+                <Expression>${S12-Q1-R1}='2' and ${S12-Q1-R2}='2' and ${S12-Q1-R3}='2' and ${S12-Q1-R4}='2' and ${S12-Q1-R5}='2' and ${S12-Q1-R6}='2' and ${S12-Q1-R7}='2' and ${S12-Q1-R8}='2'</Expression>
+                <IfTrue>ixbu4yy1</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>100</Maximum>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ixbtp3x9" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>XI.3</Name>
+            <Label>##{"label":"Dans quelle mesure les raisons suivantes ont Ã©tÃ© importantes pour inciter votre entreprise Ã&#160; introduire des innovations de logistique ?","conditions":[]} Dans quelle mesure les raisons suivantes ont Ã©tÃ© importantes pour inciter votre entreprise Ã&#160; introduire des innovations de logistique ?</Label>
+            <Response>
+                <CodeListReference>ixbv9un8</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbv9un8</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbv9un8</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbv9un8</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbv9un8</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbv9un8</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbtuvsa</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbu5ldb" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>XI.4</Name>
+            <Label>##{"label":" Combien votre entreprise a-t-elle dÃ©pensÃ© dans des innovations de logistique en 2016 (approximativement) ?","conditions":[]} Combien votre entreprise a-t-elle dÃ©pensÃ© dans des innovations de logistique en 2016 (approximativement) ?</Label>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>Inclure les dÃ©penses pour les innovations en logistique mentionnÃ©es Ã&#160; la question 11.1
+</Text>
+            </Declaration>
+            <GoTo id="ixj1rxnf">
+                <Expression>${S12-Q4-R1}='' or ${S12-Q4-R1}!=''</Expression>
+                <IfTrue>ixbu2vus</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>ixbtzk2i</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ixbu4yy1" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>XI.5</Name>
+            <Label>##{"label":"Laquelle des raisons suivantes dÃ©crit le mieux pourquoi votre entreprise n'a pas introduit d'innovation de logistique au cours des trois annÃ©es 2014 Ã&#160; 2016 ?","conditions":[]} Laquelle des raisons suivantes dÃ©crit le mieux pourquoi votre entreprise n'a pas introduit d'innovation de logistique au cours des trois annÃ©es 2014 Ã&#160; 2016 ?</Label>
+            <GoTo id="ixj2ax6e">
+                <Expression>${S12-Q5-R1}!='3'</Expression>
+                <IfTrue>ixbu2vus</IfTrue>
+            </GoTo>
+            <Response mandatory="false">
+                <CodeListReference>ixbu26k7</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="ixfxpgbr" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>XI.6</Name>
+            <Label>##{"label":"PrÃ©cisez les obstacles rencontrÃ©s","conditions":[]} PrÃ©cisez les obstacles rencontrÃ©s</Label>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <Response>
+                <Datatype typeName="BOOLEAN" xsi:type="BooleanDatatypeType"/>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixfy8kma</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbu2y7r" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>XII</Name>
+        <Label>Facteurs freinant les activitÃ©s dâinnovation</Label>
+        <Child id="ixbu1h0b" questionType="MULTIPLE_CHOICE" xsi:type="QuestionType">
+            <Name>XII.1</Name>
+            <Label>##{"label":"Au cours des trois annÃ©es 2014 Ã&#160; 2016, dans quelle mesure les facteurs suivants ont freinÃ© vos activitÃ©s dâinnovation ou ont contribuÃ© Ã&#160; vous dissuader de vous engager dans des activitÃ©s dâinnovation ?","conditions":[]} Au cours des trois annÃ©es 2014 Ã&#160; 2016, dans quelle mesure les facteurs suivants ont freinÃ© vos activitÃ©s dâinnovation ou ont contribuÃ© Ã&#160; vous dissuader de vous engager dans des activitÃ©s dâinnovation ?</Label>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <Response>
+                <CodeListReference>ixbu1agi</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="RADIO" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbu2gd3</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0"/>
+            </ResponseStructure>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbu2vus" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>XIII</Name>
+        <Label>Effectif et chiffre dâaffaires</Label>
+        <Child id="ixbuezn3" questionType="TABLE" xsi:type="QuestionType">
+            <Name>XIII.1</Name>
+            <Label>##{"label":"En 2016, quel Ã©tait le montant total du chiffre dâaffaires hors taxes de votre entreprise ?","conditions":[]} En 2016, quel Ã©tait le montant total du chiffre dâaffaires hors taxes de votre entreprise ?</Label>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>_Pour les Ã©tablissements de crÃ©dit, indiquez le montant des intÃ©rÃªts et produits assimilÃ©s ; pour les sociÃ©tÃ©s dâassurance, indiquez le montant des primes brutes Ã©mises._
+</Text>
+            </Declaration>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>99999999</Maximum>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixity6jy</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0">
+                    <Label>(en milliers dâeuros)</Label>
+                </Dimension>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbuklxc" questionType="TABLE" xsi:type="QuestionType">
+            <Name>XIII.2</Name>
+            <Label>##{"label":"Quel Ã©tait le pourcentage de votre chiffre dâaffaires Ã&#160; lâexport en 2014 et en 2016 ?","conditions":[]} Quel Ã©tait le pourcentage de votre chiffre dâaffaires Ã&#160; lâexport en 2014 et en 2016 ?</Label>
+            <Declaration declarationType="INSTRUCTION" position="AFTER_QUESTION_TEXT">
+                <Text>_Veuillez inscrire "0" si votre entreprise ne rÃ©alise aucune vente Ã&#160; lâÃ©tranger._
+</Text>
+            </Declaration>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>100</Maximum>
+                </Datatype>
+            </Response>
+            <Response>
+                <Datatype typeName="NUMERIC" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>100</Maximum>
+                </Datatype>
+            </Response>
+            <ResponseStructure>
+                <Dimension dimensionType="PRIMARY" dynamic="0">
+                    <CodeListReference>ixbugqhd</CodeListReference>
+                </Dimension>
+                <Dimension dimensionType="MEASURE" dynamic="0">
+                    <Label>Pourcentage</Label>
+                </Dimension>
+            </ResponseStructure>
+        </Child>
+        <Child id="ixbufauo" questionType="SINGLE_CHOICE" xsi:type="QuestionType">
+            <Name>XIII.3</Name>
+            <Label>##{"label":"En 2016, quel Ã©tait lâeffectif moyen de votre entreprise ?","conditions":[]} En 2016, quel Ã©tait lâeffectif moyen de votre entreprise ?</Label>
+            <Response mandatory="false">
+                <CodeListReference>ixbuoxhv</CodeListReference>
+                <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="ixbukd7v" depth="1" genericName="MODULE" xsi:type="SequenceType">
+        <Name>XIV</Name>
+        <Label>Temps de rÃ©ponse Ã&#160; lâenquÃªte</Label>
+        <Child id="ixbuk7bf" questionType="SIMPLE" xsi:type="QuestionType">
+            <Name>XIV.1</Name>
+            <Label>##{"label":"Combien de temps ... ?","conditions":[]} Combien de temps ... ?</Label>
+            <Response mandatory="false">
+                <Datatype typeName="TEXT" xsi:type="TextDatatypeType">
+                    <MaxLength>1</MaxLength>
+                    <Pattern/>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Survey id="ixblpezc" agency="fr.insee">
+        <Name>POPO</Name>
+    </Survey>
+    <ComponentGroup id="j2blq8ib">
+        <Name>PAGE_1</Name>
+        <Label>Components for page 1</Label>
+        <MemberReference>ixbls41j</MemberReference>
+        <MemberReference>ixitlc6d</MemberReference>
+        <MemberReference>ixg5ncf8</MemberReference>
+        <MemberReference>ixbw23v1</MemberReference>
+        <MemberReference>ixblt38f</MemberReference>
+        <MemberReference>ixbvteqv</MemberReference>
+        <MemberReference>ixit763n</MemberReference>
+        <MemberReference>ixbma0px</MemberReference>
+        <MemberReference>ixbm7aop</MemberReference>
+        <MemberReference>ixblxy4o</MemberReference>
+        <MemberReference>ixbmjy7e</MemberReference>
+        <MemberReference>ixbmzdtn</MemberReference>
+        <MemberReference>ixbn4bzk</MemberReference>
+        <MemberReference>ixbmtbz1</MemberReference>
+        <MemberReference>ixbnpc2o</MemberReference>
+        <MemberReference>ixbnrm4e</MemberReference>
+        <MemberReference>ixbo3dvl</MemberReference>
+        <MemberReference>ixbojeij</MemberReference>
+        <MemberReference>ixbop7sg</MemberReference>
+        <MemberReference>ixboj4f1</MemberReference>
+        <MemberReference>ixbp3s49</MemberReference>
+        <MemberReference>ixboyzym</MemberReference>
+        <MemberReference>ixbp1pmx</MemberReference>
+        <MemberReference>ixbp998t</MemberReference>
+        <MemberReference>ixbp20kj</MemberReference>
+        <MemberReference>ixbpawql</MemberReference>
+        <MemberReference>ixbrnbch</MemberReference>
+        <MemberReference>ixbrrekb</MemberReference>
+        <MemberReference>ixbrk9u9</MemberReference>
+        <MemberReference>ixbructb</MemberReference>
+        <MemberReference>ixbs7uge</MemberReference>
+        <MemberReference>ixbs5xt4</MemberReference>
+        <MemberReference>ixbscnti</MemberReference>
+        <MemberReference>ixbsi58v</MemberReference>
+        <MemberReference>ixbsuwcx</MemberReference>
+        <MemberReference>ixbt4odg</MemberReference>
+        <MemberReference>ixbt9hd9</MemberReference>
+        <MemberReference>ixbtibua</MemberReference>
+        <MemberReference>ixbtb0ql</MemberReference>
+        <MemberReference>ixbtiswp</MemberReference>
+        <MemberReference>ixbta7l2</MemberReference>
+        <MemberReference>ixbtoui0</MemberReference>
+        <MemberReference>ixbt9x5a</MemberReference>
+        <MemberReference>ixbti5fr</MemberReference>
+        <MemberReference>ixbtp3x9</MemberReference>
+        <MemberReference>ixbu5ldb</MemberReference>
+        <MemberReference>ixbu4yy1</MemberReference>
+        <MemberReference>ixfxpgbr</MemberReference>
+        <MemberReference>ixbu2y7r</MemberReference>
+        <MemberReference>ixbu1h0b</MemberReference>
+        <MemberReference>ixbu2vus</MemberReference>
+        <MemberReference>ixbuezn3</MemberReference>
+        <MemberReference>ixbuklxc</MemberReference>
+        <MemberReference>ixbufauo</MemberReference>
+        <MemberReference>ixbukd7v</MemberReference>
+        <MemberReference>ixbuk7bf</MemberReference>
+    </ComponentGroup>
+    <CodeLists>
+        <CodeList id="ixbmdl17">
+            <Name/>
+            <Label>I.1</Label>
+            <Code>
+                <Value/>
+                <Label>marchÃ© local - rÃ©gional en France</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>marchÃ© national (autres rÃ©gions en France)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>autres pays de lâUE ou associÃ©s *</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>autres pays</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbmkl0n">
+            <Name/>
+            <Label>OuiNon</Label>
+            <Code>
+                <Value>1</Value>
+                <Label>Oui</Label>
+            </Code>
+            <Code>
+                <Value>2</Value>
+                <Label>Non</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbmx8np">
+            <Name/>
+            <Label>II.1</Label>
+            <Code>
+                <Value/>
+                <Label>des biens nouveaux ou amÃ©liorÃ©s de faÃ§on significative (Ã&#160; lâexclusion de la simple revente en lâÃ©tat de nouveaux biens achetÃ©s Ã&#160; dâautres entreprises et des modifications exclusivement esthÃ©tiques ou de simple conditionnement) ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>des prestations de services nouvelles ou amÃ©liorÃ©es de faÃ§on significative ?</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbn79ll">
+            <Name/>
+            <Label>II.2</Label>
+            <Code>
+                <Value/>
+                <Label>votre entreprise uniquement</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>votre entreprise conjointement avec dâautres entreprises ou organismes *</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>votre entreprise en adaptant ou modifiant des produits dÃ©veloppÃ©s par dâautres entreprises ou organismes *</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>dâautres entreprises ou organismes *</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbn8cnw">
+            <Name/>
+            <Label>II.2bis</Label>
+            <Code>
+                <Value/>
+                <Label>biens</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>services</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbne3db">
+            <Name/>
+            <Label>II.4</Label>
+            <Code>
+                <Value/>
+                <Label>des produits nouveaux ou amÃ©liorÃ©s de faÃ§on significative, introduits au cours des annÃ©es 2014 Ã&#160; 2016, nouveaux pour lâun de vos marchÃ©s (Â«OuiÂ» Ã&#160; la question 3.a)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>des produits nouveaux ou amÃ©liorÃ©s de faÃ§on significative, introduits au cours des annÃ©es 2014 Ã&#160; 2016, nouveaux uniquement pour votre entreprise (Â«OuiÂ» Ã&#160; la question 3.b)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>des produits inchangÃ©s ou modifiÃ©s de maniÃ¨re marginale au cours des annÃ©es 2014 Ã&#160; 2016 (y compris revente en lâÃ©tat de nouveaux biens achetÃ©s Ã&#160; dâautres entreprises ou prestations de services fournies par dâautres entreprises)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Total</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbntzfw">
+            <Name/>
+            <Label>II.5</Label>
+            <Code>
+                <Value/>
+                <Label>le marchÃ© franÃ§ais ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>le marchÃ© europÃ©en * ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>le marchÃ© mondial ?</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbnuc6w">
+            <Name/>
+            <Label>II.3</Label>
+            <Code>
+                <Value/>
+                <Label>nouvelles pour votre marchÃ© ? votre entreprise a introduit sur lâun de vos marchÃ©s avant vos concurrents un produit (bien ou prestation de services) nouveau ou amÃ©liorÃ© de maniÃ¨re significative (peut-Ãªtre dÃ©jÃ&#160; disponible sur dâautres marchÃ©s) ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>nouvelles uniquement pour votre entreprise ? votre entreprise a introduit un produit (bien ou prestation de services) nouveau ou amÃ©liorÃ© de maniÃ¨re significative qui Ã©tait dÃ©jÃ&#160; disponible sur vos marchÃ©s chez vos concurrents ?</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbo486p">
+            <Name/>
+            <Label>donneescadrage2</Label>
+            <Code>
+                <Value/>
+                <Label>fusionnÃ© avec une entreprise ou rachetÃ© une entreprise (partiellement ou entiÃ¨rement) ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>vendu, cessÃ© ou externalisÃ© certaines de ses tÃ¢ches ou fonctions ?</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbo5u84">
+            <Name/>
+            <Label>OuiNonNesaitpas</Label>
+            <Code>
+                <Value>1</Value>
+                <Label>Oui</Label>
+            </Code>
+            <Code>
+                <Value>2</Value>
+                <Label>Non</Label>
+            </Code>
+            <Code>
+                <Value>3</Value>
+                <Label>Ne sait pas</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbohpao">
+            <Name/>
+            <Label>donneescadrage1</Label>
+            <Code>
+                <Value/>
+                <Label>elle faisait partie dâun groupe ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>elle faisait partie dâun rÃ©seau dâenseigne (y compris groupement coopÃ©ratif ou mutualiste) </Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbolciu">
+            <Name/>
+            <Label>III.2</Label>
+            <Code>
+                <Value/>
+                <Label>votre entreprise uniquement ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>votre entreprise conjointement avec dâautres entreprises ou organismes ? *</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>votre entreprise en adaptant ou modifiant des procÃ©dÃ©s dÃ©veloppÃ©s par dâautres entreprises ou organismes ? *</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>dâautres entreprises ou organismes ? *</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbopyb8">
+            <Name/>
+            <Label>III.1</Label>
+            <Code>
+                <Value/>
+                <Label>vos procÃ©dÃ©s de fabrication ou de production de biens ou de prestations de services ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>vos mÃ©thodes de logistique, de fourniture ou de distribution de matiÃ¨res premiÃ¨res, biens ou prestations de services ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>vos activitÃ©s de soutien ou de support, comme les activitÃ©s de maintenance, dâachat, de comptabilitÃ© ou informatiques ?</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbotwtf">
+            <Name/>
+            <Label>IV.1</Label>
+            <Code>
+                <Value/>
+                <Label>ont Ã©tÃ© abandonnÃ©es ou suspendues ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Ã©taient toujours en cours fin 2016 ?</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbp06y4">
+            <Name/>
+            <Label>V.1</Label>
+            <Code>
+                <Value/>
+                <Label>Recherche et DÃ©veloppement (R&amp;D) rÃ©alisÃ©e en interne</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Recherche et DÃ©veloppement (R&amp;D) rÃ©alisÃ©e en externe</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Acquisition de machines, Ã©quipements, logiciels ou bÃ¢timents</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Acquisition de connaissances dÃ©jÃ&#160; existantes auprÃ¨s  dâautres entreprises  ou organismes</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Formation</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Mise sur le marchÃ© de produits innovants</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Design</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Autres</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbreres">
+            <Name/>
+            <Label>V.2</Label>
+            <Code>
+                <Value/>
+                <Label>R&amp;D rÃ©alisÃ©e en interne</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>R&amp;D rÃ©alisÃ©e en externe</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Acquisition de machines, Ã©quipements, logiciels ou bÃ¢timents</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Acquisition de connaissances dÃ©jÃ&#160; existantes auprÃ¨s dâautres entreprises ou organismes</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Autres activitÃ©s dâinnovation, y compris la formation, la mise sur le marchÃ© de produits innovants, le design et toute autre activitÃ© pertinente</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>TOTAL DES DÃPENSES POUR LES ACTIVITÃS DâINNOVATION</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbrr18e">
+            <Name/>
+            <Label>VI.1</Label>
+            <Code>
+                <Value/>
+                <Label>subventions, prÃªts, avances remboursables, garantie de prÃªts des collectivitÃ©s territoriales</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>subventions, prÃªts, avances remboursables, garantie de prÃªts des organismes nationaux (y compris BPI France, EUREKA, ANR et aussi ministÃ¨res, DIRECCTE, FUI, PIA etc.)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>subventions, prÃªts, avances remboursables, garantie de prÃªts de lâUnion europÃ©enne (FEDER, FSE, PCRD, Horizon 2020, EUROSTARS etc.)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>crÃ©dits dâimpÃ´ts (CIR,CII) et autres exonÃ©rations fiscales et sociales dÃ©diÃ©s Ã&#160; lâinnovation (JEI, JEU, etc.).  Ne pas inclure le CICE</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbs0x9j">
+            <Name/>
+            <Label>VII.1bis - DegrÃ© importance</Label>
+            <Code>
+                <Value/>
+                <Label>ÃlevÃ©</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Moyen</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Faible</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Non UtilisÃ©</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbs9qt1">
+            <Name/>
+            <Label>VII.3</Label>
+            <Code>
+                <Value/>
+                <Label>Autres entreprises de votre groupe / rÃ©seau dâenseigne</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Fournisseurs dâÃ©quipements, matÃ©riels, composants, logiciels</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Clients ou consommateurs</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Concurrents ou autres entreprises de votre secteur dâactivitÃ©</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Consultants, laboratoires commerciaux ou privÃ©s</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>UniversitÃ©s ou Ã©tablissements dâenseignement supÃ©rieur</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Organismes gouvernementaux ou publics de recherche</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Instituts privÃ©s Ã&#160; but non-lucratif de R&amp;D</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbsci0w">
+            <Name/>
+            <Label>VII.1</Label>
+            <Code>
+                <Value/>
+                <Label>Sources propres - Sources internes au sein de votre entreprise, groupe ou rÃ©seau dâenseigne</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Sources de marchÃ© - Fournisseurs dâÃ©quipements, matÃ©riels, composants ou logiciels </Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Sources de marchÃ© - Clients ou consommateurs</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Sources de marchÃ© - Concurrents ou autres entreprises de votre secteur dâactivitÃ©</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Sources de marchÃ© - Consultants, laboratoires commerciaux</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Ãducation et recherche - UniversitÃ©s ou Ã©tablissements dâenseignement supÃ©rieu</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Ãducation et recherche - Organismes gouvernementaux ou publics de recherche </Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Ãducation et recherche - Instituts privÃ©s Ã&#160; but non-lucratif  de R&amp;D</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Autres sources - ConfÃ©rences, foires commerciales, expositions</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Autres sources - Revues scientifiques et publications professionnelles - commerciales - techniques</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Autres sources - Associations professionnelles et industrielles</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbsmcim">
+            <Name/>
+            <Label>VII.3bis</Label>
+            <Code>
+                <Value/>
+                <Label>MÃªme rÃ©gion que vous (1A)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>France, en dehors de votre rÃ©gion (1B)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Autres Pays dâ Europe (2)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Ãtats-Unis (3)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Chine ou Inde (4)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Autres pays (5)</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbspxaj">
+            <Name/>
+            <Label>VIII.1</Label>
+            <Code>
+                <Value/>
+                <Label>de nouveaux modes de fonctionnement dans lâorganisation des procÃ©dures ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>de nouvelles mÃ©thodes dâorganisation du travail et de prise de dÃ©cision ?</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>de nouvelles mÃ©thodes dâorganisation des relations externes avec dâautres entreprises ou organismes ?</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbt385c">
+            <Name/>
+            <Label>IX.1</Label>
+            <Code>
+                <Value/>
+                <Label>modifications significatives du design ou de lâemballage dâun bien ou service ? (hors modifications habituelles et/ou saisonniÃ¨res, et hors modifications de caractÃ©ristiques fonctionnelles ou dâutilisation dâun produit - cf. innovation de produits)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>utilisation de nouvelles techniques ou de nouveaux mÃ©dias pour la promotion des biens ou des services ? (par ex. premiÃ¨re utilisation dâun nouveau mÃ©dia publicitaire, nouvelle marque destinÃ©e Ã&#160; un nouveau marchÃ©, introduction de cartes de fidÃ©litÃ©, etc.)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>nouvelles mÃ©thodes (ou modifications significatives des mÃ©thodes) de vente ou de distribution? (par ex. premiÃ¨re utilisation du franchisage, de ventes directes ou de licences de distribution, dâexclusivitÃ©s, etc.)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>nouvelles stratÃ©gies de tarification de vos produits ? (biens ou services) (par ex. nouvelle  mÃ©thode permettant de moduler le prix dâun bien ou dâun service en fonction de la demande, promotions, etc.)</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbthipt">
+            <Name/>
+            <Label>X.2</Label>
+            <Code>
+                <Value/>
+                <Label>ConcÃ©dÃ© un droit dâusage ou cÃ©dÃ© la propriÃ©tÃ© dâun brevet, dâune marque, dâun dessin ou modÃ¨le ou dâun droit dâauteur Ã&#160; une autre entreprise</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Acquis un droit dâusage ou la propriÃ©tÃ© dâun brevet, dâune marque, dâun dessin ou modÃ¨le ou dâun droit dâauteur possÃ©dÃ© par une autre entreprise ou un institut public de recherche *</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbtisuv">
+            <Name/>
+            <Label>XI.1</Label>
+            <Code>
+                <Value/>
+                <Label>SystÃ¨me de gestion de stock (Ex :  surveillance automatique et en temps rÃ©el, suivi et traÃ§age de la livraison  des marchandises)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Gestion informatisÃ©e de la chaÃ®ne d'approvisionnement (SCM)  (comprenant les opÃ©rations de la chaÃ®ne d'approvisionnement, la gestion des relations avec les fournisseurs, et les processus opÃ©rationnels de contrÃ´le associÃ©)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>E-procurement (Ex : nouvelles formes d'achat et de vente de matÃ©riel et de marchandises Ã&#160; travers lâinternet, les Â«places de marchÃ©Â», ou les Ã©changes via EDI entre fournisseurs et entreprises)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Identification unique et automatique de produits dans l'ensemble de la chaÃ®ne d'approvisionnement</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Logistique inverse (Reverse logistics ; gestion des retours, des emballages, des supports de manutention, et toutes opÃ©rations liÃ©es Ã&#160; la rÃ©utilisation de produits et matÃ©riaux)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>ModÃ¨les de transports nouveaux :  par exemple la logistique multimodale (utilisation conjointe du transport routier, ferroviaire et fluvial) ou lâ utilisation de vÃ©hicules Ã&#160; carburant alternatif (GNL) , hybrides ou Ã©lectriques</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Re-design de produit pour en faciliter le transport (l'emballage, le poids, la densitÃ©)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Autre innovation de logistique</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbtkkqt">
+            <Name/>
+            <Label>X.1</Label>
+            <Code>
+                <Value/>
+                <Label>DÃ©posÃ© un brevet</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>EnregistrÃ© un dessin ou un modÃ¨le</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>EnregistrÃ© une marque dÃ©posÃ©e</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbtozb2">
+            <Name/>
+            <Label>X.3</Label>
+            <Code>
+                <Value/>
+                <Label>Secret industriel</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>ComplexitÃ© Ã&#160; la conception</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Avance technologique sur les concurrents</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbtuvsa">
+            <Name/>
+            <Label>XI.3</Label>
+            <Code>
+                <Value/>
+                <Label>Ouvrir de nouvelles opportunitÃ©s de marchÃ© (ex. nouveaux clients, biens ou services nouveaux et/ou significativement amÃ©liorÃ©s, image plus dynamique de l'entreprise)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>ConquÃ©rir de nouveaux marchÃ©s (aires gÃ©ographiques)  (augmentation de la part de marchÃ©, du chiffre d'affaires, du profit)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>RÃ©pondre Ã&#160; la pression du marchÃ© (risque de perte de clients et/ou de chiffre d'affaires)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>RÃ©pondre Ã&#160; la pression des coÃ»ts (besoin de rÃ©duire les coÃ»ts ou limiter leur augmentation)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>RÃ©pondre aux dispositifs rÃ©glementaires existants ou futurs</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>AmÃ©liorer la maÃ®trise des dÃ©lais de livraison</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbtzk2i">
+            <Name/>
+            <Label>XI.4</Label>
+            <Code>
+                <Value/>
+                <Label>Sans objet, car aucune innovation dans la logistique n'a Ã©tÃ© faite en 2016</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Moins de 10.000 euros</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Entre 10.000 et 49.999 euros</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Entre 50.000 et 99.999 euros</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Entre 100.000 et 249.999 euros</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Entre 250.000 et 499.999 euros</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Entre 500.000 et 999.999 euros</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Plus de 1 million euros</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Ne sait pas</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbu1agi">
+            <Name/>
+            <Label>XII.1bis - DegrÃ© importance</Label>
+            <Code>
+                <Value/>
+                <Label>ÃlevÃ©</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Moyen</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Faible</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Facteur non explicatif</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbu26k7">
+            <Name/>
+            <Label>XI.5</Label>
+            <Code>
+                <Value/>
+                <Label>Nous n'avons pas envisagÃ© d'innover ou n'avions aucune nÃ©cessitÃ© d'innover dans ce domaine</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Nous avons externalisÃ© la logistique Ã&#160; une autre entreprise</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Nous avons envisagÃ© d'innover dans ce domaine, mais  nous avons rencontrÃ© des obstacles</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbu2gd3">
+            <Name/>
+            <Label>XII.1</Label>
+            <Code>
+                <Value/>
+                <Label>Manque de moyens financiers internes (au sein de votre entreprise, groupe ou rÃ©seau dâenseigne)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Manque de moyens financiers externes (Ã&#160; votre entreprise, groupe ou rÃ©seau dâenseigne)</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>CoÃ»ts de lâinnovation trop importants</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Manque de personnel qualifiÃ©</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Manque dâinformations sur les technologies</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Manque dâinformations sur les marchÃ©s</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>DifficultÃ©s Ã&#160; trouver des partenaires de coopÃ©ration pour lâinnovation</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>MarchÃ© dominÃ© par les entreprises Ã©tablies</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Incertitude de la demande</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Trop de concurrence sur votre marchÃ©</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Aucune nÃ©cessitÃ© dâinnover en raison dâinnovations prÃ©cÃ©dentes</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Aucune nÃ©cessitÃ© dâinnover car absence de demande pour des innovations</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbugqhd">
+            <Name/>
+            <Label>XIII.2</Label>
+            <Code>
+                <Value/>
+                <Label>en 2014</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>en 2016</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbuoxhv">
+            <Name/>
+            <Label>XIII.3</Label>
+            <Code>
+                <Value/>
+                <Label>9 salariÃ©s ou moins</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>de 10 Ã&#160; 19 salariÃ©s</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>de 20 Ã&#160; 49 salariÃ©s</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>de 50 Ã&#160; 249 salariÃ©s</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>250 salariÃ©s ou plus</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbv9un8">
+            <Name/>
+            <Label>XI.3bis - DegrÃ© importance</Label>
+            <Code>
+                <Value/>
+                <Label>ÃlevÃ©</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Moyen</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Faible</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>Aucune importance</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixbw9tja">
+            <Name/>
+            <Label>L_ISO3166</Label>
+            <Code>
+                <Value>AF</Value>
+                <Label>AFGHANISTAN</Label>
+            </Code>
+            <Code>
+                <Value>ZA</Value>
+                <Label>AFRIQUE DU SUD</Label>
+            </Code>
+            <Code>
+                <Value>AX</Value>
+                <Label>ÃLAND ÃLES</Label>
+            </Code>
+            <Code>
+                <Value>AL</Value>
+                <Label>ALBANIE</Label>
+            </Code>
+            <Code>
+                <Value>DZ</Value>
+                <Label>ALGERIE</Label>
+            </Code>
+            <Code>
+                <Value>DE</Value>
+                <Label>ALLEMAGNE</Label>
+            </Code>
+            <Code>
+                <Value>AD</Value>
+                <Label>ANDORRE</Label>
+            </Code>
+            <Code>
+                <Value>AO</Value>
+                <Label>ANGOLA</Label>
+            </Code>
+            <Code>
+                <Value>AI</Value>
+                <Label>ANGUILLA</Label>
+            </Code>
+            <Code>
+                <Value>AQ</Value>
+                <Label>ANTARCTIQUE</Label>
+            </Code>
+            <Code>
+                <Value>AG</Value>
+                <Label>ANTIGUA ET BARBUDA</Label>
+            </Code>
+            <Code>
+                <Value>SA</Value>
+                <Label>ARABIE SAOUDITE</Label>
+            </Code>
+            <Code>
+                <Value>AR</Value>
+                <Label>ARGENTINE</Label>
+            </Code>
+            <Code>
+                <Value>AM</Value>
+                <Label>ARMENIE</Label>
+            </Code>
+            <Code>
+                <Value>AW</Value>
+                <Label>ARUBA</Label>
+            </Code>
+            <Code>
+                <Value>AU</Value>
+                <Label>AUSTRALIE</Label>
+            </Code>
+            <Code>
+                <Value>AT</Value>
+                <Label>AUTRICHE</Label>
+            </Code>
+            <Code>
+                <Value>AZ</Value>
+                <Label>AZERBAIDJAN</Label>
+            </Code>
+            <Code>
+                <Value>BS</Value>
+                <Label>BAHAMAS</Label>
+            </Code>
+            <Code>
+                <Value>BH</Value>
+                <Label>BAHREIN</Label>
+            </Code>
+            <Code>
+                <Value>BD</Value>
+                <Label>BANGLADESH</Label>
+            </Code>
+            <Code>
+                <Value>BB</Value>
+                <Label>BARBADE</Label>
+            </Code>
+            <Code>
+                <Value>BY</Value>
+                <Label>BELARUS</Label>
+            </Code>
+            <Code>
+                <Value>BE</Value>
+                <Label>BELGIQUE</Label>
+            </Code>
+            <Code>
+                <Value>BZ</Value>
+                <Label>BELIZE</Label>
+            </Code>
+            <Code>
+                <Value>BJ</Value>
+                <Label>BENIN</Label>
+            </Code>
+            <Code>
+                <Value>BM</Value>
+                <Label>BERMUDES</Label>
+            </Code>
+            <Code>
+                <Value>BT</Value>
+                <Label>BHOUTAN</Label>
+            </Code>
+            <Code>
+                <Value>BO</Value>
+                <Label>BOLIVIE l'ETAT PLURINATIONAL DE</Label>
+            </Code>
+            <Code>
+                <Value>BQ</Value>
+                <Label>BONAIRE SAINT-EUSTACHE ET SABA</Label>
+            </Code>
+            <Code>
+                <Value>BA</Value>
+                <Label>BOSNIE-HERZEGOVINE</Label>
+            </Code>
+            <Code>
+                <Value>BW</Value>
+                <Label>BOTSWANA</Label>
+            </Code>
+            <Code>
+                <Value>BV</Value>
+                <Label>BOUVET ILE</Label>
+            </Code>
+            <Code>
+                <Value>BR</Value>
+                <Label>BRESIL</Label>
+            </Code>
+            <Code>
+                <Value>BN</Value>
+                <Label>BRUNEI DARUSSALAM</Label>
+            </Code>
+            <Code>
+                <Value>BG</Value>
+                <Label>BULGARIE</Label>
+            </Code>
+            <Code>
+                <Value>BF</Value>
+                <Label>BURKINA FASO</Label>
+            </Code>
+            <Code>
+                <Value>BI</Value>
+                <Label>BURUNDI</Label>
+            </Code>
+            <Code>
+                <Value>KY</Value>
+                <Label>CAIMANES ILES</Label>
+            </Code>
+            <Code>
+                <Value>KH</Value>
+                <Label>CAMBODGE</Label>
+            </Code>
+            <Code>
+                <Value>CM</Value>
+                <Label>CAMEROUN</Label>
+            </Code>
+            <Code>
+                <Value>CA</Value>
+                <Label>CANADA</Label>
+            </Code>
+            <Code>
+                <Value>CV</Value>
+                <Label>CAP-VERT</Label>
+            </Code>
+            <Code>
+                <Value>CF</Value>
+                <Label>CENTRAFRICAINE REPUBLIQUE</Label>
+            </Code>
+            <Code>
+                <Value>CL</Value>
+                <Label>CHILI</Label>
+            </Code>
+            <Code>
+                <Value>CN</Value>
+                <Label>CHINE</Label>
+            </Code>
+            <Code>
+                <Value>CX</Value>
+                <Label>CHRISTMAS ILE</Label>
+            </Code>
+            <Code>
+                <Value>CY</Value>
+                <Label>CHYPRE</Label>
+            </Code>
+            <Code>
+                <Value>CC</Value>
+                <Label>COCOS (KEELING) ILES</Label>
+            </Code>
+            <Code>
+                <Value>CO</Value>
+                <Label>COLOMBIE</Label>
+            </Code>
+            <Code>
+                <Value>KM</Value>
+                <Label>COMORES</Label>
+            </Code>
+            <Code>
+                <Value>CG</Value>
+                <Label>CONGO</Label>
+            </Code>
+            <Code>
+                <Value>CD</Value>
+                <Label>CONGO LA REPUBLIQUE DEMOCRATIQUE DU</Label>
+            </Code>
+            <Code>
+                <Value>CK</Value>
+                <Label>COOK ILES</Label>
+            </Code>
+            <Code>
+                <Value>KR</Value>
+                <Label>COREE REPUBLIQUE DE</Label>
+            </Code>
+            <Code>
+                <Value>KP</Value>
+                <Label>COREE REPUBLIQUE POPULAIRE DEMOCRATIQUE DE</Label>
+            </Code>
+            <Code>
+                <Value>CR</Value>
+                <Label>COSTA RICA</Label>
+            </Code>
+            <Code>
+                <Value>CI</Value>
+                <Label>COTE D'IVOIRE</Label>
+            </Code>
+            <Code>
+                <Value>HR</Value>
+                <Label>CROATIE</Label>
+            </Code>
+            <Code>
+                <Value>CU</Value>
+                <Label>CUBA</Label>
+            </Code>
+            <Code>
+                <Value>CW</Value>
+                <Label>CURACAO</Label>
+            </Code>
+            <Code>
+                <Value>DK</Value>
+                <Label>DANEMARK</Label>
+            </Code>
+            <Code>
+                <Value>DJ</Value>
+                <Label>DJIBOUTI</Label>
+            </Code>
+            <Code>
+                <Value>DO</Value>
+                <Label>DOMINICAINE REPUBLIQUE</Label>
+            </Code>
+            <Code>
+                <Value>DM</Value>
+                <Label>DOMINIQUE</Label>
+            </Code>
+            <Code>
+                <Value>EG</Value>
+                <Label>EGYPTE</Label>
+            </Code>
+            <Code>
+                <Value>SV</Value>
+                <Label>EL SALVADOR</Label>
+            </Code>
+            <Code>
+                <Value>AE</Value>
+                <Label>EMIRATS ARABES UNIS</Label>
+            </Code>
+            <Code>
+                <Value>EC</Value>
+                <Label>EQUATEUR</Label>
+            </Code>
+            <Code>
+                <Value>ER</Value>
+                <Label>ERYTHREE</Label>
+            </Code>
+            <Code>
+                <Value>ES</Value>
+                <Label>ESPAGNE</Label>
+            </Code>
+            <Code>
+                <Value>EE</Value>
+                <Label>ESTONIE</Label>
+            </Code>
+            <Code>
+                <Value>US</Value>
+                <Label>ETATS-UNIS</Label>
+            </Code>
+            <Code>
+                <Value>ET</Value>
+                <Label>ETHIOPIE</Label>
+            </Code>
+            <Code>
+                <Value>FK</Value>
+                <Label>FALKLAND ILES (MALVINAS)</Label>
+            </Code>
+            <Code>
+                <Value>FO</Value>
+                <Label>FEROE ILES</Label>
+            </Code>
+            <Code>
+                <Value>FJ</Value>
+                <Label>FIDJI</Label>
+            </Code>
+            <Code>
+                <Value>FI</Value>
+                <Label>FINLANDE</Label>
+            </Code>
+            <Code>
+                <Value>FR</Value>
+                <Label>FRANCE</Label>
+            </Code>
+            <Code>
+                <Value>GA</Value>
+                <Label>GABON</Label>
+            </Code>
+            <Code>
+                <Value>GM</Value>
+                <Label>GAMBIE</Label>
+            </Code>
+            <Code>
+                <Value>GE</Value>
+                <Label>GEORGIE</Label>
+            </Code>
+            <Code>
+                <Value>GS</Value>
+                <Label>GEORGIE DU SUD ET LES ILES SANDWICH DU SUD</Label>
+            </Code>
+            <Code>
+                <Value>GH</Value>
+                <Label>GHANA</Label>
+            </Code>
+            <Code>
+                <Value>GI</Value>
+                <Label>GIBRALTAR</Label>
+            </Code>
+            <Code>
+                <Value>GR</Value>
+                <Label>GRECE</Label>
+            </Code>
+            <Code>
+                <Value>GD</Value>
+                <Label>GRENADE</Label>
+            </Code>
+            <Code>
+                <Value>GL</Value>
+                <Label>GROENLAND</Label>
+            </Code>
+            <Code>
+                <Value>GP</Value>
+                <Label>GUADELOUPE</Label>
+            </Code>
+            <Code>
+                <Value>GU</Value>
+                <Label>GUAM</Label>
+            </Code>
+            <Code>
+                <Value>GT</Value>
+                <Label>GUATEMALA</Label>
+            </Code>
+            <Code>
+                <Value>GG</Value>
+                <Label>GUERNESEY</Label>
+            </Code>
+            <Code>
+                <Value>GN</Value>
+                <Label>GUINEE</Label>
+            </Code>
+            <Code>
+                <Value>GW</Value>
+                <Label>GUINEE-BISSAU</Label>
+            </Code>
+            <Code>
+                <Value>GQ</Value>
+                <Label>GUINEE EQUATORIALE</Label>
+            </Code>
+            <Code>
+                <Value>GY</Value>
+                <Label>GUYANA</Label>
+            </Code>
+            <Code>
+                <Value>GF</Value>
+                <Label>GUYANE FRANCAISE</Label>
+            </Code>
+            <Code>
+                <Value>HT</Value>
+                <Label>HAITI</Label>
+            </Code>
+            <Code>
+                <Value>HM</Value>
+                <Label>HEARD ILE ET MCDONALD ILES</Label>
+            </Code>
+            <Code>
+                <Value>HN</Value>
+                <Label>HONDURAS</Label>
+            </Code>
+            <Code>
+                <Value>HK</Value>
+                <Label>HONG KONG</Label>
+            </Code>
+            <Code>
+                <Value>HU</Value>
+                <Label>HONGRIE</Label>
+            </Code>
+            <Code>
+                <Value>IM</Value>
+                <Label>ILE DE MAN</Label>
+            </Code>
+            <Code>
+                <Value>UM</Value>
+                <Label>ILES MINEURES ELOIGNEES DES ETATS-UNIS</Label>
+            </Code>
+            <Code>
+                <Value>VG</Value>
+                <Label>ILES VIERGES BRITANNIQUES</Label>
+            </Code>
+            <Code>
+                <Value>VI</Value>
+                <Label>ILES VIERGES DES ETATS-UNIS</Label>
+            </Code>
+            <Code>
+                <Value>IN</Value>
+                <Label>INDE</Label>
+            </Code>
+            <Code>
+                <Value>ID</Value>
+                <Label>INDONESIE</Label>
+            </Code>
+            <Code>
+                <Value>IR</Value>
+                <Label>IRAN REPUBLIQUE ISLAMIQUE D'</Label>
+            </Code>
+            <Code>
+                <Value>IQ</Value>
+                <Label>IRAQ</Label>
+            </Code>
+            <Code>
+                <Value>IE</Value>
+                <Label>IRLANDE</Label>
+            </Code>
+            <Code>
+                <Value>IS</Value>
+                <Label>ISLANDE</Label>
+            </Code>
+            <Code>
+                <Value>IL</Value>
+                <Label>ISRAEL</Label>
+            </Code>
+            <Code>
+                <Value>IT</Value>
+                <Label>ITALIE</Label>
+            </Code>
+            <Code>
+                <Value>JM</Value>
+                <Label>JAMAIQUE</Label>
+            </Code>
+            <Code>
+                <Value>JP</Value>
+                <Label>JAPON</Label>
+            </Code>
+            <Code>
+                <Value>JE</Value>
+                <Label>JERSEY</Label>
+            </Code>
+            <Code>
+                <Value>JO</Value>
+                <Label>JORDANIE</Label>
+            </Code>
+            <Code>
+                <Value>KZ</Value>
+                <Label>KAZAKHSTAN</Label>
+            </Code>
+            <Code>
+                <Value>KE</Value>
+                <Label>KENYA</Label>
+            </Code>
+            <Code>
+                <Value>KG</Value>
+                <Label>KIRGHIZISTAN</Label>
+            </Code>
+            <Code>
+                <Value>KI</Value>
+                <Label>KIRIBATI</Label>
+            </Code>
+            <Code>
+                <Value>KW</Value>
+                <Label>KOWEIT</Label>
+            </Code>
+            <Code>
+                <Value>LA</Value>
+                <Label>LAO REPUBLIQUE DEMOCRATIQUE POPULAIRE</Label>
+            </Code>
+            <Code>
+                <Value>LS</Value>
+                <Label>LESOTHO</Label>
+            </Code>
+            <Code>
+                <Value>LV</Value>
+                <Label>LETTONIE</Label>
+            </Code>
+            <Code>
+                <Value>LB</Value>
+                <Label>LIBAN</Label>
+            </Code>
+            <Code>
+                <Value>LR</Value>
+                <Label>LIBERIA</Label>
+            </Code>
+            <Code>
+                <Value>LY</Value>
+                <Label>LIBYENNE JAMAHIRIYA ARABE</Label>
+            </Code>
+            <Code>
+                <Value>LI</Value>
+                <Label>LIECHTENSTEIN</Label>
+            </Code>
+            <Code>
+                <Value>LT</Value>
+                <Label>LITUANIE</Label>
+            </Code>
+            <Code>
+                <Value>LU</Value>
+                <Label>LUXEMBOURG</Label>
+            </Code>
+            <Code>
+                <Value>MO</Value>
+                <Label>MACAO</Label>
+            </Code>
+            <Code>
+                <Value>MK</Value>
+                <Label>MACEDOINE L'EX-REPUBLIQUE YOUGOSLAVE DE</Label>
+            </Code>
+            <Code>
+                <Value>MG</Value>
+                <Label>MADAGASCAR</Label>
+            </Code>
+            <Code>
+                <Value>MY</Value>
+                <Label>MALAISIE</Label>
+            </Code>
+            <Code>
+                <Value>MW</Value>
+                <Label>MALAWI</Label>
+            </Code>
+            <Code>
+                <Value>MV</Value>
+                <Label>MALDIVES</Label>
+            </Code>
+            <Code>
+                <Value>ML</Value>
+                <Label>MALI</Label>
+            </Code>
+            <Code>
+                <Value>MT</Value>
+                <Label>MALTE</Label>
+            </Code>
+            <Code>
+                <Value>MP</Value>
+                <Label>MARIANNES DU NORD ILES</Label>
+            </Code>
+            <Code>
+                <Value>MA</Value>
+                <Label>MAROC</Label>
+            </Code>
+            <Code>
+                <Value>MH</Value>
+                <Label>MARSHALL ILES</Label>
+            </Code>
+            <Code>
+                <Value>MQ</Value>
+                <Label>MARTINIQUE</Label>
+            </Code>
+            <Code>
+                <Value>MU</Value>
+                <Label>MAURICE</Label>
+            </Code>
+            <Code>
+                <Value>MR</Value>
+                <Label>MAURITANIE</Label>
+            </Code>
+            <Code>
+                <Value>YT</Value>
+                <Label>MAYOTTE</Label>
+            </Code>
+            <Code>
+                <Value>MX</Value>
+                <Label>MEXIQUE</Label>
+            </Code>
+            <Code>
+                <Value>FM</Value>
+                <Label>MICRONESIE ETATS FEDERES DE</Label>
+            </Code>
+            <Code>
+                <Value>MD</Value>
+                <Label>MOLDOVA REPUBLIQUE DE</Label>
+            </Code>
+            <Code>
+                <Value>MC</Value>
+                <Label>MONACO</Label>
+            </Code>
+            <Code>
+                <Value>MN</Value>
+                <Label>MONGOLIE</Label>
+            </Code>
+            <Code>
+                <Value>ME</Value>
+                <Label>MONTENEGRO</Label>
+            </Code>
+            <Code>
+                <Value>MS</Value>
+                <Label>MONTSERRAT</Label>
+            </Code>
+            <Code>
+                <Value>MZ</Value>
+                <Label>MOZAMBIQUE</Label>
+            </Code>
+            <Code>
+                <Value>MM</Value>
+                <Label>MYANMAR</Label>
+            </Code>
+            <Code>
+                <Value>NA</Value>
+                <Label>NAMIBIE</Label>
+            </Code>
+            <Code>
+                <Value>NR</Value>
+                <Label>NAURU</Label>
+            </Code>
+            <Code>
+                <Value>NP</Value>
+                <Label>NEPAL</Label>
+            </Code>
+            <Code>
+                <Value>NI</Value>
+                <Label>NICARAGUA</Label>
+            </Code>
+            <Code>
+                <Value>NE</Value>
+                <Label>NIGER</Label>
+            </Code>
+            <Code>
+                <Value>NG</Value>
+                <Label>NIGERIA</Label>
+            </Code>
+            <Code>
+                <Value>NU</Value>
+                <Label>NIUE</Label>
+            </Code>
+            <Code>
+                <Value>NF</Value>
+                <Label>NORFOLK ILE</Label>
+            </Code>
+            <Code>
+                <Value>NO</Value>
+                <Label>NORVEGE</Label>
+            </Code>
+            <Code>
+                <Value>NC</Value>
+                <Label>NOUVELLE-CALEDONIE</Label>
+            </Code>
+            <Code>
+                <Value>NZ</Value>
+                <Label>NOUVELLE-ZELANDE</Label>
+            </Code>
+            <Code>
+                <Value>IO</Value>
+                <Label>OCEAN INDIEN TERRITOIRE BRITANNIQUE DE L'</Label>
+            </Code>
+            <Code>
+                <Value>OM</Value>
+                <Label>OMAN</Label>
+            </Code>
+            <Code>
+                <Value>UG</Value>
+                <Label>OUGANDA</Label>
+            </Code>
+            <Code>
+                <Value>UZ</Value>
+                <Label>OUZBEKISTAN</Label>
+            </Code>
+            <Code>
+                <Value>PK</Value>
+                <Label>PAKISTAN</Label>
+            </Code>
+            <Code>
+                <Value>PW</Value>
+                <Label>PALAOS</Label>
+            </Code>
+            <Code>
+                <Value>PS</Value>
+                <Label>PALESTINIEN OCCUPE TERRITOIRE</Label>
+            </Code>
+            <Code>
+                <Value>PA</Value>
+                <Label>PANAMA</Label>
+            </Code>
+            <Code>
+                <Value>PG</Value>
+                <Label>PAPOUASIE-NOUVELLE-GUINEE</Label>
+            </Code>
+            <Code>
+                <Value>PY</Value>
+                <Label>PARAGUAY</Label>
+            </Code>
+            <Code>
+                <Value>NL</Value>
+                <Label>PAYS-BAS</Label>
+            </Code>
+            <Code>
+                <Value>PE</Value>
+                <Label>PEROU</Label>
+            </Code>
+            <Code>
+                <Value>PH</Value>
+                <Label>PHILIPPINES</Label>
+            </Code>
+            <Code>
+                <Value>PN</Value>
+                <Label>PITCAIRN</Label>
+            </Code>
+            <Code>
+                <Value>PL</Value>
+                <Label>POLOGNE</Label>
+            </Code>
+            <Code>
+                <Value>PF</Value>
+                <Label>POLYNESIE FRANCAISE</Label>
+            </Code>
+            <Code>
+                <Value>PR</Value>
+                <Label>PORTO RICO</Label>
+            </Code>
+            <Code>
+                <Value>PT</Value>
+                <Label>PORTUGAL</Label>
+            </Code>
+            <Code>
+                <Value>QA</Value>
+                <Label>QATAR</Label>
+            </Code>
+            <Code>
+                <Value>RE</Value>
+                <Label>REUNION</Label>
+            </Code>
+            <Code>
+                <Value>RO</Value>
+                <Label>ROUMANIE</Label>
+            </Code>
+            <Code>
+                <Value>GB</Value>
+                <Label>ROYAUME-UNI</Label>
+            </Code>
+            <Code>
+                <Value>RU</Value>
+                <Label>RUSSIE FEDERATION DE</Label>
+            </Code>
+            <Code>
+                <Value>RW</Value>
+                <Label>RWANDA</Label>
+            </Code>
+            <Code>
+                <Value>EH</Value>
+                <Label>SAHARA OCCIDENTAL</Label>
+            </Code>
+            <Code>
+                <Value>BL</Value>
+                <Label>SAINT-BARTHELEMY</Label>
+            </Code>
+            <Code>
+                <Value>SH</Value>
+                <Label>SAINTE-HELENE ASCENSION ET TRISTAN DA CUNHA</Label>
+            </Code>
+            <Code>
+                <Value>LC</Value>
+                <Label>SAINTE-LUCIE</Label>
+            </Code>
+            <Code>
+                <Value>KN</Value>
+                <Label>SAINT-KITTS-ET-NEVIS</Label>
+            </Code>
+            <Code>
+                <Value>SM</Value>
+                <Label>SAINT-MARIN</Label>
+            </Code>
+            <Code>
+                <Value>MF</Value>
+                <Label>SAINT-MARTIN (PARTIE FRANCAISE)</Label>
+            </Code>
+            <Code>
+                <Value>SX</Value>
+                <Label>SAINT-MARTIN (PARTIE NEERLANDAISE)</Label>
+            </Code>
+            <Code>
+                <Value>PM</Value>
+                <Label>SAINT-PIERRE-ET-MIQUELON</Label>
+            </Code>
+            <Code>
+                <Value>VA</Value>
+                <Label>SAINT-SIEGE (ETAT DE LA CITE DU VATICAN)</Label>
+            </Code>
+            <Code>
+                <Value>VC</Value>
+                <Label>SAINT-VINCENT-ET-LES GRENADINES</Label>
+            </Code>
+            <Code>
+                <Value>SB</Value>
+                <Label>SALOMON ILES</Label>
+            </Code>
+            <Code>
+                <Value>WS</Value>
+                <Label>SAMOA</Label>
+            </Code>
+            <Code>
+                <Value>AS</Value>
+                <Label>SAMOA AMERICAINES</Label>
+            </Code>
+            <Code>
+                <Value>ST</Value>
+                <Label>SAO TOME-ET-PRINCIPE</Label>
+            </Code>
+            <Code>
+                <Value>SN</Value>
+                <Label>SENEGAL</Label>
+            </Code>
+            <Code>
+                <Value>RS</Value>
+                <Label>SERBIE</Label>
+            </Code>
+            <Code>
+                <Value>SC</Value>
+                <Label>SEYCHELLES</Label>
+            </Code>
+            <Code>
+                <Value>SL</Value>
+                <Label>SIERRA LEONE</Label>
+            </Code>
+            <Code>
+                <Value>SG</Value>
+                <Label>SINGAPOUR</Label>
+            </Code>
+            <Code>
+                <Value>SK</Value>
+                <Label>SLOVAQUIE</Label>
+            </Code>
+            <Code>
+                <Value>LK</Value>
+                <Label>SRI LANKA</Label>
+            </Code>
+            <Code>
+                <Value>SO</Value>
+                <Label>SOMALIE</Label>
+            </Code>
+            <Code>
+                <Value>SD</Value>
+                <Label>SOUDAN</Label>
+            </Code>
+            <Code>
+                <Value>LK</Value>
+                <Label>SRI LANKA</Label>
+            </Code>
+            <Code>
+                <Value>SE</Value>
+                <Label>SUEDE</Label>
+            </Code>
+            <Code>
+                <Value>CH</Value>
+                <Label>SUISSE</Label>
+            </Code>
+            <Code>
+                <Value>SR</Value>
+                <Label>SURINAME</Label>
+            </Code>
+            <Code>
+                <Value>SJ</Value>
+                <Label>SVALBARD ET ILE JAN MAYEN</Label>
+            </Code>
+            <Code>
+                <Value>SZ</Value>
+                <Label>SWAZILAND</Label>
+            </Code>
+            <Code>
+                <Value>SY</Value>
+                <Label>SYRIENNE REPUBLIQUE ARABE</Label>
+            </Code>
+            <Code>
+                <Value>TJ</Value>
+                <Label>TADJIKISTAN</Label>
+            </Code>
+            <Code>
+                <Value>TW</Value>
+                <Label>TAIWAN PROVINCE DE CHINE</Label>
+            </Code>
+            <Code>
+                <Value>TZ</Value>
+                <Label>TANZANIE REPUBLIQUE-UNIE DE</Label>
+            </Code>
+            <Code>
+                <Value>TD</Value>
+                <Label>TCHAD</Label>
+            </Code>
+            <Code>
+                <Value>CZ</Value>
+                <Label>TCHEQUE REPUBLIQUE</Label>
+            </Code>
+            <Code>
+                <Value>TF</Value>
+                <Label>TERRES AUSTRALES FRANCAISES</Label>
+            </Code>
+            <Code>
+                <Value>TH</Value>
+                <Label>THAILANDE</Label>
+            </Code>
+            <Code>
+                <Value>TL</Value>
+                <Label>TIMOR-LESTE</Label>
+            </Code>
+            <Code>
+                <Value>TG</Value>
+                <Label>TOGO</Label>
+            </Code>
+            <Code>
+                <Value>TK</Value>
+                <Label>TOKELAU</Label>
+            </Code>
+            <Code>
+                <Value>TO</Value>
+                <Label>TONGA</Label>
+            </Code>
+            <Code>
+                <Value>TT</Value>
+                <Label>TRINITE-ET-TOBAGO</Label>
+            </Code>
+            <Code>
+                <Value>TN</Value>
+                <Label>TUNISIE</Label>
+            </Code>
+            <Code>
+                <Value>TM</Value>
+                <Label>TURKMENISTAN</Label>
+            </Code>
+            <Code>
+                <Value>TC</Value>
+                <Label>TURKS ET CAIQUES ILES</Label>
+            </Code>
+            <Code>
+                <Value>TR</Value>
+                <Label>TURQUIE</Label>
+            </Code>
+            <Code>
+                <Value>TV</Value>
+                <Label>TUVALU</Label>
+            </Code>
+            <Code>
+                <Value>UA</Value>
+                <Label>UKRAINE</Label>
+            </Code>
+            <Code>
+                <Value>UY</Value>
+                <Label>URUGUAY</Label>
+            </Code>
+            <Code>
+                <Value>VU</Value>
+                <Label>VANUATU</Label>
+            </Code>
+            <Code>
+                <Value>VE</Value>
+                <Label>VENEZUELA REPUBLIQUE BOLIVARIENNE DU</Label>
+            </Code>
+            <Code>
+                <Value>VN</Value>
+                <Label>VIET NAM</Label>
+            </Code>
+            <Code>
+                <Value>WF</Value>
+                <Label>WALLIS ET FUTUNA</Label>
+            </Code>
+            <Code>
+                <Value>YE</Value>
+                <Label>YEMEN</Label>
+            </Code>
+            <Code>
+                <Value>ZM</Value>
+                <Label>ZAMBIE</Label>
+            </Code>
+            <Code>
+                <Value>ZW</Value>
+                <Label>ZIMBABWE</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixfy8kma">
+            <Name/>
+            <Label>XI.6</Label>
+            <Code>
+                <Value/>
+                <Label>financiers</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>techniques</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>rÃ©glementaires</Label>
+            </Code>
+            <Code>
+                <Value/>
+                <Label>autres</Label>
+            </Code>
+        </CodeList>
+        <CodeList id="ixity6jy">
+            <Name/>
+            <Label>XIII.1</Label>
+            <Code>
+                <Value/>
+                <Label>Chiffre dâaffaires 2016 hors taxes</Label>
+            </Code>
+        </CodeList>
+    </CodeLists>
+</Questionnaire>

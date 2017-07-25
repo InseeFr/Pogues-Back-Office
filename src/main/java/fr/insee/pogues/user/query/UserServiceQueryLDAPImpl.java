@@ -1,11 +1,14 @@
 package fr.insee.pogues.user.query;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
+import fr.insee.pogues.user.model.User;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;
 import javax.naming.NamingException;
@@ -13,8 +16,11 @@ import javax.naming.directory.DirContext;
 import javax.naming.directory.InitialDirContext;
 import javax.naming.directory.SearchControls;
 import javax.naming.directory.SearchResult;
-
-import org.apache.log4j.Logger;
+import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * User Service Query for the LDAP implementation to assume the identity service
@@ -23,122 +29,135 @@ import org.apache.log4j.Logger;
  * @author I6VWID
  *
  */
+@Service
+@Configuration
+@PropertySource("classpath:pogues-bo.properties")
 public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 
 	final static Logger logger = Logger.getLogger(UserServiceQueryLDAPImpl.class);
 
 	private DirContext context = null;
 
-	// TODO externalisation of the parameter
-	private static String LDAP_HOST_NAME = "ldap://annuaire.insee.fr";
+	private String ldapHost;
+	private String ldapUserBaseDn;
+	private String ldapUserCommonName;
+	private String ldapUserGivenName;
+	private String ldapUserSn;
+	private String ldapUserFilter;
+	private String ldapUnitesBaseDn;
+	private String ldapPermissions;
+	private String ldapPermissionFilter;
+	private String ldapPermissionName;
+	private String ldapPermissionDescription;
+	private String ldapPermissionOther;
+	private String ldapPermissionRegex;
 
-	/**
-	 * Contructor for User Service Query LDAP implementation, init the
-	 * connection.
-	 * 
-	 */
-	public UserServiceQueryLDAPImpl() {
+	@Autowired
+	private Environment env;
+
+	@PostConstruct
+	public void init() {
+		ldapHost = env.getProperty("fr.insee.pogues.permission.ldap.hostname");
+		ldapUserBaseDn = env.getProperty("fr.insee.pogues.permission.ldap.user.base");
+		ldapUnitesBaseDn = env.getProperty("fr.insee.pogues.permission.ldap.unite.base");
+		ldapUserCommonName = env.getProperty("fr.insee.pogues.permission.ldap.user.cn");
+		ldapUserGivenName = env.getProperty("fr.insee.pogues.permission.ldap.user.givenName");
+		ldapUserSn = env.getProperty("fr.insee.pogues.permission.ldap.user.sn");
+		ldapUserFilter = env.getProperty("fr.insee.pogues.permission.ldap.user.filtre");
+		ldapPermissionName = env.getProperty("fr.insee.pogues.permission.ldap.permission.name");
+		ldapPermissionDescription = env.getProperty("fr.insee.pogues.permission.ldap.permission.description");
+		ldapPermissionOther = env.getProperty("fr.insee.pogues.permission.ldap.permission.other");
+		ldapPermissions = env.getProperty("fr.insee.pogues.permission.ldap.user.permission");
+		ldapPermissionFilter = env.getProperty("fr.insee.pogues.permission.ldap.permission.filtre");
+		ldapPermissionRegex = env.getProperty("fr.insee.pogues.permission.ldap.user.permission.regex");
+	}
+
+	public void initConnection(){
 		// Connexion à la racine de l'annuaire
 		Hashtable<String, String> environment = new Hashtable<String, String>();
 		environment.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
-		environment.put(Context.PROVIDER_URL, LDAP_HOST_NAME);
+		environment.put(Context.PROVIDER_URL, ldapHost);
 		environment.put(Context.SECURITY_AUTHENTICATION, "none");
-
 		try {
-			context = new InitialDirContext(environment);
+			this.context = new InitialDirContext(environment);
 		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-	}
-
-	/**
-	 * A method to close the connection to the LDAP.
-	 * 
-	 */
-	public void close() {
-		try {
-			context.close();
-		} catch (NamingException e) {
-			logger.error("NamingException - Impossible to close the LDAP connection");
 			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * A method to get the name and the permission by user ID
-	 * 
-	 * @return the name and the permission in a map<String,String>
-	 */
-	public Map<String, String> getNameAndPermissionByID(String id) {
-		Map<String, String> attributes = new HashMap<String, String>();
-		attributes.put("id", id);
+
+	public void closeConnection() throws Exception {
+		try {
+			this.context.close();
+		} catch (Exception e) {
+			logger.error("Exception - Impossible to closeConnection the LDAP connection");
+			throw e;
+		}
+	}
+
+
+	public User getNameAndPermissionByID(String id) throws Exception {
 		String name = null;
 		String permission = null;
-		// Criteria specification for the permission search
-		SearchControls controls = new SearchControls();
-		controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
-		// TODO externalisation of the parameter
-		controls.setReturningAttributes(new String[] { "cn", "inseeUniteDN" });
-		// TODO externalisation of the parameter
-		String filter = "(uid=" + id + ")";
-
-		NamingEnumeration<SearchResult> results;
+		String firstName = null;
+		String lastName = null;
 		try {
-			// TODO externalisation of the parameter
-			results = context.search("ou=Personnes,o=insee,c=fr", filter, controls);
+			this.initConnection();
+			// Criteria specification for the permission search
+			SearchControls controls = new SearchControls();
+			controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+			controls.setReturningAttributes(new String[] {ldapUserCommonName, ldapPermissions, ldapUserGivenName, ldapUserSn});
+			String filter = "(" + ldapUserFilter + id + ")";
+			NamingEnumeration<SearchResult> results;
+			results = context.search(ldapUserBaseDn, filter, controls);
 			while (results.hasMore()) {
 				SearchResult entree = results.next();
-				// TODO externalisation of the parameter
-				name = entree.getAttributes().get("cn").get().toString();
-				permission = entree.getAttributes().get("inseeUniteDN").get().toString();
-				// TODO Fix it with a regex
-				permission = permission.split(",")[0].split("=")[1];
+				name = entree.getAttributes().get(ldapUserCommonName).get().toString();
+				permission = entree.getAttributes().get(ldapPermissions).get().toString();
+				Matcher matcher = Pattern
+						.compile(ldapPermissionRegex)
+						.matcher(permission);
+				if(matcher.find()){
+					permission = matcher.group(1);
+				}
+				firstName = entree.getAttributes().get(ldapUserGivenName).get().toString();
+				lastName = entree.getAttributes().get(ldapUserSn).get().toString();
 			}
-		} catch (NamingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}  catch(Exception e){
+			logger.error(e.getMessage());
+			throw e;
+		} finally {
+			this.closeConnection();
 		}
-		attributes.put("name", name);
-		attributes.put("permission", permission);
-
-		return attributes;
+		return new User(id, name, firstName, lastName, permission);
 	}
 
-	/**
-	 * A method to get the Permissions List from the LDAP
-	 * 
-	 * @return the Permissions List List<String>
-	 */
-	public List<String> getPermissions() {
 
+	public List<String> getPermissions() throws Exception{
 		List<String> permissions = new ArrayList<String>();
-
-		// Criteria specification for the permission search
-		SearchControls controls = new SearchControls();
-		controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
-		// TODO externalisation of the parameter
-		controls.setReturningAttributes(new String[] { "ou", "description" });
-		// TODO externalisation of the parameter
-		String filter = "(objectClass=inseeUnite)";
-
-		NamingEnumeration<SearchResult> results;
 		try {
-			// TODO externalisation of the parameter
-			results = context.search("ou=Unités,o=insee,c=fr", filter, controls);
+			this.initConnection();
+			// Criteria specification for the permission search
+			SearchControls controls = new SearchControls();
+			controls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+			controls.setReturningAttributes(new String[] {
+					ldapPermissionName,
+					ldapPermissionDescription
+			});
+			NamingEnumeration<SearchResult> results;
+			results = this.context.search(ldapUnitesBaseDn, ldapPermissionFilter, controls);
 			while (results.hasMore()) {
 				SearchResult entree = results.next();
-				// TODO externalisation of the parameter
-				String permission = entree.getAttributes().get("ou").get().toString();
-				// TODO externalisation of the parameter
-				if (!permission.equals("AUTRE")) {
-					permissions.add("\"" + permission + "\"");
+				String permission = entree.getAttributes().get(ldapPermissionName).get().toString();
+				if (!permission.equals(ldapPermissionOther)) {
+					permissions.add(permission);
 				}
 			}
 		} catch (NamingException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			throw e;
+		} finally {
+			this.closeConnection();
 		}
 		return permissions;
 	}
