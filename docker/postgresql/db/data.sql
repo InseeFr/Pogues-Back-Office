@@ -1,1 +1,1 @@
-CREATE TABLE "pogues" (id VARCHAR(20), data JSON);
+CREATE TABLE "pogues" (id VARCHAR(255), data jsonb);
