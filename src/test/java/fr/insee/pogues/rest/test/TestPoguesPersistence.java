@@ -58,7 +58,6 @@ public class TestPoguesPersistence {
      */
     @Test
     public void postQuestionnaireThenDeleteWithSuccess() {
-        logger.debug("Trying to post on /pogues/persistence/questionnaires with Created = 201");
         JSONObject questionnaire = QuestionnaireMocks.createMockQuestionnaire();
         postQuestionnaireWithSuccess(questionnaire);
         deleteQuestionnaireWithSuccess(questionnaire.get("id").toString());
@@ -88,8 +87,8 @@ public class TestPoguesPersistence {
      */
     @Test
     public void putQuestionnaireWithNotFoundError() {
-        logger.debug("Trying to post on /pogues/persistence/questionnaires with Created = 201");
         JSONObject questionnaire = QuestionnaireMocks.createMockQuestionnaire();
+        questionnaire.put("id", "notfound");
         expect()
                 .statusCode(404)
                 .when()
@@ -153,7 +152,6 @@ public class TestPoguesPersistence {
 
     @Test
     public void getQuestionnaireByIdWithNotFound() {
-        logger.debug("Trying to reach /pogues/persistence/notfound with Status = 404");
         expect()
                 .statusCode(404)
                 .when()
