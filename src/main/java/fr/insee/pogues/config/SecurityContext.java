@@ -29,23 +29,26 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
         http.csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/login*").permitAll()
+                .antMatchers("/error*").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .loginPage("/login.jsp")
-                .loginProcessingUrl("/j_spring_security_check")
+                .loginProcessingUrl("/login")
                 .defaultSuccessUrl("/")
                 .failureUrl("/error.jsp");
     }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        String ldapUserDn = env.getProperty("fr.insee.pogues.permission.ldap.user.base");
+        String ldapGroupDn = env.getProperty("fr.insee.pogues.permission.ldap.unite.base");
         auth.ldapAuthentication()
-                .userSearchBase("ou=Personnes")
+                .userSearchBase(ldapUserDn)
                 .userSearchFilter("(uid={0})")
-                .groupSearchBase("ou=groups")
+                .groupSearchBase(ldapGroupDn)
                 .groupSearchFilter("member={0}")
                 .contextSource(contextSource())
                 .passwordCompare().passwordAttribute("uid");

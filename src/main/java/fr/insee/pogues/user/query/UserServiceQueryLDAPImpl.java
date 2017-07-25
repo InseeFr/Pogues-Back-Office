@@ -39,6 +39,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 	private DirContext context = null;
 
 	private String ldapHost;
+	private String ldapRootDn;
 	private String ldapUserBaseDn;
 	private String ldapUserCommonName;
 	private String ldapUserGivenName;
@@ -58,6 +59,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 	@PostConstruct
 	public void init() {
 		ldapHost = env.getProperty("fr.insee.pogues.permission.ldap.hostname");
+		ldapRootDn = env.getProperty("fr.insee.pogues.permission.ldap.root");
 		ldapUserBaseDn = env.getProperty("fr.insee.pogues.permission.ldap.user.base");
 		ldapUnitesBaseDn = env.getProperty("fr.insee.pogues.permission.ldap.unite.base");
 		ldapUserCommonName = env.getProperty("fr.insee.pogues.permission.ldap.user.cn");
@@ -70,6 +72,8 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 		ldapPermissions = env.getProperty("fr.insee.pogues.permission.ldap.user.permission");
 		ldapPermissionFilter = env.getProperty("fr.insee.pogues.permission.ldap.permission.filtre");
 		ldapPermissionRegex = env.getProperty("fr.insee.pogues.permission.ldap.user.permission.regex");
+		ldapUserBaseDn = String.format("%s,%s", ldapUserBaseDn, ldapRootDn);
+		ldapUnitesBaseDn = String.format("%s,%s", ldapUnitesBaseDn, ldapRootDn);
 	}
 
 	public void initConnection(){

@@ -8,8 +8,7 @@
 <title>Pogues Authentication</title>
 </head>
 <body>
-
-<form method="POST" name="f" action="/j_spring_security_check">
+<form method="POST" name="f" action="${pageContext.servletContext.contextPath}/login">
 	Login : <select id="username" name="username" onchange="updatePassword(this.value);">
 <option value="NULL">Select user</option>
 <option value="D5WQNO">Koumarianos Heïdi</option>
