@@ -18,7 +18,7 @@ public class RestAssuredConfig {
 
 
     public static void configure(){
-        RestAssured.baseURI = "http://localhost:8080";
+        RestAssured.baseURI = "http://localhost:8080/rmspogfo";
         /* All this boilerplate thing to handle Form auth with tomcat */
         String sessionId;
         sessionId = expect()
@@ -32,7 +32,7 @@ public class RestAssuredConfig {
                 .given()
                 .param("username", jUsername)
                 .param("password", jPassword).cookie("JSESSIONID", sessionId)
-                .post("/j_spring_security_check")
+                .post("/login")
                 .sessionId();
         expect()
                 .statusCode(404)
