@@ -3,9 +3,16 @@ version: "2"
 services:
   ldap:
     build: ./ldap
-    ports:
-      - "1389:389"
   postgresql:
     build: ./postgresql
     ports:
       - "15432:5432"
+  tomcat:
+    build: ./tomcat
+    volumes:
+      - "./tomcat/pogues.war:/usr/local/tomcat/webapps/pogues.war"
+    links:
+      - "postgresql:db"
+      - "ldap:ldap"
+    ports:
+      - "8080:8080"
