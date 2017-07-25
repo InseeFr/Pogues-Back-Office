@@ -5,12 +5,10 @@ services:
     build: ./ldap
   postgresql:
     build: ./postgresql
-    ports:
-      - "15432:5432"
   tomcat:
     build: ./tomcat
     volumes:
-      - "./tomcat/pogues.war:/usr/local/tomcat/webapps/pogues.war"
+      - "./tomcat/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war"
     links:
       - "postgresql:db"
       - "ldap:ldap"
