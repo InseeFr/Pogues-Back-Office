@@ -4,6 +4,4 @@ MAINTAINER a-cordier
 
 ENV CATALINA_OPTS="-Dfr.insee.pogues.env=qa"
 
-#COPY ./pogues.war /usr/local/tomcat/webapps/pogues.war
-
-#CMD ["catalina.sh", "run"]
+CMD ["catalina.sh", "run"]
