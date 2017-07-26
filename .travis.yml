@@ -6,6 +6,8 @@ env:
 language: java
 jdk:
   - oraclejdk8
+before_install:
+  - npm install -g gitbook
 install:
   - mvn clean install -DskipTests
   - cp target/*.war docker/tomcat/rmspogfo.war
@@ -16,15 +18,9 @@ before_script:
 script:
   - mvn test
 deploy:
+  provider: script
   github_token: $GITHUB_TOKEN
-  skip_cleanup: true
-  script:
-    - pushd docs
-    - gitbook install
-    - gitbook build
-    - mv _book /tmp/_book
-    - popd
-    - git checkout gh-pages
-    - mv /tmp/_book/* .
-    - git commit -m "Update documentation from travis"
-    - git push
+  script: scripts/deploy.sh
+  on:
+      all_branches: true
+
