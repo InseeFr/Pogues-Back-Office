@@ -15,3 +15,16 @@ before_script:
   - popd
 script:
   - mvn test
+deploy:
+  github_token: $GITHUB_TOKEN
+  skip_cleanup: true
+  script:
+    - pushd docs
+    - gitbook install
+    - gitbook build
+    - mv _book /tmp/_book
+    - popd
+    - git checkout gh-pages
+    - mv /tmp/_book/* .
+    - git commit -m "Update documentation from travis"
+    - git push
