@@ -6,8 +6,10 @@ function gitBook(){
   gitbook build
   mv _book /tmp/_book
   popd
+  git checkout .
   git checkout gh-pages
   mv /tmp/_book/* .
+  git add .
   git commit -m "Travis Bot: Deploy docs for commit $TRAVIS_COMMIT"
   git push
 }

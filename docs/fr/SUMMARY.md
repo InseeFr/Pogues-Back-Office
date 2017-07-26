@@ -12,3 +12,4 @@
  * [Docker](workflow/docker/README.md)
    * [Le répertoire docker](workflow/docker/docker-folders.md)
    * [Utilisation](workflow/docker/docker-usage.md)
+ * [Intégration continue](workflow/qa/README.md)
