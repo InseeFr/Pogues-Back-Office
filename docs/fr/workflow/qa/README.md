@@ -1,1 +1,0 @@
-![travis](../../../pics/travis.png)
