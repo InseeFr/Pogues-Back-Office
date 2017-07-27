@@ -2,23 +2,24 @@
 
 set -e
 
+DOC_FOLDER="docs"
 UPSTREAM="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git"
-MESSAGE="Rebuild doc, REV $TRAVIS_COMMIT: $TRAVIS_COMMIT_MESSAGE"
+MESSAGE="Rebuild doc for revision $TRAVIS_COMMIT: $TRAVIS_COMMIT_MESSAGE"
 AUTHOR="$USER <>"
 
-function setup(){
+function setup() {
   npm install -g gitbook-cli
 }
 
-function build(){
-  pushd docs
+function build() {
+  pushd "$DOC_FOLDER"
   gitbook install
   gitbook build
   popd
 }
 
-function publish(){
-  pushd docs/_book
+function publish() {
+  pushd "$DOC_FOLDER"/_book
   git init
   git remote add upstream "$UPSTREAM"
   git fetch --prune upstream
@@ -30,7 +31,7 @@ function publish(){
   popd
 }
 
-function main(){
+function main() {
   setup && build && publish
 }
 

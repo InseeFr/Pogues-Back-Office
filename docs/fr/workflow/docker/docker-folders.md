@@ -25,7 +25,7 @@ Les fichiers nécessaires à la génération des images docker et à l'exécutio
 
 
 Les trois sous répertoires contiennent chacun un fichier [Dockerfile](https://docs.docker.com/engine/reference/builder/)
-utilisé pour générer l'image docker qui sera lancée à l'exécution, ainsi que les fichier de configuration ou les scripts éventuellement placés dans le container (au build par utilisation des directives [ADD/COPY](https://stackoverflow.com/questions/24958140/what-is-the-difference-between-the-copy-and-add-commands-in-a-dockerfile) dans le Dockerfile ou à l'exécution par l'utilisation d'un volume monté)
+utilisé pour générer l'image docker qui sera lancée à l'exécution, ainsi que les fichiers de configuration ajoutés au container (au build par utilisation des directives [ADD/COPY](https://stackoverflow.com/questions/24958140/what-is-the-difference-between-the-copy-and-add-commands-in-a-dockerfile) dans le Dockerfile ou à l'exécution par l'utilisation d'un volume monté)
 
 ### LDAP
 
@@ -34,7 +34,7 @@ exécuté au lancement du container. Ce script crée le schéma minimum requis p
 
 ***NB:***
 La configuration LDAP est fournie dans le code applicatif par un fichier de propriétés sensé permettre à l'application de s'adapter à un changement de schéma côté annuaire.
-Certains éléments du schéma défini sont donc volontairement divergent du schéma utilisé en production pour permettre de vérifier ce point.
+Certains éléments du schéma défini divergent donc volontairement du schéma utilisé en production pour permettre de vérifier ce point.
 
 ### Postgresql
 
@@ -43,6 +43,6 @@ exécuté au lancement du container. Au démarrage du container, ce script crée
 
 ### Tomcat
 
-Le répertoire tomcat contient un environnement d'exécution proche de l'environnement de production.
+Le répertoire tomcat contient un environnement d'exécution identique à l'environnement de production.
 A sa génération, l'application est déployée sur ce container et démarrée pour permettre l'exécution des tests d'intégration (scénarios d'utilisation des endpoints REST)
 
