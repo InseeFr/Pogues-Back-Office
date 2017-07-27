@@ -3,6 +3,8 @@
 set -e
 
 UPSTREAM="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git"
+MESSAGE="Rebuild doc, REV $TRAVIS_COMMIT: $TRAVIS_COMMIT_MESSAGE"
+AUTHOR="$USER <>"
 
 function setup(){
   npm install -g gitbook-cli
@@ -18,15 +20,13 @@ function build(){
 function publish(){
   pushd docs/_book
   git init
-  git config user.name "$USER"
-  git config user.email "antoine.codier@zenika.com"
   git remote add upstream "$UPSTREAM"
   git fetch --prune upstream
   git reset upstream/gh-pages
-  touch .
-  git add --all
-  git commit --message "Rebuild doc, REV $TRAVIS_COMMIT: $TRAVIS_COMMIT_MESSAGE"
-  git push --quiet upstream HEAD:gh-pages
+  git add --all .
+  if git commit --message "$MESSAGE" --author "$AUTHOR" ; then
+    git push --quiet upstream HEAD:gh-pages
+  fi
   popd
 }
 
