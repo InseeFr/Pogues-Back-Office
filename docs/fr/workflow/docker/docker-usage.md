@@ -4,9 +4,9 @@
 
 ### Docker Compose 
 
-Le fichier docker-compose.yml est utilisé à l'exécution de l'environnement pour définir:
+Le fichier docker-compose.yml définit:
  - Les images docker à construire et à exécuter (directive build) 
- - Les liens réseaux adressés entre nos containers (directive links)
+ - Les liens réseau adressés entre nos containers (directive links)
  - Les redirections de ports sur l'hôte d'exécution (directive ports)
  - Les volumes qui seront montés sur nos containers respectifs (directive volumes)
  
@@ -47,8 +47,8 @@ docker-compose up postgresql ldap
 
 Indiquer à tomcat qu'il doit utiliser ces containers comme backends:
 
-Sur Eclipse ou Intellij il suffit d'éditer la configuration de lancement 
-pour passer la variable d'environnement apropriée à tomcat
+Sur Eclipse ou IntelliJ il suffit d'éditer la configuration de lancement 
+pour passer la variable d'environnement appropriée à tomcat
 
 ```
 -Dfr.insee.pogues.env=qa

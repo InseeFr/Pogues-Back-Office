@@ -1,6 +1,6 @@
 # Autorisation
 
-A ce jour le contrôle de permission est assez sommaire et suit les règles suivantes:
+Les règles d'usage pour le contrôle des permissions sont:
 
  - Uniquement sur les opérations de mise à jour (PUT sur le endpoint /persistence/questionnaires/{id})
  - Refus d'accès si l'unité de l'utilisateur courant ne correspond par à la valeur du champs owner de la ressource enregistrée.

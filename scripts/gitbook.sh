@@ -2,6 +2,12 @@
 
 set -e
 
+## RUN ONLY ON PULL REQUEST
+if [ "$TRAVIS_PULL_REQUEST" = "false" ]; then
+    echo "Not a pull request, documentation won't be generated"
+    exit 0
+fi
+
 DOC_FOLDER="docs"
 UPSTREAM="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git"
 MESSAGE="Rebuild doc for revision $TRAVIS_COMMIT: $TRAVIS_COMMIT_MESSAGE"
