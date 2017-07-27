@@ -17,10 +17,6 @@ before_script:
   - popd
 script:
   - mvn test
-deploy:
-  provider: script
-  github_token: $GITHUB_TOKEN
-  script: scripts/deploy.sh
-  on:
-      all_branches: true
+after_sucess:
+  - bash scripts/gitbook.sh
 
