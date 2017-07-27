@@ -17,12 +17,12 @@ function publish(){
   git config user.name "$USER"
   git config user.email "antoine.cordier@zenika.com"
   git remote add upstream "$UPSTREAM"
-  git fetch -p upstream
+  git fetch --prune upstream
   git reset upstream/gh-pages
   touch .
-  git add -A
-  git commit -m "Rebuild doc, REV $TRAVIS_COMMIT: $TRAVIS_COMMIT_MESSAGE"
-  git push -q upstream HEAD:gh-pages
+  git add --all
+  git commit --message "Rebuild doc, REV $TRAVIS_COMMIT: $TRAVIS_COMMIT_MESSAGE"
+  git push --quiet upstream HEAD:gh-pages
 }
 
 function main(){
