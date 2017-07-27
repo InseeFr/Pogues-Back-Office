@@ -178,9 +178,10 @@ public class PoguesPersistence {
 	@PUT
 	@Path("questionnaire/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 	        value = "Update questionnaire",
-            notes = "Update a `Questionnaire` object"
+            notes = "Update a `Questionnaire` object with id {id}"
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
@@ -189,7 +190,8 @@ public class PoguesPersistence {
 	@OwnerRestricted
 	public Response updateQuestionnaire(
 			@ApiParam(value = "The id of the object that need to be updated", required = true)
-			@PathParam(value = "id") String id, JSONObject jsonContent
+			@PathParam(value = "id") String id,
+			@ApiParam(value = "Questionnaire object to be updated") JSONObject jsonContent
 	) throws Exception {
         try {
 			questionnaireService.updateQuestionnaire(id, jsonContent);
@@ -213,7 +215,9 @@ public class PoguesPersistence {
             @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 400, message = "Entity already exists")
     })
-	public Response createQuestionnaire(JSONObject jsonContent) throws Exception {
+	public Response createQuestionnaire(
+			@ApiParam(value = "New Questionnaire Object", required = true) JSONObject jsonContent
+	) throws Exception {
         try {
 			questionnaireService.createQuestionnaire(jsonContent);
 			//TODO return a generic uri

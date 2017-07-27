@@ -24,7 +24,7 @@ import java.util.*;
  */
 @Service
 @Configuration
-@PropertySource("classpath:pogues-bo.properties")
+@PropertySource("classpath:${fr.insee.pogues.env:prod}/pogues-bo.properties")
 public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesServiceQuery {
 
 	final static Logger logger = Logger.getLogger(QuestionnairesServiceQueryPostgresqlImpl.class);
@@ -49,6 +49,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 	@PostConstruct
 	public void init(){
+		logger.debug(this.env.getProperty("fr.insee.pogues.qa"));
 		String dbHost = this.env.getProperty("fr.insee.pogues.persistence.database.host");
 		String dbPort = this.env.getProperty("fr.insee.pogues.persistence.database.port");
 		String dbSchema = this.env.getProperty("fr.insee.pogues.persistence.database.schema");
@@ -289,7 +290,6 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
 	    String id  = (String)questionnaire.get("id");
-	    logger.debug("XXX " + id);
         try {
             if(!this.getQuestionnaireByID(id).isEmpty()){
                 throw new NonUniqueResultException("Entity already exists");
