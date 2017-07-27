@@ -1,0 +1,20 @@
+sudo: required
+services:
+  - docker
+env:
+  - DOCKER_COMPOSE_VERSION=1.9.0
+language: java
+jdk:
+  - oraclejdk8
+install:
+  - mvn clean install -DskipTests
+  - cp target/*.war docker/tomcat/rmspogfo.war
+before_script:
+  - pushd docker
+  - docker-compose up -d
+  - popd
+script:
+  - mvn test
+after_script:
+  - bash scripts/gitbook.sh
+

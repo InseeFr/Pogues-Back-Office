@@ -1,0 +1,1 @@
+CREATE TABLE "pogues" (id VARCHAR(255), data jsonb);
