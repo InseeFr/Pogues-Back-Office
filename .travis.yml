@@ -6,8 +6,6 @@ env:
 language: java
 jdk:
   - oraclejdk8
-before_install:
-  - npm install -g gitbook
 install:
   - mvn clean install -DskipTests
   - cp target/*.war docker/tomcat/rmspogfo.war
