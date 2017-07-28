@@ -4,7 +4,7 @@ Cette page documente les aspects techniques de la partie **backend** de l'applic
 
 ## A propos de Pogues
 
-Pogues est un outil pour concevoir, des questionnaires dont le but est de:
+Pogues est un outil pour concevoir des questionnaires dont le but est de:
 
  - Produire des spécifications normées
  - Permettre la réutilisation d'objets mutualisés
