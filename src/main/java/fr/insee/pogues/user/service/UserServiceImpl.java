@@ -37,7 +37,6 @@ public class UserServiceImpl implements UserService {
 			json.put("id", principal.getName());
 			return json;
 		} catch(Exception e){
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -48,7 +47,6 @@ public class UserServiceImpl implements UserService {
 			String id = request.getUserPrincipal().getName();
 			return userServiceQuery.getNameAndPermissionByID(id);
 		} catch(Exception e){
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -58,7 +56,6 @@ public class UserServiceImpl implements UserService {
 		try {
 			return userServiceQuery.getPermissions();
 		} catch(Exception e) {
-			e.printStackTrace();
 			throw e;
 		}
 	}
