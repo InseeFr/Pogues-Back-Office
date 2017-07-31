@@ -228,10 +228,14 @@
 						<configuration>
 							<dataFile>target/jacoco.exec</dataFile>
 							<excludes>
-								<exclude>**/rest.test/**/.*</exclude>
-								<exclude>**/swagger/**/.*</exclude>
-								<exclude>**/api.remote/**/.*</exclude>
-								<exclude>**/config/**/.*</exclude>
+								<exclude>**/rest.test/**/*</exclude>
+								<exclude>**/swagger/**/*</exclude>
+								<exclude>**/api.remote/**/*</exclude>
+								<exclude>**/config/**/*</exclude>
+								<exclude>**/model/**/*</exclude>
+								<exclude>**/utils/ddi/**/*</exclude>
+								<exclude>**/utils/xsl/**/*</exclude>
+								<exclude>**/query/**</exclude>
 							</excludes>
 						</configuration>
 					</execution>
