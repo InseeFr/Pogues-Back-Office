@@ -22,6 +22,10 @@ La configuration de ces opérations est définie dans le fichier .travis.yml:
 
 La documentation en cours d'affichage est générée automatiquement au build du projet grâce à [gitbook](https://www.gitbook.com/new) et publiée sur la [page github du projet](https://pages.github.com/).
 
+La documentation est générée uniquement par les jobs travis associé à la branche zenika-dev (hors pull requests).*
+
+Typiquement, la documentation est donc générée en cas d'acceptation d'une pull request sur la branche zenika-dev (cf le [workflow décrit en introduction](./index.html))
+
 Ces opérations sont décrites dans le fichier ```scripts/gitbook.sh```
 
 La publication des fichiers compilés par gitbook s'effectue via un push sur le repository (branche gh-pages). Pour rendre cette opération possible il faut:
