@@ -227,6 +227,12 @@
 						</goals>
 						<configuration>
 							<dataFile>target/jacoco.exec</dataFile>
+							<excludes>
+								<exclude>**/rest.test/**/.*</exclude>
+								<exclude>**/swagger/**/.*</exclude>
+								<exclude>**/api.remote/**/.*</exclude>
+								<exclude>**/config/**/.*</exclude>
+							</excludes>
 						</configuration>
 					</execution>
 				</executions>
