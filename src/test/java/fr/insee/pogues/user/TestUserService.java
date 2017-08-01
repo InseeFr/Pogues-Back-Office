@@ -13,8 +13,10 @@ import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
+import javax.naming.NamingException;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
@@ -38,7 +40,7 @@ public class TestUserService {
     }
 
     @Test
-    public void getUserIdTest() throws Exception {
+    public void getUserId() throws Exception {
         HttpServletRequest hsr = mock(HttpServletRequest.class);
         when(hsr.getUserPrincipal()).thenReturn(/*getName*/() -> "foo");
         JSONObject response = userService.getUserID(hsr);
@@ -46,17 +48,16 @@ public class TestUserService {
     }
 
     @Test
-    public void getUserIdWithExceptionTest() throws Exception {
+    public void getUserIdWithException() throws Exception {
         exception.expect(PoguesException.class);
         exception.expectMessage("Not authenticated");
         HttpServletRequest hsr = mock(HttpServletRequest.class);
         when(hsr.getUserPrincipal()).thenReturn(null);
         JSONObject response = userService.getUserID(hsr);
-
     }
 
     @Test
-    public void getNameAndPermissionTest() throws Exception {
+    public void getNameAndPermission() throws Exception {
         HttpServletRequest hsr = mock(HttpServletRequest.class);
         when(hsr.getUserPrincipal()).thenReturn(/*getName*/() -> "foo");
         when(userServiceQuery.getNameAndPermissionByID("foo"))
@@ -77,6 +78,28 @@ public class TestUserService {
                     { add("G75-L101"); }
                     { add("DR14-DIR"); }
                 });
-//        List<String> permissions = User
+        List<String> permissions = userService.getPermissions();
+        assertEquals("DG75-C002", permissions.get(0));
+        assertEquals("G75-L101", permissions.get(1));
+        assertEquals("DR14-DIR", permissions.get(2));
+    }
+
+    @Test
+    public void getNameAndPermissionWithException() throws Exception {
+        exception.expect(NamingException.class);
+        HttpServletRequest hsr = mock(HttpServletRequest.class);
+        when(hsr.getUserPrincipal()).thenReturn(/*getName*/() -> "foo");
+        when(userServiceQuery.getNameAndPermissionByID("foo"))
+                .thenThrow(new NamingException());
+        userService.getNameAndPermission(hsr);
+    }
+
+    @Test
+    public void getPermissionsWithException() throws Exception {
+        exception.expect(NamingException.class);
+        when(userServiceQuery.getPermissions())
+                .thenThrow(new NamingException());
+        userService.getPermissions();
+
     }
 }
