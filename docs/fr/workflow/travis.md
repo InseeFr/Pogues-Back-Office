@@ -32,3 +32,13 @@ La publication des fichiers compilés par gitbook s'effectue via un push sur le 
  - [Générer un token d'accès associé à un compte autorisé sur github](https://github.com/settings/tokens/new)
  - Inclure ce token dans le scope public_repo (repo pour un repository privé)
  - Associer la variable d'environnement GITHUB_TOKEN au token sur le  [tableau de bord de Travis du projet](https://travis-ci.org/)
+ 
+ ## Reporting
+ 
+Chaque build génère un rapport de couverture envoyé à [coveralls.io](https://coveralls.io/)
+ 
+ La page de rapport est visible en cliquant sur le badge coveralls (ci-dessous et dans le README du projet)
+ 
+ [![Coverage Status](https://coveralls.io/repos/github/InseeFr/Pogues-Back-Office/badge.svg?branch=zenika-dev)](https://coveralls.io/github/InseeFr/Pogues-Back-Office?branch=zenika-dev)
+ 
+ 

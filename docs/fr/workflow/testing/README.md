@@ -8,6 +8,19 @@ En dehors de ces tests on peut noter la présence de tests pour les conversions 
 
 ***NB*** L'exécution des tests REST suppose que l'application soit en cours d'exécution et joignable à l'URL **http://localhost:8080/rmspogfo/**
 
+## Lancer les tests
+
+ - Pour lancer les tests unitaires exécuter la commande:
+
+```bash
+mvn test
+```
+ - Pour lancer les tests d'intégration exécuter la commande:
+
+```bash
+mvn integration-test
+```
+
 ## Configuration de Rest Assured 
 
 Avant l'exécution d'un scenario de test, un appelle à la méthode statique ```configure``` de la classe ```RestAssuredConfig``` permet de:
@@ -18,3 +31,4 @@ Avant l'exécution d'un scenario de test, un appelle à la méthode statique ```
 ### Le fichier RestAssuredConfig.java
 
 [include](../../../../src/test/java/fr/insee/pogues/rest/test/utils/RestAssuredConfig.java)
+s
