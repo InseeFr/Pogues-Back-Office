@@ -4,7 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Authentification · GitBook</title>
+        <title>Environnements · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.2">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="permissions.html" />
+    <link rel="next" href="../workflow/" />
     
     
-    <link rel="prev" href="./" />
+    <link rel="prev" href="../getting-started.html" />
     
 
     </head>
@@ -117,9 +117,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.3" data-path="../environments/">
+        <li class="chapter active" data-level="1.3" data-path="./">
             
-                <a href="../environments/">
+                <a href="./">
             
                     
                     Environnements
@@ -265,9 +265,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6" data-path="./">
+        <li class="chapter " data-level="1.6" data-path="../security/">
             
-                <a href="./">
+                <a href="../security/">
             
                     
                     Contrôle d'accès
@@ -279,9 +279,9 @@
             <ul class="articles">
                 
     
-        <li class="chapter active" data-level="1.6.1" data-path="authentication.html">
+        <li class="chapter " data-level="1.6.1" data-path="../security/authentication.html">
             
-                <a href="authentication.html">
+                <a href="../security/authentication.html">
             
                     
                     Authentification
@@ -292,9 +292,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.6.2" data-path="permissions.html">
+        <li class="chapter " data-level="1.6.2" data-path="../security/permissions.html">
             
-                <a href="permissions.html">
+                <a href="../security/permissions.html">
             
                     
                     Autorisations
@@ -340,7 +340,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Authentification</a>
+        <a href=".." >Environnements</a>
     </h1>
 </div>
 
@@ -355,79 +355,26 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="authentification">Authentification</h1>
-<p>La configuration de l&apos;authentification est d&#xE9;finie dans le fichier SecurityContext.java.
-Les informations de configuration d&apos;annuraire sont r&#xE9;cup&#xE9;r&#xE9;e dans le fichier ${fr.insee.pogues.env}/${fr.insee.pogues.env
-La propri&#xE9;t&#xE9; syst&#xE8;me <code>fr.insee.pogues.env</code> peut prendre deux valeurs:</p>
+                                <h1 id="environments-de-d&#xE9;ploiement---configuration">Environments de d&#xE9;ploiement - Configuration</h1>
+<p>Le param&#xE9;trage de l&apos;application varie en fonction de deux environements de d&#xE9;ploiement possible:</p>
 <ul>
-<li>prod (valeur par d&#xE9;faut) pour l&apos;environnement de production</li>
-<li>qa pour les environnements de test et de d&#xE9;veloppement</li>
+<li>prod</li>
+<li>qa </li>
 </ul>
-<h3 id="le-fichier-securitycontextjava">Le fichier SecurityContext.java</h3>
-<pre><code class="lang-java"><span class="hljs-keyword">package</span> fr.insee.pogues.config;
-
-<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
-<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
-<span class="hljs-keyword">import</span> org.springframework.context.annotation.Configuration;
-<span class="hljs-keyword">import</span> org.springframework.context.annotation.PropertySource;
-<span class="hljs-keyword">import</span> org.springframework.core.env.Environment;
-<span class="hljs-keyword">import</span> org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-<span class="hljs-keyword">import</span> org.springframework.security.config.annotation.web.builders.HttpSecurity;
-<span class="hljs-keyword">import</span> org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-<span class="hljs-keyword">import</span> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-<span class="hljs-keyword">import</span> org.springframework.security.ldap.DefaultSpringSecurityContextSource;
-
-<span class="hljs-keyword">import</span> java.util.Arrays;
-
-<span class="hljs-comment">/**
- * Created by acordier on 14/07/17.
- */</span>
-<span class="hljs-meta">@Configuration</span>
-<span class="hljs-meta">@EnableWebSecurity</span>
-<span class="hljs-meta">@PropertySource</span>(<span class="hljs-string">&quot;classpath:${fr.insee.pogues.env:prod}/pogues-bo.properties&quot;</span>)
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecurityContext</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">WebSecurityConfigurerAdapter</span> </span>{
-
-    <span class="hljs-meta">@Autowired</span>
-    <span class="hljs-keyword">private</span> Environment env;
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>{
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers(<span class="hljs-string">&quot;/login*&quot;</span>).permitAll()
-                .antMatchers(<span class="hljs-string">&quot;/error*&quot;</span>).permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin()
-                .usernameParameter(<span class="hljs-string">&quot;username&quot;</span>)
-                .passwordParameter(<span class="hljs-string">&quot;password&quot;</span>)
-                .loginPage(<span class="hljs-string">&quot;/login.jsp&quot;</span>)
-                .loginProcessingUrl(<span class="hljs-string">&quot;/login&quot;</span>)
-                .defaultSuccessUrl(<span class="hljs-string">&quot;/&quot;</span>)
-                .failureUrl(<span class="hljs-string">&quot;/error.jsp&quot;</span>);
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(AuthenticationManagerBuilder auth)</span> <span class="hljs-keyword">throws</span> Exception </span>{
-        String ldapUserDn = env.getProperty(<span class="hljs-string">&quot;fr.insee.pogues.permission.ldap.user.base&quot;</span>);
-        String ldapGroupDn = env.getProperty(<span class="hljs-string">&quot;fr.insee.pogues.permission.ldap.unite.base&quot;</span>);
-        auth.ldapAuthentication()
-                .userSearchBase(ldapUserDn)
-                .userSearchFilter(<span class="hljs-string">&quot;(uid={0})&quot;</span>)
-                .groupSearchBase(ldapGroupDn)
-                .groupSearchFilter(<span class="hljs-string">&quot;member={0}&quot;</span>)
-                .contextSource(contextSource())
-                .passwordCompare().passwordAttribute(<span class="hljs-string">&quot;uid&quot;</span>);
-    }
-
-    <span class="hljs-meta">@Bean</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> DefaultSpringSecurityContextSource <span class="hljs-title">contextSource</span><span class="hljs-params">()</span> </span>{
-        String ldapHost = env.getProperty(<span class="hljs-string">&quot;fr.insee.pogues.permission.ldap.hostname&quot;</span>);
-        String rootDn = env.getProperty(<span class="hljs-string">&quot;fr.insee.pogues.permission.ldap.root&quot;</span>);
-        <span class="hljs-keyword">return</span>  <span class="hljs-keyword">new</span> DefaultSpringSecurityContextSource(Arrays.asList(ldapHost), rootDn);
-    }
-}
+<p>L&apos;environnement est d&#xE9;fini par la propri&#xE9;t&#xE9; syst&#xE8;me <code>fr.insee.pogues.env</code></p>
+<h2 id="d&#xE9;marrer-tomcat-avec-lenvironnement-qa">D&#xE9;marrer tomcat avec l&apos;environnement qa</h2>
+<p>Il suffit de d&#xE9;finir la propri&#xE9;t&#xE9; syst&#xE8;me dans la variable d&apos;environnement $CATALINA_OPTS:</p>
+<pre><code class="lang-bash"><span class="hljs-built_in">export</span> CATALINA_OPTS=<span class="hljs-string">&quot;-Dfr.insee.pogues.env=qa&quot;</span>
 </code></pre>
+<p><strong>Par d&#xE9;faut l&apos;environement d&#xE9;marre en mode production</strong></p>
+<h2 id="impact-sur-le-param&#xE9;trage-de-lapplication">Impact sur le param&#xE9;trage de l&apos;application</h2>
+<p>L&apos;application lit ses diff&#xE9;rents param&#xE8;tres de configuration dans des fichiers de propri&#xE9;t&#xE9;s r&#xE9;cup&#xE9;r&#xE9;s dans le r&#xE9;pertoire <code>main/resources/${env}/*.properties</code> ou la valeur de ${env} correspond &#xE0; la valeur de la propri&#xE9;t&#xE9; syst&#xE8;me <code>fr.insee.pogues.env</code></p>
+<p>Ces fichiers d&#xE9;finissents:</p>
+<ul>
+<li>Les param&#xE8;tres de connection au backend postgresql</li>
+<li>Les param&#xE8;tres de connection et de sch&#xE9;ma utilis&#xE9;s pour binder le LDAP</li>
+<li>Les param&#xE8;tres d&apos;acc&#xE8;s aux services externes utilis&#xE9;s par l&apos;application (stromae, eno, rmes ...)</li>
+</ul>
 
                                 
                                 </section>
@@ -455,12 +402,12 @@ La propri&#xE9;t&#xE9; syst&#xE8;me <code>fr.insee.pogues.env</code> peut prendr
 
             
                 
-                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Contrôle d'accès">
+                <a href="../getting-started.html" class="navigation navigation-prev " aria-label="Previous page: Démarrage">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="permissions.html" class="navigation navigation-next " aria-label="Next page: Autorisations">
+                <a href="../workflow/" class="navigation navigation-next " aria-label="Next page: Intégration">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -471,7 +418,7 @@ La propri&#xE9;t&#xE9; syst&#xE8;me <code>fr.insee.pogues.env</code> peut prendr
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Authentification","level":"1.6.1","depth":2,"next":{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"previous":{"title":"Contrôle d'accès","level":"1.6","depth":1,"path":"security/README.md","ref":"security/README.md","articles":[{"title":"Authentification","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"security/authentication.md","mtime":"2017-08-01T08:05:10.147Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-01T08:08:13.291Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Environnements","level":"1.3","depth":1,"next":{"title":"Intégration","level":"1.4","depth":1,"path":"workflow/README.md","ref":"workflow/README.md","articles":[{"title":"Tests","level":"1.4.1","depth":2,"path":"workflow/testing/README.md","ref":"workflow/testing/README.md","articles":[]},{"title":"Docker","level":"1.4.2","depth":2,"path":"workflow/docker/README.md","ref":"workflow/docker/README.md","articles":[{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]}]},{"title":"Travis","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]}]},"previous":{"title":"Démarrage","level":"1.2","depth":1,"path":"getting-started.md","ref":"getting-started.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"environments/README.md","mtime":"2017-08-01T08:05:10.147Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-01T08:08:13.291Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>
