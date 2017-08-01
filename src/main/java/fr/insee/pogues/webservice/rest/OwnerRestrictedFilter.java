@@ -36,25 +36,25 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
             JSONObject json = request.readEntity(JSONObject.class);
             if (null == json) {
                 // need a body to continue
-                logger.warn("Tried to call OwnerRestricted filter on request without a body");
-                return;
+                logger.error("Tried to call OwnerRestricted filter on request without a body");
+                throw new PoguesException(400, "Bad Request", "No body attached to request");
             }
             Object id = json.get("id");
             if(null == id){
                 // need an id to continue
-                logger.warn("Tried to call OwnerRestricted filter on body without an id");
-                return;
+                logger.error("Tried to call OwnerRestricted filter on body without an id");
+                throw new PoguesException(400, "Bad Request", "Missing attribute 'id' in Request Payload");
             }
             JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id.toString());
             if(questionnaire.isEmpty()){
                 // need an object to continue
-                return;
+                throw new PoguesException(404, "Not Found", "Entity not found @id: " + id);
             }
             Object owner = questionnaire.get("owner");
             if (null == owner) {
                 // need a owner attribute to work
-                logger.warn("Tried to call OwnerRestricted filter on body without a owner attribute");
-                return;
+                logger.error("Tried to call OwnerRestricted filter on body without a owner attribute");
+                throw new PoguesException(400, "Bad Request", "Request payload does not have an owner attribute");
             }
             // Filter request
             Principal principal = requestContext.getSecurityContext()
