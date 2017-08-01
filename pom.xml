@@ -228,7 +228,7 @@
                         <configuration>
                             <dataFile>target/jacoco.exec</dataFile>
                             <excludes>
-                                <exclude>**/rest/test/**/*</exclude>
+                                <exclude>**/webservice/rest/**/*</exclude>
                                 <exclude>**/swagger/**/*</exclude>
                                 <exclude>**/api/remote/**/*</exclude>
                                 <exclude>**/config/**/*</exclude>
