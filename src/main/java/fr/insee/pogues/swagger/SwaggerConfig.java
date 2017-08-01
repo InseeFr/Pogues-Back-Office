@@ -13,7 +13,7 @@ public class SwaggerConfig extends HttpServlet {
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
         BeanConfig beanConfig = new BeanConfig();
-        beanConfig.setTitle("Pogues Backofficee");
+        beanConfig.setTitle("Pogues Backoffice");
         beanConfig.setVersion("0.1");
         beanConfig.setDescription("The life and times of Pogues REST endpoints");
         beanConfig.setSchemes(new String[]{"http"});
