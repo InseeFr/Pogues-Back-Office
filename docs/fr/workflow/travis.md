@@ -41,4 +41,11 @@ Chaque build génère un rapport de couverture envoyé à [coveralls.io](https:/
  
  [![Coverage Status](https://coveralls.io/repos/github/InseeFr/Pogues-Back-Office/badge.svg?branch=zenika-dev)](https://coveralls.io/github/InseeFr/Pogues-Back-Office?branch=zenika-dev)
  
+ Comme pour la publication de la doc il faut créer une variable d'environnement pour fournir à travis le token d'accès à coveralls (ce jeton est disponible dans les settings du repository sur la page [coveralls.io](https://coveralls.io))
+
+ - Ce token doit être associé à la variable COVERALLS_TOKEN pour pouvoir être utilisé de la manière suivante:
+ 
+ ```bash
+mvn -DrepoToken=$COVERALLS_TOKEN coveralls:report
+```
  
