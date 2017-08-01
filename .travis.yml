@@ -15,8 +15,8 @@ before_script:
   - popd
 script:
   - mvn test
+  - bash scripts/coveralls.sh
   - mvn integration-test
 after_script:
   - bash scripts/gitbook.sh
-  - bash scripts/coveralls.sh
 
