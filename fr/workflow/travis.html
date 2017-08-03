@@ -385,9 +385,10 @@ La notion de d&#xE9;ploiement est pour l&apos;instant limit&#xE9;e &#xE0; la pub
 <span class="hljs-bullet">  -</span> popd
 <span class="hljs-attr">script:</span>
 <span class="hljs-bullet">  -</span> mvn test
+<span class="hljs-bullet">  -</span> bash scripts/coveralls.sh
+<span class="hljs-bullet">  -</span> mvn integration-test
 <span class="hljs-attr">after_script:</span>
 <span class="hljs-bullet">  -</span> bash scripts/gitbook.sh
-<span class="hljs-bullet">  -</span> bash scripts/coveralls.sh
 </code></pre>
 <h2 id="g&#xE9;n&#xE9;ration-de-la-documentation">G&#xE9;n&#xE9;ration de la documentation</h2>
 <p>La documentation en cours d&apos;affichage est g&#xE9;n&#xE9;r&#xE9;e automatiquement au build du projet gr&#xE2;ce &#xE0; <a href="https://www.gitbook.com/new" target="_blank">gitbook</a> et publi&#xE9;e sur la <a href="https://pages.github.com/" target="_blank">page github du projet</a>.</p>
@@ -398,7 +399,19 @@ La notion de d&#xE9;ploiement est pour l&apos;instant limit&#xE9;e &#xE0; la pub
 <ul>
 <li><a href="https://github.com/settings/tokens/new" target="_blank">G&#xE9;n&#xE9;rer un token d&apos;acc&#xE8;s associ&#xE9; &#xE0; un compte autoris&#xE9; sur github</a></li>
 <li>Inclure ce token dans le scope public_repo (repo pour un repository priv&#xE9;)</li>
-<li>Associer la variable d&apos;environnement GITHUB_TOKEN au token sur le  <a href="https://travis-ci.org/" target="_blank">tableau de bord de Travis du projet</a></li>
+<li><p>Associer la variable d&apos;environnement GITHUB_TOKEN au token sur le  <a href="https://travis-ci.org/" target="_blank">tableau de bord de Travis du projet</a></p>
+<h2 id="reporting">Reporting</h2>
+</li>
+</ul>
+<p>Chaque build g&#xE9;n&#xE8;re un rapport de couverture envoy&#xE9; &#xE0; <a href="https://coveralls.io/" target="_blank">coveralls.io</a></p>
+<p> La page de rapport est visible en cliquant sur le badge coveralls (ci-dessous et dans le README du projet)</p>
+<p> <a href="https://coveralls.io/github/InseeFr/Pogues-Back-Office?branch=zenika-dev" target="_blank"><img src="https://coveralls.io/repos/github/InseeFr/Pogues-Back-Office/badge.svg?branch=zenika-dev" alt="Coverage Status"></a></p>
+<p> Comme pour la publication de la doc il faut cr&#xE9;er une variable d&apos;environnement pour fournir &#xE0; travis le token d&apos;acc&#xE8;s &#xE0; coveralls (ce jeton est disponible dans les settings du repository sur la page <a href="https://coveralls.io" target="_blank">coveralls.io</a>)</p>
+<ul>
+<li><p>Ce token doit &#xEA;tre associ&#xE9; &#xE0; la variable COVERALLS_TOKEN pour pouvoir &#xEA;tre utilis&#xE9; de la mani&#xE8;re suivante:</p>
+<pre><code class="lang-bash">mvn -DrepoToken=<span class="hljs-variable">$COVERALLS_TOKEN</span> coveralls:report
+</code></pre>
+</li>
 </ul>
 
                                 
@@ -443,7 +456,7 @@ La notion de d&#xE9;ploiement est pour l&apos;instant limit&#xE9;e &#xE0; la pub
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Travis","level":"1.4.3","depth":2,"next":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[{"title":"Structure de données","level":"1.5.1","depth":2,"path":"persistence/structure.md","ref":"persistence/structure.md","articles":[]},{"title":"Pogues Model","level":"1.5.2","depth":2,"path":"persistence/pogues-model.md","ref":"persistence/pogues-model.md","articles":[]}]},"previous":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-08-01T08:50:44.255Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-01T08:53:46.918Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Travis","level":"1.4.3","depth":2,"next":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[{"title":"Structure de données","level":"1.5.1","depth":2,"path":"persistence/structure.md","ref":"persistence/structure.md","articles":[]},{"title":"Pogues Model","level":"1.5.2","depth":2,"path":"persistence/pogues-model.md","ref":"persistence/pogues-model.md","articles":[]}]},"previous":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-08-03T08:02:36.673Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-03T08:06:33.721Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>

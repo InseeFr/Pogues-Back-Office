@@ -357,10 +357,205 @@
 <p>Les r&#xE8;gles d&apos;usage pour le contr&#xF4;le des permissions sont:</p>
 <ul>
 <li>Uniquement sur les op&#xE9;rations de mise &#xE0; jour (PUT sur le endpoint /persistence/questionnaires/{id})</li>
-<li>Refus d&apos;acc&#xE8;s si l&apos;unit&#xE9; de l&apos;utilisateur courant ne correspond par &#xE0; la valeur du champs owner de la ressource enregistr&#xE9;e.</li>
+<li>Refus d&apos;acc&#xE8;s si l&apos;unit&#xE9; de l&apos;utilisateur courant ne correspond pas &#xE0; la valeur du champs owner de la ressource enregistr&#xE9;e correspondant &#xE0; l&apos;id de la ressource soumise.</li>
 </ul>
 <p>Le contr&#xF4;le d&apos;acc&#xE8;s s&apos;effectue au moyen d&apos;un filtre jersey d&#xE9;finit dans le fichier <code>OwnerRestrictedFilter.java</code>. 
 Il est activ&#xE9; en ajoutant l&apos;annotation <code>@OwnerRestricted</code> sur une ressource attendant une payload correspondant &#xE0; un questionnaire.</p>
+<p>Le fichier de test d&#xE9;crivant le comportement de ce filtre est le suivant:</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> fr.insee.pogues.jersey;
+
+<span class="hljs-keyword">import</span> fr.insee.pogues.persistence.service.QuestionnairesService;
+<span class="hljs-keyword">import</span> fr.insee.pogues.user.model.User;
+<span class="hljs-keyword">import</span> fr.insee.pogues.user.query.UserServiceQuery;
+<span class="hljs-keyword">import</span> fr.insee.pogues.webservice.rest.OwnerRestrictedFilter;
+<span class="hljs-keyword">import</span> fr.insee.pogues.webservice.rest.PoguesException;
+<span class="hljs-keyword">import</span> org.glassfish.jersey.server.ContainerRequest;
+<span class="hljs-keyword">import</span> org.json.simple.JSONObject;
+<span class="hljs-keyword">import</span> org.junit.Before;
+<span class="hljs-keyword">import</span> org.junit.Rule;
+<span class="hljs-keyword">import</span> org.junit.Test;
+<span class="hljs-keyword">import</span> org.junit.rules.ExpectedException;
+<span class="hljs-keyword">import</span> org.mockito.InjectMocks;
+<span class="hljs-keyword">import</span> org.mockito.Mock;
+<span class="hljs-keyword">import</span> org.mockito.Mockito;
+
+<span class="hljs-keyword">import</span> javax.ws.rs.core.SecurityContext;
+<span class="hljs-keyword">import</span> java.security.Principal;
+
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.junit.Assert.assertEquals;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.mockito.Mockito.*;
+<span class="hljs-keyword">import</span> <span class="hljs-keyword">static</span> org.mockito.MockitoAnnotations.initMocks;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TestOwnerRestrictedFilter</span> </span>{
+
+    <span class="hljs-meta">@Mock</span>
+    QuestionnairesService questionnaireService;
+
+    <span class="hljs-meta">@Mock</span>
+    UserServiceQuery userServiceQuery;
+
+    <span class="hljs-meta">@InjectMocks</span>
+    OwnerRestrictedFilter filter;
+
+    <span class="hljs-meta">@Rule</span>
+    <span class="hljs-keyword">public</span> ExpectedException exception = ExpectedException.none();
+
+    <span class="hljs-meta">@Before</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">setUp</span><span class="hljs-params">()</span></span>{
+        filter = spy(<span class="hljs-keyword">new</span> OwnerRestrictedFilter());
+        initMocks(<span class="hljs-keyword">this</span>);
+    }
+
+    <span class="hljs-meta">@Test</span> <span class="hljs-comment">// No payload attached =&gt;  400|Bad Request</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">filterWithNullBodyException</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+        exception.expectMessage(<span class="hljs-string">&quot;Bad Request&quot;</span>);
+        exception.expect(PoguesException.class);
+        <span class="hljs-keyword">try</span> {
+            filter(<span class="hljs-keyword">null</span>);
+        } <span class="hljs-keyword">catch</span>(Exception e) {
+            String detailedMessage = ((PoguesException)e).toRestMessage().getDetails();
+            assertEquals(<span class="hljs-string">&quot;No body attached to request&quot;</span>, detailedMessage);
+            <span class="hljs-keyword">throw</span> e;
+        }
+    }
+
+    <span class="hljs-meta">@Test</span> <span class="hljs-comment">// Id not found in payload =&gt;  400|Bad Request</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">filterWithNullIdException</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+        exception.expectMessage(<span class="hljs-string">&quot;Bad Request&quot;</span>);
+        exception.expect(PoguesException.class);
+        <span class="hljs-keyword">try</span> {
+            filter(<span class="hljs-keyword">new</span> JSONObject());
+        } <span class="hljs-keyword">catch</span>(Exception e) {
+            String detailedMessage = ((PoguesException)e).toRestMessage().getDetails();
+            assertEquals(<span class="hljs-string">&quot;Missing attribute &apos;id&apos; in Request Payload&quot;</span>, detailedMessage);
+            <span class="hljs-keyword">throw</span> e;
+        }
+    }
+
+    <span class="hljs-meta">@Test</span><span class="hljs-comment">// Owner not found in payload =&gt;  400|Bad Request</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">filterWithNullOwnerException</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+        exception.expectMessage(<span class="hljs-string">&quot;Bad Request&quot;</span>);
+        exception.expect(PoguesException.class);
+        JSONObject payload = <span class="hljs-keyword">new</span> JSONObject();
+        payload.put(<span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;foo&quot;</span>);
+        Mockito.when(questionnaireService.getQuestionnaireByID(<span class="hljs-string">&quot;foo&quot;</span>))
+                .thenReturn(payload);
+        <span class="hljs-keyword">try</span> {
+            filter(payload);
+        } <span class="hljs-keyword">catch</span>(Exception e) {
+            String detailedMessage = ((PoguesException)e).toRestMessage().getDetails();
+            assertEquals(<span class="hljs-string">&quot;Request payload does not have an owner attribute&quot;</span>,
+                    detailedMessage);
+            <span class="hljs-keyword">throw</span> e;
+        }
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">filterWithUnauthorizedException</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+        exception.expectMessage(<span class="hljs-string">&quot;Unauthorized&quot;</span>);
+        exception.expect(PoguesException.class);
+        <span class="hljs-keyword">try</span> {
+            JSONObject payload = <span class="hljs-keyword">new</span> JSONObject();
+            payload.put(<span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;ENTITY-ID&quot;</span>);
+            payload.put(<span class="hljs-string">&quot;owner&quot;</span>, <span class="hljs-string">&quot;A-USER-GROUP&quot;</span>);
+            ContainerRequest crc = mock(ContainerRequest.class);
+            when(crc.readEntity(JSONObject.class))
+                    .thenReturn(payload);
+            when(crc.getSecurityContext()).thenReturn(<span class="hljs-keyword">new</span> SecurityContext() {
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-function"><span class="hljs-keyword">public</span> Principal <span class="hljs-title">getUserPrincipal</span><span class="hljs-params">()</span> </span>{
+                    <span class="hljs-keyword">return</span> <span class="hljs-comment">/* principal name */</span>() -&gt; <span class="hljs-string">&quot;CURRENT-USER-ID&quot;</span>;
+                }
+
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isUserInRole</span><span class="hljs-params">(String s)</span> </span>{
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+                }
+
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isSecure</span><span class="hljs-params">()</span> </span>{
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+                }
+
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getAuthenticationScheme</span><span class="hljs-params">()</span> </span>{
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+                }
+            });
+            JSONObject storedEntity = <span class="hljs-keyword">new</span> JSONObject();
+            storedEntity.put(<span class="hljs-string">&quot;owner&quot;</span>, <span class="hljs-string">&quot;ANOTHER-GROUP&quot;</span>);
+            when(questionnaireService.getQuestionnaireByID(<span class="hljs-string">&quot;ENTITY-ID&quot;</span>))
+                    .thenReturn(storedEntity);
+            when(userServiceQuery.getNameAndPermissionByID(<span class="hljs-string">&quot;CURRENT-USER-ID&quot;</span>))
+                    .thenReturn(<span class="hljs-keyword">new</span> User(<span class="hljs-string">&quot;CURRENT-USER-ID&quot;</span>,
+                            <span class="hljs-string">&quot;John Doe&quot;</span>,
+                            <span class="hljs-string">&quot;John&quot;</span>,
+                            <span class="hljs-string">&quot;Doe&quot;</span>,
+                            <span class="hljs-string">&quot;NON-MATCHING-GROUP&quot;</span>));
+            filter.filter(crc);
+        } <span class="hljs-keyword">catch</span>(Exception e) {
+            String detailedMessage = ((PoguesException)e).toRestMessage().getDetails();
+            <span class="hljs-keyword">int</span> status = ((PoguesException)e).toRestMessage().getStatus();
+            assertEquals(<span class="hljs-string">&quot;This object is not yours&quot;</span>, detailedMessage);
+            assertEquals(<span class="hljs-number">403</span>, status);
+            <span class="hljs-keyword">throw</span> e;
+        }
+    }
+
+    <span class="hljs-meta">@Test</span>
+    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title">filterWithUnauthenticatedException</span><span class="hljs-params">()</span> <span class="hljs-keyword">throws</span> Exception </span>{
+        exception.expectMessage(<span class="hljs-string">&quot;Unauthenticated&quot;</span>);
+        exception.expect(PoguesException.class);
+        <span class="hljs-keyword">try</span> {
+            JSONObject payload = <span class="hljs-keyword">new</span> JSONObject();
+            payload.put(<span class="hljs-string">&quot;id&quot;</span>, <span class="hljs-string">&quot;ENTITY-ID&quot;</span>);
+            payload.put(<span class="hljs-string">&quot;owner&quot;</span>, <span class="hljs-string">&quot;A-USER-GROUP&quot;</span>);
+            ContainerRequest crc = mock(ContainerRequest.class);
+            when(crc.readEntity(JSONObject.class))
+                    .thenReturn(payload);
+            when(crc.getSecurityContext()).thenReturn(<span class="hljs-keyword">new</span> SecurityContext() {
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-function"><span class="hljs-keyword">public</span> Principal <span class="hljs-title">getUserPrincipal</span><span class="hljs-params">()</span> </span>{
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+                }
+
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isUserInRole</span><span class="hljs-params">(String s)</span> </span>{
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+                }
+
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-keyword">boolean</span> <span class="hljs-title">isSecure</span><span class="hljs-params">()</span> </span>{
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">false</span>;
+                }
+
+                <span class="hljs-meta">@Override</span>
+                <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">getAuthenticationScheme</span><span class="hljs-params">()</span> </span>{
+                    <span class="hljs-keyword">return</span> <span class="hljs-keyword">null</span>;
+                }
+            });
+            when(questionnaireService.getQuestionnaireByID(<span class="hljs-string">&quot;ENTITY-ID&quot;</span>))
+                    .thenReturn(payload);
+            filter.filter(crc);
+        } <span class="hljs-keyword">catch</span>(Exception e) {
+            String detailedMessage = ((PoguesException)e).toRestMessage().getDetails();
+            <span class="hljs-keyword">int</span> status = ((PoguesException)e).toRestMessage().getStatus();
+            assertEquals(<span class="hljs-string">&quot;You are not logged in&quot;</span>, detailedMessage);
+            assertEquals(<span class="hljs-number">401</span>, status);
+            <span class="hljs-keyword">throw</span> e;
+        }
+    }
+
+    <span class="hljs-function"><span class="hljs-keyword">private</span> <span class="hljs-keyword">void</span> <span class="hljs-title">filter</span><span class="hljs-params">(JSONObject payload)</span> <span class="hljs-keyword">throws</span> Exception  </span>{
+        ContainerRequest crc = mock(ContainerRequest.class);
+        when(crc.readEntity(JSONObject.class))
+                .thenReturn(payload);
+        filter.filter(crc);
+    }
+
+
+}
+</code></pre>
 
                                 
                                 </section>
@@ -400,7 +595,7 @@ Il est activ&#xE9; en ajoutant l&apos;annotation <code>@OwnerRestricted</code> s
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Autorisations","level":"1.6.2","depth":2,"previous":{"title":"Authentification","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"security/permissions.md","mtime":"2017-08-01T08:50:44.251Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-01T08:53:46.918Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Autorisations","level":"1.6.2","depth":2,"previous":{"title":"Authentification","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"security/permissions.md","mtime":"2017-08-03T08:02:36.673Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-03T08:06:33.721Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>
