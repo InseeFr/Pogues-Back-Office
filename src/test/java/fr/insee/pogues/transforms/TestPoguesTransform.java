@@ -1,16 +1,23 @@
 package fr.insee.pogues.transforms;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.xmlunit.XMLUnitException;
 import org.xmlunit.diff.Diff;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by acordier on 19/07/17.
  */
 public class TestPoguesTransform {
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @Test
     public void popoQpoCam2017TransformTest() {
@@ -59,6 +66,37 @@ public class TestPoguesTransform {
     public void popoQpoFiltreSeq() {
         System.out.println("Test skipped");
 //        performDiffTest("POPO-QPO-FILTRE_SEQ");
+    }
+
+    @Test
+    public void transformWithNullInputException() throws Exception {
+        exception.expect(NullPointerException.class);
+        exception.expectMessage("Null input");
+        InputStream input = null;
+        OutputStream output = new OutputStream() {
+            @Override
+            public void write(int b) throws IOException {
+
+            }
+        };
+        new PoguesTransformService()
+                .transform(input, output);
+
+    }
+    @Test
+    public void transformWithNullOutputException() throws Exception {
+        exception.expect(NullPointerException.class);
+        exception.expectMessage("Null output");
+        InputStream input = new InputStream() {
+            @Override
+            public int read() throws IOException {
+                return 0;
+            }
+        };
+        OutputStream output = null;
+        new PoguesTransformService()
+                .transform(input, output);
+
     }
 
 

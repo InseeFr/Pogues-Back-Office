@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -53,6 +52,20 @@ public class TestQuestionnaireService {
     }
 
     @Test
+    public void getQuestionnaireByOwnerWithNullException() throws Exception{
+        exception.expect(PoguesException.class);
+        exception.expectMessage("Service unavailable");
+        questionnairesService.getQuestionnairesByOwner(null);
+    }
+    @Test
+    public void getQuestionnaireByOwnerWithEmptyException() throws Exception{
+        exception.expect(PoguesException.class);
+        exception.expectMessage("Service unavailable");
+        questionnairesService.getQuestionnairesByOwner("");
+    }
+
+
+    @Test
     public void questionnaireNotFoundThrowsException() throws Exception {
         exception.expect(PoguesException.class);
         exception.expectMessage("Not found");
@@ -69,6 +82,17 @@ public class TestQuestionnaireService {
         when(questionnairesServiceQuery.getQuestionnaireByID("id"))
                 .thenThrow(new NonUniqueResultException("Test: Exception should propagate"));
         questionnairesService.getQuestionnaireByID("id");
+    }
+
+    @Test
+    public void getQuestionnaireById() throws Exception {
+        JSONObject q1 = new JSONObject();
+        q1.put("id", "foo");
+        when(questionnairesServiceQuery.getQuestionnaireByID("foo")).thenReturn(q1);
+        JSONObject q2 = questionnairesService.getQuestionnaireByID("foo");
+        assertEquals(q1, q2);
+        assertEquals("foo", q2.get("id"));
+
     }
 
 
@@ -99,6 +123,10 @@ public class TestQuestionnaireService {
 
     }
 
-
+    @Test
+    public void deleteQuestionnaireById() throws Exception {
+        doAnswer(invocationOnMock -> null).when(questionnairesServiceQuery).deleteQuestionnaireByID("foo");
+        questionnairesService.deleteQuestionnaireByID("foo");
+    }
 }
 

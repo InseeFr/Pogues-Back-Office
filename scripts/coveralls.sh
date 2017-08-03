@@ -4,7 +4,6 @@
 #author		     :a-cordier
 #==============================================================================
 
-CMD="mvn clean test"
 if [ -n "$COVERALLS_TOKEN" ];then
   mvn -DrepoToken=$COVERALLS_TOKEN coveralls:report
   exit 0
