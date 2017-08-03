@@ -44,7 +44,7 @@ public class PoguesModelToDDI {
             @ApiResponse(code = 500, message = "Error")
 	})
     @ApiImplicitParams(value={
-            @ApiImplicitParam(name="poguesModel", value="XML representation of the Pogues Model", paramType="body")
+            @ApiImplicitParam(name="poguesModel", value="XML representation of the Pogues Model", paramType="body", dataType = "string")
     })
 	public Response transform(@Context final HttpServletRequest request) {
 		try {

@@ -89,9 +89,10 @@ public class PoguesPersistence {
             notes = "Search questionnaires matching query params",
             response = List.class
     )
-    @ApiResponses(
-            @ApiResponse(code = 200, message="Success")
-    )
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Success"),
+			@ApiResponse(code = 400, message = "Bad request")
+	})
     public Response searchQuestionnaires(
 			@ApiParam(value = "A user id matching owner permission on each object of the collection", required = false)
             @QueryParam("owner") String owner
