@@ -370,17 +370,31 @@
 <span class="hljs-attr">services:</span>
 <span class="hljs-attr">  ldap:</span>
 <span class="hljs-attr">    build:</span> ./ldap
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-attr">      intra:</span>
+<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>
 <span class="hljs-attr">  postgresql:</span>
 <span class="hljs-attr">    build:</span> ./postgresql
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-attr">      intra:</span>
+<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.2</span>
 <span class="hljs-attr">  tomcat:</span>
 <span class="hljs-attr">    build:</span> ./tomcat
 <span class="hljs-attr">    volumes:</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./tomcat/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war&quot;</span>
-<span class="hljs-attr">    links:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;postgresql:db&quot;</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;ldap:ldap&quot;</span>
+<span class="hljs-comment">#    links:</span>
+<span class="hljs-comment">#      - &quot;postgresql:db&quot;</span>
+<span class="hljs-comment">#      - &quot;ldap:ldap&quot;</span>
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-bullet">      -</span> intra
 <span class="hljs-attr">    ports:</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;8080:8080&quot;</span>
+<span class="hljs-attr">networks:</span>
+<span class="hljs-attr">  intra:</span>
+<span class="hljs-attr">    ipam:</span>
+<span class="hljs-attr">      config:</span>
+<span class="hljs-attr">        - subnet:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>/<span class="hljs-number">16</span>
+<span class="hljs-attr">          ip_range:</span> <span class="hljs-number">172.28</span><span class="hljs-number">.5</span><span class="hljs-number">.0</span>/<span class="hljs-number">24</span>
 </code></pre>
 <p>Pour l&apos;ex&#xE9;cution des tests avec travis la commande utilis&#xE9;e est:</p>
 <pre><code class="lang-bash">docker-compose up
@@ -403,7 +417,7 @@
 <p>Indiquer &#xE0; tomcat qu&apos;il doit utiliser ces containers comme backends:</p>
 <p>Sur Eclipse ou IntelliJ il suffit d&apos;&#xE9;diter la configuration de lancement 
 pour passer la variable d&apos;environnement appropri&#xE9;e &#xE0; tomcat</p>
-<pre><code>-Dfr.insee.pogues.env=qa
+<pre><code>-Dfr.insee.pogues.env=dev
 </code></pre>
                                 
                                 </section>
@@ -447,7 +461,7 @@ pour passer la variable d&apos;environnement appropri&#xE9;e &#xE0; tomcat</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Utilisation","level":"1.4.2.2","depth":3,"next":{"title":"Travis","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"previous":{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/docker/docker-usage.md","mtime":"2017-08-03T08:02:36.673Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-03T08:06:33.721Z"},"basePath":"../..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Utilisation","level":"1.4.2.2","depth":3,"next":{"title":"Travis","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"previous":{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/docker/docker-usage.md","mtime":"2017-08-03T14:14:24.106Z","type":"markdown"},"gitbook":{"version":"3.2.2","time":"2017-08-03T14:18:30.414Z"},"basePath":"../..","book":{"language":"fr"}});
         });
     </script>
 </div>
