@@ -56,7 +56,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	public List<JSONObject> getQuestionnairesByOwner(String owner)throws Exception {
 		try {
 			if(null == owner || owner.isEmpty()){
-				throw new PoguesException(503, "Service unavailable", "This user has no permission defined");
+				throw new PoguesException(400, "Bad Request", "Missing parameter: owner");
 			}
 			return questionnaireServiceQuery.getQuestionnairesByOwner(owner);
 		} catch (Exception e) {
