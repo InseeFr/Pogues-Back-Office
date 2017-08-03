@@ -54,13 +54,13 @@ public class TestQuestionnaireService {
     @Test
     public void getQuestionnaireByOwnerWithNullException() throws Exception{
         exception.expect(PoguesException.class);
-        exception.expectMessage("Service unavailable");
+        exception.expectMessage("Bad Request");
         questionnairesService.getQuestionnairesByOwner(null);
     }
     @Test
     public void getQuestionnaireByOwnerWithEmptyException() throws Exception{
         exception.expect(PoguesException.class);
-        exception.expectMessage("Service unavailable");
+        exception.expectMessage("Bad Request");
         questionnairesService.getQuestionnairesByOwner("");
     }
 
