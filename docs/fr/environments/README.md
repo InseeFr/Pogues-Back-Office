@@ -1,9 +1,10 @@
 # Environments de déploiement - Configuration
 
-Le paramétrage de l'application varie en fonction de deux environements de déploiement possible:
+Le paramétrage de l'application varie en fonction de trois environements de déploiement possible:
 
  - prod
  - qa 
+ - dev
  
 L'environnement est défini par la propriété système ```fr.insee.pogues.env```
 
