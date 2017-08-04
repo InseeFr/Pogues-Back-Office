@@ -23,11 +23,11 @@ public class SwaggerConfig extends HttpServlet {
         BeanConfig beanConfig = new BeanConfig();
         beanConfig.setTitle("Pogues Backoffice");
         beanConfig.setVersion("0.1");
-        beanConfig.setDescription("The life and times of Pogues REST endpoints");
+        beanConfig.setDescription("Poges Backoffice API endpoints");
         beanConfig.setSchemes(new String[]{"http"});
         beanConfig.setBasePath("/rmspogfo/pogues");
+        beanConfig.setHost("dvrmspogfolht01.ad.insee.intra");
         beanConfig.setResourcePackage("fr.insee.pogues.webservice.rest");
         beanConfig.setScan(true);
-        beanConfig.setDescription("Poges Backoffice API endpoints");
     }
 }
