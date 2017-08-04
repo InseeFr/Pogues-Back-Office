@@ -1,0 +1,1368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Questionnaire xmlns="http://xml.insee.fr/schema/applis/pogues" id="FQ_157" agency="fr.insee">
+    <Name>Fake questionnaire number 157</Name>
+    <Label>Label for fake questionnaire number 157</Label>
+    <Child id="FSQ_10" depth="2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+        <Name>Sequence number 10</Name>
+        <Label>Label for sequence number 10</Label>
+        <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+            <Text>Instruction for component FSQ_10</Text>
+        </Declaration>
+        <Child id="FSQ_100" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 100</Name>
+            <Label>Label for sequence number 100</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_100</Text>
+            </Declaration>
+            <Child id="FQU_1000" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1000</Name>
+                <Label>Label for question number 1000</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1000</Text>
+                </Declaration>
+                <Control id="CTL_16680" criticity="INFO">
+                    <Description>Description of control 0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1001</Name>
+                <Label>Label for question number 1001</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1001</Text>
+                </Declaration>
+                <GoTo id="GTO_25">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1002" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1002</Name>
+                <Label>Label for question number 1002</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1002</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+        <Child id="FSQ_101" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 101</Name>
+            <Label>Label for sequence number 101</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_101</Text>
+            </Declaration>
+            <Child id="FQU_1010" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1010</Name>
+                <Label>Label for question number 1010</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1010</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+        <Child id="FSQ_102" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 102</Name>
+            <Label>Label for sequence number 102</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_102</Text>
+            </Declaration>
+            <Child id="FQU_1020" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1020</Name>
+                <Label>Label for question number 1020</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1020</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+    </Child>
+    <Child id="FSQ_11" depth="2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+        <Name>Sequence number 11</Name>
+        <Label>Label for sequence number 11</Label>
+        <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+            <Text>Instruction for component FSQ_11</Text>
+        </Declaration>
+        <Child id="FSQ_110" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 110</Name>
+            <Label>Label for sequence number 110</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_110</Text>
+            </Declaration>
+            <Control id="CTL_57950" criticity="ERROR">
+                <Description>Description of control 0</Description>
+                <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+            </Control>
+            <Control id="CTL_57951" criticity="INFO">
+                <Description>Description of control 1</Description>
+                <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+            </Control>
+            <Child id="FQU_1100" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1100</Name>
+                <Label>Label for question number 1100</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1100</Text>
+                </Declaration>
+                <GoTo id="GTO_9178">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1101" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1101</Name>
+                <Label>Label for question number 1101</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1101</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1102" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1102</Name>
+                <Label>Label for question number 1102</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1102</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1103" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1103</Name>
+                <Label>Label for question number 1103</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1103</Text>
+                </Declaration>
+                <Control id="CTL_54790" criticity="INFO">
+                    <Description>Description of control 0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Control id="CTL_54791" criticity="INFO">
+                    <Description>Description of control 1</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <GoTo id="GTO_5479">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+        <Child id="FQU_111" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+            <Name>Question number 111</Name>
+            <Label>Label for question number 111</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FQU_111</Text>
+            </Declaration>
+            <Control id="CTL_17480" criticity="ERROR">
+                <Description>Description of control 0</Description>
+                <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+            </Control>
+            <Response simple="true" mandatory="false">
+                <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                    <MaxLength>100</MaxLength>
+                </Datatype>
+            </Response>
+            <Response simple="true" mandatory="false">
+                <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                    <Minimum>0</Minimum>
+                    <Maximum>100</Maximum>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child id="FSQ_12" depth="2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+        <Name>Sequence number 12</Name>
+        <Label>Label for sequence number 12</Label>
+        <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+            <Text>Instruction for component FSQ_12</Text>
+        </Declaration>
+        <Child id="FSQ_120" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 120</Name>
+            <Label>Label for sequence number 120</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_120</Text>
+            </Declaration>
+            <Control id="CTL_55550" criticity="ERROR">
+                <Description>Description of control 0</Description>
+                <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+            </Control>
+            <Child id="FQU_1200" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1200</Name>
+                <Label>Label for question number 1200</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1200</Text>
+                </Declaration>
+                <Control id="CTL_64690" criticity="ERROR">
+                    <Description>Description of control 0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1201" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1201</Name>
+                <Label>Label for question number 1201</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1201</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1202" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1202</Name>
+                <Label>Label for question number 1202</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1202</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <CodeListReference>CL1</CodeListReference>
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+        <Child id="FSQ_121" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 121</Name>
+            <Label>Label for sequence number 121</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_121</Text>
+            </Declaration>
+            <Control id="CTL_13610" criticity="ERROR">
+                <Description>Description of control 0</Description>
+                <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+            </Control>
+            <Child id="FQU_1210" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1210</Name>
+                <Label>Label for question number 1210</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1210</Text>
+                </Declaration>
+                <GoTo id="GTO_4209">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1211" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1211</Name>
+                <Label>Label for question number 1211</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1211</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1212" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1212</Name>
+                <Label>Label for question number 1212</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1212</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1213" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1213</Name>
+                <Label>Label for question number 1213</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1213</Text>
+                </Declaration>
+                <GoTo id="GTO_4282">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1214" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1214</Name>
+                <Label>Label for question number 1214</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1214</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+        <Child id="FQU_122" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+            <Name>Question number 122</Name>
+            <Label>Label for question number 122</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FQU_122</Text>
+            </Declaration>
+            <Response simple="true" mandatory="false">
+                <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                    <MaxLength>100</MaxLength>
+                </Datatype>
+            </Response>
+            <Response simple="true" mandatory="false">
+                <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                    <Format>yyyy-MM-dd</Format>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="FQU_123" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+            <Name>Question number 123</Name>
+            <Label>Label for question number 123</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FQU_123</Text>
+            </Declaration>
+            <Response simple="true" mandatory="false">
+                <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                    <MaxLength>100</MaxLength>
+                </Datatype>
+            </Response>
+            <Response simple="true" mandatory="false">
+                <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                    <MaxLength>100</MaxLength>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Child id="FSQ_13" depth="2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+        <Name>Sequence number 13</Name>
+        <Label>Label for sequence number 13</Label>
+        <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+            <Text>Instruction for component FSQ_13</Text>
+        </Declaration>
+        <Child id="FSQ_130" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 130</Name>
+            <Label>Label for sequence number 130</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_130</Text>
+            </Declaration>
+            <Child id="FQU_1300" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1300</Name>
+                <Label>Label for question number 1300</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1300</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1301" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1301</Name>
+                <Label>Label for question number 1301</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1301</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1302" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1302</Name>
+                <Label>Label for question number 1302</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1302</Text>
+                </Declaration>
+                <GoTo id="GTO_3542">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1303" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1303</Name>
+                <Label>Label for question number 1303</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1303</Text>
+                </Declaration>
+                <Control id="CTL_30270" criticity="ERROR">
+                    <Description>Description of control 0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Control id="CTL_30271" criticity="INFO">
+                    <Description>Description of control 1</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1304" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1304</Name>
+                <Label>Label for question number 1304</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1304</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1305" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1305</Name>
+                <Label>Label for question number 1305</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1305</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+        <Child id="FSQ_131" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 131</Name>
+            <Label>Label for sequence number 131</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_131</Text>
+            </Declaration>
+            <Child id="FQU_1310" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1310</Name>
+                <Label>Label for question number 1310</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1310</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+        <Child id="FSQ_132" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 132</Name>
+            <Label>Label for sequence number 132</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_132</Text>
+            </Declaration>
+            <Child id="FQU_1320" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1320</Name>
+                <Label>Label for question number 1320</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1320</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1321" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1321</Name>
+                <Label>Label for question number 1321</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1321</Text>
+                </Declaration>
+                <Control id="CTL_28260" criticity="ERROR">
+                    <Description>Description of control 0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+    </Child>
+    <Child id="FSQ_14" depth="2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+        <Name>Sequence number 14</Name>
+        <Label>Label for sequence number 14</Label>
+        <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+            <Text>Instruction for component FSQ_14</Text>
+        </Declaration>
+        <Child id="FSQ_140" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 140</Name>
+            <Label>Label for sequence number 140</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_140</Text>
+            </Declaration>
+            <Child id="FQU_1400" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1400</Name>
+                <Label>Label for question number 1400</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1400</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1401" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1401</Name>
+                <Label>Label for question number 1401</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1401</Text>
+                </Declaration>
+                <GoTo id="GTO_1906">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1402" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1402</Name>
+                <Label>Label for question number 1402</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1402</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+        <Child id="FSQ_141" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 141</Name>
+            <Label>Label for sequence number 141</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_141</Text>
+            </Declaration>
+            <Control id="CTL_19160" criticity="INFO">
+                <Description>Description of control 0</Description>
+                <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+            </Control>
+            <Control id="CTL_19161" criticity="INFO">
+                <Description>Description of control 1</Description>
+                <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+            </Control>
+            <Child id="FQU_1410" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1410</Name>
+                <Label>Label for question number 1410</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1410</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_1411" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 1411</Name>
+                <Label>Label for question number 1411</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_1411</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Child>
+        <Child id="FQU_142" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+            <Name>Question number 142</Name>
+            <Label>Label for question number 142</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FQU_142</Text>
+            </Declaration>
+            <Response simple="true" mandatory="false">
+                <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                    <MaxLength>100</MaxLength>
+                </Datatype>
+            </Response>
+            <Response simple="true" mandatory="false">
+                <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                    <MaxLength>100</MaxLength>
+                </Datatype>
+            </Response>
+        </Child>
+        <Child id="FQU_143" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+            <Name>Question number 143</Name>
+            <Label>Label for question number 143</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FQU_143</Text>
+            </Declaration>
+            <GoTo id="GTO_4514">
+                <Description>Description for go-to GTO_0</Description>
+                <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                <IfTrue>REF_TO_COMPONENT</IfTrue>
+            </GoTo>
+            <Response simple="true" mandatory="false">
+                <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                    <MaxLength>100</MaxLength>
+                </Datatype>
+            </Response>
+            <Response simple="true" mandatory="false">
+                <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                    <MaxLength>100</MaxLength>
+                </Datatype>
+            </Response>
+        </Child>
+    </Child>
+    <Survey id="FS_93" agency="fr.insee">
+        <Name>Fake survey number 93</Name>
+    </Survey>
+    <ComponentGroup id="PENDING_COMPONENTS">
+        <Name>Questions waiting to be created</Name>
+        <Label>Label for pending components group</Label>
+        <Member id="FSQ_990" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 990</Name>
+            <Label>Label for sequence number 990</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_990</Text>
+            </Declaration>
+            <Child id="FQU_9900" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9900</Name>
+                <Label>Label for question number 9900</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9900</Text>
+                </Declaration>
+                <Control id="CTL_80580" criticity="ERROR">
+                    <Description>Description of control 0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Control id="CTL_80581" criticity="ERROR">
+                    <Description>Description of control 1</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9901" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9901</Name>
+                <Label>Label for question number 9901</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9901</Text>
+                </Declaration>
+                <GoTo id="GTO_3033">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9902" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9902</Name>
+                <Label>Label for question number 9902</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9902</Text>
+                </Declaration>
+                <Control id="CTL_54960" criticity="INFO">
+                    <Description>Description of control 0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9903" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9903</Name>
+                <Label>Label for question number 9903</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9903</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Member>
+        <Member id="FSQ_991" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 991</Name>
+            <Label>Label for sequence number 991</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_991</Text>
+            </Declaration>
+            <Child id="FQU_9910" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9910</Name>
+                <Label>Label for question number 9910</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9910</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9911" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9911</Name>
+                <Label>Label for question number 9911</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9911</Text>
+                </Declaration>
+                <Control id="CTL_35360" criticity="INFO">
+                    <Description>Description of control 0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9912" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9912</Name>
+                <Label>Label for question number 9912</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9912</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Member>
+        <Member id="FSQ_992" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 992</Name>
+            <Label>Label for sequence number 992</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_992</Text>
+            </Declaration>
+            <Child id="FQU_9920" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9920</Name>
+                <Label>Label for question number 9920</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9920</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9921" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9921</Name>
+                <Label>Label for question number 9921</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9921</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9922" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9922</Name>
+                <Label>Label for question number 9922</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9922</Text>
+                </Declaration>
+                <Control id="CTL_75420" criticity="INFO">
+                    <Description>Description of control 0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Control id="CTL_75421" criticity="ERROR">
+                    <Description>Description of control 1</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9923" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9923</Name>
+                <Label>Label for question number 9923</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9923</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9924" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9924</Name>
+                <Label>Label for question number 9924</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9924</Text>
+                </Declaration>
+                <GoTo id="GTO_248">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9925" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9925</Name>
+                <Label>Label for question number 9925</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9925</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Member>
+        <Member id="FSQ_993" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 993</Name>
+            <Label>Label for sequence number 993</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_993</Text>
+            </Declaration>
+            <Child id="FQU_9930" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9930</Name>
+                <Label>Label for question number 9930</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9930</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9931" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9931</Name>
+                <Label>Label for question number 9931</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9931</Text>
+                </Declaration>
+                <Control id="CTL_32520" criticity="INFO">
+                    <Description>Description of control 0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                </Control>
+                <GoTo id="GTO_3252">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9932" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9932</Name>
+                <Label>Label for question number 9932</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9932</Text>
+                </Declaration>
+                <GoTo id="GTO_7662">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Member>
+        <Member id="FSQ_994" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 994</Name>
+            <Label>Label for sequence number 994</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_994</Text>
+            </Declaration>
+            <Child id="FQU_9940" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9940</Name>
+                <Label>Label for question number 9940</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9940</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9941" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9941</Name>
+                <Label>Label for question number 9941</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9941</Text>
+                </Declaration>
+                <GoTo id="GTO_9072">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9942" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9942</Name>
+                <Label>Label for question number 9942</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9942</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9943" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9943</Name>
+                <Label>Label for question number 9943</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9943</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Member>
+        <Member id="FSQ_995" depth="3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+            <Name>Sequence number 995</Name>
+            <Label>Label for sequence number 995</Label>
+            <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                <Text>Instruction for component FSQ_995</Text>
+            </Declaration>
+            <Child id="FQU_9950" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9950</Name>
+                <Label>Label for question number 9950</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9950</Text>
+                </Declaration>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="DATE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="DateDatatypeType">
+                        <Format>yyyy-MM-dd</Format>
+                    </Datatype>
+                </Response>
+            </Child>
+            <Child id="FQU_9951" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+                <Name>Question number 9951</Name>
+                <Label>Label for question number 9951</Label>
+                <Declaration declarationType="INSTRUCTION" position="BEFORE_QUESTION_TEXT">
+                    <Text>Instruction for component FQU_9951</Text>
+                </Declaration>
+                <GoTo id="GTO_4460">
+                    <Description>Description for go-to GTO_0</Description>
+                    <Expression>/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]</Expression>
+                    <IfTrue>REF_TO_COMPONENT</IfTrue>
+                </GoTo>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+                        <MaxLength>100</MaxLength>
+                    </Datatype>
+                </Response>
+                <Response simple="true" mandatory="false">
+                    <Datatype typeName="NUMERIC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="NumericDatatypeType">
+                        <Minimum>0</Minimum>
+                        <Maximum>100</Maximum>
+                    </Datatype>
+                </Response>
+            </Child>
+        </Member>
+    </ComponentGroup>
+    <CodeLists>
+        <CodeList id="CL_2929">
+            <Name>Code list CL_2929</Name>
+            <Label>Label for code list number CL_2929</Label>
+            <Code>
+                <Value>CL_2929_0</Value>
+                <Label>Label for code number CL_2929_0</Label>
+            </Code>
+            <Code>
+                <Value>CL_2929_1</Value>
+                <Label>Label for code number CL_2929_1</Label>
+            </Code>
+            <Code>
+                <Value>CL_2929_2</Value>
+                <Label>Label for code number CL_2929_2</Label>
+            </Code>
+            <Code>
+                <Value>CL_2929_3</Value>
+                <Label>Label for code number CL_2929_3</Label>
+            </Code>
+            <Code>
+                <Value>CL_2929_4</Value>
+                <Label>Label for code number CL_2929_4</Label>
+            </Code>
+        </CodeList>
+        <CodeListSpecification id="CLS_6882">
+            <Name>Code list specification CLS_6882</Name>
+            <Label>Label for code list specification number CLS_6882</Label>
+            <retrievalQuery>http://id.insee.fr/codes/cls_6882</retrievalQuery>
+        </CodeListSpecification>
+        <CodeListSpecification id="CLS_9883">
+            <Name>Code list specification CLS_9883</Name>
+            <Label>Label for code list specification number CLS_9883</Label>
+            <retrievalQuery>http://id.insee.fr/codes/cls_9883</retrievalQuery>
+        </CodeListSpecification>
+    </CodeLists>
+</Questionnaire>
