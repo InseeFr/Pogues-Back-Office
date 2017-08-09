@@ -16,7 +16,7 @@ import java.io.OutputStream;
  */
 public class TestXMLToDDI {
 
-    private TransformService transformer = new XmlToDDIServiceImpl();
+    private Transformer transformer = new XMLToDDIImpl();
 
     private XMLDiff xmlDiff = new XMLDiff(transformer);
 
@@ -83,7 +83,7 @@ public class TestXMLToDDI {
 
             }
         };
-        new XmlToDDIServiceImpl()
+        new XMLToDDIImpl()
                 .transform(input, output);
 
     }
@@ -98,7 +98,7 @@ public class TestXMLToDDI {
             }
         };
         OutputStream output = null;
-        new XmlToDDIServiceImpl()
+        new XMLToDDIImpl()
                 .transform(input, output);
 
     }

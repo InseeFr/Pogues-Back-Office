@@ -16,7 +16,7 @@ import java.nio.charset.Charset;
  * TODO Register as a provider
  */
 @Service
-public class XmlToDDIServiceImpl implements XmlToDDIService {
+public class XMLToDDIImpl implements XMLToDDI {
 
     private final String XSLT_FILE_0 = "transforms/xslt/1-Goto2IfThen.xsl";
     private final String XSLT_FILE_1 = "transforms/xslt/2-GoGo2ToTo.xsl";
@@ -24,7 +24,7 @@ public class XmlToDDIServiceImpl implements XmlToDDIService {
     private final String XSLT_FILE_3 = "transforms/xslt/4-beginEnd2filter.xsl";
     private final String XSLT_FILE_4 = "transforms/xslt/5-xml2DDIDeref.xsl";
 
-    private Logger logger = Logger.getLogger(XmlToDDIServiceImpl.class);
+    private Logger logger = Logger.getLogger(XMLToDDIImpl.class);
 
     public void transform(InputStream input, OutputStream output) throws Exception {
         try {
