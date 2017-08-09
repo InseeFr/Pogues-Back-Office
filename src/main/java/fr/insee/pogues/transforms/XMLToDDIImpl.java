@@ -2,11 +2,14 @@ package fr.insee.pogues.transforms;
 
 import net.sf.saxon.s9api.*;
 import org.apache.log4j.Logger;
+import org.eclipse.persistence.internal.oxm.ByteArraySource;
 import org.springframework.stereotype.Service;
 
 import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.Charset;
 
 /**
  * Created by acordier on 20/07/17.
@@ -51,6 +54,72 @@ public class XmlToDDIServiceImpl implements XmlToDDIService {
             logger.error(String.format("Message: %s, Line: %d, Error Code: %s",
                     e.getMessage(), e.getLineNumber(), e.getErrorCode()));
             throw e;
+        }
+    }
+
+    public String transform(InputStream input) throws Exception {
+        ByteArrayOutputStream output = null;
+        try {
+            if (null == input) {
+                throw new NullPointerException("Null input");
+            }
+            Processor processor = new Processor(false);
+            DocumentBuilder builder = processor.newDocumentBuilder();
+            XdmNode source = builder.build(new StreamSource(input));
+            XsltTransformer t0 = createTransformer(processor, XSLT_FILE_0);
+            XsltTransformer t1 = createTransformer(processor, XSLT_FILE_1);
+            XsltTransformer t2 = createTransformer(processor, XSLT_FILE_2);
+            XsltTransformer t3 = createTransformer(processor, XSLT_FILE_3);
+            XsltTransformer t4 = createTransformer(processor, XSLT_FILE_4);
+            output = new ByteArrayOutputStream();
+            Serializer out = createSerializer(processor, output);
+            t0.setInitialContextNode(source);
+            t0.setDestination(t1);
+            t1.setDestination(t2);
+            t2.setDestination(t3);
+            t3.setDestination(t4);
+            t4.setDestination(out);
+            t0.transform();
+            return new String(output.toByteArray(), Charset.forName("UTF-8"));
+        } catch (SaxonApiException e) {
+            logger.error(String.format("Message: %s, Line: %d, Error Code: %s",
+                    e.getMessage(), e.getLineNumber(), e.getErrorCode()));
+            throw e;
+        } finally {
+            output.close();
+        }
+    }
+
+    public String transform(String input) throws Exception{
+        ByteArrayOutputStream output = null;
+        try {
+            if (null == input) {
+                throw new NullPointerException("Null input");
+            }
+            Processor processor = new Processor(false);
+            DocumentBuilder builder = processor.newDocumentBuilder();
+            XdmNode source = builder.build(new ByteArraySource(input.getBytes(Charset.forName("UTF-8"))));
+            XsltTransformer t0 = createTransformer(processor, XSLT_FILE_0);
+            XsltTransformer t1 = createTransformer(processor, XSLT_FILE_1);
+            XsltTransformer t2 = createTransformer(processor, XSLT_FILE_2);
+            XsltTransformer t3 = createTransformer(processor, XSLT_FILE_3);
+            XsltTransformer t4 = createTransformer(processor, XSLT_FILE_4);
+            output = new ByteArrayOutputStream();
+            Serializer out = createSerializer(processor, output);
+            t0.setInitialContextNode(source);
+            t0.setDestination(t1);
+            t1.setDestination(t2);
+            t2.setDestination(t3);
+            t3.setDestination(t4);
+            t4.setDestination(out);
+            t0.transform();
+            return new String(output.toByteArray(), Charset.forName("UTF-8"));
+        } catch (SaxonApiException e) {
+            logger.error(String.format("Message: %s, Line: %d, Error Code: %s",
+                    e.getMessage(), e.getLineNumber(), e.getErrorCode()));
+            throw e;
+        } finally {
+            output.close();
         }
     }
 
