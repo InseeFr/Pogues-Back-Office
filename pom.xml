@@ -141,9 +141,14 @@
             <!-- TODO This should be provided by the container -->
             <!--<scope>provided</scope>-->
         </dependency>
-        <dependency>
+        <dependency><!-- TODO provide via central -->
             <groupId>fr.insee.pogues</groupId>
             <artifactId>pogues-model</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <dependency><!-- TODO provide via central -->
+            <groupId>fr.insee.pogues</groupId>
+            <artifactId>eno-core</artifactId>
             <version>0.1</version>
         </dependency>
         <dependency>
