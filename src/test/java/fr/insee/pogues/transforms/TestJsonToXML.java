@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class TestJsonToXML {
 
-    private TransformService transformer = new JSonToXmlImpl();
+    private Transformer transformer = new JSONToXMLImpl();
 
     private XMLDiff xmlDiff = new XMLDiff(transformer);
 

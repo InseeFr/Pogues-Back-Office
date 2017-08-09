@@ -14,10 +14,10 @@ import java.io.OutputStream;
  */
 public class XMLDiff {
 
-    private TransformService transformService;
+    private Transformer transformer;
 
-    public XMLDiff(TransformService transformService) {
-        this.transformService = transformService;
+    public XMLDiff(Transformer transformer) {
+        this.transformer = transformer;
     }
     
     public Diff getDiff(InputStream input, String expectedFilePath) throws Exception {
@@ -27,7 +27,7 @@ public class XMLDiff {
         try {
             expected = XMLDiff.class.getClassLoader().getResourceAsStream(expectedFilePath);
             output = new ByteArrayOutputStream();
-            transformService.transform(input, output);
+            transformer.transform(input, output);
             return DiffBuilder
                     .compare(Input.fromStream(expected))
                     .withTest(new String(((ByteArrayOutputStream) output).toByteArray(), "UTF-8"))
