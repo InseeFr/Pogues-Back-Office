@@ -8,13 +8,11 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
 
 /**
  * Main WebService class of the PoguesBOOrchestrator
@@ -50,16 +48,25 @@ public class PoguesBOOrchestrator {
 	@POST
 	@Path("test")
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
 	public Response test(@Context final HttpServletRequest request) throws Exception{
 		PipeLine pipeline = new PipeLine();
 		try {
-			String response = pipeline
-					.from(request.getInputStream())
-					.map(jsonToXML::transform)
-					.map(xmlToDDI::transform)
-//					.map(ddiToXForm::transform)
-					.transform();
-			return Response.ok(response).build();
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline
+							.from(request.getInputStream())
+							.map(jsonToXML::transform)
+							.map(xmlToDDI::transform)
+							.map(ddiToXForm::transform)
+							.transform()
+							.getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
 		} catch(Exception e) {
 			e.printStackTrace();
 			throw e;

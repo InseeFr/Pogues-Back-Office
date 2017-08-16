@@ -7,8 +7,11 @@ import fr.insee.eno.preprocessing.DDIPreprocessor;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class DDIToXFormImpl implements DDIToXForm {
@@ -26,18 +29,12 @@ public class DDIToXFormImpl implements DDIToXForm {
     @Override
     public String transform(String input) throws Exception {
         File enoInput = null;
-        PrintStream printStream = null;
         try {
-            enoInput = File.createTempFile("eno", ".tmp");
-            printStream = new PrintStream(new FileOutputStream(enoInput));
-            printStream.print(input);
-            printStream.flush();
+            enoInput = File.createTempFile("eno", ".xml");
+            FileUtils.writeStringToFile(enoInput, input, StandardCharsets.UTF_8);
             return transform(enoInput);
         } catch(Exception e) {
             throw e;
-        } finally {
-            FileUtils.deleteQuietly(enoInput);
-            printStream.close();
         }
     }
 
@@ -46,11 +43,10 @@ public class DDIToXFormImpl implements DDIToXForm {
         try {
             GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2FRGenerator(), new NoopPostprocessor());
             output = genService.generateQuestionnaire(file,null);
-            return FileUtils.readFileToString(output, Charset.forName("UTF-8"));
+            String response = FileUtils.readFileToString(output, Charset.forName("UTF-8"));
+            return response;
         } catch(Exception e){
             throw e;
-        } finally {
-            FileUtils.deleteQuietly(output);
         }
     }
 }
