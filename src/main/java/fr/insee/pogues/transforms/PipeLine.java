@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class PipeLine {
 
@@ -29,16 +30,17 @@ public class PipeLine {
         return this;
     }
 
-    public PipeLine map(Transform<String, String> t) {
+    public PipeLine map(Transform<String, String> t, Map<String, Object> params) {
         transforms.add(() -> {
             try {
-                output = t.apply(output);
+                output = t.apply(output, params);
             } catch (Exception e) {
                 e.printStackTrace();
             }
         });
         return this;
     }
+
 
     public String transform() {
         for (Runnable t : transforms) {
@@ -50,7 +52,7 @@ public class PipeLine {
 
     @FunctionalInterface
     public interface Transform<I, O> {
-        O apply(I i) throws Exception;
+        O apply(I i, Map<String, Object> params) throws Exception;
     }
 
 }

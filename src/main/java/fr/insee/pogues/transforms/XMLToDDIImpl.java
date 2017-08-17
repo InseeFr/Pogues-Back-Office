@@ -11,6 +11,7 @@ import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 //import java.io.ByteArrayOutputStream;
 
@@ -30,7 +31,7 @@ public class XMLToDDIImpl implements XMLToDDI {
 
     private Logger logger = Logger.getLogger(XMLToDDIImpl.class);
 
-    public void transform(InputStream input, OutputStream output) throws Exception {
+    public void transform(InputStream input, OutputStream output, Map<String, Object>params) throws Exception {
         try {
             if (null == input) {
                 throw new NullPointerException("Null input");
@@ -49,14 +50,14 @@ public class XMLToDDIImpl implements XMLToDDI {
         }
     }
 
-    public String transform(InputStream input) throws Exception {
+    public String transform(InputStream input, Map<String, Object>params) throws Exception {
         ByteArrayOutputStream output = null;
         try {
             if (null == input) {
                 throw new NullPointerException("Null input");
             }
             output = new ByteArrayOutputStream();
-            transform(input, output);
+            transform(input, output, params);
             return output.toString(StandardCharsets.UTF_8).trim();
         } catch (SaxonApiException e) {
             logger.error(String.format("Message: %s, Line: %d, Error Code: %s",
@@ -67,13 +68,13 @@ public class XMLToDDIImpl implements XMLToDDI {
         }
     }
 
-    public String transform(String input) throws Exception {
+    public String transform(String input, Map<String, Object>params) throws Exception {
         try {
             if (null == input) {
                 throw new NullPointerException("Null input");
             }
             InputStream is = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-            return transform(is);
+            return transform(is, params);
         } catch (SaxonApiException e) {
             logger.error(String.format("Message: %s, Line: %d, Error Code: %s",
                     e.getMessage(), e.getLineNumber(), e.getErrorCode()));

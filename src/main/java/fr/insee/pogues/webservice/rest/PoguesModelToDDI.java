@@ -50,7 +50,7 @@ public class PoguesModelToDDI {
 		try {
 			StreamingOutput stream = output -> {
                 try {
-                    xmlToDDI.transform(request.getInputStream(), output);
+                    xmlToDDI.transform(request.getInputStream(), output, null);
                 } catch (Exception e) {
                     logger.error(e.getMessage());
                     throw new PoguesException(500, e.getMessage(), null);

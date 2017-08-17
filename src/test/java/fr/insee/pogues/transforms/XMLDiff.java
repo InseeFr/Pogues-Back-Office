@@ -27,7 +27,7 @@ public class XMLDiff {
         try {
             expected = XMLDiff.class.getClassLoader().getResourceAsStream(expectedFilePath);
             output = new ByteArrayOutputStream();
-            transformer.transform(input, output);
+            transformer.transform(input, output, null);
             return DiffBuilder
                     .compare(Input.fromStream(expected))
                     .withTest(new String(((ByteArrayOutputStream) output).toByteArray(), "UTF-8"))
