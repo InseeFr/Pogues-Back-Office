@@ -9,6 +9,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <final.war.name>rmspogfo</final.war.name>
         <jersey.version>2.19</jersey.version>
         <spring.version>4.3.9.RELEASE</spring.version>
         <spring.security.version>4.2.3.RELEASE</spring.security.version>
@@ -114,9 +115,19 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>fr.insee.pogues</groupId>
+            <artifactId>pogues-model</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
             <version>1.10.19</version>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.5</version>
         </dependency>
         <dependency>
             <groupId>log4j</groupId>
@@ -129,6 +140,16 @@
             <version>9.4-1200-jdbc41</version>
             <!-- TODO This should be provided by the container -->
             <!--<scope>provided</scope>-->
+        </dependency>
+        <dependency><!-- TODO provide via central -->
+            <groupId>fr.insee.pogues</groupId>
+            <artifactId>pogues-model</artifactId>
+            <version>0.1</version>
+        </dependency>
+        <dependency><!-- TODO provide via central -->
+            <groupId>fr.insee.pogues</groupId>
+            <artifactId>eno-core</artifactId>
+            <version>0.1</version>
         </dependency>
         <dependency>
             <groupId>com.jayway.restassured</groupId>
@@ -172,6 +193,7 @@
     </dependencies>
 
     <build>
+        <finalName>${final.war.name}</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
 
         <plugins>

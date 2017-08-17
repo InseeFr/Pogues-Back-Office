@@ -1,6 +1,6 @@
 package fr.insee.pogues.webservice.rest;
 
-import fr.insee.pogues.transforms.TransformService;
+import fr.insee.pogues.transforms.XMLToDDI;
 import io.swagger.annotations.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,7 @@ public class PoguesModelToDDI {
 	final static Logger logger = Logger.getLogger(PoguesModelToDDI.class);
 
 	@Autowired
-	private TransformService transformService;
+	private XMLToDDI xmlToDDI;
 
 	@POST
 	@Produces(MediaType.APPLICATION_XML)
@@ -50,7 +50,7 @@ public class PoguesModelToDDI {
 		try {
 			StreamingOutput stream = output -> {
                 try {
-                    transformService.transform(request.getInputStream(), output);
+                    xmlToDDI.transform(request.getInputStream(), output, null);
                 } catch (Exception e) {
                     logger.error(e.getMessage());
                     throw new PoguesException(500, e.getMessage(), null);

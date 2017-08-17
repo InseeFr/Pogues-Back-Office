@@ -1,0 +1,2114 @@
+{
+  "Questionnaire" : {
+    "id" : "FQ_157",
+    "agency" : "fr.insee",
+    "Name" : "Fake questionnaire number 157",
+    "Label" : [ "Label for fake questionnaire number 157" ],
+    "Child" : [ {
+      "id" : "FSQ_10",
+      "depth" : 2,
+      "type" : "SequenceType",
+      "Name" : "Sequence number 10",
+      "Label" : [ "Label for sequence number 10" ],
+      "Declaration" : [ {
+        "declarationType" : "INSTRUCTION",
+        "position" : "BEFORE_QUESTION_TEXT",
+        "Text" : "Instruction for component FSQ_10"
+      } ],
+      "Child" : [ {
+        "id" : "FSQ_100",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 100",
+        "Label" : [ "Label for sequence number 100" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_100"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_1000",
+          "type" : "QuestionType",
+          "Name" : "Question number 1000",
+          "Label" : [ "Label for question number 1000" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1000"
+          } ],
+          "Control" : [ {
+            "id" : "CTL_16680",
+            "criticity" : "INFO",
+            "Description" : "Description of control 0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1001",
+          "type" : "QuestionType",
+          "Name" : "Question number 1001",
+          "Label" : [ "Label for question number 1001" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1001"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_25",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_1002",
+          "type" : "QuestionType",
+          "Name" : "Question number 1002",
+          "Label" : [ "Label for question number 1002" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1002"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FSQ_101",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 101",
+        "Label" : [ "Label for sequence number 101" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_101"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_1010",
+          "type" : "QuestionType",
+          "Name" : "Question number 1010",
+          "Label" : [ "Label for question number 1010" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1010"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FSQ_102",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 102",
+        "Label" : [ "Label for sequence number 102" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_102"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_1020",
+          "type" : "QuestionType",
+          "Name" : "Question number 1020",
+          "Label" : [ "Label for question number 1020" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1020"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        } ]
+      } ]
+    }, {
+      "id" : "FSQ_11",
+      "depth" : 2,
+      "type" : "SequenceType",
+      "Name" : "Sequence number 11",
+      "Label" : [ "Label for sequence number 11" ],
+      "Declaration" : [ {
+        "declarationType" : "INSTRUCTION",
+        "position" : "BEFORE_QUESTION_TEXT",
+        "Text" : "Instruction for component FSQ_11"
+      } ],
+      "Child" : [ {
+        "id" : "FSQ_110",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 110",
+        "Label" : [ "Label for sequence number 110" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_110"
+        } ],
+        "Control" : [ {
+          "id" : "CTL_57950",
+          "criticity" : "ERROR",
+          "Description" : "Description of control 0",
+          "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+        }, {
+          "id" : "CTL_57951",
+          "criticity" : "INFO",
+          "Description" : "Description of control 1",
+          "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_1100",
+          "type" : "QuestionType",
+          "Name" : "Question number 1100",
+          "Label" : [ "Label for question number 1100" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1100"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_9178",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1101",
+          "type" : "QuestionType",
+          "Name" : "Question number 1101",
+          "Label" : [ "Label for question number 1101" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1101"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1102",
+          "type" : "QuestionType",
+          "Name" : "Question number 1102",
+          "Label" : [ "Label for question number 1102" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1102"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_1103",
+          "type" : "QuestionType",
+          "Name" : "Question number 1103",
+          "Label" : [ "Label for question number 1103" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1103"
+          } ],
+          "Control" : [ {
+            "id" : "CTL_54790",
+            "criticity" : "INFO",
+            "Description" : "Description of control 0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          }, {
+            "id" : "CTL_54791",
+            "criticity" : "INFO",
+            "Description" : "Description of control 1",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_5479",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FQU_111",
+        "type" : "QuestionType",
+        "Name" : "Question number 111",
+        "Label" : [ "Label for question number 111" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FQU_111"
+        } ],
+        "Control" : [ {
+          "id" : "CTL_17480",
+          "criticity" : "ERROR",
+          "Description" : "Description of control 0",
+          "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+        } ],
+        "Response" : [ {
+          "simple" : true,
+          "mandatory" : false,
+          "Datatype" : {
+            "typeName" : "TEXT",
+            "type" : "TextDatatypeType",
+            "MaxLength" : 100
+          }
+        }, {
+          "simple" : true,
+          "mandatory" : false,
+          "Datatype" : {
+            "typeName" : "NUMERIC",
+            "type" : "NumericDatatypeType",
+            "Minimum" : 0,
+            "Maximum" : 100
+          }
+        } ]
+      } ]
+    }, {
+      "id" : "FSQ_12",
+      "depth" : 2,
+      "type" : "SequenceType",
+      "Name" : "Sequence number 12",
+      "Label" : [ "Label for sequence number 12" ],
+      "Declaration" : [ {
+        "declarationType" : "INSTRUCTION",
+        "position" : "BEFORE_QUESTION_TEXT",
+        "Text" : "Instruction for component FSQ_12"
+      } ],
+      "Child" : [ {
+        "id" : "FSQ_120",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 120",
+        "Label" : [ "Label for sequence number 120" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_120"
+        } ],
+        "Control" : [ {
+          "id" : "CTL_55550",
+          "criticity" : "ERROR",
+          "Description" : "Description of control 0",
+          "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_1200",
+          "type" : "QuestionType",
+          "Name" : "Question number 1200",
+          "Label" : [ "Label for question number 1200" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1200"
+          } ],
+          "Control" : [ {
+            "id" : "CTL_64690",
+            "criticity" : "ERROR",
+            "Description" : "Description of control 0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1201",
+          "type" : "QuestionType",
+          "Name" : "Question number 1201",
+          "Label" : [ "Label for question number 1201" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1201"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_1202",
+          "type" : "QuestionType",
+          "Name" : "Question number 1202",
+          "Label" : [ "Label for question number 1202" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1202"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "CodeListReference" : "CL1",
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FSQ_121",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 121",
+        "Label" : [ "Label for sequence number 121" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_121"
+        } ],
+        "Control" : [ {
+          "id" : "CTL_13610",
+          "criticity" : "ERROR",
+          "Description" : "Description of control 0",
+          "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_1210",
+          "type" : "QuestionType",
+          "Name" : "Question number 1210",
+          "Label" : [ "Label for question number 1210" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1210"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_4209",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1211",
+          "type" : "QuestionType",
+          "Name" : "Question number 1211",
+          "Label" : [ "Label for question number 1211" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1211"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1212",
+          "type" : "QuestionType",
+          "Name" : "Question number 1212",
+          "Label" : [ "Label for question number 1212" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1212"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1213",
+          "type" : "QuestionType",
+          "Name" : "Question number 1213",
+          "Label" : [ "Label for question number 1213" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1213"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_4282",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_1214",
+          "type" : "QuestionType",
+          "Name" : "Question number 1214",
+          "Label" : [ "Label for question number 1214" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1214"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FQU_122",
+        "type" : "QuestionType",
+        "Name" : "Question number 122",
+        "Label" : [ "Label for question number 122" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FQU_122"
+        } ],
+        "Response" : [ {
+          "simple" : true,
+          "mandatory" : false,
+          "Datatype" : {
+            "typeName" : "TEXT",
+            "type" : "TextDatatypeType",
+            "MaxLength" : 100
+          }
+        }, {
+          "simple" : true,
+          "mandatory" : false,
+          "Datatype" : {
+            "typeName" : "DATE",
+            "type" : "DateDatatypeType",
+            "Format" : "yyyy-MM-dd"
+          }
+        } ]
+      }, {
+        "id" : "FQU_123",
+        "type" : "QuestionType",
+        "Name" : "Question number 123",
+        "Label" : [ "Label for question number 123" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FQU_123"
+        } ],
+        "Response" : [ {
+          "simple" : true,
+          "mandatory" : false,
+          "Datatype" : {
+            "typeName" : "TEXT",
+            "type" : "TextDatatypeType",
+            "MaxLength" : 100
+          }
+        }, {
+          "simple" : true,
+          "mandatory" : false,
+          "Datatype" : {
+            "typeName" : "TEXT",
+            "type" : "TextDatatypeType",
+            "MaxLength" : 100
+          }
+        } ]
+      } ]
+    }, {
+      "id" : "FSQ_13",
+      "depth" : 2,
+      "type" : "SequenceType",
+      "Name" : "Sequence number 13",
+      "Label" : [ "Label for sequence number 13" ],
+      "Declaration" : [ {
+        "declarationType" : "INSTRUCTION",
+        "position" : "BEFORE_QUESTION_TEXT",
+        "Text" : "Instruction for component FSQ_13"
+      } ],
+      "Child" : [ {
+        "id" : "FSQ_130",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 130",
+        "Label" : [ "Label for sequence number 130" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_130"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_1300",
+          "type" : "QuestionType",
+          "Name" : "Question number 1300",
+          "Label" : [ "Label for question number 1300" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1300"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_1301",
+          "type" : "QuestionType",
+          "Name" : "Question number 1301",
+          "Label" : [ "Label for question number 1301" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1301"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1302",
+          "type" : "QuestionType",
+          "Name" : "Question number 1302",
+          "Label" : [ "Label for question number 1302" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1302"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_3542",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_1303",
+          "type" : "QuestionType",
+          "Name" : "Question number 1303",
+          "Label" : [ "Label for question number 1303" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1303"
+          } ],
+          "Control" : [ {
+            "id" : "CTL_30270",
+            "criticity" : "ERROR",
+            "Description" : "Description of control 0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          }, {
+            "id" : "CTL_30271",
+            "criticity" : "INFO",
+            "Description" : "Description of control 1",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1304",
+          "type" : "QuestionType",
+          "Name" : "Question number 1304",
+          "Label" : [ "Label for question number 1304" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1304"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_1305",
+          "type" : "QuestionType",
+          "Name" : "Question number 1305",
+          "Label" : [ "Label for question number 1305" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1305"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FSQ_131",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 131",
+        "Label" : [ "Label for sequence number 131" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_131"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_1310",
+          "type" : "QuestionType",
+          "Name" : "Question number 1310",
+          "Label" : [ "Label for question number 1310" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1310"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FSQ_132",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 132",
+        "Label" : [ "Label for sequence number 132" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_132"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_1320",
+          "type" : "QuestionType",
+          "Name" : "Question number 1320",
+          "Label" : [ "Label for question number 1320" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1320"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1321",
+          "type" : "QuestionType",
+          "Name" : "Question number 1321",
+          "Label" : [ "Label for question number 1321" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1321"
+          } ],
+          "Control" : [ {
+            "id" : "CTL_28260",
+            "criticity" : "ERROR",
+            "Description" : "Description of control 0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        } ]
+      } ]
+    }, {
+      "id" : "FSQ_14",
+      "depth" : 2,
+      "type" : "SequenceType",
+      "Name" : "Sequence number 14",
+      "Label" : [ "Label for sequence number 14" ],
+      "Declaration" : [ {
+        "declarationType" : "INSTRUCTION",
+        "position" : "BEFORE_QUESTION_TEXT",
+        "Text" : "Instruction for component FSQ_14"
+      } ],
+      "Child" : [ {
+        "id" : "FSQ_140",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 140",
+        "Label" : [ "Label for sequence number 140" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_140"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_1400",
+          "type" : "QuestionType",
+          "Name" : "Question number 1400",
+          "Label" : [ "Label for question number 1400" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1400"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1401",
+          "type" : "QuestionType",
+          "Name" : "Question number 1401",
+          "Label" : [ "Label for question number 1401" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1401"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_1906",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_1402",
+          "type" : "QuestionType",
+          "Name" : "Question number 1402",
+          "Label" : [ "Label for question number 1402" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1402"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FSQ_141",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 141",
+        "Label" : [ "Label for sequence number 141" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_141"
+        } ],
+        "Control" : [ {
+          "id" : "CTL_19160",
+          "criticity" : "INFO",
+          "Description" : "Description of control 0",
+          "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+        }, {
+          "id" : "CTL_19161",
+          "criticity" : "INFO",
+          "Description" : "Description of control 1",
+          "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_1410",
+          "type" : "QuestionType",
+          "Name" : "Question number 1410",
+          "Label" : [ "Label for question number 1410" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1410"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_1411",
+          "type" : "QuestionType",
+          "Name" : "Question number 1411",
+          "Label" : [ "Label for question number 1411" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_1411"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FQU_142",
+        "type" : "QuestionType",
+        "Name" : "Question number 142",
+        "Label" : [ "Label for question number 142" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FQU_142"
+        } ],
+        "Response" : [ {
+          "simple" : true,
+          "mandatory" : false,
+          "Datatype" : {
+            "typeName" : "TEXT",
+            "type" : "TextDatatypeType",
+            "MaxLength" : 100
+          }
+        }, {
+          "simple" : true,
+          "mandatory" : false,
+          "Datatype" : {
+            "typeName" : "TEXT",
+            "type" : "TextDatatypeType",
+            "MaxLength" : 100
+          }
+        } ]
+      }, {
+        "id" : "FQU_143",
+        "type" : "QuestionType",
+        "Name" : "Question number 143",
+        "Label" : [ "Label for question number 143" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FQU_143"
+        } ],
+        "GoTo" : [ {
+          "id" : "GTO_4514",
+          "Description" : "Description for go-to GTO_0",
+          "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+          "IfTrue" : "REF_TO_COMPONENT"
+        } ],
+        "Response" : [ {
+          "simple" : true,
+          "mandatory" : false,
+          "Datatype" : {
+            "typeName" : "TEXT",
+            "type" : "TextDatatypeType",
+            "MaxLength" : 100
+          }
+        }, {
+          "simple" : true,
+          "mandatory" : false,
+          "Datatype" : {
+            "typeName" : "TEXT",
+            "type" : "TextDatatypeType",
+            "MaxLength" : 100
+          }
+        } ]
+      } ]
+    } ],
+    "Survey" : {
+      "id" : "FS_93",
+      "agency" : "fr.insee",
+      "Name" : "Fake survey number 93"
+    },
+    "ComponentGroup" : [ {
+      "id" : "PENDING_COMPONENTS",
+      "Name" : "Questions waiting to be created",
+      "Label" : [ "Label for pending components group" ],
+      "Member" : [ {
+        "id" : "FSQ_990",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 990",
+        "Label" : [ "Label for sequence number 990" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_990"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_9900",
+          "type" : "QuestionType",
+          "Name" : "Question number 9900",
+          "Label" : [ "Label for question number 9900" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9900"
+          } ],
+          "Control" : [ {
+            "id" : "CTL_80580",
+            "criticity" : "ERROR",
+            "Description" : "Description of control 0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          }, {
+            "id" : "CTL_80581",
+            "criticity" : "ERROR",
+            "Description" : "Description of control 1",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_9901",
+          "type" : "QuestionType",
+          "Name" : "Question number 9901",
+          "Label" : [ "Label for question number 9901" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9901"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_3033",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_9902",
+          "type" : "QuestionType",
+          "Name" : "Question number 9902",
+          "Label" : [ "Label for question number 9902" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9902"
+          } ],
+          "Control" : [ {
+            "id" : "CTL_54960",
+            "criticity" : "INFO",
+            "Description" : "Description of control 0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_9903",
+          "type" : "QuestionType",
+          "Name" : "Question number 9903",
+          "Label" : [ "Label for question number 9903" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9903"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FSQ_991",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 991",
+        "Label" : [ "Label for sequence number 991" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_991"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_9910",
+          "type" : "QuestionType",
+          "Name" : "Question number 9910",
+          "Label" : [ "Label for question number 9910" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9910"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_9911",
+          "type" : "QuestionType",
+          "Name" : "Question number 9911",
+          "Label" : [ "Label for question number 9911" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9911"
+          } ],
+          "Control" : [ {
+            "id" : "CTL_35360",
+            "criticity" : "INFO",
+            "Description" : "Description of control 0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_9912",
+          "type" : "QuestionType",
+          "Name" : "Question number 9912",
+          "Label" : [ "Label for question number 9912" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9912"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FSQ_992",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 992",
+        "Label" : [ "Label for sequence number 992" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_992"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_9920",
+          "type" : "QuestionType",
+          "Name" : "Question number 9920",
+          "Label" : [ "Label for question number 9920" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9920"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_9921",
+          "type" : "QuestionType",
+          "Name" : "Question number 9921",
+          "Label" : [ "Label for question number 9921" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9921"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_9922",
+          "type" : "QuestionType",
+          "Name" : "Question number 9922",
+          "Label" : [ "Label for question number 9922" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9922"
+          } ],
+          "Control" : [ {
+            "id" : "CTL_75420",
+            "criticity" : "INFO",
+            "Description" : "Description of control 0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          }, {
+            "id" : "CTL_75421",
+            "criticity" : "ERROR",
+            "Description" : "Description of control 1",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_9923",
+          "type" : "QuestionType",
+          "Name" : "Question number 9923",
+          "Label" : [ "Label for question number 9923" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9923"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_9924",
+          "type" : "QuestionType",
+          "Name" : "Question number 9924",
+          "Label" : [ "Label for question number 9924" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9924"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_248",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_9925",
+          "type" : "QuestionType",
+          "Name" : "Question number 9925",
+          "Label" : [ "Label for question number 9925" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9925"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FSQ_993",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 993",
+        "Label" : [ "Label for sequence number 993" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_993"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_9930",
+          "type" : "QuestionType",
+          "Name" : "Question number 9930",
+          "Label" : [ "Label for question number 9930" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9930"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_9931",
+          "type" : "QuestionType",
+          "Name" : "Question number 9931",
+          "Label" : [ "Label for question number 9931" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9931"
+          } ],
+          "Control" : [ {
+            "id" : "CTL_32520",
+            "criticity" : "INFO",
+            "Description" : "Description of control 0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_3252",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_9932",
+          "type" : "QuestionType",
+          "Name" : "Question number 9932",
+          "Label" : [ "Label for question number 9932" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9932"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_7662",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FSQ_994",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 994",
+        "Label" : [ "Label for sequence number 994" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_994"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_9940",
+          "type" : "QuestionType",
+          "Name" : "Question number 9940",
+          "Label" : [ "Label for question number 9940" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9940"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_9941",
+          "type" : "QuestionType",
+          "Name" : "Question number 9941",
+          "Label" : [ "Label for question number 9941" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9941"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_9072",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_9942",
+          "type" : "QuestionType",
+          "Name" : "Question number 9942",
+          "Label" : [ "Label for question number 9942" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9942"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        }, {
+          "id" : "FQU_9943",
+          "type" : "QuestionType",
+          "Name" : "Question number 9943",
+          "Label" : [ "Label for question number 9943" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9943"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        } ]
+      }, {
+        "id" : "FSQ_995",
+        "depth" : 3,
+        "type" : "SequenceType",
+        "Name" : "Sequence number 995",
+        "Label" : [ "Label for sequence number 995" ],
+        "Declaration" : [ {
+          "declarationType" : "INSTRUCTION",
+          "position" : "BEFORE_QUESTION_TEXT",
+          "Text" : "Instruction for component FSQ_995"
+        } ],
+        "Child" : [ {
+          "id" : "FQU_9950",
+          "type" : "QuestionType",
+          "Name" : "Question number 9950",
+          "Label" : [ "Label for question number 9950" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9950"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "DATE",
+              "type" : "DateDatatypeType",
+              "Format" : "yyyy-MM-dd"
+            }
+          } ]
+        }, {
+          "id" : "FQU_9951",
+          "type" : "QuestionType",
+          "Name" : "Question number 9951",
+          "Label" : [ "Label for question number 9951" ],
+          "Declaration" : [ {
+            "declarationType" : "INSTRUCTION",
+            "position" : "BEFORE_QUESTION_TEXT",
+            "Text" : "Instruction for component FQU_9951"
+          } ],
+          "GoTo" : [ {
+            "id" : "GTO_4460",
+            "Description" : "Description for go-to GTO_0",
+            "Expression" : "/Questionnaire/Sequence[1]/Sequence[2]/Question[1]/NumericResponse[1]/VariableName[1]",
+            "IfTrue" : "REF_TO_COMPONENT"
+          } ],
+          "Response" : [ {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "TEXT",
+              "type" : "TextDatatypeType",
+              "MaxLength" : 100
+            }
+          }, {
+            "simple" : true,
+            "mandatory" : false,
+            "Datatype" : {
+              "typeName" : "NUMERIC",
+              "type" : "NumericDatatypeType",
+              "Minimum" : 0,
+              "Maximum" : 100
+            }
+          } ]
+        } ]
+      } ]
+    } ],
+    "CodeLists" : {
+      "CodeList" : [ {
+        "id" : "CL_2929",
+        "Name" : "Code list CL_2929",
+        "Label" : "Label for code list number CL_2929",
+        "Code" : [ {
+          "Value" : "CL_2929_0",
+          "Label" : "Label for code number CL_2929_0"
+        }, {
+          "Value" : "CL_2929_1",
+          "Label" : "Label for code number CL_2929_1"
+        }, {
+          "Value" : "CL_2929_2",
+          "Label" : "Label for code number CL_2929_2"
+        }, {
+          "Value" : "CL_2929_3",
+          "Label" : "Label for code number CL_2929_3"
+        }, {
+          "Value" : "CL_2929_4",
+          "Label" : "Label for code number CL_2929_4"
+        } ]
+      } ],
+      "CodeListSpecification" : [ {
+        "id" : "CLS_6882",
+        "Name" : "Code list specification CLS_6882",
+        "Label" : "Label for code list specification number CLS_6882",
+        "retrievalQuery" : "http://id.insee.fr/codes/cls_6882"
+      }, {
+        "id" : "CLS_9883",
+        "Name" : "Code list specification CLS_9883",
+        "Label" : "Label for code list specification number CLS_9883",
+        "retrievalQuery" : "http://id.insee.fr/codes/cls_9883"
+      } ]
+    }
+  }
+}

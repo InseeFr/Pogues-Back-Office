@@ -14,7 +14,11 @@ import java.io.OutputStream;
 /**
  * Created by acordier on 19/07/17.
  */
-public class TestPoguesTransform {
+public class TestXMLToDDI {
+
+    private Transformer transformer = new XMLToDDIImpl();
+
+    private XMLDiff xmlDiff = new XMLDiff(transformer);
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
@@ -79,8 +83,8 @@ public class TestPoguesTransform {
 
             }
         };
-        new PoguesTransformService()
-                .transform(input, output);
+        new XMLToDDIImpl()
+                .transform(input, output, null);
 
     }
     @Test
@@ -94,15 +98,15 @@ public class TestPoguesTransform {
             }
         };
         OutputStream output = null;
-        new PoguesTransformService()
-                .transform(input, output);
+        new XMLToDDIImpl()
+                .transform(input, output, null);
 
     }
 
 
     private void performDiffTest(String path) {
         try {
-            Diff diff = XmlDiff.getDiff(path);
+            Diff diff = xmlDiff.getDiff(path);
             Assert.assertFalse(getDiffMessage(diff, path), diff.hasDifferences());
         } catch (XMLUnitException e) {
             e.printStackTrace();
