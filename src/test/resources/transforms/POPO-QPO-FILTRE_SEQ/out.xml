@@ -1,4 +1,15 @@
-<DDIInstance xmlns:pr="ddi:ddiprofile:3_2" xmlns:c="ddi:conceptualcomponent:3_2" xmlns:d="ddi:datacollection:3_2" xmlns:g="ddi:group:3_2" xmlns:cm="ddi:comparative:3_2" xmlns:l="ddi:logicalproduct:3_2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:pogues="http://xml.insee.fr/schema/applis/pogues" xmlns:r="ddi:reusable:3_2" xmlns:s="ddi:studyunit:3_2">
+<DDIInstance
+        xmlns:pr="ddi:ddiprofile:3_2"
+        xmlns:c="ddi:conceptualcomponent:3_2"
+        xmlns:d="ddi:datacollection:3_2"
+        xmlns:g="ddi:group:3_2"
+        xmlns:cm="ddi:comparative:3_2"
+        xmlns:l="ddi:logicalproduct:3_2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:pogues="http://xml.insee.fr/schema/applis/pogues"
+        xmlns:r="ddi:reusable:3_2"
+        xmlns:s="ddi:studyunit:3_2">
     <r:Agency>fr.insee</r:Agency>
     <r:ID>INSEE-FILTRE_SEQ</r:ID>
     <r:Version>0.1.0</r:Version>
@@ -12,26 +23,29 @@
         <r:Agency>fr.insee</r:Agency>
         <r:ID>INSEE-FILTRE_SEQ-SU</r:ID>
         <r:Version>0.1.0</r:Version>
-        <d:Instrument xmlns="ddi:studyunit:3_2" xmlns:a="ddi:archive:3_2">
+        <d:Instrument
+                xmlns="ddi:studyunit:3_2"
+                xmlns:a="ddi:archive:3_2">
             <r:Agency>fr.insee</r:Agency>
             <r:ID>v1</r:ID>
             <r:Version>0.1.0</r:Version>
             <r:Label>
                 <r:Content xml:lang="fr-FR">Questionnaire DDI 3.2 déréférencé de
-                            Pogues</r:Content>
+                    Pogues</r:Content>
             </r:Label>
             <d:TypeOfInstrument>DDI XFORMS</d:TypeOfInstrument>
             <d:ControlConstructReference>
                 <r:Agency>fr.insee</r:Agency>
-                <d:Sequence xmlns="ddi:instance:3_2">
+                <d:Sequence
+                        xmlns="ddi:instance:3_2">
                     <r:Agency>fr.insee</r:Agency>
                     <r:ID>INSEE-FILTRE_SEQ-SEQ</r:ID>
                     <r:Version>0.1.0</r:Version>
                     <r:Label>
                         <r:Content>Questionnaire élémentaire pour tester les goto séquences ultérieures</r:Content>
                     </r:Label>
-                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Modele</d:TypeOfSequence>
-                    <d:ControlConstructReference xmlns="">
+                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">template</d:TypeOfSequence>
+                    <d:ControlConstructReference>
                         <r:Agency>fr.insee</r:Agency>
                         <d:Sequence>
                             <r:Agency>fr.insee</r:Agency>
@@ -40,7 +54,7 @@
                             <r:Label>
                                 <r:Content xml:lang="fr-FR">Votre usage personnel d’internet</r:Content>
                             </r:Label>
-                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                             <d:ControlConstructReference>
                                 <r:Agency>fr.insee</r:Agency>
                                 <d:QuestionConstruct>
@@ -77,11 +91,11 @@
                                             </r:Binding>
                                             <d:QuestionText>
                                                 <d:LiteralText>
-                                                    <d:Text xml:lang="fr-FR">Personnellement, quand avez-vous utilisé internet pour la dernière fois&#160;? (quel que soit le lieu ou le type d’accès)</d:Text>
+                                                    <d:Text xml:lang="fr-FR">Personnellement, quand avez-vous utilisé internet pour la dernière fois ? (quel que soit le lieu ou le type d’accès)</d:Text>
                                                 </d:LiteralText>
                                             </d:QuestionText>
                                             <d:CodeDomain>
-                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                 <r:CodeListReference>
                                                     <r:Agency>fr.insee</r:Agency>
                                                     <l:CodeList>
@@ -238,7 +252,7 @@
                                             <r:Agency>fr.insee</r:Agency>
                                             <r:ID>INSEE-FILTRE_SEQ-SEQI-1</r:ID>
                                             <r:Version>0.1.0</r:Version>
-                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                             <d:ControlConstructReference>
                                                 <r:Agency>fr.insee</r:Agency>
                                                 <d:IfThenElse>
@@ -279,7 +293,7 @@
                                                             <r:Agency>fr.insee</r:Agency>
                                                             <r:ID>INSEE-FILTRE_SEQ-SEQI-2</r:ID>
                                                             <r:Version>0.1.0</r:Version>
-                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                             <d:ControlConstructReference>
                                                                 <r:Agency>fr.insee</r:Agency>
                                                                 <d:IfThenElse>
@@ -320,7 +334,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-FILTRE_SEQ-SEQI-3</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:QuestionConstruct>
@@ -459,7 +473,7 @@
                         <r:Version>0.1.0</r:Version>
                         <r:TypeOfObject>Sequence</r:TypeOfObject>
                     </d:ControlConstructReference>
-                    <d:ControlConstructReference xmlns="">
+                    <d:ControlConstructReference>
                         <r:Agency>fr.insee</r:Agency>
                         <d:IfThenElse>
                             <r:Agency>fr.insee</r:Agency>
@@ -499,7 +513,7 @@
                                     <r:Agency>fr.insee</r:Agency>
                                     <r:ID>INSEE-FILTRE_SEQ-SEQI-4</r:ID>
                                     <r:Version>0.1.0</r:Version>
-                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                     <d:ControlConstructReference>
                                         <r:Agency>fr.insee</r:Agency>
                                         <d:IfThenElse>
@@ -540,7 +554,7 @@
                                                     <r:Agency>fr.insee</r:Agency>
                                                     <r:ID>INSEE-FILTRE_SEQ-SEQI-5</r:ID>
                                                     <r:Version>0.1.0</r:Version>
-                                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                     <d:ControlConstructReference>
                                                         <r:Agency>fr.insee</r:Agency>
                                                         <d:Sequence>
@@ -550,7 +564,7 @@
                                                             <r:Label>
                                                                 <r:Content xml:lang="fr-FR">Votre utilisation des services administratifs sur internet</r:Content>
                                                             </r:Label>
-                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                                                             <d:ControlConstructReference>
                                                                 <r:Agency>fr.insee</r:Agency>
                                                                 <d:QuestionConstruct>
@@ -587,7 +601,7 @@
                                                                             </r:Binding>
                                                                             <d:QuestionText>
                                                                                 <d:LiteralText>
-                                                                                    <d:Text xml:lang="fr-FR">Au cours des douze derniers mois, hors usage professionnel et quel que soit le lieu d’utilisation, avez-vous personnellement utilisé internet pour contacter une administration ou un service public pour&#160;… (exclure les e-mails) Plusieurs réponses possibles</d:Text>
+                                                                                    <d:Text xml:lang="fr-FR">Au cours des douze derniers mois, hors usage professionnel et quel que soit le lieu d’utilisation, avez-vous personnellement utilisé internet pour contacter une administration ou un service public pour … (exclure les e-mails) Plusieurs réponses possibles</d:Text>
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:TextDomain maxLength="1">
@@ -682,7 +696,7 @@
                                             <r:Label>
                                                 <r:Content xml:lang="fr-FR">Vos habitudes de consommation sur internet</r:Content>
                                             </r:Label>
-                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                                             <d:ControlConstructReference>
                                                 <r:Agency>fr.insee</r:Agency>
                                                 <d:QuestionConstruct>
@@ -719,11 +733,11 @@
                                                             </r:Binding>
                                                             <d:QuestionText>
                                                                 <d:LiteralText>
-                                                                    <d:Text xml:lang="fr-FR">Avez-vous déjà, personnellement, acheté ou commandé des produits ou des services sur internet&#160;pour un usage privé&#160;(c'est-à-dire hors usage professionnel)&#160;?</d:Text>
+                                                                    <d:Text xml:lang="fr-FR">Avez-vous déjà, personnellement, acheté ou commandé des produits ou des services sur internet pour un usage privé (c'est-à-dire hors usage professionnel) ?</d:Text>
                                                                 </d:LiteralText>
                                                             </d:QuestionText>
                                                             <d:CodeDomain>
-                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">type d'affichage liste de réponses non définie</r:GenericOutputFormat>
+                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">Unknown type of visualizationHint</r:GenericOutputFormat>
                                                                 <r:CodeListReference>
                                                                     <r:Agency>fr.insee</r:Agency>
                                                                     <l:CodeList>
@@ -838,7 +852,7 @@
                                                             </r:Binding>
                                                             <d:QuestionText>
                                                                 <d:LiteralText>
-                                                                    <d:Text xml:lang="fr-FR">La dernière fois, était-ce&#160;?</d:Text>
+                                                                    <d:Text xml:lang="fr-FR">La dernière fois, était-ce ?</d:Text>
                                                                 </d:LiteralText>
                                                             </d:QuestionText>
                                                             <d:TextDomain maxLength="1">
@@ -870,7 +884,7 @@
                                             <r:Label>
                                                 <r:Content xml:lang="fr-FR">Vos compétences en informatique</r:Content>
                                             </r:Label>
-                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                                             <d:ControlConstructReference>
                                                 <r:Agency>fr.insee</r:Agency>
                                                 <d:QuestionConstruct>
@@ -938,7 +952,7 @@
                         <r:Version>0.1.0</r:Version>
                         <r:TypeOfObject>IfThenElse</r:TypeOfObject>
                     </d:ControlConstructReference>
-                    <d:ControlConstructReference xmlns="">
+                    <d:ControlConstructReference>
                         <r:Agency>fr.insee</r:Agency>
                         <d:Sequence>
                             <r:Agency>fr.insee</r:Agency>
@@ -947,7 +961,7 @@
                             <r:Label>
                                 <r:Content xml:lang="fr-FR">Votre situation professionnelle</r:Content>
                             </r:Label>
-                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                             <d:ControlConstructReference>
                                 <r:Agency>fr.insee</r:Agency>
                                 <d:QuestionConstruct>
@@ -984,7 +998,7 @@
                                             </r:Binding>
                                             <d:QuestionText>
                                                 <d:LiteralText>
-                                                    <d:Text xml:lang="fr-FR">Quelle est votre situation principale vis-à vis du travail&#160;? (si vous avez plusieurs employeurs ou plusieurs activités rémunérées, prendre en considération l’activité principale à vos yeux)</d:Text>
+                                                    <d:Text xml:lang="fr-FR">Quelle est votre situation principale vis-à vis du travail ? (si vous avez plusieurs employeurs ou plusieurs activités rémunérées, prendre en considération l’activité principale à vos yeux)</d:Text>
                                                 </d:LiteralText>
                                             </d:QuestionText>
                                             <d:TextDomain maxLength="1">
@@ -1117,7 +1131,7 @@
                         <r:Version>0.1.0</r:Version>
                         <r:TypeOfObject>Sequence</r:TypeOfObject>
                     </d:ControlConstructReference>
-                    <d:ControlConstructReference xmlns="">
+                    <d:ControlConstructReference>
                         <r:Agency>fr.insee</r:Agency>
                         <d:Sequence>
                             <r:Agency>fr.insee</r:Agency>
@@ -1126,7 +1140,7 @@
                             <r:Label>
                                 <r:Content xml:lang="fr-FR">séquence de test</r:Content>
                             </r:Label>
-                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                             <d:ControlConstructReference>
                                 <r:Agency>fr.insee</r:Agency>
                                 <d:QuestionConstruct>
@@ -1181,329 +1195,6 @@
                                                             <l:Level levelNumber="1">
                                                                 <l:CategoryRelationship>Ordinal</l:CategoryRelationship>
                                                             </l:Level>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-1</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-1</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Agriculture, sylviculture et pêche</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>AZ</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-2</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-2</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Fabrication de denrées alimentaires, de boissons et  de produits à base de tabac</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>C1</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-3</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-3</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Cokéfaction et raffinage</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>C2</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-4</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-4</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Fabrication d'équipements électriques, électroniques, informatiques ; fabrication de machines</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>C3</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-5</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-5</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Fabrication de matériels de transport</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>C4</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-6</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-6</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Fabrication d'autres produits industriels</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>C5</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-7</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-7</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Industries extractives,  énergie, eau, gestion des déchets et dépollution</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>DE</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-8</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-8</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Construction</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>FZ</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-9</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-9</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Commerce ; réparation d'automobiles et de motocycles</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>GZ</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-10</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-10</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Transports et entreposage</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>HZ</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-11</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-11</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Hébergement et restauration</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>IZ</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-12</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-12</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Information et communication</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>JZ</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-13</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-13</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Activités financières et d'assurance</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>KZ</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-14</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-14</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Activités immobilières</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>LZ</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-15</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-15</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Activités scientifiques et techniques ; services administratifs et de soutien</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>MN</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-16</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-16</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Administration publique, enseignement, santé humaine et action sociale</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>OQ</r:Value>
-                                                            </l:Code>
-                                                            <l:Code levelNumber="1" isDiscrete="true">
-                                                                <r:Agency>fr.insee</r:Agency>
-                                                                <r:ID>INSEE-FILTRE_SEQ-CL-NA2008NIVE-17</r:ID>
-                                                                <r:Version>0.1.0</r:Version>
-                                                                <r:CategoryReference>
-                                                                    <r:Agency>fr.insee</r:Agency>
-                                                                    <l:Category>
-                                                                        <r:Agency>fr.insee</r:Agency>
-                                                                        <r:ID>INSEE-FILTRE_SEQ-CA-NA2008NIVE-17</r:ID>
-                                                                        <r:Version>0.1.0</r:Version>
-                                                                        <r:Label>
-                                                                            <r:Content xml:lang="fr-FR">Autres activités de services</r:Content>
-                                                                        </r:Label>
-                                                                    </l:Category>
-                                                                    <r:Version>0.1.0</r:Version>
-                                                                    <r:TypeOfObject>Category</r:TypeOfObject>
-                                                                </r:CategoryReference>
-                                                                <r:Value>RU</r:Value>
-                                                            </l:Code>
                                                         </l:CodeList>
                                                         <r:Version>0.1.0</r:Version>
                                                         <r:TypeOfObject>CodeList</r:TypeOfObject>
@@ -1513,7 +1204,7 @@
                                             <d:StructuredMixedGridResponseDomain>
                                                 <d:GridResponseDomain>
                                                     <d:CodeDomain>
-                                                        <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">caseacocher</r:GenericOutputFormat>
+                                                        <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">checkbox</r:GenericOutputFormat>
                                                         <r:CodeListReference>
                                                             <r:Agency>fr.insee</r:Agency>
                                                             <l:CodeList>
