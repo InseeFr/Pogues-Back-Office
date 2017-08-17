@@ -12,11 +12,11 @@ ENO_CORE_ARTIFACT_ID="eno-core"
 ENO_CORE_VERSION="0.1"
 
 function install_pogues_model(){
-    sh gh2mvn.sh  "$POGUES_MODEL_URL" "$GROUP_ID" "$POGUES_MODEL_ARTIFACT_ID" "$POGUES_MODEL_VERSION"
+    bash scripts/gh2mvn.sh  "$POGUES_MODEL_URL" "$GROUP_ID" "$POGUES_MODEL_ARTIFACT_ID" "$POGUES_MODEL_VERSION"
 }
 
 function install_eno(){
-    sh gh2mvn.sh  "$ENO_CORE_URL" "$GROUP_ID" "$ENO_CORE_ARTIFACT_ID" "$ENO_CORE_VERSION"
+    bash scripts/gh2mvn.sh  "$ENO_CORE_URL" "$GROUP_ID" "$ENO_CORE_ARTIFACT_ID" "$ENO_CORE_VERSION"
 }
 
 function main(){
