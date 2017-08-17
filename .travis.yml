@@ -7,8 +7,8 @@ language: java
 jdk:
   - oraclejdk8
 install:
-  - bash scripts/install.sh
-  - cp target/*.war docker/tomcat/rmspogfo.war
+  - bash scripts/install.sh rmspogfo
+  - cp target/rmspogfo.war docker/tomcat/
 before_script:
   - pushd docker
   - docker-compose up -d
@@ -19,4 +19,5 @@ script:
   - mvn integration-test
 after_script:
   - bash scripts/gitbook.sh
+  - bash scripts/build.sh rmspogfo
 

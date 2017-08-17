@@ -1,42 +1,45 @@
 #!/usr/bin/env bash
 
-FRONT_URL=""
-FRONT_SOURCES=""
-FRONT_BUNDLE=""
+FINAL_WAR_NAME=${1?Final war name must be passed as first argument}
+STATIC_GH_URL="https://github.com/InseeFr/Pogues"
+MAIN_BRANCH="zenika-dev"
 
-function get_front_sources(){
-    FRONT_SOURCES=$(mktemp -d)
-    git clone "$FRONT_URL" "$FRONT_SOURCES"
+if [ "$TRAVIS_PULL_REQUEST" != "false" ];then
+  echo "Won't deploy on pull request"
+  exit 0
+fi
+
+if [ "$TRAVIS_BRANCH" != "$MAIN_BRANCH" ];then
+  echo "Won't deploy: Not on branch $MAIN_BRANCH"
+  exit 0
+fi
+
+function get_static(){
+    STATIC_SOURCES=$(mktemp -d)
+    git clone "$STATIC_GH_URL" "$STATIC_SOURCES"
 }
 
-function build_front(){
-    target=${FRONT_SOURCES?Please run get_front_sources() before running build_front()}
-    pushd $target
+function build_static(){
+    target=${STATIC_SOURCES?Please run get_front_sources() before running build_front()}
+    pushd ${target}
     npm install && npm run build
-    FRONT_BUNDLE="$PWD/dist"
+    STATIC_BUNDLE="$PWD/dist"
     popd
 }
 
 function build(){
-    mvn clean install -DskipTests
-}
-
-function update(){
-    pushd target
-
-
+    mvn clean install -DskipTests -Dfinal.war.name="$FINAL_WAR_NAME"
 }
 
 function package(){
-
+    static=${STATIC_BUNDLE?Please run build_static() before running update()}
+    for asset in $(ls ${static});do
+        jar -uvf "target/${FINAL_WAR_NAME}.war" -C ${static} ${asset}
+    done
 }
 
 function main(){
-    get_front_sources
-    build_front
-    build
-    explode
-    package
+    get_static && build_static && build && package
 }
 
 main
