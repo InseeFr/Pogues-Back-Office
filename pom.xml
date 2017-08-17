@@ -9,6 +9,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <pogues.war.name>rmspogfo</pogues.war.name>
         <jersey.version>2.19</jersey.version>
         <spring.version>4.3.9.RELEASE</spring.version>
         <spring.security.version>4.2.3.RELEASE</spring.security.version>
@@ -172,6 +173,7 @@
     </dependencies>
 
     <build>
+        <finalName>${pogues.war.name}</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
 
         <plugins>
