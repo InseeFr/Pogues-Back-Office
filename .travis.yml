@@ -1,23 +1,48 @@
+language: java
+
 sudo: required
+
 services:
   - docker
+
 env:
   - DOCKER_COMPOSE_VERSION=1.9.0
-language: java
+
 jdk:
   - oraclejdk8
+
 install:
   - bash scripts/install.sh rmspogfo
   - cp target/rmspogfo.war docker/tomcat/
+
 before_script:
   - pushd docker
   - docker-compose up -d
   - popd
+
 script:
   - mvn test
   - bash scripts/coveralls.sh
   - mvn integration-test
+
 after_script:
   - bash scripts/gitbook.sh
+
+before_deploy:
   - bash scripts/build.sh rmspogfo
+
+deploy:
+  provider: releases
+  api_key:
+    secure: $GITHUB_TOKEN
+  file:
+    - target/rmspogfo.war
+  skip_cleanup: true
+  on:
+    tags: true
+    branch: zenika-dev
+
+branches:
+  except:
+    - /^*-v[0-9]/
 
