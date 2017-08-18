@@ -17,7 +17,7 @@ fi
 # Pull front end sources from github
 function get_static(){
     STATIC_SOURCES=$(mktemp -d)
-    git clone "$STATIC_GH_URL" "$STATIC_SOURCES"
+    git clone -b "$MAIN_BRANCH" "$STATIC_GH_URL" "$STATIC_SOURCES"
 }
 
 # Build frontend bundle
