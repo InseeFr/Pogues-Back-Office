@@ -24,6 +24,20 @@ public class JSONFunctions {
 	
 	
 	
+	public static JSONObject renameQuestionnairePlural(JSONObject questionnaire) throws ParseException{
+		
+		String data = questionnaire.toString();
+		data = data.replace("\"Child\":","\"children\":");
+		data = data.replace("\"Control\":","\"controls\":");
+		data = data.replace("\"GoTo\":","\"gotos\":");
+		data = data.replace("\"Response\":","\"responses\":");
+		data = data.replace("\"Declaration\":","\"declarations\":");
+		JSONParser parser = new JSONParser();
+        JSONObject questionnaireUpdate = null;
+        questionnaireUpdate = (JSONObject) parser.parse(data);
+		return questionnaireUpdate;
+	}
+	
 	public static String getJSONArray(Map<String, String> data) {
 
 		String jSONResult = "[";
