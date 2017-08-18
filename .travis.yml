@@ -1,45 +1,34 @@
 language: java
-
 sudo: required
-
 services:
-  - docker
-
+- docker
 env:
-  - DOCKER_COMPOSE_VERSION=1.9.0
-
+- DOCKER_COMPOSE_VERSION=1.9.0
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 install:
-  - bash scripts/install.sh rmspogfo
-  - cp target/rmspogfo.war docker/tomcat/
-
+- bash scripts/install.sh rmspogfo
+- cp target/rmspogfo.war docker/tomcat/
 before_script:
-  - pushd docker
-  - docker-compose up -d
-  - popd
-
+- pushd docker
+- docker-compose up -d
+- popd
 script:
-  - mvn test
-  - bash scripts/coveralls.sh
-  - mvn integration-test
-
+- mvn test
+- bash scripts/coveralls.sh
+- mvn integration-test
 after_script:
-  - bash scripts/gitbook.sh
+- bash scripts/gitbook.sh
 
 before_deploy:
-  - bash scripts/build.sh rmspogfo
+- bash scripts/build.sh rmspogfo
 
 deploy:
   provider: releases
   api_key:
-    secure: $GITHUB_TOKEN
-  file:
-    - target/rmspogfo.war
+    secure: ozF3rsb/qOu2JtT8kEVVYrF0ikkXObKISoCWHb3+sY2ES6B24SDZc6IRAyzFDCLo6ikVkdXZAj3QgQB2LVElCXDQ6Zbv70cmJrEcQhS5jnAZv21w//SgBznCN4z8ORVBZAnwn0yyFItuIeyo2zBIRJb8tciWO+B94/DcZOMuqv9pJbSkAFjHWVKirRzPF/pr/6Qp+4I/S9KEf7KmkKQ3OYgXGQ7e1FouJQQ4XL22PGjyvSlTM+Xjbr4/AeoQUkOb8B9Sh3vdy6pUWX92S29EavWRvkWVh6v3SEZcE2LdAIF4Hqqtqn/rP7swjemAkBaOxAfw9HV4I8zjz5kf9RQTIVobHgMB5xXVp60fBjiBiuFcgTDmrueMat6P7hXGiG1QfRbLm2b7ZBEd9vZTt5fc/w8DT06co3ruz1QukUcZpIQFb4nHLL/HL/DJnUpqcvdEbIBYA3Y88kpDZ9X1a6ifM3J8xJUlPOppjg2h63GP4G1x/6WBJh+hHmBcSB7XhJByjEBhZY1Vrmw4aodhPUZ2PHPBWgYx/Y/xs41BXqdU3thWHGlqPmsQTMxTkKF95IsIYhrrALBgROU2qea+3DqdQncqzcq2hfDGko0SJLym96kLS95DGj+U/ox2znYKQ8GAYc61oy+iT6jnqV3uCo5doW35Hj995vvxBjixGdFVVhk=
+  file: target/rmspogfo.war
   skip_cleanup: true
   on:
-    tags: true
+    repo: Zenika/Pogues-Back-Office
     branch: zenika-dev
-
-
