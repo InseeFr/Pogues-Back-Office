@@ -1,14 +1,21 @@
-<xsl:stylesheet xmlns:pr="ddi:ddiprofile:3_2" xmlns:c="ddi:conceptualcomponent:3_2" xmlns:d="ddi:datacollection:3_2" xmlns:g="ddi:group:3_2" xmlns:cm="ddi:comparative:3_2" xmlns:l="ddi:logicalproduct:3_2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:pogues="http://xml.insee.fr/schema/applis/pogues" xmlns:r="ddi:reusable:3_2" xmlns:s="ddi:studyunit:3_2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xs:schemaLocation="ddi:instance:3_2 testq1a.xsd" exclude-result-prefixes="xs" version="2.0">
+<xsl:stylesheet xmlns:pr="ddi:ddiprofile:3_2" xmlns:c="ddi:conceptualcomponent:3_2"
+    xmlns:d="ddi:datacollection:3_2" xmlns:g="ddi:group:3_2" xmlns:cm="ddi:comparative:3_2"
+    xmlns:l="ddi:logicalproduct:3_2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:pogues="http://xml.insee.fr/schema/applis/pogues" xmlns:r="ddi:reusable:3_2"
+    xmlns:s="ddi:studyunit:3_2" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xs:schemaLocation="ddi:instance:3_2 testq1a.xsd" exclude-result-prefixes="xs" version="2.0">
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
     <xsl:strip-space elements="*"/>
     <xsl:param name="agencemaj">INSEE</xsl:param>
-    <xsl:param name="enquete" select="//pogues:Questionnaire/pogues:Name"/>
+    <xsl:param name="enquete" select="//pogues:Questionnaire/pogues:DataCollection/pogues:Name"/>
     <xsl:variable name="monagence">
         <r:Agency>
             <xsl:value-of select="//pogues:Questionnaire/@agency"/>
         </r:Agency>
     </xsl:variable>
-    <xsl:key name="DeclarationList" match="//pogues:Declaration" use="concat(pogues:Text/text(),@declarationType)"/>
+    <xsl:key name="DeclarationList" match="//pogues:Declaration"
+        use="concat(pogues:Text/text(),@declarationType)"/>
     <xsl:template match="/">
         <DDIInstance>
             <xsl:copy-of select="$monagence"/>
@@ -30,7 +37,9 @@
                 <r:Version>0.1.0</r:Version>
                 <d:Instrument xmlns="ddi:studyunit:3_2" xmlns:a="ddi:archive:3_2">
                     <xsl:copy-of select="$monagence"/>
-                    <r:ID>v1</r:ID>
+                    <r:ID>
+                        <xsl:value-of select="//pogues:Questionnaire/pogues:Name"/>
+                    </r:ID>
                     <r:Version>0.1.0</r:Version>
                     <r:Label>
                         <r:Content xml:lang="fr-FR">Questionnaire DDI 3.2 déréférencé de
@@ -47,19 +56,46 @@
                             <r:Version>0.1.0</r:Version>
                             <r:Label>
                                 <r:Content>
-                                    <xsl:value-of select="pogues:Questionnaire/pogues:Label/text()"/>
+                                    <xsl:value-of select="pogues:Questionnaire/pogues:Label/text()"
+                                    />
                                 </r:Content>
                             </r:Label>
                             <xsl:apply-templates select="pogues:Questionnaire/pogues:Declaration"/>
-                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">template</d:TypeOfSequence>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1"
+                                >template</d:TypeOfSequence>
                             <xsl:apply-templates select="pogues:Questionnaire/pogues:Child">
                                 <xsl:with-param name="sequenceNumber"/>
                             </xsl:apply-templates>
                             <xsl:apply-templates select="pogues:Questionnaire/pogues:Control"/>
+                            <xsl:apply-templates
+                                select="pogues:Questionnaire/pogues:Variables/pogues:Variable[@xsi:type='CalculatedVariableType']"
+                            />
                         </d:Sequence>
                     </d:ControlConstructReference>
                 </d:Instrument>
             </s:StudyUnit>
+            <g:ResourcePackage>
+                <l:VariableScheme xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xmlns="ddi:instance:3_2" xmlns:a="ddi:archive:3_2">
+                    <xsl:copy-of select="$monagence"/>
+                    <r:ID>
+                        <xsl:value-of select="concat($agencemaj, '-',$enquete,'-VS')"/>
+                    </r:ID>
+                    <r:Version>0.1.0</r:Version>
+                    <r:Label>
+                        <r:Content xml:lang="fr-FR">
+                            <xsl:value-of select="concat('Variables pour l''enquête ',$enquete)"/>
+                        </r:Content>
+                        <r:Content xml:lang="en-IE">
+                            <xsl:value-of
+                                select="concat('Variable Scheme for the survey ',$enquete)"/>
+                        </r:Content>
+                    </r:Label>
+                    <xsl:apply-templates
+                        select="//pogues:Variables/pogues:Variable[@xsi:type='ExternalVariableType']"
+                    />
+                </l:VariableScheme>
+            </g:ResourcePackage>
         </DDIInstance>
     </xsl:template>
     <xsl:template match="pogues:Child">
@@ -73,7 +109,8 @@
         <xsl:variable name="depth1" select="$depth -1"/>
         <xsl:variable name="seqNum">
             <xsl:value-of select="concat($sequenceNumber,'-')"/>
-            <xsl:number count="pogues:Child[@depth=$depth]" level="any" format="1" from="pogues:Child[@depth=$depth1]"/>
+            <xsl:number count="pogues:Child[@depth=$depth]" level="any" format="1"
+                from="pogues:Child[@depth=$depth1]"/>
         </xsl:variable>
         <d:ControlConstructReference>
             <xsl:copy-of select="$monagence"/>
@@ -116,7 +153,8 @@
         <xsl:variable name="numITE">
             <xsl:number count="pogues:Child[@type='FilterType']" level="any"/>
         </xsl:variable>
-        <xsl:variable name="debutNomVariable" select="concat($agencemaj, '-',$enquete,'-ITEIP-',$numITE,'-')"/>
+        <xsl:variable name="debutNomVariable"
+            select="concat($agencemaj, '-',$enquete,'-ITEIP-',$numITE,'-')"/>
         <d:ControlConstructReference>
             <xsl:copy-of select="$monagence"/>
             <d:IfThenElse>
@@ -136,7 +174,8 @@
                     <d:Sequence>
                         <xsl:copy-of select="$monagence"/>
                         <r:ID>
-                            <xsl:value-of select="concat($agencemaj, '-',$enquete,'-','SEQI','-',$numITE)"/>
+                            <xsl:value-of
+                                select="concat($agencemaj, '-',$enquete,'-','SEQI','-',$numITE)"/>
                         </r:ID>
                         <r:Version>0.1.0</r:Version>
                         <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
@@ -153,10 +192,13 @@
                         <d:Sequence>
                             <xsl:copy-of select="$monagence"/>
                             <r:ID>
-                                <xsl:value-of select="concat($agencemaj, '-',$enquete,'-','SEQIE','-',$numITE)"/>
+                                <xsl:value-of
+                                    select="concat($agencemaj, '-',$enquete,'-','SEQIE','-',$numITE)"
+                                />
                             </r:ID>
                             <r:Version>0.1.0</r:Version>
-                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1"
+                                >hideable</d:TypeOfSequence>
                             <xsl:apply-templates select="pogues:IfFalse/pogues:Child">
                                 <xsl:with-param name="sequenceNumber" select="$sequenceNumber"/>
                             </xsl:apply-templates>
@@ -174,7 +216,8 @@
         <xsl:param name="sequenceNumber"/>
         <xsl:variable name="qccount">
             <xsl:value-of select="concat($sequenceNumber,'-')"/>
-            <xsl:number count="pogues:Child[@xsi:type='QuestionType']" format="1" level="any" from="pogues:Child[@xsi:type='SequenceType']"/>
+            <xsl:number count="pogues:Child[@xsi:type='QuestionType']" format="1" level="any"
+                from="pogues:Child[@xsi:type='SequenceType']"/>
         </xsl:variable>
         <xsl:variable name="questionType">
             <xsl:choose>
@@ -206,7 +249,9 @@
                     <xsl:element name="{$questionType/Name}">
                         <xsl:copy-of select="$monagence"/>
                         <r:ID>
-                            <xsl:value-of select="concat($agencemaj, '-',$enquete,'-',$questionType/Sigle,$qccount)"/>
+                            <xsl:value-of
+                                select="concat($agencemaj, '-',$enquete,'-',$questionType/Sigle,$qccount)"
+                            />
                         </r:ID>
                         <r:Version>0.1.0</r:Version>
                         <xsl:apply-templates select="pogues:Response" mode="outParameter">
@@ -220,29 +265,36 @@
                                 <d:Text xml:lang="fr-FR">
                                     <xsl:if test="pogues:Label/text() !=''">
                                         <xsl:call-template name="formatLabel">
-                                            <xsl:with-param name="myString" select="pogues:Label/text()"/>
+                                            <xsl:with-param name="myString"
+                                                select="pogues:Label/text()"/>
                                         </xsl:call-template>
                                     </xsl:if>
                                 </d:Text>
                             </d:LiteralText>
                         </d:QuestionText>
-                        <xsl:apply-templates select="pogues:ResponseStructure/pogues:Dimension[@dimensionType='PRIMARY']"/>
-                        <xsl:apply-templates select="pogues:ResponseStructure/pogues:Dimension[@dimensionType='SECONDARY']"/>
+                        <xsl:apply-templates
+                            select="pogues:ResponseStructure/pogues:Dimension[@dimensionType='PRIMARY']"/>
+                        <xsl:apply-templates
+                            select="pogues:ResponseStructure/pogues:Dimension[@dimensionType='SECONDARY']"/>
                         <xsl:choose>
-                            <xsl:when test="@questionType='MULTIPLE_CHOICE' or @questionType='TABLE'">
+                            <xsl:when
+                                test="@questionType='MULTIPLE_CHOICE' or @questionType='TABLE'">
                                 <xsl:element name="{$questionType/Structure}">
-                                    <xsl:apply-templates select="pogues:Response" mode="responseDomain">
+                                    <xsl:apply-templates select="pogues:Response"
+                                        mode="responseDomain">
                                         <xsl:with-param name="qccount" select="$qccount"/>
                                     </xsl:apply-templates>
                                 </xsl:element>
                             </xsl:when>
                             <xsl:otherwise>
-                                <xsl:apply-templates select="pogues:Response/pogues:Datatype" mode="responseDomain">
+                                <xsl:apply-templates select="pogues:Response/pogues:Datatype"
+                                    mode="responseDomain">
                                     <xsl:with-param name="qccount" select="$qccount"/>
                                 </xsl:apply-templates>
                             </xsl:otherwise>
                         </xsl:choose>
-                        <xsl:apply-templates select="pogues:Declaration[not(@position='BEFORE_QUESTION_TEXT')]"/>
+                        <xsl:apply-templates
+                            select="pogues:Declaration[not(@position='BEFORE_QUESTION_TEXT')]"/>
                     </xsl:element>
                     <r:Version>0.1.0</r:Version>
                     <r:TypeOfObject>
@@ -261,28 +313,16 @@
         <r:OutParameter isArray="false">
             <xsl:copy-of select="$monagence"/>
             <r:ID>
-                <xsl:value-of select="concat($agencemaj, '-',$enquete,'-QOP',$qccount,'-',$opcount)"/>
+                <xsl:value-of select="concat($agencemaj, '-',$enquete,'-QOP',$qccount,'-',$opcount)"
+                />
             </r:ID>
             <r:Version>0.1.0</r:Version>
             <r:ParameterName>
                 <r:String xml:lang="fr-FR">
-                    <xsl:value-of select="../pogues:Name"/>
-                    <xsl:if test="preceding-sibling::pogues:Response or following-sibling::pogues:Response">
-                        <xsl:variable name="responsePosition">
-                            <xsl:number count="pogues:Response" format="1" from="pogues:Child"/>
-                        </xsl:variable>
-                        <xsl:choose>
-                            <xsl:when test="../pogues:ResponseStructure/pogues:Dimension[@dimensionType='SECONDARY']"><!-- Il y a 2 dimensions -->
-                                <xsl:variable name="dimension1Length">
-                                    <xsl:value-of select="../pogues:ResponseStructure/pogues:Dimension[@dimensionType='PRIMARY']/@dimension1Length"/>
-                                </xsl:variable>
-                                <xsl:value-of select="concat('_',(($responsePosition -1) mod $dimension1Length)+1,                                                              '_',floor(($responsePosition -1) div $dimension1Length)+1)"/>
-                            </xsl:when>
-                            <xsl:otherwise><!-- Il n'y a qu'une Dimension -->
-                                <xsl:value-of select="concat('_',$responsePosition)"/>
-                            </xsl:otherwise>
-                        </xsl:choose>
-                    </xsl:if>
+                    <xsl:value-of
+                        select="//pogues:Variables/pogues:Variable[@xsi:type='CollectedVariableType' and @id=current()/pogues:CollectedVariableReference]
+                                                                            /pogues:Name"
+                    />
                 </r:String>
             </r:ParameterName>
         </r:OutParameter>
@@ -291,8 +331,10 @@
         <xsl:param name="qccount"/>
         <xsl:variable name="opcount" select="count(preceding-sibling::pogues:Response)+1"/>
         <xsl:call-template name="binding">
-            <xsl:with-param name="source" select="concat($agencemaj, '-',$enquete,'-RDOP',$qccount,'-',$opcount)"/>
-            <xsl:with-param name="target" select="concat($agencemaj, '-',$enquete,'-QOP',$qccount,'-',$opcount)"/>
+            <xsl:with-param name="source"
+                select="concat($agencemaj, '-',$enquete,'-RDOP',$qccount,'-',$opcount)"/>
+            <xsl:with-param name="target"
+                select="concat($agencemaj, '-',$enquete,'-QOP',$qccount,'-',$opcount)"/>
             <xsl:with-param name="typeOfObject">OutParameter</xsl:with-param>
         </xsl:call-template>
     </xsl:template>
@@ -314,22 +356,31 @@
                 <d:CellCoordinatesAsDefined>
                     <xsl:variable name="responsePosition" select="position()"/>
                     <xsl:choose>
-                        <xsl:when test="../pogues:ResponseStructure/pogues:Dimension[@dimensionType='SECONDARY']"><!-- Il y a 2 dimensions -->
+                        <xsl:when
+                            test="../pogues:ResponseStructure/pogues:Dimension[@dimensionType='SECONDARY']">
+                            <!-- Il y a 2 dimensions -->
                             <xsl:variable name="dimension1Length">
-                                <xsl:value-of select="../pogues:ResponseStructure/pogues:Dimension[@dimensionType='PRIMARY']/@dimension1Length"/>
+                                <xsl:value-of
+                                    select="../pogues:ResponseStructure/pogues:Dimension[@dimensionType='PRIMARY']/@dimension1Length"
+                                />
                             </xsl:variable>
                             <d:SelectDimension>
                                 <xsl:attribute name="rank" select="1"/>
-                                <xsl:attribute name="rangeMinimum" select="(($responsePosition -1) mod $dimension1Length)+1"/>
-                                <xsl:attribute name="rangeMaximum" select="(($responsePosition -1) mod $dimension1Length)+1"/>
+                                <xsl:attribute name="rangeMinimum"
+                                    select="(($responsePosition -1) mod $dimension1Length)+1"/>
+                                <xsl:attribute name="rangeMaximum"
+                                    select="(($responsePosition -1) mod $dimension1Length)+1"/>
                             </d:SelectDimension>
                             <d:SelectDimension>
                                 <xsl:attribute name="rank" select="2"/>
-                                <xsl:attribute name="rangeMinimum" select="floor(($responsePosition -1) div $dimension1Length)+1"/>
-                                <xsl:attribute name="rangeMaximum" select="floor(($responsePosition -1) div $dimension1Length)+1"/>
+                                <xsl:attribute name="rangeMinimum"
+                                    select="floor(($responsePosition -1) div $dimension1Length)+1"/>
+                                <xsl:attribute name="rangeMaximum"
+                                    select="floor(($responsePosition -1) div $dimension1Length)+1"/>
                             </d:SelectDimension>
                         </xsl:when>
-                        <xsl:otherwise><!-- Il n'y a qu'une Dimension -->
+                        <xsl:otherwise>
+                            <!-- Il n'y a qu'une Dimension -->
                             <d:SelectDimension>
                                 <xsl:attribute name="rank" select="1"/>
                                 <xsl:attribute name="rangeMinimum" select="$responsePosition"/>
@@ -340,7 +391,8 @@
                 </d:CellCoordinatesAsDefined>
             </d:GridAttachment>
         </d:GridResponseDomain>
-    </xsl:template><!-- Dimension : CodeList ou Roster -->
+    </xsl:template>
+    <!-- Dimension : CodeList ou Roster -->
     <xsl:template match="pogues:Dimension">
         <xsl:variable name="minimumRequired" select="substring-before(@dynamic,'-')"/>
         <xsl:variable name="maximumAllowed" select="substring-after(@dynamic,'-')"/>
@@ -352,18 +404,21 @@
                     <xsl:otherwise>0</xsl:otherwise>
                 </xsl:choose>
             </xsl:attribute>
-            <xsl:choose><!-- Dimension de type CodeList -->
+            <xsl:choose>
+                <!-- Dimension de type CodeList -->
                 <xsl:when test="pogues:CodeListReference">
                     <xsl:variable name="dimensionCodeList" select="pogues:CodeListReference"/>
                     <d:CodeDomain>
                         <r:CodeListReference>
                             <xsl:copy-of select="$monagence"/>
-                            <xsl:apply-templates select="//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$dimensionCodeList]"/>
+                            <xsl:apply-templates
+                                select="//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$dimensionCodeList]"/>
                             <r:Version>0.1.0</r:Version>
                             <r:TypeOfObject>CodeList</r:TypeOfObject>
                         </r:CodeListReference>
                     </d:CodeDomain>
-                </xsl:when><!-- Dimension de type Roster -->
+                </xsl:when>
+                <!-- Dimension de type Roster -->
                 <xsl:otherwise>
                     <xsl:variable name="minimumRequired" select="substring-before(@dynamic,'-')"/>
                     <xsl:variable name="maximumAllowed" select="substring-after(@dynamic,'-')"/>
@@ -379,7 +434,9 @@
             </xsl:choose>
         </d:GridDimension>
     </xsl:template>
-    <xsl:template match="pogues:Datatype[@typeName='DATE'          and not (exists(../pogues:CodeListReference))]" mode="responseDomain">
+    <xsl:template
+        match="pogues:Datatype[@typeName='DATE'          and not (exists(../pogues:CodeListReference))]"
+        mode="responseDomain">
         <xsl:param name="qccount"/>
         <xsl:variable name="opcount" select="count(../preceding-sibling::pogues:Response)+1"/>
         <d:DateTimeDomainReference>
@@ -390,7 +447,8 @@
             <r:OutParameter isArray="false">
                 <xsl:copy-of select="$monagence"/>
                 <r:ID>
-                    <xsl:value-of select="concat($agencemaj, '-',$enquete,'-RDOP',$qccount,'-',$opcount)"/>
+                    <xsl:value-of
+                        select="concat($agencemaj, '-',$enquete,'-RDOP',$qccount,'-',$opcount)"/>
                 </r:ID>
                 <r:Version>0.1.0</r:Version>
                 <r:DateTimeRepresentationReference>
@@ -408,7 +466,9 @@
             </r:OutParameter>
         </d:DateTimeDomainReference>
     </xsl:template>
-    <xsl:template match="pogues:Datatype[@typeName='TEXT'          and not (exists(../pogues:CodeListReference))]" mode="responseDomain">
+    <xsl:template
+        match="pogues:Datatype[@typeName='TEXT'          and not (exists(../pogues:CodeListReference))]"
+        mode="responseDomain">
         <xsl:param name="qccount"/>
         <xsl:variable name="opcount" select="count(../preceding-sibling::pogues:Response)+1"/>
         <xsl:variable name="longMax" select="pogues:MaxLength/text()"/>
@@ -421,17 +481,21 @@
             <r:OutParameter isArray="false">
                 <xsl:copy-of select="$monagence"/>
                 <r:ID>
-                    <xsl:value-of select="concat($agencemaj, '-',$enquete,'-RDOP',$qccount,'-',$opcount)"/>
+                    <xsl:value-of
+                        select="concat($agencemaj, '-',$enquete,'-RDOP',$qccount,'-',$opcount)"/>
                 </r:ID>
                 <r:Version>0.1.0</r:Version>
                 <r:TextRepresentation maxLength="{$longMax}"/>
             </r:OutParameter>
         </d:TextDomain>
     </xsl:template>
-    <xsl:template match="pogues:Datatype[@typeName='NUMERIC'         and not (exists(../pogues:CodeListReference))]" mode="responseDomain">
+    <xsl:template
+        match="pogues:Datatype[@typeName='NUMERIC'         and not (exists(../pogues:CodeListReference))]"
+        mode="responseDomain">
         <xsl:param name="qccount"/>
         <xsl:variable name="opcount" select="count(../preceding-sibling::pogues:Response)+1"/>
-        <xsl:variable name="numericRepresentation"><!-- Si on a un élément qui permet de désigner un MNR, alors on l'utilise, sinon : -->
+        <xsl:variable name="numericRepresentation">
+            <!-- Si on a un élément qui permet de désigner un MNR, alors on l'utilise, sinon : -->
             <r:NumberRange>
                 <r:Low isInclusive="true">
                     <xsl:choose>
@@ -480,22 +544,27 @@
             <r:OutParameter isArray="false">
                 <xsl:copy-of select="$monagence"/>
                 <r:ID>
-                    <xsl:value-of select="concat($agencemaj, '-',$enquete,'-RDOP',$qccount,'-',$opcount)"/>
+                    <xsl:value-of
+                        select="concat($agencemaj, '-',$enquete,'-RDOP',$qccount,'-',$opcount)"/>
                 </r:ID>
                 <r:Version>0.1.0</r:Version>
             </r:OutParameter>
         </d:NumericDomain>
     </xsl:template>
-    <xsl:template match="pogues:Datatype[@typeName='BOOLEAN'         and not (exists(../pogues:CodeListReference))]" mode="responseDomain">
+    <xsl:template
+        match="pogues:Datatype[@typeName='BOOLEAN'         and not (exists(../pogues:CodeListReference))]"
+        mode="responseDomain">
         <xsl:param name="qccount"/>
         <xsl:variable name="opcount" select="count(../preceding-sibling::pogues:Response)+1"/>
         <d:NominalDomain>
             <r:GenericOutputFormat>
-                <xsl:attribute name="codeListID" select="concat($agencemaj,'-GOF-CV')"/>checkbox</r:GenericOutputFormat>
+                <xsl:attribute name="codeListID" select="concat($agencemaj,'-GOF-CV')"
+                />checkbox</r:GenericOutputFormat>
             <r:OutParameter isArray="false">
                 <xsl:copy-of select="$monagence"/>
                 <r:ID>
-                    <xsl:value-of select="concat($agencemaj, '-',$enquete,'-RDOP',$qccount,'-',$opcount)"/>
+                    <xsl:value-of
+                        select="concat($agencemaj, '-',$enquete,'-RDOP',$qccount,'-',$opcount)"/>
                 </r:ID>
                 <r:Version>0.1.0</r:Version>
                 <r:CodeRepresentation>
@@ -515,11 +584,12 @@
                                             <r:Version>0.1.0</r:Version>
                                             <r:Label>
                                                 <r:Content xml:lang="fr-FR">
-                                                    <xsl:if test="pogues:Label/text() !=''">
-                                                        <xsl:call-template name="formatLabel">
-                                                            <xsl:with-param name="myString" select="pogues:Label/text()"/>
-                                                        </xsl:call-template>
-                                                    </xsl:if>
+                                                  <xsl:if test="pogues:Label/text() !=''">
+                                                  <xsl:call-template name="formatLabel">
+                                                  <xsl:with-param name="myString"
+                                                  select="pogues:Label/text()"/>
+                                                  </xsl:call-template>
+                                                  </xsl:if>
                                                 </r:Content>
                                             </r:Label>
                                         </l:Category>
@@ -550,16 +620,22 @@
                 <xsl:when test="@visualizationHint='DROPDOWN'">drop-down-list</xsl:when>
                 <xsl:otherwise>Unknown type of visualizationHint</xsl:otherwise>
             </xsl:choose>
-        </xsl:variable><!--        <xsl:variable name="libListeCodes"
+        </xsl:variable>
+        <!--        <xsl:variable name="libListeCodes"
             select="//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$listeCodes]/pogues:Name/text()"/>
 -->
         <xsl:variable name="libListeCodes">
             <xsl:choose>
-                <xsl:when test="//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$listeCodes]/pogues:Name/text() != ''">
-                    <xsl:value-of select="//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$listeCodes]/pogues:Name/text()"/>
+                <xsl:when
+                    test="//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$listeCodes]/pogues:Name/text() != ''">
+                    <xsl:value-of
+                        select="//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$listeCodes]/pogues:Name/text()"
+                    />
                 </xsl:when>
                 <xsl:otherwise>
-                    <xsl:value-of select="replace(//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$listeCodes]/pogues:Label/text(),' ','_')"/>
+                    <xsl:value-of
+                        select="replace(//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$listeCodes]/pogues:Label/text(),' ','_')"
+                    />
                 </xsl:otherwise>
             </xsl:choose>
         </xsl:variable>
@@ -569,27 +645,31 @@
             </r:GenericOutputFormat>
             <r:CodeListReference>
                 <xsl:copy-of select="$monagence"/>
-                <xsl:apply-templates select="//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$listeCodes]"/>
+                <xsl:apply-templates
+                    select="//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$listeCodes]"/>
                 <r:Version>0.1.0</r:Version>
                 <r:TypeOfObject>CodeList</r:TypeOfObject>
             </r:CodeListReference>
             <r:OutParameter isArray="false">
                 <xsl:copy-of select="$monagence"/>
                 <r:ID>
-                    <xsl:value-of select="concat($agencemaj, '-',$enquete,'-','RDOP',$qccount,'-',$opcount)"/>
+                    <xsl:value-of
+                        select="concat($agencemaj, '-',$enquete,'-','RDOP',$qccount,'-',$opcount)"/>
                 </r:ID>
                 <r:Version>0.1.0</r:Version>
                 <r:CodeRepresentation>
                     <r:CodeListReference>
                         <xsl:copy-of select="$monagence"/>
                         <r:ID>
-                            <xsl:value-of select="concat($agencemaj, '-',$enquete,'-CL-',$libListeCodes)"/>
+                            <xsl:value-of
+                                select="concat($agencemaj, '-',$enquete,'-CL-',$libListeCodes)"/>
                         </r:ID>
                         <r:Version>0.1.0</r:Version>
                         <r:TypeOfObject>CodeList</r:TypeOfObject>
                     </r:CodeListReference>
                 </r:CodeRepresentation>
-            </r:OutParameter><!-- Ici, il faudra le vrai nombre de réponses attendu -->
+            </r:OutParameter>
+            <!-- Ici, il faudra le vrai nombre de réponses attendu -->
             <r:ResponseCardinality maximumResponses="1"/>
         </d:CodeDomain>
     </xsl:template>
@@ -629,7 +709,8 @@
         <l:Code levelNumber="1" isDiscrete="true">
             <xsl:copy-of select="$monagence"/>
             <r:ID>
-                <xsl:value-of select="concat($agencemaj, '-',$enquete,'-CL-',$libListeCodes,'-',position())"/>
+                <xsl:value-of
+                    select="concat($agencemaj, '-',$enquete,'-CL-',$libListeCodes,'-',position())"/>
             </r:ID>
             <r:Version>0.1.0</r:Version>
             <r:CategoryReference>
@@ -637,7 +718,9 @@
                 <l:Category>
                     <xsl:copy-of select="$monagence"/>
                     <r:ID>
-                        <xsl:value-of select="concat($agencemaj, '-',$enquete,'-CA-',$libListeCodes,'-',position())"/>
+                        <xsl:value-of
+                            select="concat($agencemaj, '-',$enquete,'-CA-',$libListeCodes,'-',position())"
+                        />
                     </r:ID>
                     <r:Version>0.1.0</r:Version>
                     <r:Label>
@@ -664,7 +747,8 @@
     </xsl:template>
     <xsl:template match="pogues:Control">
         <xsl:variable name="CIcount" select="count(preceding::pogues:Control)+1"/>
-        <xsl:variable name="debutNomVariable" select="concat($agencemaj, '-',$enquete,'-CIIP-',$CIcount,'-')"/>
+        <xsl:variable name="debutNomVariable"
+            select="concat($agencemaj, '-',$enquete,'-CIIP-',$CIcount,'-')"/>
         <d:ControlConstructReference>
             <xsl:copy-of select="$monagence"/>
             <d:ComputationItem>
@@ -736,18 +820,23 @@
                 <xsl:when test="(@declarationType='WARNING')">tooltip</xsl:when>
                 <xsl:otherwise>ERROR : unknown type of Instruction</xsl:otherwise>
             </xsl:choose>
-        </xsl:variable><!-- Cette variable calcule la position de la première déclaration qui a le même contenu que celle en cours
+        </xsl:variable>
+        <!-- Cette variable calcule la position de la première déclaration qui a le même contenu que celle en cours
                 Ceci permet de fusionner les déclarations en doublon -->
         <xsl:variable name="insNum">
             <xsl:variable name="idDeclaration" select="concat(pogues:Text/text(),@declarationType)"/>
-            <xsl:apply-templates select="//pogues:Declaration[generate-id(.)=generate-id(key('DeclarationList',$idDeclaration)[1])]" mode="declarationPosition"/>
+            <xsl:apply-templates
+                select="//pogues:Declaration[generate-id(.)=generate-id(key('DeclarationList',$idDeclaration)[1])]"
+                mode="declarationPosition"/>
         </xsl:variable>
         <d:InterviewerInstructionReference>
             <xsl:copy-of select="$monagence"/>
             <d:Instruction>
                 <xsl:copy-of select="$monagence"/>
                 <r:ID>
-                    <xsl:value-of select="concat($agencemaj, '-',$enquete,'-', $instructionTypeID,'-',$insNum)"/>
+                    <xsl:value-of
+                        select="concat($agencemaj, '-',$enquete,'-', $instructionTypeID,'-',$insNum)"
+                    />
                 </r:ID>
                 <r:Version>0.1.0</r:Version>
                 <d:InstructionName>
@@ -776,15 +865,21 @@
     </xsl:template>
     <xsl:template name="Command">
         <xsl:param name="expression"/>
-        <xsl:param name="debutNomVariable"/><!-- on supprime les caractères avant le premier ${ et après le dernier }, 
+        <xsl:param name="debutNomVariable"/>
+        <xsl:param name="outParameterID"/>
+        <!-- on supprime les caractères avant le premier ${ et après le dernier }, 
             puis en remplace chaque zone entre } et ${ par un caractère d'espacement -->
         <xsl:variable name="listeVar">
-            <xsl:value-of select="replace(replace(replace($expression,                                                           '^[^\$\{]*\$\{', ''),                                                           '\}[^\$\{]*\$\{',' '),                                                           '\}[^\$\{]*$','')"/>
-        </xsl:variable><!-- suppression des doublons et rajout du nom de la variable DDI -->
+            <xsl:value-of
+                select="replace(replace(replace($expression,'^[^\$\{]*\$\{', ''),'\}[^\$\{]*\$\{',' '),'\}[^\$\{]*$','')"
+            />
+        </xsl:variable>
+        <!-- suppression des doublons et rajout du nom de la variable DDI -->
         <xsl:variable name="tokenVarList">
             <Liste>
                 <xsl:for-each select="distinct-values(tokenize($listeVar,' '))">
-                    <xsl:variable name="nbZero" select="string-length(string(count(distinct-values(tokenize($listeVar,' ')))))                         -string-length(string(position()))"/>
+                    <xsl:variable name="nbZero"
+                        select="string-length(string(count(distinct-values(tokenize($listeVar,' ')))))-string-length(string(position()))"/>
                     <Var>
                         <xsl:attribute name="num">
                             <xsl:choose>
@@ -792,13 +887,16 @@
                                     <xsl:value-of select="concat($debutNomVariable,position())"/>
                                 </xsl:when>
                                 <xsl:when test="$nbZero=1">
-                                    <xsl:value-of select="concat($debutNomVariable,'0',position())"/>
+                                    <xsl:value-of select="concat($debutNomVariable,'0',position())"
+                                    />
                                 </xsl:when>
                                 <xsl:when test="$nbZero=2">
-                                    <xsl:value-of select="concat($debutNomVariable,'00',position())"/>
+                                    <xsl:value-of select="concat($debutNomVariable,'00',position())"
+                                    />
                                 </xsl:when>
                                 <xsl:otherwise>
-                                    <xsl:value-of select="concat($debutNomVariable,'000',position())"/>
+                                    <xsl:value-of
+                                        select="concat($debutNomVariable,'000',position())"/>
                                 </xsl:otherwise>
                             </xsl:choose>
                         </xsl:attribute>
@@ -814,15 +912,27 @@
                     <xsl:with-param name="numParametre" select="@num"/>
                 </xsl:call-template>
             </xsl:for-each>
+            <xsl:if test="$outParameterID!=''">
+                <r:OutParameter>
+                    <xsl:copy-of select="$monagence"/>
+                    <r:ID><xsl:value-of select="$outParameterID"/></r:ID>
+                    <r:Version>0.1.0</r:Version>
+                </r:OutParameter>
+            </xsl:if>
             <xsl:for-each select="$tokenVarList/Liste/Var">
                 <xsl:call-template name="binding">
-                    <xsl:with-param name="source" select="concat($agencemaj, '-',$enquete,'-QOP-',translate(.,'SQR',''))"/>
+                    <xsl:with-param name="source"
+                        select="concat($agencemaj, '-',$enquete,'-QOP-',translate(.,'SQR',''))"/>
                     <xsl:with-param name="target" select="@num"/>
                     <xsl:with-param name="typeOfObject">InParameter</xsl:with-param>
                 </xsl:call-template>
-            </xsl:for-each><!-- Appel à la fonction de remplacement --><!-- Ne pas mettre la parenthèse fermante dans la zone remplacée, car sinon, elle se retrouve en double dans l'expression finale -->
+            </xsl:for-each>
+            <!-- Appel à la fonction de remplacement -->
+            <!-- Ne pas mettre la parenthèse fermante dans la zone remplacée, car sinon, elle se retrouve en double dans l'expression finale -->
             <r:CommandContent>
-                <xsl:value-of select="replace(pogues:replaceVarExpression($tokenVarList,$expression),                     'NUM\(([^\)]*)\)', 'number(if ($1='''') then ''0'' else $1)')"/>
+                <xsl:value-of
+                    select="replace(pogues:replaceVarExpression($tokenVarList,$expression),'NUM\(([^\)]*)\)', 'number(if ($1='''') then ''0'' else $1)')"
+                />
             </r:CommandContent>
         </r:Command>
     </xsl:template>
@@ -863,7 +973,58 @@
                 <r:String xml:lang="fr-FR"/>
             </r:ParameterName>
         </r:InParameter>
-    </xsl:template><!-- Fonction qui remplace les variables définies dans les formules par leur équivalent DDI -->
+    </xsl:template>
+    <!-- Fonction qui remplace les variables définies dans les formules par leur équivalent DDI -->
+
+    <xsl:template match="pogues:Variables/pogues:Variable[@xsi:type='CalculatedVariableType']">
+        <d:GenerationInstruction>
+            <xsl:copy-of select="$monagence"/>
+            <r:ID><xsl:value-of select="concat($enquete,'-GI-',pogues:Name)"/></r:ID>
+            <r:Version>0.1.0</r:Version>
+            <!--<d:SourceQuestion>
+                <xsl:copy-of select="$monagence"/>
+                <r:ID><xsl:value-of select="concat($enquete,'-GI-','1-2')"/></r:ID>
+                <r:Version>0.1.0</r:Version>
+                <r:TypeOfObject>QuestionItem</r:TypeOfObject>
+            </d:SourceQuestion>
+            <d:SourceVariable>
+                <xsl:copy-of select="$monagence"/>
+                <r:ID>INSEE-CAM2017-VR-TYPE_SOC</r:ID>
+                <r:Version>0.1.0</r:Version>
+                <r:TypeOfObject>Variable</r:TypeOfObject>
+            </d:SourceVariable>-->
+            <r:CommandCode>
+                <xsl:call-template name="Command">
+                    <xsl:with-param name="expression" select="pogues:Formula"/>
+                    <xsl:with-param name="debutNomVariable" select="concat($enquete,'-GIIP-',pogues:Name,'-')"/>
+                    <xsl:with-param name="outParameterID" select="concat($enquete,'-GIOP-',pogues:Name)"/>
+                </xsl:call-template>
+            </r:CommandCode>
+        </d:GenerationInstruction>
+    </xsl:template>
+
+
+
+    <xsl:template match="pogues:Variables/pogues:Variable[@xsi:type='ExternalVariableType']">
+        <l:Variable>
+            <xsl:copy-of select="$monagence"/>
+            <r:ID>
+                <xsl:value-of select="@id"/>
+            </r:ID>
+            <r:Version>0.1.0</r:Version>
+            <l:VariableName>
+                <r:String xml:lang="fr-FR">
+                    <xsl:value-of select="pogues:Name"/>
+                </r:String>
+            </l:VariableName>
+            <r:Label>
+                <r:Content xml:lang="fr-FR">
+                    <xsl:value-of select="pogues:Label"/>
+                </r:Content>
+            </r:Label>
+        </l:Variable>
+    </xsl:template>
+
     <xsl:function name="pogues:replaceVarExpression" as="xs:string">
         <xsl:param name="listeVar"/>
         <xsl:param name="expression"/>
@@ -879,10 +1040,13 @@
                         <xsl:copy-of select="$listeVar/Liste/Var[position() &gt; 1]"/>
                     </Liste>
                 </xsl:variable>
-                <xsl:sequence select="pogues:replaceVarExpression($ListeVar2,                                                                     replace(translate($expression,$quot,$apos),                                                                          concat('\$\{',$listeVar/Liste/Var[1]/text(),'\}'),                                                                         $listeVar/Liste/Var[1]/@num)                                                                   )"/>
+                <xsl:sequence
+                    select="pogues:replaceVarExpression($ListeVar2,replace(translate($expression,$quot,$apos),concat('\$\{',$listeVar/Liste/Var[1]/text(),'\}'),                                                                         $listeVar/Liste/Var[1]/@num)                                                                   )"
+                />
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:function><!-- Teste s'il y a besoin de mise en forme et rajoute les balises xhtml:p autour du libellé mis en forme -->
+    </xsl:function>
+    <!-- Teste s'il y a besoin de mise en forme et rajoute les balises xhtml:p autour du libellé mis en forme -->
     <xsl:template name="formatLabel">
         <xsl:param name="myString"/>
         <xsl:variable name="myString2">
@@ -894,7 +1058,8 @@
                     <xsl:value-of select="$myString"/>
                 </xsl:otherwise>
             </xsl:choose>
-        </xsl:variable><!--<xsl:value-of select="$myString2"/>-->
+        </xsl:variable>
+        <!--<xsl:value-of select="$myString2"/>-->
         <xsl:variable name="myFormattedString" select="pogues:format2($myString2)"/>
         <xsl:choose>
             <xsl:when test="$myFormattedString = $myString2">
@@ -902,19 +1067,29 @@
             </xsl:when>
             <xsl:otherwise>
                 <xhtml:p>
-                    <xsl:value-of select="replace($myFormattedString,'&amp;','&amp;amp;')" disable-output-escaping="yes"/>
+                    <xsl:value-of select="replace($myFormattedString,'&amp;','&amp;amp;')"
+                        disable-output-escaping="yes"/>
                 </xhtml:p>
             </xsl:otherwise>
         </xsl:choose>
-    </xsl:template><!-- Met le libellé en forme de manière récursive -->
+    </xsl:template>
+    <!-- Met le libellé en forme de manière récursive -->
     <xsl:function name="pogues:format2" as="xs:string">
         <xsl:param name="myString"/>
-        <xsl:choose><!-- Italique -->
-            <xsl:when test="contains($myString,'_') and contains(substring-after($myString,'_'),'_')">
-                <xsl:value-of select="pogues:format2(replace($myString, '_(.*?)_', '&lt;xhtml:i&gt;$1&lt;/xhtml:i&gt;'))"/>
-            </xsl:when><!-- Gras -->
-            <xsl:when test="contains($myString,'**') and contains(substring-after($myString,'**'),'**')">
-                <xsl:value-of select="pogues:format2(replace($myString, '\*\*(.*?)\*\*', '&lt;xhtml:b&gt;$1&lt;/xhtml:b&gt;'))"/>
+        <xsl:choose>
+            <!-- Italique -->
+            <xsl:when
+                test="contains($myString,'_') and contains(substring-after($myString,'_'),'_')">
+                <xsl:value-of
+                    select="pogues:format2(replace($myString, '_(.*?)_', '&lt;xhtml:i&gt;$1&lt;/xhtml:i&gt;'))"
+                />
+            </xsl:when>
+            <!-- Gras -->
+            <xsl:when
+                test="contains($myString,'**') and contains(substring-after($myString,'**'),'**')">
+                <xsl:value-of
+                    select="pogues:format2(replace($myString, '\*\*(.*?)\*\*', '&lt;xhtml:b&gt;$1&lt;/xhtml:b&gt;'))"
+                />
             </xsl:when>
             <xsl:otherwise>
                 <xsl:value-of select="$myString"/>
