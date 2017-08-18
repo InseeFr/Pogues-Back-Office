@@ -4,14 +4,14 @@
 #author		     :a-cordier
 #==============================================================================
 #
-set -e
+#set -e
 
 DOC_FOLDER="docs"
 MAIN_BRANCH="zenika-dev"
 UPSTREAM="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git"
 MESSAGE="Auto release from $USER: build $TRAVIS_BUILD"
 AUTHOR="$USER <>"
-VERSION=$(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }')
+VERSION=$(mvn help:evaluate -Dexpression=project.version | grep -v '\[')
 TAG="v$VERSION"
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ];then
@@ -31,26 +31,20 @@ fi
 
 function is_patch(){
   if [[ -n "$(git tag -l)" ]];then
-    latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
-    echo "Found latest tag: $latest_tag"
+    latest_tag=$(git describe --tags `git rev-list --tags --max-count=1` 2>&1 >/dev/null)
   fi
-  if [ "$latest_tag" == "${TAG}" ]; then
-    echo "Version has not been updated: won't release"
-    return 1
-  else
-    echo "Version has been updated: $latest_tag -> $TAG"
-    echo "Create tag for release $TAG"
-    return 0
-  fi
+  if [ "$latestTag" == "v${VERSION}" ]; then
+    return 1;
+  else return 0; fi
 }
 
 function tag() {
-    : ${VERSION?Cannot tag: no version detected}
+    : ${VERSION?Cannot tag if no version}
     git config --global user.email "travis@travis-ci.org"
     git config --global user.name "Travis"
-    git remote add upstream "$UPSTREAM"
-    git tag --annotate "${TAG}" -m "${MESSAGE}"
-    git push upstream --tags
+    git tag --annotate ${TAG} -m ${MESSAGE}
+    git push origin --tags
+    git fetch origin
 }
 
 function main(){
