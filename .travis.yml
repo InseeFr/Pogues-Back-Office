@@ -42,7 +42,4 @@ deploy:
     tags: true
     branch: zenika-dev
 
-branches:
-  except:
-    - /^*-v[0-9]/
 
