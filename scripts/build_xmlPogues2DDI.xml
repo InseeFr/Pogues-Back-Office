@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Pogues2DDI" basedir="." default="pogues2DDIDeref">
+
+    <property name="XSLFolder" value="../src/main/resources/transforms/xslt/"/>
+    <property name="XMLPoguesExamplesFolder" value="../src/test/resources/transforms/"/>
+    <property name="DDITarget" value="../target/ddi/"/>
+    <property name="survey" value="POPO-QPO-DOC"/>
+    
+    <!-- Local Maven Repository -->
+    <property name="saxon.jar" value="D:/mavenrepository/net/sf/saxon/Saxon-HE/9.7.0-8/Saxon-HE-9.7.0-8.jar"/>
+    
+    <target name="pogues2DDIDeref">
+        <xslt in="${XMLPoguesExamplesFolder}/${survey}/in.xml"
+            out="${DDITarget}/temp1.xml"
+            style="${XSLFolder}/1-Goto2IfThen.xsl" force="true"
+            classpath="${saxon.jar}"/>
+        <xslt in="${DDITarget}/temp1.xml"
+            out="${DDITarget}/temp2.xml"
+            style="${XSLFolder}/2-GoGo2ToTo.xsl" force="true"
+            classpath="${saxon.jar}"/>
+        <xslt in="${DDITarget}/temp2.xml"
+            out="${DDITarget}/temp3.xml"
+            style="${XSLFolder}/3-GoTo2Sequence.xsl" force="true"
+            classpath="${saxon.jar}"/>
+        <xslt in="${DDITarget}/temp3.xml"
+            out="${DDITarget}/temp4.xml"
+            style="${XSLFolder}/4-beginEnd2filter.xsl" force="true"
+            classpath="${saxon.jar}"/>
+        <xslt in="${DDITarget}/temp4.xml"
+            out="${DDITarget}/${survey}/out-deref.xml"
+            style="${XSLFolder}/5-xml2DDIDeref.xsl" force="true"
+            classpath="${saxon.jar}"/>
+    </target>
+    
+</project>
