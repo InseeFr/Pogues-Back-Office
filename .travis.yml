@@ -1,27 +1,36 @@
 language: java
+
 sudo: required
+
 services:
-- docker
+  - docker
+
 env:
-- DOCKER_COMPOSE_VERSION=1.9.0
+  - DOCKER_COMPOSE_VERSION=1.9.0
+
 jdk:
-- oraclejdk8
+  - oraclejdk8
+
 install:
-- bash scripts/install.sh rmspogfo
-- cp target/rmspogfo.war docker/tomcat/
+  - bash scripts/install.sh rmspogfo
+  - cp target/rmspogfo.war docker/tomcat/
+
 before_script:
-- pushd docker
-- docker-compose up -d
-- popd
+  - pushd docker
+  - docker-compose up -d
+  - popd
+
 script:
-- mvn test
-- bash scripts/coveralls.sh
-- mvn integration-test
+  - mvn test
+  - bash scripts/coveralls.sh
+  - mvn integration-test
+
 after_script:
-- bash scripts/gitbook.sh
+  - bash scripts/gitbook.sh
 
 before_deploy:
-- bash scripts/build.sh rmspogfo
+  - bash scripts/build.sh rmspogfo
+  - bash scripts/tag.sh
 
 deploy:
   provider: releases
@@ -32,3 +41,8 @@ deploy:
   on:
     repo: Zenika/Pogues-Back-Office
     branch: zenika-dev
+    tags: false
+
+branches:
+  except:
+    - /^*-v[0-9]/
