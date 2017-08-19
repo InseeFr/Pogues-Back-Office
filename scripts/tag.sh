@@ -34,8 +34,10 @@ function is_patch(){
     latest_tag=$(git describe --tags `git rev-list --tags --max-count=1` 2>&1 >/dev/null)
   fi
   if [ "$latestTag" == "v${VERSION}" ]; then
-    return 1;
-  else return 0; fi
+    return 1
+  else
+    return 0
+  fi
 }
 
 function tag() {
