@@ -45,7 +45,7 @@ function tag() {
     git config --global user.email "travis@travis-ci.org"
     git config --global user.name "Travis"
     git tag --annotate ${TAG} -m ${MESSAGE}
-    git push origin --tags
+    git push "$UPSTREAM" --tags
     git fetch origin
 }
 
