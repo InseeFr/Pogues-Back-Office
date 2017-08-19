@@ -49,7 +49,6 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 			}
 			return questionnaires;
 		} catch(Exception e){
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -57,11 +56,10 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	public List<JSONObject> getQuestionnairesByOwner(String owner)throws Exception {
 		try {
 			if(null == owner || owner.isEmpty()){
-				throw new PoguesException(503, "Service unavailable", "This user has no permission defined");
+				throw new PoguesException(400, "Bad Request", "Missing parameter: owner");
 			}
 			return questionnaireServiceQuery.getQuestionnairesByOwner(owner);
 		} catch (Exception e) {
-			e.printStackTrace();
 			throw e;
 		}
 	}
@@ -82,7 +80,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 			logger.error(e.getMessage());
 			throw e;
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw e;
 		}
 
@@ -92,7 +90,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		try {
 			questionnaireServiceQuery.deleteQuestionnaireByID(id);
 		} catch(Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw e;
 		}
 	}
@@ -101,7 +99,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		try {
 			questionnaireServiceQuery.deleteAllQuestionnaires();
 		} catch(Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw e;
 		}
 	}
@@ -113,7 +111,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 			logger.error(e.getMessage());
 			throw new PoguesException(400, "Bad request", e.getMessage());
 		} catch(Exception e){
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw e;
 		}
 	}
@@ -125,7 +123,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 			logger.error(e.getMessage());
 			throw new PoguesException(404, "Not found", e.getMessage());
 		} catch(Exception e){
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			throw e;
 		}
 	}

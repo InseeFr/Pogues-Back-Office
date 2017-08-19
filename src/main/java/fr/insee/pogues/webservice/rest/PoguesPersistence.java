@@ -89,9 +89,10 @@ public class PoguesPersistence {
             notes = "Search questionnaires matching query params",
             response = List.class
     )
-    @ApiResponses(
-            @ApiResponse(code = 200, message="Success")
-    )
+	@ApiResponses(value = {
+			@ApiResponse(code = 200, message = "Success"),
+			@ApiResponse(code = 400, message = "Bad request")
+	})
     public Response searchQuestionnaires(
 			@ApiParam(value = "A user id matching owner permission on each object of the collection", required = false)
             @QueryParam("owner") String owner
@@ -130,29 +131,30 @@ public class PoguesPersistence {
 		}
 	}
 
-	@DELETE
-	@Path("questionnaires")
-	@ApiOperation(
-	        value = "Get questionnaire",
-			response = String.class,
-            notes = "Temporary endpoint for development, clean db"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "No content"),
-            @ApiResponse(code = 404, message = "Not found")
-    })
-	public Response deleteAllQuestionnaires() throws Exception {
-		try {
-			questionnaireService.deleteAllQuestionnaires();
-			return Response.status(Status.NO_CONTENT).build();
-		} catch (Exception e) {
-			throw e;
-		}
-	}
+//	@DELETE
+//	@Path("questionnaires")
+//	@ApiOperation(
+//	        value = "Delete all questionnaire",
+//			response = String.class,
+//            notes = "Temporary endpoint for development, clean db"
+//    )
+//    @ApiResponses(value = {
+//            @ApiResponse(code = 204, message = "No content"),
+//            @ApiResponse(code = 404, message = "Not found")
+//    })
+//	public Response deleteAllQuestionnaires() throws Exception {
+//		try {
+//			questionnaireService.deleteAllQuestionnaires();
+//			return Response.status(Status.NO_CONTENT).build();
+//		} catch (Exception e) {
+//			throw e;
+//		}
+//	}
 
 	@GET
 	@Path("questionnaires")
     @Produces(MediaType.APPLICATION_JSON)
+
 	@ApiOperation(
 	        value = "Get questionnaires",
             notes = "Gets the `QuestionnaireList` object",

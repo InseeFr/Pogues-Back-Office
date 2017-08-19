@@ -45,11 +45,12 @@ Démarrer uniquement les backends nécessaires à tomcat:
 docker-compose up postgresql ldap
 ```
 
+
 Indiquer à tomcat qu'il doit utiliser ces containers comme backends:
 
 Sur Eclipse ou IntelliJ il suffit d'éditer la configuration de lancement 
 pour passer la variable d'environnement appropriée à tomcat
 
 ```
--Dfr.insee.pogues.env=qa
+-Dfr.insee.pogues.env=dev
 ```

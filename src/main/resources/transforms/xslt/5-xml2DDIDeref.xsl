@@ -51,7 +51,7 @@
                                 </r:Content>
                             </r:Label>
                             <xsl:apply-templates select="pogues:Questionnaire/pogues:Declaration"/>
-                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Modele</d:TypeOfSequence>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">template</d:TypeOfSequence>
                             <xsl:apply-templates select="pogues:Questionnaire/pogues:Child">
                                 <xsl:with-param name="sequenceNumber"/>
                             </xsl:apply-templates>
@@ -95,11 +95,11 @@
                 <xsl:apply-templates select="pogues:Declaration"/>
                 <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">
                     <xsl:choose>
-                        <xsl:when test="$depth='0'">Modele</xsl:when>
-                        <xsl:when test="$depth='1'">Module</xsl:when>
-                        <xsl:when test="$depth='2'">Paragraphe</xsl:when>
-                        <xsl:when test="$depth='3'">Groupe</xsl:when>
-                        <xsl:otherwise>Profondeur non définie</xsl:otherwise>
+                        <xsl:when test="$depth='0'">template</xsl:when>
+                        <xsl:when test="$depth='1'">module</xsl:when>
+                        <xsl:when test="$depth='2'">submodule</xsl:when>
+                        <xsl:when test="$depth='3'">group</xsl:when>
+                        <xsl:otherwise>Sequence with unknown depth</xsl:otherwise>
                     </xsl:choose>
                 </d:TypeOfSequence>
                 <xsl:apply-templates select="pogues:Child">
@@ -139,7 +139,7 @@
                             <xsl:value-of select="concat($agencemaj, '-',$enquete,'-','SEQI','-',$numITE)"/>
                         </r:ID>
                         <r:Version>0.1.0</r:Version>
-                        <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                        <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                         <xsl:apply-templates select="pogues:IfTrue/pogues:Child">
                             <xsl:with-param name="sequenceNumber" select="$sequenceNumber"/>
                         </xsl:apply-templates>
@@ -156,7 +156,7 @@
                                 <xsl:value-of select="concat($agencemaj, '-',$enquete,'-','SEQIE','-',$numITE)"/>
                             </r:ID>
                             <r:Version>0.1.0</r:Version>
-                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                             <xsl:apply-templates select="pogues:IfFalse/pogues:Child">
                                 <xsl:with-param name="sequenceNumber" select="$sequenceNumber"/>
                             </xsl:apply-templates>
@@ -491,7 +491,7 @@
         <xsl:variable name="opcount" select="count(../preceding-sibling::pogues:Response)+1"/>
         <d:NominalDomain>
             <r:GenericOutputFormat>
-                <xsl:attribute name="codeListID" select="concat($agencemaj,'-GOF-CV')"/>caseacocher</r:GenericOutputFormat>
+                <xsl:attribute name="codeListID" select="concat($agencemaj,'-GOF-CV')"/>checkbox</r:GenericOutputFormat>
             <r:OutParameter isArray="false">
                 <xsl:copy-of select="$monagence"/>
                 <r:ID>
@@ -545,10 +545,10 @@
         <xsl:variable name="listeCodes" select="../pogues:CodeListReference"/>
         <xsl:variable name="typeAffichageListe">
             <xsl:choose>
-                <xsl:when test="@visualizationHint='CHECKBOX'">caseacocher</xsl:when>
-                <xsl:when test="@visualizationHint='RADIO'">boutonradio</xsl:when>
-                <xsl:when test="@visualizationHint='DROPDOWN'">listederoulante</xsl:when>
-                <xsl:otherwise>type d'affichage liste de réponses non définie</xsl:otherwise>
+                <xsl:when test="@visualizationHint='CHECKBOX'">checkbox</xsl:when>
+                <xsl:when test="@visualizationHint='RADIO'">radio-button</xsl:when>
+                <xsl:when test="@visualizationHint='DROPDOWN'">drop-down-list</xsl:when>
+                <xsl:otherwise>Unknown type of visualizationHint</xsl:otherwise>
             </xsl:choose>
         </xsl:variable><!--        <xsl:variable name="libListeCodes"
             select="//pogues:Questionnaire/pogues:CodeLists/pogues:CodeList[@id=$listeCodes]/pogues:Name/text()"/>
@@ -659,8 +659,8 @@
         </l:Code>
     </xsl:template>
     <xsl:template match="pogues:Datatype" mode="responseDomain">
-        <Text>format de réponse non reconnu</Text>
-        <xsl:message>format de réponse non reconnu</xsl:message>
+        <Text>Unknown datatype</Text>
+        <xsl:message>Unknown datatype</xsl:message>
     </xsl:template>
     <xsl:template match="pogues:Control">
         <xsl:variable name="CIcount" select="count(preceding::pogues:Control)+1"/>
@@ -700,7 +700,7 @@
                 </r:ID>
                 <r:Version>0.1.0</r:Version>
                 <d:InstructionName>
-                    <r:String xml:lang="fr-FR">Consigne</r:String>
+                    <r:String xml:lang="fr-FR">instruction</r:String>
                 </d:InstructionName>
                 <d:InstructionText>
                     <d:LiteralText>
@@ -730,11 +730,11 @@
         </xsl:variable>
         <xsl:variable name="instructionTypeLabel">
             <xsl:choose>
-                <xsl:when test="(@declarationType='INSTRUCTION')">Consigne</xsl:when>
-                <xsl:when test="(@declarationType='HELP')">Aide</xsl:when>
-                <xsl:when test="(@declarationType='COMMENT')">Commentaire</xsl:when>
-                <xsl:when test="(@declarationType='WARNING')">Attention</xsl:when>
-                <xsl:otherwise>ERREUR : type de déclaration inconnu</xsl:otherwise>
+                <xsl:when test="(@declarationType='INSTRUCTION')">instruction</xsl:when>
+                <xsl:when test="(@declarationType='HELP')">help</xsl:when>
+                <xsl:when test="(@declarationType='COMMENT')">comment</xsl:when>
+                <xsl:when test="(@declarationType='WARNING')">tooltip</xsl:when>
+                <xsl:otherwise>ERROR : unknown type of Instruction</xsl:otherwise>
             </xsl:choose>
         </xsl:variable><!-- Cette variable calcule la position de la première déclaration qui a le même contenu que celle en cours
                 Ceci permet de fusionner les déclarations en doublon -->

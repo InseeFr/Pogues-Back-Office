@@ -1,4 +1,15 @@
-<DDIInstance xmlns:pr="ddi:ddiprofile:3_2" xmlns:c="ddi:conceptualcomponent:3_2" xmlns:d="ddi:datacollection:3_2" xmlns:g="ddi:group:3_2" xmlns:cm="ddi:comparative:3_2" xmlns:l="ddi:logicalproduct:3_2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:pogues="http://xml.insee.fr/schema/applis/pogues" xmlns:r="ddi:reusable:3_2" xmlns:s="ddi:studyunit:3_2">
+<DDIInstance
+        xmlns:pr="ddi:ddiprofile:3_2"
+        xmlns:c="ddi:conceptualcomponent:3_2"
+        xmlns:d="ddi:datacollection:3_2"
+        xmlns:g="ddi:group:3_2"
+        xmlns:cm="ddi:comparative:3_2"
+        xmlns:l="ddi:logicalproduct:3_2"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml"
+        xmlns:pogues="http://xml.insee.fr/schema/applis/pogues"
+        xmlns:r="ddi:reusable:3_2"
+        xmlns:s="ddi:studyunit:3_2">
     <r:Agency>fr.insee</r:Agency>
     <r:ID>INSEE-CAMME_TEST1</r:ID>
     <r:Version>0.1.0</r:Version>
@@ -12,26 +23,29 @@
         <r:Agency>fr.insee</r:Agency>
         <r:ID>INSEE-CAMME_TEST1-SU</r:ID>
         <r:Version>0.1.0</r:Version>
-        <d:Instrument xmlns="ddi:studyunit:3_2" xmlns:a="ddi:archive:3_2">
+        <d:Instrument
+                xmlns="ddi:studyunit:3_2"
+                xmlns:a="ddi:archive:3_2">
             <r:Agency>fr.insee</r:Agency>
             <r:ID>v1</r:ID>
             <r:Version>0.1.0</r:Version>
             <r:Label>
                 <r:Content xml:lang="fr-FR">Questionnaire DDI 3.2 déréférencé de
-                            Pogues</r:Content>
+                    Pogues</r:Content>
             </r:Label>
             <d:TypeOfInstrument>DDI XFORMS</d:TypeOfInstrument>
             <d:ControlConstructReference>
                 <r:Agency>fr.insee</r:Agency>
-                <d:Sequence xmlns="ddi:instance:3_2">
+                <d:Sequence
+                        xmlns="ddi:instance:3_2">
                     <r:Agency>fr.insee</r:Agency>
                     <r:ID>INSEE-CAMME_TEST1-SEQ</r:ID>
                     <r:Version>0.1.0</r:Version>
                     <r:Label>
                         <r:Content>Enquête Conjoncture auprès des ménages</r:Content>
                     </r:Label>
-                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Modele</d:TypeOfSequence>
-                    <d:ControlConstructReference xmlns="">
+                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">template</d:TypeOfSequence>
+                    <d:ControlConstructReference>
                         <r:Agency>fr.insee</r:Agency>
                         <d:Sequence>
                             <r:Agency>fr.insee</r:Agency>
@@ -47,7 +61,7 @@
                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-1</r:ID>
                                     <r:Version>0.1.0</r:Version>
                                     <d:InstructionName>
-                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                     </d:InstructionName>
                                     <d:InstructionText>
                                         <d:LiteralText>
@@ -65,7 +79,7 @@
                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-2</r:ID>
                                     <r:Version>0.1.0</r:Version>
                                     <d:InstructionName>
-                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                     </d:InstructionName>
                                     <d:InstructionText>
                                         <d:LiteralText>
@@ -76,7 +90,7 @@
                                 <r:Version>0.1.0</r:Version>
                                 <r:TypeOfObject>Instruction</r:TypeOfObject>
                             </d:InterviewerInstructionReference>
-                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                             <d:ControlConstructReference>
                                 <r:Agency>fr.insee</r:Agency>
                                 <d:QuestionConstruct>
@@ -117,7 +131,7 @@
                                                 </d:LiteralText>
                                             </d:QuestionText>
                                             <d:CodeDomain>
-                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                 <r:CodeListReference>
                                                     <r:Agency>fr.insee</r:Agency>
                                                     <l:CodeList>
@@ -236,7 +250,7 @@
                                             <r:Agency>fr.insee</r:Agency>
                                             <r:ID>INSEE-CAMME_TEST1-SEQI-1</r:ID>
                                             <r:Version>0.1.0</r:Version>
-                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                             <d:ControlConstructReference>
                                                 <r:Agency>fr.insee</r:Agency>
                                                 <d:QuestionConstruct>
@@ -277,7 +291,7 @@
                                                                 </d:LiteralText>
                                                             </d:QuestionText>
                                                             <d:CodeDomain>
-                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                 <r:CodeListReference>
                                                                     <r:Agency>fr.insee</r:Agency>
                                                                     <l:CodeList>
@@ -396,7 +410,7 @@
                                                             <r:Agency>fr.insee</r:Agency>
                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-2</r:ID>
                                                             <r:Version>0.1.0</r:Version>
-                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                             <d:ControlConstructReference>
                                                                 <r:Agency>fr.insee</r:Agency>
                                                                 <d:QuestionConstruct>
@@ -437,7 +451,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -575,7 +589,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-3</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:IfThenElse>
@@ -616,7 +630,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-4</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:QuestionConstruct>
@@ -657,7 +671,7 @@
                                                                                                                 </d:LiteralText>
                                                                                                             </d:QuestionText>
                                                                                                             <d:CodeDomain>
-                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                 <r:CodeListReference>
                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                     <l:CodeList>
@@ -776,7 +790,7 @@
                                                                                                                 </d:LiteralText>
                                                                                                             </d:QuestionText>
                                                                                                             <d:CodeDomain>
-                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                 <r:CodeListReference>
                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                     <l:CodeList>
@@ -968,7 +982,7 @@
                                             <r:Agency>fr.insee</r:Agency>
                                             <r:ID>INSEE-CAMME_TEST1-SEQI-5</r:ID>
                                             <r:Version>0.1.0</r:Version>
-                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                             <d:ControlConstructReference>
                                                 <r:Agency>fr.insee</r:Agency>
                                                 <d:IfThenElse>
@@ -1031,7 +1045,7 @@
                                                             <r:Agency>fr.insee</r:Agency>
                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-6</r:ID>
                                                             <r:Version>0.1.0</r:Version>
-                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                             <d:ControlConstructReference>
                                                                 <r:Agency>fr.insee</r:Agency>
                                                                 <d:IfThenElse>
@@ -1094,7 +1108,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-7</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:QuestionConstruct>
@@ -1135,7 +1149,7 @@
                                                                                                 </d:LiteralText>
                                                                                             </d:QuestionText>
                                                                                             <d:CodeDomain>
-                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                 <r:CodeListReference>
                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                     <l:CodeList>
@@ -1242,7 +1256,7 @@
                         <r:Version>0.1.0</r:Version>
                         <r:TypeOfObject>Sequence</r:TypeOfObject>
                     </d:ControlConstructReference>
-                    <d:ControlConstructReference xmlns="">
+                    <d:ControlConstructReference>
                         <r:Agency>fr.insee</r:Agency>
                         <d:IfThenElse>
                             <r:Agency>fr.insee</r:Agency>
@@ -1282,7 +1296,7 @@
                                     <r:Agency>fr.insee</r:Agency>
                                     <r:ID>INSEE-CAMME_TEST1-SEQI-8</r:ID>
                                     <r:Version>0.1.0</r:Version>
-                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                     <d:ControlConstructReference>
                                         <r:Agency>fr.insee</r:Agency>
                                         <d:IfThenElse>
@@ -1323,7 +1337,7 @@
                                                     <r:Agency>fr.insee</r:Agency>
                                                     <r:ID>INSEE-CAMME_TEST1-SEQI-9</r:ID>
                                                     <r:Version>0.1.0</r:Version>
-                                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                     <d:ControlConstructReference>
                                                         <r:Agency>fr.insee</r:Agency>
                                                         <d:IfThenElse>
@@ -1364,7 +1378,7 @@
                                                                     <r:Agency>fr.insee</r:Agency>
                                                                     <r:ID>INSEE-CAMME_TEST1-SEQI-10</r:ID>
                                                                     <r:Version>0.1.0</r:Version>
-                                                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                     <d:ControlConstructReference>
                                                                         <r:Agency>fr.insee</r:Agency>
                                                                         <d:Sequence>
@@ -1381,7 +1395,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-3</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -1392,7 +1406,7 @@
                                                                                 <r:Version>0.1.0</r:Version>
                                                                                 <r:TypeOfObject>Instruction</r:TypeOfObject>
                                                                             </d:InterviewerInstructionReference>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:QuestionConstruct>
@@ -1433,7 +1447,7 @@
                                                                                                 </d:LiteralText>
                                                                                             </d:QuestionText>
                                                                                             <d:CodeDomain>
-                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                 <r:CodeListReference>
                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                     <l:CodeList>
@@ -1540,18 +1554,18 @@
                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-4</r:ID>
                                                                     <r:Version>0.1.0</r:Version>
                                                                     <d:InstructionName>
-                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                     </d:InstructionName>
                                                                     <d:InstructionText>
                                                                         <d:LiteralText>
-                                                                            <d:Text xml:lang="fr-FR">Je vais maintenant vous poser quelques questions générales&#160;:</d:Text>
+                                                                            <d:Text xml:lang="fr-FR">Je vais maintenant vous poser quelques questions générales :</d:Text>
                                                                         </d:LiteralText>
                                                                     </d:InstructionText>
                                                                 </d:Instruction>
                                                                 <r:Version>0.1.0</r:Version>
                                                                 <r:TypeOfObject>Instruction</r:TypeOfObject>
                                                             </d:InterviewerInstructionReference>
-                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                                                             <d:ControlConstructReference>
                                                                 <r:Agency>fr.insee</r:Agency>
                                                                 <d:QuestionConstruct>
@@ -1592,7 +1606,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -1768,7 +1782,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -1944,7 +1958,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -2120,7 +2134,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -2296,7 +2310,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-11</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:IfThenElse>
@@ -2337,7 +2351,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-12</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:QuestionConstruct>
@@ -2445,7 +2459,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-13</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:QuestionConstruct>
@@ -2553,11 +2567,11 @@
                                                                             </r:Binding>
                                                                             <d:QuestionText>
                                                                                 <d:LiteralText>
-                                                                                    <d:Text xml:lang="fr-FR">Par rapport aux douze derniers mois, quelle sera à votre avis l’évolution des prix au cours des douze prochains mois&#160;?</d:Text>
+                                                                                    <d:Text xml:lang="fr-FR">Par rapport aux douze derniers mois, quelle sera à votre avis l’évolution des prix au cours des douze prochains mois ?</d:Text>
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -2733,7 +2747,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-14</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:IfThenElse>
@@ -2774,7 +2788,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-15</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:QuestionConstruct>
@@ -2811,7 +2825,7 @@
                                                                                                             </r:Binding>
                                                                                                             <d:QuestionText>
                                                                                                                 <d:LiteralText>
-                                                                                                                    <d:Text xml:lang="fr-FR">De quel pourcentage pensez-vous que les prix vont augmenter au cours des douze prochains mois&#160;?&#160;</d:Text>
+                                                                                                                    <d:Text xml:lang="fr-FR">De quel pourcentage pensez-vous que les prix vont augmenter au cours des douze prochains mois ? </d:Text>
                                                                                                                 </d:LiteralText>
                                                                                                             </d:QuestionText>
                                                                                                             <d:NumericDomain>
@@ -2882,7 +2896,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-16</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:QuestionConstruct>
@@ -2919,7 +2933,7 @@
                                                                                                             </r:Binding>
                                                                                                             <d:QuestionText>
                                                                                                                 <d:LiteralText>
-                                                                                                                    <d:Text xml:lang="fr-FR">De quel pourcentage pensez-vous que les prix vont baisser au cours des douze prochains mois&#160;?</d:Text>
+                                                                                                                    <d:Text xml:lang="fr-FR">De quel pourcentage pensez-vous que les prix vont baisser au cours des douze prochains mois ?</d:Text>
                                                                                                                 </d:LiteralText>
                                                                                                             </d:QuestionText>
                                                                                                             <d:NumericDomain>
@@ -2994,11 +3008,11 @@
                                                                             </r:Binding>
                                                                             <d:QuestionText>
                                                                                 <d:LiteralText>
-                                                                                    <d:Text xml:lang="fr-FR">Dans la situation économique actuelle, pensez-vous que les gens aient intérêt à faire des achats importants&#160;?</d:Text>
+                                                                                    <d:Text xml:lang="fr-FR">Dans la situation économique actuelle, pensez-vous que les gens aient intérêt à faire des achats importants ?</d:Text>
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -3095,7 +3109,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-5</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -3154,7 +3168,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -3311,7 +3325,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -3487,7 +3501,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -3663,7 +3677,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -3839,7 +3853,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -4015,7 +4029,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -4187,11 +4201,11 @@
                                                                             </r:Binding>
                                                                             <d:QuestionText>
                                                                                 <d:LiteralText>
-                                                                                    <d:Text xml:lang="fr-FR">Pensez-vous réussir à mettre de l'argent de côté au cours des douze prochains mois&#160;?</d:Text>
+                                                                                    <d:Text xml:lang="fr-FR">Pensez-vous réussir à mettre de l'argent de côté au cours des douze prochains mois ?</d:Text>
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -4344,11 +4358,11 @@
                                                                             </r:Binding>
                                                                             <d:QuestionText>
                                                                                 <d:LiteralText>
-                                                                                    <d:Text xml:lang="fr-FR">Avez-vous fait des achats importants au cours des douze derniers mois&#160;?</d:Text>
+                                                                                    <d:Text xml:lang="fr-FR">Avez-vous fait des achats importants au cours des douze derniers mois ?</d:Text>
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -4426,7 +4440,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-6</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -4485,7 +4499,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -4664,7 +4678,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-17</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:QuestionConstruct>
@@ -4705,7 +4719,7 @@
                                                                                                 </d:LiteralText>
                                                                                             </d:QuestionText>
                                                                                             <d:CodeDomain>
-                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                 <r:CodeListReference>
                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                     <l:CodeList>
@@ -4885,11 +4899,11 @@
                                                                             </r:Binding>
                                                                             <d:QuestionText>
                                                                                 <d:LiteralText>
-                                                                                    <d:Text xml:lang="fr-FR">Envisagez-vous d'acheter un logement neuf ou ancien (ou de faire construire) au cours des douze prochains mois&#160;?</d:Text>
+                                                                                    <d:Text xml:lang="fr-FR">Envisagez-vous d'acheter un logement neuf ou ancien (ou de faire construire) au cours des douze prochains mois ?</d:Text>
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -5005,7 +5019,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-7</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -5064,7 +5078,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -5180,7 +5194,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-8</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -5239,7 +5253,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -5376,7 +5390,7 @@
                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-9</r:ID>
                                                                     <r:Version>0.1.0</r:Version>
                                                                     <d:InstructionName>
-                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                     </d:InstructionName>
                                                                     <d:InstructionText>
                                                                         <d:LiteralText>
@@ -5387,7 +5401,7 @@
                                                                 <r:Version>0.1.0</r:Version>
                                                                 <r:TypeOfObject>Instruction</r:TypeOfObject>
                                                             </d:InterviewerInstructionReference>
-                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                                                             <d:ControlConstructReference>
                                                                 <r:Agency>fr.insee</r:Agency>
                                                                 <d:QuestionConstruct>
@@ -5442,7 +5456,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-10</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -5497,11 +5511,11 @@
                                                                             </r:Binding>
                                                                             <d:QuestionText>
                                                                                 <d:LiteralText>
-                                                                                    <d:Text xml:lang="fr-FR">Quel est votre diplôme le plus élevé&#160;?</d:Text>
+                                                                                    <d:Text xml:lang="fr-FR">Quel est votre diplôme le plus élevé ?</d:Text>
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -5810,7 +5824,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-18</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:QuestionConstruct>
@@ -5851,7 +5865,7 @@
                                                                                                 </d:LiteralText>
                                                                                             </d:QuestionText>
                                                                                             <d:CodeDomain>
-                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                 <r:CodeListReference>
                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                     <l:CodeList>
@@ -6012,11 +6026,11 @@
                                                                             </r:Binding>
                                                                             <d:QuestionText>
                                                                                 <d:LiteralText>
-                                                                                    <d:Text xml:lang="fr-FR">Quelle est votre situation principale actuelle vis-à-vis du travail&#160;?</d:Text>
+                                                                                    <d:Text xml:lang="fr-FR">Quelle est votre situation principale actuelle vis-à-vis du travail ?</d:Text>
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -6227,7 +6241,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-11</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -6245,11 +6259,11 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-12</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
-                                                                                            <d:Text xml:lang="fr-FR">- Si vous êtes actuellement en stage rémunéré, choisissez la modalité «&#160;Occupe un emploi&#160;».</d:Text>
+                                                                                            <d:Text xml:lang="fr-FR">- Si vous êtes actuellement en stage rémunéré, choisissez la modalité « Occupe un emploi ».</d:Text>
                                                                                         </d:LiteralText>
                                                                                     </d:InstructionText>
                                                                                 </d:Instruction>
@@ -6304,7 +6318,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-19</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:IfThenElse>
@@ -6345,7 +6359,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-20</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:QuestionConstruct>
@@ -6382,11 +6396,11 @@
                                                                                                             </r:Binding>
                                                                                                             <d:QuestionText>
                                                                                                                 <d:LiteralText>
-                                                                                                                    <d:Text xml:lang="fr-FR">Quel est votre type d’emploi&#160;?</d:Text>
+                                                                                                                    <d:Text xml:lang="fr-FR">Quel est votre type d’emploi ?</d:Text>
                                                                                                                 </d:LiteralText>
                                                                                                             </d:QuestionText>
                                                                                                             <d:CodeDomain>
-                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                 <r:CodeListReference>
                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                     <l:CodeList>
@@ -6501,11 +6515,11 @@
                                                                                                             </r:Binding>
                                                                                                             <d:QuestionText>
                                                                                                                 <d:LiteralText>
-                                                                                                                    <d:Text xml:lang="fr-FR">Travaillez-vous&#160;:</d:Text>
+                                                                                                                    <d:Text xml:lang="fr-FR">Travaillez-vous :</d:Text>
                                                                                                                 </d:LiteralText>
                                                                                                             </d:QuestionText>
                                                                                                             <d:CodeDomain>
-                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                 <r:CodeListReference>
                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                     <l:CodeList>
@@ -6530,7 +6544,7 @@
                                                                                                                                     <r:ID>INSEE-CAMME_TEST1-CA-camme_soc_quotite-1</r:ID>
                                                                                                                                     <r:Version>0.1.0</r:Version>
                                                                                                                                     <r:Label>
-                                                                                                                                        <r:Content xml:lang="fr-FR">à temps complet&#160;?</r:Content>
+                                                                                                                                        <r:Content xml:lang="fr-FR">à temps complet ?</r:Content>
                                                                                                                                     </r:Label>
                                                                                                                                 </l:Category>
                                                                                                                                 <r:Version>0.1.0</r:Version>
@@ -6549,7 +6563,7 @@
                                                                                                                                     <r:ID>INSEE-CAMME_TEST1-CA-camme_soc_quotite-2</r:ID>
                                                                                                                                     <r:Version>0.1.0</r:Version>
                                                                                                                                     <r:Label>
-                                                                                                                                        <r:Content xml:lang="fr-FR">à temps partiel ou incomplet (mi temps, 90&#160;%, 80&#160;%,etc.)&#160;?</r:Content>
+                                                                                                                                        <r:Content xml:lang="fr-FR">à temps partiel ou incomplet (mi temps, 90 %, 80 %,etc.) ?</r:Content>
                                                                                                                                     </r:Label>
                                                                                                                                 </l:Category>
                                                                                                                                 <r:Version>0.1.0</r:Version>
@@ -6638,7 +6652,7 @@
                                                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-13</r:ID>
                                                                                                                     <r:Version>0.1.0</r:Version>
                                                                                                                     <d:InstructionName>
-                                                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                                                     </d:InstructionName>
                                                                                                                     <d:InstructionText>
                                                                                                                         <d:LiteralText>
@@ -6705,7 +6719,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-21</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:QuestionConstruct>
@@ -6746,7 +6760,7 @@
                                                                                                                 </d:LiteralText>
                                                                                                             </d:QuestionText>
                                                                                                             <d:CodeDomain>
-                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                 <r:CodeListReference>
                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                     <l:CodeList>
@@ -6865,7 +6879,7 @@
                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-22</r:ID>
                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                             <d:ControlConstructReference>
                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                 <d:QuestionConstruct>
@@ -6920,7 +6934,7 @@
                                                                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-13</r:ID>
                                                                                                                                     <r:Version>0.1.0</r:Version>
                                                                                                                                     <d:InstructionName>
-                                                                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                                                                     </d:InstructionName>
                                                                                                                                     <d:InstructionText>
                                                                                                                                         <d:LiteralText>
@@ -7003,7 +7017,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-23</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:IfThenElse>
@@ -7066,7 +7080,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-24</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:IfThenElse>
@@ -7129,7 +7143,7 @@
                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-25</r:ID>
                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                             <d:ControlConstructReference>
                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                 <d:QuestionConstruct>
@@ -7184,7 +7198,7 @@
                                                                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-13</r:ID>
                                                                                                                                     <r:Version>0.1.0</r:Version>
                                                                                                                                     <d:InstructionName>
-                                                                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                                                                     </d:InstructionName>
                                                                                                                                     <d:InstructionText>
                                                                                                                                         <d:LiteralText>
@@ -7289,7 +7303,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-26</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:QuestionConstruct>
@@ -7330,7 +7344,7 @@
                                                                                                 </d:LiteralText>
                                                                                             </d:QuestionText>
                                                                                             <d:CodeDomain>
-                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                 <r:CodeListReference>
                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                     <l:CodeList>
@@ -7566,7 +7580,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-27</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:IfThenElse>
@@ -7629,7 +7643,7 @@
                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-28</r:ID>
                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                             <d:ControlConstructReference>
                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                 <d:QuestionConstruct>
@@ -7670,7 +7684,7 @@
                                                                                                                                 </d:LiteralText>
                                                                                                                             </d:QuestionText>
                                                                                                                             <d:CodeDomain>
-                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                                 <r:CodeListReference>
                                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                                     <l:CodeList>
@@ -7838,7 +7852,7 @@
                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-29</r:ID>
                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                             <d:ControlConstructReference>
                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                 <d:QuestionConstruct>
@@ -7879,7 +7893,7 @@
                                                                                                                                 </d:LiteralText>
                                                                                                                             </d:QuestionText>
                                                                                                                             <d:CodeDomain>
-                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                                 <r:CodeListReference>
                                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                                     <l:CodeList>
@@ -8117,7 +8131,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -8236,7 +8250,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-30</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:QuestionConstruct>
@@ -8291,7 +8305,7 @@
                                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-10</r:ID>
                                                                                                     <r:Version>0.1.0</r:Version>
                                                                                                     <d:InstructionName>
-                                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                                     </d:InstructionName>
                                                                                                     <d:InstructionText>
                                                                                                         <d:LiteralText>
@@ -8346,11 +8360,11 @@
                                                                                             </r:Binding>
                                                                                             <d:QuestionText>
                                                                                                 <d:LiteralText>
-                                                                                                    <d:Text xml:lang="fr-FR">Quel est le diplôme le plus élevé de votre conjoint(e)&#160;?</d:Text>
+                                                                                                    <d:Text xml:lang="fr-FR">Quel est le diplôme le plus élevé de votre conjoint(e) ?</d:Text>
                                                                                                 </d:LiteralText>
                                                                                             </d:QuestionText>
                                                                                             <d:CodeDomain>
-                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                 <r:CodeListReference>
                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                     <l:CodeList>
@@ -8659,7 +8673,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-31</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:QuestionConstruct>
@@ -8700,7 +8714,7 @@
                                                                                                                 </d:LiteralText>
                                                                                                             </d:QuestionText>
                                                                                                             <d:CodeDomain>
-                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                 <r:CodeListReference>
                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                     <l:CodeList>
@@ -8861,11 +8875,11 @@
                                                                                             </r:Binding>
                                                                                             <d:QuestionText>
                                                                                                 <d:LiteralText>
-                                                                                                    <d:Text xml:lang="fr-FR">Quelle est la situation principale actuelle de votre conjoint(e) vis-à-vis du travail&#160;?</d:Text>
+                                                                                                    <d:Text xml:lang="fr-FR">Quelle est la situation principale actuelle de votre conjoint(e) vis-à-vis du travail ?</d:Text>
                                                                                                 </d:LiteralText>
                                                                                             </d:QuestionText>
                                                                                             <d:CodeDomain>
-                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                 <r:CodeListReference>
                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                     <l:CodeList>
@@ -9117,7 +9131,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-32</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:IfThenElse>
@@ -9158,7 +9172,7 @@
                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-33</r:ID>
                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                             <d:ControlConstructReference>
                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                 <d:QuestionConstruct>
@@ -9195,11 +9209,11 @@
                                                                                                                             </r:Binding>
                                                                                                                             <d:QuestionText>
                                                                                                                                 <d:LiteralText>
-                                                                                                                                    <d:Text xml:lang="fr-FR">Quel est le type d’emploi de votre conjoint(e)&#160;?</d:Text>
+                                                                                                                                    <d:Text xml:lang="fr-FR">Quel est le type d’emploi de votre conjoint(e) ?</d:Text>
                                                                                                                                 </d:LiteralText>
                                                                                                                             </d:QuestionText>
                                                                                                                             <d:CodeDomain>
-                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                                 <r:CodeListReference>
                                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                                     <l:CodeList>
@@ -9314,11 +9328,11 @@
                                                                                                                             </r:Binding>
                                                                                                                             <d:QuestionText>
                                                                                                                                 <d:LiteralText>
-                                                                                                                                    <d:Text xml:lang="fr-FR">Votre conjoint(e) travaille-t-il(elle)&#160;:</d:Text>
+                                                                                                                                    <d:Text xml:lang="fr-FR">Votre conjoint(e) travaille-t-il(elle) :</d:Text>
                                                                                                                                 </d:LiteralText>
                                                                                                                             </d:QuestionText>
                                                                                                                             <d:CodeDomain>
-                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                                 <r:CodeListReference>
                                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                                     <l:CodeList>
@@ -9343,7 +9357,7 @@
                                                                                                                                                     <r:ID>INSEE-CAMME_TEST1-CA-camme_soc_quotite-1</r:ID>
                                                                                                                                                     <r:Version>0.1.0</r:Version>
                                                                                                                                                     <r:Label>
-                                                                                                                                                        <r:Content xml:lang="fr-FR">à temps complet&#160;?</r:Content>
+                                                                                                                                                        <r:Content xml:lang="fr-FR">à temps complet ?</r:Content>
                                                                                                                                                     </r:Label>
                                                                                                                                                 </l:Category>
                                                                                                                                                 <r:Version>0.1.0</r:Version>
@@ -9362,7 +9376,7 @@
                                                                                                                                                     <r:ID>INSEE-CAMME_TEST1-CA-camme_soc_quotite-2</r:ID>
                                                                                                                                                     <r:Version>0.1.0</r:Version>
                                                                                                                                                     <r:Label>
-                                                                                                                                                        <r:Content xml:lang="fr-FR">à temps partiel ou incomplet (mi temps, 90&#160;%, 80&#160;%,etc.)&#160;?</r:Content>
+                                                                                                                                                        <r:Content xml:lang="fr-FR">à temps partiel ou incomplet (mi temps, 90 %, 80 %,etc.) ?</r:Content>
                                                                                                                                                     </r:Label>
                                                                                                                                                 </l:Category>
                                                                                                                                                 <r:Version>0.1.0</r:Version>
@@ -9451,7 +9465,7 @@
                                                                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-13</r:ID>
                                                                                                                                     <r:Version>0.1.0</r:Version>
                                                                                                                                     <d:InstructionName>
-                                                                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                                                                     </d:InstructionName>
                                                                                                                                     <d:InstructionText>
                                                                                                                                         <d:LiteralText>
@@ -9518,7 +9532,7 @@
                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-34</r:ID>
                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                             <d:ControlConstructReference>
                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                 <d:QuestionConstruct>
@@ -9559,7 +9573,7 @@
                                                                                                                                 </d:LiteralText>
                                                                                                                             </d:QuestionText>
                                                                                                                             <d:CodeDomain>
-                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                                 <r:CodeListReference>
                                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                                     <l:CodeList>
@@ -9678,7 +9692,7 @@
                                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-35</r:ID>
                                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                                             <d:ControlConstructReference>
                                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                                 <d:QuestionConstruct>
@@ -9715,7 +9729,7 @@
                                                                                                                                             </r:Binding>
                                                                                                                                             <d:QuestionText>
                                                                                                                                                 <d:LiteralText>
-                                                                                                                                                    <d:Text xml:lang="fr-FR">Quelle était la dernière profession de votre conjoint(e)&#160;?</d:Text>
+                                                                                                                                                    <d:Text xml:lang="fr-FR">Quelle était la dernière profession de votre conjoint(e) ?</d:Text>
                                                                                                                                                 </d:LiteralText>
                                                                                                                                             </d:QuestionText>
                                                                                                                                             <d:TextDomain maxLength="1">
@@ -9733,7 +9747,7 @@
                                                                                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-13</r:ID>
                                                                                                                                                     <r:Version>0.1.0</r:Version>
                                                                                                                                                     <d:InstructionName>
-                                                                                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                                                                                     </d:InstructionName>
                                                                                                                                                     <d:InstructionText>
                                                                                                                                                         <d:LiteralText>
@@ -9816,7 +9830,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-36</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:IfThenElse>
@@ -9879,7 +9893,7 @@
                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-37</r:ID>
                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                             <d:ControlConstructReference>
                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                 <d:IfThenElse>
@@ -9942,7 +9956,7 @@
                                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-38</r:ID>
                                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                                             <d:ControlConstructReference>
                                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                                 <d:QuestionConstruct>
@@ -9997,7 +10011,7 @@
                                                                                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-13</r:ID>
                                                                                                                                                     <r:Version>0.1.0</r:Version>
                                                                                                                                                     <d:InstructionName>
-                                                                                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                                                                                     </d:InstructionName>
                                                                                                                                                     <d:InstructionText>
                                                                                                                                                         <d:LiteralText>
@@ -10102,7 +10116,7 @@
                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-39</r:ID>
                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                             <d:ControlConstructReference>
                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                 <d:QuestionConstruct>
@@ -10143,7 +10157,7 @@
                                                                                                                 </d:LiteralText>
                                                                                                             </d:QuestionText>
                                                                                                             <d:CodeDomain>
-                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                 <r:CodeListReference>
                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                     <l:CodeList>
@@ -10379,7 +10393,7 @@
                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-40</r:ID>
                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                             <d:ControlConstructReference>
                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                 <d:IfThenElse>
@@ -10442,7 +10456,7 @@
                                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-41</r:ID>
                                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                                             <d:ControlConstructReference>
                                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                                 <d:QuestionConstruct>
@@ -10479,11 +10493,11 @@
                                                                                                                                             </r:Binding>
                                                                                                                                             <d:QuestionText>
                                                                                                                                                 <d:LiteralText>
-                                                                                                                                                    <d:Text xml:lang="fr-FR">Quel est ou quel était le grade de votre conjoint(e)&#160;?</d:Text>
+                                                                                                                                                    <d:Text xml:lang="fr-FR">Quel est ou quel était le grade de votre conjoint(e) ?</d:Text>
                                                                                                                                                 </d:LiteralText>
                                                                                                                                             </d:QuestionText>
                                                                                                                                             <d:CodeDomain>
-                                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                                                 <r:CodeListReference>
                                                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                                                     <l:CodeList>
@@ -10651,7 +10665,7 @@
                                                                                                                             <r:Agency>fr.insee</r:Agency>
                                                                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-42</r:ID>
                                                                                                                             <r:Version>0.1.0</r:Version>
-                                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                                                                             <d:ControlConstructReference>
                                                                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                                                                 <d:QuestionConstruct>
@@ -10688,11 +10702,11 @@
                                                                                                                                             </r:Binding>
                                                                                                                                             <d:QuestionText>
                                                                                                                                                 <d:LiteralText>
-                                                                                                                                                    <d:Text xml:lang="fr-FR">Quelle est ou était la classification professionnelle de votre conjoint(e)&#160;?</d:Text>
+                                                                                                                                                    <d:Text xml:lang="fr-FR">Quelle est ou était la classification professionnelle de votre conjoint(e) ?</d:Text>
                                                                                                                                                 </d:LiteralText>
                                                                                                                                             </d:QuestionText>
                                                                                                                                             <d:CodeDomain>
-                                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                                                                 <r:CodeListReference>
                                                                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                                                                     <l:CodeList>
@@ -10911,7 +10925,7 @@
                                                             <r:Label>
                                                                 <r:Content xml:lang="fr-FR">Module socio-démographique : votre logement</r:Content>
                                                             </r:Label>
-                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                                                             <d:ControlConstructReference>
                                                                 <r:Agency>fr.insee</r:Agency>
                                                                 <d:QuestionConstruct>
@@ -10970,7 +10984,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-20</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -10988,7 +11002,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-21</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -11006,7 +11020,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-22</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -11024,7 +11038,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-23</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -11042,7 +11056,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-24</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -11060,7 +11074,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-25</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -11078,7 +11092,7 @@
                                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-26</r:ID>
                                                                                     <r:Version>0.1.0</r:Version>
                                                                                     <d:InstructionName>
-                                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                                     </d:InstructionName>
                                                                                     <d:InstructionText>
                                                                                         <d:LiteralText>
@@ -11110,7 +11124,7 @@
                                                                             <r:ID>INSEE-CAMME_TEST1-II-IC-CI-1</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
                                                                             <d:InstructionName>
-                                                                                <r:String xml:lang="fr-FR">Consigne</r:String>
+                                                                                <r:String xml:lang="fr-FR">instruction</r:String>
                                                                             </d:InstructionName>
                                                                             <d:InstructionText>
                                                                                 <d:LiteralText>
@@ -11247,7 +11261,7 @@
                                                                             <r:ID>INSEE-CAMME_TEST1-II-IC-CI-2</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
                                                                             <d:InstructionName>
-                                                                                <r:String xml:lang="fr-FR">Consigne</r:String>
+                                                                                <r:String xml:lang="fr-FR">instruction</r:String>
                                                                             </d:InstructionName>
                                                                             <d:InstructionText>
                                                                                 <d:LiteralText>
@@ -11384,7 +11398,7 @@
                                                                             <r:ID>INSEE-CAMME_TEST1-II-IC-CI-3</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
                                                                             <d:InstructionName>
-                                                                                <r:String xml:lang="fr-FR">Consigne</r:String>
+                                                                                <r:String xml:lang="fr-FR">instruction</r:String>
                                                                             </d:InstructionName>
                                                                             <d:InstructionText>
                                                                                 <d:LiteralText>
@@ -11570,7 +11584,7 @@
                                                                             <r:Agency>fr.insee</r:Agency>
                                                                             <r:ID>INSEE-CAMME_TEST1-SEQI-43</r:ID>
                                                                             <r:Version>0.1.0</r:Version>
-                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                                             <d:ControlConstructReference>
                                                                                 <r:Agency>fr.insee</r:Agency>
                                                                                 <d:QuestionConstruct>
@@ -11611,7 +11625,7 @@
                                                                                                 </d:LiteralText>
                                                                                             </d:QuestionText>
                                                                                             <d:CodeDomain>
-                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                                 <r:CodeListReference>
                                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                                     <l:CodeList>
@@ -11939,7 +11953,7 @@
                                                             <r:Label>
                                                                 <r:Content xml:lang="fr-FR">Module socio-démo : qui répond</r:Content>
                                                             </r:Label>
-                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                                                             <d:ControlConstructReference>
                                                                 <r:Agency>fr.insee</r:Agency>
                                                                 <d:QuestionConstruct>
@@ -11980,7 +11994,7 @@
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -12095,11 +12109,11 @@
                                                                             </r:Binding>
                                                                             <d:QuestionText>
                                                                                 <d:LiteralText>
-                                                                                    <d:Text xml:lang="fr-FR">La personne ayant répondu est&#160;:</d:Text>
+                                                                                    <d:Text xml:lang="fr-FR">La personne ayant répondu est :</d:Text>
                                                                                 </d:LiteralText>
                                                                             </d:QuestionText>
                                                                             <d:CodeDomain>
-                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">boutonradio</r:GenericOutputFormat>
+                                                                                <r:GenericOutputFormat codeListID="INSEE'-GOF-CV'">radio-button</r:GenericOutputFormat>
                                                                                 <r:CodeListReference>
                                                                                     <r:Agency>fr.insee</r:Agency>
                                                                                     <l:CodeList>
@@ -12252,7 +12266,7 @@
                                                     <r:Agency>fr.insee</r:Agency>
                                                     <r:ID>INSEE-CAMME_TEST1-SEQI-44</r:ID>
                                                     <r:Version>0.1.0</r:Version>
-                                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                                     <d:ControlConstructReference>
                                                         <r:Agency>fr.insee</r:Agency>
                                                         <d:Sequence>
@@ -12269,7 +12283,7 @@
                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-27</r:ID>
                                                                     <r:Version>0.1.0</r:Version>
                                                                     <d:InstructionName>
-                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                     </d:InstructionName>
                                                                     <d:InstructionText>
                                                                         <d:LiteralText>
@@ -12280,7 +12294,7 @@
                                                                 <r:Version>0.1.0</r:Version>
                                                                 <r:TypeOfObject>Instruction</r:TypeOfObject>
                                                             </d:InterviewerInstructionReference>
-                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                                                         </d:Sequence>
                                                         <r:Version>0.1.0</r:Version>
                                                         <r:TypeOfObject>Sequence</r:TypeOfObject>
@@ -12301,7 +12315,7 @@
                                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-28</r:ID>
                                                                     <r:Version>0.1.0</r:Version>
                                                                     <d:InstructionName>
-                                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                                     </d:InstructionName>
                                                                     <d:InstructionText>
                                                                         <d:LiteralText>
@@ -12312,7 +12326,7 @@
                                                                 <r:Version>0.1.0</r:Version>
                                                                 <r:TypeOfObject>Instruction</r:TypeOfObject>
                                                             </d:InterviewerInstructionReference>
-                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                                                         </d:Sequence>
                                                         <r:Version>0.1.0</r:Version>
                                                         <r:TypeOfObject>Sequence</r:TypeOfObject>
@@ -12333,7 +12347,7 @@
                         <r:Version>0.1.0</r:Version>
                         <r:TypeOfObject>IfThenElse</r:TypeOfObject>
                     </d:ControlConstructReference>
-                    <d:ControlConstructReference xmlns="">
+                    <d:ControlConstructReference>
                         <r:Agency>fr.insee</r:Agency>
                         <d:IfThenElse>
                             <r:Agency>fr.insee</r:Agency>
@@ -12417,7 +12431,7 @@
                                     <r:Agency>fr.insee</r:Agency>
                                     <r:ID>INSEE-CAMME_TEST1-SEQI-45</r:ID>
                                     <r:Version>0.1.0</r:Version>
-                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Cachable</d:TypeOfSequence>
+                                    <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">hideable</d:TypeOfSequence>
                                     <d:ControlConstructReference>
                                         <r:Agency>fr.insee</r:Agency>
                                         <d:Sequence>
@@ -12434,7 +12448,7 @@
                                                     <r:ID>INSEE-CAMME_TEST1-ERREUR-29</r:ID>
                                                     <r:Version>0.1.0</r:Version>
                                                     <d:InstructionName>
-                                                        <r:String xml:lang="fr-FR">ERREUR : type de déclaration inconnu</r:String>
+                                                        <r:String xml:lang="fr-FR">ERROR : unknown type of Instruction</r:String>
                                                     </d:InstructionName>
                                                     <d:InstructionText>
                                                         <d:LiteralText>
@@ -12445,7 +12459,7 @@
                                                 <r:Version>0.1.0</r:Version>
                                                 <r:TypeOfObject>Instruction</r:TypeOfObject>
                                             </d:InterviewerInstructionReference>
-                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                                         </d:Sequence>
                                         <r:Version>0.1.0</r:Version>
                                         <r:TypeOfObject>Sequence</r:TypeOfObject>
@@ -12458,7 +12472,7 @@
                         <r:Version>0.1.0</r:Version>
                         <r:TypeOfObject>IfThenElse</r:TypeOfObject>
                     </d:ControlConstructReference>
-                    <d:ControlConstructReference xmlns="">
+                    <d:ControlConstructReference>
                         <r:Agency>fr.insee</r:Agency>
                         <d:Sequence>
                             <r:Agency>fr.insee</r:Agency>
@@ -12467,7 +12481,7 @@
                             <r:Label>
                                 <r:Content xml:lang="fr-FR">Fin de l'enquête</r:Content>
                             </r:Label>
-                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">Module</d:TypeOfSequence>
+                            <d:TypeOfSequence codeListID="INSEE-TOS-CL-1">module</d:TypeOfSequence>
                             <d:ControlConstructReference>
                                 <r:Agency>fr.insee</r:Agency>
                                 <d:QuestionConstruct>

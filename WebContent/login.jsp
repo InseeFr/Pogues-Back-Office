@@ -15,6 +15,9 @@
 <option value="ETGAIL">Duffes Guillaume</option>
 <option value="SRMTXN">Bichler Guillaume</option>
 <option value="CMMPZ2">Mordier Bénédicte</option>
+<option value="OM4DU7">Castel Laura</option>
+<option value="OBM0V4">Ast Dorothée</option>
+<option value="GR8UH9">Gluminski Tania</option>
 </select>
 <br />
 <br />
