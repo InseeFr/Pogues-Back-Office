@@ -31,7 +31,7 @@ fi
 
 function is_patch(){
   if [[ -n "$(git tag -l)" ]];then
-    latest_tag=$(git describe --tags `git rev-list --tags --max-count=1` 2>&1 >/dev/null)
+    latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
     echo "Found latest tag: $latest_tag"
   fi
   if [ "$latest_tag" == "${TAG}" ]; then
