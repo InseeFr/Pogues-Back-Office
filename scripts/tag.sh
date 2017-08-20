@@ -14,44 +14,45 @@ AUTHOR="$USER <>"
 VERSION=$(mvn help:evaluate -Dexpression=project.version | grep -v '\[')
 TAG="v$VERSION"
 
-#if [ "$TRAVIS_PULL_REQUEST" != "false" ];then
-#  echo "Won't tag on pull request"
-#  exit 0
-#fi
-#
-#if [ "$TRAVIS_BRANCH" != "$MAIN_BRANCH" ];then
-#  echo "Won't tag: Not on branch $MAIN_BRANCH"
-#  exit 0
-#fi
-#
-#if [[ -n "$TRAVIS_TAG" ]];then
-#  echo "Won't tag: Already on tag $TRAVIS_TAG"
-#  exit 0
-#fi
+if [ "$TRAVIS_PULL_REQUEST" != "false" ];then
+  echo "Won't tag on pull request"
+  exit 0
+fi
+
+if [ "$TRAVIS_BRANCH" != "$MAIN_BRANCH" ];then
+  echo "Won't tag: Not on branch $MAIN_BRANCH"
+  exit 0
+fi
+
+if [[ -n "$TRAVIS_TAG" ]];then
+  echo "Won't tag: Already on tag $TRAVIS_TAG"
+  exit 0
+fi
 
 function is_patch(){
   if [[ -n "$(git tag -l)" ]];then
     latest_tag=$(git describe --tags `git rev-list --tags --max-count=1` 2>&1 >/dev/null)
+    echo "Found latest tag: $latest_tag"
   fi
-  if [ "$latestTag" == "${TAG}" ]; then
+  if [ "$latest_tag" == "${TAG}" ]; then
     return 1
   else
+    echo "Version has been updated: $latest_tag -> $TAG"
+    echo "Create tag for release $TAG"
     return 0
   fi
 }
 
 function tag() {
-    : ${VERSION?Cannot tag if no version}
+    : ${VERSION?Cannot tag: no version detected}
     git config --global user.email "travis@travis-ci.org"
     git config --global user.name "Travis"
     git remote add upstream "$UPSTREAM"
     git tag --annotate "${TAG}" -m "${MESSAGE}"
     git push upstream --tags
-    git fetch origin
 }
 
 function main(){
-    is_patch && echo "is_patch"
     is_patch && tag
 }
 
