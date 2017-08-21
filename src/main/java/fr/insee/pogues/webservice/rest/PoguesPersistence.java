@@ -41,18 +41,6 @@ public class PoguesPersistence {
     @Autowired
 	private QuestionnairesService questionnaireService;
 
-	/**
-	 * Dummy GET Helloworld used in unit tests
-	 * 
-	 * @return "Hello world" as a String
-	 */
-	@GET
-	@Path("helloworld")
-	@Produces(MediaType.TEXT_HTML)
-	public String helloworld() {
-		return "Hello world";
-	}
-
 
 	@GET
 	@Path("questionnaire/{id}")

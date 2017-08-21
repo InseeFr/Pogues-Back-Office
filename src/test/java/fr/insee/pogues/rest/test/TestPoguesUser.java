@@ -1,7 +1,6 @@
 package fr.insee.pogues.rest.test;
 
 import com.jayway.restassured.RestAssured;
-import com.jayway.restassured.http.ContentType;
 import fr.insee.pogues.rest.test.utils.RestAssuredConfig;
 import org.apache.log4j.Logger;
 import org.junit.AfterClass;
@@ -37,19 +36,6 @@ public class TestPoguesUser {
     public static void tearDown(){
         RestAssured.reset();
     }
-
-    /**
-     * Dummy helloworld test, should return "Hello world"
-     */
-    @Test
-    public void helloworldTest() {
-        logger.debug(
-                "Dummy helloworld test : trying to reach /Pogues-BO/pogues/user/helloworld with Status = 200");
-        expect().statusCode(200).contentType(ContentType.TEXT).when()
-                .get("/pogues/user/helloworld");
-
-    }
-
 
     /**
      * getUserID test

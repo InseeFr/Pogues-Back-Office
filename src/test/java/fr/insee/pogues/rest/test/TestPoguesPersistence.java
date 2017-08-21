@@ -40,20 +40,6 @@ public class TestPoguesPersistence {
     }
 
     /**
-     * Dummy helloworld test, should return "Hello world"
-     */
-    @Test
-    public void helloworldTest() {
-        logger.debug(
-                "Dummy helloworld test : trying to reach /pogues/persistence/helloworld with Status = 200");
-        expect()
-                .statusCode(200)
-                .when()
-                .get("/pogues/persistence/helloworld");
-
-    }
-
-    /**
      * Post Questionnaire Test
      */
     @Test

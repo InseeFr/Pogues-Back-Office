@@ -44,20 +44,6 @@ public class PoguesUser {
 
     final static Logger logger = Logger.getLogger(PoguesUser.class);
 
-    /**
-     * Dummy GET Helloworld used in unit tests
-     *
-     * @return "Hello world" as a String
-     */
-    @GET
-    @Path("helloworld")
-    @ApiOperation(value = "Hello world",
-            notes = "Dummy GET Helloworld, used in unit tests",
-            response = String.class)
-    public String helloworld() {
-        return "Hello world";
-    }
-
 
     @GET
     @Path("id")
