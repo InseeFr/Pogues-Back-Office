@@ -35,6 +35,7 @@ function is_patch(){
     echo "Found latest tag: $latest_tag"
   fi
   if [ "$latest_tag" == "${TAG}" ]; then
+    echo "Version has not been updated: won't release"
     return 1
   else
     echo "Version has been updated: $latest_tag -> $TAG"
