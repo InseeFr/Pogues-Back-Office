@@ -19,12 +19,24 @@ public class DDIToXFormImpl implements DDIToXForm {
 
     @Override
     public void transform(InputStream input, OutputStream output, Map<String, Object> params) throws Exception {
-
+        try {
+            String xform =  transform(input, params);
+            output.write(xform.getBytes(StandardCharsets.UTF_8));
+        } catch(Exception e) {
+            throw e;
+        }
     }
 
     @Override
     public String transform(InputStream input, Map<String, Object> params) throws Exception {
-        return null;
+        File enoInput = null;
+        try {
+            enoInput = File.createTempFile("eno", ".xml");
+            FileUtils.copyInputStreamToFile(input, enoInput);
+            return transform(enoInput, params);
+        } catch(Exception e) {
+            throw e;
+        }
     }
 
     @Override
