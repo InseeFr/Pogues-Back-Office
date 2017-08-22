@@ -4,7 +4,6 @@
 #author		     :a-cordier
 #==============================================================================
 #
-set -e
 
 DOC_FOLDER="docs"
 MAIN_BRANCH="zenika-dev"
