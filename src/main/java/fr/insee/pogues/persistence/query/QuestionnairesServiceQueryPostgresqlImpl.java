@@ -7,8 +7,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
@@ -25,8 +23,8 @@ import java.util.List;
  *
  */
 @Service
-@Configuration
-@PropertySource("classpath:${fr.insee.pogues.env:prod}/pogues-bo.properties")
+//@Configuration
+//@PropertySource("classpath:${fr.insee.pogues.env:prod}/pogues-bo.properties")
 public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesServiceQuery {
 
 	final static Logger logger = LogManager.getLogger(QuestionnairesServiceQueryPostgresqlImpl.class);
