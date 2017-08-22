@@ -1,12 +1,10 @@
 package fr.insee.pogues.webservice.rest;
 
-import org.apache.log4j.Logger;
-
 import javax.ws.rs.NotFoundException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
 /**
@@ -16,8 +14,6 @@ import javax.ws.rs.ext.Provider;
 public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
 
     private Status STATUS = Status.INTERNAL_SERVER_ERROR;
-
-    private Logger logger = Logger.getLogger(GenericExceptionMapper.class);
 
     public Response toResponse(Throwable error){
         RestMessage message = new RestMessage(

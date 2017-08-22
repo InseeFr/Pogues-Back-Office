@@ -2,7 +2,8 @@ package fr.insee.pogues.rest.test;
 
 import com.jayway.restassured.RestAssured;
 import fr.insee.pogues.rest.test.utils.RestAssuredConfig;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -22,7 +23,7 @@ import static org.junit.Assert.assertNotEquals;
 public class TestPoguesUser {
 
 
-    final static Logger logger = Logger.getLogger(TestPoguesUser.class);
+    final static Logger logger = LogManager.getLogger(TestPoguesUser.class);
 
     /**
      * Setting up the RestAssured default URI

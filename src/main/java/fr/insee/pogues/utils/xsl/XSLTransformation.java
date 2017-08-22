@@ -1,12 +1,12 @@
 package fr.insee.pogues.utils.xsl;
 
-import java.io.File;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.xml.transform.Transformer;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
-
-import org.apache.log4j.Logger;
+import java.io.File;
 
 /**
  * Main Saxon Service used to perform XSLT transformations
@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
  */
 public class XSLTransformation {
 
-	final static Logger logger = Logger.getLogger(XSLTransformation.class);
+	final static Logger logger = LogManager.getLogger(XSLTransformation.class);
 
 	/**
 	 * Main Saxon transformation method

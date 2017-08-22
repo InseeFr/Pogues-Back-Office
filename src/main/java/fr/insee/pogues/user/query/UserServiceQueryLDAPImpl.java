@@ -1,7 +1,8 @@
 package fr.insee.pogues.user.query;
 
 import fr.insee.pogues.user.model.User;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
@@ -34,7 +35,7 @@ import java.util.regex.Pattern;
 @PropertySource("classpath:${fr.insee.pogues.env:prod}/pogues-bo.properties")
 public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 
-	final static Logger logger = Logger.getLogger(UserServiceQueryLDAPImpl.class);
+	final static Logger logger = LogManager.getLogger(UserServiceQueryLDAPImpl.class);
 
 	private DirContext context = null;
 

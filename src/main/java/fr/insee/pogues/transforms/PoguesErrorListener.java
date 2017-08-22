@@ -1,6 +1,7 @@
 package fr.insee.pogues.transforms;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import javax.xml.transform.ErrorListener;
 import javax.xml.transform.TransformerException;
@@ -11,7 +12,7 @@ import javax.xml.transform.TransformerException;
 
 public class PoguesErrorListener implements ErrorListener {
 
-    final static Logger logger = Logger.getLogger(PoguesErrorListener.class);
+    final static Logger logger = LogManager.getLogger(PoguesErrorListener.class);
 
     public void warning(TransformerException exception) throws TransformerException {
         logger.warn(exception.getMessage());

@@ -4,7 +4,8 @@ import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.*;
 import io.swagger.annotations.*;
 import org.apache.commons.io.IOUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,7 +30,7 @@ import java.util.Map;
 @Path("/transform")
 public class PoguesTransforms {
 
-    final static Logger logger = Logger.getLogger(PoguesTransforms.class);
+    final static Logger logger = LogManager.getLogger(PoguesTransforms.class);
 
     @Autowired
     JSONToXML jsonToXML;

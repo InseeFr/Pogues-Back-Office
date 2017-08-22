@@ -2,7 +2,8 @@ package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import io.swagger.annotations.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -36,7 +37,7 @@ import java.util.List;
 	    })
 public class PoguesPersistence {
 
-    final static Logger logger = Logger.getLogger(PoguesPersistence.class);
+    final static Logger logger = LogManager.getLogger(PoguesPersistence.class);
 
     @Autowired
 	private QuestionnairesService questionnaireService;

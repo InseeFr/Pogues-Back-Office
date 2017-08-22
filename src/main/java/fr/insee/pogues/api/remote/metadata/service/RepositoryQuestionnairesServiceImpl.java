@@ -2,7 +2,8 @@ package fr.insee.pogues.api.remote.metadata.service;
 
 import fr.insee.pogues.api.remote.convertor.PoguesConvertorService;
 import fr.insee.pogues.utils.ddi.DDIFunctions;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -27,7 +28,7 @@ import java.util.Map;
  */
 @Service
 public class RepositoryQuestionnairesServiceImpl implements RepositoryQuestionnairesService {
-    final static Logger logger = Logger.getLogger(RepositoryQuestionnairesService.class);
+    final static Logger logger = LogManager.getLogger(RepositoryQuestionnairesService.class);
 
     @Autowired
     private PoguesConvertorService convertorService;

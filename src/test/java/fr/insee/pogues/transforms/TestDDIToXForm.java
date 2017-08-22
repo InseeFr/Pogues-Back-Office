@@ -8,6 +8,8 @@ import org.xmlunit.XMLUnitException;
 import org.xmlunit.diff.Diff;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 
 public class TestDDIToXForm {
 
@@ -21,6 +23,22 @@ public class TestDDIToXForm {
     @Test
     public void simpleDiffTest(){
         performDiffTest("transforms/ddi-to-xform");
+    }
+
+    @Test
+    public void nullStringInputThrowsExceptionTest() throws Exception {
+        exception.expectMessage("Null input");
+        exception.expect(NullPointerException.class);
+        String input = null;
+        transformer.transform(input, new HashMap<>());
+    }
+
+    @Test
+    public void nullStreamInputThrowsExceptionTest() throws Exception {
+        exception.expectMessage("Null input");
+        exception.expect(NullPointerException.class);
+        InputStream input = null;
+        transformer.transform(input, new HashMap<>());
     }
 
     private void performDiffTest(String path) throws XMLUnitException {

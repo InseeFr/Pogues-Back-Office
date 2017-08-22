@@ -2,7 +2,8 @@ package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.user.query.UserServiceQuery;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.server.ContainerRequest;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.security.Principal;
 @OwnerRestricted
 public class OwnerRestrictedFilter implements ContainerRequestFilter {
 
-    static final Logger logger = Logger.getLogger(OwnerRestrictedFilter.class);
+    static final Logger logger = LogManager.getLogger(OwnerRestrictedFilter.class);
 
     @Autowired
     private UserServiceQuery userServiceQuery;

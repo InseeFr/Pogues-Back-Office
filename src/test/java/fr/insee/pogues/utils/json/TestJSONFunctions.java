@@ -1,12 +1,13 @@
 package fr.insee.pogues.utils.json;
 
-import static org.junit.Assert.assertEquals;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.apache.log4j.Logger;
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Test Class used to test JSON functions
@@ -16,7 +17,7 @@ import org.junit.Test;
  */
 public class TestJSONFunctions {
 
-	final static Logger logger = Logger.getLogger(TestJSONFunctions.class);
+	final static Logger logger = LogManager.getLogger(TestJSONFunctions.class);
 
 	private String json1 = "{\"id\":\"1\",\"Name\":\"FIRSTQUESTIONNAIRE\"}";
 	private String json2 = "{\"id\":\"2\",\"Name\":\"FIRSTQUESTIONNAIRE2\"}";

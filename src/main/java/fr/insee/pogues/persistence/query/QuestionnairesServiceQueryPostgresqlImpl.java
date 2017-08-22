@@ -1,6 +1,7 @@
 package fr.insee.pogues.persistence.query;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -13,7 +14,8 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Questionnaire Service Query for the Postgresql implementation to assume the
@@ -27,7 +29,7 @@ import java.util.*;
 @PropertySource("classpath:${fr.insee.pogues.env:prod}/pogues-bo.properties")
 public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesServiceQuery {
 
-	final static Logger logger = Logger.getLogger(QuestionnairesServiceQueryPostgresqlImpl.class);
+	final static Logger logger = LogManager.getLogger(QuestionnairesServiceQueryPostgresqlImpl.class);
 
 	private Connection connection = null;
 
