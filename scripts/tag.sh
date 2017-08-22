@@ -8,7 +8,7 @@
 DOC_FOLDER="docs"
 MAIN_BRANCH="zenika-dev"
 UPSTREAM="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git"
-MESSAGE="Auto release from $USER: build $TRAVIS_BUILD"
+MESSAGE="Auto release from $USER: build $TRAVIS_BUILD_NUMBER"
 AUTHOR="$USER <>"
 VERSION=$(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }')
 TAG="v$VERSION"

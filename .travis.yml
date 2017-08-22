@@ -41,7 +41,7 @@ deploy:
   on:
     repo: Zenika/Pogues-Back-Office
     branch: zenika-dev
-    tags: true
+    tags: false
 
 branches:
   except:
