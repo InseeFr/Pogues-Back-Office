@@ -20,7 +20,6 @@ public class PipeLine {
             output = IOUtils.toString(input, Charset.forName("UTF-8"));
             return this;
         } catch (IOException e) {
-            e.printStackTrace();
             throw e;
         }
     }
@@ -30,21 +29,27 @@ public class PipeLine {
         return this;
     }
 
-    public PipeLine map(Transform<String, String> t, Map<String, Object> params) {
+    public PipeLine map(Transform<String, String> t, Map<String, Object> params) throws Exception {
         transforms.add(() -> {
             try {
                 output = t.apply(output, params);
             } catch (Exception e) {
-                e.printStackTrace();
+                throw new RuntimeException(
+                        String.format("Exception occured while executing mapping function: %s", e.getMessage())
+                );
             }
         });
         return this;
     }
 
 
-    public String transform() {
+    public String transform() throws Exception {
         for (Runnable t : transforms) {
-            t.run();
+            try {
+                t.run();
+            } catch(Exception e){
+                throw e;
+            }
         }
         return output;
     }
