@@ -39,7 +39,7 @@ deploy:
   file: target/rmspogfo.war
   skip_cleanup: true
   on:
-    repo: Zenika/Pogues-Back-Office
+    repo: ineeFr/Pogues-Back-Office
     branch: zenika-dev
     tags: false
 
