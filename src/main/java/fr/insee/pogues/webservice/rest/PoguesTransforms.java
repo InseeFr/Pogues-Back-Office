@@ -35,7 +35,7 @@ public class PoguesTransforms {
     JSONToXML jsonToXML;
 
     @Autowired
-    XMLToDDIImpl xmlToDDI;
+    XMLToDDI xmlToDDI;
 
     @Autowired
     DDIToXForm ddiToXForm;
@@ -195,7 +195,7 @@ public class PoguesTransforms {
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_XML)
     @ApiOperation(
-            value = "Get Pogues XForm From Pogues DDI metadata",
+            value = "Get Pogues visualization URI From Pogues XForm document",
             notes = "Get Transformed XForm document from Pogues DDI metadata representation"
     )
     @ApiResponses(value = {
@@ -203,7 +203,7 @@ public class PoguesTransforms {
             @ApiResponse(code = 500, message = "Error")
     })
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "poguesDDI", value = "DDI representation of the Pogues Model", paramType = "body", dataType = "string")
+            @ApiImplicitParam(name = "poguesXForm", value = "XForm document generated from Pogues DDI metadata", paramType = "body", dataType = "string")
     })
     public String xForm2URI(
             @Context final HttpServletRequest request,
