@@ -19,6 +19,12 @@ public class DDIToXFormImpl implements DDIToXForm {
 
     @Override
     public void transform(InputStream input, OutputStream output, Map<String, Object> params) throws Exception {
+        if (null == input) {
+            throw new NullPointerException("Null input");
+        }
+        if (null == output) {
+            throw new NullPointerException("Null output");
+        }
         try {
             String xform =  transform(input, params);
             output.write(xform.getBytes(StandardCharsets.UTF_8));
@@ -29,6 +35,9 @@ public class DDIToXFormImpl implements DDIToXForm {
 
     @Override
     public String transform(InputStream input, Map<String, Object> params) throws Exception {
+        if (null == input) {
+            throw new NullPointerException("Null input");
+        }
         File enoInput = null;
         try {
             enoInput = File.createTempFile("eno", ".xml");
@@ -42,6 +51,9 @@ public class DDIToXFormImpl implements DDIToXForm {
     @Override
     public String transform(String input, Map<String, Object> params) throws Exception {
         File enoInput = null;
+        if (null == input) {
+            throw new NullPointerException("Null input");
+        }
         try {
             enoInput = File.createTempFile("eno", ".xml");
             FileUtils.writeStringToFile(enoInput, input, StandardCharsets.UTF_8);
