@@ -3,7 +3,8 @@ package fr.insee.pogues.webservice.rest;
 import fr.insee.pogues.user.model.User;
 import fr.insee.pogues.user.service.UserService;
 import io.swagger.annotations.*;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -42,21 +43,7 @@ public class PoguesUser {
     @Autowired
     private UserService userService;
 
-    final static Logger logger = Logger.getLogger(PoguesUser.class);
-
-    /**
-     * Dummy GET Helloworld used in unit tests
-     *
-     * @return "Hello world" as a String
-     */
-    @GET
-    @Path("helloworld")
-    @ApiOperation(value = "Hello world",
-            notes = "Dummy GET Helloworld, used in unit tests",
-            response = String.class)
-    public String helloworld() {
-        return "Hello world";
-    }
+    final static Logger logger = LogManager.getLogger(PoguesUser.class);
 
 
     @GET

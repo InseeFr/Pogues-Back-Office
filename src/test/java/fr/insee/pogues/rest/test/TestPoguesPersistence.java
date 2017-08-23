@@ -3,7 +3,8 @@ package fr.insee.pogues.rest.test;
 import com.jayway.restassured.RestAssured;
 import fr.insee.pogues.rest.test.mock.QuestionnaireMocks;
 import fr.insee.pogues.rest.test.utils.RestAssuredConfig;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -24,7 +25,7 @@ import static org.junit.Assert.assertNotEquals;
 public class TestPoguesPersistence {
 
 
-    final static Logger logger = Logger.getLogger(TestPoguesPersistence.class);
+    final static Logger logger = LogManager.getLogger(TestPoguesPersistence.class);
 
     /**
      * Setting up the RestAssured default URI and Authentication
@@ -37,20 +38,6 @@ public class TestPoguesPersistence {
     @AfterClass
     public static void tearDown() {
         RestAssured.reset();
-    }
-
-    /**
-     * Dummy helloworld test, should return "Hello world"
-     */
-    @Test
-    public void helloworldTest() {
-        logger.debug(
-                "Dummy helloworld test : trying to reach /pogues/persistence/helloworld with Status = 200");
-        expect()
-                .statusCode(200)
-                .when()
-                .get("/pogues/persistence/helloworld");
-
     }
 
     /**

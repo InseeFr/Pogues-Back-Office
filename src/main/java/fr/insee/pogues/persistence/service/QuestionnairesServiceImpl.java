@@ -6,7 +6,8 @@ import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
 import fr.insee.pogues.user.query.UserServiceQuery;
 import fr.insee.pogues.utils.json.JSONFunctions;
 import fr.insee.pogues.webservice.rest.PoguesException;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,7 @@ import java.util.Map;
 @Service
 public class QuestionnairesServiceImpl implements QuestionnairesService {
 
-	final static Logger logger = Logger.getLogger(QuestionnairesService.class);
+	final static Logger logger = LogManager.getLogger(QuestionnairesService.class);
 
 	@Autowired
 	private QuestionnairesServiceQuery questionnaireServiceQuery;
@@ -43,6 +44,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	 */
 	public List<JSONObject> getQuestionnaireList() throws Exception {
 		try {
+			logger.debug("XXX - Get questionnaires list");
 			List<JSONObject> questionnaires = questionnaireServiceQuery.getQuestionnaires();
 			if(questionnaires.isEmpty()){
 				throw new PoguesException(404, "Not found", "Aucun questionnaire enregistré");

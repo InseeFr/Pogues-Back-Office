@@ -1,7 +1,8 @@
 package fr.insee.pogues.rest.test.utils;
 
 import com.jayway.restassured.RestAssured;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import static com.jayway.restassured.RestAssured.expect;
 
@@ -10,7 +11,7 @@ import static com.jayway.restassured.RestAssured.expect;
  */
 public class RestAssuredConfig {
 
-    private static Logger logger = Logger.getLogger(RestAssuredConfig.class);
+    private static Logger logger = LogManager.getLogger(RestAssuredConfig.class);
 
     public static String jUsername = "D5WQNO";
     public static String jPassword = "D5WQNO";

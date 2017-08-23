@@ -2,7 +2,8 @@ package fr.insee.pogues.transforms;
 
 import net.sf.saxon.s9api.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.xml.transform.Source;
@@ -29,7 +30,7 @@ public class XMLToDDIImpl implements XMLToDDI {
     private final String XSLT_FILE_4 = "transforms/xslt/5-xml2DDIDeref.xsl";
 
 
-    private Logger logger = Logger.getLogger(XMLToDDIImpl.class);
+    private Logger logger = LogManager.getLogger(XMLToDDIImpl.class);
 
     public void transform(InputStream input, OutputStream output, Map<String, Object>params) throws Exception {
         try {

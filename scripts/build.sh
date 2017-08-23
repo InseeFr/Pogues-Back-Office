@@ -14,11 +14,13 @@ if [ "$TRAVIS_BRANCH" != "$MAIN_BRANCH" ];then
   exit 0
 fi
 
+# Pull front end sources from github
 function get_static(){
     STATIC_SOURCES=$(mktemp -d)
-    git clone "$STATIC_GH_URL" "$STATIC_SOURCES"
+    git clone -b "$MAIN_BRANCH" "$STATIC_GH_URL" "$STATIC_SOURCES"
 }
 
+# Build frontend bundle
 function build_static(){
     target=${STATIC_SOURCES?Please run get_front_sources() before running build_front()}
     pushd ${target}
@@ -27,10 +29,7 @@ function build_static(){
     popd
 }
 
-function build(){
-    mvn clean install -DskipTests -Dfinal.war.name="$FINAL_WAR_NAME"
-}
-
+# Update backend war file with front end assets
 function package(){
     static=${STATIC_BUNDLE?Please run build_static() before running update()}
     for asset in $(ls ${static});do
@@ -39,7 +38,7 @@ function package(){
 }
 
 function main(){
-    get_static && build_static && build && package
+    get_static && build_static && package
 }
 
 main
