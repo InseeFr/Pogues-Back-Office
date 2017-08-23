@@ -1,17 +1,17 @@
 package fr.insee.pogues.webservice.rest;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Authorization;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.apache.log4j.Logger;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.Authorization;
 
 /**
  * Main WebService class of the StromaePublishing service
@@ -25,7 +25,7 @@ import io.swagger.annotations.Authorization;
 	    })
 public class StromaePublishing {
 
-	final static Logger logger = Logger.getLogger(StromaePublishing.class);
+	final static Logger logger = LogManager.getLogger(StromaePublishing.class);
 
 	/**
 	 * Publish a questionnaire on the vizualisation platform

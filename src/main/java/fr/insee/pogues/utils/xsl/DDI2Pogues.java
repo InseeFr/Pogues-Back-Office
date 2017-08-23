@@ -1,7 +1,7 @@
 package fr.insee.pogues.utils.xsl;
 
-import org.apache.log4j.Logger;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 
 /**
@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
  */
 public class DDI2Pogues {
 
-	final static Logger logger = Logger.getLogger(DDI2Pogues.class);
+	final static Logger logger = LogManager.getLogger(DDI2Pogues.class);
 
 	//private static XSLTransformation saxonService = new XSLTransformation();
 

@@ -1,7 +1,8 @@
 package fr.insee.pogues.user.query;
 
+import fr.insee.pogues.user.model.User;
+
 import java.util.List;
-import java.util.Map;
 
 /**
  * User Service Query interface to assume the identity service of Pogues UI in JSON
@@ -10,11 +11,19 @@ import java.util.Map;
  * 
  */
 public interface UserServiceQuery {
+	/**
+	 * A method to get the Permissions List from the LDAP
+	 * @param id Should be a known user id
+	 * @return
+	 * @throws Exception
+	 */
+	User getNameAndPermissionByID(String id) throws Exception;
 
-	public Map<String, String> getNameAndPermissionByID(String id);
-	
-	public List<String> getPermissions();
-	
-	public void close(); 
+	/**
+	 *
+	 * @return
+	 * @throws Exception
+	 */
+	List<String> getPermissions() throws Exception;
 	
 }

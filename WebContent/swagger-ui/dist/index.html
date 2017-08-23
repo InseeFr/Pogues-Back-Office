@@ -71,11 +71,12 @@
 <script src="./swagger-ui-standalone-preset.js"> </script>
 <script>
 window.onload = function() {
+  
   // Build a system
   const ui = SwaggerUIBundle({
-    url: "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/swagger.json",
+    url: window.location.protocol + "//" + window.location.host + "/rmspogfo/pogues/swagger.json",
     dom_id: '#swagger-ui',
-    validatorUrl: 'false',
+    deepLinking: true,
     presets: [
       SwaggerUIBundle.presets.apis,
       SwaggerUIStandalonePreset
@@ -83,6 +84,8 @@ window.onload = function() {
     plugins: [
       SwaggerUIBundle.plugins.DownloadUrl
     ],
+    apisSorter : "alpha",
+    operationsSorter : "method",
     layout: "StandaloneLayout"
   })
 

@@ -1,16 +1,17 @@
 package fr.insee.pogues.utils.json;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import org.apache.log4j.Logger;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 /**
  * This class contains JSON functions to convert Java collection on JSON string.
@@ -20,9 +21,23 @@ import org.json.simple.parser.ParseException;
  */
 public class JSONFunctions {
 
-	final static Logger logger = Logger.getLogger(JSONFunctions.class);
+	final static Logger logger = LogManager.getLogger(JSONFunctions.class);
 	
 	
+	
+	public static JSONObject renameQuestionnairePlural(JSONObject questionnaire) throws ParseException{
+		
+		String data = questionnaire.toString();
+		data = data.replace("\"Child\":","\"children\":");
+		data = data.replace("\"Control\":","\"controls\":");
+		data = data.replace("\"GoTo\":","\"gotos\":");
+		data = data.replace("\"Response\":","\"responses\":");
+		data = data.replace("\"Declaration\":","\"declarations\":");
+		JSONParser parser = new JSONParser();
+        JSONObject questionnaireUpdate = null;
+        questionnaireUpdate = (JSONObject) parser.parse(data);
+		return questionnaireUpdate;
+	}
 	
 	public static String getJSONArray(Map<String, String> data) {
 
@@ -33,6 +48,14 @@ public class JSONFunctions {
 		}
 		return jSONResult.substring(0, jSONResult.length()-1)+"]" ;
 
+	}
+
+	public static String getJSONArray(List<String> data){
+		JSONArray json = new JSONArray();
+		for(String permission: data){
+			json.add(permission);
+		}
+		return json.toJSONString();
 	}
 	
 	

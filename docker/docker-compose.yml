@@ -1,0 +1,30 @@
+version: "2"
+
+services:
+  ldap:
+    build: ./ldap
+    networks:
+      intra:
+        ipv4_address: 172.20.0.1
+  postgresql:
+    build: ./postgresql
+    networks:
+      intra:
+        ipv4_address: 172.20.0.2
+  tomcat:
+    build: ./tomcat
+    volumes:
+      - "./tomcat/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war"
+#    links:
+#      - "postgresql:db"
+#      - "ldap:ldap"
+    networks:
+      - intra
+    ports:
+      - "8080:8080"
+networks:
+  intra:
+    ipam:
+      config:
+        - subnet: 172.20.0.0/16
+          ip_range: 172.28.5.0/24

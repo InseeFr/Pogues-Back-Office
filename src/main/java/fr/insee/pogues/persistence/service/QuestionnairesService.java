@@ -1,106 +1,56 @@
 package fr.insee.pogues.persistence.service;
 
-import java.util.Map;
-import java.util.Map.Entry;
+import org.json.simple.JSONObject;
 
-import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
-import fr.insee.pogues.persistence.query.QuestionnairesServiceQueryPostgresqlImpl;
-import fr.insee.pogues.utils.json.JSONFunctions;
-
+import java.util.List;
 
 /**
- * Questionnaire Service to assume the persistance of Pogues UI in JSON
- * 
- * @author I6VWID
- * 
- * @see /Pogues-BO/src/main/java/fr/insee/pogues/webservice/rest/
- *      PoguesPersistenceQuestionnaireList.java
- *
+ * Created by acordier on 05/07/17.
  */
-public class QuestionnairesService {
+public interface QuestionnairesService {
 
-	private QuestionnairesServiceQuery questionnaireServiceQuery;
+    List<JSONObject> getQuestionnaireList() throws Exception;
 
-	/**
-	 * Contructor for Questionnaires Service, init the transaction if needed
-	 * 
-	 */
-	public QuestionnairesService() {
-		// TODO externalisation of the implementation parameter
-		questionnaireServiceQuery = new QuestionnairesServiceQueryPostgresqlImpl();
-	}
-	
-	/**
-	 * A method to close the transaction if needed.
-	 * 
-	 */
-	public void close(){
-		questionnaireServiceQuery.close();
-	}
+    /**
+     *
+     * @param id Should be a known username
+     * @return A collection of questionnaire objects mapped to their id
+     * @throws Exception
+     */
+    List<JSONObject> getQuestionnairesByOwner(String id)throws Exception;
 
-	/**
-	 * A method to get the `QuestionnaireList` object in the database
-	 * 
-	 * @return the questionnaires list JSON description of the questionnaires
-	 */
-	public String getQuestionnaireList() {
+    /**
+     *
+     * @param id Id of requested object
+     * @return
+     * @throws Exception
+     */
+    JSONObject getQuestionnaireByID(String id) throws Exception;
 
-		Map<String, String> questionnaires = questionnaireServiceQuery.getQuestionnaires();
-		String questionnaireList = JSONFunctions.getJSONArray(questionnaires);
-		return questionnaireList;
+    /**
+     *
+     * @param id Id of the object we want to delete
+     * @throws Exception
+     */
+    void deleteQuestionnaireByID(String id) throws Exception;
 
-	}
-	
-	public String getQuestionnairesByOwner(String owner) {
+    /**
+     * Delete all objects in db, development purpose
+     * @throws Exception
+     */
+    void deleteAllQuestionnaires() throws Exception;
 
-		Map<String, String> questionnaires = questionnaireServiceQuery.getQuestionnairesByOwner(owner);
-		String questionnaireList = JSONFunctions.getJSONArray(questionnaires);
-		return questionnaireList;
+    /**
+     * Create a questionnaire object
+     * @param questionnaire
+     * @throws Exception
+     */
+    void createQuestionnaire(JSONObject questionnaire) throws Exception;
 
-	}
-	
-
-	public String getQuestionnaireByID(String id) {
-
-		return questionnaireServiceQuery.getQuestionnaireByID(id);
-
-	}
-	
-	public void deleteQuestionnaireByID(String id) {
-
-		questionnaireServiceQuery.deleteQuestionnaireByID(id);
-
-	}
-
-	public void createOrReplaceQuestionnaire(String id, String questionnaire) {
-
-		questionnaireServiceQuery.createOrReplaceQuestionnaire(id, questionnaire);
-
-	}
-	
-	public String createQuestionnaire(String questionnaire) {
-		String id = JSONFunctions.getQuestionnaireIDinQuestionnaire(questionnaire);
-		this.createOrReplaceQuestionnaire(id,questionnaire);
-		return id;
-	}
-
-	public void createOrReplaceQuestionnaireList(String questionnaireList) {
-		
-		Map<String, String> questionnaires = JSONFunctions.getMap(questionnaireList);
-		for(Entry<String, String> entry : questionnaires.entrySet()) {
-			String id = entry.getKey();
-			String questionnaire = entry.getValue();
-			this.createOrReplaceQuestionnaire(id,questionnaire);
-		}
-	}
-	
-	
-
-	
-	
-	
-	
-	
-	
-
+    /**
+     * Update a questionnaire object
+     * @param questionnaire
+     * @throws Exception
+     */
+    void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception;
 }
