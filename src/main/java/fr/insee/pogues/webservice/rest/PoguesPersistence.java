@@ -32,9 +32,7 @@ import java.util.List;
  */
 @Component
 @Path("/persistence")
-@Api(value = "PoguesPersistence", authorizations = {
-	      @Authorization(value="sampleoauth", scopes = {})
-	    })
+@Api(value = "Pogues Persistence")
 public class PoguesPersistence {
 
     final static Logger logger = LogManager.getLogger(PoguesPersistence.class);

@@ -28,6 +28,7 @@ import java.util.Map;
  * @author I6VWID
  */
 @Path("/transform")
+@Api(value = "Pogues Transforms")
 public class PoguesTransforms {
 
     final static Logger logger = LogManager.getLogger(PoguesTransforms.class);
