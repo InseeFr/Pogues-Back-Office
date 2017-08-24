@@ -7,7 +7,7 @@ Following rules apply for access control
  
 User attributes are given by the constructor of the User model entity:
 
-[import:'<marker0,marker1>'](../../../src/main/java/fr/insee/pogues/user/model/User.java)
+[import:'marker0'](../../../src/main/java/fr/insee/pogues/user/model/User.java)
  
 Access control is implemented using a jersey filter defined in  ```OwnerRestrictedFilter.java```. 
 This allow us to apply access control by adding the ```@OwnerRestricted``` annotation on any resource accepting a pogues model entity as a payload.

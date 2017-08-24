@@ -7,7 +7,7 @@ Les règles d'usage pour le contrôle des permissions sont:
 
 Les attributs d'un utilisateur sont indiqués par le constructeur de la classe User:
 
-[import:'<marker0,marker1>'](../../../src/main/java/fr/insee/pogues/user/model/User.java
+[import:'marker0'](../../../src/main/java/fr/insee/pogues/user/model/User.java)
  
 Le contrôle d'accès s'effectue au moyen d'un filtre jersey définit dans le fichier ```OwnerRestrictedFilter.java```. 
 Il est activé en ajoutant l'annotation ```@OwnerRestricted``` sur une ressource attendant une payload correspondant à un questionnaire.
