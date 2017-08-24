@@ -1,10 +1,10 @@
-# Processus d'intégration
+# Integration Process
 
-Cette section décrit les outils mis en place sur le projet pour l'écriture et l'exécution des tests, les fonctionnalités testées ou à tester et la configuration de la plateforme d'intégration continue utilisée (Travis)
+This section describes testing frameworks and tools used in development stage, actual test coverage and Travis CI configuration.
 
-## Vue d'ensemble du workflow d'intégration
+## Workflow Overview
 
-## Sur le fork du projet
+## Project Fork
 
 {% sequence %}
 task_branch->>zenika_dev@zenika: Pull Request
@@ -20,7 +20,7 @@ Note over travis@zenika: Build
 Note over travis@zenika: Publish doc
 {% endsequence %}
 
-## Intégration I.N.S.E.E.
+## .N.S.E.E. repository
 
 {% sequence %}
 zenika_dev@zenika->>zenika_dev@insee: Pull Request
