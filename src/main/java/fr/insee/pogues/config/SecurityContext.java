@@ -16,7 +16,6 @@ import java.util.Arrays;
  */
 //@Configuration
 @EnableWebSecurity
-//@PropertySource("classpath:${fr.insee.pogues.env:prod}/pogues-bo.properties")
 public class SecurityContext extends WebSecurityConfigurerAdapter {
 
     @Autowired

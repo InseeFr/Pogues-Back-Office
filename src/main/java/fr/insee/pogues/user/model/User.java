@@ -12,6 +12,7 @@ public class User implements Serializable {
 
     public User() {}
 
+    /// [marker0]
     public User(String id, String name, String firstName, String lastName, String permission) {
         this.id = id;
         this.name = name;
@@ -19,6 +20,7 @@ public class User implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
     }
+    /// [marker1]
 
     public String getId() {
         return id;
