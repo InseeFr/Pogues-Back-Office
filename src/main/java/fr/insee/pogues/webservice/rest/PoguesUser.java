@@ -20,7 +20,7 @@ import javax.ws.rs.core.Response.Status;
 
 @Component
 @Path("/user")
-@Api(value = "Pogues User")
+@Api(value = "Pogues Users")
 public class PoguesUser {
 
 

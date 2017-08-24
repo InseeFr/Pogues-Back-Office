@@ -20,9 +20,7 @@ import javax.ws.rs.core.Response.Status;
  *
  */
 @Path("/StromaePublishing")
-@Api(value = "PoguesStromaePublishing", authorizations = {
-	      @Authorization(value="sampleoauth", scopes = {})
-	    })
+@Api(value = "Pogues Stromae Publishing")
 public class StromaePublishing {
 
 	final static Logger logger = LogManager.getLogger(StromaePublishing.class);
