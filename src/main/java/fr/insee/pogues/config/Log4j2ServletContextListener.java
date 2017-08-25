@@ -18,7 +18,7 @@ public class Log4j2ServletContextListener implements ServletContextListener {
         if(null == env) {
             env = "dv";
         }
-        this.log4j2ConfigFile = String.format("%s/log4j2.xml", env);
+        this.log4j2ConfigFile = String.format("env/%s/log4j2.xml", env);
     }
 
     @Override
