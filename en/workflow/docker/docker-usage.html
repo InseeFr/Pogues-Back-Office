@@ -1,10 +1,10 @@
 
 <!DOCTYPE HTML>
-<html lang="fr" >
+<html lang="en" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Docker · GitBook</title>
+        <title>Docker Usage · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="docker-folders.html" />
+    <link rel="next" href="../travis.html" />
     
     
-    <link rel="prev" href="../testing/" />
+    <link rel="prev" href="docker-folders.html" />
     
 
     </head>
@@ -71,7 +71,7 @@
         
             
 <div id="book-search-input" role="search">
-    <input type="text" placeholder="Tapez pour rechercher" />
+    <input type="text" placeholder="Type to search" />
 </div>
 
             
@@ -87,7 +87,7 @@
 
     
         
-        <li class="header">Guide du développeur</li>
+        <li class="header">Developer guide</li>
         
         
     
@@ -109,7 +109,7 @@
                 <a href="../../getting-started.html">
             
                     
-                    Démarrage
+                    Getting Start
             
                 </a>
             
@@ -122,7 +122,7 @@
                 <a href="../../environments/">
             
                     
-                    Environnements
+                    Environments
             
                 </a>
             
@@ -135,7 +135,7 @@
                 <a href="../">
             
                     
-                    Intégration
+                    Workflow
             
                 </a>
             
@@ -157,7 +157,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.4.2" data-path="./">
+        <li class="chapter " data-level="1.4.2" data-path="./">
             
                 <a href="./">
             
@@ -176,7 +176,7 @@
                 <a href="docker-folders.html">
             
                     
-                    Le répertoire docker
+                    The docker Folder
             
                 </a>
             
@@ -184,12 +184,12 @@
             
         </li>
     
-        <li class="chapter " data-level="1.4.2.2" data-path="docker-usage.html">
+        <li class="chapter active" data-level="1.4.2.2" data-path="docker-usage.html">
             
                 <a href="docker-usage.html">
             
                     
-                    Utilisation
+                    Docker Usage
             
                 </a>
             
@@ -207,7 +207,7 @@
                 <a href="../travis.html">
             
                     
-                    Travis
+                    Travis CI
             
                 </a>
             
@@ -225,7 +225,7 @@
                 <a href="../../persistence/">
             
                     
-                    Modèle de données
+                    Data Model
             
                 </a>
             
@@ -238,7 +238,7 @@
                 <a href="../../security/">
             
                     
-                    Contrôle d'accès
+                    Security and Access Control
             
                 </a>
             
@@ -252,7 +252,7 @@
                 <a href="../../security/authentication.html">
             
                     
-                    Authentification
+                    Authentication
             
                 </a>
             
@@ -265,7 +265,7 @@
                 <a href="../../security/permissions.html">
             
                     
-                    Autorisations
+                    Autorization
             
                 </a>
             
@@ -298,7 +298,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Publié avec GitBook
+            Published with GitBook
         </a>
     </li>
 </ul>
@@ -321,7 +321,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >Docker</a>
+        <a href="../.." >Docker Usage</a>
     </h1>
 </div>
 
@@ -337,40 +337,68 @@
                                 <section class="normal markdown-section">
                                 
                                 <p><img src="../../../pics/docker.png" alt="docker"></p>
-<h2 id="pr&#xE9;requis">Pr&#xE9;requis</h2>
-<p>Installer <a href="https://docs.docker.com/engine/installation/" target="_blank">Docker</a>. La version de r&#xE9;f&#xE9;rence pour cette documentation est la suivante:</p>
-<pre><code class="lang-bash">docker version
-</code></pre>
-<pre><code>Client:
- Version:      17.05.0-ce
- API version:  1.29
- Go version:   go1.7.5
- Git commit:   89658be
- Built:        Thu May  4 22:14:18 2017
- OS/Arch:      linux/amd64
-
-Server:
- Version:      17.05.0-ce
- API version:  1.29 (minimum version 1.12)
- Go version:   go1.7.5
- Git commit:   89658be
- Built:        Thu May  4 22:14:18 2017
- OS/Arch:      linux/amd64
- Experimental: false
-</code></pre><p>Installer <a href="https://docs.docker.com/compose/install/" target="_blank">Docker Compose</a>. La version de r&#xE9;f&#xE9;rence pour cette documentation est la suivante:</p>
-<pre><code class="lang-bash">docker-compose version
-</code></pre>
-<pre><code>docker-compose version 1.9.0, build 2585387
-docker-py version: 1.10.6
-CPython version: 2.7.13
-OpenSSL version: OpenSSL 1.0.2k-fips  26 Jan 2017
-</code></pre><h2 id="probl&#xE8;mes-r&#xE9;solus-par-docker">Probl&#xE8;mes r&#xE9;solus par Docker</h2>
-<p>Docker et docker-compose sont utilis&#xE9;s pour orchestrer un environnement d&apos;ex&#xE9;cution le plus proche possible de l&apos;environnement de production afin de nous permettre de: </p>
+<h2 id="docker-usage">Docker Usage</h2>
+<h3 id="docker-compose">Docker Compose</h3>
+<p>The docker-compose.yml file defines:</p>
 <ul>
-<li>Ne pas d&#xE9;pendre de l&apos;infrastructure pendant la phase de d&#xE9;veloppement.</li>
-<li>Ex&#xE9;cuter des tests d&apos;int&#xE9;gration pendant la phase de build avec Travis.</li>
+<li>Docker container to build/run (build directive) </li>
+<li>Network links between those containers (networks directive)</li>
+<li>Port bindings (ports directive)</li>
+<li>Mounted data volumes for each of our containers (volumes directive)</li>
 </ul>
+<pre><code class="lang-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&quot;2&quot;</span>
 
+<span class="hljs-attr">services:</span>
+<span class="hljs-attr">  ldap:</span>
+<span class="hljs-attr">    build:</span> ./ldap
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-attr">      intra:</span>
+<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>
+<span class="hljs-attr">  postgresql:</span>
+<span class="hljs-attr">    build:</span> ./postgresql
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-attr">      intra:</span>
+<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.2</span>
+<span class="hljs-attr">  tomcat:</span>
+<span class="hljs-attr">    build:</span> ./tomcat
+<span class="hljs-attr">    volumes:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./tomcat/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war&quot;</span>
+<span class="hljs-comment">#    links:</span>
+<span class="hljs-comment">#      - &quot;postgresql:db&quot;</span>
+<span class="hljs-comment">#      - &quot;ldap:ldap&quot;</span>
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-bullet">      -</span> intra
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;8080:8080&quot;</span>
+<span class="hljs-attr">networks:</span>
+<span class="hljs-attr">  intra:</span>
+<span class="hljs-attr">    ipam:</span>
+<span class="hljs-attr">      config:</span>
+<span class="hljs-attr">        - subnet:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>/<span class="hljs-number">16</span>
+<span class="hljs-attr">          ip_range:</span> <span class="hljs-number">172.28</span><span class="hljs-number">.5</span><span class="hljs-number">.0</span>/<span class="hljs-number">24</span>
+</code></pre>
+<p>Travis will run the following command to run the containers:</p>
+<pre><code class="lang-bash">docker-compose up
+</code></pre>
+<p>With this command all the containers will best started and linked to each other resulting in an up and running environment.</p>
+<p><strong><em>NB:</em></strong> 
+Tomcat container will start a server instance using the &apos;qa&apos; environment</p>
+<pre><code class="lang-bash"><span class="hljs-built_in">export</span> CATALINA_OPTS=<span class="hljs-string">&quot;qa&quot;</span>
+</code></pre>
+<h3 id="using-docker-in-development-mode">Using docker in development mode</h3>
+<p>Possible solutions:</p>
+<ul>
+<li>Configure your IDE to use the tomcat container as the running environment for the application</li>
+<li>Use docker-compose to start only the LDAP and Postgresql containers and let your IDE run the application</li>
+</ul>
+<p>Example: using the docker-compose way </p>
+<p>Start PostgreSQL and LDAP backend using docker-compose</p>
+<pre><code class="lang-bash">docker-compose up postgresql ldap
+</code></pre>
+<p>Run tomcat in your IDE using the dev environment:</p>
+<p>With Eclipse or IDEA just edit your run configuration to use the following VM argument:</p>
+<pre><code>-Dfr.insee.pogues.env=dev
+</code></pre>
                                 
                                 </section>
                             
@@ -397,12 +425,12 @@ OpenSSL version: OpenSSL 1.0.2k-fips  26 Jan 2017
 
             
                 
-                <a href="../testing/" class="navigation navigation-prev " aria-label="Previous page: Tests">
+                <a href="docker-folders.html" class="navigation navigation-prev " aria-label="Previous page: The docker Folder">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="docker-folders.html" class="navigation navigation-next " aria-label="Next page: Le répertoire docker">
+                <a href="../travis.html" class="navigation navigation-next " aria-label="Next page: Travis CI">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -413,7 +441,7 @@ OpenSSL version: OpenSSL 1.0.2k-fips  26 Jan 2017
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Docker","level":"1.4.2","depth":2,"next":{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"previous":{"title":"Tests","level":"1.4.1","depth":2,"path":"workflow/testing/README.md","ref":"workflow/testing/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/docker/README.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"../..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Docker Usage","level":"1.4.2.2","depth":3,"next":{"title":"Travis CI","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"previous":{"title":"The docker Folder","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"workflow/docker/docker-usage.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"../..","book":{"language":"en"}});
         });
     </script>
 </div>

@@ -1,10 +1,10 @@
 
 <!DOCTYPE HTML>
-<html lang="fr" >
+<html lang="en" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Autorisations · GitBook</title>
+        <title>Autorization · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -71,7 +71,7 @@
         
             
 <div id="book-search-input" role="search">
-    <input type="text" placeholder="Tapez pour rechercher" />
+    <input type="text" placeholder="Type to search" />
 </div>
 
             
@@ -87,7 +87,7 @@
 
     
         
-        <li class="header">Guide du développeur</li>
+        <li class="header">Developer guide</li>
         
         
     
@@ -109,7 +109,7 @@
                 <a href="../getting-started.html">
             
                     
-                    Démarrage
+                    Getting Start
             
                 </a>
             
@@ -122,7 +122,7 @@
                 <a href="../environments/">
             
                     
-                    Environnements
+                    Environments
             
                 </a>
             
@@ -135,7 +135,7 @@
                 <a href="../workflow/">
             
                     
-                    Intégration
+                    Workflow
             
                 </a>
             
@@ -176,7 +176,7 @@
                 <a href="../workflow/docker/docker-folders.html">
             
                     
-                    Le répertoire docker
+                    The docker Folder
             
                 </a>
             
@@ -189,7 +189,7 @@
                 <a href="../workflow/docker/docker-usage.html">
             
                     
-                    Utilisation
+                    Docker Usage
             
                 </a>
             
@@ -207,7 +207,7 @@
                 <a href="../workflow/travis.html">
             
                     
-                    Travis
+                    Travis CI
             
                 </a>
             
@@ -225,7 +225,7 @@
                 <a href="../persistence/">
             
                     
-                    Modèle de données
+                    Data Model
             
                 </a>
             
@@ -238,7 +238,7 @@
                 <a href="./">
             
                     
-                    Contrôle d'accès
+                    Security and Access Control
             
                 </a>
             
@@ -252,7 +252,7 @@
                 <a href="authentication.html">
             
                     
-                    Authentification
+                    Authentication
             
                 </a>
             
@@ -265,7 +265,7 @@
                 <a href="permissions.html">
             
                     
-                    Autorisations
+                    Autorization
             
                 </a>
             
@@ -298,7 +298,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Publié avec GitBook
+            Published with GitBook
         </a>
     </li>
 </ul>
@@ -321,7 +321,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Autorisations</a>
+        <a href=".." >Autorization</a>
     </h1>
 </div>
 
@@ -336,13 +336,13 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="permissions">Permissions</h1>
-<p>Les r&#xE8;gles d&apos;usage pour le contr&#xF4;le des permissions sont:</p>
+                                <h1 id="autorization">Autorization</h1>
+<p>Following rules apply for access control</p>
 <ul>
-<li>Uniquement sur les op&#xE9;rations de mise &#xE0; jour (PUT sur le endpoint /persistence/questionnaires/{id})</li>
-<li>Les permissions sont v&#xE9;rifi&#xE9;es &#xE0; l&apos;aide de l&apos;attribut &apos;permission&apos; de l&apos;utilisateur connect&#xE9;.</li>
+<li>Access control applies only on updates (using PUT verb against /persistence/questionnaires/{id})</li>
+<li>Permissions are verified using the &apos;permission&apos; attribute of the user under control.</li>
 </ul>
-<p>Les attributs d&apos;un utilisateur sont indiqu&#xE9;s par le constructeur de la classe User:</p>
+<p>User attributes are given by the constructor of the User model entity:</p>
 <pre><code class="lang-java">    <span class="hljs-function"><span class="hljs-keyword">public</span> <span class="hljs-title">User</span><span class="hljs-params">(
             String id,
             String name,
@@ -357,9 +357,9 @@
         <span class="hljs-keyword">this</span>.lastName = lastName;
     }
 </code></pre>
-<p>Le contr&#xF4;le d&apos;acc&#xE8;s s&apos;effectue au moyen d&apos;un filtre jersey d&#xE9;finit dans le fichier <code>OwnerRestrictedFilter.java</code>. 
-Il est activ&#xE9; en ajoutant l&apos;annotation <code>@OwnerRestricted</code> sur une ressource attendant une payload correspondant &#xE0; un questionnaire.</p>
-<p>Le fichier de test d&#xE9;crivant le comportement de ce filtre est le suivant:</p>
+<p>Access control is implemented using a jersey filter defined in  <code>OwnerRestrictedFilter.java</code>. 
+This allow us to apply access control by adding the <code>@OwnerRestricted</code> annotation on any resource accepting a pogues model entity as a payload.</p>
+<p>For better comprehension here is the test class fr OwnerRestrictedFilter </p>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> fr.insee.pogues.jersey;
 
 <span class="hljs-keyword">import</span> fr.insee.pogues.persistence.service.QuestionnairesService;
@@ -581,7 +581,7 @@ Il est activ&#xE9; en ajoutant l&apos;annotation <code>@OwnerRestricted</code> s
 
             
                 
-                <a href="authentication.html" class="navigation navigation-prev " aria-label="Previous page: Authentification">
+                <a href="authentication.html" class="navigation navigation-prev " aria-label="Previous page: Authentication">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -597,7 +597,7 @@ Il est activ&#xE9; en ajoutant l&apos;annotation <code>@OwnerRestricted</code> s
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Autorisations","level":"1.6.2","depth":2,"next":{"title":"Transformations","level":"1.7","depth":1,"path":"conversions/README.md","ref":"conversions/README.md","articles":[]},"previous":{"title":"Authentification","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"security/permissions.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Autorization","level":"1.6.2","depth":2,"next":{"title":"Transformations","level":"1.7","depth":1,"path":"conversions/README.md","ref":"conversions/README.md","articles":[]},"previous":{"title":"Authentication","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"security/permissions.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"en"}});
         });
     </script>
 </div>

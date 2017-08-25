@@ -60,7 +60,7 @@
     <link rel="next" href="authentication.html" />
     
     
-    <link rel="prev" href="../persistence/pogues-model.html" />
+    <link rel="prev" href="../persistence/" />
     
 
     </head>
@@ -231,38 +231,6 @@
             
 
             
-            <ul class="articles">
-                
-    
-        <li class="chapter " data-level="1.5.1" data-path="../persistence/structure.html">
-            
-                <a href="../persistence/structure.html">
-            
-                    
-                    Structure de données
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.5.2" data-path="../persistence/pogues-model.html">
-            
-                <a href="../persistence/pogues-model.html">
-            
-                    
-                    Pogues Model
-            
-                </a>
-            
-
-            
-        </li>
-    
-
-            </ul>
-            
         </li>
     
         <li class="chapter active" data-level="1.6" data-path="./">
@@ -307,6 +275,19 @@
     
 
             </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../conversions/">
+            
+                <a href="../conversions/">
+            
+                    
+                    Transformations
+            
+                </a>
+            
+
             
         </li>
     
@@ -356,14 +337,16 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="contr&#xF4;le-dacc&#xE8;s-et-s&#xE9;curit&#xE9;">Contr&#xF4;le d&apos;Acc&#xE8;s et S&#xE9;curit&#xE9;</h1>
-<p><em>Les r&#xE8;gles de contr&#xF4;le d&apos;acc&#xE8;s et de s&#xE9;curit&#xE9; sont fortement suceptibles d&apos;&#xE9;voluer puisqu&apos;un m&#xE9;canisme de SSO coupl&#xE9; &#xE0; une f&#xE9;d&#xE9;ration d&apos;identit&#xE9; doit remplacer le syst&#xE8;me d&apos;authentification par formulaire actuellement en place sur l&apos;int&#xE9;gration.</em></p>
-<p>Globalement on peut noter que:</p>
+<p><em>Les r&#xE8;gles de contr&#xF4;le d&apos;acc&#xE8;s et de s&#xE9;curit&#xE9; sont fortement suceptibles en raison de l&apos;introduction d&apos;une f&#xE9;d&#xE9;ration d&apos;identit&#xE9;s et des discussions en cours sur la politique de s&#xE9;curit&#xE9; &#xE0; mettre en place</em></p>
+<p>Pour le moment les r&#xE8;gles appliqu&#xE9;es sont les suivantes:</p>
 <ul>
 <li><p>La plupart des ressources de l&apos;application sont accessibles sans contr&#xF4;le de permission apr&#xE8;s authentification de l&apos;utilisateur (Les exceptions sont d&#xE9;crites dans la partie <a href="permissions.html">permissions</a> de cette documentation)</p>
 </li>
-<li><p>Les utilisateurs sont authentifi&#xE9;s aupr&#xE8;s d&apos;un annuaire LDAP.</p>
+<li><p>La v&#xE9;rification de mot de passe et l&apos;approvisionnement du compte utilisateur d&apos;&#xE9;ffectue aupr&#xE8;s d&apos;un annuaire LDAP</p>
 </li>
-<li><p>L&apos;authentification est r&#xE9;alis&#xE9;e gr&#xE2;ce &#xE0; Spring Security.</p>
+<li><p>L&apos;impl&#xE9;mentations de la couche d&apos;authentification est r&#xE9;alis&#xE9;e par l&apos;interm&#xE9;diaire de  <a href="https://projects.spring.io/spring-security/" target="_blank">Spring Security</a>.</p>
+</li>
+<li><p>Le contr&#xF4;le d&apos;acc&#xE8;s est effectu&#xE9; par l&apos;interm&#xE9;diaire de  <a href="permissions.html">filtres Jersey</a></p>
 </li>
 </ul>
 
@@ -393,7 +376,7 @@
 
             
                 
-                <a href="../persistence/pogues-model.html" class="navigation navigation-prev " aria-label="Previous page: Pogues Model">
+                <a href="../persistence/" class="navigation navigation-prev " aria-label="Previous page: Modèle de données">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -409,7 +392,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Contrôle d'accès","level":"1.6","depth":1,"next":{"title":"Authentification","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},"previous":{"title":"Pogues Model","level":"1.5.2","depth":2,"path":"persistence/pogues-model.md","ref":"persistence/pogues-model.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"security/README.md","mtime":"2017-08-24T09:31:39.421Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-24T09:37:16.767Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Contrôle d'accès","level":"1.6","depth":1,"next":{"title":"Authentification","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},"previous":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"security/README.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>

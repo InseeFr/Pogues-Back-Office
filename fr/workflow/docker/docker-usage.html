@@ -231,38 +231,6 @@
             
 
             
-            <ul class="articles">
-                
-    
-        <li class="chapter " data-level="1.5.1" data-path="../../persistence/structure.html">
-            
-                <a href="../../persistence/structure.html">
-            
-                    
-                    Structure de données
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter " data-level="1.5.2" data-path="../../persistence/pogues-model.html">
-            
-                <a href="../../persistence/pogues-model.html">
-            
-                    
-                    Pogues Model
-            
-                </a>
-            
-
-            
-        </li>
-    
-
-            </ul>
-            
         </li>
     
         <li class="chapter " data-level="1.6" data-path="../../security/">
@@ -307,6 +275,19 @@
     
 
             </ul>
+            
+        </li>
+    
+        <li class="chapter " data-level="1.7" data-path="../../conversions/">
+            
+                <a href="../../conversions/">
+            
+                    
+                    Transformations
+            
+                </a>
+            
+
             
         </li>
     
@@ -401,7 +382,7 @@
 </code></pre>
 <p>L&apos;ex&#xE9;cution de cette commande d&#xE9;marre les trois containers et relie le container tomcat aux containers ldap et postgresql.</p>
 <p><strong><em>NB:</em></strong> Pour indiquer au serveur tomcat qu&apos;il doit utiliser les containers comme backend il faut &#xE9;diter la variable d&apos;environement CATALINA_OPT comme ceci:</p>
-<pre><code class="lang-bash"><span class="hljs-built_in">export</span> CATALINA_OPTS=<span class="hljs-string">&quot;-Dfr.insee.pogues.env=qa&quot;</span>
+<pre><code class="lang-bash"><span class="hljs-built_in">export</span> CATALINA_OPTS=<span class="hljs-string">&quot;env.qav.qa&quot;</span>
 </code></pre>
 <p>Cette variable est d&#xE9;finie par d&#xE9;faut &#xE0; la g&#xE9;n&#xE9;ration de l&apos;image docker donc implicitement d&#xE9;finie lors de l&apos;utilisation de la commande <code>docker-compose up</code></p>
 <h3 id="utilisation-en-mode-d&#xE9;veloppement">Utilisation en mode d&#xE9;veloppement</h3>
@@ -417,7 +398,7 @@
 <p>Indiquer &#xE0; tomcat qu&apos;il doit utiliser ces containers comme backends:</p>
 <p>Sur Eclipse ou IntelliJ il suffit d&apos;&#xE9;diter la configuration de lancement 
 pour passer la variable d&apos;environnement appropri&#xE9;e &#xE0; tomcat</p>
-<pre><code>-Dfr.insee.pogues.env=dev
+<pre><code>-Dfr.insee.pogues.env=env.dev
 </code></pre>
                                 
                                 </section>
@@ -461,7 +442,7 @@ pour passer la variable d&apos;environnement appropri&#xE9;e &#xE0; tomcat</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Utilisation","level":"1.4.2.2","depth":3,"next":{"title":"Travis","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"previous":{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/docker/docker-usage.md","mtime":"2017-08-24T09:31:39.421Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-24T09:37:16.767Z"},"basePath":"../..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Utilisation","level":"1.4.2.2","depth":3,"next":{"title":"Travis","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"previous":{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/docker/docker-usage.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"../..","book":{"language":"fr"}});
         });
     </script>
 </div>

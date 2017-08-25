@@ -1,10 +1,10 @@
 
 <!DOCTYPE HTML>
-<html lang="fr" >
+<html lang="en" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Docker · GitBook</title>
+        <title>The docker Folder · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,10 @@
     <link rel="shortcut icon" href="../../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="docker-folders.html" />
+    <link rel="next" href="docker-usage.html" />
     
     
-    <link rel="prev" href="../testing/" />
+    <link rel="prev" href="./" />
     
 
     </head>
@@ -71,7 +71,7 @@
         
             
 <div id="book-search-input" role="search">
-    <input type="text" placeholder="Tapez pour rechercher" />
+    <input type="text" placeholder="Type to search" />
 </div>
 
             
@@ -87,7 +87,7 @@
 
     
         
-        <li class="header">Guide du développeur</li>
+        <li class="header">Developer guide</li>
         
         
     
@@ -109,7 +109,7 @@
                 <a href="../../getting-started.html">
             
                     
-                    Démarrage
+                    Getting Start
             
                 </a>
             
@@ -122,7 +122,7 @@
                 <a href="../../environments/">
             
                     
-                    Environnements
+                    Environments
             
                 </a>
             
@@ -135,7 +135,7 @@
                 <a href="../">
             
                     
-                    Intégration
+                    Workflow
             
                 </a>
             
@@ -157,7 +157,7 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.4.2" data-path="./">
+        <li class="chapter " data-level="1.4.2" data-path="./">
             
                 <a href="./">
             
@@ -171,12 +171,12 @@
             <ul class="articles">
                 
     
-        <li class="chapter " data-level="1.4.2.1" data-path="docker-folders.html">
+        <li class="chapter active" data-level="1.4.2.1" data-path="docker-folders.html">
             
                 <a href="docker-folders.html">
             
                     
-                    Le répertoire docker
+                    The docker Folder
             
                 </a>
             
@@ -189,7 +189,7 @@
                 <a href="docker-usage.html">
             
                     
-                    Utilisation
+                    Docker Usage
             
                 </a>
             
@@ -207,7 +207,7 @@
                 <a href="../travis.html">
             
                     
-                    Travis
+                    Travis CI
             
                 </a>
             
@@ -225,7 +225,7 @@
                 <a href="../../persistence/">
             
                     
-                    Modèle de données
+                    Data Model
             
                 </a>
             
@@ -238,7 +238,7 @@
                 <a href="../../security/">
             
                     
-                    Contrôle d'accès
+                    Security and Access Control
             
                 </a>
             
@@ -252,7 +252,7 @@
                 <a href="../../security/authentication.html">
             
                     
-                    Authentification
+                    Authentication
             
                 </a>
             
@@ -265,7 +265,7 @@
                 <a href="../../security/permissions.html">
             
                     
-                    Autorisations
+                    Autorization
             
                 </a>
             
@@ -298,7 +298,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Publié avec GitBook
+            Published with GitBook
         </a>
     </li>
 </ul>
@@ -321,7 +321,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href="../.." >Docker</a>
+        <a href="../.." >The docker Folder</a>
     </h1>
 </div>
 
@@ -337,39 +337,34 @@
                                 <section class="normal markdown-section">
                                 
                                 <p><img src="../../../pics/docker.png" alt="docker"></p>
-<h2 id="pr&#xE9;requis">Pr&#xE9;requis</h2>
-<p>Installer <a href="https://docs.docker.com/engine/installation/" target="_blank">Docker</a>. La version de r&#xE9;f&#xE9;rence pour cette documentation est la suivante:</p>
-<pre><code class="lang-bash">docker version
-</code></pre>
-<pre><code>Client:
- Version:      17.05.0-ce
- API version:  1.29
- Go version:   go1.7.5
- Git commit:   89658be
- Built:        Thu May  4 22:14:18 2017
- OS/Arch:      linux/amd64
-
-Server:
- Version:      17.05.0-ce
- API version:  1.29 (minimum version 1.12)
- Go version:   go1.7.5
- Git commit:   89658be
- Built:        Thu May  4 22:14:18 2017
- OS/Arch:      linux/amd64
- Experimental: false
-</code></pre><p>Installer <a href="https://docs.docker.com/compose/install/" target="_blank">Docker Compose</a>. La version de r&#xE9;f&#xE9;rence pour cette documentation est la suivante:</p>
-<pre><code class="lang-bash">docker-compose version
-</code></pre>
-<pre><code>docker-compose version 1.9.0, build 2585387
-docker-py version: 1.10.6
-CPython version: 2.7.13
-OpenSSL version: OpenSSL 1.0.2k-fips  26 Jan 2017
-</code></pre><h2 id="probl&#xE8;mes-r&#xE9;solus-par-docker">Probl&#xE8;mes r&#xE9;solus par Docker</h2>
-<p>Docker et docker-compose sont utilis&#xE9;s pour orchestrer un environnement d&apos;ex&#xE9;cution le plus proche possible de l&apos;environnement de production afin de nous permettre de: </p>
-<ul>
-<li>Ne pas d&#xE9;pendre de l&apos;infrastructure pendant la phase de d&#xE9;veloppement.</li>
-<li>Ex&#xE9;cuter des tests d&apos;int&#xE9;gration pendant la phase de build avec Travis.</li>
-</ul>
+<h2 id="the-docker-folder">The docker folder</h2>
+<p>Files used to build and run our docker containers are defined in the project root folder under the docker subdirectory:</p>
+<pre><code>&#x251C;&#x2500;&#x2500; docker-compose.yml
+&#x251C;&#x2500;&#x2500; ldap
+&#x2502;   &#x251C;&#x2500;&#x2500; db
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; groups.ldif
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; import.sh
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; org.ldif
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; ou.ldif
+&#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; people.ldif
+&#x2502;   &#x2514;&#x2500;&#x2500; Dockerfile
+&#x251C;&#x2500;&#x2500; postgresql
+&#x2502;   &#x251C;&#x2500;&#x2500; db
+&#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; data.sql
+&#x2502;   &#x2514;&#x2500;&#x2500; Dockerfile
+&#x2514;&#x2500;&#x2500; tomcat
+    &#x2514;&#x2500;&#x2500; Dockerfile
+</code></pre><p>Each subdirectory contains a <a href="https://docs.docker.com/engine/reference/builder/" target="_blank">Dockerfile</a>
+used to build a Docker image, and sometimes configuration files added to our container at build time using the <a href="https://stackoverflow.com/questions/24958140/what-is-the-difference-between-the-copy-and-add-commands-in-a-dockerfile" target="_blank">ADD/COPY</a> directive of our Dockerfile. Additionally some folders may be mounted at run time (mount points are defined in the docker-compose.yml file).</p>
+<h3 id="ldap">LDAP</h3>
+<p>This folder basically contains configuration files and container definition to build and run an Open LDAP server with a schema matching our application expectations (test groups, test users bound to this groups and a role branch that may be used in the future)</p>
+<p><strong><em>NB:</em></strong>
+LDAP schema configuration may vary in our application based on the selected <a href="../../environments/">environment</a>. From this, we intentionally introduce some differences in the container schema configuration compared to production to make sure that the configuration parameters offer the flexibility we want.</p>
+<h3 id="postgresql">Postgresql</h3>
+<p>This folder defines a Postgresql Docker image (version 9.5). At run-time, tables are created by the data.sql script places in the db folder.</p>
+<h3 id="tomcat">Tomcat</h3>
+<p>This folder defines a Tomcat server used to run our application.
+This container is used mainly to deploy our application at build-time and run integration-tests against the API</p>
 
                                 
                                 </section>
@@ -397,12 +392,12 @@ OpenSSL version: OpenSSL 1.0.2k-fips  26 Jan 2017
 
             
                 
-                <a href="../testing/" class="navigation navigation-prev " aria-label="Previous page: Tests">
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Docker">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="docker-folders.html" class="navigation navigation-next " aria-label="Next page: Le répertoire docker">
+                <a href="docker-usage.html" class="navigation navigation-next " aria-label="Next page: Docker Usage">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -413,7 +408,7 @@ OpenSSL version: OpenSSL 1.0.2k-fips  26 Jan 2017
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Docker","level":"1.4.2","depth":2,"next":{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"previous":{"title":"Tests","level":"1.4.1","depth":2,"path":"workflow/testing/README.md","ref":"workflow/testing/README.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/docker/README.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"../..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"The docker Folder","level":"1.4.2.1","depth":3,"next":{"title":"Docker Usage","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"previous":{"title":"Docker","level":"1.4.2","depth":2,"path":"workflow/docker/README.md","ref":"workflow/docker/README.md","articles":[{"title":"The docker Folder","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},{"title":"Docker Usage","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"workflow/docker/docker-folders.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"../..","book":{"language":"en"}});
         });
     </script>
 </div>

@@ -1,10 +1,10 @@
 
 <!DOCTYPE HTML>
-<html lang="fr" >
+<html lang="en" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Authentification · GitBook</title>
+        <title>Authentication · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -71,7 +71,7 @@
         
             
 <div id="book-search-input" role="search">
-    <input type="text" placeholder="Tapez pour rechercher" />
+    <input type="text" placeholder="Type to search" />
 </div>
 
             
@@ -87,7 +87,7 @@
 
     
         
-        <li class="header">Guide du développeur</li>
+        <li class="header">Developer guide</li>
         
         
     
@@ -109,7 +109,7 @@
                 <a href="../getting-started.html">
             
                     
-                    Démarrage
+                    Getting Start
             
                 </a>
             
@@ -122,7 +122,7 @@
                 <a href="../environments/">
             
                     
-                    Environnements
+                    Environments
             
                 </a>
             
@@ -135,7 +135,7 @@
                 <a href="../workflow/">
             
                     
-                    Intégration
+                    Workflow
             
                 </a>
             
@@ -176,7 +176,7 @@
                 <a href="../workflow/docker/docker-folders.html">
             
                     
-                    Le répertoire docker
+                    The docker Folder
             
                 </a>
             
@@ -189,7 +189,7 @@
                 <a href="../workflow/docker/docker-usage.html">
             
                     
-                    Utilisation
+                    Docker Usage
             
                 </a>
             
@@ -207,7 +207,7 @@
                 <a href="../workflow/travis.html">
             
                     
-                    Travis
+                    Travis CI
             
                 </a>
             
@@ -225,7 +225,7 @@
                 <a href="../persistence/">
             
                     
-                    Modèle de données
+                    Data Model
             
                 </a>
             
@@ -238,7 +238,7 @@
                 <a href="./">
             
                     
-                    Contrôle d'accès
+                    Security and Access Control
             
                 </a>
             
@@ -252,7 +252,7 @@
                 <a href="authentication.html">
             
                     
-                    Authentification
+                    Authentication
             
                 </a>
             
@@ -265,7 +265,7 @@
                 <a href="permissions.html">
             
                     
-                    Autorisations
+                    Autorization
             
                 </a>
             
@@ -298,7 +298,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Publié avec GitBook
+            Published with GitBook
         </a>
     </li>
 </ul>
@@ -321,7 +321,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Authentification</a>
+        <a href=".." >Authentication</a>
     </h1>
 </div>
 
@@ -337,9 +337,9 @@
                                 <section class="normal markdown-section">
                                 
                                 <h1 id="authentification">Authentification</h1>
-<p>La configuration de l&apos;authentification est d&#xE9;finie dans le fichier SecurityContext.java.
-Les informations de configuration d&apos;annuaire sont r&#xE9;cup&#xE9;r&#xE9;e dans le fichier pogues-bo.properties associ&#xE9; &#xE0; l&apos;<a href="../environments/">environnement</a> s&#xE9;lectionn&#xE9;.</p>
-<h3 id="le-fichier-securitycontextjava">Le fichier SecurityContext.java</h3>
+<p>Authentication configuration is made using the Spring Security API in a dedicated SecurityContext class placed in the config package.
+Connexion to the identity provider (an Open LDAP directory) is made in this class using parameters retrieved from a property file depending on which <a href="../environments/">environnement</a> we are running on..</p>
+<h3 id="securitycontextjava">SecurityContext.java</h3>
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> fr.insee.pogues.config;
 
 <span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
@@ -427,12 +427,12 @@ Les informations de configuration d&apos;annuaire sont r&#xE9;cup&#xE9;r&#xE9;e 
 
             
                 
-                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Contrôle d'accès">
+                <a href="./" class="navigation navigation-prev " aria-label="Previous page: Security and Access Control">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="permissions.html" class="navigation navigation-next " aria-label="Next page: Autorisations">
+                <a href="permissions.html" class="navigation navigation-next " aria-label="Next page: Autorization">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -443,7 +443,7 @@ Les informations de configuration d&apos;annuaire sont r&#xE9;cup&#xE9;r&#xE9;e 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Authentification","level":"1.6.1","depth":2,"next":{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"previous":{"title":"Contrôle d'accès","level":"1.6","depth":1,"path":"security/README.md","ref":"security/README.md","articles":[{"title":"Authentification","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"security/authentication.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Authentication","level":"1.6.1","depth":2,"next":{"title":"Autorization","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"previous":{"title":"Security and Access Control","level":"1.6","depth":1,"path":"security/README.md","ref":"security/README.md","articles":[{"title":"Authentication","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},{"title":"Autorization","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"security/authentication.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"en"}});
         });
     </script>
 </div>

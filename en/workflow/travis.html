@@ -1,10 +1,10 @@
 
 <!DOCTYPE HTML>
-<html lang="fr" >
+<html lang="en" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Travis · GitBook</title>
+        <title>Travis CI · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -71,7 +71,7 @@
         
             
 <div id="book-search-input" role="search">
-    <input type="text" placeholder="Tapez pour rechercher" />
+    <input type="text" placeholder="Type to search" />
 </div>
 
             
@@ -87,7 +87,7 @@
 
     
         
-        <li class="header">Guide du développeur</li>
+        <li class="header">Developer guide</li>
         
         
     
@@ -109,7 +109,7 @@
                 <a href="../getting-started.html">
             
                     
-                    Démarrage
+                    Getting Start
             
                 </a>
             
@@ -122,7 +122,7 @@
                 <a href="../environments/">
             
                     
-                    Environnements
+                    Environments
             
                 </a>
             
@@ -135,7 +135,7 @@
                 <a href="./">
             
                     
-                    Intégration
+                    Workflow
             
                 </a>
             
@@ -176,7 +176,7 @@
                 <a href="docker/docker-folders.html">
             
                     
-                    Le répertoire docker
+                    The docker Folder
             
                 </a>
             
@@ -189,7 +189,7 @@
                 <a href="docker/docker-usage.html">
             
                     
-                    Utilisation
+                    Docker Usage
             
                 </a>
             
@@ -207,7 +207,7 @@
                 <a href="travis.html">
             
                     
-                    Travis
+                    Travis CI
             
                 </a>
             
@@ -225,7 +225,7 @@
                 <a href="../persistence/">
             
                     
-                    Modèle de données
+                    Data Model
             
                 </a>
             
@@ -238,7 +238,7 @@
                 <a href="../security/">
             
                     
-                    Contrôle d'accès
+                    Security and Access Control
             
                 </a>
             
@@ -252,7 +252,7 @@
                 <a href="../security/authentication.html">
             
                     
-                    Authentification
+                    Authentication
             
                 </a>
             
@@ -265,7 +265,7 @@
                 <a href="../security/permissions.html">
             
                     
-                    Autorisations
+                    Autorization
             
                 </a>
             
@@ -298,7 +298,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Publié avec GitBook
+            Published with GitBook
         </a>
     </li>
 </ul>
@@ -321,7 +321,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Travis</a>
+        <a href=".." >Travis CI</a>
     </h1>
 </div>
 
@@ -337,20 +337,20 @@
                                 <section class="normal markdown-section">
                                 
                                 <p><img src="../../pics/travis.png" alt="travis"></p>
-<p>La plateforme d&apos;int&#xE9;rgation utilis&#xE9;e pour l&apos;automatisation du build, des tests et des d&#xE9;ploiements est <a href="https://travis-ci.org/" target="_blank">Travis</a>.
-La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur github et la publication de la documentation du projet (en cours d&apos;affichage)</p>
-<p>Le d&#xE9;ploiement de l&apos;application sur l&apos;environnement de recette s&apos;effectue apr&#xE8;s approbation d&apos;une pull request sur le d&#xE9;pot de sources de l&apos;INSEE.</p>
-<p>En cas de changement sur le repository les t&#xE2;ches ex&#xE9;cut&#xE9;es pour le moment sont donc:</p>
+<p>We use <a href="https://travis-ci.org/" target="_blank">Travis CI</a> for automating builds, tests and deployment.</p>
+<p>Deployment includes publishing a github release and up to date project documentation as a github page.</p>
+<p>Deployment on a showcase environment is made after merging a pull request on the main repository (INSEE)</p>
+<p>Following steps apply during the integration process:</p>
 <ul>
-<li>Build du projet</li>
-<li>Build du projet frontend</li>
-<li>(re) Packaging de l&apos;application (frontend + backend)</li>
-<li>D&#xE9;ploiement de l&apos;application g&#xE9;n&#xE9;r&#xE9;e sur l&apos;environnement docker</li>
-<li>Ex&#xE9;cution des tests unitaires et d&apos;int&#xE9;gration</li>
-<li>G&#xE9;n&#xE9;ration de la documentation</li>
+<li>Build artifact</li>
+<li>Build frontend application</li>
+<li>Package frontend assets into war file</li>
+<li>Deploy artifact on a docker container</li>
+<li>Run unit tests and integration tests</li>
+<li>Build documentation</li>
 </ul>
 <h2 id="configuration">Configuration</h2>
-<p>La configuration de ces op&#xE9;rations est d&#xE9;finie dans le fichier .travis.yml:</p>
+<p>Configuration is defined in .travis.yml:</p>
 <pre><code class="lang-yaml"><span class="hljs-attr">language:</span> java
 
 <span class="hljs-attr">sudo:</span> required
@@ -400,25 +400,26 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
 <span class="hljs-attr">  except:</span>
 <span class="hljs-bullet">    -</span> /^v[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>]+\.[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>]+\.[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>]+.*/
 </code></pre>
-<h2 id="g&#xE9;n&#xE9;ration-de-la-documentation">G&#xE9;n&#xE9;ration de la documentation</h2>
-<p>La documentation en cours d&apos;affichage est g&#xE9;n&#xE9;r&#xE9;e automatiquement au build du projet gr&#xE2;ce &#xE0; <a href="https://www.gitbook.com/new" target="_blank">gitbook</a> et publi&#xE9;e sur la <a href="https://pages.github.com/" target="_blank">page github du projet</a>.</p>
-<p>La documentation est g&#xE9;n&#xE9;r&#xE9;e uniquement par les jobs travis associ&#xE9; &#xE0; la branche zenika-dev (hors pull requests).*</p>
-<p>Typiquement, la documentation est donc g&#xE9;n&#xE9;r&#xE9;e en cas d&apos;acceptation d&apos;une pull request sur la branche zenika-dev (cf le <a href="index.html">workflow d&#xE9;crit en introduction</a>)</p>
-<p>Ces op&#xE9;rations sont d&#xE9;crites dans le fichier <code>scripts/gitbook.sh</code></p>
-<p>La publication des fichiers compil&#xE9;s par gitbook s&apos;effectue via un push sur le repository (branche gh-pages). Pour rendre cette op&#xE9;ration possible il faut:</p>
+<h2 id="building-documentation">Building documentation</h2>
+<p>Documentation is build continuously with travis  <a href="https://www.gitbook.com/new" target="_blank">gitbook</a> and publish on <a href="https://pages.github.com/" target="_blank">project github page</a>.</p>
+<p>Documentation build will occure only on travis job refering to the branch &apos;zenika-dev&apos; (and not on pull requests).*</p>
+<p>Basically, documentation should hence be merged only when a pull request has been merged on the main repository (refer to <a href="index.html">our workflow overview</a>)</p>
+<p>Those steps are described in <code>scripts/gitbook.sh</code></p>
+<p>Publishing on github pages implies a push on branch (branche gh-pages). To make it possible we need to:</p>
 <ul>
-<li><a href="https://github.com/settings/tokens/new" target="_blank">G&#xE9;n&#xE9;rer un token d&apos;acc&#xE8;s associ&#xE9; &#xE0; un compte autoris&#xE9; sur github</a></li>
-<li>Inclure ce token dans le scope public_repo (repo pour un repository priv&#xE9;)</li>
-<li><p>Associer la variable d&apos;environnement GITHUB_TOKEN au token sur le  <a href="https://travis-ci.org/" target="_blank">tableau de bord de Travis du projet</a></p>
+<li><a href="https://github.com/settings/tokens/new" target="_blank">Generate an access token with a granted account</a></li>
+<li>Give this token the &apos;repo&apos; autorization scope</li>
+<li><p>Create a GITHUB_TOKEN environment variable on <a href="https://travis-ci.org/" target="_blank">Travis dashboard</a> with our token as a value</p>
 <h2 id="reporting">Reporting</h2>
 </li>
 </ul>
-<p>Chaque build g&#xE9;n&#xE8;re un rapport de couverture envoy&#xE9; &#xE0; <a href="https://coveralls.io/" target="_blank">coveralls.io</a></p>
-<p> La page de rapport est visible en cliquant sur le badge coveralls (ci-dessous et dans le README du projet)</p>
+<p>Each build generate a test coverage report published on <a href="https://coveralls.io/" target="_blank">coveralls.io</a></p>
+<p>This page can be reached from the coverage badge include in the project README:</p>
 <p> <a href="https://coveralls.io/github/InseeFr/Pogues-Back-Office?branch=zenika-dev" target="_blank"><img src="https://coveralls.io/repos/github/InseeFr/Pogues-Back-Office/badge.svg?branch=zenika-dev" alt="Coverage Status"></a></p>
-<p> Comme pour la publication de la doc il faut cr&#xE9;er une variable d&apos;environnement pour fournir &#xE0; travis le token d&apos;acc&#xE8;s &#xE0; coveralls (ce jeton est disponible dans les settings du repository sur la page <a href="https://coveralls.io" target="_blank">coveralls.io</a>)</p>
+<p> Just as for documentation we need to generate a token to grant access to <a href="https://coveralls.io" target="_blank">coveralls.io</a>
+ to Travis </p>
 <ul>
-<li><p>Ce token doit &#xEA;tre associ&#xE9; &#xE0; la variable COVERALLS_TOKEN pour pouvoir &#xEA;tre utilis&#xE9; de la mani&#xE8;re suivante:</p>
+<li><p>Binding this token to the COVERALLS_TOKEN environment variable on Travis we can now generate a report using the followin maven goal:</p>
 <pre><code class="lang-bash">mvn -DrepoToken=<span class="hljs-variable">$COVERALLS_TOKEN</span> coveralls:report
 </code></pre>
 </li>
@@ -450,12 +451,12 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
 
             
                 
-                <a href="docker/docker-usage.html" class="navigation navigation-prev " aria-label="Previous page: Utilisation">
+                <a href="docker/docker-usage.html" class="navigation navigation-prev " aria-label="Previous page: Docker Usage">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../persistence/" class="navigation navigation-next " aria-label="Next page: Modèle de données">
+                <a href="../persistence/" class="navigation navigation-next " aria-label="Next page: Data Model">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -466,7 +467,7 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Travis","level":"1.4.3","depth":2,"next":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Travis CI","level":"1.4.3","depth":2,"next":{"title":"Data Model","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Docker Usage","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"en"}});
         });
     </script>
 </div>

@@ -1,10 +1,10 @@
 
 <!DOCTYPE HTML>
-<html lang="fr" >
+<html lang="en" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Pogues Model · GitBook</title>
+        <title>Data Model · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -60,7 +60,7 @@
     <link rel="next" href="../security/" />
     
     
-    <link rel="prev" href="structure.html" />
+    <link rel="prev" href="../workflow/travis.html" />
     
 
     </head>
@@ -71,7 +71,7 @@
         
             
 <div id="book-search-input" role="search">
-    <input type="text" placeholder="Tapez pour rechercher" />
+    <input type="text" placeholder="Type to search" />
 </div>
 
             
@@ -87,7 +87,7 @@
 
     
         
-        <li class="header">Guide du développeur</li>
+        <li class="header">Developer guide</li>
         
         
     
@@ -109,7 +109,7 @@
                 <a href="../getting-started.html">
             
                     
-                    Démarrage
+                    Getting Start
             
                 </a>
             
@@ -122,7 +122,7 @@
                 <a href="../environments/">
             
                     
-                    Environnements
+                    Environments
             
                 </a>
             
@@ -135,7 +135,7 @@
                 <a href="../workflow/">
             
                     
-                    Intégration
+                    Workflow
             
                 </a>
             
@@ -176,7 +176,7 @@
                 <a href="../workflow/docker/docker-folders.html">
             
                     
-                    Le répertoire docker
+                    The docker Folder
             
                 </a>
             
@@ -189,7 +189,7 @@
                 <a href="../workflow/docker/docker-usage.html">
             
                     
-                    Utilisation
+                    Docker Usage
             
                 </a>
             
@@ -207,7 +207,7 @@
                 <a href="../workflow/travis.html">
             
                     
-                    Travis
+                    Travis CI
             
                 </a>
             
@@ -220,48 +220,16 @@
             
         </li>
     
-        <li class="chapter " data-level="1.5" data-path="./">
+        <li class="chapter active" data-level="1.5" data-path="./">
             
                 <a href="./">
             
                     
-                    Modèle de données
+                    Data Model
             
                 </a>
             
 
-            
-            <ul class="articles">
-                
-    
-        <li class="chapter " data-level="1.5.1" data-path="structure.html">
-            
-                <a href="structure.html">
-            
-                    
-                    Structure de données
-            
-                </a>
-            
-
-            
-        </li>
-    
-        <li class="chapter active" data-level="1.5.2" data-path="pogues-model.html">
-            
-                <a href="pogues-model.html">
-            
-                    
-                    Pogues Model
-            
-                </a>
-            
-
-            
-        </li>
-    
-
-            </ul>
             
         </li>
     
@@ -270,7 +238,7 @@
                 <a href="../security/">
             
                     
-                    Contrôle d'accès
+                    Security and Access Control
             
                 </a>
             
@@ -284,7 +252,7 @@
                 <a href="../security/authentication.html">
             
                     
-                    Authentification
+                    Authentication
             
                 </a>
             
@@ -297,7 +265,7 @@
                 <a href="../security/permissions.html">
             
                     
-                    Autorisations
+                    Autorization
             
                 </a>
             
@@ -310,6 +278,19 @@
             
         </li>
     
+        <li class="chapter " data-level="1.7" data-path="../conversions/">
+            
+                <a href="../conversions/">
+            
+                    
+                    Transformations
+            
+                </a>
+            
+
+            
+        </li>
+    
 
     
 
@@ -317,7 +298,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Publié avec GitBook
+            Published with GitBook
         </a>
     </li>
 </ul>
@@ -340,7 +321,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Pogues Model</a>
+        <a href=".." >Data Model</a>
     </h1>
 </div>
 
@@ -355,13 +336,23 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="le-projet-pogues-model">Le projet Pogues Model</h1>
-<p>Pour plus d&apos;information sur le mod&#xE8;le de donn&#xE9;es, se r&#xE9;f&#xE9;rer au projet pogues model dont les sources sont disponibles <a href="https://github.com/InseeFr/Pogues-Model" target="_blank">ici</a> et qui d&#xE9;finit pour l&apos;essentiel:</p>
+                                <h1 id="pogues-model">Pogues Model</h1>
+<h2 id="data-persistence">Data Persistence</h2>
+<p>Persistent data is stored as a single json object in the following table (PostgreSQL datasource)</p>
+<pre><code> Column  | Type  |  
+---------+-------+
+ id      | text  | 
+ data    | jsonb |
+</code></pre><h2 id="the-pogues-model-artifact">The pogues-model artifact</h2>
+<p>Data Model is part of the pogues-model project available <a href="https://github.com/InseeFr/Pogues-Model" target="_blank">here</a></p>
+<p>In a nutshell this project defines:</p>
 <ul>
-<li>Un schema xsd mod&#xE9;lisant la structure attendue pour un questionnaire pogues</li>
-<li>Des transformations permettant  de g&#xE9;n&#xE9;rer des repr&#xE9;sentations au format json ou xml des entit&#xE9;s du mod&#xE8;le Pogues.</li>
+<li>An <a href="https://github.com/InseeFr/Pogues-Model/blob/master/src/main/resources/xsd/Questionnaire.xsd" target="_blank">XSD schema</a> used to generate an Object Model (<a href="https://docs.oracle.com/javase/tutorial/jaxb/intro/" target="_blank">using JAXB bindings</a>). This Object Model will be used at runtime to handle Serialization/Deserialization</li>
+<li>JSON and XML serializers implementations</li>
 </ul>
-<p>Lors du build du projet avec maven les classes java correspondant aux entit&#xE9;s du mod&#xE8;le Pogues sont g&#xE9;n&#xE9;r&#xE9;es.</p>
+<p>Pogues Object Model is generated based on the data structure defined in the XSD schema at build time</p>
+<h2 id="pogues-data-model">Pogues Data Model</h2>
+<p>The pogues-model repository shows a pretty good example of what a data model entity should look like after applying <a href="https://github.com/InseeFr/Pogues-Model/blob/master/src/main/resources/examples/fr.insee-POPO-QPO-DOC.json" target="_blank">JSON</a> and <a href="https://github.com/InseeFr/Pogues-Model/blob/master/src/main/resources/examples/fr.insee-POPO-QPO-DOC.xml" target="_blank">XML</a> serialization</p>
 
                                 
                                 </section>
@@ -389,12 +380,12 @@
 
             
                 
-                <a href="structure.html" class="navigation navigation-prev " aria-label="Previous page: Structure de données">
+                <a href="../workflow/travis.html" class="navigation navigation-prev " aria-label="Previous page: Travis CI">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
                 
-                <a href="../security/" class="navigation navigation-next " aria-label="Next page: Contrôle d'accès">
+                <a href="../security/" class="navigation navigation-next " aria-label="Next page: Security and Access Control">
                     <i class="fa fa-angle-right"></i>
                 </a>
                 
@@ -405,7 +396,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Pogues Model","level":"1.5.2","depth":2,"next":{"title":"Contrôle d'accès","level":"1.6","depth":1,"path":"security/README.md","ref":"security/README.md","articles":[{"title":"Authentification","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]}]},"previous":{"title":"Structure de données","level":"1.5.1","depth":2,"path":"persistence/structure.md","ref":"persistence/structure.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"persistence/pogues-model.md","mtime":"2017-08-24T09:31:39.421Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-24T09:37:16.767Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Data Model","level":"1.5","depth":1,"next":{"title":"Security and Access Control","level":"1.6","depth":1,"path":"security/README.md","ref":"security/README.md","articles":[{"title":"Authentication","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},{"title":"Autorization","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]}]},"previous":{"title":"Travis CI","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"persistence/README.md","mtime":"2017-08-25T09:33:11.471Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"en"}});
         });
     </script>
 </div>

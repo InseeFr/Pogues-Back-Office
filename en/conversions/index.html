@@ -1,10 +1,10 @@
 
 <!DOCTYPE HTML>
-<html lang="fr" >
+<html lang="en" >
     <head>
         <meta charset="UTF-8">
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
-        <title>Modèle de données · GitBook</title>
+        <title>Transformations · GitBook</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="description" content="">
         <meta name="generator" content="GitBook 3.2.3">
@@ -57,10 +57,8 @@
     <link rel="shortcut icon" href="../../gitbook/images/favicon.ico" type="image/x-icon">
 
     
-    <link rel="next" href="../security/" />
     
-    
-    <link rel="prev" href="../workflow/travis.html" />
+    <link rel="prev" href="../security/permissions.html" />
     
 
     </head>
@@ -71,7 +69,7 @@
         
             
 <div id="book-search-input" role="search">
-    <input type="text" placeholder="Tapez pour rechercher" />
+    <input type="text" placeholder="Type to search" />
 </div>
 
             
@@ -87,7 +85,7 @@
 
     
         
-        <li class="header">Guide du développeur</li>
+        <li class="header">Developer guide</li>
         
         
     
@@ -109,7 +107,7 @@
                 <a href="../getting-started.html">
             
                     
-                    Démarrage
+                    Getting Start
             
                 </a>
             
@@ -122,7 +120,7 @@
                 <a href="../environments/">
             
                     
-                    Environnements
+                    Environments
             
                 </a>
             
@@ -135,7 +133,7 @@
                 <a href="../workflow/">
             
                     
-                    Intégration
+                    Workflow
             
                 </a>
             
@@ -176,7 +174,7 @@
                 <a href="../workflow/docker/docker-folders.html">
             
                     
-                    Le répertoire docker
+                    The docker Folder
             
                 </a>
             
@@ -189,7 +187,7 @@
                 <a href="../workflow/docker/docker-usage.html">
             
                     
-                    Utilisation
+                    Docker Usage
             
                 </a>
             
@@ -207,7 +205,7 @@
                 <a href="../workflow/travis.html">
             
                     
-                    Travis
+                    Travis CI
             
                 </a>
             
@@ -220,12 +218,12 @@
             
         </li>
     
-        <li class="chapter active" data-level="1.5" data-path="./">
+        <li class="chapter " data-level="1.5" data-path="../persistence/">
             
-                <a href="./">
+                <a href="../persistence/">
             
                     
-                    Modèle de données
+                    Data Model
             
                 </a>
             
@@ -238,7 +236,7 @@
                 <a href="../security/">
             
                     
-                    Contrôle d'accès
+                    Security and Access Control
             
                 </a>
             
@@ -252,7 +250,7 @@
                 <a href="../security/authentication.html">
             
                     
-                    Authentification
+                    Authentication
             
                 </a>
             
@@ -265,7 +263,7 @@
                 <a href="../security/permissions.html">
             
                     
-                    Autorisations
+                    Autorization
             
                 </a>
             
@@ -278,9 +276,9 @@
             
         </li>
     
-        <li class="chapter " data-level="1.7" data-path="../conversions/">
+        <li class="chapter active" data-level="1.7" data-path="./">
             
-                <a href="../conversions/">
+                <a href="./">
             
                     
                     Transformations
@@ -298,7 +296,7 @@
 
     <li>
         <a href="https://www.gitbook.com" target="blank" class="gitbook-link">
-            Publié avec GitBook
+            Published with GitBook
         </a>
     </li>
 </ul>
@@ -321,7 +319,7 @@
     <!-- Title -->
     <h1>
         <i class="fa fa-circle-o-notch fa-spin"></i>
-        <a href=".." >Modèle de données</a>
+        <a href=".." >Transformations</a>
     </h1>
 </div>
 
@@ -336,23 +334,26 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="pogues-model">Pogues Model</h1>
-<h2 id="persistence-des-donn&#xE9;es-dans-pogues">Persistence des donn&#xE9;es dans Pogues</h2>
-<p>Les donn&#xE9;es persistentes de l&apos;application sont stock&#xE9;es dans une base de donn&#xE9;es postgresql au format JSON</p>
-<p>La base de donn&#xE9;es comprend une seule et unique table:</p>
-<pre><code> Colonne | Type  | Modificateurs 
----------+-------+---------------
- id      | text  | 
- data    | jsonb |
-</code></pre><h2 id="d&#xE9;pendance-vers-pogues-model">D&#xE9;pendance vers pogues-model</h2>
-<p>Pour plus d&apos;information sur le mod&#xE8;le de donn&#xE9;es, se r&#xE9;f&#xE9;rer au projet pogues-model dont les sources sont disponibles <a href="https://github.com/InseeFr/Pogues-Model" target="_blank">ici</a> et qui d&#xE9;finit pour l&apos;essentiel:</p>
-<ul>
-<li>Un <a href="https://github.com/InseeFr/Pogues-Model/blob/master/src/main/resources/xsd/Questionnaire.xsd" target="_blank">schema XSD</a> utilis&#xE9; pour g&#xE9;n&#xE9;rer un mod&#xE8;le de classe (<a href="https://docs.oracle.com/javase/tutorial/jaxb/intro/" target="_blank">bindings JAXB</a>). Ce mod&#xE8;le de classe est utiis&#xE9; pour les op&#xE9;rations de s&#xE9;rialisation au formats XML et JSON</li>
-<li>Des classes utilitaires impl&#xE9;mentant les op&#xE9;rations de s&#xE9;rialisation/d&#xE9;s&#xE9;rialisation</li>
-</ul>
-<p>Le mod&#xE8;le de classe est g&#xE9;n&#xE9;r&#xE9; &#xE0; la compilation &#xE0; partir du sch&#xE9;ma XSD</p>
-<h2 id="mod&#xE8;le-de-donn&#xE9;es">Mod&#xE8;le de donn&#xE9;es</h2>
-<p>Le d&#xE9;p&#xF4;t pogues-model met &#xE0; disposition un example d&apos;entit&#xE9; du mod&#xE8;le s&#xE9;rialis&#xE9;e aux formats <a href="https://github.com/InseeFr/Pogues-Model/blob/master/src/main/resources/examples/fr.insee-POPO-QPO-DOC.json" target="_blank">JSON</a> et <a href="https://github.com/InseeFr/Pogues-Model/blob/master/src/main/resources/examples/fr.insee-POPO-QPO-DOC.xml" target="_blank">XML</a></p>
+                                <h1 id="data-format-conversions">Data Format Conversions</h1>
+<p>Moving from one data format to another is one of the core features of Pogues. This transformations may be accomplished using XSL transformations, external API calls, a set of serializer or whatever future expectation may require. Transformations may be chained together as well as used separately.</p>
+<p>To help will this, every transformation implementation will have to rely on a common interface, easing the process of chaining or swapping transformations all accross the application.</p>
+<h2 id="the-transformer--interface">The Transformer  Interface</h2>
+<p>Consequently, as soon as we need to implement a transformation we will implement the Transformer interface which defines a set of <code>transform</code> methods with different types of inputs and outputs.</p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> fr.insee.pogues.transforms;
+
+<span class="hljs-keyword">import</span> java.io.InputStream;
+<span class="hljs-keyword">import</span> java.io.OutputStream;
+<span class="hljs-keyword">import</span> java.util.Map;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Transformer</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">transform</span><span class="hljs-params">(InputStream input, OutputStream output, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+    <span class="hljs-function">String <span class="hljs-title">transform</span><span class="hljs-params">(InputStream input, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+    <span class="hljs-function">String <span class="hljs-title">transform</span><span class="hljs-params">(String input, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+
+}
+</code></pre>
+<h2 id="the-transform-functional-interface">The transform functional interface</h2>
+<h2 id="the-pipeline-class">The Pipeline class</h2>
 
                                 
                                 </section>
@@ -380,14 +381,10 @@
 
             
                 
-                <a href="../workflow/travis.html" class="navigation navigation-prev " aria-label="Previous page: Travis">
+                <a href="../security/permissions.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Autorization">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
-                
-                <a href="../security/" class="navigation navigation-next " aria-label="Next page: Contrôle d'accès">
-                    <i class="fa fa-angle-right"></i>
-                </a>
                 
             
         
@@ -396,7 +393,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Modèle de données","level":"1.5","depth":1,"next":{"title":"Contrôle d'accès","level":"1.6","depth":1,"path":"security/README.md","ref":"security/README.md","articles":[{"title":"Authentification","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]}]},"previous":{"title":"Travis","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"persistence/README.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Transformations","level":"1.7","depth":1,"previous":{"title":"Autorization","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"conversions/README.md","mtime":"2017-08-25T09:33:11.471Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"en"}});
         });
     </script>
 </div>
