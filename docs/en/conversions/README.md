@@ -45,5 +45,7 @@ class PipeSample{
 
 Currently our very first implementation of the Pipeline class sticks to String inputs and String outputs.
 
-Building a transformation chain implies setting the input of the chain in the ```from``` method of the pipeline class (in the example we get our input from a request as an inputstream but input could be passed as a String argument).
-Then 
+Building a transformation chain begins with setting the input of the chain in the ```from``` method of the pipeline class (in the example we get our input from a request as a stream but input could be passed as well as a string argument).
+Then we can chain transformers using the ```map``` method of the Pipeline. Both the from and the map method return the Pipeline instance, allowing us to chain call fluently.
+
+Once we chained our Transformers we can then trigger the transformation process by calling transform on the pipeline. We have to notice that no transformation will be applied until we call this method.
