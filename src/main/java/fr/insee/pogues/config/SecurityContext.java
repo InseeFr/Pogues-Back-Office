@@ -14,7 +14,6 @@ import java.util.Arrays;
 /**
  * Created by acordier on 14/07/17.
  */
-//@Configuration
 @EnableWebSecurity
 public class SecurityContext extends WebSecurityConfigurerAdapter {
 

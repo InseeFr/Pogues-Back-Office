@@ -1,10 +1,7 @@
 # Authentification
 
 La configuration de l'authentification est définie dans le fichier SecurityContext.java.
-Les informations de configuration d'annuraire sont récupérée dans le fichier ${fr.insee.pogues.env}/${fr.insee.pogues.env
-La propriété système ```fr.insee.pogues.env``` peut prendre deux valeurs:
- - env.prod (valeur par défaut) pour l'environnement de production
- - env.qa pour les environnements de test et de développement
+Les informations de configuration d'annuaire sont récupérée dans le fichier pogues-bo.properties associé à l'[environnement](../environments/README.md) sélectionné.
 
 ### Le fichier SecurityContext.java
 

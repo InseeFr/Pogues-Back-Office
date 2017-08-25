@@ -1,6 +1,6 @@
 # Table of contents
 
-## Guide du développeur
+## Developer guide
 
 * [Getting Start](getting-started.md)
 * [Environments](environments/README.md)
