@@ -30,7 +30,7 @@ For instance, visualization is accomplished using the Pipeline class and a the f
 Here is what the code will look like:
 ```java
 class PipeSample{
-    public String pipe(){
+    public String pipe(HttpServletRequest request){
         return pipeline
             .from(request.getInputStream())
             .map(jsonToXML::transform, params)
@@ -43,4 +43,7 @@ class PipeSample{
 }
 ``` 
 
-Currently our very first implementation of the Pipeline class sticks to String i
+Currently our very first implementation of the Pipeline class sticks to String inputs and String outputs.
+
+Building a transformation chain implies setting the input of the chain in the ```from``` method of the pipeline class (in the example we get our input from a request as an inputstream but input could be passed as a String argument).
+Then 
