@@ -2,7 +2,6 @@ package fr.insee.pogues.transforms;
 
 import fr.insee.pogues.conversion.JSONToXMLTranslator;
 import fr.insee.pogues.utils.json.JSONFunctions;
-
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
@@ -38,6 +37,7 @@ public class JSONToXMLImpl implements JSONToXML {
             byte[] out = translator.translate(source).getBytes(Charset.forName("UTF-8"));
             output.write(out, 0, out.length);
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         }
     }
@@ -59,14 +59,12 @@ public class JSONToXMLImpl implements JSONToXML {
             throw new NullPointerException("Null input");
         }
         try {
-            // why do we need to wrap our object ? just because pogues-model tells us to do so !
             JSONParser parser = new JSONParser();
             JSONObject questionnaire = (JSONObject) parser.parse(input);
             questionnaire = JSONFunctions.renameQuestionnairePlural(questionnaire);
-            JSONObject wrapper = new JSONObject();
-            wrapper.put("Questionnaire", questionnaire);
-            return translator.translate(wrapper.toString());
+            return translator.translate(questionnaire.toJSONString());
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         }
     }

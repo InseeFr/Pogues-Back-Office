@@ -1,48 +1,37 @@
 language: java
-
 sudo: required
-
 services:
-  - docker
-
+- docker
 env:
-  - DOCKER_COMPOSE_VERSION=1.9.0
-
+- DOCKER_COMPOSE_VERSION=1.9.0
 jdk:
-  - oraclejdk8
-
+- oraclejdk8
 install:
-  - bash scripts/install.sh rmspogfo
-  - cp target/rmspogfo.war docker/tomcat/
-
+- bash scripts/install.sh rmspogfo
+- cp target/rmspogfo.war docker/tomcat/
 before_script:
-  - pushd docker
-  - docker-compose up -d
-  - popd
-
+- pushd docker
+- docker-compose up -d
+- popd
 script:
-  - mvn test
-  - bash scripts/coveralls.sh
-  - mvn integration-test
-
+- mvn test
+- bash scripts/coveralls.sh
+- mvn integration-test
 after_script:
-  - bash scripts/gitbook.sh
-
+- bash scripts/gitbook.sh
 before_deploy:
-  - bash scripts/build.sh rmspogfo
-  - bash scripts/tag.sh
-
+- bash scripts/build.sh rmspogfo
+- bash scripts/tag.sh
 deploy:
   provider: releases
   api_key:
-    secure: ozF3rsb/qOu2JtT8kEVVYrF0ikkXObKISoCWHb3+sY2ES6B24SDZc6IRAyzFDCLo6ikVkdXZAj3QgQB2LVElCXDQ6Zbv70cmJrEcQhS5jnAZv21w//SgBznCN4z8ORVBZAnwn0yyFItuIeyo2zBIRJb8tciWO+B94/DcZOMuqv9pJbSkAFjHWVKirRzPF/pr/6Qp+4I/S9KEf7KmkKQ3OYgXGQ7e1FouJQQ4XL22PGjyvSlTM+Xjbr4/AeoQUkOb8B9Sh3vdy6pUWX92S29EavWRvkWVh6v3SEZcE2LdAIF4Hqqtqn/rP7swjemAkBaOxAfw9HV4I8zjz5kf9RQTIVobHgMB5xXVp60fBjiBiuFcgTDmrueMat6P7hXGiG1QfRbLm2b7ZBEd9vZTt5fc/w8DT06co3ruz1QukUcZpIQFb4nHLL/HL/DJnUpqcvdEbIBYA3Y88kpDZ9X1a6ifM3J8xJUlPOppjg2h63GP4G1x/6WBJh+hHmBcSB7XhJByjEBhZY1Vrmw4aodhPUZ2PHPBWgYx/Y/xs41BXqdU3thWHGlqPmsQTMxTkKF95IsIYhrrALBgROU2qea+3DqdQncqzcq2hfDGko0SJLym96kLS95DGj+U/ox2znYKQ8GAYc61oy+iT6jnqV3uCo5doW35Hj995vvxBjixGdFVVhk=
+    secure: ng2aVvt5oA/XuvVgOsJBGbunGi8Q/r8BxR9siLzFxrBY/3rXwjd9GmQQ2K1kqfeyAMrM4J3ef8QKr9RB4rd63IscTaLCFiyP8H74oEB0PSoFaZ9kL53tcR2k58ObSnQCHQLX3+X8HwC0+/ENaMpxntpXeT85EjZ0VHjghA/SE7MiXNPfyr4+I6+2GRtv2UEU6CaM0VNZvcHWhgAXCAji9aPq0/0UQXyIzjEi4RSBUvAYuuePZuryg8+9yRVk07vgsLw9k1mKfhBUtJUmuUCoBUjBc5iP5vh6lyyjbdLBePng+JejZDu0h17Qn/1zc8xwyTTTpCGj4td6gbgDjD6rx8q5w70znydTJyHXFrg8WAHEClXDCXvGgu5BtL7By0+XP4IRGAN7c96RHCQlkGUy/bBtG9ivrtyYGZd4G5Nk/cdiBkztz+YS1o84aLfrCnTPxgz6yI76vebHyZvXQJ1aa6Pb80Y6AzEQSbFLgp8jCt9X3SaHN66Ue4gV5Gnggr+u2gXBALdYau9gcLnKDTBv8MdAuFXn0dp0IbLw4sGF3BYB12TSaMGBKtdedQmkcUhUnUgn6cNeAhZbQUaVYFoFbqDYqJ5xF7WpVFoEL8hy0oUJu+onO2QgNjEY49a34sQhYjj+DAkQQ2Iop+g9oestEQzVHlSbDJE0wfll+yp9r/Y=
   file: target/rmspogfo.war
   skip_cleanup: true
   on:
     repo: InseeFr/Pogues-Back-Office
     branch: zenika-dev
     tags: false
-
 branches:
   except:
-    - /^v[0-9]+\.[0-9]+\.[0-9]+.*/
+  - "/^v[0-9]+\\.[0-9]+\\.[0-9]+.*/"

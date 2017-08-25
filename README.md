@@ -7,4 +7,4 @@ Rest Endpoints and services Integration used by [pogues](https://github.com/Inse
 
 ## Developper Documentation
 
-https://inseefr.github.io/Pogues-Back-Office/fr/
+https://inseefr.github.io/Pogues-Back-Office

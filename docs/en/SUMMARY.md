@@ -13,6 +13,6 @@
 * [Data Model](persistence/README.md)
 * [Security and Access Control](security/README.md)
  * [Authentication](security/authentication.md)
- * [Autorization](security/permissions.md)
+ * [Authorization](security/permissions.md)
 * [Transformations](conversions/README.md)
 

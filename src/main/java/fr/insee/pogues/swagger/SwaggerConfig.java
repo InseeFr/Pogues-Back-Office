@@ -25,8 +25,7 @@ public class SwaggerConfig extends HttpServlet {
         beanConfig.setSchemes(new String[]{"http"});
         //TODO Externalize the parameter
         beanConfig.setBasePath("/rmspogfo/pogues");
-        //beanConfig.setHost("dvrmspogfolht01.ad.insee.intra");
-        beanConfig.setHost("qfrmspogfolht01.ad.insee.intra");
+        beanConfig.setHost(env.getProperty("fr.insee.pogues.api.host"));
         beanConfig.setResourcePackage("fr.insee.pogues.webservice.rest");
         beanConfig.setScan(true);
     }
