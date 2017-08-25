@@ -1,12 +1,12 @@
 # Tests
 
-Unit Tests specicfication relies on [JUnit4](http://junit.org/junit4/) framework
+Unit Tests specification relies on [JUnit4](http://junit.org/junit4/) framework
 
-Integration testing of REST endpoints relies on JUnit framework and[Rest Assured](http://rest-assured.io/)
+Integration testing of REST endpoints relies on JUnit framework and s[Rest Assured](http://rest-assured.io/)
 
-XSLT transformations are made using JUnit and [XmlUnit](http://www.xmlunit.org/).
+XSL transformations outputs are tested using JUnit and [XmlUnit](http://www.xmlunit.org/).
 
-***NB*** To run rest assured integration tests make sure you have a running instance of tomcat with the artifact deployed in it and reachable at **http://localhost:8080/rmspogfo/**
+***NB*** To run rest assured integration tests make sure you have a running instance of tomcat with the artifact deployed and reachable at **http://localhost:8080/rmspogfo/**
 
 ## Run tests
 
@@ -21,12 +21,12 @@ mvn test
 mvn integration-test
 ```
 
-## Configuration Rest Assured 
+## Setting up Rest Assured 
 
-Each integration test class MUST define a @BeforeClass hook calling the ```configure``` static method in ```RestAssuredConfig```. this allow us to:
+Each integration test class MUST define a @BeforeClass hook calling the ```configure``` static method defined in the ```RestAssuredConfig``` class. This will:
 
- - Define abase URL matching our running server instance
- - Authenticate against server for all subsequent calls to the API
+ - Define a base URL matching our running server instance
+ - Authenticate against server for all subsequent calls we make to the API 
  
 ### RestAssuredConfig.java
 

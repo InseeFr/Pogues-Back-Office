@@ -3,7 +3,7 @@
 
 ## Prior
 
-Install [Docker](https://docs.docker.com/engine/installation/). This documentation was tested against the following version of docker:
+Install [Docker](https://docs.docker.com/engine/installation/). This documentation refers to the following version of docker:
 
 ```bash
 docker version
@@ -28,7 +28,7 @@ Server:
 
 ```
 
-Install [Docker Compose](https://docs.docker.com/compose/install/).  This documentation was tested against the following version of docker-compose:
+Install [Docker Compose](https://docs.docker.com/compose/install/).  This document refers the following version of docker-compose:
 
 ```bash
 docker-compose version

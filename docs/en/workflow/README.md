@@ -20,7 +20,7 @@ Note over travis@zenika: Build
 Note over travis@zenika: Publish doc
 {% endsequence %}
 
-## .N.S.E.E. repository
+## I.N.S.E.E. repository
 
 {% sequence %}
 zenika_dev@zenika->>zenika_dev@insee: Pull Request

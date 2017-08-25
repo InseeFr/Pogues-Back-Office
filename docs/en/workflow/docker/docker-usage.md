@@ -36,15 +36,15 @@ Possible solutions:
  - Configure your IDE to use the tomcat container as the running environment for the application
  - Use docker-compose to start only the LDAP and Postgresql containers and let your IDE run the application
 
-Example: using the docker-compose way (privilégiée ici)
+Example: using the docker-compose way 
 
-Start postgresql and LDAP backend using docker-compose
+Start PostgreSQL and LDAP backend using docker-compose
 
 ```bash
 docker-compose up postgresql ldap
 ```
 
-Run tomcat using the dev environment:
+Run tomcat in your IDE using the dev environment:
 
 With Eclipse or IDEA just edit your run configuration to use the following VM argument:
 
