@@ -17,7 +17,7 @@ Pour commencer à développer sur Pogues les prérequis sont:
 ## Gestion de configuration    
  
 Le code source de l'application est disponible sur [github](https://github.com/InseeFr/Pogues-Back-Off).
-La branche de travail est [zenika-dev]((https://github.com/InseeFr/Pogues-Back-Office/tree/zenika-dev)
+La branche de travail est [zenika-env.dev]((https://github.com/InseeFr/Pogues-Back-Office/tree/zenika-env.dev)
  
  
  

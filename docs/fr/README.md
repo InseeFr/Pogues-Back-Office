@@ -8,7 +8,7 @@ Pogues est un outil pour concevoir des questionnaires dont le but est de:
 
  - Produire des spécifications normées
  - Permettre la réutilisation d'objets mutualisés
- - Offrir l'acccès à un service de génération automatisée du questionnaire au format éléctronique
+ - Offrir l'accès à un service de génération automatisée du questionnaire au format éléctronique
 
 
 ## Autres documentations disponibles:

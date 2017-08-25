@@ -11,9 +11,8 @@
    * [Utilisation](workflow/docker/docker-usage.md)
  * [Travis](workflow/travis.md)
 * [Modèle de données](persistence/README.md)
- * [Structure de données](persistence/structure.md)
- * [Pogues Model](persistence/pogues-model.md)
 * [Contrôle d'accès](security/README.md)
  * [Authentification](security/authentication.md)
  * [Autorisations](security/permissions.md)
+* [Transformations](conversions/README.md)
 

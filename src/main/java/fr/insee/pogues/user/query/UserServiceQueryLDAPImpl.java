@@ -29,8 +29,6 @@ import java.util.regex.Pattern;
  *
  */
 @Service
-//@Configuration
-//@PropertySource("classpath:${fr.insee.pogues.env:prod}/pogues-bo.properties")
 public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 
 	final static Logger logger = LogManager.getLogger(UserServiceQueryLDAPImpl.class);
