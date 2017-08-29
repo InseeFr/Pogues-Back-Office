@@ -101,8 +101,8 @@ public class PoguesTransforms {
         Map<String, Object> params = new HashMap<>();
         try {
             JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
-            JSONObject survey = (JSONObject) questionnaire.get("survey");
-            String name = survey.get("name").toString();
+            JSONObject dataCollection = (JSONObject) questionnaire.get("DataCollection");
+            String name = dataCollection.get("name").toString();
             params.put("name", name);
             input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
             String uri = pipeline
