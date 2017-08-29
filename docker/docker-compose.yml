@@ -11,6 +11,11 @@ services:
     networks:
       intra:
         ipv4_address: 172.20.0.2
+  elastic:
+    build: ./elastic
+    networks:
+      intra:
+        ipv4_address: 172.20.0.3
   tomcat:
     build: ./tomcat
     volumes:
