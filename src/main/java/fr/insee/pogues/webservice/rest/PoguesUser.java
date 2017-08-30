@@ -35,7 +35,7 @@ public class PoguesUser {
 
     @GET
     @Path("id")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @ApiOperation(
             value = "Get Id",
             notes = "Get the user id of the connected user",
