@@ -1,6 +1,6 @@
 package fr.insee.pogues.search.model;
 
-public abstract class PoguesItem {
+public class PoguesItem {
 
     public PoguesItem(){ }
 
