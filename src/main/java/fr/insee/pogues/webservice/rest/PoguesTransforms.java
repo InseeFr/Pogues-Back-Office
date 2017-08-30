@@ -6,6 +6,7 @@ import io.swagger.annotations.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -101,7 +102,7 @@ public class PoguesTransforms {
         Map<String, Object> params = new HashMap<>();
         try {
             JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
-            JSONObject dataCollection = (JSONObject) questionnaire.get("DataCollection");
+            JSONObject dataCollection = (JSONObject) ((JSONArray) questionnaire.get("DataCollection")).get(0);
             String name = dataCollection.get("Name").toString();
             params.put("name", name);
             input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
@@ -114,8 +115,10 @@ public class PoguesTransforms {
                     .transform();
             return Response.seeOther(URI.create(uri)).build();
         } catch(PoguesException e) {
+            e.printStackTrace();
             throw e;
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         } finally {
             input.close();
