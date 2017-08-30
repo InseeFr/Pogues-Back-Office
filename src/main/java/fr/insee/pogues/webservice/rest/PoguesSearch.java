@@ -9,8 +9,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.elasticsearch.action.index.IndexResponse;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,9 +17,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 @Path("/search")
@@ -44,16 +40,8 @@ public class PoguesSearch {
     })
     public List<PoguesHit> searchQuestionnaire(PoguesQuery query) throws Exception {
         try {
-            SearchResponse response = searchService.searchByLabel(query.getFilter(), query.getTypes().toArray(new String[query.getTypes().size()]));
-            List<SearchHit> esHits = Arrays.asList(response.getHits().getHits());
-            return esHits
-                    .stream()
-                    .map(hit -> new PoguesHit(
-                            hit.getId(),
-                            hit.getSource().get("label").toString(),
-                            hit.getType()
-                    ))
-                    .collect(Collectors.toList());
+            String[] types = query.getTypes().toArray(new String[query.getTypes().size()]);
+            return searchService.searchByLabel(query.getFilter(), types);
         } catch(Exception e) {
             throw e;
         }

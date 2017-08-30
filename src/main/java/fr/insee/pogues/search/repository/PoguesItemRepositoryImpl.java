@@ -1,16 +1,21 @@
 package fr.insee.pogues.search.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import fr.insee.pogues.search.model.PoguesHit;
 import fr.insee.pogues.search.model.PoguesItem;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class PoguesItemRepositoryImpl implements PoguesItemRepository {
@@ -38,10 +43,19 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
     }
 
     @Override
-    public SearchResponse findByLabel(String label, String... types) throws Exception {
-        return client.prepareSearch(index)
+    public List<PoguesHit> findByLabel(String label, String... types) throws Exception {
+        SearchResponse response = client.prepareSearch(index)
                 .setTypes(types)
                 .setQuery(QueryBuilders.matchQuery("label", label))
                 .get();
+        List<SearchHit> esHits = Arrays.asList(response.getHits().getHits());
+        return esHits
+                .stream()
+                .map(hit -> new PoguesHit(
+                        hit.getId(),
+                        hit.getSource().get("label").toString(),
+                        hit.getType()
+                ))
+                .collect(Collectors.toList());
     }
 }
