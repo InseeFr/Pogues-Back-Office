@@ -4,6 +4,7 @@ import fr.insee.pogues.search.model.PoguesItem;
 import fr.insee.pogues.search.repository.PoguesItemRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,9 +19,9 @@ public class SearchServiceImpl implements SearchService {
     private PoguesItemRepository poguesItemRepository;
 
     @Override
-    public void save(String type, PoguesItem item) throws Exception {
+    public IndexResponse save(String type, PoguesItem item) throws Exception {
         try {
-            poguesItemRepository.save(type, item);
+            return poguesItemRepository.save(type, item);
         } catch (Exception e) {
             logger.error(e.getStackTrace());
             throw e;
