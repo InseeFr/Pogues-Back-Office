@@ -102,7 +102,7 @@ public class PoguesTransforms {
         try {
             JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
             JSONObject dataCollection = (JSONObject) questionnaire.get("DataCollection");
-            String name = dataCollection.get("name").toString();
+            String name = dataCollection.get("Name").toString();
             params.put("name", name);
             input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
             String uri = pipeline
