@@ -306,6 +306,7 @@
                                 <exclude>**/model/**/*</exclude>
                                 <exclude>**/utils/ddi/**/*</exclude>
                                 <exclude>**/utils/xsl/**/*</exclude>
+                                <exclude>**/utils/TrustAllX509*</exclude>
                                 <exclude>**/query/**</exclude>
                             </excludes>
                         </configuration>
