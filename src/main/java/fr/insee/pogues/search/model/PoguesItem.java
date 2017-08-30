@@ -2,6 +2,13 @@ package fr.insee.pogues.search.model;
 
 public abstract class PoguesItem {
 
+    public PoguesItem(){ }
+
+    public PoguesItem(String id, String label) {
+        this.id = id;
+        this.label = label;
+    }
+
     private String id;
 
     private String label;
