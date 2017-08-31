@@ -4,6 +4,7 @@ import fr.insee.pogues.search.model.PoguesHit;
 import fr.insee.pogues.search.repository.PoguesItemRepository;
 import fr.insee.pogues.search.service.SearchServiceImpl;
 import fr.insee.pogues.webservice.rest.PoguesException;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.junit.Assert;
 import org.junit.Before;
@@ -73,6 +74,14 @@ public class TestSearchService {
         when(repository.save("questionnaire", hit))
                 .thenReturn(response);
         Assert.assertEquals(response, service.save("questionnaire", hit));
+    }
+    @Test
+    public void returnsDeleteResponse() throws Exception {
+        DeleteResponse response = Mockito.mock(DeleteResponse.class);
+        when(response.toString()).thenReturn("response");
+        when(repository.delete("questionnaire", "foo"))
+                .thenReturn(response);
+        Assert.assertEquals(response, service.delete("questionnaire", "foo"));
     }
 
 }
