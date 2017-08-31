@@ -2,12 +2,13 @@ package fr.insee.pogues.utils.json;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.ParseException;
+import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
-import static org.junit.Assert.assertEquals;
 
 /**
  * Test Class used to test JSON functions
@@ -30,7 +31,7 @@ public class TestJSONFunctions {
 		data.put("2",json2);
 		data.put("1",json1);
 		String expected = jsonArray;
-		assertEquals(expected,fr.insee.pogues.utils.json.JSONFunctions.getJSONArray(data));
+		Assert.assertEquals(expected, JSONFunctions.getJSONArray(data));
 	}
 	
 	@Test
@@ -38,7 +39,7 @@ public class TestJSONFunctions {
 		data.put("id", "1");
 		data.put("Name", "FIRSTQUESTIONNAIRE");
 		String expected = json1;
-		assertEquals(expected,fr.insee.pogues.utils.json.JSONFunctions.getJSON(data));
+		Assert.assertEquals(expected, JSONFunctions.getJSON(data));
 	}
 	
 	@Test
@@ -48,7 +49,7 @@ public class TestJSONFunctions {
 		expected.put("1",json1);
 		expected.put("2",json2);
 		String data = jsonArray;
-		assertEquals(expected,fr.insee.pogues.utils.json.JSONFunctions.getMap(data));
+		Assert.assertEquals(expected, JSONFunctions.getMap(data));
 		
 	}
 	
@@ -56,7 +57,7 @@ public class TestJSONFunctions {
 	public void getIDinQuestionnaire() {
 		
 		String expected = "1";
-		assertEquals(expected,fr.insee.pogues.utils.json.JSONFunctions.getQuestionnaireIDinQuestionnaire(json1));
+		Assert.assertEquals(expected, JSONFunctions.getQuestionnaireIDinQuestionnaire(json1));
 		
 	}
 	
@@ -67,9 +68,25 @@ public class TestJSONFunctions {
 		ArrayList<String>  expected = new ArrayList<String>();
 		expected.add("1");
 		expected.add("2");
-		assertEquals(expected,fr.insee.pogues.utils.json.JSONFunctions.getQuestionnaireIDinQuestionnaireList(jsonArray));
+		Assert.assertEquals(expected, JSONFunctions.getQuestionnaireIDinQuestionnaireList(jsonArray));
 		
 	}
 
+
+	@Test
+	public void renamePluralTest() throws ParseException {
+		JSONObject input = new JSONObject();
+		input.put("Child", null);
+		input.put("Control", null);
+		input.put("GoTo", null);
+		input.put("Response", null);
+		input.put("Declaration", null);
+		JSONObject output = JSONFunctions.renameQuestionnairePlural(input);
+		Assert.assertTrue(output.containsKey("children"));
+		Assert.assertTrue(output.containsKey("controls"));
+		Assert.assertTrue(output.containsKey("gotos"));
+		Assert.assertTrue(output.containsKey("responses"));
+		Assert.assertTrue(output.containsKey("declarations"));
+	}
 
 }

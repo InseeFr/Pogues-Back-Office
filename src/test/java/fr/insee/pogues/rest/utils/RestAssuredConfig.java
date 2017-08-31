@@ -1,4 +1,4 @@
-package fr.insee.pogues.rest.test.utils;
+package fr.insee.pogues.rest.utils;
 
 import com.jayway.restassured.RestAssured;
 import org.apache.logging.log4j.LogManager;

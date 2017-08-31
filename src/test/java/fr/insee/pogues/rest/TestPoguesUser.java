@@ -1,7 +1,7 @@
-package fr.insee.pogues.rest.test;
+package fr.insee.pogues.rest;
 
 import com.jayway.restassured.RestAssured;
-import fr.insee.pogues.rest.test.utils.RestAssuredConfig;
+import fr.insee.pogues.rest.utils.RestAssuredConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.AfterClass;

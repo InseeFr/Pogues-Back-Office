@@ -1,4 +1,4 @@
-package fr.insee.pogues.rest.test.mock;
+package fr.insee.pogues.rest.mock;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
