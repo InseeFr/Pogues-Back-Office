@@ -8,8 +8,8 @@ givenName: Guillaume
 mail: guillaume.bichler@openstack.org
 sn: Bichler
 uid: SRMTXN
-memberof: cn=DG75-L120,ou=groups,o=insee,c=fr
-registeredAddress: DG75-L120
+memberof: cn=DG75-L201,ou=groups,o=insee,c=fr
+registeredAddress: DG75-L201
 
 dn: uid=ETGAIL,ou=Personnes,o=insee,c=fr
 objectClass: inetOrgPerson
@@ -34,5 +34,5 @@ givenName: Heidi
 mail: heidi.koumarianos@openstack.org
 sn: Koumarianos
 uid: D5WQNO
-memberof: cn=DG75-L120,ou=groups,o=insee,c=fr
-registeredAddress: DG75-L120
+memberof: cn=DR67-SES54,ou=groups,o=insee,c=fr
+registeredAddress: DR67-SES54
