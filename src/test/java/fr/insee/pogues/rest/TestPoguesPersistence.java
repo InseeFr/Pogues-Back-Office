@@ -195,6 +195,7 @@ public class TestPoguesPersistence {
     }
 
     private void postQuestionnaireWithSuccess(JSONObject questionnaire){
+        System.out.println(questionnaire.toJSONString());
         expect()
                 .statusCode(201)
                 .when()
