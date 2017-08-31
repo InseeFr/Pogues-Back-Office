@@ -15,7 +15,6 @@ import java.util.List;
 @Service
 public class SearchServiceImpl implements SearchService {
 
-
     private static final Logger logger = LogManager.getLogger(SearchServiceImpl.class);
 
     @Autowired
@@ -26,7 +25,8 @@ public class SearchServiceImpl implements SearchService {
         try {
             return poguesItemRepository.save(type, item);
         } catch (Exception e) {
-            logger.error(e.getStackTrace());
+            e.printStackTrace();
+            logger.error(e.getMessage());
             throw e;
         }
     }
@@ -35,7 +35,8 @@ public class SearchServiceImpl implements SearchService {
         try {
             return poguesItemRepository.findByLabel(label, types);
         } catch (Exception e) {
-            logger.error(e.getStackTrace());
+            e.printStackTrace();
+            logger.error(e.getMessage());
             throw e;
         }
     }
@@ -44,7 +45,8 @@ public class SearchServiceImpl implements SearchService {
         try {
             return poguesItemRepository.delete(type, id);
         } catch(Exception e) {
-            logger.error(e.getStackTrace());
+            e.printStackTrace();
+            logger.error(e.getMessage());
             throw e;
         }
     }
