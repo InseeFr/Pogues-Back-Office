@@ -29,6 +29,10 @@ function build_static(){
     popd
 }
 
+function build(){
+    mvn clean install -DskipTests -Dfinal.war.name="$FINAL_WAR_NAME"
+}
+
 # Update backend war file with front end assets
 function package(){
     static=${STATIC_BUNDLE?Please run build_static() before running update()}
@@ -38,7 +42,7 @@ function package(){
 }
 
 function main(){
-    get_static && build_static && package
+    build && get_static && build_static && package
 }
 
 main

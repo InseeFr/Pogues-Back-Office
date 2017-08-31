@@ -1,2 +1,2 @@
-<!--* [English](en/)-->
+* [English](en/)
 * [Français](fr/)

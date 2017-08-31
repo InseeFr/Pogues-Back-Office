@@ -23,8 +23,6 @@ import java.util.List;
  *
  */
 @Service
-//@Configuration
-//@PropertySource("classpath:${fr.insee.pogues.env:prod}/pogues-bo.properties")
 public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesServiceQuery {
 
 	final static Logger logger = LogManager.getLogger(QuestionnairesServiceQueryPostgresqlImpl.class);
@@ -49,7 +47,6 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 	@PostConstruct
 	public void init(){
-		logger.debug(this.env.getProperty("fr.insee.pogues.qa"));
 		String dbHost = this.env.getProperty("fr.insee.pogues.persistence.database.host");
 		String dbPort = this.env.getProperty("fr.insee.pogues.persistence.database.port");
 		String dbSchema = this.env.getProperty("fr.insee.pogues.persistence.database.schema");

@@ -39,7 +39,7 @@
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
-			<param-value>io.swagger.jaxrs.listing,fr.insee.pogues.webservice.rest</param-value>
+			<param-value>io.swagger.jaxrs.listing,fr.insee.pogues.webservice.rest,fr.insee.pogues.utils.jersey</param-value>
 		</init-param>
 		<init-param>
 			<param-name>unit:WidgetPU</param-name>
@@ -89,7 +89,5 @@
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-	
-
 
 </web-app>

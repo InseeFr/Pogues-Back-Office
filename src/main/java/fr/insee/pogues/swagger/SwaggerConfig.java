@@ -2,7 +2,6 @@ package fr.insee.pogues.swagger;
 
 import io.swagger.jaxrs.config.BeanConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 
 import javax.servlet.ServletConfig;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServlet;
 /**
  * Created by acordier on 24/07/17.
  */
-@PropertySource("classpath:${fr.insee.pogues.env:prod}/pogues-bo.properties")
 public class SwaggerConfig extends HttpServlet {
 
     @Autowired
@@ -27,8 +25,7 @@ public class SwaggerConfig extends HttpServlet {
         beanConfig.setSchemes(new String[]{"http"});
         //TODO Externalize the parameter
         beanConfig.setBasePath("/rmspogfo/pogues");
-        //beanConfig.setHost("dvrmspogfolht01.ad.insee.intra");
-        beanConfig.setHost("qfrmspogfolht01.ad.insee.intra");
+        beanConfig.setHost(env.getProperty("fr.insee.pogues.api.host"));
         beanConfig.setResourcePackage("fr.insee.pogues.webservice.rest");
         beanConfig.setScan(true);
     }

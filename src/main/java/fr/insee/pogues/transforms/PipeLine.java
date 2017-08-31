@@ -54,11 +54,12 @@ public class PipeLine {
         return output;
     }
 
-
+    /// [marker0]
     @FunctionalInterface
     public interface Transform<I, O> {
         O apply(I i, Map<String, Object> params) throws Exception;
     }
+    /// [marker0]
 
 }
 

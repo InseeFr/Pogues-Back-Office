@@ -18,22 +18,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-/**
- * WebService class for the Identity Service
- *
- * @author I6VWID
- *         <p>
- *         schemes: - http
- *         <p>
- *         consumes: - application/json
- *         <p>
- *         produces: - application/json
- */
 @Component
 @Path("/user")
-@Api(value = "PoguesUser", authorizations = {
-        @Authorization(value = "sampleoauth", scopes = {})
-})
+@Api(value = "Pogues Users")
 public class PoguesUser {
 
 
@@ -48,7 +35,7 @@ public class PoguesUser {
 
     @GET
     @Path("id")
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @ApiOperation(
             value = "Get Id",
             notes = "Get the user id of the connected user",
