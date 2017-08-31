@@ -3,6 +3,7 @@ package fr.insee.pogues.search.repository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.pogues.search.model.PoguesHit;
 import fr.insee.pogues.search.model.PoguesItem;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.Client;
@@ -57,5 +58,10 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
                         hit.getType()
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public DeleteResponse delete(String type, String id) throws Exception {
+        return client.prepareDelete(index, type, id).get();
     }
 }

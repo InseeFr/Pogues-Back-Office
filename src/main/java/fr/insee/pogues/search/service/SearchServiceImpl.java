@@ -5,6 +5,7 @@ import fr.insee.pogues.search.model.PoguesItem;
 import fr.insee.pogues.search.repository.PoguesItemRepository;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,15 @@ public class SearchServiceImpl implements SearchService {
         try {
             return poguesItemRepository.findByLabel(label, types);
         } catch (Exception e) {
+            logger.error(e.getStackTrace());
+            throw e;
+        }
+    }
+
+    public DeleteResponse delete(String type, String id) throws Exception {
+        try {
+            return poguesItemRepository.delete(type, id);
+        } catch(Exception e) {
             logger.error(e.getStackTrace());
             throw e;
         }
