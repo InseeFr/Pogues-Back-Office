@@ -10,7 +10,7 @@ install:
 - bash scripts/install.sh rmspogfo
 - cp target/rmspogfo.war docker/tomcat/
 before_script:
-- sysctl -w vm.max_map_count=262144
+- sudo sysctl -w vm.max_map_count=262144
 - pushd docker
 - docker-compose up -d
 - popd
