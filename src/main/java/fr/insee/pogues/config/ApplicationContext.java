@@ -1,8 +1,17 @@
 package fr.insee.pogues.config;
 
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource("classpath:env/${fr.insee.pogues.env:dv}/pogues-bo.properties")
-public class ApplicationContext { }
+public class ApplicationContext {
+
+    @Bean
+    public HttpClient httpClient(){
+        return HttpClients.createDefault();
+    }
+}
