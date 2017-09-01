@@ -6,10 +6,9 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -17,17 +16,10 @@ import java.util.Map;
 public class StromaeServiceImpl implements StromaeService {
 
     @Autowired
-    Environment env;
-
-    @Autowired
     HttpClient httpClient;
 
+    @Value("${fr.insee.pogues.api.remote.stromae.vis.url}")
     private String serviceUri;
-
-    @PostConstruct
-    public void setUp(){
-        serviceUri = env.getProperty("fr.insee.pogues.api.remote.stromae.vis.url");
-    }
 
     @Override
     public String transform(String input, Map<String, Object> params) throws Exception {
