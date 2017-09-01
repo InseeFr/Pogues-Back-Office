@@ -41,7 +41,7 @@ public class TestQuestionnaireService {
     }
 
 
-    @Test//(expected = Exception.class)
+    @Test
     public void emptyListThrowsException() throws Exception {
         exception.expect(PoguesException.class);
         exception.expectMessage("Not found");

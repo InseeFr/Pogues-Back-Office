@@ -1,8 +1,8 @@
-package fr.insee.pogues.rest.test;
+package fr.insee.pogues.rest;
 
 import com.jayway.restassured.RestAssured;
-import fr.insee.pogues.rest.test.mock.QuestionnaireMocks;
-import fr.insee.pogues.rest.test.utils.RestAssuredConfig;
+import fr.insee.pogues.rest.mock.QuestionnaireMocks;
+import fr.insee.pogues.rest.utils.RestAssuredConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -108,7 +108,7 @@ public class TestPoguesPersistence {
     @Test
     public void postQuestionnaireThenUpdateWithUnauthorized() {
         JSONObject questionnaire = QuestionnaireMocks.createMockQuestionnaire();
-        questionnaire.put("owner", "DR31-DIR");
+        questionnaire.put("owner", "DG75-L201");
         postQuestionnaireWithSuccess(questionnaire);
         expect()
                 .statusCode(403)
@@ -118,7 +118,11 @@ public class TestPoguesPersistence {
                 .body(questionnaire.toJSONString())
                 .when()
                 .put("/pogues/persistence/questionnaire/" + questionnaire.get("id"));
+        tearDown();
+        RestAssuredConfig.configure("SRMTXN", "SRMTXN");
         deleteQuestionnaireWithSuccess(questionnaire.get("id").toString());
+        tearDown();
+        setUp();
     }
 
     /**
@@ -148,7 +152,7 @@ public class TestPoguesPersistence {
     @Test
     public void postQuestionnaireThenGetByOwnerWithSuccess() {
         JSONObject questionnaire = QuestionnaireMocks.createMockQuestionnaire();
-        questionnaire.put("owner", "DR31-DIR");
+        questionnaire.put("owner", "DG75-L201");
         postQuestionnaireWithSuccess(questionnaire);
         int listSize = expect()
                 .statusCode(200)
@@ -161,7 +165,11 @@ public class TestPoguesPersistence {
                 .getList("$")
                 .size();
         assertNotEquals(listSize, 0);
+        tearDown();
+        RestAssuredConfig.configure("SRMTXN", "SRMTXN");
         deleteQuestionnaireWithSuccess(questionnaire.get("id").toString());
+        tearDown();
+        setUp();
     }
 
     /**

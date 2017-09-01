@@ -105,6 +105,7 @@ public class PoguesPersistence {
             @ApiResponse(code = 204, message = "No content"),
             @ApiResponse(code = 404, message = "Not found")
     })
+	@OwnerRestricted
 	public Response deleteQuestionnaire(
 			@ApiParam(value = "The id of the object that need to be deleted", required = true)
 			@PathParam(value = "id") String id
@@ -117,26 +118,6 @@ public class PoguesPersistence {
 			throw e;
 		}
 	}
-
-//	@DELETE
-//	@Path("questionnaires")
-//	@ApiOperation(
-//	        value = "Delete all questionnaire",
-//			response = String.class,
-//            notes = "Temporary endpoint for development, clean db"
-//    )
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 204, message = "No content"),
-//            @ApiResponse(code = 404, message = "Not found")
-//    })
-//	public Response deleteAllQuestionnaires() throws Exception {
-//		try {
-//			questionnaireService.deleteAllQuestionnaires();
-//			return Response.status(Status.NO_CONTENT).build();
-//		} catch (Exception e) {
-//			throw e;
-//		}
-//	}
 
 	@GET
 	@Path("questionnaires")

@@ -1,5 +1,8 @@
 #!/usr/bin/env bash
-
+#title           :build.sh
+#description     :Builds and packages pogues backend and frontend in a war
+#author		     :a-cordier
+#==============================================================================
 FINAL_WAR_NAME=${1?Final war name must be passed as first argument}
 STATIC_GH_URL="https://github.com/InseeFr/Pogues"
 MAIN_BRANCH="zenika-dev"

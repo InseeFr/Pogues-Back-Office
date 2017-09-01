@@ -34,28 +34,20 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
         try {
             ContainerRequest request = (ContainerRequest) requestContext;
             request.bufferEntity();
-            JSONObject json = request.readEntity(JSONObject.class);
-            if (null == json) {
+            String id = requestContext.getUriInfo().getPathParameters().getFirst("id");
+            if (null == id) {
                 // need a body to continue
-                logger.error("Tried to call OwnerRestricted filter on request without a body");
-                throw new PoguesException(400, "Bad Request", "No body attached to request");
+                String message = "No id path param found to perform authorization";
+                logger.error(message);
+                throw new PoguesException(400, "Bad Request", message);
             }
-            Object id = json.get("id");
-            if(null == id){
-                // need an id to continue
-                logger.error("Tried to call OwnerRestricted filter on body without an id");
-                throw new PoguesException(400, "Bad Request", "Missing attribute 'id' in Request Payload");
-            }
-            JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id.toString());
-            if(questionnaire.isEmpty()){
-                // need an object to continue
-                throw new PoguesException(404, "Not Found", "Entity not found @id: " + id);
-            }
+            JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
             Object owner = questionnaire.get("owner");
             if (null == owner) {
-                // need a owner attribute to work
-                logger.error("Tried to call OwnerRestricted filter on body without a owner attribute");
-                throw new PoguesException(400, "Bad Request", "Request payload does not have an owner attribute");
+                // need a body to continue
+                String message = "Could not perform security checks: Entity does not contains a owner attribute";
+                logger.error(message);
+                throw new PoguesException(500, "Invalid Data", message);
             }
             // Filter request
             Principal principal = requestContext.getSecurityContext()
@@ -72,6 +64,7 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
         } catch (PoguesException e) {
             throw e;
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             throw new PoguesException(500, "Unexpected error", e.getMessage());
         }

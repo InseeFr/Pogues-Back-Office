@@ -6,6 +6,7 @@ import fr.insee.pogues.user.query.UserServiceQuery;
 import fr.insee.pogues.webservice.rest.OwnerRestrictedFilter;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.glassfish.jersey.server.ContainerRequest;
+import org.glassfish.jersey.server.ExtendedUriInfo;
 import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Rule;
@@ -13,8 +14,8 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
+import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.core.SecurityContext;
 import java.security.Principal;
 
@@ -43,48 +44,18 @@ public class TestOwnerRestrictedFilter {
     }
 
     @Test // No payload attached =>  400|Bad Request
-    public void filterWithNullBodyException() throws Exception {
+    public void filterWithNullIdException() throws Exception {
         exception.expectMessage("Bad Request");
         exception.expect(PoguesException.class);
         try {
             filter(null);
         } catch(Exception e) {
             String detailedMessage = ((PoguesException)e).toRestMessage().getDetails();
-            assertEquals("No body attached to request", detailedMessage);
+            assertEquals("No id path param found to perform authorization", detailedMessage);
             throw e;
         }
     }
 
-    @Test // Id not found in payload =>  400|Bad Request
-    public void filterWithNullIdException() throws Exception {
-        exception.expectMessage("Bad Request");
-        exception.expect(PoguesException.class);
-        try {
-            filter(new JSONObject());
-        } catch(Exception e) {
-            String detailedMessage = ((PoguesException)e).toRestMessage().getDetails();
-            assertEquals("Missing attribute 'id' in Request Payload", detailedMessage);
-            throw e;
-        }
-    }
-
-    @Test// Owner not found in payload =>  400|Bad Request
-    public void filterWithNullOwnerException() throws Exception {
-        exception.expectMessage("Bad Request");
-        exception.expect(PoguesException.class);
-        JSONObject payload = new JSONObject();
-        payload.put("id", "foo");
-        Mockito.when(questionnaireService.getQuestionnaireByID("foo"))
-                .thenReturn(payload);
-        try {
-            filter(payload);
-        } catch(Exception e) {
-            String detailedMessage = ((PoguesException)e).toRestMessage().getDetails();
-            assertEquals("Request payload does not have an owner attribute",
-                    detailedMessage);
-            throw e;
-        }
-    }
 
     @Test
     public void filterWithUnauthorizedException() throws Exception {
@@ -92,11 +63,16 @@ public class TestOwnerRestrictedFilter {
         exception.expect(PoguesException.class);
         try {
             JSONObject payload = new JSONObject();
-            payload.put("id", "ENTITY-ID");
+            String id = "ENTITY-ID";
+            payload.put("id", id);
             payload.put("owner", "A-USER-GROUP");
             ContainerRequest crc = mock(ContainerRequest.class);
-            when(crc.readEntity(JSONObject.class))
-                    .thenReturn(payload);
+            ExtendedUriInfo uriInfo = mock(ExtendedUriInfo.class);
+            MultivaluedMap<String, String> pathParams = mock(MultivaluedMap.class);
+            when(pathParams.getFirst("id")).thenReturn(id);
+            when(uriInfo.getPathParameters()).thenReturn(pathParams);
+            when(crc.getUriInfo())
+                    .thenReturn(uriInfo);
             when(crc.getSecurityContext()).thenReturn(new SecurityContext() {
                 @Override
                 public Principal getUserPrincipal() {
@@ -120,7 +96,7 @@ public class TestOwnerRestrictedFilter {
             });
             JSONObject storedEntity = new JSONObject();
             storedEntity.put("owner", "ANOTHER-GROUP");
-            when(questionnaireService.getQuestionnaireByID("ENTITY-ID"))
+            when(questionnaireService.getQuestionnaireByID(id))
                     .thenReturn(storedEntity);
             when(userServiceQuery.getNameAndPermissionByID("CURRENT-USER-ID"))
                     .thenReturn(new User("CURRENT-USER-ID",
@@ -144,11 +120,16 @@ public class TestOwnerRestrictedFilter {
         exception.expect(PoguesException.class);
         try {
             JSONObject payload = new JSONObject();
-            payload.put("id", "ENTITY-ID");
+            String id = "ENTITY-ID";
+            payload.put("id", id);
             payload.put("owner", "A-USER-GROUP");
             ContainerRequest crc = mock(ContainerRequest.class);
-            when(crc.readEntity(JSONObject.class))
-                    .thenReturn(payload);
+            ExtendedUriInfo uriInfo = mock(ExtendedUriInfo.class);
+            MultivaluedMap<String, String> pathParams = mock(MultivaluedMap.class);
+            when(pathParams.getFirst("id")).thenReturn(id);
+            when(uriInfo.getPathParameters()).thenReturn(pathParams);
+            when(crc.getUriInfo())
+                    .thenReturn(uriInfo);
             when(crc.getSecurityContext()).thenReturn(new SecurityContext() {
                 @Override
                 public Principal getUserPrincipal() {
@@ -182,10 +163,14 @@ public class TestOwnerRestrictedFilter {
         }
     }
 
-    private void filter(JSONObject payload) throws Exception  {
+    private void filter(String id) throws Exception  {
         ContainerRequest crc = mock(ContainerRequest.class);
-        when(crc.readEntity(JSONObject.class))
-                .thenReturn(payload);
+        ExtendedUriInfo uriInfo = mock(ExtendedUriInfo.class);
+        MultivaluedMap<String, String> pathParams = mock(MultivaluedMap.class);
+        when(pathParams.getFirst("id")).thenReturn(id);
+        when(uriInfo.getPathParameters()).thenReturn(pathParams);
+        when(crc.getUriInfo())
+                .thenReturn(uriInfo);
         filter.filter(crc);
     }
 

@@ -58,6 +58,9 @@ public class PoguesTransforms {
             value = "Get visualization URI from JSON serialized Pogues entity",
             notes = "Name MUST refer to the name attribute owned by the nested DataCollectionObject"
     )
+    @ApiImplicitParams(value = {
+            @ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject")
+    })
     public Response visualizeFromBody(
             @Context final HttpServletRequest request,
             @PathParam(value = "name") String name

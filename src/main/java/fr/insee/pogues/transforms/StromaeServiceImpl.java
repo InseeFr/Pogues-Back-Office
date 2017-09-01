@@ -26,16 +26,17 @@ public class StromaeServiceImpl implements StromaeService {
     public void setUp(){
         serviceUri = env.getProperty("fr.insee.pogues.api.remote.stromae.vis.url");
     }
+
     @Override
     public String transform(String input, Map<String, Object> params) throws Exception {
         try {
             String uri = String.format("%s/%s", serviceUri,
                     params.get("name"));
-            HttpClient client = HttpClients.createDefault();
+            HttpClient httpClient = HttpClients.createDefault();
             HttpPost post = new HttpPost(uri);
             post.setEntity(new StringEntity(input, StandardCharsets.UTF_8));
             post.setHeader("Content-type", "application/xml");
-            HttpResponse response = client.execute(post);
+            HttpResponse response = httpClient.execute(post);
             return EntityUtils.toString(response.getEntity());
         } catch(Exception e) {
             throw e;
