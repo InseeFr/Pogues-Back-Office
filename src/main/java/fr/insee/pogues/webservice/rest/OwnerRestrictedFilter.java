@@ -35,7 +35,6 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
             ContainerRequest request = (ContainerRequest) requestContext;
             request.bufferEntity();
             String id = requestContext.getUriInfo().getPathParameters().getFirst("id");
-            logger.debug("XXX id: " + id);
             if (null == id) {
                 // need a body to continue
                 String message = "No id path param found to perform authorization";
@@ -43,12 +42,13 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
                 throw new PoguesException(400, "Bad Request", message);
             }
             JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
-            if(questionnaire.isEmpty()){
-                // need an object to continue
-                throw new PoguesException(404, "Not Found", "Entity not found @id: " + id);
-            }
             Object owner = questionnaire.get("owner");
-            logger.debug("XXX questionnaire owner: " + owner);
+            if (null == owner) {
+                // need a body to continue
+                String message = "Could not perform security checks: Entity does not contains a owner attribute";
+                logger.error(message);
+                throw new PoguesException(500, "Invalid Data", message);
+            }
             // Filter request
             Principal principal = requestContext.getSecurityContext()
                     .getUserPrincipal();
@@ -58,13 +58,13 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
             String permission = userServiceQuery
                     .getNameAndPermissionByID(principal.getName())
                     .getPermission();
-            logger.debug("XXX user permission: " + permission);
             if (null == permission || !permission.equals(owner.toString())) {
                 throw new PoguesException(403, "Unauthorized", "This object is not yours");
             }
         } catch (PoguesException e) {
             throw e;
         } catch (Exception e) {
+            e.printStackTrace();
             logger.error(e.getMessage());
             throw new PoguesException(500, "Unexpected error", e.getMessage());
         }
