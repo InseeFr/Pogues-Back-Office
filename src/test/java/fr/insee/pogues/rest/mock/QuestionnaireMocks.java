@@ -1,6 +1,7 @@
 package fr.insee.pogues.rest.mock;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.rest.utils.RestAssuredConfig;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -22,7 +23,7 @@ public class QuestionnaireMocks {
             JSONParser parser = new JSONParser();
             JSONObject questionnaire = (JSONObject)
                     parser.parse(new FileReader(filePath));
-            questionnaire.put("owner", "DG75-L120");
+            questionnaire.put("owner", RestAssuredConfig.jUserPermission);
             return questionnaire;
         } catch (Exception e) {
             return null;

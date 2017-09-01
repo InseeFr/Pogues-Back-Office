@@ -22,7 +22,7 @@ mail: guillaume.duffes@openstack.org
 sn: Duffes
 uid: ETGAIL
 memberof: cn=DG75-L120,ou=groups,o=insee,c=fr
-registeredAddress: DG75-L120
+registeredAddress: DR67-SES54
 
 dn: uid=D5WQNO,ou=Personnes,o=insee,c=fr
 objectClass: inetOrgPerson
@@ -34,5 +34,5 @@ givenName: Heidi
 mail: heidi.koumarianos@openstack.org
 sn: Koumarianos
 uid: D5WQNO
-memberof: cn=DR67-SES54,ou=groups,o=insee,c=fr
-registeredAddress: DR67-SES54
+memberof: cn=DG75-L120,ou=groups,o=insee,c=fr
+registeredAddress: DG75-L120
