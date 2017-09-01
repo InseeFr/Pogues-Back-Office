@@ -4,7 +4,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -20,6 +19,9 @@ public class StromaeServiceImpl implements StromaeService {
     @Autowired
     Environment env;
 
+    @Autowired
+    HttpClient httpClient;
+
     private String serviceUri;
 
     @PostConstruct
@@ -32,7 +34,6 @@ public class StromaeServiceImpl implements StromaeService {
         try {
             String uri = String.format("%s/%s", serviceUri,
                     params.get("name"));
-            HttpClient httpClient = HttpClients.createDefault();
             HttpPost post = new HttpPost(uri);
             post.setEntity(new StringEntity(input, StandardCharsets.UTF_8));
             post.setHeader("Content-type", "application/xml");
