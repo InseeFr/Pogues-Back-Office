@@ -55,7 +55,6 @@ function tag() {
 }
 
 function main(){
-    echo "">"$TAG_HOLDER"
     if is_patch; then tag; fi
 }
 

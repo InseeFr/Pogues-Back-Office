@@ -20,9 +20,9 @@ script:
 - mvn integration-test
 after_script:
 - bash scripts/gitbook.sh
+- bash scripts/tag.sh
 before_deploy:
 - bash scripts/build.sh rmspogfo
-- bash scripts/tag.sh
 #deploy:
 #  provider: releases
 #  api_key:
