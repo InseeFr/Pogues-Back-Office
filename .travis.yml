@@ -42,6 +42,7 @@ deploy:
   on:
     repo: Zenika/Pogues-Back-Office
     branch: zenika-dev
+    condition: $(cat "$TRAVIS_BUILD_DIR/.tag") =~ v.*
     tags: false
 branches:
   except:
