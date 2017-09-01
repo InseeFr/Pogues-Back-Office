@@ -12,6 +12,7 @@ MESSAGE="Auto release from $USER: build $TRAVIS_BUILD_NUMBER"
 AUTHOR="$USER <>"
 VERSION=$(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }')
 TAG="v$VERSION"
+TAG_HOLDER="$TRAVIS_BUILD_DIR/.tag"
 
 if [ "$TRAVIS_PULL_REQUEST" != "false" ];then
   echo "Won't tag on pull request"
@@ -50,10 +51,11 @@ function tag() {
     git remote add upstream "$UPSTREAM"
     git tag --annotate "${TAG}" -m "${MESSAGE}"
     git push upstream --tags
-    echo "Travis tag: $TRAVIS_TAG"
+    echo "$TAG">"$TAG_HOLDER"
 }
 
 function main(){
+    echo "">"$TAG_HOLDER"
     if is_patch; then tag; fi
 }
 
