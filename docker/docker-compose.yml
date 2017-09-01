@@ -16,6 +16,15 @@ services:
     networks:
       intra:
         ipv4_address: 172.20.0.3
+  colectica:
+    build: ./colectica
+    command: -w db.json --id Identifier
+    networks:
+      intra:
+        ipv4_address: 172.20.0.4
+    volumes:
+      - ./colectica/db.json:/app/db.json
+    restart: always
   tomcat:
     build: ./tomcat
     volumes:
