@@ -263,7 +263,7 @@
                 <a href="../security/permissions.html">
             
                     
-                    Autorization
+                    Authorization
             
                 </a>
             
@@ -352,8 +352,36 @@
 
 }
 </code></pre>
+<p>The params Map can be used to pass parameters along the transformation process that can be used by transformers to produce their output.</p>
 <h2 id="the-transform-functional-interface">The transform functional interface</h2>
+<p>To be able to use the Transformer interface methods using java 8 <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html" target="_blank">method references</a> we define a Functional Interface which every Transformer method will conform to:</p>
+<pre><code class="lang-java">    <span class="hljs-meta">@FunctionalInterface</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Transform</span>&lt;<span class="hljs-title">I</span>, <span class="hljs-title">O</span>&gt; </span>{
+        <span class="hljs-function">O <span class="hljs-title">apply</span><span class="hljs-params">(I i, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+    }
+</code></pre>
 <h2 id="the-pipeline-class">The Pipeline class</h2>
+<p>The Pipeline class is where we can chain our transform methods together to set up a more complex transformation process.</p>
+<p>For instance, visualization is accomplished using the Pipeline class and a the following transformer chain:</p>
+<p><code>[Pogues JSON] -&gt; [Pogues XML] -&gt; [DDI] -&gt; [XForm] -&gt; [Form URI]</code></p>
+<p>Here is what the code will look like:</p>
+<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PipeSample</span></span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">pipe</span><span class="hljs-params">(HttpServletRequest request)</span></span>{
+        <span class="hljs-keyword">return</span> pipeline
+            .from(request.getInputStream())
+            .map(jsonToXML::transform, params)
+            .map(xmlToDDI::transform, params)
+            .map(ddiToXForm::transform, params)
+            .map(xformToUri::transform, params)
+            .transform()
+            .getBytes();
+    }
+}
+</code></pre>
+<p>Currently our very first implementation of the Pipeline class sticks to String inputs and String outputs.</p>
+<p>Building a transformation chain begins with setting the input of the chain in the <code>from</code> method of the pipeline class (in the example we get our input from a request as a stream but input could be passed as well as a string argument).
+Then we can chain transformers using the <code>map</code> method of the Pipeline. Both the from and the map method return the Pipeline instance, allowing us to chain call fluently.</p>
+<p>Once we chained our Transformers we can then trigger the transformation process by calling transform on the pipeline. We have to notice that no transformation will be applied until we call this method.</p>
 
                                 
                                 </section>
@@ -381,7 +409,7 @@
 
             
                 
-                <a href="../security/permissions.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Autorization">
+                <a href="../security/permissions.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Authorization">
                     <i class="fa fa-angle-left"></i>
                 </a>
                 
@@ -393,7 +421,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Transformations","level":"1.7","depth":1,"previous":{"title":"Autorization","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"conversions/README.md","mtime":"2017-08-25T09:33:11.471Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"en"}});
+            gitbook.page.hasChanged({"page":{"title":"Transformations","level":"1.7","depth":1,"previous":{"title":"Authorization","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"conversions/README.md","mtime":"2017-09-01T09:50:51.362Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-01T10:01:02.028Z"},"basePath":"..","book":{"language":"en"}});
         });
     </script>
 </div>

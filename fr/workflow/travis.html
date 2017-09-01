@@ -352,53 +352,43 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
 <h2 id="configuration">Configuration</h2>
 <p>La configuration de ces op&#xE9;rations est d&#xE9;finie dans le fichier .travis.yml:</p>
 <pre><code class="lang-yaml"><span class="hljs-attr">language:</span> java
-
 <span class="hljs-attr">sudo:</span> required
-
 <span class="hljs-attr">services:</span>
-<span class="hljs-bullet">  -</span> docker
-
+<span class="hljs-bullet">-</span> docker
 <span class="hljs-attr">env:</span>
-<span class="hljs-bullet">  -</span> DOCKER_COMPOSE_VERSION=<span class="hljs-number">1.9</span><span class="hljs-number">.0</span>
-
+<span class="hljs-bullet">-</span> DOCKER_COMPOSE_VERSION=<span class="hljs-number">1.9</span><span class="hljs-number">.0</span>
 <span class="hljs-attr">jdk:</span>
-<span class="hljs-bullet">  -</span> oraclejdk8
-
+<span class="hljs-bullet">-</span> oraclejdk8
 <span class="hljs-attr">install:</span>
-<span class="hljs-bullet">  -</span> bash scripts/install.sh rmspogfo
-<span class="hljs-bullet">  -</span> cp target/rmspogfo.war docker/tomcat/
-
+<span class="hljs-bullet">-</span> bash scripts/install.sh rmspogfo
+<span class="hljs-bullet">-</span> cp target/rmspogfo.war docker/tomcat/
 <span class="hljs-attr">before_script:</span>
-<span class="hljs-bullet">  -</span> pushd docker
-<span class="hljs-bullet">  -</span> docker-compose up -d
-<span class="hljs-bullet">  -</span> popd
-
+<span class="hljs-bullet">-</span> sudo sysctl -w vm.max_map_count=<span class="hljs-number">262144</span>
+<span class="hljs-bullet">-</span> pushd docker
+<span class="hljs-bullet">-</span> docker-compose up -d
+<span class="hljs-bullet">-</span> popd
 <span class="hljs-attr">script:</span>
-<span class="hljs-bullet">  -</span> mvn test
-<span class="hljs-bullet">  -</span> bash scripts/coveralls.sh
-<span class="hljs-bullet">  -</span> mvn integration-test
-
+<span class="hljs-bullet">-</span> mvn test
+<span class="hljs-bullet">-</span> bash scripts/coveralls.sh
+<span class="hljs-bullet">-</span> mvn integration-test
 <span class="hljs-attr">after_script:</span>
-<span class="hljs-bullet">  -</span> bash scripts/gitbook.sh
-
+<span class="hljs-bullet">-</span> bash scripts/gitbook.sh
 <span class="hljs-attr">before_deploy:</span>
-<span class="hljs-bullet">  -</span> bash scripts/build.sh rmspogfo
-<span class="hljs-bullet">  -</span> bash scripts/tag.sh
-
+<span class="hljs-bullet">-</span> bash scripts/build.sh rmspogfo
+<span class="hljs-bullet">-</span> bash scripts/tag.sh
 <span class="hljs-attr">deploy:</span>
 <span class="hljs-attr">  provider:</span> releases
 <span class="hljs-attr">  api_key:</span>
-<span class="hljs-attr">    secure:</span> ozF3rsb/qOu2JtT8kEVVYrF0ikkXObKISoCWHb3+sY2ES6B24SDZc6IRAyzFDCLo6ikVkdXZAj3QgQB2LVElCXDQ6Zbv70cmJrEcQhS5jnAZv21w//SgBznCN4z8ORVBZAnwn0yyFItuIeyo2zBIRJb8tciWO+B94/DcZOMuqv9pJbSkAFjHWVKirRzPF/pr/<span class="hljs-number">6</span>Qp+<span class="hljs-number">4</span>I/S9KEf7KmkKQ3OYgXGQ7e1FouJQQ4XL22PGjyvSlTM+Xjbr4/AeoQUkOb8B9Sh3vdy6pUWX92S29EavWRvkWVh6v3SEZcE2LdAIF4Hqqtqn/rP7swjemAkBaOxAfw9HV4I8zjz5kf9RQTIVobHgMB5xXVp60fBjiBiuFcgTDmrueMat6P7hXGiG1QfRbLm2b7ZBEd9vZTt5fc/w8DT06co3ruz1QukUcZpIQFb4nHLL/HL/DJnUpqcvdEbIBYA3Y88kpDZ9X1a6ifM3J8xJUlPOppjg2h63GP4G1x/<span class="hljs-number">6</span>WBJh+hHmBcSB7XhJByjEBhZY1Vrmw4aodhPUZ2PHPBWgYx/Y/xs41BXqdU3thWHGlqPmsQTMxTkKF95IsIYhrrALBgROU2qea+<span class="hljs-number">3</span>DqdQncqzcq2hfDGko0SJLym96kLS95DGj+U/ox2znYKQ8GAYc61oy+iT6jnqV3uCo5doW35Hj995vvxBjixGdFVVhk=
+<span class="hljs-attr">    secure:</span> p7vVj36CMfn1gdoV4XUyx3Vb45x8KV0OqTh2TpjcPLXIxuW3SPKMFszhIRSXtgScz6GpAbFUhJFEj//DJtRyPSeirnDoc5TR49FgZVj5f64II9M1M1fiEto+bktv3MFQ97MAotTre4ac59+<span class="hljs-number">3</span>fNLNGsc38H22EyUxLS6LBDQ8eUzgeBu92sefbH1zClDri/RAeyZLuT6daGGPGAQWywAHjz7NI9xw2pJQ27eWCRCh64VBOsDiTq+J9FzenUnbHcJY/ZIVtddR2ERFG/uNd4bLM938YVvT3qrE9HC2nLcyMw9ZqwqM/uH7m2ljWH2SlI03Ed9HWfQ+I44tLYF2EQyPY7nlh97ottyCslfB41QvokTqwrF2IiXhVyzC0kKtSYsmw9x8sh7ee1G26z9qr5oL8LFd9572fYvYaRkP7JlUtk2JbCp7IToC3o25BJRuv2pao8BQLH4Vb6heELWuoiVi+iQ0yJFkB6dASNejdiKGjsr43Yy66yOP9lWTTEYmbaVDLMHQRJ10R6omSVdYR3xveKeCF+i+nfQaBWvIcHngIzsCWguD7mzItgYQ2VnEzV8Mxy3BKTKbPOIClJGzGwitZycxU6TTKBzMwJouW18Qbw5Pr+tyrTCF7wtoAlTy/MCVYefYKiP364X3YBHyqg93MZkEIal0iPGdjSwSOOy8kwU=
 <span class="hljs-attr">  file:</span> target/rmspogfo.war
 <span class="hljs-attr">  skip_cleanup:</span> <span class="hljs-literal">true</span>
 <span class="hljs-attr">  on:</span>
-<span class="hljs-attr">    repo:</span> ineeFr/Pogues-Back-Office
+<span class="hljs-attr">    repo:</span> InseeFr/Pogues-Back-Office
 <span class="hljs-attr">    branch:</span> zenika-dev
 <span class="hljs-attr">    tags:</span> <span class="hljs-literal">false</span>
-
 <span class="hljs-attr">branches:</span>
 <span class="hljs-attr">  except:</span>
-<span class="hljs-bullet">    -</span> /^v[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>]+\.[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>]+\.[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>]+.*/
+<span class="hljs-bullet">  -</span> <span class="hljs-string">&quot;/^v[0-9]+\\.[0-9]+\\.[0-9]+.*/&quot;</span>
 </code></pre>
 <h2 id="g&#xE9;n&#xE9;ration-de-la-documentation">G&#xE9;n&#xE9;ration de la documentation</h2>
 <p>La documentation en cours d&apos;affichage est g&#xE9;n&#xE9;r&#xE9;e automatiquement au build du projet gr&#xE2;ce &#xE0; <a href="https://www.gitbook.com/new" target="_blank">gitbook</a> et publi&#xE9;e sur la <a href="https://pages.github.com/" target="_blank">page github du projet</a>.</p>
@@ -466,7 +456,7 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Travis","level":"1.4.3","depth":2,"next":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-08-25T09:33:11.475Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-08-25T09:38:38.337Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Travis","level":"1.4.3","depth":2,"next":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-09-01T09:50:51.362Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-01T10:01:02.028Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>
