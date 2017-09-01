@@ -50,6 +50,7 @@ function tag() {
     git remote add upstream "$UPSTREAM"
     git tag --annotate "${TAG}" -m "${MESSAGE}"
     git push upstream --tags
+    echo "Travis tag: $TRAVIS_TAG"
 }
 
 function main(){
