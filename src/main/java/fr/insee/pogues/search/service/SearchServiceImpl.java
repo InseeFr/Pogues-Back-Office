@@ -25,7 +25,6 @@ public class SearchServiceImpl implements SearchService {
         try {
             return poguesItemRepository.save(type, item);
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error(e.getMessage());
             throw e;
         }
@@ -35,7 +34,6 @@ public class SearchServiceImpl implements SearchService {
         try {
             return poguesItemRepository.findByLabel(label, types);
         } catch (Exception e) {
-            e.printStackTrace();
             logger.error(e.getMessage());
             throw e;
         }
@@ -45,7 +43,6 @@ public class SearchServiceImpl implements SearchService {
         try {
             return poguesItemRepository.delete(type, id);
         } catch(Exception e) {
-            e.printStackTrace();
             logger.error(e.getMessage());
             throw e;
         }
