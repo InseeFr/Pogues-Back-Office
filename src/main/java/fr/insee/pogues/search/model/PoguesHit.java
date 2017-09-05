@@ -8,8 +8,8 @@ public class PoguesHit extends PoguesItem {
         super();
     }
 
-    public PoguesHit(String id, String label, String type) {
-        super(id, label);
+    public PoguesHit(String id, String label, String parent, String type) {
+        super(id, parent, label);
         this.type = type;
     }
 
