@@ -41,7 +41,7 @@ public class TestPoguesSearch {
 
     @Test
     public void indexThenDeleteWithSuccess(){
-        PoguesHit item = new PoguesHit("foo", "bar", "questionnaire");
+        PoguesHit item = new PoguesHit("foo", "bar", "0", "questionnaire");
         try {
             indexWithSuccess(item.getType(), item);
             deleteWithSuccess(item.getType(), item.getId());

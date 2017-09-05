@@ -46,7 +46,7 @@ public class TestSearchRepository {
         IndexResponse response = mock(IndexResponse.class);
         when(response.toString()).thenReturn("response");
         IndexRequestBuilder irb = mock(IndexRequestBuilder.class);
-        PoguesItem item = new PoguesItem("foo", "bar");
+        PoguesItem item = new PoguesItem("foo", "0", "bar");
         ObjectMapper mapper = new ObjectMapper();
         byte[] data = mapper.writeValueAsBytes(item);
         when(irb.setSource(data)).thenReturn(irb);
@@ -79,6 +79,7 @@ public class TestSearchRepository {
         when(sh.getId()).thenReturn("foo");
         when(sh.getSource()).thenReturn(new HashMap<String, Object>(){
             { put("label", "bar"); }
+            { put("parent", "0"); }
         });
         when(sh.getType()).thenReturn("anything");
         when(shs.getHits()).thenReturn(new SearchHit[]{
