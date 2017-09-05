@@ -5,8 +5,13 @@ import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.service.MetadataService;
 import fr.insee.pogues.metadata.service.MetadataServiceImpl;
 import fr.insee.pogues.metadata.utils.XpathProcessor;
+import fr.insee.pogues.search.model.Family;
+import fr.insee.pogues.search.model.Operation;
+import fr.insee.pogues.search.model.Questionnaire;
+import fr.insee.pogues.search.model.Series;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -19,6 +24,7 @@ import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -57,7 +63,19 @@ public class TestMetadataService {
         mockFindByIdResponse("f6a921fb-421b-4bd7-a0c6-233d3665c2c2");
         mockFindByIdResponse("a18c2085-d44d-4544-a43a-c1b1499b5646");
         mockFindByIdResponse("9e7c9483-f8a7-4ea1-abe1-3c37e2688dc9");
-        // TODO: mock xpathProcessor
+        mockXpathProcessorQueries();
+        Family family = metadataService.getFamily("391e505c-dc05-4042-8b9d-c602ff72690d");
+        Assert.assertEquals("ANTIPOL", family.getLabel());
+        Assert.assertEquals("391e505c-dc05-4042-8b9d-c602ff72690d", family.getId());
+        Series series = family.getSeries().get(0);
+        Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement", series.getLabel());
+        Assert.assertEquals("bd18e047-560c-49ff-9c59-d620164e5f95", series.getId());
+        Operation operation = series.getOperations().get(0);
+        Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement 2016", operation.getLabel());
+        Assert.assertEquals("a18c2085-d44d-4544-a43a-c1b1499b5646", operation.getId());
+        Questionnaire questionnaire = operation.getQuestionnaires().get(0);
+        Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement 2016", questionnaire.getLabel());
+        Assert.assertEquals("99c6b5c5-e591-4e64-af1b-f7e24970e20e", questionnaire.getId());
     }
 
     private void mockXpathProcessorQueries() throws Exception {
@@ -99,7 +117,7 @@ public class TestMetadataService {
             }
         };
         Node qN = Mockito.mock(Node.class);
-        NodeList questsionnairesList = new NodeList() {
+        NodeList questionnairesList = new NodeList() {
             @Override
             public Node item(int i) {
                 return qN;
@@ -110,35 +128,34 @@ public class TestMetadataService {
                 return 1;
             }
         };
-
-        when(xpathProcessor.queryList((String) any(), "//*[local-name()='Group']"))
+        when(xpathProcessor.queryList((String) any(), eq("//*[local-name()='Group']")))
                 .thenReturn(familyList);
         when(xpathProcessor.queryText(fN, "//*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()"))
                 .thenReturn("ANTIPOL");
-        when(xpathProcessor.queryList((Node) any(), ".//*[local-name()='SubGroupReference']"))
+        when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='SubGroupReference']")))
                 .thenReturn(seriesList);
-        when(xpathProcessor.queryText((Node) any(), ".//*[local-name()='SubGroup']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()"))
+        when(xpathProcessor.queryText((Node) any(), eq(".//*[local-name()='SubGroup']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()")))
                 .thenReturn("Investissements et dépenses courantes pour protéger l'environnement");
         when(xpathProcessor.queryText(sN, ".//*[local-name()='ID']/text()"))
                 .thenReturn("bd18e047-560c-49ff-9c59-d620164e5f95");
-        when(xpathProcessor.queryList(oN, ""))
-                .thenReturn(new NodeList() {
-                    @Override
-                    public Node item(int i) {
-                        return null;
-                    }
-
-                    @Override
-                    public int getLength() {
-                        return 1;
-                    }
-                });
+        when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='StudyUnitReference']")))
+                .thenReturn(operationsList);
+        when(xpathProcessor.queryText(oN, ".//*[local-name()='ID']/text()"))
+                .thenReturn("a18c2085-d44d-4544-a43a-c1b1499b5646");
+        when(xpathProcessor.queryText((Node) any(), eq(".//*[local-name()='StudyUnit']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()")))
+                .thenReturn("Investissements et dépenses courantes pour protéger l'environnement 2016");
+        when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='DataCollectionReference']")))
+                .thenReturn(questionnairesList);
+        when(xpathProcessor.queryText(qN, ".//*[local-name()='ID']/text()"))
+                .thenReturn("99c6b5c5-e591-4e64-af1b-f7e24970e20e");
+        when(xpathProcessor.queryText((Node) any(), eq(".//*[local-name()='DataCollection']/*[local-name()='Label']/*[local-name()='Content']/text()")))
+                .thenReturn("Investissements et dépenses courantes pour protéger l'environnement 2016");
     }
 
     private void mockFindByIdResponse(String id) throws Exception {
-        when(metadataRepository.findById("391e505c-dc05-4042-8b9d-c602ff72690d"))
+        when(metadataRepository.findById(id))
                 .thenReturn(arrayToStream(db.get("items"))
-                        .filter(item -> item.get("Identifier").toString().equals("391e505c-dc05-4042-8b9d-c602ff72690d"))
+                        .filter(item -> item.get("Identifier").toString().equals(id))
                         .findFirst()
                         .get());
     }
