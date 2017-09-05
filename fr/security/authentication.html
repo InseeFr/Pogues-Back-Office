@@ -343,6 +343,7 @@ Les informations de configuration d&apos;annuaire sont r&#xE9;cup&#xE9;r&#xE9;e 
 <pre><code class="lang-java"><span class="hljs-keyword">package</span> fr.insee.pogues.config;
 
 <span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
+<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;
 <span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
 <span class="hljs-keyword">import</span> org.springframework.core.env.Environment;
 <span class="hljs-keyword">import</span> org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -361,6 +362,19 @@ Les informations de configuration d&apos;annuaire sont r&#xE9;cup&#xE9;r&#xE9;e 
 
     <span class="hljs-meta">@Autowired</span>
     <span class="hljs-keyword">private</span> Environment env;
+
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;${fr.insee.pogues.permission.ldap.hostname}&quot;</span>)
+    String ldapHost;
+
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;${fr.insee.pogues.permission.ldap.root}&quot;</span>)
+    String rootDn;
+
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;${fr.insee.pogues.permission.ldap.user.base}&quot;</span>)
+    String userDn;
+
+    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;${fr.insee.pogues.permission.ldap.unite.base}&quot;</span>)
+    String groupDn;
+
 
     <span class="hljs-meta">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>{
@@ -381,12 +395,10 @@ Les informations de configuration d&apos;annuaire sont r&#xE9;cup&#xE9;r&#xE9;e 
 
     <span class="hljs-meta">@Override</span>
     <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(AuthenticationManagerBuilder auth)</span> <span class="hljs-keyword">throws</span> Exception </span>{
-        String ldapUserDn = env.getProperty(<span class="hljs-string">&quot;fr.insee.pogues.permission.ldap.user.base&quot;</span>);
-        String ldapGroupDn = env.getProperty(<span class="hljs-string">&quot;fr.insee.pogues.permission.ldap.unite.base&quot;</span>);
         auth.ldapAuthentication()
-                .userSearchBase(ldapUserDn)
+                .userSearchBase(userDn)
                 .userSearchFilter(<span class="hljs-string">&quot;(uid={0})&quot;</span>)
-                .groupSearchBase(ldapGroupDn)
+                .groupSearchBase(groupDn)
                 .groupSearchFilter(<span class="hljs-string">&quot;member={0}&quot;</span>)
                 .contextSource(contextSource())
                 .passwordCompare().passwordAttribute(<span class="hljs-string">&quot;uid&quot;</span>);
@@ -394,8 +406,6 @@ Les informations de configuration d&apos;annuaire sont r&#xE9;cup&#xE9;r&#xE9;e 
 
     <span class="hljs-meta">@Bean</span>
     <span class="hljs-function"><span class="hljs-keyword">public</span> DefaultSpringSecurityContextSource <span class="hljs-title">contextSource</span><span class="hljs-params">()</span> </span>{
-        String ldapHost = env.getProperty(<span class="hljs-string">&quot;fr.insee.pogues.permission.ldap.hostname&quot;</span>);
-        String rootDn = env.getProperty(<span class="hljs-string">&quot;fr.insee.pogues.permission.ldap.root&quot;</span>);
         <span class="hljs-keyword">return</span>  <span class="hljs-keyword">new</span> DefaultSpringSecurityContextSource(Arrays.asList(ldapHost), rootDn);
     }
 }
@@ -443,7 +453,7 @@ Les informations de configuration d&apos;annuaire sont r&#xE9;cup&#xE9;r&#xE9;e 
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Authentification","level":"1.6.1","depth":2,"next":{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"previous":{"title":"Contrôle d'accès","level":"1.6","depth":1,"path":"security/README.md","ref":"security/README.md","articles":[{"title":"Authentification","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"security/authentication.md","mtime":"2017-09-01T09:50:51.362Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-01T10:01:02.028Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Authentification","level":"1.6.1","depth":2,"next":{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"previous":{"title":"Contrôle d'accès","level":"1.6","depth":1,"path":"security/README.md","ref":"security/README.md","articles":[{"title":"Authentification","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"security/authentication.md","mtime":"2017-09-05T12:53:37.151Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-05T13:03:24.521Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>

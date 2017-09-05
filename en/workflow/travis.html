@@ -371,11 +371,10 @@
 <span class="hljs-bullet">-</span> mvn test
 <span class="hljs-bullet">-</span> bash scripts/coveralls.sh
 <span class="hljs-bullet">-</span> mvn integration-test
-<span class="hljs-attr">after_script:</span>
-<span class="hljs-bullet">-</span> bash scripts/gitbook.sh
+<span class="hljs-attr">after_success:</span>
+<span class="hljs-bullet">-</span> bash scripts/tag.sh
 <span class="hljs-attr">before_deploy:</span>
 <span class="hljs-bullet">-</span> bash scripts/build.sh rmspogfo
-<span class="hljs-bullet">-</span> bash scripts/tag.sh
 <span class="hljs-attr">deploy:</span>
 <span class="hljs-attr">  provider:</span> releases
 <span class="hljs-attr">  api_key:</span>
@@ -385,7 +384,10 @@
 <span class="hljs-attr">  on:</span>
 <span class="hljs-attr">    repo:</span> InseeFr/Pogues-Back-Office
 <span class="hljs-attr">    branch:</span> zenika-dev
+<span class="hljs-attr">    condition:</span> -f <span class="hljs-string">&quot;$TRAVIS_BUILD_DIR/.tag&quot;</span> &amp;&amp; $(cat <span class="hljs-string">&quot;$TRAVIS_BUILD_DIR/.tag&quot;</span>) =~ v[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>]\.[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>]\.[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>].*
 <span class="hljs-attr">    tags:</span> <span class="hljs-literal">false</span>
+<span class="hljs-attr">after_script:</span>
+<span class="hljs-bullet">-</span> bash scripts/gitbook.sh
 <span class="hljs-attr">branches:</span>
 <span class="hljs-attr">  except:</span>
 <span class="hljs-bullet">  -</span> <span class="hljs-string">&quot;/^v[0-9]+\\.[0-9]+\\.[0-9]+.*/&quot;</span>
@@ -457,7 +459,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Travis CI","level":"1.4.3","depth":2,"next":{"title":"Data Model","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Docker Usage","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-09-01T09:50:51.362Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-01T10:01:02.028Z"},"basePath":"..","book":{"language":"en"}});
+            gitbook.page.hasChanged({"page":{"title":"Travis CI","level":"1.4.3","depth":2,"next":{"title":"Data Model","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Docker Usage","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-09-05T12:53:37.151Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-05T13:03:24.521Z"},"basePath":"..","book":{"language":"en"}});
         });
     </script>
 </div>
