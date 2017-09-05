@@ -1,5 +1,7 @@
 package fr.insee.pogues.rest.mock;
 
+import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.rest.utils.RestAssuredConfig;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
@@ -12,17 +14,18 @@ import java.io.FileReader;
 public class QuestionnaireMocks {
 
 
-    public static JSONObject createMockQuestionnaire(){
+    public static JSONObject createMockQuestionnaire() {
         try {
-
-            String filePath = QuestionnaireMocks.class
+            String filePath = QuestionnairesService.class
                     .getClassLoader()
                     .getResource("questionnaire-json.json")
                     .getPath();
             JSONParser parser = new JSONParser();
-            Object questionnaire = parser.parse(new FileReader(filePath));
-            return (JSONObject)questionnaire;
-        } catch(Exception e){
+            JSONObject questionnaire = (JSONObject)
+                    parser.parse(new FileReader(filePath));
+            questionnaire.put("owner", RestAssuredConfig.jUserPermission);
+            return questionnaire;
+        } catch (Exception e) {
             return null;
         }
     }

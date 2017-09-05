@@ -5,6 +5,8 @@ import fr.insee.pogues.search.model.PoguesHit;
 import fr.insee.pogues.search.model.PoguesItem;
 import fr.insee.pogues.search.repository.PoguesItemRepository;
 import fr.insee.pogues.search.repository.PoguesItemRepositoryImpl;
+import org.elasticsearch.action.delete.DeleteRequestBuilder;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchRequestBuilder;
@@ -18,13 +20,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import java.util.HashMap;
 import java.util.List;
 
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 public class TestSearchRepository {
@@ -43,10 +43,10 @@ public class TestSearchRepository {
 
     @Test
     public void saveTest() throws Exception {
-        IndexResponse response = Mockito.mock(IndexResponse.class);
+        IndexResponse response = mock(IndexResponse.class);
         when(response.toString()).thenReturn("response");
-        IndexRequestBuilder irb = Mockito.mock(IndexRequestBuilder.class);
-        PoguesItem item = new PoguesItem("foo", "bar");
+        IndexRequestBuilder irb = mock(IndexRequestBuilder.class);
+        PoguesItem item = new PoguesItem("foo", "0", "bar");
         ObjectMapper mapper = new ObjectMapper();
         byte[] data = mapper.writeValueAsBytes(item);
         when(irb.setSource(data)).thenReturn(irb);
@@ -56,11 +56,21 @@ public class TestSearchRepository {
     }
 
     @Test
+    public void deleteTest() throws Exception {
+        DeleteResponse response = mock(DeleteResponse.class);
+        when(response.toString()).thenReturn("response");
+        DeleteRequestBuilder drb = mock(DeleteRequestBuilder.class);
+        when(drb.get()).thenReturn(response);
+        when(client.prepareDelete(null, "foo", "bar")).thenReturn(drb);
+        Assert.assertEquals(response, repository.delete("foo", "bar"));
+    }
+
+    @Test
     public void findByLabelTest() throws Exception {
-        SearchResponse response = Mockito.mock(SearchResponse.class);
-        SearchRequestBuilder srb = Mockito.mock(SearchRequestBuilder.class);
-        SearchHits shs = Mockito.mock(SearchHits.class);
-        SearchHit sh = Mockito.mock(SearchHit.class);
+        SearchResponse response = mock(SearchResponse.class);
+        SearchRequestBuilder srb = mock(SearchRequestBuilder.class);
+        SearchHits shs = mock(SearchHits.class);
+        SearchHit sh = mock(SearchHit.class);
         when(client.prepareSearch(null)).thenReturn(srb);
         when(srb.setTypes("anything")).thenReturn(srb);
         when(srb.setQuery(QueryBuilders.matchQuery("label", "bar"))).thenReturn(srb);
@@ -69,6 +79,7 @@ public class TestSearchRepository {
         when(sh.getId()).thenReturn("foo");
         when(sh.getSource()).thenReturn(new HashMap<String, Object>(){
             { put("label", "bar"); }
+            { put("parent", "0"); }
         });
         when(sh.getType()).thenReturn("anything");
         when(shs.getHits()).thenReturn(new SearchHit[]{

@@ -10,7 +10,7 @@ install:
 - bash scripts/install.sh rmspogfo
 - cp target/rmspogfo.war docker/tomcat/
 before_script:
-- sysctl -w vm.max_map_count=262144
+- sudo sysctl -w vm.max_map_count=262144
 - pushd docker
 - docker-compose up -d
 - popd
@@ -18,21 +18,23 @@ script:
 - mvn test
 - bash scripts/coveralls.sh
 - mvn integration-test
-after_script:
-- bash scripts/gitbook.sh
+after_success:
+- bash scripts/tag.sh
 before_deploy:
 - bash scripts/build.sh rmspogfo
-- bash scripts/tag.sh
 deploy:
   provider: releases
   api_key:
-    secure: ng2aVvt5oA/XuvVgOsJBGbunGi8Q/r8BxR9siLzFxrBY/3rXwjd9GmQQ2K1kqfeyAMrM4J3ef8QKr9RB4rd63IscTaLCFiyP8H74oEB0PSoFaZ9kL53tcR2k58ObSnQCHQLX3+X8HwC0+/ENaMpxntpXeT85EjZ0VHjghA/SE7MiXNPfyr4+I6+2GRtv2UEU6CaM0VNZvcHWhgAXCAji9aPq0/0UQXyIzjEi4RSBUvAYuuePZuryg8+9yRVk07vgsLw9k1mKfhBUtJUmuUCoBUjBc5iP5vh6lyyjbdLBePng+JejZDu0h17Qn/1zc8xwyTTTpCGj4td6gbgDjD6rx8q5w70znydTJyHXFrg8WAHEClXDCXvGgu5BtL7By0+XP4IRGAN7c96RHCQlkGUy/bBtG9ivrtyYGZd4G5Nk/cdiBkztz+YS1o84aLfrCnTPxgz6yI76vebHyZvXQJ1aa6Pb80Y6AzEQSbFLgp8jCt9X3SaHN66Ue4gV5Gnggr+u2gXBALdYau9gcLnKDTBv8MdAuFXn0dp0IbLw4sGF3BYB12TSaMGBKtdedQmkcUhUnUgn6cNeAhZbQUaVYFoFbqDYqJ5xF7WpVFoEL8hy0oUJu+onO2QgNjEY49a34sQhYjj+DAkQQ2Iop+g9oestEQzVHlSbDJE0wfll+yp9r/Y=
+    secure: p7vVj36CMfn1gdoV4XUyx3Vb45x8KV0OqTh2TpjcPLXIxuW3SPKMFszhIRSXtgScz6GpAbFUhJFEj//DJtRyPSeirnDoc5TR49FgZVj5f64II9M1M1fiEto+bktv3MFQ97MAotTre4ac59+3fNLNGsc38H22EyUxLS6LBDQ8eUzgeBu92sefbH1zClDri/RAeyZLuT6daGGPGAQWywAHjz7NI9xw2pJQ27eWCRCh64VBOsDiTq+J9FzenUnbHcJY/ZIVtddR2ERFG/uNd4bLM938YVvT3qrE9HC2nLcyMw9ZqwqM/uH7m2ljWH2SlI03Ed9HWfQ+I44tLYF2EQyPY7nlh97ottyCslfB41QvokTqwrF2IiXhVyzC0kKtSYsmw9x8sh7ee1G26z9qr5oL8LFd9572fYvYaRkP7JlUtk2JbCp7IToC3o25BJRuv2pao8BQLH4Vb6heELWuoiVi+iQ0yJFkB6dASNejdiKGjsr43Yy66yOP9lWTTEYmbaVDLMHQRJ10R6omSVdYR3xveKeCF+i+nfQaBWvIcHngIzsCWguD7mzItgYQ2VnEzV8Mxy3BKTKbPOIClJGzGwitZycxU6TTKBzMwJouW18Qbw5Pr+tyrTCF7wtoAlTy/MCVYefYKiP364X3YBHyqg93MZkEIal0iPGdjSwSOOy8kwU=
   file: target/rmspogfo.war
   skip_cleanup: true
   on:
     repo: InseeFr/Pogues-Back-Office
     branch: zenika-dev
+    condition: -f "$TRAVIS_BUILD_DIR/.tag" && $(cat "$TRAVIS_BUILD_DIR/.tag") =~ v[0-9]\.[0-9]\.[0-9].*
     tags: false
+after_script:
+- bash scripts/gitbook.sh
 branches:
   except:
   - "/^v[0-9]+\\.[0-9]+\\.[0-9]+.*/"

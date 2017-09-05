@@ -59,7 +59,7 @@ public class PoguesTransforms {
             notes = "Name MUST refer to the name attribute owned by the nested DataCollectionObject"
     )
     @ApiImplicitParams(value = {
-            @ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "json")
+            @ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject")
     })
     public Response visualizeFromBody(
             @Context final HttpServletRequest request,

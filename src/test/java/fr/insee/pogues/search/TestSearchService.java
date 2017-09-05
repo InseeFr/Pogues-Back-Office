@@ -4,6 +4,7 @@ import fr.insee.pogues.search.model.PoguesHit;
 import fr.insee.pogues.search.repository.PoguesItemRepository;
 import fr.insee.pogues.search.service.SearchServiceImpl;
 import fr.insee.pogues.webservice.rest.PoguesException;
+import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.junit.Assert;
 import org.junit.Before;
@@ -44,7 +45,7 @@ public class TestSearchService {
 
     @Test
     public void oneResult() throws Exception {
-        PoguesHit hit = new PoguesHit("1", "foo", "questionnaire");
+        PoguesHit hit = new PoguesHit("1", "foo", "0", "questionnaire");
         when(repository.findByLabel("foo", new String[]{"questionnaire"}))
                 .thenReturn(new ArrayList<PoguesHit>() {
                     {
@@ -58,7 +59,7 @@ public class TestSearchService {
     public void propagateException() throws Exception {
         exception.expect(PoguesException.class);
         exception.expectMessage("Expected Error");
-        PoguesHit hit = new PoguesHit("1", "foo", "questionnaire");
+        PoguesHit hit = new PoguesHit("1", "foo", "0", "questionnaire");
         PoguesException exception = new PoguesException(500, "Expected Error", "This Error Should Propagate To Service Caller");
         when(repository.save("questionnaire", hit))
                 .thenThrow(exception);
@@ -69,10 +70,18 @@ public class TestSearchService {
     public void returnsIndexResponse() throws Exception {
         IndexResponse response = Mockito.mock(IndexResponse.class);
         when(response.toString()).thenReturn("response");
-        PoguesHit hit = new PoguesHit("1", "foo", "questionnaire");
+        PoguesHit hit = new PoguesHit("1", "foo", "0", "questionnaire");
         when(repository.save("questionnaire", hit))
                 .thenReturn(response);
         Assert.assertEquals(response, service.save("questionnaire", hit));
+    }
+    @Test
+    public void returnsDeleteResponse() throws Exception {
+        DeleteResponse response = Mockito.mock(DeleteResponse.class);
+        when(response.toString()).thenReturn("response");
+        when(repository.delete("questionnaire", "foo"))
+                .thenReturn(response);
+        Assert.assertEquals(response, service.delete("questionnaire", "foo"));
     }
 
 }
