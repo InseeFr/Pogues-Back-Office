@@ -22,8 +22,7 @@ public class MetadataClientImpl implements MetadataClient {
     @Override
     public JSONObject getItem(String id) throws Exception{
         try {
-            HttpGet get = new HttpGet(String.format("%s/items/%s", serviceUrl, id));
-//            HttpGet get = new HttpGet(String.format("https://dvrmesgopswas01.ad.insee.intra/api/v1/item/fr.insee/%s/1?api_key=ADMINKEY", id));
+            HttpGet get = new HttpGet(String.format("%s/api/v1/item/fr.insee/%s/1?api_key=ADMINKEY", serviceUrl, id));
             get.addHeader("accept", "application/json");
             HttpResponse response = httpClient.execute(get);
             if (response.getStatusLine().getStatusCode() != 200) {
