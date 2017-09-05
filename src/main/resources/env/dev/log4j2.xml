@@ -15,5 +15,6 @@
             <appender-ref ref="console" level="debug"/>
             <appender-ref ref="file" level="debug"/>
         </root>
+        <logger name="org.elasticsearch" level="error"/>
     </loggers>
 </configuration>
