@@ -45,7 +45,7 @@ public class TestSearchService {
 
     @Test
     public void oneResult() throws Exception {
-        PoguesHit hit = new PoguesHit("1", "foo", "questionnaire");
+        PoguesHit hit = new PoguesHit("1", "foo", "0", "questionnaire");
         when(repository.findByLabel("foo", new String[]{"questionnaire"}))
                 .thenReturn(new ArrayList<PoguesHit>() {
                     {
@@ -59,7 +59,7 @@ public class TestSearchService {
     public void propagateException() throws Exception {
         exception.expect(PoguesException.class);
         exception.expectMessage("Expected Error");
-        PoguesHit hit = new PoguesHit("1", "foo", "questionnaire");
+        PoguesHit hit = new PoguesHit("1", "foo", "0", "questionnaire");
         PoguesException exception = new PoguesException(500, "Expected Error", "This Error Should Propagate To Service Caller");
         when(repository.save("questionnaire", hit))
                 .thenThrow(exception);
@@ -70,7 +70,7 @@ public class TestSearchService {
     public void returnsIndexResponse() throws Exception {
         IndexResponse response = Mockito.mock(IndexResponse.class);
         when(response.toString()).thenReturn("response");
-        PoguesHit hit = new PoguesHit("1", "foo", "questionnaire");
+        PoguesHit hit = new PoguesHit("1", "foo", "0", "questionnaire");
         when(repository.save("questionnaire", hit))
                 .thenReturn(response);
         Assert.assertEquals(response, service.save("questionnaire", hit));

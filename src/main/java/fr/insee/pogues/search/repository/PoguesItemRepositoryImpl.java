@@ -10,10 +10,9 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -21,18 +20,11 @@ import java.util.stream.Collectors;
 @Repository
 public class PoguesItemRepositoryImpl implements PoguesItemRepository {
 
+    @Value("${fr.insee.pogues.elasticsearch.index.name}")
     String index;
 
     @Autowired
-    Environment env;
-
-    @Autowired
     Client client;
-
-    @PostConstruct
-    public void init(){
-        index = env.getProperty("fr.insee.pogues.elasticsearch.index.name");
-    }
 
     @Override
     public IndexResponse save(String type, PoguesItem item) throws Exception {
@@ -55,6 +47,7 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
                 .map(hit -> new PoguesHit(
                         hit.getId(),
                         hit.getSource().get("label").toString(),
+                        hit.getSource().get("parent").toString(),
                         hit.getType()
                 ))
                 .collect(Collectors.toList());

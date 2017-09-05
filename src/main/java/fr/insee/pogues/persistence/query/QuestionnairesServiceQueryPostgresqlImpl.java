@@ -6,11 +6,9 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.postgresql.util.PGobject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,23 +35,21 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 	private final JSONParser jsonParser = new JSONParser();
 
-	@Autowired
-	private Environment env;
+	@Value("${fr.insee.pogues.persistence.database.host}")
+	String dbHost;
 
-	private String jdbcUrl;
+	@Value("${fr.insee.pogues.persistence.database.port}")
+	String dbPort;
+
+	@Value("${fr.insee.pogues.persistence.database.schema}")
+	String dbSchema;
+
+	@Value("${fr.insee.pogues.persistence.database.user}")
 	private String dbUser;
+
+	@Value("${fr.insee.pogues.persistence.database.pasword}")
 	private String dbPassword;
 
-
-	@PostConstruct
-	public void init(){
-		String dbHost = this.env.getProperty("fr.insee.pogues.persistence.database.host");
-		String dbPort = this.env.getProperty("fr.insee.pogues.persistence.database.port");
-		String dbSchema = this.env.getProperty("fr.insee.pogues.persistence.database.schema");
-		dbUser = this.env.getProperty("fr.insee.pogues.persistence.database.user");
-		dbPassword = this.env.getProperty("fr.insee.pogues.persistence.database.pasword");
-		jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbSchema);
-	}
 
 	/**
 	 * A method to initConnection the connection to the database.
@@ -61,6 +57,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 */
 	private void initConnection() throws SQLException, ClassNotFoundException {
 		Class.forName("org.postgresql.Driver");
+		String jdbcUrl = jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbSchema);
 		connection = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword);
 		stmt = connection.createStatement();
 	}

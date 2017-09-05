@@ -45,6 +45,7 @@ public class PoguesSearch {
             String[] types = query.getTypes().toArray(new String[query.getTypes().size()]);
             return searchService.searchByLabel(query.getFilter(), types);
         } catch(Exception e) {
+            e.printStackTrace();
             throw e;
         }
     }
