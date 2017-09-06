@@ -4,6 +4,7 @@ import fr.insee.pogues.search.model.PoguesHit;
 import fr.insee.pogues.search.model.PoguesQuery;
 import fr.insee.pogues.search.model.Questionnaire;
 import fr.insee.pogues.search.service.SearchService;
+import fr.insee.pogues.search.source.ColecticaSourceImporter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
@@ -28,6 +30,10 @@ public class PoguesSearch {
 
     @Autowired
     SearchService searchService;
+
+    @Autowired
+    ColecticaSourceImporter colecticaSourceImporter;
+
 
     @POST
     @Consumes(APPLICATION_JSON)
@@ -97,6 +103,20 @@ public class PoguesSearch {
             e.printStackTrace();
             throw e;
         }
+    }
+    @GET
+    @Path("import")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Import indexes from Colectica",
+            notes = "This require a living instance of colectica aswell as a up and running elasticsearch cluster",
+            response = String.class)
+    public Response getQuestionnaire() {
+        try {
+            colecticaSourceImporter.source();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Response.ok().build();
     }
 
 
