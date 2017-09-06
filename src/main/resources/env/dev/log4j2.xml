@@ -16,5 +16,6 @@
             <appender-ref ref="file" level="debug"/>
         </root>
         <logger name="org.elasticsearch" level="error"/>
+        <logger name="fr.insee.pogues.conversion" level="error"/>
     </loggers>
 </configuration>
