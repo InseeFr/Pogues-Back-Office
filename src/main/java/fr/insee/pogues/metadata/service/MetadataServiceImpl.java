@@ -1,6 +1,6 @@
 package fr.insee.pogues.metadata.service;
 
-import fr.insee.pogues.metadata.repository.FamilyRepository;
+import fr.insee.pogues.metadata.repository.GroupRepository;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.utils.XpathProcessor;
 import fr.insee.pogues.search.model.Family;
@@ -23,7 +23,7 @@ public class MetadataServiceImpl implements MetadataService {
     MetadataRepository metadataRepository;
 
     @Autowired
-    FamilyRepository familyRepository;
+    GroupRepository groupRepository;
 
     @Autowired
     XpathProcessor xpathProcessor;
@@ -51,8 +51,8 @@ public class MetadataServiceImpl implements MetadataService {
     }
 
     @Override
-    public List<String> getFamilyIds() throws Exception {
-        return familyRepository.getRootIds();
+    public List<String> getGroupIds() throws Exception {
+        return groupRepository.getRootIds();
     }
 
     public List<Series> getSeries(Node node, Family family) throws Exception {

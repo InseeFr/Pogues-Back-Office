@@ -6,11 +6,15 @@ import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import javax.net.ssl.SSLContext;
+import javax.sql.DataSource;
 import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -18,6 +22,24 @@ import java.security.NoSuchAlgorithmException;
 @Configuration
 @PropertySource("classpath:env/${fr.insee.pogues.env:dv}/pogues-bo.properties")
 public class ApplicationContext {
+
+    @Value("${fr.insee.pogues.persistence.database.host}")
+    String dbHost;
+
+    @Value("${fr.insee.pogues.persistence.database.port}")
+    String dbPort;
+
+    @Value("${fr.insee.pogues.persistence.database.schema}")
+    String dbSchema;
+
+    @Value("${fr.insee.pogues.persistence.database.user}")
+    private String dbUser;
+
+    @Value("${fr.insee.pogues.persistence.database.password}")
+    private String dbPassword;
+
+    @Value("${fr.insee.pogues.persistence.database.driver}")
+    private String dbDriver;
 
     @Bean
     public HttpClient httpClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
@@ -31,5 +53,22 @@ public class ApplicationContext {
                 .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                 .setSSLSocketFactory(sslsf)
                 .build();
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+        dataSource.setDriverClassName(dbDriver);
+        dataSource.setUrl(String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbSchema));
+        dataSource.setUsername(dbUser);
+        dataSource.setPassword(dbPassword);
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate(DataSource dataSource) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+        jdbcTemplate.setResultsMapCaseInsensitive(true);
+        return jdbcTemplate;
     }
 }
