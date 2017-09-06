@@ -4,7 +4,7 @@
     <groupId>fr.insee</groupId>
     <artifactId>Pogues-BO</artifactId>
     <packaging>war</packaging>
-    <version>0.0.14-SNAPSHOT</version>
+    <version>0.0.15-SNAPSHOT</version>
     <name>Pogues-BO</name>
 
     <properties>
@@ -96,6 +96,11 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-jdbc</artifactId>
             <version>${spring.version}</version>
         </dependency>
         <dependency>

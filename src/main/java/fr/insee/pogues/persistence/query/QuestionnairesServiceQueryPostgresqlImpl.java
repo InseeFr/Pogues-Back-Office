@@ -47,7 +47,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	@Value("${fr.insee.pogues.persistence.database.user}")
 	private String dbUser;
 
-	@Value("${fr.insee.pogues.persistence.database.pasword}")
+	@Value("${fr.insee.pogues.persistence.database.password}")
 	private String dbPassword;
 
 

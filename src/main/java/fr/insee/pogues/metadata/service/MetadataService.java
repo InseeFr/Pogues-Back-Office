@@ -9,5 +9,5 @@ public interface MetadataService {
 
     JSONObject getItem(String id) throws Exception;
     Family getFamily(String id) throws Exception;
-    List<String> getFamilyIds() throws Exception;
+    List<String> getGroupIds() throws Exception;
 }

@@ -48,4 +48,13 @@ public class SearchServiceImpl implements SearchService {
         }
     }
 
+    @Override
+    public List<PoguesHit> getSeries() throws Exception {
+        return poguesItemRepository.getSeries();
+    }
+
+    @Override
+    public List<PoguesHit> getOperations(String seriesId) throws Exception {
+        return poguesItemRepository.getOperations(seriesId);
+    }
 }
