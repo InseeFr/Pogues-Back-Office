@@ -104,19 +104,53 @@ public class PoguesSearch {
             throw e;
         }
     }
+
     @GET
     @Path("import")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(value = "Import indexes from Colectica",
             notes = "This require a living instance of colectica aswell as a up and running elasticsearch cluster",
             response = String.class)
-    public Response getQuestionnaire() {
+    public Response source() throws Exception {
         try {
             colecticaSourceImporter.source();
         } catch (Exception e) {
             e.printStackTrace();
+            throw e;
         }
         return Response.ok().build();
+    }
+
+    @GET
+    @Path("series")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Import indexes from Colectica",
+            notes = "This require a living instance of colectica aswell as a up and running elasticsearch cluster",
+            response = String.class)
+    public List<PoguesHit> getSeries() throws Exception {
+        try {
+            return searchService.getSeries();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+    @GET
+    @Path("series/{id}/operations")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Get all operations for a series",
+            notes = "Retrieve all operations with a parent id matching the series id given as a path parameter",
+            response = String.class)
+    public List<PoguesHit> getOperations(
+            @PathParam(value = "id") String id
+    ) throws Exception {
+        try {
+            return searchService.getOperations(id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
 
 
