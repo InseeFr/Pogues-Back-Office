@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServlet;
 import java.io.IOException;
 import java.util.Properties;
 
-/**
+/**²
  * Created by acordier on 24/07/17.
  */
 public class SwaggerConfig extends HttpServlet {
@@ -21,7 +21,6 @@ public class SwaggerConfig extends HttpServlet {
         try {
             super.init(config);
             Properties props = getEnvironmentProperties();
-            logger.debug("XXX api host: " + props.getProperty("fr.insee.pogues.api.host"));
             BeanConfig beanConfig = new BeanConfig();
             beanConfig.setTitle("Pogues Backoffice");
             beanConfig.setVersion("0.1");
@@ -46,9 +45,6 @@ public class SwaggerConfig extends HttpServlet {
             env = "dv";
         }
         String propsPath = String.format("env/%s/pogues-bo.properties", env);
-        System.out.println("STREAM: " + getClass()
-                .getClassLoader()
-                .getResourceAsStream(propsPath));
         props.load(getClass()
                 .getClassLoader()
                 .getResourceAsStream(propsPath));

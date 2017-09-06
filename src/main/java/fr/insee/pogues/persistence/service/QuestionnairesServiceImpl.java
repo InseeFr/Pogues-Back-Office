@@ -44,7 +44,6 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	 */
 	public List<JSONObject> getQuestionnaireList() throws Exception {
 		try {
-			logger.debug("XXX - Get questionnaires list");
 			List<JSONObject> questionnaires = questionnaireServiceQuery.getQuestionnaires();
 			if(questionnaires.isEmpty()){
 				throw new PoguesException(404, "Not found", "Aucun questionnaire enregistré");

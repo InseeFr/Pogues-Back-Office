@@ -122,7 +122,7 @@ public class PoguesTransforms {
             throw e;
         } catch (Exception e) {
             e.printStackTrace();
-            throw e;
+            throw new PoguesException(500, e.getClass().getSimpleName(), e.getMessage());
         } finally {
             input.close();
         }

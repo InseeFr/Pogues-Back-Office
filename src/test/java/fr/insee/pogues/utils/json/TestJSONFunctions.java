@@ -76,17 +76,17 @@ public class TestJSONFunctions {
 	@Test
 	public void renamePluralTest() throws ParseException {
 		JSONObject input = new JSONObject();
-		input.put("Child", null);
-		input.put("Control", null);
-		input.put("GoTo", null);
-		input.put("Response", null);
-		input.put("Declaration", null);
+		input.put("children", "some children");
+		input.put("controls", "some controls");
+		input.put("gotos", "some gotos");
+		input.put("responses", "some responses");
+		input.put("declarations", "some declarations");
 		JSONObject output = JSONFunctions.renameQuestionnairePlural(input);
-		Assert.assertTrue(output.containsKey("children"));
-		Assert.assertTrue(output.containsKey("controls"));
-		Assert.assertTrue(output.containsKey("gotos"));
-		Assert.assertTrue(output.containsKey("responses"));
-		Assert.assertTrue(output.containsKey("declarations"));
+		Assert.assertTrue(output.containsKey("Child"));
+		Assert.assertTrue(output.containsKey("Control"));
+		Assert.assertTrue(output.containsKey("GoTo"));
+		Assert.assertTrue(output.containsKey("Response"));
+		Assert.assertTrue(output.containsKey("Declaration"));
 	}
 
 }

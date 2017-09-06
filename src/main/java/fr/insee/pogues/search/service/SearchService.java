@@ -13,4 +13,6 @@ public interface SearchService {
     IndexResponse save(String type, PoguesItem item) throws Exception;
     List<PoguesHit> searchByLabel(String label, String... types) throws Exception;
     DeleteResponse delete(String type, String id) throws Exception;
+    List<PoguesHit> getSeries() throws Exception;
+    List<PoguesHit> getOperations(String seriesId) throws Exception;
 }

@@ -2,17 +2,17 @@ package fr.insee.pogues.transforms;
 
 import fr.insee.pogues.conversion.JSONToXMLTranslator;
 import fr.insee.pogues.utils.json.JSONFunctions;
+import org.apache.commons.io.IOUtils;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.xml.bind.JAXBException;
 import javax.xml.transform.stream.StreamSource;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Service
@@ -25,7 +25,7 @@ public class JSONToXMLImpl implements JSONToXML {
         System.setProperty("javax.xml.bind.context.factory","org.eclipse.persistence.jaxb.JAXBContextFactory");
     }
 
-    public void transform(InputStream input, OutputStream output, Map<String, Object> params) throws JAXBException, IOException {
+    public void transform(InputStream input, OutputStream output, Map<String, Object> params) throws Exception {
         if(null == input){
             throw new NullPointerException("Null input");
         }
@@ -34,7 +34,7 @@ public class JSONToXMLImpl implements JSONToXML {
         }
         try {
             StreamSource source = new StreamSource(input);
-            byte[] out = translator.translate(source).getBytes(Charset.forName("UTF-8"));
+            byte[] out = transform(translator.translate(source), params).getBytes(Charset.forName("UTF-8"));
             output.write(out, 0, out.length);
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,8 +47,7 @@ public class JSONToXMLImpl implements JSONToXML {
             throw new NullPointerException("Null input");
         }
         try {
-            StreamSource source = new StreamSource(input);
-            return translator.translate(source);
+            return transform(IOUtils.toString(input, StandardCharsets.UTF_8.name()), params);
         } catch (Exception e) {
             throw e;
         }

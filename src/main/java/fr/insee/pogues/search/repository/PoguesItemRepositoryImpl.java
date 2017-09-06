@@ -41,6 +41,32 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
                 .setTypes(types)
                 .setQuery(QueryBuilders.matchQuery("label", label))
                 .get();
+        return mapResponse(response);
+    }
+
+    @Override
+    public List<PoguesHit> getSeries() throws Exception {
+        SearchResponse response = client.prepareSearch(index)
+                .setTypes("series")
+                .get();
+        return mapResponse(response);
+    }
+
+    @Override
+    public List<PoguesHit> getOperations(String seriesId) throws Exception {
+        SearchResponse response = client.prepareSearch(index)
+                .setTypes("operation")
+                .setQuery(QueryBuilders.termQuery("parent.keyword", seriesId))
+                .get();
+        return mapResponse(response);
+    }
+
+    @Override
+    public DeleteResponse delete(String type, String id) throws Exception {
+        return client.prepareDelete(index, type, id).get();
+    }
+
+    private List<PoguesHit> mapResponse(SearchResponse response) {
         List<SearchHit> esHits = Arrays.asList(response.getHits().getHits());
         return esHits
                 .stream()
@@ -51,10 +77,5 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
                         hit.getType()
                 ))
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public DeleteResponse delete(String type, String id) throws Exception {
-        return client.prepareDelete(index, type, id).get();
     }
 }
