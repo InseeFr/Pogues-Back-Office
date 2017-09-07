@@ -10,14 +10,14 @@ MAIN_BRANCH="zenika-dev"
 # Pull front end sources from github
 function get_static(){
     STATIC_SOURCES=$(mktemp -d)
+    git clone -b "$MAIN_BRANCH" "$STATIC_GH_URL" "$STATIC_SOURCES"
     mv "$STATIC_SOURCES" "$TRAVIS_BUILD_DIR/frontend-$TRAVIS_BUILD_NUMBER"
     STATIC_SOURCES="$TRAVIS_BUILD_DIR/frontend-$TRAVIS_BUILD_NUMBER"
-    git clone -b "$MAIN_BRANCH" "$STATIC_GH_URL" "$STATIC_SOURCES"
 }
 
 # Build frontend bundle
 function build_static(){
-    target=${STATIC_SOURCES?Please run get_front_sources() before running build_front()}
+    target=${STATIC_SOURCES?Please run get_static() before running build_static()}
     pushd ${target}
     npm install && npm run build
     STATIC_BUNDLE="$PWD/dist"

@@ -24,9 +24,6 @@ script:
 - bash scripts/e2e.sh
 after_success:
 - bash scripts/tag.sh
-before_deploy:
-- bash scripts/install.sh
-- bash scripts/build.sh rmspogfo
 deploy:
   provider: releases
   api_key:
