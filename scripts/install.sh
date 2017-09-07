@@ -2,7 +2,6 @@
 
 set -e
 
-FINAL_WAR_NAME=${1?Final war name must be passed as first argument}
 GROUP_ID="fr.insee"
 POGUES_MODEL_URL="https://github.com/InseeFr/Pogues-Model"
 POGUES_MODEL_ARTIFACT_ID="pogues-model"
@@ -20,9 +19,7 @@ function install_eno(){
 }
 
 function main(){
-    install_pogues_model
-    install_eno
-    mvn clean install -DskipTests -Dfinal.war.name="$FINAL_WAR_NAME"
+    install_pogues_model && install_eno
 }
 
 main

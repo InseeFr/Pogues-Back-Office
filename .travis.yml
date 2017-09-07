@@ -7,7 +7,8 @@ env:
 jdk:
 - oraclejdk8
 install:
-- bash scripts/install.sh rmspogfo
+- bash scripts/install.sh
+- bash scripts/build.sh rmspogfo
 - cp target/rmspogfo.war docker/tomcat/
 before_script:
 - sudo sysctl -w vm.max_map_count=262144
@@ -20,8 +21,6 @@ script:
 - mvn integration-test
 after_success:
 - bash scripts/tag.sh
-before_deploy:
-- bash scripts/build.sh rmspogfo
 deploy:
   provider: releases
   api_key:
