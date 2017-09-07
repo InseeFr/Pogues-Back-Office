@@ -352,15 +352,18 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
 <h2 id="configuration">Configuration</h2>
 <p>La configuration de ces op&#xE9;rations est d&#xE9;finie dans le fichier .travis.yml:</p>
 <pre><code class="lang-yaml"><span class="hljs-attr">language:</span> java
+<span class="hljs-attr">jdk:</span>
+<span class="hljs-bullet">-</span> oraclejdk8
 <span class="hljs-attr">sudo:</span> required
 <span class="hljs-attr">services:</span>
 <span class="hljs-bullet">-</span> docker
+<span class="hljs-attr">addons:</span>
+<span class="hljs-attr">  sauce_connect:</span> <span class="hljs-literal">true</span>
 <span class="hljs-attr">env:</span>
 <span class="hljs-bullet">-</span> DOCKER_COMPOSE_VERSION=<span class="hljs-number">1.9</span><span class="hljs-number">.0</span>
-<span class="hljs-attr">jdk:</span>
-<span class="hljs-bullet">-</span> oraclejdk8
 <span class="hljs-attr">install:</span>
-<span class="hljs-bullet">-</span> bash scripts/install.sh rmspogfo
+<span class="hljs-bullet">-</span> bash scripts/install.sh
+<span class="hljs-bullet">-</span> bash scripts/build.sh rmspogfo
 <span class="hljs-bullet">-</span> cp target/rmspogfo.war docker/tomcat/
 <span class="hljs-attr">before_script:</span>
 <span class="hljs-bullet">-</span> sudo sysctl -w vm.max_map_count=<span class="hljs-number">262144</span>
@@ -371,10 +374,9 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
 <span class="hljs-bullet">-</span> mvn test
 <span class="hljs-bullet">-</span> bash scripts/coveralls.sh
 <span class="hljs-bullet">-</span> mvn integration-test
+<span class="hljs-bullet">-</span> bash scripts/e2e.sh
 <span class="hljs-attr">after_success:</span>
 <span class="hljs-bullet">-</span> bash scripts/tag.sh
-<span class="hljs-attr">before_deploy:</span>
-<span class="hljs-bullet">-</span> bash scripts/build.sh rmspogfo
 <span class="hljs-attr">deploy:</span>
 <span class="hljs-attr">  provider:</span> releases
 <span class="hljs-attr">  api_key:</span>
@@ -458,7 +460,7 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Travis","level":"1.4.3","depth":2,"next":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-09-06T15:47:48.120Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-06T15:57:48.151Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Travis","level":"1.4.3","depth":2,"next":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-09-07T15:11:55.954Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-07T15:22:01.824Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>
