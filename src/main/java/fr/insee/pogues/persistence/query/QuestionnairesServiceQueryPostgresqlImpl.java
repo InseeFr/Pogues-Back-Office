@@ -1,16 +1,16 @@
 package fr.insee.pogues.persistence.query;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.google.common.collect.Lists;
+import fr.insee.pogues.webservice.rest.PoguesException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.postgresql.util.PGobject;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,85 +23,9 @@ import java.util.List;
 @Service
 public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesServiceQuery {
 
-	final static Logger logger = LogManager.getLogger(QuestionnairesServiceQueryPostgresqlImpl.class);
+	@Autowired
+	JdbcTemplate jdbcTemplate;
 
-	private Connection connection = null;
-
-	private Statement stmt = null;
-
-	private PreparedStatement prepStmt = null;
-
-	private ResultSet rs = null;
-
-	private final JSONParser jsonParser = new JSONParser();
-
-	@Value("${fr.insee.pogues.persistence.database.host}")
-	String dbHost;
-
-	@Value("${fr.insee.pogues.persistence.database.port}")
-	String dbPort;
-
-	@Value("${fr.insee.pogues.persistence.database.schema}")
-	String dbSchema;
-
-	@Value("${fr.insee.pogues.persistence.database.user}")
-	private String dbUser;
-
-	@Value("${fr.insee.pogues.persistence.database.password}")
-	private String dbPassword;
-
-
-	/**
-	 * A method to initConnection the connection to the database.
-	 * 
-	 */
-	private void initConnection() throws SQLException, ClassNotFoundException {
-		Class.forName("org.postgresql.Driver");
-		String jdbcUrl = jdbcUrl = String.format("jdbc:postgresql://%s:%s/%s", dbHost, dbPort, dbSchema);
-		connection = DriverManager.getConnection(jdbcUrl, dbUser, dbPassword);
-		stmt = connection.createStatement();
-	}
-
-
-	/**
-	 * A method to closeConnection the connection to the database.
-	 * 
-	 */
-	public void closeConnection() {
-		if (rs != null) {
-			try {
-				rs.close();
-			} catch (SQLException e) {
-				logger.error("SQLException - Impossible to closeConnection the ResultSet");
-				e.printStackTrace();
-			}
-		}
-		if (stmt != null) {
-			try {
-				stmt.close();
-			} catch (SQLException e) {
-				logger.error("SQLException - Impossible to closeConnection the Statement");
-				e.printStackTrace();
-			}
-		}
-		if (prepStmt != null) {
-			try {
-				prepStmt.close();
-			} catch (SQLException e) {
-				logger.error("SQLException - Impossible to closeConnection the PreparedStatement");
-				e.printStackTrace();
-			}
-		}
-		if (connection != null) {
-			try {
-				connection.close();
-			} catch (SQLException e) {
-				logger.error("SQLException - Impossible to closeConnection the Connection");
-				e.printStackTrace();
-			}
-		}
-
-	}
 
 	/**
 	 * A method to get the `QuestionnaireList` object in the database
@@ -110,25 +34,8 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 *         questionnaire, value : the JSON description of the questionnaire
 	 */
 	public List<JSONObject> getQuestionnaires() throws Exception{
-
-		List<JSONObject> questionnaires = new ArrayList<>();
-		try {
-			this.initConnection();
-			rs = stmt.executeQuery("SELECT * FROM pogues");
-			while (rs.next()) {
-				questionnaires.add((JSONObject)jsonParser.parse(rs.getString(2)));
-			}
-		} catch (SQLException e) {
-			logger.error("SQLException");
-			throw e;
-		} catch(ParseException e){
-			logger.error("Parser Exception");
-			throw e;
-		} finally {
-			this.closeConnection();
-		}
-		return questionnaires;
-
+		List<PGobject> data = jdbcTemplate.queryForList("SELECT data FROM pogues", PGobject.class);
+		return PgToJSON(data);
 	}
 
 	/**
@@ -140,27 +47,12 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 */
 	public JSONObject getQuestionnaireByID(String id) throws Exception {
 		try {
-			this.initConnection();
-			prepStmt = connection.prepareStatement("SELECT * FROM pogues where id=?");
-			prepStmt.setString(1, id);
-			rs = prepStmt.executeQuery();
-			String result = "{}";
-            int size = 0;
-			while(rs.next()){
-				result = rs.getString(2);
-				if(++size>1){
-					throw new NonUniqueResultException("Ambiguous ID");
-				}
-			}
-			return (JSONObject)jsonParser.parse(result);
-		} catch (SQLException e) {
-			logger.error("SQLException");
-			throw e;
-		} catch(ParseException e){
-			logger.error("Parser Exception");
-			throw e;
-		} finally {
-			this.closeConnection();
+			String qString = "SELECT data FROM pogues WHERE id=?";
+			PGobject q = jdbcTemplate.queryForObject(qString,
+					new Object[]{id}, PGobject.class);
+			return (JSONObject) (new JSONParser().parse(q.toString()));
+		}catch (EmptyResultDataAccessException e) {
+			return null;
 		}
 	}
 
@@ -171,37 +63,13 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 *            id of the questionnaire
 	 */
 	public void deleteQuestionnaireByID(String id) throws Exception {
-		try {
-			this.initConnection();
-			prepStmt = connection.prepareStatement("DELETE FROM pogues where id=?");
-			prepStmt.setString(1, id);
-			prepStmt.execute();
-		} catch (SQLException e) {
-            logger.error("SQLException");
-            throw e;
-        } finally {
-			this.closeConnection();
+		String qString = "DELETE FROM pogues where id=?";
+		int r = jdbcTemplate.update(qString,
+				new Object[] { id });
+		if(0 == r) {
+			throw new PoguesException(404, "Not Found", String.format("Entity with id %s not found", id));
 		}
 	}
-
-	/**
-	 * Dev only: utility method to clear db
-	 *
-	 *
-	 */
-	public void deleteAllQuestionnaires() throws Exception {
-		try {
-			this.initConnection();
-			prepStmt = connection.prepareStatement("DELETE FROM pogues");
-			prepStmt.execute();
-		} catch (SQLException e) {
-			logger.error("SQLException");
-			throw e;
-		} finally {
-			this.closeConnection();
-		}
-	}
-
 
 	/**
 	 * A method to get the `QuestionnaireList` with an owner in the database
@@ -212,120 +80,46 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 *         questionnaire, value : the JSON description of the questionnaire
 	 */
     public List<JSONObject> getQuestionnairesByOwner(String owner) throws Exception {
-        try {
-			List<JSONObject> questionnaires = new ArrayList<>();
-        	this.initConnection();
-        	String queryString =
-        		"SELECT * FROM pogues WHERE data @> ?::jsonb";
-        	JSONObject param = new JSONObject();
-        	param.put("owner", owner);
-			prepStmt = connection.prepareStatement(queryString);
-			prepStmt.setString(1, param.toJSONString());
-			rs = prepStmt.executeQuery();
-			while(rs.next()){
-				questionnaires.add((JSONObject)jsonParser.parse(rs.getString(2)));
-			}
-			return questionnaires;
-		} catch(SQLException e) {
-        	throw e;
-		} catch(Exception e) {
-        	throw e;
-		} finally {
-        	this.closeConnection();
-		}
+		String qString =
+				"SELECT data FROM pogues WHERE data ->> 'owner' = ?";
+    	List<PGobject> data = jdbcTemplate.queryForList(qString,
+				new Object[] { owner }, PGobject.class);
+		return PgToJSON(data);
     }
 
-	/**
-	 * A method to create or replace a `Questionnaire` object.
-	 * 
-	 * @param id
-	 *            id of the questionnaire, the JSON description of the
-	 *            questionnaire
-	 */
-	/* TODO do we still need this one ?*/
-	public void createOrReplaceQuestionnaire(String id, JSONObject questionnaire) throws Exception {
-		logger.debug("Try to insert or update Questionnaire :  " + id);
-		PGobject dataObject = new PGobject();
-		dataObject.setType("json");
-		try {
-			this.initConnection();
-			dataObject.setValue(questionnaire.toJSONString());
-			prepStmt = connection.prepareStatement("SELECT * FROM pogues where id=?");
-			prepStmt.setString(1, id);
-			rs = prepStmt.executeQuery();
-			int i = 0;
-			while (rs.next()) {
-				i++;
-			}
-			if (i == 1) {
-				logger.debug("Try to update the questionnaire" + id);
-				prepStmt = connection.prepareStatement("update pogues set data=? where id=?");
-				prepStmt.setObject(1, dataObject);
-				prepStmt.setString(2, id);
-				prepStmt.executeUpdate();
-				logger.info("Questionnaire updated");
-			} else if (i == 0) {
-				logger.debug("Try to insert the questionnaire" + id);
-				prepStmt = connection.prepareStatement("insert into pogues (id, data) values (?, ?)");
-				prepStmt.setString(1, id);
-				prepStmt.setObject(2, dataObject);
-				prepStmt.executeUpdate();
-				logger.info("Questionnaire" + id + " created");
-			}
-		} catch (SQLException e) {
-			logger.error("SQLException");
-			e.printStackTrace();
-			throw e;
-		} finally {
-			this.closeConnection();
-		}
-
-	}
-
 	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
+		String qString =
+				"INSERT INTO pogues (id, data) VALUES (?, ?)";
 	    String id  = (String)questionnaire.get("id");
-        try {
-            if(!this.getQuestionnaireByID(id).isEmpty()){
-                throw new NonUniqueResultException("Entity already exists");
-            }
-            this.initConnection();
-            PGobject dataObject = new PGobject();
-            dataObject.setType("json");
-            dataObject.setValue(questionnaire.toJSONString());
-            prepStmt = connection.prepareStatement("insert into pogues (id, data) values (?, ?)");
-            prepStmt.setString(1, id);
-            prepStmt.setObject(2, dataObject);
-            prepStmt.executeUpdate();
-        } catch (Exception e) {
-            throw e;
-        } finally {
-        	this.closeConnection();
+		System.out.println("XXX " + this.getQuestionnaireByID(id));
+		if(null != getQuestionnaireByID(id)){
+			throw new NonUniqueResultException("Entity already exists");
 		}
+		PGobject q = new PGobject();
+		q.setType("json");
+		q.setValue(questionnaire.toJSONString());
+		jdbcTemplate.update(qString, id, q);
     }
 
     public void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception {
-        try {
-            if(this.getQuestionnaireByID(id).isEmpty()){
-                throw new EntityNotFoundException("Not found");
-            }
-            this.initConnection();
-            PGobject dataObject = new PGobject();
-            dataObject.setType("json");
-            dataObject.setValue(questionnaire.toJSONString());
-            logger.debug("Try to update the questionnaire" + id);
-            prepStmt = connection.prepareStatement("update pogues set data=? where id=?");
-            prepStmt.setObject(1, dataObject);
-            prepStmt.setString(2, id);
-            prepStmt.executeUpdate();
-            logger.info("Questionnaire updated");
-        } catch (SQLException e){
-            logger.error("SQL Exception");
-            throw e;
-        } catch(Exception e) {
-            throw e;
-        } finally {
-        	this.closeConnection();
+       	String qString = "UPDATE pogues SET data=? WHERE id=?";
+		PGobject q = new PGobject();
+		q.setType("json");
+		q.setValue(questionnaire.toJSONString());
+		int r = jdbcTemplate.update(qString, q, id);
+		if(0 == r) {
+			throw new NonUniqueResultException("Entity already exists");
 		}
     }
+
+    private List<JSONObject> PgToJSON(List<PGobject> data) {
+		return Lists.transform(data, q -> {
+			try {
+				return (JSONObject)(new JSONParser().parse(q.toString()));
+			} catch (ParseException e) {
+				throw new RuntimeException("ERROR parsing Json DATA");
+			}
+		});
+	}
 
 }

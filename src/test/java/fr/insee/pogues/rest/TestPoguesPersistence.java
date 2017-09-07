@@ -59,7 +59,7 @@ public class TestPoguesPersistence {
         JSONObject questionnaire = QuestionnaireMocks.createMockQuestionnaire();
         postQuestionnaireWithSuccess(questionnaire);
         expect()
-                .statusCode(400)
+                .statusCode(409)
                 .when()
                 .given()
                 .contentType(MediaType.APPLICATION_JSON)

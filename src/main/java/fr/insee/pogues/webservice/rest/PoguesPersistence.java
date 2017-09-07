@@ -195,9 +195,8 @@ public class PoguesPersistence {
 			String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
 			logger.info("New questionnaire created , uri :" + uriQuestionnaire);
 			return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();
-		} catch(PoguesException e){
-            throw e;
-        } catch (Exception e) {
+		} catch (Exception e) {
+			e.printStackTrace();
 			throw e;
 		}
 	}

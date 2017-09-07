@@ -4,7 +4,6 @@ import fr.insee.pogues.persistence.query.EntityNotFoundException;
 import fr.insee.pogues.persistence.query.NonUniqueResultException;
 import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
 import fr.insee.pogues.user.query.UserServiceQuery;
-import fr.insee.pogues.utils.json.JSONFunctions;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -13,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 
 /**
@@ -36,12 +34,6 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	@Autowired
 	private UserServiceQuery userServiceQuery;
 
-
-	/**
-	 * A method to get the `QuestionnaireList` object in the database
-	 *
-	 * @return the questionnaires list JSON description of the questionnaires
-	 */
 	public List<JSONObject> getQuestionnaireList() throws Exception {
 		try {
 			List<JSONObject> questionnaires = questionnaireServiceQuery.getQuestionnaires();
@@ -65,15 +57,11 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 	}
 
-	/**
-	 * A method to get a `Questionnaire` object in the database given its ID
-	 *
-	 * @return the questionnaire matching the id
-	 */
+
 	public JSONObject getQuestionnaireByID(String id) throws Exception {
 		try {
 			JSONObject questionnaire = this.questionnaireServiceQuery.getQuestionnaireByID(id);
-			if(questionnaire.isEmpty()){
+			if(null == questionnaire){
 				throw new PoguesException(404, "Not found", "Pas de questionnaire pour cet identifiant");
 			}
 			return questionnaire;
@@ -96,23 +84,12 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 	}
 
-	public void deleteAllQuestionnaires() throws Exception {
-		try {
-			questionnaireServiceQuery.deleteAllQuestionnaires();
-		} catch(Exception e) {
-			logger.error(e.getMessage());
-			throw e;
-		}
-	}
-
 	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
 		try {
 			this.questionnaireServiceQuery.createQuestionnaire(questionnaire);
 		} catch(NonUniqueResultException e) {
-			logger.error(e.getMessage());
-			throw new PoguesException(400, "Bad request", e.getMessage());
+			throw new PoguesException(409, "Conflict", e.getMessage());
 		} catch(Exception e){
-			logger.error(e.getMessage());
 			throw e;
 		}
 	}
@@ -121,7 +98,6 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		try {
 			this.questionnaireServiceQuery.updateQuestionnaire(id, questionnaire);
 		} catch(EntityNotFoundException e) {
-			logger.error(e.getMessage());
 			throw new PoguesException(404, "Not found", e.getMessage());
 		} catch(Exception e){
 			logger.error(e.getMessage());
@@ -129,13 +105,4 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 	}
 
-	public void createOrReplaceQuestionnaireList(String questionnaireList) {
-
-		Map<String, String> questionnaires = JSONFunctions.getMap(questionnaireList);
-//		for(Entry<String, String> entry : questionnaires.entrySet()) {
-//			String id = entry.getKey();
-//			String questionnaire = entry.getValue();
-//			this.createOrReplaceQuestionnaire(id,questionnaire);
-//		}
-	}
 }
