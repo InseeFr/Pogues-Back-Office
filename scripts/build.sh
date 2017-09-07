@@ -20,6 +20,8 @@ fi
 # Pull front end sources from github
 function get_static(){
     STATIC_SOURCES=$(mktemp -d)
+    mv "$STATIC_SOURCES" "$TRAVIS_BUILD_DIR/frontend-$TRAVIS_BUILD_NUMBER"
+    STATIC_SOURCES="$TRAVIS_BUILD_DIR/frontend-$TRAVIS_BUILD_NUMBER"
     git clone -b "$MAIN_BRANCH" "$STATIC_GH_URL" "$STATIC_SOURCES"
 }
 
