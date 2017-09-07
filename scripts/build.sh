@@ -7,19 +7,11 @@ FINAL_WAR_NAME=${1?Final war name must be passed as first argument}
 STATIC_GH_URL="https://github.com/InseeFr/Pogues"
 MAIN_BRANCH="zenika-dev"
 
-if [ "$TRAVIS_PULL_REQUEST" != "false" ];then
-  echo "Won't deploy on pull request"
-  exit 0
-fi
-
-if [ "$TRAVIS_BRANCH" != "$MAIN_BRANCH" ];then
-  echo "Won't deploy: Not on branch $MAIN_BRANCH"
-  exit 0
-fi
-
 # Pull front end sources from github
 function get_static(){
     STATIC_SOURCES=$(mktemp -d)
+    mv "$STATIC_SOURCES" "$TRAVIS_BUILD_DIR/frontend-$TRAVIS_BUILD_NUMBER"
+    STATIC_SOURCES="$TRAVIS_BUILD_DIR/frontend-$TRAVIS_BUILD_NUMBER"
     git clone -b "$MAIN_BRANCH" "$STATIC_GH_URL" "$STATIC_SOURCES"
 }
 

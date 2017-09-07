@@ -1,13 +1,16 @@
 language: java
+jdk:
+- oraclejdk8
 sudo: required
 services:
 - docker
+addons:
+  sauce_connect: true
 env:
 - DOCKER_COMPOSE_VERSION=1.9.0
-jdk:
-- oraclejdk8
 install:
-- bash scripts/install.sh rmspogfo
+- bash scripts/install.sh
+- bash scripts/build.sh rmspogfo
 - cp target/rmspogfo.war docker/tomcat/
 before_script:
 - sudo sysctl -w vm.max_map_count=262144
@@ -18,10 +21,9 @@ script:
 - mvn test
 - bash scripts/coveralls.sh
 - mvn integration-test
+- bash scripts/e2e.sh
 after_success:
 - bash scripts/tag.sh
-before_deploy:
-- bash scripts/build.sh rmspogfo
 deploy:
   provider: releases
   api_key:
