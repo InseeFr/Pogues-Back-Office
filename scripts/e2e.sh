@@ -8,7 +8,7 @@ STATIC_SOURCES="$TRAVIS_BUILD_DIR/frontend-$TRAVIS_BUILD_NUMBER"
 
 function e2e() {
   pushd $STATIC_SOURCES
-  npm run e2e:full-travis
+#  npm run e2e:full-travis
   popd
 }
 
