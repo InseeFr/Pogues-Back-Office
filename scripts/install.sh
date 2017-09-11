@@ -22,7 +22,7 @@ function install_eno(){
 function main(){
     install_pogues_model
     install_eno
-    mvn clean install -DskipTests -Dfinal.war.name="$FINAL_WAR_NAME"
+#    mvn clean install -DskipTests -Dfinal.war.name="$FINAL_WAR_NAME"
 }
 
 main

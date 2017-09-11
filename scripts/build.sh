@@ -4,7 +4,7 @@
 #author		     :a-cordier
 #==============================================================================
 FINAL_WAR_NAME=${1?Final war name must be passed as first argument}
-STATIC_GH_URL="https://github.com/InseeFr/Pogues"
+STATIC_GH_URL="https://github.com/Zenika/Pogues"
 MAIN_BRANCH="zenika-dev"
 
 # Pull front end sources from github
