@@ -20,7 +20,10 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 
 @Configuration
-@PropertySource("classpath:env/${fr.insee.pogues.env:dv}/pogues-bo.properties")
+@PropertySource(value = {
+        "classpath:env/${fr.insee.pogues.env:dv}/pogues-bo.properties",
+        "file:/opt/rmspogfo/application.properties"
+}, ignoreResourceNotFound = true)
 public class ApplicationContext {
 
     @Value("${fr.insee.pogues.persistence.database.host}")

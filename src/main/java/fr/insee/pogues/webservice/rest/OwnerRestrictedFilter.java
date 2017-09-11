@@ -42,6 +42,9 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
                 throw new PoguesException(400, "Bad Request", message);
             }
             JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
+            if(null == questionnaire) {
+                return;
+            }
             Object owner = questionnaire.get("owner");
             if (null == owner) {
                 // need a body to continue
