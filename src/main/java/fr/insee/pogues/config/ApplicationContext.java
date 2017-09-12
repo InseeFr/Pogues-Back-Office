@@ -1,9 +1,17 @@
 package fr.insee.pogues.config;
 
-import org.apache.http.client.HttpClient;
+import org.apache.http.auth.AuthSchemeProvider;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.NTCredentials;
+import org.apache.http.client.config.AuthSchemes;
+import org.apache.http.config.Registry;
+import org.apache.http.config.RegistryBuilder;
 import org.apache.http.conn.ssl.NoopHostnameVerifier;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
+import org.apache.http.impl.auth.NTLMSchemeFactory;
+import org.apache.http.impl.client.BasicCredentialsProvider;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.ssl.SSLContexts;
 import org.springframework.beans.factory.annotation.Value;
@@ -44,18 +52,35 @@ public class ApplicationContext {
     @Value("${fr.insee.pogues.persistence.database.driver}")
     private String dbDriver;
 
+    @Value("${fr.insee.ntlm.user}")
+    private String ntlmUser;
+
+    @Value("${fr.insee.ntlm.password}")
+    private String ntlmPassword;
+
+    @Value("${fr.insee.ntlm.domain}")
+    private String ntlmDomain;
+
     @Bean
-    public HttpClient httpClient() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
+    public HttpClientBuilder httpClientBuilder() throws KeyStoreException, NoSuchAlgorithmException, KeyManagementException {
         SSLContext sslContext = SSLContexts.custom()
                 .loadTrustMaterial(null, new TrustSelfSignedStrategy())
                 .build();
         SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
                 sslContext,
                 NoopHostnameVerifier.INSTANCE);
+        Registry<AuthSchemeProvider> authSchemeRegistry = RegistryBuilder.<AuthSchemeProvider>create()
+                .register(AuthSchemes.NTLM, new NTLMSchemeFactory())
+                .build();
+
+        BasicCredentialsProvider credsProvider = new BasicCredentialsProvider();
+        credsProvider.setCredentials(AuthScope.ANY, new NTCredentials(ntlmUser, ntlmPassword, null, ntlmDomain));
         return HttpClients.custom()
                 .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                 .setSSLSocketFactory(sslsf)
-                .build();
+                .useSystemProperties()
+                .setDefaultAuthSchemeRegistry(authSchemeRegistry)
+                .setDefaultCredentialsProvider(credsProvider);
     }
 
     @Bean
