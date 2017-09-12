@@ -23,11 +23,6 @@ public class ElasticContext {
     public RestHighLevelClient client() throws Exception {
         RestClient lowLevelClient = RestClient.builder(
                 new HttpHost(host, port, "http")).build();
-//        Settings settings = Settings.builder()
-//                .put("cluster.name", clusterName)
-//                .build();
-//        return new PreBuiltTransportClient(settings)
-//                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
         return new RestHighLevelClient(lowLevelClient);
     }
 
