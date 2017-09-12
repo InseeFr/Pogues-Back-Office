@@ -1,14 +1,11 @@
 package fr.insee.pogues.config;
 
-import org.elasticsearch.client.Client;
-import org.elasticsearch.common.settings.Settings;
-import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
+import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.net.InetAddress;
 
 @Configuration
 public class ElasticContext {
@@ -23,12 +20,15 @@ public class ElasticContext {
     private int port;
 
     @Bean
-    public Client client() throws Exception {
-        Settings settings = Settings.builder()
-                .put("cluster.name", clusterName)
-                .build();
-        return new PreBuiltTransportClient(settings)
-                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+    public RestHighLevelClient client() throws Exception {
+        RestClient lowLevelClient = RestClient.builder(
+                new HttpHost(host, port, "http")).build();
+//        Settings settings = Settings.builder()
+//                .put("cluster.name", clusterName)
+//                .build();
+//        return new PreBuiltTransportClient(settings)
+//                .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName(host), port));
+        return new RestHighLevelClient(lowLevelClient);
     }
 
 }
