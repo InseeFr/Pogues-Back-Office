@@ -3,12 +3,13 @@ package fr.insee.pogues.transforms;
 import fr.insee.pogues.conversion.JSONToXMLTranslator;
 import fr.insee.pogues.utils.json.JSONFunctions;
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
-import javax.xml.transform.stream.StreamSource;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -17,6 +18,8 @@ import java.util.Map;
 
 @Service
 public class JSONToXMLImpl implements JSONToXML {
+
+    private final static Logger logger = LogManager.getLogger(JSONToXMLImpl.class);
 
     private JSONToXMLTranslator translator = new JSONToXMLTranslator(true);
 
@@ -33,8 +36,8 @@ public class JSONToXMLImpl implements JSONToXML {
             throw new NullPointerException("Null output");
         }
         try {
-            StreamSource source = new StreamSource(input);
-            byte[] out = transform(translator.translate(source), params).getBytes(Charset.forName("UTF-8"));
+            byte[] out = transform(input, params)
+                    .getBytes(Charset.forName("UTF-8"));
             output.write(out, 0, out.length);
         } catch (Exception e) {
             e.printStackTrace();

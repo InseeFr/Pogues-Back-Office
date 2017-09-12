@@ -22,7 +22,7 @@ public class MetadataClientImpl implements MetadataClient {
     @Override
     public JSONObject getItem(String id) throws Exception{
         try {
-            HttpGet get = new HttpGet(String.format("%s/api/v1/item/fr.insee/%s/1?api_key=ADMINKEY", serviceUrl, id));
+            HttpGet get = new HttpGet(String.format("%s/api/v1/item/fr.insee/%s?api_key=ADMINKEY", serviceUrl, id));
             get.addHeader("accept", "application/json");
             HttpResponse response = httpClient.execute(get);
             if (response.getStatusLine().getStatusCode() != 200) {
