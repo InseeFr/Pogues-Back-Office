@@ -4,7 +4,7 @@
     <groupId>fr.insee</groupId>
     <artifactId>Pogues-BO</artifactId>
     <packaging>war</packaging>
-    <version>0.0.21-SNAPSHOT</version>
+    <version>0.0.22-SNAPSHOT</version>
     <name>Pogues-BO</name>
 
     <properties>
