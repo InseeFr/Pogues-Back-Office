@@ -22,65 +22,40 @@ public class XpathProcessorImpl implements XpathProcessor {
     final static Logger logger = LogManager.getLogger(XpathProcessor.class);
 
     public NodeList queryList(String fragment, String xpathExpression) throws Exception {
-        try {
-            Document node = toDocument(fragment);
-            XPathFactory xpf = XPathFactory.newInstance();
-            XPath path = xpf.newXPath();
-            XPathExpression exp = path.compile(xpathExpression);
-            return (NodeList) exp.evaluate(node, XPathConstants.NODESET);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
+        Document node = toDocument(fragment);
+        XPathFactory xpf = XPathFactory.newInstance();
+        XPath path = xpf.newXPath();
+        XPathExpression exp = path.compile(xpathExpression);
+        return (NodeList) exp.evaluate(node, XPathConstants.NODESET);
     }
 
     public NodeList queryList(Node node, String xpathExpression) throws Exception {
-        try {
-            XPathFactory xpf = XPathFactory.newInstance();
-            XPath path = xpf.newXPath();
-            XPathExpression exp = path.compile(xpathExpression);
-            return (NodeList) exp.evaluate(node, XPathConstants.NODESET);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
+        XPathFactory xpf = XPathFactory.newInstance();
+        XPath path = xpf.newXPath();
+        XPathExpression exp = path.compile(xpathExpression);
+        return (NodeList) exp.evaluate(node, XPathConstants.NODESET);
     }
 
     public String queryText(Node node, String xpathExpression) throws Exception {
-        try {
-            XPathFactory xpf = XPathFactory.newInstance();
-            XPath path = xpf.newXPath();
-            XPathExpression exp = path.compile(xpathExpression);
-            return (String) exp.evaluate(node, XPathConstants.STRING);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
+        XPathFactory xpf = XPathFactory.newInstance();
+        XPath path = xpf.newXPath();
+        XPathExpression exp = path.compile(xpathExpression);
+        return (String) exp.evaluate(node, XPathConstants.STRING);
     }
 
     public String queryText(String fragment, String xpathExpression) throws Exception {
-        try {
-            Document node = toDocument(fragment);
-            XPathFactory xpf = XPathFactory.newInstance();
-            XPath path = xpf.newXPath();
-            XPathExpression exp = path.compile(xpathExpression);
-            return (String) exp.evaluate(node, XPathConstants.STRING);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
+        Document node = toDocument(fragment);
+        XPathFactory xpf = XPathFactory.newInstance();
+        XPath path = xpf.newXPath();
+        XPathExpression exp = path.compile(xpathExpression);
+        return (String) exp.evaluate(node, XPathConstants.STRING);
     }
 
 
     public Document toDocument(String xml) throws Exception {
-        try {
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            InputSource source = new InputSource(new StringReader(xml));
-            return builder.parse(source);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        InputSource source = new InputSource(new StringReader(xml));
+        return builder.parse(source);
     }
 }

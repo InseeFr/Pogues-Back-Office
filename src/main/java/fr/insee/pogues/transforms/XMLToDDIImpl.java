@@ -14,8 +14,6 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-//import java.io.ByteArrayOutputStream;
-
 /**
  * Created by acordier on 20/07/17.
  * TODO Register as a provider

@@ -24,8 +24,6 @@ import java.util.List;
 @Service
 public class QuestionnairesServiceImpl implements QuestionnairesService {
 
-    final static Logger logger = LogManager.getLogger(QuestionnairesService.class);
-
     @Autowired
     private QuestionnairesServiceQuery questionnaireServiceQuery;
 

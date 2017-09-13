@@ -34,7 +34,7 @@ public class DDIToXFormImpl implements DDIToXForm {
         if (null == input) {
             throw new NullPointerException("Null input");
         }
-        File enoInput = null;
+        File enoInput;
         enoInput = File.createTempFile("eno", ".xml");
         FileUtils.copyInputStreamToFile(input, enoInput);
         return transform(enoInput, params);
@@ -42,7 +42,7 @@ public class DDIToXFormImpl implements DDIToXForm {
 
     @Override
     public String transform(String input, Map<String, Object> params) throws Exception {
-        File enoInput = null;
+        File enoInput;
         if (null == input) {
             throw new NullPointerException("Null input");
         }
@@ -52,10 +52,9 @@ public class DDIToXFormImpl implements DDIToXForm {
     }
 
     private String transform(File file, Map<String, Object> params) throws Exception {
-        File output = null;
+        File output;
         GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2FRGenerator(), new NoopPostprocessor());
         output = genService.generateQuestionnaire(file, null);
-        String response = FileUtils.readFileToString(output, Charset.forName("UTF-8"));
-        return response;
+        return FileUtils.readFileToString(output, Charset.forName("UTF-8"));
     }
 }

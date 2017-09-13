@@ -6,8 +6,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -17,8 +15,6 @@ import java.util.Map;
 
 @Service
 public class StromaeServiceImpl implements StromaeService {
-
-    private final static Logger logger = LogManager.getLogger(StromaeServiceImpl.class);
 
     @Autowired
     HttpClientBuilder httpClientBuilder;

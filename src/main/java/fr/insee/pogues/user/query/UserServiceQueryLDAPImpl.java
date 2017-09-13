@@ -1,8 +1,6 @@
 package fr.insee.pogues.user.query;
 
 import fr.insee.pogues.user.model.User;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -19,16 +17,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-/**
- * User Service Query for the LDAP implementation to assume the identity service
- * of Pogues UI in JSON
- *
- * @author I6VWID
- */
 @Service
 public class UserServiceQueryLDAPImpl implements UserServiceQuery {
-
-    final static Logger logger = LogManager.getLogger(UserServiceQueryLDAPImpl.class);
 
     private DirContext context = null;
 
@@ -80,9 +70,9 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
         ldapUnitesBaseDn = String.format("%s,%s", ldapUnitesBaseDn, ldapRootDn);
     }
 
-    public void initConnection() throws Exception {
+    private void initConnection() throws Exception {
         // Connexion à la racine de l'annuaire
-        Hashtable<String, String> environment = new Hashtable<String, String>();
+        Hashtable<String, String> environment = new Hashtable<>();
         environment.put(Context.INITIAL_CONTEXT_FACTORY, "com.sun.jndi.ldap.LdapCtxFactory");
         environment.put(Context.PROVIDER_URL, ldapHost);
         environment.put(Context.SECURITY_AUTHENTICATION, "none");
@@ -90,7 +80,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
     }
 
 
-    public void closeConnection() throws Exception {
+    private void closeConnection() throws Exception {
         this.context.close();
     }
 
@@ -130,7 +120,7 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 
 
     public List<String> getPermissions() throws Exception {
-        List<String> permissions = new ArrayList<String>();
+        List<String> permissions = new ArrayList<>();
         try {
             this.initConnection();
             // Criteria specification for the permission search

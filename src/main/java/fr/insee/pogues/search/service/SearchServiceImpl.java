@@ -15,37 +15,20 @@ import java.util.List;
 @Service
 public class SearchServiceImpl implements SearchService {
 
-    private static final Logger logger = LogManager.getLogger(SearchServiceImpl.class);
-
     @Autowired
     private PoguesItemRepository poguesItemRepository;
 
     @Override
     public IndexResponse save(String type, PoguesItem item) throws Exception {
-        try {
-            return poguesItemRepository.save(type, item);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
+        return poguesItemRepository.save(type, item);
     }
 
     public List<PoguesHit> searchByLabel(String label, String... types) throws Exception {
-        try {
-            return poguesItemRepository.findByLabel(label, types);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
+        return poguesItemRepository.findByLabel(label, types);
     }
 
     public DeleteResponse delete(String type, String id) throws Exception {
-        try {
-            return poguesItemRepository.delete(type, id);
-        } catch(Exception e) {
-            logger.error(e.getMessage());
-            throw e;
-        }
+        return poguesItemRepository.delete(type, id);
     }
 
     @Override
