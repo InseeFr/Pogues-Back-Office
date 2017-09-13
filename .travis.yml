@@ -35,7 +35,6 @@ after_success:
 #    branch: zenika-dev
 #    condition: -f "$TRAVIS_BUILD_DIR/.tag" && $(cat "$TRAVIS_BUILD_DIR/.tag") =~ v[0-9]\.[0-9]\.[0-9].*
 #    tags: false
-
 deploy:
   provider: releases
   api_key:
@@ -47,7 +46,6 @@ deploy:
     branch: zenika-dev
     condition: -f "$TRAVIS_BUILD_DIR/.tag" && $(cat "$TRAVIS_BUILD_DIR/.tag") =~ v[0-9]\.[0-9]\.[0-9].*
     tags: false
-
 after_deploy:
 - bash scripts/gitbook.sh
 branches:
