@@ -6,6 +6,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,5 +44,15 @@ public class MetadataClientImpl implements MetadataClient {
             return (JSONObject)
                     new JSONParser().parse(body);
         }
+    }
+
+    @Override
+    public JSONArray getChildren(String id) throws Exception {
+        return null;
+    }
+
+    @Override
+    public JSONArray getItems(JSONObject itemsQuery) throws Exception {
+        return null;
     }
 }
