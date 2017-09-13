@@ -26,10 +26,6 @@ public class XFormToURIImpl implements XFormToURI {
 
     @Override
     public String transform(String input, Map<String, Object> params) throws Exception {
-        try {
-            return stromaeService.transform(input, params);
-        } catch(Exception e) {
-            throw e;
-        }
+        return stromaeService.transform(input, params);
     }
 }

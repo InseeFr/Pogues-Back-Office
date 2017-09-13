@@ -25,12 +25,8 @@ public class DDIToXFormImpl implements DDIToXForm {
         if (null == output) {
             throw new NullPointerException("Null output");
         }
-        try {
-            String xform =  transform(input, params);
-            output.write(xform.getBytes(StandardCharsets.UTF_8));
-        } catch(Exception e) {
-            throw e;
-        }
+        String xform = transform(input, params);
+        output.write(xform.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
@@ -39,13 +35,9 @@ public class DDIToXFormImpl implements DDIToXForm {
             throw new NullPointerException("Null input");
         }
         File enoInput = null;
-        try {
-            enoInput = File.createTempFile("eno", ".xml");
-            FileUtils.copyInputStreamToFile(input, enoInput);
-            return transform(enoInput, params);
-        } catch(Exception e) {
-            throw e;
-        }
+        enoInput = File.createTempFile("eno", ".xml");
+        FileUtils.copyInputStreamToFile(input, enoInput);
+        return transform(enoInput, params);
     }
 
     @Override
@@ -54,24 +46,16 @@ public class DDIToXFormImpl implements DDIToXForm {
         if (null == input) {
             throw new NullPointerException("Null input");
         }
-        try {
-            enoInput = File.createTempFile("eno", ".xml");
-            FileUtils.writeStringToFile(enoInput, input, StandardCharsets.UTF_8);
-            return transform(enoInput, params);
-        } catch(Exception e) {
-            throw e;
-        }
+        enoInput = File.createTempFile("eno", ".xml");
+        FileUtils.writeStringToFile(enoInput, input, StandardCharsets.UTF_8);
+        return transform(enoInput, params);
     }
 
     private String transform(File file, Map<String, Object> params) throws Exception {
         File output = null;
-        try {
-            GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2FRGenerator(), new NoopPostprocessor());
-            output = genService.generateQuestionnaire(file,null);
-            String response = FileUtils.readFileToString(output, Charset.forName("UTF-8"));
-            return response;
-        } catch(Exception e){
-            throw e;
-        }
+        GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2FRGenerator(), new NoopPostprocessor());
+        output = genService.generateQuestionnaire(file, null);
+        String response = FileUtils.readFileToString(output, Charset.forName("UTF-8"));
+        return response;
     }
 }

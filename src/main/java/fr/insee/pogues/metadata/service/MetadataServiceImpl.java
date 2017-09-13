@@ -30,12 +30,7 @@ public class MetadataServiceImpl implements MetadataService {
 
     @Override
     public JSONObject getItem(String id) throws Exception {
-        try {
-            return metadataRepository.findById(id);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
+        return metadataRepository.findById(id);
     }
 
     public Family getFamily(String id) throws Exception {

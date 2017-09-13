@@ -147,9 +147,8 @@ public class PoguesTransforms {
     public Response json2XML(@Context final HttpServletRequest request) throws Exception {
         try {
             return transform(request, jsonToXML);
-        } catch(PoguesException e) {
-            throw e;
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         }
     }
@@ -173,9 +172,8 @@ public class PoguesTransforms {
     public Response xml2DDi(@Context final HttpServletRequest request) throws Exception {
         try {
             return transform(request, xmlToDDI);
-        } catch(PoguesException e) {
-            throw e;
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         }
     }
@@ -199,9 +197,8 @@ public class PoguesTransforms {
     public Response ddi2XForm(@Context final HttpServletRequest request) throws Exception {
         try {
             return transform(request, ddiToXForm);
-        } catch(PoguesException e) {
-            throw e;
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         }
     }
@@ -230,9 +227,8 @@ public class PoguesTransforms {
             params.put("name", name);
             String input = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
             return xformToUri.transform(input, params);
-        } catch(PoguesException e) {
-            throw e;
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         }
     }
@@ -250,6 +246,7 @@ public class PoguesTransforms {
             };
             return Response.ok(stream).build();
         } catch (Exception e) {
+            e.printStackTrace();
             throw e;
         }
     }

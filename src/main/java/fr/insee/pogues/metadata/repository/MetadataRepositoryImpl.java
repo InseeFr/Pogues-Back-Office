@@ -12,11 +12,7 @@ public class MetadataRepositoryImpl implements MetadataRepository {
     MetadataClient metadataClient;
 
     @Override
-    public JSONObject findById(String id) throws Exception{
-        try {
-            return metadataClient.getItem(id);
-        } catch (Exception e) {
-            throw e;
-        }
+    public JSONObject findById(String id) throws Exception {
+        return metadataClient.getItem(id);
     }
 }

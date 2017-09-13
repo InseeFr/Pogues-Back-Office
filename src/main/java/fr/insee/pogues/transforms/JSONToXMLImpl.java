@@ -24,51 +24,38 @@ public class JSONToXMLImpl implements JSONToXML {
     private JSONToXMLTranslator translator = new JSONToXMLTranslator(true);
 
     @PostConstruct
-    public void onInit(){
-        System.setProperty("javax.xml.bind.context.factory","org.eclipse.persistence.jaxb.JAXBContextFactory");
+    public void onInit() {
+        System.setProperty("javax.xml.bind.context.factory", "org.eclipse.persistence.jaxb.JAXBContextFactory");
     }
 
     public void transform(InputStream input, OutputStream output, Map<String, Object> params) throws Exception {
-        if(null == input){
+        if (null == input) {
             throw new NullPointerException("Null input");
         }
-        if(null == output){
+        if (null == output) {
             throw new NullPointerException("Null output");
         }
-        try {
-            byte[] out = transform(input, params)
-                    .getBytes(Charset.forName("UTF-8"));
-            output.write(out, 0, out.length);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
+        byte[] out = transform(input, params).getBytes(Charset.forName("UTF-8"));
+        output.write(out, 0, out.length);
+
     }
 
     public String transform(InputStream input, Map<String, Object> params) throws Exception {
-        if(null == input){
+        if (null == input) {
             throw new NullPointerException("Null input");
         }
-        try {
-            return transform(IOUtils.toString(input, StandardCharsets.UTF_8.name()), params);
-        } catch (Exception e) {
-            throw e;
-        }
+        return transform(IOUtils.toString(input, StandardCharsets.UTF_8.name()), params);
+
     }
 
     public String transform(String input, Map<String, Object> params) throws Exception {
-        if(null == input){
+        if (null == input) {
             throw new NullPointerException("Null input");
         }
-        try {
-            JSONParser parser = new JSONParser();
-            JSONObject questionnaire = (JSONObject) parser.parse(input);
-            questionnaire = JSONFunctions.renameQuestionnairePlural(questionnaire);
-            return translator.translate(questionnaire.toJSONString());
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw e;
-        }
+        JSONParser parser = new JSONParser();
+        JSONObject questionnaire = (JSONObject) parser.parse(input);
+        questionnaire = JSONFunctions.renameQuestionnairePlural(questionnaire);
+        return translator.translate(questionnaire.toJSONString());
     }
 
 }

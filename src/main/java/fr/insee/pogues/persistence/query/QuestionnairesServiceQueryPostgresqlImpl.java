@@ -51,7 +51,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			PGobject q = jdbcTemplate.queryForObject(qString,
 					new Object[]{id}, PGobject.class);
 			return (JSONObject) (new JSONParser().parse(q.toString()));
-		}catch (EmptyResultDataAccessException e) {
+		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
 	}
