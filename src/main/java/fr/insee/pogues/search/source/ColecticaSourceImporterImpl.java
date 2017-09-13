@@ -6,6 +6,8 @@ import fr.insee.pogues.search.model.Operation;
 import fr.insee.pogues.search.model.Questionnaire;
 import fr.insee.pogues.search.model.Series;
 import fr.insee.pogues.search.service.SearchService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ import java.util.List;
 
 @Service
 public class ColecticaSourceImporterImpl implements ColecticaSourceImporter {
+
+    private final static Logger logger = LogManager.getLogger(ColecticaSourceImporter.class);
 
     @Autowired
     MetadataService metadataService;
@@ -37,6 +41,7 @@ public class ColecticaSourceImporterImpl implements ColecticaSourceImporter {
     @Override
     public void source() throws Exception {
         for (String id : groupIds) {
+            logger.debug("Getting data from colectica API for group " + id);
             Family f = metadataService.getFamily(id);
             searchService.save("family", f);
             saveSeries(f.getSeries());

@@ -43,9 +43,8 @@ public class XMLToDDIImpl implements XMLToDDI {
             XsltTransformer t = createPipeline(source, output, processor);
             t.transform();
         } catch (SaxonApiException e) {
-            logger.error(String.format("Message: %s, Line: %d, Error Code: %s",
-                    e.getMessage(), e.getLineNumber(), e.getErrorCode()));
-            throw e;
+            throw new Exception(String.format("%s:%s, Line: %d, Error Code: %s",
+                    getClass().getName(), e.getMessage(), e.getLineNumber(), e.getErrorCode()));
         }
     }
 

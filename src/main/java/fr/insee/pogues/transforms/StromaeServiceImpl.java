@@ -32,6 +32,8 @@ public class StromaeServiceImpl implements StromaeService {
             post.setHeader("Content-type", "application/xml");
             HttpResponse response = httpClient.execute(post);
             return EntityUtils.toString(response.getEntity());
+        } catch (Exception e) {
+            throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }
     }
 }

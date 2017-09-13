@@ -9,6 +9,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 @Path("/search")
 @Api(value = "Pogues Search")
 public class PoguesSearch {
+
+    final static Logger logger = LogManager.getLogger(PoguesSearch.class);
 
     @Autowired
     SearchService searchService;
@@ -51,7 +55,7 @@ public class PoguesSearch {
             String[] types = query.getTypes().toArray(new String[query.getTypes().size()]);
             return searchService.searchByLabel(query.getFilter(), types);
         } catch(Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
     }
@@ -75,7 +79,7 @@ public class PoguesSearch {
             IndexResponse response = searchService.save("questionnaire", item);
             return Response.status(CREATED).entity(response).build();
         } catch(Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
     }
@@ -100,7 +104,7 @@ public class PoguesSearch {
             DeleteResponse response = searchService.delete("questionnaire", id);
             return Response.status(NO_CONTENT).entity(response).build();
         } catch(Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
     }
@@ -115,7 +119,7 @@ public class PoguesSearch {
         try {
             colecticaSourceImporter.source();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
         return Response.ok().build();
@@ -131,7 +135,7 @@ public class PoguesSearch {
         try {
             return searchService.getSeries();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
     }
@@ -148,7 +152,7 @@ public class PoguesSearch {
         try {
             return searchService.getOperations(id);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
     }

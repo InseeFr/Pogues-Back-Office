@@ -1,5 +1,6 @@
 package fr.insee.pogues.metadata.client;
 
+import fr.insee.pogues.webservice.rest.PoguesException;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -28,15 +29,15 @@ public class MetadataClientImpl implements MetadataClient {
 
 
     @Override
-    public JSONObject getItem(String id) throws Exception{
-        try(CloseableHttpClient httpClient = httpClientBuilder.build()){
+    public JSONObject getItem(String id) throws Exception {
+        try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
             String url = String.format("%s/api/v1/item/%s/%s?api_key=%s", serviceUrl, agency, id, apiKey);
             HttpGet get = new HttpGet(url);
             get.addHeader("accept", "application/json");
             HttpResponse response = httpClient.execute(get);
             if (response.getStatusLine().getStatusCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + response.getStatusLine().getStatusCode());
+                throw new PoguesException(response.getStatusLine().getStatusCode(),
+                        "Colectica server error", response.getStatusLine().getReasonPhrase());
             }
             String body = EntityUtils.toString(response.getEntity());
             return (JSONObject)

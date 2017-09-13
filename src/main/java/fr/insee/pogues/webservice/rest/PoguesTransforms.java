@@ -86,7 +86,7 @@ public class PoguesTransforms {
             };
             return Response.ok(stream).build();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
     }
@@ -117,12 +117,9 @@ public class PoguesTransforms {
                     .map(xformToUri::transform, params)
                     .transform();
             return Response.seeOther(URI.create(uri)).build();
-        } catch(PoguesException e) {
-            e.printStackTrace();
-            throw e;
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new PoguesException(500, e.getClass().getSimpleName(), e.getMessage());
+            logger.error(e);
+            throw e;
         } finally {
             input.close();
         }
@@ -148,7 +145,7 @@ public class PoguesTransforms {
         try {
             return transform(request, jsonToXML);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
     }
@@ -173,7 +170,7 @@ public class PoguesTransforms {
         try {
             return transform(request, xmlToDDI);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
     }
@@ -198,7 +195,7 @@ public class PoguesTransforms {
         try {
             return transform(request, ddiToXForm);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
     }
@@ -228,7 +225,7 @@ public class PoguesTransforms {
             String input = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
             return xformToUri.transform(input, params);
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
     }
@@ -240,13 +237,12 @@ public class PoguesTransforms {
                 try {
                     transformer.transform(request.getInputStream(), output, null);
                 } catch (Exception e) {
-                    logger.error(e.getMessage());
-                    throw new PoguesException(500, e.getMessage(), null);
+                    throw new PoguesException(500, "Transformation error", e.getMessage());
                 }
             };
             return Response.ok(stream).build();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e);
             throw e;
         }
     }

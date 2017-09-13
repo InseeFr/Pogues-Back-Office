@@ -52,9 +52,13 @@ public class DDIToXFormImpl implements DDIToXForm {
     }
 
     private String transform(File file, Map<String, Object> params) throws Exception {
-        File output;
-        GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2FRGenerator(), new NoopPostprocessor());
-        output = genService.generateQuestionnaire(file, null);
-        return FileUtils.readFileToString(output, Charset.forName("UTF-8"));
+        try {
+            File output;
+            GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2FRGenerator(), new NoopPostprocessor());
+            output = genService.generateQuestionnaire(file, null);
+            return FileUtils.readFileToString(output, Charset.forName("UTF-8"));
+        } catch (Exception e) {
+            throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
+        }
     }
 }
