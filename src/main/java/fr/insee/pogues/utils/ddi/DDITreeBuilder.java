@@ -23,23 +23,19 @@ import java.util.Map;
 
 public class DDITreeBuilder {
 
-    public static String buildTree(String ddi, Map<String, String> references) throws Exception {
-        Document ddiDoc = getDocument(beautifyDDI(ddi));
-//        System.out.println("DDI FRAGMENT: \n" + ddi);
+    public static String buildTree(String root, Map<String, String> references) throws Exception {
+        Document ddiDoc = getDocument(root);
         Element racine = ddiDoc.getDocumentElement();
-        if(null == racine) {
-            return beautifyDDI(ddiDoc);
-        }
         NodeList rootNodes = racine.getChildNodes();
         for (int i = 0; i < rootNodes.getLength(); i++) {
             Node rootNode = rootNodes.item(i);
             if (rootNode.getNodeName().contains("Reference")) {
-                String idReference = getIDFromReference(rootNode);
+                String idReference = getId(rootNode);
                 String ddiChild = references.get(idReference);
                 // TODO why do we need this check ??
                 if (ddiChild != null) {
                     ddiChild = buildTree(ddiChild, references);
-                    Node ddiChildNode = DDIStringToDocElement(ddiChild, ddiDoc);
+                    Node ddiChildNode = getNode(ddiChild, ddiDoc);
                     rootNode.getParentNode().appendChild(ddiChildNode);
                     rootNode.getParentNode().removeChild(rootNode);
                 }
@@ -48,7 +44,7 @@ public class DDITreeBuilder {
         return beautifyDDI(ddiDoc);
     }
 
-    public static String beautifyDDI(Object obj) {
+    private static String beautifyDDI(Object obj) {
         StringWriter stringWriter = new StringWriter();
         Document document;
         try {
@@ -85,7 +81,7 @@ public class DDITreeBuilder {
         return stringWriter.toString();
     }
 
-    private static Node DDIStringToDocElement(String ddi, Document doc)throws Exception  {
+    private static Node getNode(String ddi, Document doc)throws Exception  {
         Element node = getDocument(ddi).getDocumentElement();
         Node newNode = node.cloneNode(true);
         // Transfer ownership of the new node into the destination document
@@ -93,23 +89,20 @@ public class DDITreeBuilder {
         return newNode;
     }
 
-    private static String getIDFromReference(Node refNode) {
-        String id = "";
+    private static String getId(Node refNode) throws Exception{
         NodeList refChildren = refNode.getChildNodes();
         for (int i = 0; i < refChildren.getLength(); i++) {
-
             if (refChildren.item(i).getNodeName().equals("r:ID")) {
-                id = refChildren.item(i).getTextContent();
+                return refChildren.item(i).getTextContent();
             }
         }
-        return id;
+        throw new Exception("No reference found in node");
     }
 
     private static Document getDocument(String document) throws Exception {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-        DocumentBuilder builder = null;
-        builder = factory.newDocumentBuilder();
-        if (document.isEmpty()) {
+        DocumentBuilder builder = factory.newDocumentBuilder();
+        if (null == document || document.isEmpty()) {
             return builder.newDocument();
         }
         InputSource ddiSource = new InputSource(new StringReader(document));
