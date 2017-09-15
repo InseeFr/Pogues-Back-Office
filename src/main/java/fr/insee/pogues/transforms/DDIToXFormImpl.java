@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -25,8 +24,8 @@ public class DDIToXFormImpl implements DDIToXForm {
         if (null == output) {
             throw new NullPointerException("Null output");
         }
-        String xform = transform(input, params);
-        output.write(xform.getBytes(StandardCharsets.UTF_8));
+        String xForm = transform(input, params);
+        output.write(xForm.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
@@ -56,7 +55,7 @@ public class DDIToXFormImpl implements DDIToXForm {
             File output;
             GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2FRGenerator(), new NoopPostprocessor());
             output = genService.generateQuestionnaire(file, null);
-            return FileUtils.readFileToString(output, Charset.forName("UTF-8"));
+            return FileUtils.readFileToString(output, StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }
