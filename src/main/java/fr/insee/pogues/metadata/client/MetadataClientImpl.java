@@ -1,22 +1,28 @@
 package fr.insee.pogues.metadata.client;
 
-import fr.insee.pogues.webservice.rest.PoguesException;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import fr.insee.pogues.metadata.model.ColecticaItem;
+import fr.insee.pogues.metadata.model.ColecticaItemRef;
+import fr.insee.pogues.metadata.model.ColecticaItemRefList;
+import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MetadataClientImpl implements MetadataClient {
 
     @Autowired
-    HttpClientBuilder httpClientBuilder;
+    RestTemplate restTemplate;
 
     @Value("${fr.insee.pogues.api.remote.metadata.url}")
     String serviceUrl;
@@ -27,21 +33,30 @@ public class MetadataClientImpl implements MetadataClient {
     @Value("${fr.insee.pogues.api.remote.metadata.key}")
     String apiKey;
 
+    public ColecticaItem getItem(String id) throws Exception {
+        String url = String.format("%s/api/v1/item/%s/%s?api_key=%s", serviceUrl, agency, id, apiKey);
+        return restTemplate.getForObject(url, ColecticaItem.class);
+    }
 
-    @Override
-    public JSONObject getItem(String id) throws Exception {
-        try (CloseableHttpClient httpClient = httpClientBuilder.build()) {
-            String url = String.format("%s/api/v1/item/%s/%s?api_key=%s", serviceUrl, agency, id, apiKey);
-            HttpGet get = new HttpGet(url);
-            get.addHeader("accept", "application/json");
-            HttpResponse response = httpClient.execute(get);
-            if (response.getStatusLine().getStatusCode() != 200) {
-                throw new PoguesException(response.getStatusLine().getStatusCode(),
-                        "Colectica server error", response.getStatusLine().getReasonPhrase());
-            }
-            String body = EntityUtils.toString(response.getEntity());
-            return (JSONObject)
-                    new JSONParser().parse(body);
-        }
+    public List<ColecticaItem> getItems(ColecticaItemRefList query) throws Exception {
+        String url = String.format("%s/api/v1/item/_getList?api_key=%s", serviceUrl, apiKey);
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+        headers.add("Content-type", ContentType.APPLICATION_JSON.getMimeType());
+        HttpEntity<ColecticaItemRefList> request = new HttpEntity<>(query, headers);
+        ResponseEntity<ColecticaItem[]> response = restTemplate
+                .exchange(url, HttpMethod.POST, request, ColecticaItem[].class);
+        return Arrays.asList(response.getBody());
+    }
+
+    public ColecticaItemRefList getChildrenRef(String id) throws Exception {
+        String url = String.format("%s/api/v1/set/%s/%s?api_key=%s", serviceUrl, agency, id, apiKey);
+        ResponseEntity<ColecticaItemRef.Unformatted[]>  response;
+        response = restTemplate
+                .exchange(url, HttpMethod.GET, null, ColecticaItemRef.Unformatted[].class);
+        List<ColecticaItemRef> refs = Arrays.asList(response.getBody())
+                .stream()
+                .map(unformatted -> unformatted.format())
+                .collect(Collectors.toList());
+        return new ColecticaItemRefList(refs);
     }
 }

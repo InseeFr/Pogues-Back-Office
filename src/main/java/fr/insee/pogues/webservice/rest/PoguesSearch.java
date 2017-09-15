@@ -55,7 +55,7 @@ public class PoguesSearch {
             String[] types = query.getTypes().toArray(new String[query.getTypes().size()]);
             return searchService.searchByLabel(query.getFilter(), types);
         } catch(Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -79,7 +79,7 @@ public class PoguesSearch {
             IndexResponse response = searchService.save("questionnaire", item);
             return Response.status(CREATED).entity(response).build();
         } catch(Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -104,7 +104,7 @@ public class PoguesSearch {
             DeleteResponse response = searchService.delete("questionnaire", id);
             return Response.status(NO_CONTENT).entity(response).build();
         } catch(Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -119,7 +119,7 @@ public class PoguesSearch {
         try {
             colecticaSourceImporter.source();
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw e;
         }
         return Response.ok().build();
@@ -135,7 +135,7 @@ public class PoguesSearch {
         try {
             return searchService.getSeries();
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -152,7 +152,7 @@ public class PoguesSearch {
         try {
             return searchService.getOperations(id);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }

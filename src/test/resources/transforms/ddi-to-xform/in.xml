@@ -28,7 +28,7 @@
                 xmlns:a="ddi:archive:3_2">
             <r:Agency>fr.insee</r:Agency>
             <r:ID>DOC</r:ID>
-            <r:Version>0.1.0</r:Version>
+            <r:Versaion>0.1.0</r:Versaion>
             <r:Label>
                 <r:Content xml:lang="fr-FR">Questionnaire DDI 3.2 déréférencé de
                     Pogues</r:Content>

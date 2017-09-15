@@ -1,9 +1,12 @@
 package fr.insee.pogues.metadata.repository;
 
 import fr.insee.pogues.metadata.client.MetadataClient;
-import org.json.simple.JSONObject;
+import fr.insee.pogues.metadata.model.ColecticaItem;
+import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MetadataRepositoryImpl implements MetadataRepository {
@@ -12,7 +15,17 @@ public class MetadataRepositoryImpl implements MetadataRepository {
     MetadataClient metadataClient;
 
     @Override
-    public JSONObject findById(String id) throws Exception {
+    public ColecticaItem findById(String id) throws Exception {
         return metadataClient.getItem(id);
+    }
+
+    @Override
+    public ColecticaItemRefList getChildrenRef(String id) throws Exception {
+        return metadataClient.getChildrenRef(id);
+    }
+
+    @Override
+    public List<ColecticaItem> getItems(ColecticaItemRefList refs) throws Exception {
+        return metadataClient.getItems(refs);
     }
 }

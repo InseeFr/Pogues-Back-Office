@@ -1,5 +1,7 @@
 package fr.insee.pogues.metadata.service;
 
+import fr.insee.pogues.metadata.model.ColecticaItem;
+import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.repository.GroupRepository;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.utils.XpathProcessor;
@@ -7,7 +9,7 @@ import fr.insee.pogues.search.model.Family;
 import fr.insee.pogues.search.model.Operation;
 import fr.insee.pogues.search.model.Questionnaire;
 import fr.insee.pogues.search.model.Series;
-import org.json.simple.JSONObject;
+import fr.insee.pogues.utils.ddi.DDITreeBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
@@ -15,6 +17,8 @@ import org.w3c.dom.NodeList;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class MetadataServiceImpl implements MetadataService {
@@ -29,13 +33,37 @@ public class MetadataServiceImpl implements MetadataService {
     XpathProcessor xpathProcessor;
 
     @Override
-    public JSONObject getItem(String id) throws Exception {
+    public ColecticaItem getItem(String id) throws Exception {
         return metadataRepository.findById(id);
+    }
+
+    @Override
+    public ColecticaItemRefList getChildrenRef(String id) throws Exception {
+        return metadataRepository.getChildrenRef(id);
+    }
+
+    @Override
+    public List<ColecticaItem> getItems(ColecticaItemRefList refs) throws Exception {
+        return metadataRepository.getItems(refs);
+    }
+
+    @Override
+    public String getDDIDocument(String id) throws Exception {
+        List<ColecticaItem> items = getItems(getChildrenRef(id));
+        Map<String, String> refs = items.stream()
+                .collect(Collectors.toMap(ColecticaItem::getIdentifier, item -> {
+                    try {
+                       return xpathProcessor.queryString(item.getItem(), "/Fragment/*");
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                }));
+        return DDITreeBuilder.buildTree(refs.get(id), refs);
     }
 
     public Family getFamily(String id) throws Exception {
         Family family = new Family();
-        String fragment = getItem(id).get("Item").toString();
+        String fragment = getItem(id).item;
         String groupExp = "//*[local-name()='Group']";
         String labelExp = "//*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()";
         Node rootNode = xpathProcessor.queryList(fragment, groupExp).item(0);
@@ -50,13 +78,13 @@ public class MetadataServiceImpl implements MetadataService {
         return groupRepository.getRootIds();
     }
 
-    public List<Series> getSeries(Node node, Family family) throws Exception {
+    private List<Series> getSeries(Node node, Family family) throws Exception {
         List<Series> seriesList = new ArrayList<>();
         String childExp = ".//*[local-name()='SubGroupReference']";
         NodeList children = xpathProcessor.queryList(node, childExp);
         for (int i = 0; i < children.getLength(); i++) {
             String id = xpathProcessor.queryText(children.item(i), ".//*[local-name()='ID']/text()");
-            String fragment = getItem(id).get("Item").toString();
+            String fragment = getItem(id).item;
             Node child = xpathProcessor.toDocument(fragment);
             Series series = new Series();
             series.setId(id);
@@ -68,13 +96,13 @@ public class MetadataServiceImpl implements MetadataService {
         return seriesList;
     }
 
-    public List<Operation> getOperations(Node node, Series series) throws Exception {
+    private List<Operation> getOperations(Node node, Series series) throws Exception {
         List<Operation> operations = new ArrayList<>();
         String childExp = ".//*[local-name()='StudyUnitReference']";
         NodeList children = xpathProcessor.queryList(node, childExp);
         for (int i = 0; i < children.getLength(); i++) {
             String id = xpathProcessor.queryText(children.item(i), ".//*[local-name()='ID']/text()");
-            String fragment = getItem(id).get("Item").toString();
+            String fragment = getItem(id).item;
             Node child = xpathProcessor.toDocument(fragment);
             Operation operation = new Operation();
             operation.setId(id);
@@ -86,13 +114,13 @@ public class MetadataServiceImpl implements MetadataService {
         return operations;
     }
 
-    public List<Questionnaire> getQuestionnaires(Node node, Operation operation) throws Exception {
+    private List<Questionnaire> getQuestionnaires(Node node, Operation operation) throws Exception {
         List<Questionnaire> questionnaires = new ArrayList<>();
         String childExp = ".//*[local-name()='DataCollectionReference']";
         NodeList children = xpathProcessor.queryList(node, childExp);
         for (int i = 0; i < children.getLength(); i++) {
             String id = xpathProcessor.queryText(children.item(i), ".//*[local-name()='ID']/text()");
-            String fragment = getItem(id).get("Item").toString();
+            String fragment = getItem(id).item;
             Node child = xpathProcessor.toDocument(fragment);
             Questionnaire questionnaire = new Questionnaire();
             questionnaire.setId(id);

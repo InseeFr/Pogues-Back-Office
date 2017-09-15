@@ -153,10 +153,10 @@ public class TestMetadataService {
     }
 
     private void mockFindByIdResponse(String id) throws Exception {
-        when(metadataRepository.findById(id))
-                .thenReturn(arrayToStream(db.get("items"))
-                        .filter(item -> item.get("Identifier").toString().equals(id))
-                        .findFirst()
-                        .get());
+//        when(metadataRepository.findById(id))
+//                .thenReturn(arrayToStream(db.get("items"))
+//                        .filter(item -> item.get("Identifier").toString().equals(id))
+//                        .findFirst()
+//                        .get());
     }
 }

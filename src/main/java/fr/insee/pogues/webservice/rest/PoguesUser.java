@@ -53,7 +53,7 @@ public class PoguesUser {
             JSONObject result = userService.getUserID(request);
             return Response.status(Status.OK).entity(result).build();
         } catch (PoguesException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -76,7 +76,7 @@ public class PoguesUser {
             User user = userService.getNameAndPermission(request);
             return Response.status(Status.OK).entity(user).build();
         } catch(Exception e){
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
             throw e;
         }
 
@@ -98,7 +98,7 @@ public class PoguesUser {
         try {
             return Response.ok(userService.getPermissions()).build();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }

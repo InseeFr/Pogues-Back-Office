@@ -86,7 +86,7 @@ public class PoguesTransforms {
             };
             return Response.ok(stream).build();
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -118,7 +118,7 @@ public class PoguesTransforms {
                     .transform();
             return Response.seeOther(URI.create(uri)).build();
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw e;
         } finally {
             input.close();
@@ -145,7 +145,7 @@ public class PoguesTransforms {
         try {
             return transform(request, jsonToXML);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -195,7 +195,7 @@ public class PoguesTransforms {
         try {
             return transform(request, ddiToXForm);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -225,26 +225,20 @@ public class PoguesTransforms {
             String input = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
             return xformToUri.transform(input, params);
         } catch (Exception e) {
-            logger.error(e);
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
 
 
     private Response transform(HttpServletRequest request, Transformer transformer) throws Exception {
-        try {
-            StreamingOutput stream = output -> {
-                try {
-                    transformer.transform(request.getInputStream(), output, null);
-                } catch (Exception e) {
-                    throw new PoguesException(500, "Transformation error", e.getMessage());
-                }
-            };
-            return Response.ok(stream).build();
-        } catch (Exception e) {
-            logger.error(e);
-            throw e;
-        }
+        StreamingOutput stream = output -> {
+            try {
+                transformer.transform(request.getInputStream(), output, null);
+            } catch (Exception e) {
+                throw new PoguesException(500, "Transformation error", e.getMessage());
+            }
+        };
+        return Response.ok(stream).build();
     }
-
 }
