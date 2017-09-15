@@ -14,6 +14,8 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+import javax.ws.rs.core.StreamingOutput;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -71,8 +73,7 @@ public class PoguesMetaDataAPI {
     @ApiOperation(value = "getItems",
             notes = "Map query object references to actual colectica items",
             response = ColecticaItem.class,
-            responseContainer = "List"
-    )
+            responseContainer = "List")
     public Response getChildren(
             @ApiParam(value = "Item references query object", required = true) ColecticaItemRefList query
     ) throws Exception {
@@ -90,12 +91,19 @@ public class PoguesMetaDataAPI {
     @Path("item/{id}/ddi/")
     @Produces(MediaType.APPLICATION_XML)
     @ApiOperation(value = "getItems",
-            notes = "Gets the chidlren refs with parent id {id}",
-            response = ColecticaItemRefList.class)
+            notes = "Gets a full ddi document from metatada reference {id}",
+            response = String.class)
     public Response getFullDDI(@PathParam(value = "id") String id) throws Exception {
         try {
             String ddiDocument = metadataService.getDDIDocument(id);
-            return Response.ok().entity(ddiDocument).build();
+            StreamingOutput stream = output -> {
+                try {
+                    output.write(ddiDocument.getBytes(StandardCharsets.UTF_8));
+                } catch (Exception e) {
+                    throw new PoguesException(500, "Transformation error", e.getMessage());
+                }
+            };
+            return Response.ok(stream).build();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw e;
