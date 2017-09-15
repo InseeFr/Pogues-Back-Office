@@ -58,9 +58,7 @@ public class MetadataServiceImpl implements MetadataService {
                         throw new RuntimeException(e);
                     }
                 }));
-        refs.forEach((k,v) -> System.out.println(k + ": " +v));
-//        System.out.println(DDITreeBuilder.buildTree(refs.get(id), refs));
-        return DDITreeBuilder.buildTree(id, refs);
+        return DDITreeBuilder.buildTree(refs.get(id), refs);
     }
 
     public Family getFamily(String id) throws Exception {
@@ -80,7 +78,7 @@ public class MetadataServiceImpl implements MetadataService {
         return groupRepository.getRootIds();
     }
 
-    public List<Series> getSeries(Node node, Family family) throws Exception {
+    private List<Series> getSeries(Node node, Family family) throws Exception {
         List<Series> seriesList = new ArrayList<>();
         String childExp = ".//*[local-name()='SubGroupReference']";
         NodeList children = xpathProcessor.queryList(node, childExp);
@@ -98,7 +96,7 @@ public class MetadataServiceImpl implements MetadataService {
         return seriesList;
     }
 
-    public List<Operation> getOperations(Node node, Series series) throws Exception {
+    private List<Operation> getOperations(Node node, Series series) throws Exception {
         List<Operation> operations = new ArrayList<>();
         String childExp = ".//*[local-name()='StudyUnitReference']";
         NodeList children = xpathProcessor.queryList(node, childExp);
@@ -116,7 +114,7 @@ public class MetadataServiceImpl implements MetadataService {
         return operations;
     }
 
-    public List<Questionnaire> getQuestionnaires(Node node, Operation operation) throws Exception {
+    private List<Questionnaire> getQuestionnaires(Node node, Operation operation) throws Exception {
         List<Questionnaire> questionnaires = new ArrayList<>();
         String childExp = ".//*[local-name()='DataCollectionReference']";
         NodeList children = xpathProcessor.queryList(node, childExp);
