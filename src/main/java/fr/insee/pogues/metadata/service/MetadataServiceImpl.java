@@ -5,10 +5,7 @@ import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.repository.GroupRepository;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.utils.XpathProcessor;
-import fr.insee.pogues.search.model.Family;
-import fr.insee.pogues.search.model.Operation;
-import fr.insee.pogues.search.model.Questionnaire;
-import fr.insee.pogues.search.model.Series;
+import fr.insee.pogues.search.model.*;
 import fr.insee.pogues.utils.ddi.DDITreeBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,16 +58,16 @@ public class MetadataServiceImpl implements MetadataService {
         return DDITreeBuilder.buildTree(refs.get(id), refs);
     }
 
-    public Family getFamily(String id) throws Exception {
-        Family family = new Family();
+    public Group getGroup(String id) throws Exception {
+        Group group = new Group();
         String fragment = getItem(id).item;
         String groupExp = "//*[local-name()='Group']";
         String labelExp = "//*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()";
         Node rootNode = xpathProcessor.queryList(fragment, groupExp).item(0);
-        family.setId(id);
-        family.setLabel(xpathProcessor.queryText(rootNode, labelExp));
-        family.setSeries(getSeries(rootNode, family));
-        return family;
+        group.setId(id);
+        group.setLabel(xpathProcessor.queryText(rootNode, labelExp));
+        group.setSeries(getSeries(rootNode, group));
+        return group;
     }
 
     @Override
@@ -78,7 +75,7 @@ public class MetadataServiceImpl implements MetadataService {
         return groupRepository.getRootIds();
     }
 
-    private List<Series> getSeries(Node node, Family family) throws Exception {
+    private List<Series> getSeries(Node node, Group group) throws Exception {
         List<Series> seriesList = new ArrayList<>();
         String childExp = ".//*[local-name()='SubGroupReference']";
         NodeList children = xpathProcessor.queryList(node, childExp);
@@ -88,7 +85,7 @@ public class MetadataServiceImpl implements MetadataService {
             Node child = xpathProcessor.toDocument(fragment);
             Series series = new Series();
             series.setId(id);
-            series.setParent(family.getId());
+            series.setParent(group.getId());
             series.setLabel(xpathProcessor.queryText(child, ".//*[local-name()='SubGroup']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()"));
             series.setOperations(getOperations(child, series));
             seriesList.add(series);
@@ -108,15 +105,32 @@ public class MetadataServiceImpl implements MetadataService {
             operation.setId(id);
             operation.setParent(series.getId());
             operation.setLabel(xpathProcessor.queryText(child, ".//*[local-name()='StudyUnit']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()"));
-            operation.setQuestionnaires(getQuestionnaires(child, operation));
+            operation.setDataCollections(getDataCollections(child, operation));
             operations.add(operation);
         }
         return operations;
     }
 
-    private List<Questionnaire> getQuestionnaires(Node node, Operation operation) throws Exception {
-        List<Questionnaire> questionnaires = new ArrayList<>();
+    private List<DataCollection> getDataCollections(Node node, Operation operation) throws Exception {
+        List<DataCollection> dataCollections = new ArrayList<>();
         String childExp = ".//*[local-name()='DataCollectionReference']";
+        NodeList children = xpathProcessor.queryList(node, childExp);
+        for (int i = 0; i < children.getLength(); i++) {
+            String id = xpathProcessor.queryText(children.item(i), ".//*[local-name()='ID']/text()");
+            String fragment = getItem(id).item;
+            Node child = xpathProcessor.toDocument(fragment);
+            DataCollection dataCollection = new DataCollection();
+            dataCollection.setId(id);
+            dataCollection.setParent(operation.getId());
+            dataCollection.setLabel(xpathProcessor.queryText(child, ".//*[local-name()='DataCollection']/*[local-name()='Label']/*[local-name()='Content']/text()"));
+            dataCollections.add(dataCollection);
+        }
+        return dataCollections;
+    }
+
+    private List<Questionnaire> getQuestionnaires(Node node, DataCollection dataCollection) throws Exception {
+        List<Questionnaire> questionnaires = new ArrayList<>();
+        String childExp = ".//*[local-name()='InstrumentSchemeReference']";
         NodeList children = xpathProcessor.queryList(node, childExp);
         for (int i = 0; i < children.getLength(); i++) {
             String id = xpathProcessor.queryText(children.item(i), ".//*[local-name()='ID']/text()");
@@ -124,7 +138,7 @@ public class MetadataServiceImpl implements MetadataService {
             Node child = xpathProcessor.toDocument(fragment);
             Questionnaire questionnaire = new Questionnaire();
             questionnaire.setId(id);
-            questionnaire.setParent(operation.getId());
+            questionnaire.setParent(dataCollection.getId());
             questionnaire.setLabel(xpathProcessor.queryText(child, ".//*[local-name()='DataCollection']/*[local-name()='Label']/*[local-name()='Content']/text()"));
             questionnaires.add(questionnaire);
         }

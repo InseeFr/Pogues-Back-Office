@@ -1,10 +1,7 @@
 package fr.insee.pogues.search.source;
 
 import fr.insee.pogues.metadata.service.MetadataService;
-import fr.insee.pogues.search.model.Family;
-import fr.insee.pogues.search.model.Operation;
-import fr.insee.pogues.search.model.Questionnaire;
-import fr.insee.pogues.search.model.Series;
+import fr.insee.pogues.search.model.*;
 import fr.insee.pogues.search.service.SearchService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -42,7 +39,7 @@ public class ColecticaSourceImporterImpl implements ColecticaSourceImporter {
     public void source() throws Exception {
         for (String id : groupIds) {
             logger.debug("Getting data from colectica API for group " + id);
-            Family f = metadataService.getFamily(id);
+            Group f = metadataService.getGroup(id);
             searchService.save("family", f);
             saveSeries(f.getSeries());
         }
@@ -58,7 +55,14 @@ public class ColecticaSourceImporterImpl implements ColecticaSourceImporter {
     public void saveOperations(List<Operation> operations) throws Exception {
         for (Operation o : operations) {
             searchService.save("operation", o);
-            saveQuestionnaires(o.getQuestionnaires());
+            saveDataCollections(o.getDataCollections());
+        }
+    }
+
+    public void saveDataCollections(List<DataCollection> dataCollections) throws Exception {
+        for (DataCollection dc : dataCollections) {
+            searchService.save("dataCollection", dc);
+//            saveQuestionnaires(dc.getD));
         }
     }
 

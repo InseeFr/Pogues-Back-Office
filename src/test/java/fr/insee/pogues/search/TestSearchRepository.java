@@ -69,7 +69,7 @@ public class TestSearchRepository {
 //        when(shs.getHits()).thenReturn(new SearchHit[]{
 //           sh
 //        });
-//        List<PoguesHit> hits = repository.findByLabel("bar", "anything");
+//        List<DDIItem> hits = repository.findByLabel("bar", "anything");
 //        Assert.assertEquals("anything", hits.get(0).getType());
 //        Assert.assertEquals("bar", hits.get(0).getLabel());
 //        Assert.assertEquals("foo", hits.get(0).getId());

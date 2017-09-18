@@ -1,6 +1,6 @@
 package fr.insee.pogues.webservice.rest;
 
-import fr.insee.pogues.search.model.PoguesHit;
+import fr.insee.pogues.search.model.DDIItem;
 import fr.insee.pogues.search.model.PoguesQuery;
 import fr.insee.pogues.search.model.Questionnaire;
 import fr.insee.pogues.search.service.SearchService;
@@ -50,7 +50,7 @@ public class PoguesSearch {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 500, message = "Unexpected error")
     })
-    public List<PoguesHit> searchQuestionnaire(PoguesQuery query) throws Exception {
+    public List<DDIItem> searchQuestionnaire(PoguesQuery query) throws Exception {
         try {
             String[] types = query.getTypes().toArray(new String[query.getTypes().size()]);
             return searchService.searchByLabel(query.getFilter(), types);
@@ -131,7 +131,7 @@ public class PoguesSearch {
     @ApiOperation(value = "Import indexes from Colectica",
             notes = "This require a living instance of colectica aswell as a up and running elasticsearch cluster",
             response = String.class)
-    public List<PoguesHit> getSeries() throws Exception {
+    public List<DDIItem> getSeries() throws Exception {
         try {
             return searchService.getSeries();
         } catch (Exception e) {
@@ -146,11 +146,28 @@ public class PoguesSearch {
     @ApiOperation(value = "Get all operations for a series",
             notes = "Retrieve all operations with a parent id matching the series id given as a path parameter",
             response = String.class)
-    public List<PoguesHit> getOperations(
+    public List<DDIItem> getOperations(
             @PathParam(value = "id") String id
     ) throws Exception {
         try {
             return searchService.getOperations(id);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+
+    @GET
+    @Path("operations/{id}/collections")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Get all data collections for a given operation",
+            notes = "Retrieve all data collections with a parent id matching the operation id given as a path parameter",
+            response = String.class)
+    public List<DDIItem> getDataCollections(
+            @PathParam(value = "id") String id
+    ) throws Exception {
+        try {
+            return searchService.getDataCollections(id);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw e;

@@ -1,6 +1,6 @@
 package fr.insee.pogues.search.service;
 
-import fr.insee.pogues.search.model.PoguesHit;
+import fr.insee.pogues.search.model.DDIItem;
 import fr.insee.pogues.search.model.PoguesItem;
 import fr.insee.pogues.search.repository.PoguesItemRepository;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -21,7 +21,7 @@ public class SearchServiceImpl implements SearchService {
         return poguesItemRepository.save(type, item);
     }
 
-    public List<PoguesHit> searchByLabel(String label, String... types) throws Exception {
+    public List<DDIItem> searchByLabel(String label, String... types) throws Exception {
         return poguesItemRepository.findByLabel(label, types);
     }
 
@@ -30,12 +30,17 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<PoguesHit> getSeries() throws Exception {
+    public List<DDIItem> getSeries() throws Exception {
         return poguesItemRepository.getSeries();
     }
 
     @Override
-    public List<PoguesHit> getOperations(String seriesId) throws Exception {
+    public List<DDIItem> getOperations(String seriesId) throws Exception {
         return poguesItemRepository.getOperations(seriesId);
+    }
+
+    @Override
+    public List<DDIItem> getDataCollections(String operationId) throws Exception {
+        return null;
     }
 }

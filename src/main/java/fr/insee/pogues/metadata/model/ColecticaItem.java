@@ -32,8 +32,8 @@ public class ColecticaItem {
     @JsonProperty("ItemType")
     public String itemType;
 
-    @JsonProperty("AgenceId")
-    public String agenceId;
+    @JsonProperty("AgencyId")
+    public String agencyId;
 
     @JsonProperty("Version")
     public String version;
@@ -79,12 +79,12 @@ public class ColecticaItem {
         this.itemType = itemType;
     }
 
-    public String getAgenceId() {
-        return agenceId;
+    public String getAgencyId() {
+        return agencyId;
     }
 
-    public void setAgenceId(String agenceId) {
-        this.agenceId = agenceId;
+    public void setAgencyId(String agencyId) {
+        this.agencyId = agencyId;
     }
 
     public String getVersion() {

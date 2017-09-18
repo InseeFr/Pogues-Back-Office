@@ -91,7 +91,6 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		String qString =
 				"INSERT INTO pogues (id, data) VALUES (?, ?)";
 	    String id  = (String)questionnaire.get("id");
-		System.out.println("XXX " + this.getQuestionnaireByID(id));
 		if(null != getQuestionnaireByID(id)){
 			throw new NonUniqueResultException("Entity already exists");
 		}

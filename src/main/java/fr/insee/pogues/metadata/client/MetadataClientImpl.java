@@ -4,6 +4,8 @@ import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRef;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import org.apache.http.entity.ContentType;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -21,6 +23,8 @@ import java.util.stream.Collectors;
 @Service
 public class MetadataClientImpl implements MetadataClient {
 
+    private static final Logger logger = LogManager.getLogger(MetadataClientImpl.class);
+
     @Autowired
     RestTemplate restTemplate;
 
@@ -35,6 +39,7 @@ public class MetadataClientImpl implements MetadataClient {
 
     public ColecticaItem getItem(String id) throws Exception {
         String url = String.format("%s/api/v1/item/%s/%s?api_key=%s", serviceUrl, agency, id, apiKey);
+        logger.debug("xxx: " + url);
         return restTemplate.getForObject(url, ColecticaItem.class);
     }
 

@@ -1,14 +1,14 @@
 package fr.insee.pogues.search.model;
 
-public class PoguesHit extends PoguesItem {
+public class DDIItem extends PoguesItem {
 
     private String type;
 
-    public PoguesHit(){
+    public DDIItem(){
         super();
     }
 
-    public PoguesHit(String id, String label, String parent, String type) {
+    public DDIItem(String id, String label, String parent, String type) {
         super(id, parent, label);
         this.type = type;
     }

@@ -6,16 +6,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties({"series"})
-public class Family extends PoguesItem
+public class Group extends PoguesItem
 {
 
     private List<Series> series;
 
-    public Family(){
+    public Group(){
         this.series = new ArrayList<>();
     }
 
-    public Family(String label, String id) {
+    public Group(String label, String id) {
         super(label, null, id);
         this.series = new ArrayList<>();
     }
