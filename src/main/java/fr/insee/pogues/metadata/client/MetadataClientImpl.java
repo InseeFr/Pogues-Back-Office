@@ -39,7 +39,6 @@ public class MetadataClientImpl implements MetadataClient {
 
     public ColecticaItem getItem(String id) throws Exception {
         String url = String.format("%s/api/v1/item/%s/%s?api_key=%s", serviceUrl, agency, id, apiKey);
-        logger.debug("xxx: " + url);
         return restTemplate.getForObject(url, ColecticaItem.class);
     }
 
