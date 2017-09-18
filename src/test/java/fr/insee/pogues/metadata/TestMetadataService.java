@@ -5,9 +5,9 @@ import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.service.MetadataService;
 import fr.insee.pogues.metadata.service.MetadataServiceImpl;
 import fr.insee.pogues.metadata.utils.XpathProcessor;
-import fr.insee.pogues.search.model.Family;
+import fr.insee.pogues.search.model.DataCollection;
+import fr.insee.pogues.search.model.Group;
 import fr.insee.pogues.search.model.Operation;
-import fr.insee.pogues.search.model.Questionnaire;
 import fr.insee.pogues.search.model.Series;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -40,8 +40,6 @@ public class TestMetadataService {
     @InjectMocks
     MetadataService metadataService;
 
-    JSONObject db;
-
     private static Stream<JSONObject> arrayToStream(Object jsonArray) {
         return StreamSupport.stream(((JSONArray) jsonArray).spliterator(), false);
     }
@@ -49,12 +47,11 @@ public class TestMetadataService {
     @Before
     public void beforeEach() {
         metadataService = spy(new MetadataServiceImpl());
-        db = ColecticaMocks.createDb();
         initMocks(this);
     }
 
     @Test
-    public void getFamilyTest() throws Exception {
+    public void getGroupTest() throws Exception {
         mockFindByIdResponse("99c6b5c5-e591-4e64-af1b-f7e24970e20e");
         mockFindByIdResponse("391e505c-dc05-4042-8b9d-c602ff72690d");
         mockFindByIdResponse("bd18e047-560c-49ff-9c59-d620164e5f95");
@@ -64,18 +61,18 @@ public class TestMetadataService {
         mockFindByIdResponse("a18c2085-d44d-4544-a43a-c1b1499b5646");
         mockFindByIdResponse("9e7c9483-f8a7-4ea1-abe1-3c37e2688dc9");
         mockXpathProcessorQueries();
-        Family family = metadataService.getFamily("391e505c-dc05-4042-8b9d-c602ff72690d");
-        Assert.assertEquals("ANTIPOL", family.getLabel());
-        Assert.assertEquals("391e505c-dc05-4042-8b9d-c602ff72690d", family.getId());
-        Series series = family.getSeries().get(0);
+        Group group = metadataService.getGroup("391e505c-dc05-4042-8b9d-c602ff72690d");
+        Assert.assertEquals("ANTIPOL", group.getLabel());
+        Assert.assertEquals("391e505c-dc05-4042-8b9d-c602ff72690d", group.getId());
+        Series series = group.getSeries().get(0);
         Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement", series.getLabel());
         Assert.assertEquals("bd18e047-560c-49ff-9c59-d620164e5f95", series.getId());
         Operation operation = series.getOperations().get(0);
         Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement 2016", operation.getLabel());
         Assert.assertEquals("a18c2085-d44d-4544-a43a-c1b1499b5646", operation.getId());
-        Questionnaire questionnaire = operation.getQuestionnaires().get(0);
-        Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement 2016", questionnaire.getLabel());
-        Assert.assertEquals("99c6b5c5-e591-4e64-af1b-f7e24970e20e", questionnaire.getId());
+        DataCollection dataCollection = operation.getDataCollections().get(0);
+        Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement 2016", dataCollection.getLabel());
+        Assert.assertEquals("99c6b5c5-e591-4e64-af1b-f7e24970e20e", dataCollection.getId());
     }
 
     private void mockXpathProcessorQueries() throws Exception {
@@ -154,9 +151,10 @@ public class TestMetadataService {
 
     private void mockFindByIdResponse(String id) throws Exception {
         when(metadataRepository.findById(id))
-                .thenReturn(arrayToStream(db.get("items"))
-                        .filter(item -> item.get("Identifier").toString().equals(id))
-                        .findFirst()
-                        .get());
+                .thenReturn(ColecticaMocks
+                        .getItems()
+                        .stream()
+                        .filter(item -> item.getIdentifier().equals(id))
+                        .findFirst().get());
     }
 }

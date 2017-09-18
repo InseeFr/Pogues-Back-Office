@@ -2,7 +2,10 @@ package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.user.model.User;
 import fr.insee.pogues.user.service.UserService;
-import io.swagger.annotations.*;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -50,6 +53,7 @@ public class PoguesUser {
             JSONObject result = userService.getUserID(request);
             return Response.status(Status.OK).entity(result).build();
         } catch (PoguesException e) {
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -72,6 +76,7 @@ public class PoguesUser {
             User user = userService.getNameAndPermission(request);
             return Response.status(Status.OK).entity(user).build();
         } catch(Exception e){
+            logger.error(e.getMessage(), e);
             throw e;
         }
 
@@ -93,6 +98,7 @@ public class PoguesUser {
         try {
             return Response.ok(userService.getPermissions()).build();
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }

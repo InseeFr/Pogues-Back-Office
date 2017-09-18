@@ -14,8 +14,6 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-//import java.io.ByteArrayOutputStream;
-
 /**
  * Created by acordier on 20/07/17.
  * TODO Register as a provider
@@ -33,56 +31,39 @@ public class XMLToDDIImpl implements XMLToDDI {
     private Logger logger = LogManager.getLogger(XMLToDDIImpl.class);
 
     public void transform(InputStream input, OutputStream output, Map<String, Object>params) throws Exception {
+        if (null == input) {
+            throw new NullPointerException("Null input");
+        }
+        if (null == output) {
+            throw new NullPointerException("Null output");
+        }
         try {
-            if (null == input) {
-                throw new NullPointerException("Null input");
-            }
-            if (null == output) {
-                throw new NullPointerException("Null output");
-            }
             Processor processor = new Processor(false);
             Source source = new StreamSource(input);
             XsltTransformer t = createPipeline(source, output, processor);
             t.transform();
         } catch (SaxonApiException e) {
-            logger.error(String.format("Message: %s, Line: %d, Error Code: %s",
-                    e.getMessage(), e.getLineNumber(), e.getErrorCode()));
-            throw e;
+            throw new Exception(String.format("%s:%s, Line: %d, Error Code: %s",
+                    getClass().getName(), e.getMessage(), e.getLineNumber(), e.getErrorCode()));
         }
     }
 
     public String transform(InputStream input, Map<String, Object>params) throws Exception {
-        ByteArrayOutputStream output = null;
-        try {
-            if (null == input) {
-                throw new NullPointerException("Null input");
-            }
-            output = new ByteArrayOutputStream();
+        if (null == input) {
+            throw new NullPointerException("Null input");
+        }
+        try ( ByteArrayOutputStream output = new ByteArrayOutputStream()){
             transform(input, output, params);
             return output.toString(StandardCharsets.UTF_8).trim();
-        } catch (SaxonApiException e) {
-            logger.error(String.format("Message: %s, Line: %d, Error Code: %s",
-                    e.getMessage(), e.getLineNumber(), e.getErrorCode()));
-            throw e;
-        } finally {
-            output.close();
         }
     }
 
     public String transform(String input, Map<String, Object>params) throws Exception {
-        try {
-            if (null == input) {
-                throw new NullPointerException("Null input");
-            }
-            InputStream is = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+        if (null == input) {
+            throw new NullPointerException("Null input");
+        }
+        try (InputStream is = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8))){
             return transform(is, params);
-        } catch (SaxonApiException e) {
-            logger.error(String.format("Message: %s, Line: %d, Error Code: %s",
-                    e.getMessage(), e.getLineNumber(), e.getErrorCode()));
-            throw e;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-            throw e;
         }
     }
 

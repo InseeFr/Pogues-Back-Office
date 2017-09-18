@@ -1,8 +1,9 @@
 package fr.insee.pogues.transforms;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +20,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class TestStromaeService {
 
     @Mock
-    HttpClient client;
+    HttpClientBuilder clientFactory;
 
     @InjectMocks
     StromaeService service;
@@ -32,7 +33,8 @@ public class TestStromaeService {
 
     @Test
     public void transformTest() throws Exception {
-        HttpResponse response = mock(HttpResponse.class);
+        CloseableHttpClient client = mock(CloseableHttpClient.class);
+        CloseableHttpResponse response = mock(CloseableHttpResponse.class);
         String expectedURL = "http://generated.form.tld/simpsons";
         Map<String, Object> params = new HashMap<String, Object>(){
             { put("name", "simpsons"); }
@@ -40,6 +42,8 @@ public class TestStromaeService {
         when(response.getEntity()).thenReturn(new StringEntity(expectedURL));
         when(client.execute(any()))
                 .thenReturn(response);
+        when(clientFactory.build())
+                .thenReturn(client);
         String actualURL = service.transform("<xhtml:html><xhtml:head></xhtml:head></xhtml:html>", params);
         Assert.assertEquals(expectedURL, actualURL);
     }

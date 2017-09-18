@@ -51,7 +51,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			PGobject q = jdbcTemplate.queryForObject(qString,
 					new Object[]{id}, PGobject.class);
 			return (JSONObject) (new JSONParser().parse(q.toString()));
-		}catch (EmptyResultDataAccessException e) {
+		} catch (EmptyResultDataAccessException e) {
 			return null;
 		}
 	}
@@ -91,7 +91,6 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		String qString =
 				"INSERT INTO pogues (id, data) VALUES (?, ?)";
 	    String id  = (String)questionnaire.get("id");
-		System.out.println("XXX " + this.getQuestionnaireByID(id));
 		if(null != getQuestionnaireByID(id)){
 			throw new NonUniqueResultException("Entity already exists");
 		}

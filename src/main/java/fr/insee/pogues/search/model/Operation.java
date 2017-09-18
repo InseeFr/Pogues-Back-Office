@@ -8,22 +8,22 @@ import java.util.List;
 @JsonIgnoreProperties({"questionnaires"})
 public class Operation extends PoguesItem {
 
-    List<Questionnaire> questionnaires;
+    List<DataCollection> dataCollections;
 
     public Operation() {
-        questionnaires = new ArrayList<>();
+        dataCollections = new ArrayList<>();
     }
 
     public Operation(String id, String parent, String label) {
         super(id, parent, label);
     }
 
-    public List<Questionnaire> getQuestionnaires() {
-        return questionnaires;
+    public List<DataCollection> getDataCollections() {
+        return dataCollections;
     }
 
-    public void setQuestionnaires(List<Questionnaire> questionnaires) {
-        this.questionnaires = questionnaires;
+    public void setDataCollections(List<DataCollection> dataCollections) {
+        this.dataCollections = dataCollections;
     }
 
     public String toString(){
@@ -31,8 +31,8 @@ public class Operation extends PoguesItem {
         sb.append("[id = " + getId());
         sb.append(", label = " + getLabel());
         sb.append(", questionnaires = [ ");
-        for(Questionnaire o: questionnaires){
-            sb.append(o.toString());
+        for(DataCollection dc: dataCollections){
+            sb.append(dc.toString());
             sb.append(",");
         }
         sb.append("]]");

@@ -60,9 +60,8 @@ public class PoguesPersistence {
 		try {
 			JSONObject result = questionnaireService.getQuestionnaireByID(id);
 			return Response.status(Status.OK).entity(result).build();
-		} catch(PoguesException e) {
-			throw e;
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			throw e;
 		}
 
@@ -91,6 +90,7 @@ public class PoguesPersistence {
             }
             return Response.status(Status.OK).entity(questionnaires).build();
         } catch (Exception e) {
+			logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -115,6 +115,7 @@ public class PoguesPersistence {
 			logger.info("Questionnaire "+ id +" deleted");
 			return Response.status(Status.NO_CONTENT).build();
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -136,9 +137,8 @@ public class PoguesPersistence {
 		try {
 			List<JSONObject> questionnaires = questionnaireService.getQuestionnaireList();
 			return Response.status(Status.OK).entity(questionnaires).build();
-		} catch(PoguesException e) {
-			throw e;
 		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -167,9 +167,8 @@ public class PoguesPersistence {
 			questionnaireService.updateQuestionnaire(id, jsonContent);
 			logger.info("Questionnaire "+ id +" updated");
 			return Response.status(Status.NO_CONTENT).build();
-        } catch(PoguesException e){
-            throw e;
         } catch (Exception e) {
+			logger.error(e.getMessage(), e);
             throw e;
         }
 	}
@@ -193,10 +192,10 @@ public class PoguesPersistence {
 			//TODO return a generic uri
 			String id = (String) jsonContent.get("id");
 			String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
-			logger.info("New questionnaire created , uri :" + uriQuestionnaire);
+			logger.debug("New questionnaire created , uri :" + uriQuestionnaire);
 			return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}

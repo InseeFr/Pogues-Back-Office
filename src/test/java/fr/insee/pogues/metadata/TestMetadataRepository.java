@@ -1,9 +1,9 @@
 package fr.insee.pogues.metadata;
 
 import fr.insee.pogues.metadata.client.MetadataClient;
+import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.repository.MetadataRepositoryImpl;
-import org.json.simple.JSONObject;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,11 +31,10 @@ public class TestMetadataRepository {
 
     @Test
     public void findByIdTest() throws Exception {
-        String id = "foo";
-        JSONObject expectedOutput = new JSONObject();
-        expectedOutput.put("id", id);
-        when(metadataClient.getItem(id)).thenReturn(expectedOutput);
-        JSONObject actualOutput = metadataRepository.findById(id);
-        Assert.assertEquals(id, actualOutput.get("id").toString());
+        ColecticaItem expected = new ColecticaItem();
+        expected.setIdentifier("foo");
+        when(metadataClient.getItem(expected.getIdentifier())).thenReturn(expected);
+        ColecticaItem actual = metadataRepository.findById(expected.getIdentifier());
+        Assert.assertEquals(expected.getIdentifier(), actual.getIdentifier());
     }
 }

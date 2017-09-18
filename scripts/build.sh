@@ -7,6 +7,11 @@ FINAL_WAR_NAME=${1?Final war name must be passed as first argument}
 STATIC_GH_URL="https://github.com/InseeFr/Pogues"
 MAIN_BRANCH="zenika-dev"
 
+if [ -z "$TRAVIS_BUILD_DIR" ];then
+    TRAVIS_BUILD_DIR="$PWD"
+    TRAVIS_BUILD_NUMBER=$(date -I)
+fi
+
 # Pull front end sources from github
 function get_static(){
     STATIC_SOURCES=$(mktemp -d)
