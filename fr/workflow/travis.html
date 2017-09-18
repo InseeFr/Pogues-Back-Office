@@ -359,10 +359,11 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
 <span class="hljs-bullet">-</span> docker
 <span class="hljs-attr">env:</span>
 <span class="hljs-bullet">-</span> DOCKER_COMPOSE_VERSION=<span class="hljs-number">1.9</span><span class="hljs-number">.0</span>
-<span class="hljs-comment">#addons:</span>
-<span class="hljs-comment">#  sauce_connect: true</span>
+<span class="hljs-attr">addons:</span>
+<span class="hljs-attr">  sauce_connect:</span> <span class="hljs-literal">true</span>
 <span class="hljs-attr">install:</span>
-<span class="hljs-bullet">-</span> bash scripts/install.sh rmspogfo
+<span class="hljs-bullet">-</span> bash scripts/install.sh
+<span class="hljs-bullet">-</span> bash scripts/build.sh rmspogfo
 <span class="hljs-bullet">-</span> cp target/rmspogfo.war docker/tomcat/
 <span class="hljs-attr">before_script:</span>
 <span class="hljs-bullet">-</span> sudo sysctl -w vm.max_map_count=<span class="hljs-number">262144</span>
@@ -372,11 +373,10 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
 <span class="hljs-attr">script:</span>
 <span class="hljs-bullet">-</span> mvn test
 <span class="hljs-bullet">-</span> bash scripts/coveralls.sh
-<span class="hljs-bullet">-</span> mvn integration-test
+<span class="hljs-bullet">-</span> mvn failsafe:integration-test
+<span class="hljs-bullet">-</span> bash scripts/e2e.sh
 <span class="hljs-attr">after_success:</span>
 <span class="hljs-bullet">-</span> bash scripts/tag.sh
-<span class="hljs-attr">before_deploy:</span>
-<span class="hljs-bullet">-</span> bash scripts/build.sh rmspogfo
 <span class="hljs-attr">deploy:</span>
 <span class="hljs-attr">  provider:</span> releases
 <span class="hljs-attr">  api_key:</span>
@@ -388,7 +388,18 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
 <span class="hljs-attr">    branch:</span> zenika-dev
 <span class="hljs-attr">    condition:</span> -f <span class="hljs-string">&quot;$TRAVIS_BUILD_DIR/.tag&quot;</span> &amp;&amp; $(cat <span class="hljs-string">&quot;$TRAVIS_BUILD_DIR/.tag&quot;</span>) =~ v[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>]\.[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>]\.[<span class="hljs-number">0</span><span class="hljs-bullet">-9</span>].*
 <span class="hljs-attr">    tags:</span> <span class="hljs-literal">false</span>
-<span class="hljs-attr">after_script:</span>
+<span class="hljs-comment">#deploy:</span>
+<span class="hljs-comment">#  provider: releases</span>
+<span class="hljs-comment">#  api_key:</span>
+<span class="hljs-comment">#    secure: bTtVeXMcjr5v6SKE09H7Rq5ca8KIpi2LmduC9O4b8ZnrK4Xsymhk8+QSfPOq6oQ83JWv4j+TPokcHRw03UatDVwifjumSFeV41D2IicXsF8gUo5Hem49u3dVVSTojQm7ei7ViD34Lf7oyYaTKJlXDqWbNgxrMwhBFFqJF/p5N+F3gGaek+B5cNcco5QfMlxPmLqk8vfkaUAeCQw6EU4fJ/hwz1dJpv3+Rq2ZnpHGrToOByOysrxO3XqkldtEh02CY8JXoTWxKQss4l78RQ3TI2PpIQD0YSm97+bBQWuPPFS89iOvuJaFdZ210nBSTL3VVagynQliRTj2JzNr3MBV72wx2xUqtxrfymicpuYW4qkaR5KRkJ+x3giIdu917fN/1+E08KfeAy4TeQdjLMrFP5j/kLcAR7NWubYKwUOGf7fTimeifx7qcCVpkaxaMiDKAZiqdaBOt+ciUYsCftm6Bu8wlb/P0t2/Dno3437GD8xgBapTMd7SJAwPp3ktQXKc/Y4x3ZOVY95T6D3yZcqidGFqXlbZf83eu/5McHnscvocHUszNZx0tu8B/eoC4B6E+UxcgH367AYMkeG/Fxw3AMlP/kaUl9NDiSj6SwstXr4LKNbgbERZ7vvQ2gq/zH4yWcw2lhmsX9WoSllQzjtHsacA9y+TBHJWWK6DjjE6ek8=</span>
+<span class="hljs-comment">#  file: target/rmspogfo.war</span>
+<span class="hljs-comment">#  skip_cleanup: true</span>
+<span class="hljs-comment">#  on:</span>
+<span class="hljs-comment">#    repo: Zenika/Pogues-Back-Office</span>
+<span class="hljs-comment">#    branch: zenika-dev</span>
+<span class="hljs-comment">#    condition: -f &quot;$TRAVIS_BUILD_DIR/.tag&quot; &amp;&amp; $(cat &quot;$TRAVIS_BUILD_DIR/.tag&quot;) =~ v[0-9]\.[0-9]\.[0-9].*</span>
+<span class="hljs-comment">#    tags: false</span>
+<span class="hljs-attr">after_deploy:</span>
 <span class="hljs-bullet">-</span> bash scripts/gitbook.sh
 <span class="hljs-attr">branches:</span>
 <span class="hljs-attr">  except:</span>
@@ -460,7 +471,7 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Travis","level":"1.4.3","depth":2,"next":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-09-11T10:14:58.011Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-11T10:22:55.134Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Travis","level":"1.4.3","depth":2,"next":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-09-18T11:47:07.168Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-18T11:55:02.027Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>
