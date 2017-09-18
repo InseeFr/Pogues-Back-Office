@@ -6,7 +6,7 @@ import fr.insee.pogues.metadata.repository.GroupRepository;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.utils.XpathProcessor;
 import fr.insee.pogues.search.model.*;
-import fr.insee.pogues.utils.ddi.DDITreeBuilder;
+import fr.insee.pogues.utils.ddi.DDIDocumentBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
@@ -55,7 +55,7 @@ public class MetadataServiceImpl implements MetadataService {
                         throw new RuntimeException(e);
                     }
                 }));
-        return DDITreeBuilder.buildTree(refs.get(id), refs);
+        return new DDIDocumentBuilder().build(id, refs).toString();
     }
 
     public Group getGroup(String id) throws Exception {
