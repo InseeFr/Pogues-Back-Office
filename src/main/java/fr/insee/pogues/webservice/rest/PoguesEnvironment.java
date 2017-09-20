@@ -20,9 +20,9 @@ import javax.ws.rs.core.Response;
 @Component
 @Path("env")
 @Api(value = "Pogues Environment")
-public class PoguesEnv {
+public class PoguesEnvironment {
 
-    private final static Logger logger = LogManager.getLogger(PoguesEnv.class);
+    private final static Logger logger = LogManager.getLogger(PoguesEnvironment.class);
 
     @Autowired
     Environment env;
@@ -30,9 +30,8 @@ public class PoguesEnv {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(
-            value = "Get environment",
-            notes = "Get a safe projection of Pogues Backend Environment",
-            response = String.class
+            value = "Delete Questionnaire from Index",
+            notes = "Index a new `Questionnaire`"
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),

@@ -40,8 +40,8 @@ public class PoguesUser {
     @Path("id")
     @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
     @ApiOperation(
-            value = "Get Id",
-            notes = "Get the user id of the connected user",
+            value = "Get current user id",
+            notes = "Get the user id of the current session user",
             response = String.class
     )
     @ApiResponses(value = {
@@ -63,8 +63,8 @@ public class PoguesUser {
     @Path("attributes")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(
-            value = "Get Id",
-            notes = "Get the user id of the connected user",
+            value = "Get current user attribute",
+            notes = "Get the user id of the current session user",
             response = String.class
     )
     @ApiResponses(value = {
@@ -87,9 +87,10 @@ public class PoguesUser {
     @Path("permissions")
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(
-            value = "Get permissions",
-            notes = "Get all available permissions",
-            response = String.class
+            value = "Get all permissions",
+            notes = "Get a list of available permissions",
+            response = String.class,
+            responseContainer = "List"
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
