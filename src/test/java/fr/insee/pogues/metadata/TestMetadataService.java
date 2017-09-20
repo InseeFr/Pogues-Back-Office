@@ -7,8 +7,8 @@ import fr.insee.pogues.metadata.service.MetadataServiceImpl;
 import fr.insee.pogues.metadata.utils.XpathProcessor;
 import fr.insee.pogues.search.model.DataCollection;
 import fr.insee.pogues.search.model.Group;
-import fr.insee.pogues.search.model.Operation;
-import fr.insee.pogues.search.model.Series;
+import fr.insee.pogues.search.model.StudyUnit;
+import fr.insee.pogues.search.model.SubGroup;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.Assert;
@@ -64,13 +64,13 @@ public class TestMetadataService {
         Group group = metadataService.getGroup("391e505c-dc05-4042-8b9d-c602ff72690d");
         Assert.assertEquals("ANTIPOL", group.getLabel());
         Assert.assertEquals("391e505c-dc05-4042-8b9d-c602ff72690d", group.getId());
-        Series series = group.getSeries().get(0);
-        Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement", series.getLabel());
-        Assert.assertEquals("bd18e047-560c-49ff-9c59-d620164e5f95", series.getId());
-        Operation operation = series.getOperations().get(0);
-        Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement 2016", operation.getLabel());
-        Assert.assertEquals("a18c2085-d44d-4544-a43a-c1b1499b5646", operation.getId());
-        DataCollection dataCollection = operation.getDataCollections().get(0);
+        SubGroup subGroup = group.getSubGroups().get(0);
+        Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement", subGroup.getLabel());
+        Assert.assertEquals("bd18e047-560c-49ff-9c59-d620164e5f95", subGroup.getId());
+        StudyUnit studyUnit = subGroup.getStudyUnits().get(0);
+        Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement 2016", studyUnit.getLabel());
+        Assert.assertEquals("a18c2085-d44d-4544-a43a-c1b1499b5646", studyUnit.getId());
+        DataCollection dataCollection = studyUnit.getDataCollections().get(0);
         Assert.assertEquals("Investissements et dépenses courantes pour protéger l'environnement 2016", dataCollection.getLabel());
         Assert.assertEquals("99c6b5c5-e591-4e64-af1b-f7e24970e20e", dataCollection.getId());
     }
@@ -139,7 +139,7 @@ public class TestMetadataService {
                 .thenReturn(operationsList);
         when(xpathProcessor.queryText(oN, ".//*[local-name()='ID']/text()"))
                 .thenReturn("a18c2085-d44d-4544-a43a-c1b1499b5646");
-        when(xpathProcessor.queryText((Node) any(), eq(".//*[local-name()='StudyUnit']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()")))
+        when(xpathProcessor.queryText((Node) any(), eq(".//*[local-name()='DataCollection']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()")))
                 .thenReturn("Investissements et dépenses courantes pour protéger l'environnement 2016");
         when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='DataCollectionReference']")))
                 .thenReturn(questionnairesList);
