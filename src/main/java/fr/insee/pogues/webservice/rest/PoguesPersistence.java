@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * WebService class for the Questionnaire Persistence
+ * WebService class for the Instrument Persistence
  * 
  * See the swagger documentation for this service :
  * http://inseefr.github.io/Pogues/en/remote-apis/swagger.html
@@ -161,7 +161,7 @@ public class PoguesPersistence {
 	public Response updateQuestionnaire(
 			@ApiParam(value = "The id of the object that need to be updated", required = true)
 			@PathParam(value = "id") String id,
-			@ApiParam(value = "Questionnaire object to be updated") JSONObject jsonContent
+			@ApiParam(value = "Instrument object to be updated") JSONObject jsonContent
 	) throws Exception {
         try {
 			questionnaireService.updateQuestionnaire(id, jsonContent);
@@ -185,7 +185,7 @@ public class PoguesPersistence {
             @ApiResponse(code = 400, message = "Entity already exists")
     })
 	public Response createQuestionnaire(
-			@ApiParam(value = "New Questionnaire Object", required = true) JSONObject jsonContent
+			@ApiParam(value = "New Instrument Object", required = true) JSONObject jsonContent
 	) throws Exception {
         try {
 			questionnaireService.createQuestionnaire(jsonContent);

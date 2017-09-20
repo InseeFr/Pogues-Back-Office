@@ -5,36 +5,36 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonIgnoreProperties({"series"})
+@JsonIgnoreProperties({"subGroups"})
 public class Group extends PoguesItem
 {
 
-    private List<Series> series;
+    private List<SubGroup> subGroups;
 
     public Group(){
-        this.series = new ArrayList<>();
+        this.subGroups = new ArrayList<>();
     }
 
     public Group(String label, String id) {
         super(label, null, id);
-        this.series = new ArrayList<>();
+        this.subGroups = new ArrayList<>();
     }
 
 
-    public List<Series> getSeries(){
-        return this.series;
+    public List<SubGroup> getSubGroups(){
+        return this.subGroups;
     }
 
-    public void setSeries(List<Series> series) {
-        this.series = series;
+    public void setSubGroups(List<SubGroup> subGroups) {
+        this.subGroups = subGroups;
     }
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
         sb.append("[id = " + getId());
         sb.append(", label = " + getLabel());
-        sb.append(", series = [ ");
-        for(Series s: series){
+        sb.append(", subGroups = [ ");
+        for(SubGroup s: subGroups){
             sb.append(s.toString());
             sb.append(",");
         }

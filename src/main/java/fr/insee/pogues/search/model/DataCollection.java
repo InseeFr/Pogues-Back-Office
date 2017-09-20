@@ -1,28 +1,31 @@
 package fr.insee.pogues.search.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.List;
 
+@JsonIgnoreProperties({"instrumentSchemes"})
 public class DataCollection extends PoguesItem {
 
-    private List<Questionnaire> questionnaires;
+    private List<InstrumentScheme> instrumentSchemes;
 
     public DataCollection(){
-        this.questionnaires = new ArrayList<>();
+        this.instrumentSchemes = new ArrayList<>();
     }
 
-    public DataCollection(String label, String id) {
-        super(label, null, id);
-        this.questionnaires = new ArrayList<>();
+    public DataCollection(String label, String parent, String id) {
+        super(label, parent, id);
+        this.instrumentSchemes = new ArrayList<>();
     }
 
 
-    public List<Questionnaire> getSeries(){
-        return this.questionnaires;
+    public List<InstrumentScheme> getInstrumentSchemes(){
+        return this.instrumentSchemes;
     }
 
-    public void setSeries(List<Questionnaire> questionnaires) {
-        this.questionnaires = questionnaires;
+    public void setInstrumentSchemes(List<InstrumentScheme> questionnaires) {
+        this.instrumentSchemes = questionnaires;
     }
 
     public String toString(){
@@ -30,11 +33,12 @@ public class DataCollection extends PoguesItem {
         sb.append("[id = " + getId());
         sb.append(", label = " + getLabel());
         sb.append(", series = [ ");
-        for(Questionnaire q: questionnaires){
-            sb.append(q.toString());
+        for(InstrumentScheme i: instrumentSchemes){
+            sb.append(i.toString());
             sb.append(",");
         }
         sb.append("]]");
         return sb.toString();
     }
+
 }

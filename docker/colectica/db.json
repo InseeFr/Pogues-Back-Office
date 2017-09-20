@@ -5926,7 +5926,7 @@
       "Item3": "fr.insee"
     }
   ],
-  "items": [
+  "list": [
     {
       "VersionRationale": {},
       "ItemType": "f2b9352a-d976-4eac-8ee1-0c76da7cfca4",
@@ -23688,5 +23688,4 @@
       "IsProvisional": false,
       "ItemFormat": "c0ca1bd4-1839-4233-a5b5-906da0302b89"
     }
-  ]
-}
+  ]}

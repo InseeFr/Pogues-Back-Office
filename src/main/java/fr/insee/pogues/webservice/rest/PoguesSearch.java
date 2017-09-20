@@ -1,8 +1,8 @@
 package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.search.model.DDIItem;
+import fr.insee.pogues.search.model.Instrument;
 import fr.insee.pogues.search.model.PoguesQuery;
-import fr.insee.pogues.search.model.Questionnaire;
 import fr.insee.pogues.search.service.SearchService;
 import fr.insee.pogues.search.source.ColecticaSourceImporter;
 import io.swagger.annotations.Api;
@@ -50,7 +50,7 @@ public class PoguesSearch {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 500, message = "Unexpected error")
     })
-    public List<DDIItem> searchQuestionnaire(PoguesQuery query) throws Exception {
+    public List<DDIItem> search(PoguesQuery query) throws Exception {
         try {
             String[] types = query.getTypes().toArray(new String[query.getTypes().size()]);
             return searchService.searchByLabel(query.getFilter(), types);
@@ -74,7 +74,7 @@ public class PoguesSearch {
             @ApiResponse(code = 500, message = "Unexpected error")
 
     })
-    public Response indexQuestionnaire(Questionnaire item) throws Exception {
+    public Response indexQuestionnaire(Instrument item) throws Exception {
         try {
             IndexResponse response = searchService.save("questionnaire", item);
             return Response.status(CREATED).entity(response).build();
@@ -131,9 +131,9 @@ public class PoguesSearch {
     @ApiOperation(value = "Import indexes from Colectica",
             notes = "This require a living instance of colectica aswell as a up and running elasticsearch cluster",
             response = String.class)
-    public List<DDIItem> getSeries() throws Exception {
+    public List<DDIItem> getSubGroups() throws Exception {
         try {
-            return searchService.getSeries();
+            return searchService.getSubGroups();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw e;
@@ -143,14 +143,14 @@ public class PoguesSearch {
     @GET
     @Path("series/{id}/operations")
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get all operations for a series",
+    @ApiOperation(value = "Get all study-units (operations) for a given sub-group (series)",
             notes = "Retrieve all operations with a parent id matching the series id given as a path parameter",
             response = String.class)
-    public List<DDIItem> getOperations(
+    public List<DDIItem> getStudyUnits(
             @PathParam(value = "id") String id
     ) throws Exception {
         try {
-            return searchService.getOperations(id);
+            return searchService.getStudyUnits(id);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             throw e;
@@ -160,9 +160,10 @@ public class PoguesSearch {
     @GET
     @Path("operations/{id}/collections")
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get all data collections for a given operation",
-            notes = "Retrieve all data collections with a parent id matching the operation id given as a path parameter",
-            response = String.class)
+    @ApiOperation(
+            value = "Get all data collections for a given operation",
+            notes = "Retrieve all data collections with a parent id matching the operation id given as a path parameter"
+    )
     public List<DDIItem> getDataCollections(
             @PathParam(value = "id") String id
     ) throws Exception {
