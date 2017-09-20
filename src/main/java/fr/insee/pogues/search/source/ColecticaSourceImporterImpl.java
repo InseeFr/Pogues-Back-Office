@@ -40,35 +40,42 @@ public class ColecticaSourceImporterImpl implements ColecticaSourceImporter {
         for (String id : groupIds) {
             logger.debug("Getting data from colectica API for group " + id);
             Group f = metadataService.getGroup(id);
-            searchService.save("family", f);
-            saveSeries(f.getSeries());
+            searchService.save("group", f);
+            saveSeries(f.getSubGroups());
         }
     }
 
-    public void saveSeries(List<Series> series) throws Exception {
-        for (Series s : series) {
-            searchService.save("series", s);
-            saveOperations(s.getOperations());
+    public void saveSeries(List<SubGroup> subGroups) throws Exception {
+        for (SubGroup s : subGroups) {
+            searchService.save("sub-group", s);
+            saveOperations(s.getStudyUnits());
         }
     }
 
-    public void saveOperations(List<Operation> operations) throws Exception {
-        for (Operation o : operations) {
-            searchService.save("operation", o);
+    public void saveOperations(List<StudyUnit> studyUnits) throws Exception {
+        for (StudyUnit o : studyUnits) {
+            searchService.save("study-unit", o);
             saveDataCollections(o.getDataCollections());
         }
     }
 
     public void saveDataCollections(List<DataCollection> dataCollections) throws Exception {
         for (DataCollection dc : dataCollections) {
-            searchService.save("dataCollection", dc);
-//            saveQuestionnaires(dc.getD));
+            searchService.save("data-collection", dc);
+            saveInstrumentSchemes(dc.getInstrumentSchemes());
         }
     }
 
-    public void saveQuestionnaires(List<Questionnaire> questionnaires) throws Exception {
-        for (Questionnaire q : questionnaires) {
-            searchService.save("questionnaire", q);
+    public void saveInstrumentSchemes(List<InstrumentScheme> instrumentSchemes) throws Exception {
+        for (InstrumentScheme i : instrumentSchemes) {
+            searchService.save("instrument-scheme", i);
+            saveQuestionnaires(i.getInstruments());
+        }
+    }
+
+    public void saveQuestionnaires(List<Instrument> instruments) throws Exception {
+        for (Instrument q : instruments) {
+            searchService.save("instrument", q);
         }
     }
 

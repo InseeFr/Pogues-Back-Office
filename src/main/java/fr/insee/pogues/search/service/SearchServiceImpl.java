@@ -30,17 +30,17 @@ public class SearchServiceImpl implements SearchService {
     }
 
     @Override
-    public List<DDIItem> getSeries() throws Exception {
-        return poguesItemRepository.getSeries();
+    public List<DDIItem> getSubGroups() throws Exception {
+        return poguesItemRepository.getSubGroups();
     }
 
     @Override
-    public List<DDIItem> getOperations(String seriesId) throws Exception {
-        return poguesItemRepository.getOperations(seriesId);
+    public List<DDIItem> getStudyUnits(String subGroupId) throws Exception {
+        return poguesItemRepository.getStudyUnits(subGroupId);
     }
 
     @Override
     public List<DDIItem> getDataCollections(String operationId) throws Exception {
-        return null;
+        return poguesItemRepository.getDataCollections(operationId);
     }
 }

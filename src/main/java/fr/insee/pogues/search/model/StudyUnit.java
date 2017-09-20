@@ -5,17 +5,18 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.List;
 
-@JsonIgnoreProperties({"questionnaires"})
-public class Operation extends PoguesItem {
+@JsonIgnoreProperties({"dataCollections"})
+public class StudyUnit extends PoguesItem {
 
-    List<DataCollection> dataCollections;
+    private List<DataCollection> dataCollections;
 
-    public Operation() {
+    public StudyUnit() {
         dataCollections = new ArrayList<>();
     }
 
-    public Operation(String id, String parent, String label) {
+    public StudyUnit(String id, String parent, String label) {
         super(id, parent, label);
+        this.dataCollections = new ArrayList<>();
     }
 
     public List<DataCollection> getDataCollections() {

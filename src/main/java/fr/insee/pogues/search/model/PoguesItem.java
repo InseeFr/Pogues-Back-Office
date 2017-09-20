@@ -16,6 +16,12 @@ public class PoguesItem {
 
     private String parent;
 
+    private String subGroupId;
+
+    private String studyUnitId;
+
+    private String dataCollectionId;
+
     public String getId() {
         return id;
     }
@@ -38,5 +44,29 @@ public class PoguesItem {
 
     public void setParent(String parent) {
         this.parent = parent;
+    }
+
+    public String getSubGroupId() {
+        return subGroupId;
+    }
+
+    public void setSubGroupId(String id) {
+        this.subGroupId = id;
+    }
+
+    public String getStudyUnitId() {
+        return studyUnitId;
+    }
+
+    public void setStudyUnitId(String id) {
+        this.studyUnitId = id;
+    }
+
+    public String getDataCollectionId() {
+        return dataCollectionId;
+    }
+
+    public void setDataCollectionId(String id) {
+        this.dataCollectionId = id;
     }
 }

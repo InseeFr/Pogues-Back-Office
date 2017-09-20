@@ -52,31 +52,31 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
     }
 
     @Override
-    public List<DDIItem> getSeries() throws Exception {
+    public List<DDIItem> getSubGroups() throws Exception {
         SearchRequest request = new SearchRequest()
                 .indices(index)
-                .types("series");
+                .types("sub-group");
         return mapResponse(client.search(request));
     }
 
     @Override
-    public List<DDIItem> getOperations(String seriesId) throws Exception {
+    public List<DDIItem> getStudyUnits(String subgGroupId) throws Exception {
         SearchSourceBuilder srcBuilder = new SearchSourceBuilder()
-                .query(QueryBuilders.termQuery("parent.keyword", seriesId));
+                .query(QueryBuilders.termQuery("parent.keyword", subgGroupId));
         SearchRequest request = new SearchRequest()
                 .indices(index)
-                .types("operation")
+                .types("study-unit")
                 .source(srcBuilder);
         return mapResponse(client.search(request));
     }
 
     @Override
-    public List<DDIItem> getDataCollections(String operationId) throws Exception {
+    public List<DDIItem> getDataCollections(String studyUnitId) throws Exception {
         SearchSourceBuilder srcBuilder = new SearchSourceBuilder()
-                .query(QueryBuilders.termQuery("parent.keyword", operationId));
+                .query(QueryBuilders.termQuery("parent.keyword", studyUnitId));
         SearchRequest request = new SearchRequest()
                 .indices(index)
-                .types("dataCollection")
+                .types("data-collection")
                 .source(srcBuilder);
         return mapResponse(client.search(request));
     }
@@ -91,12 +91,25 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
         List<SearchHit> esHits = Arrays.asList(response.getHits().getHits());
         return esHits
                 .stream()
-                .map(hit -> new DDIItem(
-                        hit.getId(),
-                        hit.getSource().get("label").toString(),
-                        hit.getSource().get("parent").toString(),
-                        hit.getType()
-                ))
+                .map(hit -> {
+                    DDIItem item = new DDIItem(
+                            hit.getId(),
+                            hit.getSource().get("label").toString(),
+                            hit.getSource().get("parent").toString(),
+                            hit.getType()
+                    );
+                    item.setSubGroupId(getHitValueOrNull(hit, "subGroupId"));
+                    item.setStudyUnitId(getHitValueOrNull(hit, "studyUnitId"));
+                    item.setDataCollectionId(getHitValueOrNull(hit, "dataCollectionId"));
+                    return item;
+                })
                 .collect(Collectors.toList());
+    }
+
+    private String getHitValueOrNull(SearchHit hit, String field) {
+            if(null == hit.getSource().get(field)) {
+                return null;
+            }
+            return hit.getSource().get(field).toString();
     }
 }

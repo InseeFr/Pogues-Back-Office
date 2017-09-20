@@ -1,7 +1,7 @@
 package fr.insee.pogues.api.remote.metadata.service;
 
 /**
- * Repository Questionnaire Service to assume the link with the metadata repository
+ * Repository Instrument Service to assume the link with the metadata repository
  * 
  * @author I6VWID
  * 

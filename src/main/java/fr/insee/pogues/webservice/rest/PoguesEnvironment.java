@@ -18,7 +18,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Component
-@Path("/env")
+@Path("env")
 @Api(value = "Pogues Environment")
 public class PoguesEnv {
 
@@ -38,7 +38,7 @@ public class PoguesEnv {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 404, message = "Not found")
     })
-    public Response getQuestionnaire() throws Exception {
+    public Response getEnvironment() throws Exception {
         try {
             JSONObject entity = new JSONObject();
             entity.put("elasticsearch.index", env.getProperty("fr.insee.pogues.elasticsearch.index.name"));
