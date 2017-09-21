@@ -111,13 +111,13 @@ public class MetadataServiceImpl implements MetadataService {
             subGroup.setId(id);
             subGroup.setParent(group.getId());
             subGroup.setLabel(xpathProcessor.queryText(child, ".//*[local-name()='SubGroup']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()"));
-            subGroup.setStudyUnits(getOperations(child, subGroup));
+            subGroup.setStudyUnits(getStudyUnits(child, subGroup));
             subGroups.add(subGroup);
         }
         return subGroups;
     }
 
-    private List<StudyUnit> getOperations(Node node, SubGroup subGroup) throws Exception {
+    private List<StudyUnit> getStudyUnits(Node node, SubGroup subGroup) throws Exception {
         List<StudyUnit> studyUnits = new ArrayList<>();
         String childExp = ".//*[local-name()='StudyUnitReference']";
         NodeList children = xpathProcessor.queryList(node, childExp);
@@ -129,7 +129,7 @@ public class MetadataServiceImpl implements MetadataService {
             studyUnit.setSubGroupId(id);
             studyUnit.setId(id);
             studyUnit.setParent(subGroup.getId());
-            studyUnit.setLabel(xpathProcessor.queryText(child, ".//*[local-name()='DataCollection']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()"));
+            studyUnit.setLabel(xpathProcessor.queryText(child, ".//*[local-name()='StudyUnit']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()"));
             studyUnit.setDataCollections(getDataCollections(child, studyUnit, subGroup));
             studyUnits.add(studyUnit);
         }
