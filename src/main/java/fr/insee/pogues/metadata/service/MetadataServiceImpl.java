@@ -198,29 +198,6 @@ public class MetadataServiceImpl implements MetadataService {
         return instruments;
     }
 
-    public List<PoguesItem> getChildren(PoguesItem parent, String tagName, Node node) throws Exception {
-        List<PoguesItem> children = new ArrayList<>();
-        String childExp = String.format(".//*[local-name()='%sReference']", tagName);
-        String labelExp = String.format(".//*[local-name()='%s']/*[local-name()='Label']/*[local-name()='Content']/text()", tagName);
-        NodeList childrenNodes = xpathProcessor.queryList(node, childExp);
-        for (int i = 0; i < childrenNodes.getLength(); i++) {
-            String id = xpathProcessor.queryText(childrenNodes.item(i), ".//*[local-name()='ID']/text()");
-            String fragment = getItem(id).item;
-            Node childNode = xpathProcessor.toDocument(fragment);
-            PoguesItem child = new PoguesItem();
-            child.setId(id);
-            child.setParent(parent.getId());
-            child.setDataCollectionId(parent.getDataCollectionId());
-            child.setStudyUnitId(child.getStudyUnitId());
-            child.setSubGroupId(parent.getSubGroupId());
-            child.setGroupId(parent.getGroupId());
-            child.setResourcePackageId(parent.getResourcePackageId());
-            child.setLabel(labelExp);
-            children.add(child);
-        }
-        return children;
-    }
-
     @Override
     public String getDDIDocument(String itemId, String resourcePackageId) throws Exception {
         List<ColecticaItem> items = getItems(getChildrenRef(itemId));
