@@ -30,8 +30,8 @@ public class PoguesEnvironment {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @ApiOperation(
-            value = "Delete Questionnaire from Index",
-            notes = "Index a new `Questionnaire`"
+            value = "Get pogues back office environment",
+            notes = "This will return a safe (no secrets) projection of the current backend environment"
     )
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Success"),
@@ -40,6 +40,10 @@ public class PoguesEnvironment {
     public Response getEnvironment() throws Exception {
         try {
             JSONObject entity = new JSONObject();
+            entity.put("colecticaUrl", env.getProperty("fr.insee.pogues.api.remote.metadata.url"));
+            entity.put("colecticaAgency", env.getProperty("fr.insee.pogues.api.remote.metadata.agency"));
+            entity.put("visualisationUrl", env.getProperty("fr.insee.pogues.api.remote.stromae.vis.url"));
+            entity.put("elasticsearchUrl", env.getProperty("fr.insee.pogues.elasticsearch.host"));
             entity.put("elasticsearch.index", env.getProperty("fr.insee.pogues.elasticsearch.index.name"));
             return Response.ok().entity(entity).build();
         } catch (Exception e) {
