@@ -1,1 +1,1 @@
-FROM vimagick/json-server
+FROM acordier/colectica-json-server

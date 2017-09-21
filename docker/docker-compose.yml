@@ -18,26 +18,27 @@ services:
   elastic:
     environment:
       - http.host="0.0.0.0"
-      - xpack.security.enabled="false"
+      - xpack.security.enabled=false
     build: ./elastic
     networks:
       intra:
         ipv4_address: 172.20.0.3
   colectica:
     build: ./colectica
-    command: -w db.json --routes routes.json --id Identifier
     networks:
       intra:
         ipv4_address: 172.20.0.4
     volumes:
-      - ./colectica/db.json:/app/db.json
-      - ./colectica/routes.json:/app/routes.json
-    restart: always
+      - ./colectica/app/db.json:/usr/src/app/db.json
+      - ./colectica/app/routes.json:/usr/src/app/routes.json
+      - ./colectica/app/middleware.js:/usr/src/app/middleware.js
   tomcat:
     build: ./tomcat
+    environment:
+      - fr.insee.pogues.env=qa
     volumes:
       - "./tomcat/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war"
-      - "./tomcat/pogues-bo.properties:/usr/local/tomcat/webapps/pogues-bo.properties"
+      - "./tomcat/pogues-bo.properties:/usr/local/tomcat/webapps/rmspogfoker.properties"
     networks:
       - intra
     ports:

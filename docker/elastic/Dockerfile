@@ -4,4 +4,4 @@ MAINTAINER a-cordier
 
 ENV http.host="0.0.0.0"
 ENV transport.host="0.0.0.0"
-ENV xpack.security.enabled="false"
+ENV xpack.security.enabled=false
