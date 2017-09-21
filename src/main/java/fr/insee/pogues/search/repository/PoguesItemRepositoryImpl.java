@@ -98,9 +98,11 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
                             hit.getSource().get("parent").toString(),
                             hit.getType()
                     );
+                    item.setGroupId(getHitValueOrNull(hit, "groupId"));
                     item.setSubGroupId(getHitValueOrNull(hit, "subGroupId"));
                     item.setStudyUnitId(getHitValueOrNull(hit, "studyUnitId"));
                     item.setDataCollectionId(getHitValueOrNull(hit, "dataCollectionId"));
+                    item.setResourcePackageId(getHitValueOrNull(hit,"resourcePackageId"));
                     return item;
                 })
                 .collect(Collectors.toList());
