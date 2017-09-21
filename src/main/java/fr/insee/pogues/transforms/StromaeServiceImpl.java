@@ -1,9 +1,10 @@
 package fr.insee.pogues.transforms;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -16,14 +17,14 @@ import java.util.Map;
 public class StromaeServiceImpl implements StromaeService {
 
     @Autowired
-    HttpClient httpClient;
+    HttpClientBuilder httpClientBuilder;
 
     @Value("${fr.insee.pogues.api.remote.stromae.vis.url}")
     private String serviceUri;
 
     @Override
     public String transform(String input, Map<String, Object> params) throws Exception {
-        try {
+        try(CloseableHttpClient httpClient = httpClientBuilder.build()) {
             String uri = String.format("%s/%s", serviceUri,
                     params.get("name"));
             HttpPost post = new HttpPost(uri);
@@ -31,9 +32,8 @@ public class StromaeServiceImpl implements StromaeService {
             post.setHeader("Content-type", "application/xml");
             HttpResponse response = httpClient.execute(post);
             return EntityUtils.toString(response.getEntity());
-        } catch(Exception e) {
-            throw e;
+        } catch (Exception e) {
+            throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }
-
     }
 }

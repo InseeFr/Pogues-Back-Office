@@ -1,0 +1,5 @@
+{
+  "/api/v1/item/fr.insee/:id?api_key=ADMINKEY": "/items/:id",
+  "/api/v1/set/fr.insee/:id?api_key=ADMINKEY": "/set",
+  "/api/v1/item/_getList?api_key=ADMINKEY": "/items"
+}

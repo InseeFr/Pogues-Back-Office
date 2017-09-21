@@ -35,12 +35,6 @@ public interface QuestionnairesService {
     void deleteQuestionnaireByID(String id) throws Exception;
 
     /**
-     * Delete all objects in db, development purpose
-     * @throws Exception
-     */
-    void deleteAllQuestionnaires() throws Exception;
-
-    /**
      * Create a questionnaire object
      * @param questionnaire
      * @throws Exception

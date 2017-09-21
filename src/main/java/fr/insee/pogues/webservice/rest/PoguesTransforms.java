@@ -86,7 +86,7 @@ public class PoguesTransforms {
             };
             return Response.ok(stream).build();
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -117,12 +117,9 @@ public class PoguesTransforms {
                     .map(xformToUri::transform, params)
                     .transform();
             return Response.seeOther(URI.create(uri)).build();
-        } catch(PoguesException e) {
-            e.printStackTrace();
-            throw e;
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new PoguesException(500, e.getClass().getSimpleName(), e.getMessage());
+            logger.error(e.getMessage(), e);
+            throw e;
         } finally {
             input.close();
         }
@@ -147,9 +144,8 @@ public class PoguesTransforms {
     public Response json2XML(@Context final HttpServletRequest request) throws Exception {
         try {
             return transform(request, jsonToXML);
-        } catch(PoguesException e) {
-            throw e;
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -173,9 +169,8 @@ public class PoguesTransforms {
     public Response xml2DDi(@Context final HttpServletRequest request) throws Exception {
         try {
             return transform(request, xmlToDDI);
-        } catch(PoguesException e) {
-            throw e;
         } catch (Exception e) {
+            logger.error(e);
             throw e;
         }
     }
@@ -199,9 +194,8 @@ public class PoguesTransforms {
     public Response ddi2XForm(@Context final HttpServletRequest request) throws Exception {
         try {
             return transform(request, ddiToXForm);
-        } catch(PoguesException e) {
-            throw e;
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -230,28 +224,21 @@ public class PoguesTransforms {
             params.put("name", name);
             String input = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
             return xformToUri.transform(input, params);
-        } catch(PoguesException e) {
-            throw e;
         } catch (Exception e) {
+            logger.error(e.getMessage(), e);
             throw e;
         }
     }
 
 
     private Response transform(HttpServletRequest request, Transformer transformer) throws Exception {
-        try {
-            StreamingOutput stream = output -> {
-                try {
-                    transformer.transform(request.getInputStream(), output, null);
-                } catch (Exception e) {
-                    logger.error(e.getMessage());
-                    throw new PoguesException(500, e.getMessage(), null);
-                }
-            };
-            return Response.ok(stream).build();
-        } catch (Exception e) {
-            throw e;
-        }
+        StreamingOutput stream = output -> {
+            try {
+                transformer.transform(request.getInputStream(), output, null);
+            } catch (Exception e) {
+                throw new PoguesException(500, "Transformation error", e.getMessage());
+            }
+        };
+        return Response.ok(stream).build();
     }
-
 }

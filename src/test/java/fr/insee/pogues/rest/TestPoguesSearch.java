@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.restassured.RestAssured;
 import fr.insee.pogues.rest.utils.RestAssuredConfig;
-import fr.insee.pogues.search.model.PoguesHit;
+import fr.insee.pogues.search.model.DDIItem;
 import fr.insee.pogues.search.model.PoguesItem;
 import fr.insee.pogues.utils.jersey.ObjectMapperProvider;
 import org.apache.logging.log4j.LogManager;
@@ -41,7 +41,7 @@ public class TestPoguesSearch {
 
     @Test
     public void indexThenDeleteWithSuccess(){
-        PoguesHit item = new PoguesHit("foo", "bar", "0", "questionnaire");
+        DDIItem item = new DDIItem("foo", "bar", "0", "questionnaire");
         try {
             indexWithSuccess(item.getType(), item);
             deleteWithSuccess(item.getType(), item.getId());

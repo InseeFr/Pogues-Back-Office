@@ -1,13 +1,16 @@
 language: java
+jdk:
+- oraclejdk8
 sudo: required
 services:
 - docker
 env:
 - DOCKER_COMPOSE_VERSION=1.9.0
-jdk:
-- oraclejdk8
+addons:
+  sauce_connect: true
 install:
-- bash scripts/install.sh rmspogfo
+- bash scripts/install.sh
+- bash scripts/build.sh rmspogfo
 - cp target/rmspogfo.war docker/tomcat/
 before_script:
 - sudo sysctl -w vm.max_map_count=262144
@@ -17,11 +20,10 @@ before_script:
 script:
 - mvn test
 - bash scripts/coveralls.sh
-- mvn integration-test
+- mvn failsafe:integration-test
+- bash scripts/e2e.sh
 after_success:
 - bash scripts/tag.sh
-before_deploy:
-- bash scripts/build.sh rmspogfo
 deploy:
   provider: releases
   api_key:
@@ -33,7 +35,18 @@ deploy:
     branch: zenika-dev
     condition: -f "$TRAVIS_BUILD_DIR/.tag" && $(cat "$TRAVIS_BUILD_DIR/.tag") =~ v[0-9]\.[0-9]\.[0-9].*
     tags: false
-after_script:
+#deploy:
+#  provider: releases
+#  api_key:
+#    secure: bTtVeXMcjr5v6SKE09H7Rq5ca8KIpi2LmduC9O4b8ZnrK4Xsymhk8+QSfPOq6oQ83JWv4j+TPokcHRw03UatDVwifjumSFeV41D2IicXsF8gUo5Hem49u3dVVSTojQm7ei7ViD34Lf7oyYaTKJlXDqWbNgxrMwhBFFqJF/p5N+F3gGaek+B5cNcco5QfMlxPmLqk8vfkaUAeCQw6EU4fJ/hwz1dJpv3+Rq2ZnpHGrToOByOysrxO3XqkldtEh02CY8JXoTWxKQss4l78RQ3TI2PpIQD0YSm97+bBQWuPPFS89iOvuJaFdZ210nBSTL3VVagynQliRTj2JzNr3MBV72wx2xUqtxrfymicpuYW4qkaR5KRkJ+x3giIdu917fN/1+E08KfeAy4TeQdjLMrFP5j/kLcAR7NWubYKwUOGf7fTimeifx7qcCVpkaxaMiDKAZiqdaBOt+ciUYsCftm6Bu8wlb/P0t2/Dno3437GD8xgBapTMd7SJAwPp3ktQXKc/Y4x3ZOVY95T6D3yZcqidGFqXlbZf83eu/5McHnscvocHUszNZx0tu8B/eoC4B6E+UxcgH367AYMkeG/Fxw3AMlP/kaUl9NDiSj6SwstXr4LKNbgbERZ7vvQ2gq/zH4yWcw2lhmsX9WoSllQzjtHsacA9y+TBHJWWK6DjjE6ek8=
+#  file: target/rmspogfo.war
+#  skip_cleanup: true
+#  on:
+#    repo: Zenika/Pogues-Back-Office
+#    branch: zenika-dev
+#    condition: -f "$TRAVIS_BUILD_DIR/.tag" && $(cat "$TRAVIS_BUILD_DIR/.tag") =~ v[0-9]\.[0-9]\.[0-9].*
+#    tags: false
+after_deploy:
 - bash scripts/gitbook.sh
 branches:
   except:

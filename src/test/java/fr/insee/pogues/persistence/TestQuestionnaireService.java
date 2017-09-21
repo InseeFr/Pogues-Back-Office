@@ -70,7 +70,7 @@ public class TestQuestionnaireService {
         exception.expect(PoguesException.class);
         exception.expectMessage("Not found");
         when(questionnairesServiceQuery.getQuestionnaireByID("id"))
-                .thenReturn(new JSONObject());
+                .thenReturn(null);
         questionnairesService.getQuestionnaireByID("id");
 
     }

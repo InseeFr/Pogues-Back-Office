@@ -4,7 +4,7 @@
     <groupId>fr.insee</groupId>
     <artifactId>Pogues-BO</artifactId>
     <packaging>war</packaging>
-    <version>0.0.15-SNAPSHOT</version>
+    <version>0.0.27-SNAPSHOT</version>
     <name>Pogues-BO</name>
 
     <properties>
@@ -51,11 +51,6 @@
             <artifactId>jersey-media-json-jackson</artifactId>
             <version>${jersey.version}</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>com.fasterxml.jackson.core</groupId>-->
-            <!--<artifactId>jackson-annotations</artifactId>-->
-            <!--<version>${jackson.version}</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.glassfish.jersey.ext</groupId>
             <artifactId>jersey-spring3</artifactId>
@@ -114,15 +109,10 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.data</groupId>-->
-            <!--<artifactId>spring-data-elasticsearch</artifactId>-->
-            <!--<version>2.1.6.RELEASE</version>-->
-        <!--</dependency>-->
         <dependency>
             <groupId>org.elasticsearch.client</groupId>
-            <artifactId>transport</artifactId>
-            <version>5.5.2</version>
+            <artifactId>elasticsearch-rest-high-level-client</artifactId>
+            <version>5.6.0</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.security</groupId>
@@ -322,26 +312,26 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.20</version>
+                <configuration>
+                    <excludes>
+                        <exclude>**/rest/**/*.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <version>2.18.1</version>
+                <configuration>
+                    <includes>
+                        <include>**/rest/**/*.java</include>
+                    </includes>
+                </configuration>
                 <executions>
                     <execution>
-                        <id>default-test</id>
-                        <configuration>
-                            <excludes>
-                                <exclude>**/rest/test/**/*</exclude>
-                            </excludes>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>e2e</id>
-                        <phase>integration-test</phase>
                         <goals>
-                            <goal>test</goal>
+                            <goal>integration-test</goal>
+                            <goal>verify</goal>
                         </goals>
-                        <configuration>
-                            <includes>
-                                <include>**/rest/test/**/*</include>
-                            </includes>
-                        </configuration>
                     </execution>
                 </executions>
             </plugin>

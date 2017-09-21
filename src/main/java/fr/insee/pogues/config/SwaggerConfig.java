@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Logger;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -42,12 +44,18 @@ public class SwaggerConfig extends HttpServlet {
         Properties props = new Properties();
         String env = System.getProperty("fr.insee.pogues.env");
         if(null == env) {
-            env = "dv";
+            env = "dev";
         }
         String propsPath = String.format("env/%s/pogues-bo.properties", env);
         props.load(getClass()
                 .getClassLoader()
                 .getResourceAsStream(propsPath));
+        File f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.home"), "pogues-bo.properties"));
+        if(f.exists() && !f.isDirectory()) {
+            FileReader r = new FileReader(f);
+            props.load(r);
+            r.close();
+        }
         return props;
     }
 

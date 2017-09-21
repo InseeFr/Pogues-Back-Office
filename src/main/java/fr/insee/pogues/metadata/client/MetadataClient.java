@@ -1,8 +1,13 @@
 package fr.insee.pogues.metadata.client;
 
-import org.json.simple.JSONObject;
+import fr.insee.pogues.metadata.model.ColecticaItem;
+import fr.insee.pogues.metadata.model.ColecticaItemRefList;
+
+import java.util.List;
 
 public interface MetadataClient {
 
-    JSONObject getItem(String id) throws Exception;
+    ColecticaItem getItem(String id) throws Exception;
+    List<ColecticaItem> getItems(ColecticaItemRefList query) throws Exception;
+    ColecticaItemRefList getChildrenRef(String id) throws Exception;
 }

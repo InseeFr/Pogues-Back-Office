@@ -19,8 +19,8 @@ import javax.ws.rs.core.Response.Status;
  * @author I6VWID
  *
  */
-@Path("/StromaePublishing")
-@Api(value = "Pogues Stromae Publishing")
+//@Path("/StromaePublishing")
+//@Api(value = "Pogues Stromae Publishing")
 public class StromaePublishing {
 
 	final static Logger logger = LogManager.getLogger(StromaePublishing.class);
