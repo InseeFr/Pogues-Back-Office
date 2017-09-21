@@ -16,10 +16,10 @@ services:
     volumes:
       - "./postgresql/db/data.sql:/docker-entrypoint-initdb.d/data.sql"
   elastic:
-    environment:
-      - http.host="0.0.0.0"
-      - xpack.security.enabled=false
     build: ./elastic
+    environment:
+      - http.host=0.0.0.0
+      - xpack.security.enabled=false
     networks:
       intra:
         ipv4_address: 172.20.0.3
@@ -38,7 +38,7 @@ services:
       - fr.insee.pogues.env=qa
     volumes:
       - "./tomcat/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war"
-      - "./tomcat/pogues-bo.properties:/usr/local/tomcat/webapps/rmspogfoker.properties"
+      - "./tomcat/pogues-bo.properties:/usr/local/tomcat/webapps/rmspogfo.properties"
     networks:
       - intra
     ports:
