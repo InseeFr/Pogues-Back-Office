@@ -33,7 +33,7 @@ import java.security.NoSuchAlgorithmException;
 
 @Configuration
 @PropertySource(value = {
-        "classpath:env/${fr.insee.pogues.env:dv}/pogues-bo.properties",
+        "classpath:env/${fr.insee.pogues.env:dev}/pogues-bo.properties",
         "file:${catalina.base}/webapps/rmspogfo.properties",
         "file:${catalina.base}/webapps/pogues-bo.properties"
 }, ignoreResourceNotFound = true)
