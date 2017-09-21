@@ -43,7 +43,9 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
     @Override
     public List<DDIItem> findByLabel(String label, String... types) throws Exception {
         SearchSourceBuilder srcBuilder = new SearchSourceBuilder()
-                .query(QueryBuilders.matchQuery("label", label));
+                .query(QueryBuilders.fuzzyQuery("label", label)
+                        .maxExpansions(1)
+                        .prefixLength(label.length() -2 ));
         SearchRequest request = new SearchRequest()
                 .indices(index)
                 .types(types)
