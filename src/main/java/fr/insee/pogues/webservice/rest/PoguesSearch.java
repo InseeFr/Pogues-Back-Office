@@ -1,7 +1,6 @@
 package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.search.model.DDIItem;
-import fr.insee.pogues.search.model.PoguesItem;
 import fr.insee.pogues.search.model.PoguesQuery;
 import fr.insee.pogues.search.service.SearchService;
 import fr.insee.pogues.search.source.ColecticaSourceImporter;
@@ -12,7 +11,6 @@ import io.swagger.annotations.ApiResponses;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.index.IndexResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +20,6 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.Response.Status.CREATED;
 import static javax.ws.rs.core.Response.Status.NO_CONTENT;
 
 @Component
@@ -54,30 +51,6 @@ public class PoguesSearch {
         try {
             String[] types = query.getTypes().toArray(new String[query.getTypes().size()]);
             return searchService.searchByLabel(query.getFilter(), types);
-        } catch(Exception e) {
-            logger.error(e.getMessage(), e);
-            throw e;
-        }
-    }
-
-    @POST
-    @Path("questionnaire")
-    @Consumes(APPLICATION_JSON)
-    @Produces(APPLICATION_JSON)
-    @ApiOperation(
-            value = "Index Questionnaire",
-            notes = "Index a new `Questionnaire`"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Created"),
-            @ApiResponse(code = 400, message = "Entity already exists"),
-            @ApiResponse(code = 500, message = "Unexpected error")
-
-    })
-    public Response indexQuestionnaire(PoguesItem item) throws Exception {
-        try {
-            IndexResponse response = searchService.save("questionnaire", item);
-            return Response.status(CREATED).entity(response).build();
         } catch(Exception e) {
             logger.error(e.getMessage(), e);
             throw e;
