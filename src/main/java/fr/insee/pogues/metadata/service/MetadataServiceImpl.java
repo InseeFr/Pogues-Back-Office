@@ -211,8 +211,9 @@ public class MetadataServiceImpl implements MetadataService {
                     }
                 }));
         ResourcePackage resourcePackage = getResourcePackage(resourcePackageId);
+        refs.putAll(resourcePackage.getReferences());
         return new DDIDocumentBuilder()
-                .buildResourcePackageDocument(resourcePackage.getId(), resourcePackage.getReferences())
+//                .buildResourcePackageDocument(resourcePackage.getId(), resourcePackage.getReferences())
                 .buildItemDocument(itemId, refs)
                 .build()
                 .toString();
