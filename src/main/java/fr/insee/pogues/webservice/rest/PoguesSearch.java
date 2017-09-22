@@ -1,7 +1,7 @@
 package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.search.model.DDIItem;
-import fr.insee.pogues.search.model.Instrument;
+import fr.insee.pogues.search.model.PoguesItem;
 import fr.insee.pogues.search.model.PoguesQuery;
 import fr.insee.pogues.search.service.SearchService;
 import fr.insee.pogues.search.source.ColecticaSourceImporter;
@@ -74,7 +74,7 @@ public class PoguesSearch {
             @ApiResponse(code = 500, message = "Unexpected error")
 
     })
-    public Response indexQuestionnaire(Instrument item) throws Exception {
+    public Response indexQuestionnaire(PoguesItem item) throws Exception {
         try {
             IndexResponse response = searchService.save("questionnaire", item);
             return Response.status(CREATED).entity(response).build();

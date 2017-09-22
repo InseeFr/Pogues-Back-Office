@@ -6,7 +6,6 @@ import fr.insee.pogues.metadata.service.MetadataService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
-import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
@@ -93,16 +91,17 @@ public class PoguesMetadata {
 
 
     @GET
-    @Path("item/{id}/ddi/")
+    @Path("item/{id}/ddi")
     @Produces(MediaType.APPLICATION_XML)
     @ApiOperation(value = "Get DDI document",
             notes = "Gets a full DDI document from Colectica repository reference {id}",
             response = String.class)
-    public Response getFullDDI(@PathParam(value = "id") String id) throws Exception {
+    public Response getFullDDI(
+            @PathParam(value = "id") String id,
+            @QueryParam(value="resourcePackageId") String resourcePackageId
+    ) throws Exception {
         try {
-            String ddiDocument = metadataService.getDDIDocument(id);
-            File file = new File("/home/acordier/ddi.xml");
-            FileUtils.writeStringToFile(file, ddiDocument, StandardCharsets.UTF_8.name());
+            String ddiDocument = metadataService.getDDIDocument(id, resourcePackageId);
             StreamingOutput stream = output -> {
                 try {
                     output.write(ddiDocument.getBytes(StandardCharsets.UTF_8));
