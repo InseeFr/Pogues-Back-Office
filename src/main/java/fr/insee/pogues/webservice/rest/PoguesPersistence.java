@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * WebService class for the Questionnaire Persistence
+ * WebService class for the Instrument Persistence
  * 
  * See the swagger documentation for this service :
  * http://inseefr.github.io/Pogues/en/remote-apis/swagger.html
@@ -32,9 +32,7 @@ import java.util.List;
  */
 @Component
 @Path("/persistence")
-@Api(value = "PoguesPersistence", authorizations = {
-	      @Authorization(value="sampleoauth", scopes = {})
-	    })
+@Api(value = "Pogues Persistence")
 public class PoguesPersistence {
 
     final static Logger logger = LogManager.getLogger(PoguesPersistence.class);
@@ -62,9 +60,8 @@ public class PoguesPersistence {
 		try {
 			JSONObject result = questionnaireService.getQuestionnaireByID(id);
 			return Response.status(Status.OK).entity(result).build();
-		} catch(PoguesException e) {
-			throw e;
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			throw e;
 		}
 
@@ -93,6 +90,7 @@ public class PoguesPersistence {
             }
             return Response.status(Status.OK).entity(questionnaires).build();
         } catch (Exception e) {
+			logger.error(e.getMessage(), e);
             throw e;
         }
     }
@@ -107,6 +105,7 @@ public class PoguesPersistence {
             @ApiResponse(code = 204, message = "No content"),
             @ApiResponse(code = 404, message = "Not found")
     })
+	@OwnerRestricted
 	public Response deleteQuestionnaire(
 			@ApiParam(value = "The id of the object that need to be deleted", required = true)
 			@PathParam(value = "id") String id
@@ -116,29 +115,10 @@ public class PoguesPersistence {
 			logger.info("Questionnaire "+ id +" deleted");
 			return Response.status(Status.NO_CONTENT).build();
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
-
-//	@DELETE
-//	@Path("questionnaires")
-//	@ApiOperation(
-//	        value = "Delete all questionnaire",
-//			response = String.class,
-//            notes = "Temporary endpoint for development, clean db"
-//    )
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 204, message = "No content"),
-//            @ApiResponse(code = 404, message = "Not found")
-//    })
-//	public Response deleteAllQuestionnaires() throws Exception {
-//		try {
-//			questionnaireService.deleteAllQuestionnaires();
-//			return Response.status(Status.NO_CONTENT).build();
-//		} catch (Exception e) {
-//			throw e;
-//		}
-//	}
 
 	@GET
 	@Path("questionnaires")
@@ -157,9 +137,8 @@ public class PoguesPersistence {
 		try {
 			List<JSONObject> questionnaires = questionnaireService.getQuestionnaireList();
 			return Response.status(Status.OK).entity(questionnaires).build();
-		} catch(PoguesException e) {
-			throw e;
 		} catch(Exception e) {
+			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -182,15 +161,14 @@ public class PoguesPersistence {
 	public Response updateQuestionnaire(
 			@ApiParam(value = "The id of the object that need to be updated", required = true)
 			@PathParam(value = "id") String id,
-			@ApiParam(value = "Questionnaire object to be updated") JSONObject jsonContent
+			@ApiParam(value = "Instrument object to be updated") JSONObject jsonContent
 	) throws Exception {
         try {
 			questionnaireService.updateQuestionnaire(id, jsonContent);
 			logger.info("Questionnaire "+ id +" updated");
 			return Response.status(Status.NO_CONTENT).build();
-        } catch(PoguesException e){
-            throw e;
         } catch (Exception e) {
+			logger.error(e.getMessage(), e);
             throw e;
         }
 	}
@@ -207,18 +185,17 @@ public class PoguesPersistence {
             @ApiResponse(code = 400, message = "Entity already exists")
     })
 	public Response createQuestionnaire(
-			@ApiParam(value = "New Questionnaire Object", required = true) JSONObject jsonContent
+			@ApiParam(value = "New Instrument Object", required = true) JSONObject jsonContent
 	) throws Exception {
         try {
 			questionnaireService.createQuestionnaire(jsonContent);
 			//TODO return a generic uri
 			String id = (String) jsonContent.get("id");
 			String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
-			logger.info("New questionnaire created , uri :" + uriQuestionnaire);
+			logger.debug("New questionnaire created , uri :" + uriQuestionnaire);
 			return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();
-		} catch(PoguesException e){
-            throw e;
-        } catch (Exception e) {
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}

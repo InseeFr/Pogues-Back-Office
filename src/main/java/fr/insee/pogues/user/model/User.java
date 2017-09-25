@@ -10,15 +10,24 @@ public class User implements Serializable {
     private String firstName;
     private String lastName;
 
-    public User() {}
+    public User() {
+    }
 
-    public User(String id, String name, String firstName, String lastName, String permission) {
+    /// [marker0]
+    public User(
+            String id,
+            String name,
+            String firstName,
+            String lastName,
+            String permission
+    ) {
         this.id = id;
         this.name = name;
         this.permission = permission;
         this.firstName = firstName;
         this.lastName = lastName;
     }
+    /// [marker0]
 
     public String getId() {
         return id;

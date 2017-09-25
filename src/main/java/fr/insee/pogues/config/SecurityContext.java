@@ -1,6 +1,7 @@
 package fr.insee.pogues.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -14,13 +15,24 @@ import java.util.Arrays;
 /**
  * Created by acordier on 14/07/17.
  */
-//@Configuration
 @EnableWebSecurity
-//@PropertySource("classpath:${fr.insee.pogues.env:prod}/pogues-bo.properties")
 public class SecurityContext extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private Environment env;
+
+    @Value("${fr.insee.pogues.permission.ldap.hostname}")
+    String ldapHost;
+
+    @Value("${fr.insee.pogues.permission.ldap.root}")
+    String rootDn;
+
+    @Value("${fr.insee.pogues.permission.ldap.user.base}")
+    String userDn;
+
+    @Value("${fr.insee.pogues.permission.ldap.unite.base}")
+    String groupDn;
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -41,12 +53,10 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        String ldapUserDn = env.getProperty("fr.insee.pogues.permission.ldap.user.base");
-        String ldapGroupDn = env.getProperty("fr.insee.pogues.permission.ldap.unite.base");
         auth.ldapAuthentication()
-                .userSearchBase(ldapUserDn)
+                .userSearchBase(userDn)
                 .userSearchFilter("(uid={0})")
-                .groupSearchBase(ldapGroupDn)
+                .groupSearchBase(groupDn)
                 .groupSearchFilter("member={0}")
                 .contextSource(contextSource())
                 .passwordCompare().passwordAttribute("uid");
@@ -54,8 +64,6 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
 
     @Bean
     public DefaultSpringSecurityContextSource contextSource() {
-        String ldapHost = env.getProperty("fr.insee.pogues.permission.ldap.hostname");
-        String rootDn = env.getProperty("fr.insee.pogues.permission.ldap.root");
         return  new DefaultSpringSecurityContextSource(Arrays.asList(ldapHost), rootDn);
     }
 }

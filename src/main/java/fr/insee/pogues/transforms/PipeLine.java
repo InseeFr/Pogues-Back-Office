@@ -2,7 +2,6 @@ package fr.insee.pogues.transforms;
 
 import org.apache.commons.io.IOUtils;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -16,12 +15,8 @@ public class PipeLine {
     private List<Runnable> transforms = new ArrayList<>();
 
     public PipeLine from(InputStream input) throws Exception {
-        try {
-            output = IOUtils.toString(input, Charset.forName("UTF-8"));
-            return this;
-        } catch (IOException e) {
-            throw e;
-        }
+        output = IOUtils.toString(input, Charset.forName("UTF-8"));
+        return this;
     }
 
     public PipeLine from(String input) {
@@ -47,18 +42,19 @@ public class PipeLine {
         for (Runnable t : transforms) {
             try {
                 t.run();
-            } catch(Exception e){
+            } catch (Exception e) {
                 throw e;
             }
         }
         return output;
     }
 
-
+    /// [marker0]
     @FunctionalInterface
     public interface Transform<I, O> {
         O apply(I i, Map<String, Object> params) throws Exception;
     }
+    /// [marker0]
 
 }
 

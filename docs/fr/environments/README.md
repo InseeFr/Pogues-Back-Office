@@ -1,29 +1,44 @@
-# Environments de déploiement - Configuration
+# Environments & Configuration
 
-Le paramétrage de l'application varie en fonction de trois environements de déploiement possible:
+La configuration de l'application varie en fonction de l'environnement d'exécution sélectionné
 
- - prod
- - qa 
- - dev
+Les environnements disponibles sont listés sous la forme de sous-répertoires du répertoire src/main/resources/env:
+
+```
+resources
+  ├─env
+     ├─ dev
+     ├─ dv
+     ├─ qa
+     ├─ prod
+     └─ qf
+```
+
+Chaque répertoire correspondant à un environement contient un ensemble de fichiers qui vont définir:
+
+ - Les paramètres de connection aux backend utilisés par l'application (env/${env}/pogues-bo.properties)
+   - Postgresql pour la persistence de données
+   - Open LDAP pour le provisioning d'identités
+ - Les URL d'accès aux services externalisés
+ - Le paramétrage des logs (env/${env}/log4j2.xml)
  
-L'environnement est défini par la propriété système ```fr.insee.pogues.env```
-
-## Démarrer tomcat avec l'environnement qa
-
-Il suffit de définir la propriété système dans la variable d'environnement $CATALINA_OPTS:
+## Sélectionner un environnement au démarrage:
 
 ```bash
 export CATALINA_OPTS="-Dfr.insee.pogues.env=qa"
+${CATALINA_BASE}/bin/startup.sh
 ```
 
-**Par défaut l'environement démarre en mode production**
+La commande précédente démarre une instance tomcat utilisant les propriétés définies dans src/main/resources/env/qa/pogues-bo.properties
 
-## Impact sur le paramétrage de l'application
+## Création d'un environnement personnalisé
 
-L'application lit ses différents paramètres de configuration dans des fichiers de propriétés récupérés dans le répertoire ```main/resources/${env}/*.properties``` ou la valeur de ${env} correspond à la valeur de la propriété système ```fr.insee.pogues.env```
+La création d'un nouvel environnemnt "foo" se résume donc à la réalisation des étapes suivantes:
 
-Ces fichiers définissents:
+ - Créer un sous répertoire foo dans le répertoire src/main/resources/env
+ - Copier un fichier de config provenant d'un autre environnement et l'adapter pour l'environnement foo 
+ - Lancer tomcat avec `-Dfr.insee.pogues.env=foo``` comme argument
+ 
+**Par défaut (si aucun argument n'a été passé au démarrage) l'environnement utilisé est dv**
 
- - Les paramètres de connection au backend postgresql
- - Les paramètres de connection et de schéma utilisés pour binder le LDAP
- - Les paramètres d'accès aux services externes utilisés par l'application (stromae, eno, rmes ...)
+

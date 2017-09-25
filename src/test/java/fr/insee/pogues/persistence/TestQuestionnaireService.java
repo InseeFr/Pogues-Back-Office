@@ -41,7 +41,7 @@ public class TestQuestionnaireService {
     }
 
 
-    @Test//(expected = Exception.class)
+    @Test
     public void emptyListThrowsException() throws Exception {
         exception.expect(PoguesException.class);
         exception.expectMessage("Not found");
@@ -70,7 +70,7 @@ public class TestQuestionnaireService {
         exception.expect(PoguesException.class);
         exception.expectMessage("Not found");
         when(questionnairesServiceQuery.getQuestionnaireByID("id"))
-                .thenReturn(new JSONObject());
+                .thenReturn(null);
         questionnairesService.getQuestionnaireByID("id");
 
     }

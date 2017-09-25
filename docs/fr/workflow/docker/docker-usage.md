@@ -25,7 +25,7 @@ L'exécution de cette commande démarre les trois containers et relie le contain
 ***NB:*** Pour indiquer au serveur tomcat qu'il doit utiliser les containers comme backend il faut éditer la variable d'environement CATALINA_OPT comme ceci:
 
 ```bash
-export CATALINA_OPTS="-Dfr.insee.pogues.env=qa"
+export CATALINA_OPTS="env.qav.qa"
 ```
 
 Cette variable est définie par défaut à la génération de l'image docker donc implicitement définie lors de l'utilisation de la commande ```docker-compose up```
@@ -52,5 +52,5 @@ Sur Eclipse ou IntelliJ il suffit d'éditer la configuration de lancement
 pour passer la variable d'environnement appropriée à tomcat
 
 ```
--Dfr.insee.pogues.env=dev
+-Dfr.insee.pogues.env=env.dev
 ```

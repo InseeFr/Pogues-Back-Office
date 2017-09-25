@@ -19,10 +19,8 @@ import javax.ws.rs.core.Response.Status;
  * @author I6VWID
  *
  */
-@Path("/StromaePublishing")
-@Api(value = "PoguesStromaePublishing", authorizations = {
-	      @Authorization(value="sampleoauth", scopes = {})
-	    })
+//@Path("/StromaePublishing")
+//@Api(value = "Pogues Stromae Publishing")
 public class StromaePublishing {
 
 	final static Logger logger = LogManager.getLogger(StromaePublishing.class);

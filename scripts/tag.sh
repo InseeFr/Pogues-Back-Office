@@ -12,21 +12,21 @@ MESSAGE="Auto release from $USER: build $TRAVIS_BUILD_NUMBER"
 AUTHOR="$USER <>"
 VERSION=$(grep --max-count=1 '<version>' pom.xml | awk -F '>' '{ print $2 }' | awk -F '<' '{ print $1 }')
 TAG="v$VERSION"
-#
-#if [ "$TRAVIS_PULL_REQUEST" != "false" ];then
-#  echo "Won't tag on pull request"
-#  exit 0
-#fi
-#
-#if [ "$TRAVIS_BRANCH" != "$MAIN_BRANCH" ];then
-#  echo "Won't tag: Not on branch $MAIN_BRANCH"
-#  exit 0
-#fi
-#
-#if [[ -n "$TRAVIS_TAG" ]];then
-#  echo "Won't tag: Already on tag $TRAVIS_TAG"
-#  exit 0
-#fi
+
+if [ "$TRAVIS_PULL_REQUEST" != "false" ];then
+  echo "Won't tag on pull request"
+  exit 0
+fi
+
+if [ "$TRAVIS_BRANCH" != "$MAIN_BRANCH" ];then
+  echo "Won't tag: Not on branch $MAIN_BRANCH"
+  exit 0
+fi
+
+if [[ -n "$TRAVIS_TAG" ]];then
+  echo "Won't tag: Already on tag $TRAVIS_TAG"
+  exit 0
+fi
 
 function is_patch(){
   if [[ -n "$(git tag -l)" ]];then
@@ -50,6 +50,7 @@ function tag() {
     git remote add upstream "$UPSTREAM"
     git tag --annotate "${TAG}" -m "${MESSAGE}"
     git push upstream --tags
+    echo "$TAG">"$TRAVIS_BUILD_DIR/.tag"
 }
 
 function main(){

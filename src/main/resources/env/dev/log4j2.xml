@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="DEBUG">
+    <appenders>
+        <Console name="console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
+
+        <File name="file" fileName="/tmp/pogues.dev.log">
+            <PatternLayout pattern="%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </File>
+    </appenders>
+
+    <loggers>
+        <root level="debug">
+            <appender-ref ref="console" level="debug"/>
+            <appender-ref ref="file" level="debug"/>
+        </root>
+        <logger name="org.elasticsearch" level="error"/>
+        <logger name="fr.insee.pogues.conversion" level="error"/>
+    </loggers>
+</configuration>
