@@ -1,21 +1,30 @@
 package fr.insee.pogues.webservice.rest;
 
-import fr.insee.pogues.metadata.model.ColecticaItem;
-import fr.insee.pogues.metadata.model.ColecticaItemRefList;
-import fr.insee.pogues.metadata.service.MetadataService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
+import fr.insee.pogues.metadata.model.ColecticaItem;
+import fr.insee.pogues.metadata.model.ColecticaItemRefList;
+import fr.insee.pogues.metadata.model.Unit;
+import fr.insee.pogues.metadata.service.MetadataService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * Main WebService class of the MetaData service
@@ -67,6 +76,23 @@ public class PoguesMetadata {
         }
     }
 
+    
+    @GET
+    @Path("units")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Get units measure",
+            notes = "This will give a list of objects containing the uri and the label for all units",
+            response = Unit.class,
+            responseContainer = "List")
+    public Response getUnits() throws Exception {
+        try {
+        	List<Unit> units = metadataService.getUnits();
+            return Response.ok().entity(units).build();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+    }
 
     @POST
     @Path("items")

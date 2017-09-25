@@ -1,21 +1,24 @@
 package fr.insee.pogues.metadata.service;
 
-import fr.insee.pogues.metadata.model.ColecticaItem;
-import fr.insee.pogues.metadata.model.ColecticaItemRefList;
-import fr.insee.pogues.metadata.repository.GroupRepository;
-import fr.insee.pogues.metadata.repository.MetadataRepository;
-import fr.insee.pogues.metadata.utils.XpathProcessor;
-import fr.insee.pogues.search.model.*;
-import fr.insee.pogues.utils.ddi.DDIDocumentBuilder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+import fr.insee.pogues.metadata.model.ColecticaItem;
+import fr.insee.pogues.metadata.model.ColecticaItemRefList;
+import fr.insee.pogues.metadata.model.Unit;
+import fr.insee.pogues.metadata.repository.GroupRepository;
+import fr.insee.pogues.metadata.repository.MetadataRepository;
+import fr.insee.pogues.metadata.utils.XpathProcessor;
+import fr.insee.pogues.search.model.PoguesItem;
+import fr.insee.pogues.search.model.ResourcePackage;
+import fr.insee.pogues.utils.ddi.DDIDocumentBuilder;
 
 @Service
 public class MetadataServiceImpl implements MetadataService {
@@ -49,6 +52,12 @@ public class MetadataServiceImpl implements MetadataService {
     public List<ColecticaItem> getItems(ColecticaItemRefList refs) throws Exception {
         return metadataRepository.getItems(refs);
     }
+    
+    @Override
+    public List<Unit> getUnits() throws Exception {
+        return metadataRepository.getUnits();
+    }
+    
 
     public PoguesItem getDDIRoot(String id) throws Exception {
         PoguesItem ddiRoot = new PoguesItem();

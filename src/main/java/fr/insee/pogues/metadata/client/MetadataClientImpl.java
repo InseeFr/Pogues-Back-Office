@@ -1,8 +1,10 @@
 package fr.insee.pogues.metadata.client;
 
-import fr.insee.pogues.metadata.model.ColecticaItem;
-import fr.insee.pogues.metadata.model.ColecticaItemRef;
-import fr.insee.pogues.metadata.model.ColecticaItemRefList;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.apache.http.entity.ContentType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,9 +18,10 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
+import fr.insee.pogues.metadata.model.ColecticaItem;
+import fr.insee.pogues.metadata.model.ColecticaItemRef;
+import fr.insee.pogues.metadata.model.ColecticaItemRefList;
+import fr.insee.pogues.metadata.model.Unit;
 
 @Service
 public class MetadataClientImpl implements MetadataClient {
@@ -63,4 +66,25 @@ public class MetadataClientImpl implements MetadataClient {
                 .collect(Collectors.toList());
         return new ColecticaItemRefList(refs);
     }
+    
+    public List<Unit> getUnits() throws Exception {
+        
+    	// Fake
+    	List<Unit> units = new ArrayList<Unit>();
+    	Unit unit1 =new Unit();
+    	unit1.setLabel("€");
+    	unit1.setUri("http://id.insee.fr/unit/euro");
+    	units.add(unit1);
+    	Unit unit2 =new Unit();
+    	unit2.setLabel("k€");
+    	unit2.setUri("http://id.insee.fr/unit/keuro");
+    	units.add(unit2);
+    	Unit unit3 =new Unit();
+    	unit3.setLabel("%");
+    	unit3.setUri("http://id.insee.fr/unit/percent");
+    	units.add(unit3);
+        return units;
+    }
+    
+    
 }
