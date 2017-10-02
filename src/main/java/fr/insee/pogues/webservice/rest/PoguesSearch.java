@@ -4,10 +4,7 @@ import fr.insee.pogues.search.model.DDIItem;
 import fr.insee.pogues.search.model.PoguesQuery;
 import fr.insee.pogues.search.service.SearchService;
 import fr.insee.pogues.search.source.ColecticaSourceImporter;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -47,9 +44,16 @@ public class PoguesSearch {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 500, message = "Unexpected error")
     })
-    public List<DDIItem> search(PoguesQuery query) throws Exception {
+    public List<DDIItem> search(
+            @ApiParam(value = "A user id matching owner permission on each object of the collection", required = false)
+            @QueryParam("subgroupId")
+                    String subgroupId, PoguesQuery query
+    ) throws Exception {
         try {
-            String[] types = query.getTypes().toArray(new String[query.getTypes().size()]);
+            String[] types = query.getTypes().toArray(new String[query.getTypes().size()]);;
+            if(null != subgroupId){
+                return searchService.searchByLabelInSubgroup(query.getFilter(), subgroupId, types);
+            }
             return searchService.searchByLabel(query.getFilter(), types);
         } catch(Exception e) {
             logger.error(e.getMessage(), e);

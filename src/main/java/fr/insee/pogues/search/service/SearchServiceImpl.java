@@ -25,6 +25,10 @@ public class SearchServiceImpl implements SearchService {
         return poguesItemRepository.findByLabel(label, types);
     }
 
+    public List<DDIItem> searchByLabelInSubgroup(String label, String subgroupId, String... types) throws Exception {
+        return poguesItemRepository.findByLabelInSubGroup(label, subgroupId, types);
+    }
+
     public DeleteResponse delete(String type, String id) throws Exception {
         return poguesItemRepository.delete(type, id);
     }
