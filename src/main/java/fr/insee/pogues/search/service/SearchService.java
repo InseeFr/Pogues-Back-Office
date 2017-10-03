@@ -12,6 +12,7 @@ public interface SearchService {
 
     IndexResponse save(String type, PoguesItem item) throws Exception;
     List<DDIItem> searchByLabel(String label, String... types) throws Exception;
+    List<DDIItem> searchByLabelInSubgroup(String label, String subgroupId, String... types) throws Exception;
     DeleteResponse delete(String type, String id) throws Exception;
     List<DDIItem> getSubGroups() throws Exception;
     List<DDIItem> getStudyUnits(String seriesId) throws Exception;

@@ -30,5 +30,5 @@ Avant l'exécution d'un scenario de test, un appelle à la méthode statique ```
  
 ### Le fichier RestAssuredConfig.java
 
-[include](../../../../src/test/java/fr/insee/pogues/rest/test/utils/RestAssuredConfig.java)
+[include](../../../../src/test/java/fr/insee/pogues/rest/utils/RestAssuredConfig.java)
 s

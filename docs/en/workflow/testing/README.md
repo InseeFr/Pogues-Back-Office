@@ -30,4 +30,4 @@ Each integration test class MUST define a @BeforeClass hook calling the ```confi
  
 ### RestAssuredConfig.java
 
-[include](../../../../src/test/java/fr/insee/pogues/rest/test/utils/RestAssuredConfig.java)
+[include](../../../../src/test/java/fr/insee/pogues/rest/utils/RestAssuredConfig.java)
