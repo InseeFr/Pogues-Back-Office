@@ -45,7 +45,21 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
         SearchSourceBuilder srcBuilder = new SearchSourceBuilder()
                 .query(QueryBuilders.fuzzyQuery("label", label)
                         .maxExpansions(1)
-                        .prefixLength(label.length() -2 ));
+                        .prefixLength(3));
+        SearchRequest request = new SearchRequest()
+                .indices(index)
+                .types(types)
+                .source(srcBuilder);
+        return mapResponse(client.search(request));
+    }
+
+    public List<DDIItem> findByLabelInSubGroup(String label, String subgroupId, String... types) throws Exception {
+        SearchSourceBuilder srcBuilder = new SearchSourceBuilder()
+                .query(QueryBuilders.boolQuery()
+                        .filter(QueryBuilders.fuzzyQuery("label", label)
+                            .maxExpansions(1)
+                            .prefixLength(label.length() -2 ))
+                        .filter(QueryBuilders.termQuery("subGroupId.keyword", subgroupId)));
         SearchRequest request = new SearchRequest()
                 .indices(index)
                 .types(types)
