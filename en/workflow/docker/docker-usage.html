@@ -364,28 +364,29 @@
 <span class="hljs-attr">    volumes:</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./postgresql/db/data.sql:/docker-entrypoint-initdb.d/data.sql&quot;</span>
 <span class="hljs-attr">  elastic:</span>
-<span class="hljs-attr">    environment:</span>
-<span class="hljs-bullet">      -</span> http.host=<span class="hljs-string">&quot;0.0.0.0&quot;</span>
-<span class="hljs-bullet">      -</span> xpack.security.enabled=<span class="hljs-string">&quot;false&quot;</span>
 <span class="hljs-attr">    build:</span> ./elastic
+<span class="hljs-attr">    environment:</span>
+<span class="hljs-bullet">      -</span> http.host=<span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>
+<span class="hljs-bullet">      -</span> xpack.security.enabled=<span class="hljs-literal">false</span>
 <span class="hljs-attr">    networks:</span>
 <span class="hljs-attr">      intra:</span>
 <span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.3</span>
 <span class="hljs-attr">  colectica:</span>
 <span class="hljs-attr">    build:</span> ./colectica
-<span class="hljs-attr">    command:</span> -w db.json --routes routes.json --id Identifier
 <span class="hljs-attr">    networks:</span>
 <span class="hljs-attr">      intra:</span>
 <span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.4</span>
 <span class="hljs-attr">    volumes:</span>
-<span class="hljs-bullet">      -</span> ./colectica/db.json:/app/db.json
-<span class="hljs-bullet">      -</span> ./colectica/routes.json:/app/routes.json
-<span class="hljs-attr">    restart:</span> always
+<span class="hljs-bullet">      -</span> ./colectica/app/db.json:/usr/src/app/db.json
+<span class="hljs-bullet">      -</span> ./colectica/app/routes.json:/usr/src/app/routes.json
+<span class="hljs-bullet">      -</span> ./colectica/app/middleware.js:/usr/src/app/middleware.js
 <span class="hljs-attr">  tomcat:</span>
 <span class="hljs-attr">    build:</span> ./tomcat
+<span class="hljs-attr">    environment:</span>
+<span class="hljs-bullet">      -</span> fr.insee.pogues.env=qa
 <span class="hljs-attr">    volumes:</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./tomcat/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war&quot;</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./tomcat/pogues-bo.properties:/usr/local/tomcat/webapps/pogues-bo.properties&quot;</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./tomcat/pogues-bo.properties:/usr/local/tomcat/webapps/rmspogfo.properties&quot;</span>
 <span class="hljs-attr">    networks:</span>
 <span class="hljs-bullet">      -</span> intra
 <span class="hljs-attr">    ports:</span>
@@ -461,7 +462,7 @@ Tomcat container will start a server instance using the &apos;qa&apos; environme
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Docker Usage","level":"1.4.2.2","depth":3,"next":{"title":"Travis CI","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"previous":{"title":"The docker Folder","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"workflow/docker/docker-usage.md","mtime":"2017-09-20T10:26:27.635Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-09-20T10:35:01.804Z"},"basePath":"../..","book":{"language":"en"}});
+            gitbook.page.hasChanged({"page":{"title":"Docker Usage","level":"1.4.2.2","depth":3,"next":{"title":"Travis CI","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"previous":{"title":"The docker Folder","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"workflow/docker/docker-usage.md","mtime":"2017-10-03T07:00:32.586Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-03T07:10:35.139Z"},"basePath":"../..","book":{"language":"en"}});
         });
     </script>
 </div>
