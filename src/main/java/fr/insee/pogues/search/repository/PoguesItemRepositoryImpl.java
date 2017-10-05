@@ -2,6 +2,7 @@ package fr.insee.pogues.search.repository;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.pogues.search.model.DDIItem;
+import fr.insee.pogues.search.model.DataCollectionContext;
 import fr.insee.pogues.search.model.PoguesItem;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
@@ -16,6 +17,7 @@ import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.builder.SearchSourceBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
 import java.util.Arrays;
@@ -23,6 +25,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Repository
+@Component(value="PoguesItemRepositoryImpl")
 public class PoguesItemRepositoryImpl implements PoguesItemRepository {
 
     @Value("${fr.insee.pogues.elasticsearch.index.name}")
@@ -102,6 +105,11 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
         DeleteRequest request = new DeleteRequest(index, type, id);
         return client.delete(request);
     }
+    
+    @Override
+	public DataCollectionContext getDataCollectionContext(String dataCollectionId) throws Exception {
+		return null;
+	}
 
     private List<DDIItem> mapResponse(SearchResponse response) {
         List<SearchHit> esHits = Arrays.asList(response.getHits().getHits());

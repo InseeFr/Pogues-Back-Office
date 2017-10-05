@@ -1,6 +1,7 @@
 package fr.insee.pogues.search.repository;
 
 import fr.insee.pogues.search.model.DDIItem;
+import fr.insee.pogues.search.model.DataCollectionContext;
 import fr.insee.pogues.search.model.PoguesItem;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
@@ -16,4 +17,5 @@ public interface PoguesItemRepository {
     List<DDIItem> getSubGroups() throws Exception;
     List<DDIItem> getStudyUnits(String seriesId) throws Exception;
     List<DDIItem> getDataCollections(String operationId) throws Exception;
+	DataCollectionContext getDataCollectionContext(String dataCollectionId) throws Exception;
 }

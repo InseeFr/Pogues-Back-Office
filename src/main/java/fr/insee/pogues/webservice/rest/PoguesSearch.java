@@ -1,23 +1,37 @@
 package fr.insee.pogues.webservice.rest;
 
-import fr.insee.pogues.search.model.DDIItem;
-import fr.insee.pogues.search.model.PoguesQuery;
-import fr.insee.pogues.search.service.SearchService;
-import fr.insee.pogues.search.source.ColecticaSourceImporter;
-import io.swagger.annotations.*;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import static javax.ws.rs.core.Response.Status.NO_CONTENT;
+
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import java.util.List;
-
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
-import static javax.ws.rs.core.Response.Status.NO_CONTENT;
+import fr.insee.pogues.search.model.DDIItem;
+import fr.insee.pogues.search.model.DataCollectionContext;
+import fr.insee.pogues.search.model.PoguesQuery;
+import fr.insee.pogues.search.service.SearchService;
+import fr.insee.pogues.search.source.ColecticaSourceImporter;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Component
 @Path("/search")
@@ -133,6 +147,25 @@ public class PoguesSearch {
             throw e;
         }
     }
+    
+    
+    @GET
+    @Path("context/collection/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Get data collection context (Sub-group id, StudyUnit id) for a given data collection",
+            notes = "Retrieve the context (Sub-group id, StudyUnit id) for a id given as a path parameter",
+            response = String.class)
+    public DataCollectionContext getDataCollectionContext(
+            @PathParam(value = "id") String id
+    ) throws Exception {
+        try {
+            return searchService.getDataCollectionContext(id);
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+    }
+    
 
     @GET
     @Path("operations/{id}/collections")

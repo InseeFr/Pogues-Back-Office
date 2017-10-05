@@ -1,19 +1,27 @@
 package fr.insee.pogues.search.service;
 
-import fr.insee.pogues.search.model.DDIItem;
-import fr.insee.pogues.search.model.PoguesItem;
-import fr.insee.pogues.search.repository.PoguesItemRepository;
+import java.util.List;
+
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import fr.insee.pogues.search.model.DDIItem;
+import fr.insee.pogues.search.model.DataCollectionContext;
+import fr.insee.pogues.search.model.PoguesItem;
+import fr.insee.pogues.search.repository.PoguesItemRepository;
 
 @Service
 public class SearchServiceImpl implements SearchService {
 
-    @Autowired
+	@Value("${fr.insee.pogues.search.poguesItemRepository.impl}")
+    private static final String poguesItemRepositoryImpl="PoguesItemFakeImpl";
+    
+	@Autowired
+    @Qualifier(poguesItemRepositoryImpl)
     private PoguesItemRepository poguesItemRepository;
 
     @Override
@@ -47,4 +55,10 @@ public class SearchServiceImpl implements SearchService {
     public List<DDIItem> getDataCollections(String operationId) throws Exception {
         return poguesItemRepository.getDataCollections(operationId);
     }
+    
+    @Override
+    public DataCollectionContext getDataCollectionContext(String dataCollectionId) throws Exception{
+    	 return poguesItemRepository.getDataCollectionContext(dataCollectionId);
+    }
+    
 }

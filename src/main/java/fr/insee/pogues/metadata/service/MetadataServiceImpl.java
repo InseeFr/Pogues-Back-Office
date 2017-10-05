@@ -5,6 +5,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.w3c.dom.Node;
@@ -18,11 +20,14 @@ import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.utils.XpathProcessor;
 import fr.insee.pogues.search.model.PoguesItem;
 import fr.insee.pogues.search.model.ResourcePackage;
+import fr.insee.pogues.search.source.ColecticaSourceImporter;
 import fr.insee.pogues.utils.ddi.DDIDocumentBuilder;
 
 @Service
 public class MetadataServiceImpl implements MetadataService {
 
+	private final static Logger logger = LogManager.getLogger(MetadataServiceImpl.class);
+	
     @Autowired
     MetadataRepository metadataRepository;
 
@@ -62,6 +67,7 @@ public class MetadataServiceImpl implements MetadataService {
     public PoguesItem getDDIRoot(String id) throws Exception {
         PoguesItem ddiRoot = new PoguesItem();
         String fragment = getItem(id).item;
+        logger.debug("Fragment : " + fragment); 
         String rootExp = "//*[local-name()='DDIInstance']";
         String labelExp = "//*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()";
         Node rootNode = xpathProcessor.queryList(fragment, rootExp).item(0);
@@ -69,6 +75,7 @@ public class MetadataServiceImpl implements MetadataService {
         ddiRoot.setLabel(xpathProcessor.queryText(rootNode, labelExp));
         ddiRoot.setResourcePackageId(getResourcePackageId(rootNode));
         ddiRoot.setChildren(getGroups(rootNode, ddiRoot));
+        logger.debug("ddiRoot : "+ddiRoot.toString());
         return ddiRoot;
     }
 

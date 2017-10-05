@@ -104,4 +104,8 @@ public class PoguesItem {
     public void setResourcePackageId(String resourcePackageId) {
         this.resourcePackageId = resourcePackageId;
     }
+    
+    public String toString(){
+    	 return this.id  + "-" + this.label + "-";
+    }
 }
