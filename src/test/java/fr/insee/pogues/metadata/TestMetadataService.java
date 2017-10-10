@@ -4,22 +4,16 @@ import fr.insee.pogues.metadata.mock.ColecticaMocks;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.service.MetadataService;
 import fr.insee.pogues.metadata.service.MetadataServiceImpl;
-import fr.insee.pogues.metadata.utils.XpathProcessor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -28,10 +22,6 @@ public class TestMetadataService {
 
     @Mock
     MetadataRepository metadataRepository;
-
-    @Mock
-    XpathProcessor xpathProcessor;
-
     @InjectMocks
     MetadataService metadataService;
 
@@ -72,108 +62,108 @@ public class TestMetadataService {
 
     private void mockXpathProcessorQueries() throws Exception {
 
-        Node fN = Mockito.mock(Node.class);
-        NodeList groupList = new NodeList() {
-            @Override
-            public Node item(int i) {
-                return fN;
-            }
-
-            @Override
-            public int getLength() {
-                return 1;
-            }
-        };
-        Node sN = Mockito.mock(Node.class);
-        NodeList subGroupList = new NodeList() {
-            @Override
-            public Node item(int i) {
-                return sN;
-            }
-
-            @Override
-            public int getLength() {
-                return 1;
-            }
-        };
-        Node dcN = Mockito.mock(Node.class);
-        NodeList dataCollectionList = new NodeList() {
-            @Override
-            public Node item(int i) {
-                return dcN;
-            }
-
-            @Override
-            public int getLength() {
-                return 1;
-            }
-        };
-        Node oN = Mockito.mock(Node.class);
-        NodeList studyUnitList = new NodeList() {
-            @Override
-            public Node item(int i) {
-                return oN;
-            }
-
-            @Override
-            public int getLength() {
-                return 1;
-            }
-        };
-        Node isN = Mockito.mock(Node.class);
-        NodeList instrumentSchemeList = new NodeList() {
-            @Override
-            public Node item(int i) {
-                return isN;
-            }
-
-            @Override
-            public int getLength() {
-                return 1;
-            }
-        };
-        Node iN = Mockito.mock(Node.class);
-        NodeList instrumentList = new NodeList() {
-            @Override
-            public Node item(int i) {
-                return iN;
-            }
-
-            @Override
-            public int getLength() {
-                return 1;
-            }
-        };
-        when(xpathProcessor.queryList((String) any(), eq("//*[local-name()='Group']")))
-                .thenReturn(groupList);
-        when(xpathProcessor.queryText(fN, "//*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()"))
-                .thenReturn("ANTIPOL");
-        when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='SubGroupReference']")))
-                .thenReturn(subGroupList);
-        when(xpathProcessor.queryText((Node) any(), eq(".//*[local-name()='SubGroup']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()")))
-                .thenReturn("Investissements et dépenses courantes pour protéger l'environnement");
-        when(xpathProcessor.queryText(dcN, ".//*[local-name()='ID']/text()"))
-                .thenReturn("bd18e047-560c-49ff-9c59-d620164e5f95");
-        when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='DataCollectionReference']")))
-                .thenReturn(dataCollectionList);
-        when(xpathProcessor.queryText((Node) any(), eq(".//*[local-name()='StudyUnit']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()")))
-                .thenReturn("Investissements et dépenses courantes pour protéger l'environnement 2016");
-        when(xpathProcessor.queryText(sN, ".//*[local-name()='ID']/text()"))
-                .thenReturn("bd18e047-560c-49ff-9c59-d620164e5f95");
-        when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='StudyUnitReference']")))
-                .thenReturn(studyUnitList);
-        when(xpathProcessor.queryText(oN, ".//*[local-name()='ID']/text()"))
-                .thenReturn("a18c2085-d44d-4544-a43a-c1b1499b5646");
-        when(xpathProcessor.queryList((Node) any(), eq( ".//*[local-name()='InstrumentSchemeReference']")))
-                .thenReturn(instrumentSchemeList);
-        when(xpathProcessor.queryText(isN, ".//*[local-name()='ID']/text()"))
-                .thenReturn("a18c2085-d44d-4544-a43a-c1b1499b5646");
-        when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='InstrumentReference']")))
-                .thenReturn(instrumentList);
-        when(xpathProcessor.queryText(iN, ".//*[local-name()='ID']/text()"))
-                .thenReturn("99c6b5c5-e591-4e64-af1b-f7e24970e20e");
-        when(xpathProcessor.queryText((Node) any(), eq(".//*[local-name()='Instrument']/*[local-name()='Label']/*[local-name()='Content']/text()")))
-                .thenReturn("Investissements et dépenses courantes pour protéger l'environnement 2016");
+//        Node fN = Mockito.mock(Node.class);
+//        NodeList groupList = new NodeList() {
+//            @Override
+//            public Node item(int i) {
+//                return fN;
+//            }
+//
+//            @Override
+//            public int getLength() {
+//                return 1;
+//            }
+//        };
+//        Node sN = Mockito.mock(Node.class);
+//        NodeList subGroupList = new NodeList() {
+//            @Override
+//            public Node item(int i) {
+//                return sN;
+//            }
+//
+//            @Override
+//            public int getLength() {
+//                return 1;
+//            }
+//        };
+//        Node dcN = Mockito.mock(Node.class);
+//        NodeList dataCollectionList = new NodeList() {
+//            @Override
+//            public Node item(int i) {
+//                return dcN;
+//            }
+//
+//            @Override
+//            public int getLength() {
+//                return 1;
+//            }
+//        };
+//        Node oN = Mockito.mock(Node.class);
+//        NodeList studyUnitList = new NodeList() {
+//            @Override
+//            public Node item(int i) {
+//                return oN;
+//            }
+//
+//            @Override
+//            public int getLength() {
+//                return 1;
+//            }
+//        };
+//        Node isN = Mockito.mock(Node.class);
+//        NodeList instrumentSchemeList = new NodeList() {
+//            @Override
+//            public Node item(int i) {
+//                return isN;
+//            }
+//
+//            @Override
+//            public int getLength() {
+//                return 1;
+//            }
+//        };
+//        Node iN = Mockito.mock(Node.class);
+//        NodeList instrumentList = new NodeList() {
+//            @Override
+//            public Node item(int i) {
+//                return iN;
+//            }
+//
+//            @Override
+//            public int getLength() {
+//                return 1;
+//            }
+//        };
+//        when(xpathProcessor.queryList((String) any(), eq("//*[local-name()='Group']")))
+//                .thenReturn(groupList);
+//        when(xpathProcessor.queryText(fN, "//*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()"))
+//                .thenReturn("ANTIPOL");
+//        when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='SubGroupReference']")))
+//                .thenReturn(subGroupList);
+//        when(xpathProcessor.queryText((Node) any(), eq(".//*[local-name()='SubGroup']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()")))
+//                .thenReturn("Investissements et dépenses courantes pour protéger l'environnement");
+//        when(xpathProcessor.queryText(dcN, ".//*[local-name()='ID']/text()"))
+//                .thenReturn("bd18e047-560c-49ff-9c59-d620164e5f95");
+//        when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='DataCollectionReference']")))
+//                .thenReturn(dataCollectionList);
+//        when(xpathProcessor.queryText((Node) any(), eq(".//*[local-name()='StudyUnit']/*[local-name()='Citation']/*[local-name()='Title']/*[local-name()='String']/text()")))
+//                .thenReturn("Investissements et dépenses courantes pour protéger l'environnement 2016");
+//        when(xpathProcessor.queryText(sN, ".//*[local-name()='ID']/text()"))
+//                .thenReturn("bd18e047-560c-49ff-9c59-d620164e5f95");
+//        when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='StudyUnitReference']")))
+//                .thenReturn(studyUnitList);
+//        when(xpathProcessor.queryText(oN, ".//*[local-name()='ID']/text()"))
+//                .thenReturn("a18c2085-d44d-4544-a43a-c1b1499b5646");
+//        when(xpathProcessor.queryList((Node) any(), eq( ".//*[local-name()='InstrumentSchemeReference']")))
+//                .thenReturn(instrumentSchemeList);
+//        when(xpathProcessor.queryText(isN, ".//*[local-name()='ID']/text()"))
+//                .thenReturn("a18c2085-d44d-4544-a43a-c1b1499b5646");
+//        when(xpathProcessor.queryList((Node) any(), eq(".//*[local-name()='InstrumentReference']")))
+//                .thenReturn(instrumentList);
+//        when(xpathProcessor.queryText(iN, ".//*[local-name()='ID']/text()"))
+//                .thenReturn("99c6b5c5-e591-4e64-af1b-f7e24970e20e");
+//        when(xpathProcessor.queryText((Node) any(), eq(".//*[local-name()='Instrument']/*[local-name()='Label']/*[local-name()='Content']/text()")))
+//                .thenReturn("Investissements et dépenses courantes pour protéger l'environnement 2016");
     }
 
     private void mockFindByIdResponse(String id) throws Exception {

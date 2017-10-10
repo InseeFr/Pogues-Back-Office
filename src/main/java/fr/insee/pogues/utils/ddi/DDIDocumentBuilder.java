@@ -39,15 +39,6 @@ public class DDIDocumentBuilder {
         }
     }
 
-    private static String getId(Node refNode) throws Exception {
-        NodeList refChildren = refNode.getChildNodes();
-        for (int i = 0; i < refChildren.getLength(); i++) {
-            if (refChildren.item(i).getNodeName().equals("r:ID")) {
-                return refChildren.item(i).getTextContent();
-            }
-        }
-        throw new Exception("No reference found in node");
-    }
 
     public DDIDocumentBuilder build() {
         if (null != itemNode) {
@@ -116,12 +107,13 @@ public class DDIDocumentBuilder {
     private void walk(Node root, Document document, Map<String, String> references) throws Exception {
         NodeList rootNodes = root.getChildNodes();
         for (int i = 0; i < rootNodes.getLength(); i++) {
-            Node n = rootNodes.item(i);
-            if (n.getNodeName().contains("Reference")) {
-                String fragment = references.get(getId(n));
+            Node node = rootNodes.item(i);
+            if (node.getNodeName().contains("Reference")) {
+;                String fragment = references.get(getId(node));
                 if (null != fragment) {
                     Node child = getNode(fragment, document);
                     root.appendChild(child);
+                    root.removeChild(node);
                     walk(child, document, references);
                 }
             }
@@ -134,6 +126,17 @@ public class DDIDocumentBuilder {
         // Transfer ownership of the new node into the destination document
         doc.adoptNode(newNode);
         return newNode;
+    }
+
+    private static String getId(Node refNode) throws Exception {
+        NodeList refChildren = refNode.getChildNodes();
+        for (int i = 0; i < refChildren.getLength(); i++) {
+            if (refChildren.item(i).getNodeName().equals("r:ID")) {
+                System.out.println(refNode.getNodeName() + " -> " + refChildren.item(i).getTextContent());
+                return refChildren.item(i).getTextContent();
+            }
+        }
+        throw new Exception("No reference found in node");
     }
 
     private Document getDocument(String fragment) throws Exception {

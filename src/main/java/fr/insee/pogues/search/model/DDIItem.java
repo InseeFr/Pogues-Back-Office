@@ -1,6 +1,6 @@
 package fr.insee.pogues.search.model;
 
-public class DDIItem extends PoguesItem {
+public class DDIItem {
 
     private String type;
 
@@ -9,7 +9,6 @@ public class DDIItem extends PoguesItem {
     }
 
     public DDIItem(String id, String label, String parent, String type) {
-        super(id, parent, label);
         this.type = type;
     }
 

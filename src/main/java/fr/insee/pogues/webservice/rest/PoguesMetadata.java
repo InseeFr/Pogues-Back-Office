@@ -2,6 +2,7 @@ package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
+import fr.insee.pogues.metadata.model.Unit;
 import fr.insee.pogues.metadata.service.MetadataService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -67,6 +68,23 @@ public class PoguesMetadata {
         }
     }
 
+    
+    @GET
+    @Path("units")
+    @Produces(MediaType.APPLICATION_JSON)
+    @ApiOperation(value = "Get units measure",
+            notes = "This will give a list of objects containing the uri and the label for all units",
+            response = Unit.class,
+            responseContainer = "List")
+    public Response getUnits() throws Exception {
+        try {
+        	List<Unit> units = metadataService.getUnits();
+            return Response.ok().entity(units).build();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+    }
 
     @POST
     @Path("items")
@@ -97,11 +115,10 @@ public class PoguesMetadata {
             notes = "Gets a full DDI document from Colectica repository reference {id}",
             response = String.class)
     public Response getFullDDI(
-            @PathParam(value = "id") String id,
-            @QueryParam(value="resourcePackageId") String resourcePackageId
+            @PathParam(value = "id") String id
     ) throws Exception {
         try {
-            String ddiDocument = metadataService.getDDIDocument(id, resourcePackageId);
+            String ddiDocument = metadataService.getDDIDocument(id);
             StreamingOutput stream = output -> {
                 try {
                     output.write(ddiDocument.getBytes(StandardCharsets.UTF_8));
