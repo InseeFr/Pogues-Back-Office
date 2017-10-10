@@ -1,36 +1,24 @@
 package fr.insee.pogues.search.service;
 
 import fr.insee.pogues.search.model.DDIItem;
-import fr.insee.pogues.search.model.PoguesItem;
+import fr.insee.pogues.search.model.DataCollectionContext;
+import fr.insee.pogues.search.model.PoguesQuery;
 import fr.insee.pogues.search.repository.PoguesItemRepository;
-import org.elasticsearch.action.delete.DeleteResponse;
-import org.elasticsearch.action.index.IndexResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
 
 import java.util.List;
 
+
 @Service
 public class SearchServiceImpl implements SearchService {
-
-    @Autowired
+    
+	@Autowired
     private PoguesItemRepository poguesItemRepository;
 
-    @Override
-    public IndexResponse save(String type, PoguesItem item) throws Exception {
-        return poguesItemRepository.save(type, item);
-    }
-
-    public List<DDIItem> searchByLabel(String label, String... types) throws Exception {
-        return poguesItemRepository.findByLabel(label, types);
-    }
-
-    public List<DDIItem> searchByLabelInSubgroup(String label, String subgroupId, String... types) throws Exception {
-        return poguesItemRepository.findByLabelInSubGroup(label, subgroupId, types);
-    }
-
-    public DeleteResponse delete(String type, String id) throws Exception {
-        return poguesItemRepository.delete(type, id);
+    public List<DDIItem> searchByLabel(PoguesQuery query, MultiValueMap<String, String> params) throws Exception {
+        return poguesItemRepository.findByLabel(query, params);
     }
 
     @Override
@@ -47,4 +35,10 @@ public class SearchServiceImpl implements SearchService {
     public List<DDIItem> getDataCollections(String operationId) throws Exception {
         return poguesItemRepository.getDataCollections(operationId);
     }
+    
+    @Override
+    public DataCollectionContext getDataCollectionContext(String dataCollectionId) throws Exception{
+    	 return poguesItemRepository.getDataCollectionContext(dataCollectionId);
+    }
+    
 }

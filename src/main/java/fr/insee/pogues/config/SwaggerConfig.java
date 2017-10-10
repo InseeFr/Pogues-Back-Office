@@ -50,11 +50,17 @@ public class SwaggerConfig extends HttpServlet {
         props.load(getClass()
                 .getClassLoader()
                 .getResourceAsStream(propsPath));
-        File f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.home"), "pogues-bo.properties"));
+        File f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "pogues-bo.properties"));
         if(f.exists() && !f.isDirectory()) {
             FileReader r = new FileReader(f);
             props.load(r);
             r.close();
+        }
+        File f2 = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmspogfo.properties"));
+        if(f2.exists() && !f2.isDirectory()) {
+            FileReader r2 = new FileReader(f2);
+            props.load(r2);
+            r2.close();
         }
         return props;
     }
