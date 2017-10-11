@@ -414,10 +414,9 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
 <ul>
 <li><a href="https://github.com/settings/tokens/new" target="_blank">G&#xE9;n&#xE9;rer un token d&apos;acc&#xE8;s associ&#xE9; &#xE0; un compte autoris&#xE9; sur github</a></li>
 <li>Inclure ce token dans le scope public_repo (repo pour un repository priv&#xE9;)</li>
-<li><p>Associer la variable d&apos;environnement GITHUB_TOKEN au token sur le  <a href="https://travis-ci.org/" target="_blank">tableau de bord de Travis du projet</a></p>
-<h2 id="reporting">Reporting</h2>
-</li>
+<li>Associer la variable d&apos;environnement GITHUB_TOKEN au token sur le  <a href="https://travis-ci.org/" target="_blank">tableau de bord de Travis du projet</a></li>
 </ul>
+<h2 id="reporting">Reporting</h2>
 <p>Chaque build g&#xE9;n&#xE8;re un rapport de couverture envoy&#xE9; &#xE0; <a href="https://coveralls.io/" target="_blank">coveralls.io</a></p>
 <p> La page de rapport est visible en cliquant sur le badge coveralls (ci-dessous et dans le README du projet)</p>
 <p> <a href="https://coveralls.io/github/InseeFr/Pogues-Back-Office?branch=zenika-dev" target="_blank"><img src="https://coveralls.io/repos/github/InseeFr/Pogues-Back-Office/badge.svg?branch=zenika-dev" alt="Coverage Status"></a></p>
@@ -428,6 +427,10 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
 </code></pre>
 </li>
 </ul>
+<h2 id="publication-des-releases">Publication des releases</h2>
+<p> Pour publier une release, il suffit de mettre &#xE0; jour la version de l&apos;application dans le fichier pom.xml et de soumettre une pull request sur le d&#xE9;p&#xF4;t de l&apos;INSEE</p>
+<p> Par convention, on pr&#xE9;f&#xE8;rera associer un commit &#xE0; cette unique mise &#xE0; jour avec le message &quot;Draft release vx.x.x&quot; </p>
+<p> Les releases sont publi&#xE9;es sur github sous la forme d&apos;un war contenant l&apos;application packag&#xE9;e (frontend + backend) et sont accessibles &#xE0; <a href="https://github.com/InseeFr/Pogues-Back-Office/releases" target="_blank">l&apos;adresse suivante</a></p>
 
                                 
                                 </section>
@@ -471,7 +474,7 @@ La notion de d&#xE9;ploiement inclus la publication d&apos;une release sur githu
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Travis","level":"1.4.3","depth":2,"next":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-10-03T07:00:32.586Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-03T07:10:35.139Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Travis","level":"1.4.3","depth":2,"next":{"title":"Modèle de données","level":"1.5","depth":1,"path":"persistence/README.md","ref":"persistence/README.md","articles":[]},"previous":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/travis.md","mtime":"2017-10-11T06:30:01.019Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-11T06:42:20.507Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>

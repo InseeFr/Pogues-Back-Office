@@ -402,25 +402,82 @@
 <pre><code class="lang-bash">docker-compose up
 </code></pre>
 <p>L&apos;ex&#xE9;cution de cette commande d&#xE9;marre les trois containers et relie le container tomcat aux containers ldap et postgresql.</p>
-<p><strong><em>NB:</em></strong> Pour indiquer au serveur tomcat qu&apos;il doit utiliser les containers comme backend il faut &#xE9;diter la variable d&apos;environement CATALINA_OPT comme ceci:</p>
-<pre><code class="lang-bash"><span class="hljs-built_in">export</span> CATALINA_OPTS=<span class="hljs-string">&quot;env.qav.qa&quot;</span>
+<p><strong><em>NB:</em></strong> Pour indiquer au serveur tomcat qu&apos;il doit utiliser les containers comme backend on peut &#xE9;diter la variable d&apos;environement CATALINA_OPT dans le fichier docker-compose.yml</p>
+<pre><code class="lang-yaml"><span class="hljs-attr">  tomcat:</span>
+<span class="hljs-attr">    build:</span> ./tomcat
+<span class="hljs-attr">    environment:</span>
+<span class="hljs-bullet">      -</span> fr.insee.pogues.env=qa
+<span class="hljs-attr">    volumes:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./tomcat/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war&quot;</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./tomcat/pogues-bo.properties:/usr/local/tomcat/webapps/rmspogfo.properties&quot;</span>
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-bullet">      -</span> intra
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;8080:8080&quot;</span>
 </code></pre>
-<p>Cette variable est d&#xE9;finie par d&#xE9;faut &#xE0; la g&#xE9;n&#xE9;ration de l&apos;image docker donc implicitement d&#xE9;finie lors de l&apos;utilisation de la commande <code>docker-compose up</code></p>
+<p>Si un fichier rmspogfo.properties est pr&#xE9;sent dans le r&#xE9;pertoire tomcat, les propri&#xE9;t&#xE9;s d&#xE9;finies dans ce fichier surchargeront les propri&#xE9;t&#xE9;s d&#xE9;finies dans le r&#xE9;pertoire d&apos;environnement qa</p>
 <h3 id="utilisation-en-mode-d&#xE9;veloppement">Utilisation en mode d&#xE9;veloppement</h3>
-<p>En mode d&#xE9;veloppement plusieurs solutions:</p>
+<p>En mode d&#xE9;veloppement, utiliser docker-compose pour d&#xE9;marrer uniquement les backends n&#xE9;cessaires &#xE0; tomcat et laisser votre IDE g&#xE9;rer la compilation et le d&#xE9;ploiement de votre application.</p>
 <ul>
-<li>Configurer l&apos;ex&#xE9;cution de l&apos;application pour utiliser le container tomcat comme environnement d&apos;ex&#xE9;cution</li>
-<li>Utiliser docker-compose pour d&#xE9;marrer uniquement les backends n&#xE9;cessaires &#xE0; tomcat et laisser votre IDE g&#xE9;rer la compilation et le d&#xE9;ploiement de votre application.</li>
+<li>D&#xE9;marrer uniquement les backends n&#xE9;cessaires &#xE0; tomcat:</li>
 </ul>
-<p>Pour la seconde solution (privil&#xE9;gi&#xE9;e ici)</p>
-<p>D&#xE9;marrer uniquement les backends n&#xE9;cessaires &#xE0; tomcat:</p>
-<pre><code class="lang-bash">docker-compose up postgresql ldap
+<pre><code class="lang-bash">docker-compose up postgresql ldap elasticsearch colectica
 </code></pre>
-<p>Indiquer &#xE0; tomcat qu&apos;il doit utiliser ces containers comme backends:</p>
+<ul>
+<li>Indiquer &#xE0; tomcat qu&apos;il doit utiliser ces containers comme backends:</li>
+</ul>
 <p>Sur Eclipse ou IntelliJ il suffit d&apos;&#xE9;diter la configuration de lancement 
 pour passer la variable d&apos;environnement appropri&#xE9;e &#xE0; tomcat</p>
-<pre><code>-Dfr.insee.pogues.env=env.dev
+<pre><code>-Dfr.insee.pogues.env=dev
+</code></pre><h3 id="utilisation-en-mode-d&#xE9;ploiement">Utilisation en mode d&#xE9;ploiement</h3>
+<ul>
+<li><p>R&#xE9;cup&#xE9;rer la derni&#xE8;re version stable de l&apos;application</p>
+<ul>
+<li><a href="https://github.com/InseeFr/Pogues-Back-Office/releases" target="_blank">Acc&#xE8;s aux release</a></li>
+</ul>
+</li>
+<li><p>D&#xE9;poser le war t&#xE9;l&#xE9;charg&#xE9; dans le r&#xE9;pertoire docker/tomcat</p>
+</li>
+</ul>
+<p><em>NB: Alternativement on peut packager la version locale en utilisant le script pr&#xE9;vu &#xE0; cet effet</em></p>
+<pre><code class="lang-bash">bash scripts/build.sh rmspogfo
 </code></pre>
+<ul>
+<li>Lancer l&apos;ensemble des containers</li>
+</ul>
+<pre><code class="lang-bash">docker-compose up
+</code></pre>
+<h3 id="configurer-le-container-colectica">Configurer le container colectica</h3>
+<p>Le container colectica s&apos;appuie sur le module <a href="https://github.com/typicode/json-server" target="_blank">json-server</a></p>
+<p>Ce module exploite un fichier json pour exposer des resources via une API REST</p>
+<p>L&apos;API Colectica contourne un certain nombre de principes des architectures REST et il faut donc configurer json-server pour rendre son comportement similaire &#xE0; celui de l&apos;API Colectica</p>
+<h4 id="r&#xE9;&#xE9;criture-durl">R&#xE9;&#xE9;criture d&apos;URL</h4>
+<p>Pour prendre l&apos;exemple de la resources /items, cette resource est d&#xE9;finie par json-server &#xE0; partir de la clef items d&#xE9;finie dans le fichier db.json et de la collection associ&#xE9;e.</p>
+<p>Pour faire correspondre cette url de resource &#xE0; l&apos;URL appel&#xE9;e en production on &#xE9;ditera le fichier routes.json de la mani&#xE8;re suivante:</p>
+<pre><code class="lang-json">{
+  <span class="hljs-string">&quot;/api/v1/item/fr.insee/:id?api_key=ADMINKEY&quot;</span>: <span class="hljs-string">&quot;/items/:id&quot;</span>,
+  <span class="hljs-string">&quot;/api/v1/set/fr.insee/:id?api_key=ADMINKEY&quot;</span>: <span class="hljs-string">&quot;/set&quot;</span>,
+  <span class="hljs-string">&quot;/api/v1/item/_getList?api_key=ADMINKEY&quot;</span>: <span class="hljs-string">&quot;/items&quot;</span>
+}
+</code></pre>
+<p>De la m&#xEA;me mani&#xE8;re, l&apos;API Colectica expose un certain nombre de routes renvoyant des resources &#xE0; l&apos;invocation d&apos;appels utilisant le verbe POST</p>
+<p>Ce type de comportement n&apos;&#xE9;tant pas strictement conforme aux architectures REST, on a besoin d&apos;ajouter les middleware n&#xE9;cessaires au code ex&#xE9;cut&#xE9; par notre serveur en &#xE9;ditant le fichier app/middleware.js:</p>
+<pre><code class="lang-js"><span class="hljs-built_in">module</span>.exports = (server, router) =&gt; {
+
+    server.post(<span class="hljs-string">&apos;/items&apos;</span>, (req, res) =&gt; {
+        <span class="hljs-keyword">const</span> db = router.db    
+        <span class="hljs-keyword">const</span> items = router.db.get(<span class="hljs-string">&apos;items&apos;</span>).value()
+        res.jsonp(items)
+    })
+
+    server.get(<span class="hljs-string">&apos;/items/:id&apos;</span>, (req, res) =&gt; {
+        <span class="hljs-keyword">const</span> db = router.db
+        <span class="hljs-keyword">const</span> item = router.db.get(<span class="hljs-string">&apos;items&apos;</span>).find({ <span class="hljs-string">&apos;Identifier&apos;</span>: req.params.id }).value()
+        res.jsonp(item)
+    })
+}
+</code></pre>
+
                                 
                                 </section>
                             
@@ -463,7 +520,7 @@ pour passer la variable d&apos;environnement appropri&#xE9;e &#xE0; tomcat</p>
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Utilisation","level":"1.4.2.2","depth":3,"next":{"title":"Travis","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"previous":{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/docker/docker-usage.md","mtime":"2017-10-03T07:00:32.586Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-03T07:10:35.139Z"},"basePath":"../..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Utilisation","level":"1.4.2.2","depth":3,"next":{"title":"Travis","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"previous":{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/docker/docker-usage.md","mtime":"2017-10-11T06:30:01.019Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-11T06:42:20.507Z"},"basePath":"../..","book":{"language":"fr"}});
         });
     </script>
 </div>

@@ -339,7 +339,15 @@
                                 <p><img src="../../../pics/docker.png" alt="docker"></p>
 <h2 id="composition-du-r&#xE9;pertoire-docker">Composition du r&#xE9;pertoire docker</h2>
 <p>Les fichiers n&#xE9;cessaires &#xE0; la g&#xE9;n&#xE9;ration des images docker et &#xE0; l&apos;ex&#xE9;cution de l&apos;environnement sont situ&#xE9;s &#xE0; la racine du projet dans le r&#xE9;pertoire docker:</p>
-<pre><code>&#x251C;&#x2500;&#x2500; docker-compose.yml
+<pre><code>&#x251C;&#x2500;&#x2500; colectica
+&#x2502;   &#x251C;&#x2500;&#x2500; app
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; db.json
+&#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; middleware.js
+&#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; routes.json
+&#x2502;   &#x2514;&#x2500;&#x2500; Dockerfile
+&#x251C;&#x2500;&#x2500; docker-compose.yml
+&#x251C;&#x2500;&#x2500; elastic
+&#x2502;   &#x2514;&#x2500;&#x2500; Dockerfile
 &#x251C;&#x2500;&#x2500; ldap
 &#x2502;   &#x251C;&#x2500;&#x2500; db
 &#x2502;   &#x2502;   &#x251C;&#x2500;&#x2500; groups.ldif
@@ -353,8 +361,11 @@
 &#x2502;   &#x2502;   &#x2514;&#x2500;&#x2500; data.sql
 &#x2502;   &#x2514;&#x2500;&#x2500; Dockerfile
 &#x2514;&#x2500;&#x2500; tomcat
-    &#x2514;&#x2500;&#x2500; Dockerfile
-</code></pre><p>Les trois sous r&#xE9;pertoires contiennent chacun un fichier <a href="https://docs.docker.com/engine/reference/builder/" target="_blank">Dockerfile</a>
+    &#x251C;&#x2500;&#x2500; Dockerfile
+    &#x251C;&#x2500;&#x2500; pogues-bo.properties
+    &#x251C;&#x2500;&#x2500; rmspogfo.properties
+    &#x2514;&#x2500;&#x2500; rmspogfo.war
+</code></pre><p>Les cinq sous r&#xE9;pertoires contiennent chacun un fichier <a href="https://docs.docker.com/engine/reference/builder/" target="_blank">Dockerfile</a>
 utilis&#xE9; pour g&#xE9;n&#xE9;rer une image Docker, ainsi que les fichiers de configuration ajout&#xE9;s au container (au build par utilisation des directives <a href="https://stackoverflow.com/questions/24958140/what-is-the-difference-between-the-copy-and-add-commands-in-a-dockerfile" target="_blank">ADD/COPY</a> dans le Dockerfile ou &#xE0; l&apos;ex&#xE9;cution par l&apos;utilisation d&apos;un volume mont&#xE9;)</p>
 <h3 id="ldap">LDAP</h3>
 <p>Le r&#xE9;pertoire ldap contient un fichier de d&#xE9;finition pour la g&#xE9;n&#xE9;ration d&apos;une image openLDAP et un script d&apos;import 
@@ -365,6 +376,8 @@ Certains &#xE9;l&#xE9;ments du sch&#xE9;ma d&#xE9;fini divergent donc volontaire
 <h3 id="postgresql">Postgresql</h3>
 <p>Le r&#xE9;pertoire postgresql contient un fichier de d&#xE9;finition pour la g&#xE9;n&#xE9;ration d&apos;une image postgresql (version 9.5) contenant un script d&apos;import 
 ex&#xE9;cut&#xE9; au lancement du container. Au d&#xE9;marrage du container, ce script cr&#xE9;e les tables n&#xE9;cessaires au fonctionnement de l&apos;application.</p>
+<h3 id="colectica">Colectica</h3>
+<p>Le r&#xE9;pertoire colectica s&apos;appuie sur un serveur node.js pour r&#xE9;pondre aux reque&#xEA;tes adress&#xE9;es en production &#xE0; l&apos;API du d&#xE9;p&#xF4;t Colectica</p>
 <h3 id="tomcat">Tomcat</h3>
 <p>Le r&#xE9;pertoire tomcat contient un environnement d&apos;ex&#xE9;cution pour l&apos;application.
 A sa g&#xE9;n&#xE9;ration, l&apos;application est d&#xE9;ploy&#xE9;e sur ce container et d&#xE9;marr&#xE9;e pour permettre l&apos;ex&#xE9;cution des tests d&apos;int&#xE9;gration (sc&#xE9;narios d&apos;utilisation des endpoints REST)</p>
@@ -411,7 +424,7 @@ A sa g&#xE9;n&#xE9;ration, l&apos;application est d&#xE9;ploy&#xE9;e sur ce cont
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"next":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"previous":{"title":"Docker","level":"1.4.2","depth":2,"path":"workflow/docker/README.md","ref":"workflow/docker/README.md","articles":[{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/docker/docker-folders.md","mtime":"2017-10-03T07:00:32.586Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-03T07:10:35.139Z"},"basePath":"../..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"next":{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]},"previous":{"title":"Docker","level":"1.4.2","depth":2,"path":"workflow/docker/README.md","ref":"workflow/docker/README.md","articles":[{"title":"Le répertoire docker","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},{"title":"Utilisation","level":"1.4.2.2","depth":3,"path":"workflow/docker/docker-usage.md","ref":"workflow/docker/docker-usage.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"workflow/docker/docker-folders.md","mtime":"2017-10-11T06:30:01.019Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-11T06:42:20.507Z"},"basePath":"../..","book":{"language":"fr"}});
         });
     </script>
 </div>

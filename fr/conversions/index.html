@@ -334,7 +334,54 @@
     
                                 <section class="normal markdown-section">
                                 
-                                <h1 id="conversions-pogues--ddi">Conversions Pogues / DDI</h1>
+                                <h1 id="conversion-de-formats">Conversion de formats</h1>
+<p>Le passage d&apos;un format de meta donn&#xE9;e &#xE0; un autre est une fonctionalit&#xE9; clef de l&apos;application Pogues. Ces transformations peuvent &#xEA;tre r&#xE9;alis&#xE9;es au moyen d&apos;appels &#xE0; des services externes, de transformations XSLT ou de n&apos;importe quel autre moyen susceptible d&apos;appara&#xEE;tre au gr&#xE9; des besoins. Ces transformations peuvent &#xEA;tre cha&#xEE;n&#xE9;es tout comme elles peuvent &#xEA;tre appliqu&#xE9;es de fa&#xE7;on unitaire.</p>
+<p>Toutes les implementations utilis&#xE9;es pour mener &#xE0; bien ces transformations s&apos;appuient donc sur une interface commune afin de faciliter la mise en place de cha&#xEE;nes de transformations r&#xE9;pondant aux cas d&apos;usages impos&#xE9;s par les sp&#xE9;cifications. </p>
+<h2 id="linterface-transformer">L&apos;interface Transformer</h2>
+<p>En cons&#xE9;quence toute impl&#xE9;mentation de transformation DOIT impl&#xE9;menter l&apos;interface Transformer dont le contrat d&#xE9;finit un certain nombre de m&#xE9;thodes  <code>transform</code> s&apos;appliquant &#xE0; diff&#xE9;rents types d&apos;entr&#xE9;es/sorties </p>
+<pre><code class="lang-java"><span class="hljs-keyword">package</span> fr.insee.pogues.transforms;
+
+<span class="hljs-keyword">import</span> java.io.InputStream;
+<span class="hljs-keyword">import</span> java.io.OutputStream;
+<span class="hljs-keyword">import</span> java.util.Map;
+
+<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Transformer</span> </span>{
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">transform</span><span class="hljs-params">(InputStream input, OutputStream output, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+    <span class="hljs-function">String <span class="hljs-title">transform</span><span class="hljs-params">(InputStream input, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+    <span class="hljs-function">String <span class="hljs-title">transform</span><span class="hljs-params">(String input, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+
+}
+</code></pre>
+<p>Une table de param&#xE8;tre pass&#xE9;e en argument permet aux transformers  de s&apos;appuyer sur de la configuratione externe pour produire leur sortie.</p>
+<h2 id="linterface-fonctionnelle-transform">L&apos;interface fonctionnelle transform</h2>
+<p>Pour nous permettre d&apos;utiliser les m&#xE9;thodes de l&apos;interface Transform en s&apos;appuyant sur <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html" target="_blank">les r&#xE9;f&#xE9;rences de m&#xE9;thodes</a> de Java 8, une interface fonctionnelle Transform est d&#xE9;finie, &#xE0; laquelle se conforment toutes les m&#xE9;thodes de l&apos;interface Transformer:</p>
+<pre><code class="lang-java">    <span class="hljs-meta">@FunctionalInterface</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Transform</span>&lt;<span class="hljs-title">I</span>, <span class="hljs-title">O</span>&gt; </span>{
+        <span class="hljs-function">O <span class="hljs-title">apply</span><span class="hljs-params">(I i, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+    }
+</code></pre>
+<h2 id="la-classe-pipeline">La classe Pipeline</h2>
+<p>La classe Pipeline nous permet de cha&#xEE;ner nos m&#xE9;thodes de transformation pour &#xE9;laborer des scenarios de transformation complexes</p>
+<p>Par exemple la visualisation d&apos;un questionnaire dans l&apos;application est r&#xE9;alis&#xE9;e au moyen de la cha&#xEE;ne de transformation suivante:</p>
+<p><code>[Pogues JSON] -&gt; [Pogues XML] -&gt; [DDI] -&gt; [XForm] -&gt; [Form URI]</code></p>
+<p>Voici un example de code repr&#xE9;sentant une cha&#xEE;ne de transformation:</p>
+<pre><code class="lang-java"><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">PipeSample</span></span>{
+    <span class="hljs-function"><span class="hljs-keyword">public</span> String <span class="hljs-title">pipe</span><span class="hljs-params">(HttpServletRequest request)</span></span>{
+        <span class="hljs-keyword">return</span> pipeline
+            .from(request.getInputStream())
+            .map(jsonToXML::transform, params)
+            .map(xmlToDDI::transform, params)
+            .map(ddiToXForm::transform, params)
+            .map(xformToUri::transform, params)
+            .transform()
+            .getBytes();
+    }
+}
+</code></pre>
+<p>Dans cette version les cha&#xEE;nes de transformation s&apos;appuient sur des entr&#xE9;es/sorties de type String, &#xE0; l&apos;exception du point d&apos;entr&#xE9;e fournit sous forme de Stream ou de String. </p>
+<p>La r&#xE9;alisation de la chaine de transformation s&apos;effectue en fournissant une entr&#xE9;e &#xE0; la cha&#xEE;ne au moyen de la m&#xE9;thode <code>from</code> de la classe PipeLine.
+Nous pouvons ensuite cha&#xEE;ner nos diff&#xE9;rentes &#xE9;tapes de transformation en utilisant la m&#xE9;thode <code>map</code> de la classe PipeLine. Les m&#xE9;thodes from et map retournent l&apos;instance de la classe PipeLine, permettant une &#xE9;criture fluide de la cha&#xEE;ne de transformation.</p>
+<p>La transformation est r&#xE9;lis&#xE9;e uniquement &#xE0; l&apos;appe de la methode transform() sur l&apos;instance de la classe PipeLine</p>
 
                                 
                                 </section>
@@ -374,7 +421,7 @@
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Transformations","level":"1.7","depth":1,"previous":{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"conversions/README.md","mtime":"2017-10-03T07:00:32.586Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-03T07:10:35.139Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Transformations","level":"1.7","depth":1,"previous":{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"conversions/README.md","mtime":"2017-10-11T06:30:01.019Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-11T06:42:20.507Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>
