@@ -48,3 +48,16 @@ Docker et docker-compose sont utilisés pour orchestrer un environnement d'exéc
  - Exécuter des tests d'intégration pendant la phase de build avec Travis.
  
 
+## Utilisation avec Windows
+
+### Installation de docker toolbox
+
+[Documentation officielle](https://docs.docker.com/toolbox/toolbox_install_windows/)
+
+### Accès au container tomcat
+
+Sur les systèmes Unix (mac/linux) la configuration définie dans le répertoire docker nous permet d'accéder au point d'entrée de l'application (le container tomcat) à l'adresse localhost sur le port 8080.
+Après installation de docker toolbox, les plateformes windows s'appuient sur une machine virtuelle pour exécuter nos containers. L'accès au point d'entrée de l'application s'effectue donc alors par l'addresse ip de la machine virtuelle démarrée au lancement de vos containers.
+
+*NB: Pour accéder au point d'entrée sur l'hôte local il est possible de configurer une règle de redirection de port sur la machine virtuelle créée par docker toolbox* 
+
