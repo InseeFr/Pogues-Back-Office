@@ -8,7 +8,7 @@
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
     <xsl:strip-space elements="*"/>
     <xsl:param name="agencemaj">INSEE</xsl:param>
-    <xsl:param name="enquete" select="//pogues:Questionnaire/pogues:DataCollection/pogues:Name"/>
+    <xsl:param name="enquete" select="//pogues:Questionnaire/pogues:DataCollection/@id"/>
     <xsl:variable name="monagence">
         <r:Agency>
             <xsl:value-of select="//pogues:Questionnaire/@agency"/>
@@ -42,8 +42,7 @@
                     </r:ID>
                     <r:Version>0.1.0</r:Version>
                     <r:Label>
-                        <r:Content xml:lang="fr-FR">Questionnaire DDI 3.2 déréférencé de
-                            Pogues</r:Content>
+                        <xsl:value-of select="//pogues:Questionnaire/pogues:Label"/>
                     </r:Label>
                     <d:TypeOfInstrument>DDI XFORMS</d:TypeOfInstrument>
                     <d:ControlConstructReference>
@@ -56,7 +55,7 @@
                             <r:Version>0.1.0</r:Version>
                             <r:Label>
                                 <r:Content>
-                                    <xsl:value-of select="pogues:Questionnaire/pogues:Label/text()"
+                                    <xsl:value-of select="//pogues:Questionnaire/pogues:Label"
                                     />
                                 </r:Content>
                             </r:Label>

@@ -51,23 +51,24 @@ public class PoguesTransforms {
 
 
     @POST
-    @Path("visualize/{name}")
+    @Path("visualize/{dataCollection}/{questionnaire}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_XML)
     @ApiOperation(
             value = "Get visualization URI from JSON serialized Pogues entity",
-            notes = "Name MUST refer to the name attribute owned by the nested DataCollectionObject"
+            notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject"
     )
     @ApiImplicitParams(value = {
             @ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject")
     })
     public Response visualizeFromBody(
             @Context final HttpServletRequest request,
-            @PathParam(value = "name") String name
+            @PathParam(value = "dataCollection") String dataCollection, @PathParam(value = "questionnaire") String questionnaire
     ) throws Exception {
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
-        params.put("name", name);
+        params.put("dataCollection", dataCollection);
+        params.put("questionnaire", questionnaire);
         try {
             StreamingOutput stream = output -> {
                 try {
@@ -106,8 +107,10 @@ public class PoguesTransforms {
         try {
             JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
             JSONObject dataCollection = (JSONObject) ((JSONArray) questionnaire.get("DataCollection")).get(0);
-            String name = dataCollection.get("Name").toString();
-            params.put("name", name);
+            String name = dataCollection.get("id").toString();
+            params.put("dataCollection", name);
+            String questionnaireName = questionnaire.get("Name").toString();
+            params.put("questionnaire", questionnaireName);
             input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
             String uri = pipeline
                     .from(input)
