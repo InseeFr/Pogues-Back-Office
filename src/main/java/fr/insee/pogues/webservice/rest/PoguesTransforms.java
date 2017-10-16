@@ -67,8 +67,8 @@ public class PoguesTransforms {
     ) throws Exception {
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
-        params.put("dataCollection", dataCollection);
-        params.put("questionnaire", questionnaire);
+        params.put("dataCollection", dataCollection.toLowerCase());
+        params.put("questionnaire", questionnaire.toLowerCase());
         try {
             StreamingOutput stream = output -> {
                 try {
@@ -107,9 +107,9 @@ public class PoguesTransforms {
         try {
             JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
             JSONObject dataCollection = (JSONObject) ((JSONArray) questionnaire.get("DataCollection")).get(0);
-            String name = dataCollection.get("id").toString();
+            String name = ((String) dataCollection.get("id")).toLowerCase();
             params.put("dataCollection", name);
-            String questionnaireName = questionnaire.get("Name").toString();
+            String questionnaireName = ((String) questionnaire.get("Name")).toLowerCase();
             params.put("questionnaire", questionnaireName);
             input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
             String uri = pipeline
@@ -204,7 +204,7 @@ public class PoguesTransforms {
     }
 
     @POST
-    @Path("xform2uri/{name}")
+    @Path("xform2uri/{dataCollection}/{questionnaire}")
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.APPLICATION_XML)
     @ApiOperation(
@@ -220,11 +220,13 @@ public class PoguesTransforms {
     })
     public String xForm2URI(
             @Context final HttpServletRequest request,
-            @PathParam(value = "name") String name
+            @PathParam(value = "dataCollection") String dataCollection,
+            @PathParam(value = "questionnaire") String questionnaire
     ) throws Exception {
         try {
             Map<String, Object> params = new HashMap<>();
-            params.put("name", name);
+            params.put("dataCollection", dataCollection.toLowerCase());
+            params.put("questionnaire", questionnaire.toLowerCase());
             String input = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
             return xformToUri.transform(input, params);
         } catch (Exception e) {
