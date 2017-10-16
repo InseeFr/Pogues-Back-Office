@@ -1,10 +1,8 @@
 package fr.insee.pogues.metadata.client;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
+import fr.insee.pogues.metadata.model.ColecticaItem;
+import fr.insee.pogues.metadata.model.ColecticaItemRefList;
+import fr.insee.pogues.metadata.model.Unit;
 import org.apache.http.entity.ContentType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -18,10 +16,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import fr.insee.pogues.metadata.model.ColecticaItem;
-import fr.insee.pogues.metadata.model.ColecticaItemRef;
-import fr.insee.pogues.metadata.model.ColecticaItemRefList;
-import fr.insee.pogues.metadata.model.Unit;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @Service
 public class MetadataClientImpl implements MetadataClient {
@@ -41,13 +38,13 @@ public class MetadataClientImpl implements MetadataClient {
     String apiKey;
 
     public ColecticaItem getItem(String id) throws Exception {
-        String url = String.format("%s/api/v1/item/%s/%s?api_key=%s", serviceUrl, agency, id, apiKey);
+        String url = String.format("%s/meta-data/item/%s", serviceUrl, id);
         return restTemplate.getForObject(url, ColecticaItem.class);
     }
 
     public List<ColecticaItem> getItems(ColecticaItemRefList query) throws Exception {
-        String url = String.format("%s/api/v1/item/_getList?api_key=%s", serviceUrl, apiKey);
-        MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+        String url = String.format("%s/meta-data/items", serviceUrl);
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add("Content-type", ContentType.APPLICATION_JSON.getMimeType());
         HttpEntity<ColecticaItemRefList> request = new HttpEntity<>(query, headers);
         ResponseEntity<ColecticaItem[]> response = restTemplate
@@ -56,15 +53,20 @@ public class MetadataClientImpl implements MetadataClient {
     }
 
     public ColecticaItemRefList getChildrenRef(String id) throws Exception {
-        String url = String.format("%s/api/v1/set/%s/%s?api_key=%s", serviceUrl, agency, id, apiKey);
-        ResponseEntity<ColecticaItemRef.Unformatted[]>  response;
+        String url = String.format("%s/meta-data/item/%s/refs", serviceUrl, id);
+        System.out.println(url);
+        ResponseEntity<ColecticaItemRefList>  response;
         response = restTemplate
-                .exchange(url, HttpMethod.GET, null, ColecticaItemRef.Unformatted[].class);
-        List<ColecticaItemRef> refs = Arrays.asList(response.getBody())
-                .stream()
-                .map(unformatted -> unformatted.format())
-                .collect(Collectors.toList());
-        return new ColecticaItemRefList(refs);
+                .exchange(url, HttpMethod.GET, null, ColecticaItemRefList.class);
+        return response.getBody();
+    }
+
+    public String getDDIDocument(String id) throws Exception {
+        String url = String.format("%s/meta-data/item/%s/ddi", serviceUrl, id);
+        ResponseEntity<String>  response;
+        response = restTemplate
+                .exchange(url, HttpMethod.GET, null, String.class);
+        return response.getBody();
     }
     
     public List<Unit> getUnits() throws Exception {

@@ -25,8 +25,8 @@ public class StromaeServiceImpl implements StromaeService {
     @Override
     public String transform(String input, Map<String, Object> params) throws Exception {
         try(CloseableHttpClient httpClient = httpClientBuilder.build()) {
-            String uri = String.format("%s/%s", serviceUri,
-                    params.get("name"));
+            String uri = String.format("%s/%s/%s", serviceUri,
+                    params.get("dataCollection"),params.get("questionnaire"));
             HttpPost post = new HttpPost(uri);
             post.setEntity(new StringEntity(input, StandardCharsets.UTF_8));
             post.setHeader("Content-type", "application/xml");

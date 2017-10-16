@@ -35,7 +35,7 @@ La publication des fichiers compilés par gitbook s'effectue via un push sur le 
  - Inclure ce token dans le scope public_repo (repo pour un repository privé)
  - Associer la variable d'environnement GITHUB_TOKEN au token sur le  [tableau de bord de Travis du projet](https://travis-ci.org/)
  
- ## Reporting
+## Reporting
  
 Chaque build génère un rapport de couverture envoyé à [coveralls.io](https://coveralls.io/)
  
@@ -50,4 +50,13 @@ Chaque build génère un rapport de couverture envoyé à [coveralls.io](https:/
  ```bash
 mvn -DrepoToken=$COVERALLS_TOKEN coveralls:report
 ```
+ 
+## Publication des releases
+ 
+ Pour publier une release, il suffit de mettre à jour la version de l'application dans le fichier pom.xml et de soumettre une pull request sur le dépôt de l'INSEE
+ 
+ Par convention, on préfèrera associer un commit à cette unique mise à jour avec le message "Draft release vx.x.x" 
+ 
+ Les releases sont publiées sur github sous la forme d'un war contenant l'application packagée (frontend + backend) et sont accessibles à [l'adresse suivante](https://github.com/InseeFr/Pogues-Back-Office/releases)
+ 
  

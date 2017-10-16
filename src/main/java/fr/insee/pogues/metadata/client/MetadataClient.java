@@ -12,4 +12,5 @@ public interface MetadataClient {
     List<ColecticaItem> getItems(ColecticaItemRefList query) throws Exception;
     ColecticaItemRefList getChildrenRef(String id) throws Exception;
 	List<Unit> getUnits() throws Exception;
+    String getDDIDocument(String id) throws Exception;
 }

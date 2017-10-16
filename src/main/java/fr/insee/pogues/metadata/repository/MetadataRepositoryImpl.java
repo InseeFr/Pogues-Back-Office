@@ -1,14 +1,13 @@
 package fr.insee.pogues.metadata.repository;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import fr.insee.pogues.metadata.client.MetadataClient;
 import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.model.Unit;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MetadataRepositoryImpl implements MetadataRepository {
@@ -34,5 +33,10 @@ public class MetadataRepositoryImpl implements MetadataRepository {
     @Override
     public List<Unit> getUnits() throws Exception {
         return metadataClient.getUnits();
+    }
+
+    @Override
+    public String getDDIDocument(String id) throws Exception{
+        return metadataClient.getDDIDocument(id);
     }
 }
