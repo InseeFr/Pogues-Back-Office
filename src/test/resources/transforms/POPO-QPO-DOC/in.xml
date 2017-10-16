@@ -1511,7 +1511,7 @@
             </Child>
         </Child>
     </Child>
-    <DataCollection id="dataCollection1" uri="http://ddi:fr.insee:DataCollection.INSEE-POPO-DC-1.1"> 
+    <DataCollection id="POPO-2017-A00" uri="http://ddi:fr.insee:DataCollection.INSEE-POPO-DC-1.1"> 
         <Name>POPO-2017-A00</Name>
     </DataCollection>
     <ComponentGroup id="j3tu30jo">
