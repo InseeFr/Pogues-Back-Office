@@ -17,6 +17,8 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -128,6 +130,27 @@ public class PoguesTransforms {
         }
     }
 
+    
+    @GET
+    @Path("visualize-spec/{id}")
+    @ApiOperation(
+            value = "Get specification odt file from JSON serialized Pogues entity",
+            notes = "Retrieves entity in datastore before pass it through the transformation pipeline"
+    )
+    public Response visualizeSpecFromId(
+            @PathParam(value = "id") String id
+    ) throws Exception {
+        try {
+        	
+        	File file = new File(getClass().getClassLoader().getResource("odt/test.odt").getPath());
+        	return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
+			.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").build();
+        } catch (Exception e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        } 
+    }
+    
 
     @POST
     @Path("json2xml")
