@@ -8,7 +8,7 @@
     <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
     <xsl:strip-space elements="*"/>
     <xsl:param name="agencemaj">INSEE</xsl:param>
-    <xsl:param name="enquete" select="//pogues:Questionnaire/pogues:DataCollection/@id"/>
+    <xsl:param name="enquete" select="//pogues:Questionnaire/pogues:DataCollection[1]/@id"/>
     <xsl:variable name="monagence">
         <r:Agency>
             <xsl:value-of select="//pogues:Questionnaire/@agency"/>
