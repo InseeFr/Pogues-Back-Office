@@ -3,6 +3,8 @@ package fr.insee.pogues.search.repository;
 import fr.insee.pogues.search.model.DDIItem;
 import fr.insee.pogues.search.model.DataCollectionContext;
 import fr.insee.pogues.search.model.PoguesQuery;
+import fr.insee.pogues.search.model.ResponseSearchItem;
+
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -33,14 +35,14 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
 
 
     @Override
-    public List<DDIItem> findByLabel(PoguesQuery query, MultiValueMap<String, String> params) throws Exception {
+    public List<ResponseSearchItem> findByLabel(PoguesQuery query, MultiValueMap<String, String> params) throws Exception {
         String url = String.format("%s/search", serviceUrl);
         url = UriComponentsBuilder.fromHttpUrl(url).queryParams(params).toUriString();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-type", ContentType.APPLICATION_JSON.getMimeType());
         HttpEntity<PoguesQuery> request = new HttpEntity<>(query, headers);
-        ResponseEntity<DDIItem[]> response = restTemplate
-                .exchange(url, HttpMethod.POST, request, DDIItem[].class);
+        ResponseEntity<ResponseSearchItem[]> response = restTemplate
+                .exchange(url, HttpMethod.POST, request, ResponseSearchItem[].class);
         if(null == response.getBody()) {
             return new ArrayList();
         }
@@ -65,7 +67,7 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
 
     @Override
     public List<DDIItem> getDataCollections(String studyUnitId) throws Exception {
-        String url = String.format("%s/search/operations/%s/collections", serviceUrl, studyUnitId);
+        String url = String.format("%s/search/operations/%s/data-collection", serviceUrl, studyUnitId);
         ResponseEntity<DDIItem[]> response = restTemplate
                 .exchange(url, HttpMethod.GET, null, DDIItem[].class);
         return Arrays.asList(response.getBody());
@@ -73,7 +75,10 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
     
     @Override
 	public DataCollectionContext getDataCollectionContext(String dataCollectionId) throws Exception {
-		return null;
+    	String url = String.format("%s/search/context/data-collection/%s", serviceUrl, dataCollectionId);
+        ResponseEntity<DataCollectionContext> response = restTemplate
+                .exchange(url, HttpMethod.GET, null, DataCollectionContext.class);
+        return response.getBody();
 	}
 
 }
