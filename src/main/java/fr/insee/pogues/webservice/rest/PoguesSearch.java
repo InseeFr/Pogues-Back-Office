@@ -1,10 +1,20 @@
 package fr.insee.pogues.webservice.rest;
 
-import fr.insee.pogues.search.model.DDIItem;
-import fr.insee.pogues.search.model.DataCollectionContext;
-import fr.insee.pogues.search.model.PoguesQuery;
-import fr.insee.pogues.search.service.SearchService;
-import io.swagger.annotations.*;
+import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,13 +22,16 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
-import java.util.List;
-
-import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
+import fr.insee.pogues.search.model.DDIItem;
+import fr.insee.pogues.search.model.DataCollectionContext;
+import fr.insee.pogues.search.model.PoguesQuery;
+import fr.insee.pogues.search.model.ResponseSearchItem;
+import fr.insee.pogues.search.service.SearchService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 @Component
 @Path("/search")
@@ -41,7 +54,7 @@ public class PoguesSearch {
             @ApiResponse(code = 200, message = "OK"),
             @ApiResponse(code = 500, message = "Unexpected error")
     })
-    public List<DDIItem> search(
+    public List<ResponseSearchItem> search(
             @ApiParam(value = "Search only items referring to sub-group id", required = false)
             @QueryParam("subgroupId") String subgroupId,
             @ApiParam(value = "Search only items referring to study-unit id", required = false)
