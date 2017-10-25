@@ -38,7 +38,9 @@ services:
       - fr.insee.pogues.env=qa
     volumes:
       - "./tomcat/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war"
+      - "./tomcat/ddi-access-services.war:/usr/local/tomcat/webapps/ddi-access-services.war"
       - "./tomcat/pogues-bo.properties:/usr/local/tomcat/webapps/rmspogfo.properties"
+      - "./tomcat/ddi-access-services.properties:/usr/local/tomcat/webapps/ddi-access-services.properties"
     networks:
       - intra
     ports:
