@@ -44,7 +44,7 @@ public class SwaggerConfig extends HttpServlet {
         Properties props = new Properties();
         String env = System.getProperty("fr.insee.pogues.env");
         if(null == env) {
-            env = "dev";
+            env = "dv";
         }
         String propsPath = String.format("env/%s/pogues-bo.properties", env);
         props.load(getClass()
