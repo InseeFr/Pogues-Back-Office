@@ -1,15 +1,16 @@
 package fr.insee.pogues.metadata.service;
 
-import fr.insee.pogues.metadata.model.ColecticaItem;
-import fr.insee.pogues.metadata.model.ColecticaItemRefList;
-import fr.insee.pogues.metadata.model.Unit;
-import fr.insee.pogues.metadata.repository.MetadataRepository;
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import fr.insee.pogues.metadata.model.ColecticaItem;
+import fr.insee.pogues.metadata.model.ColecticaItemRefList;
+import fr.insee.pogues.metadata.model.Unit;
+import fr.insee.pogues.metadata.repository.MetadataRepository;
 
 @Service
 public class MetadataServiceImpl implements MetadataService {
@@ -19,7 +20,8 @@ public class MetadataServiceImpl implements MetadataService {
     @Autowired
     MetadataRepository metadataRepository;
 
-
+	
+	
     @Override
     public ColecticaItem getItem(String id) throws Exception {
         return metadataRepository.findById(id);
@@ -44,4 +46,14 @@ public class MetadataServiceImpl implements MetadataService {
     public String getDDIDocument(String id) throws Exception {
         return metadataRepository.getDDIDocument(id);
     }
+
+	@Override
+	public String getCodeList(String id) throws Exception {
+		
+		String codeList = metadataRepository.getCodeList(id);
+		
+		
+		
+		return null;
+	}
 }

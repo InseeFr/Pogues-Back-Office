@@ -3,6 +3,7 @@ package fr.insee.pogues.metadata.service;
 import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.model.Unit;
+import fr.insee.pogues.model.CodeList;
 
 import java.util.List;
 
@@ -13,5 +14,6 @@ public interface MetadataService {
     List<ColecticaItem> getItems(ColecticaItemRefList refs) throws Exception;
     List<Unit> getUnits() throws Exception;
     String getDDIDocument(String id) throws Exception;
+	String getCodeList(String id) throws Exception;
 
 }

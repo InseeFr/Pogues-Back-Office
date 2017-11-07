@@ -87,6 +87,15 @@ public class MetadataClientImpl implements MetadataClient {
     	units.add(unit3);
         return units;
     }
+
+	@Override
+	public String getCodeList(String id) throws Exception {
+		 String url = String.format("%s/meta-data/codeList/%s/ddi", serviceUrl, id);
+	        ResponseEntity<String>  response;
+	        response = restTemplate
+	                .exchange(url, HttpMethod.GET, null, String.class);
+	        return response.getBody();
+	}
     
     
 }
