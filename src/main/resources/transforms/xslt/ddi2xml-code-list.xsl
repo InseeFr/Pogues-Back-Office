@@ -7,13 +7,13 @@
     <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
 
     <xsl:template match="/*">
-        <xsl:apply-templates select="//l:CodeList"/>
+        <xsl:apply-templates select="//r:CodeList"/>
     </xsl:template>
 
-    <xsl:template match="l:CodeList">
+    <xsl:template match="r:CodeList">
         <CodeList id="{r:ID}">
             <Name>
-                <xsl:value-of select="r:userID"/>
+                <xsl:value-of select="r:UserID"/>
             </Name>
             <Label>
                 <xsl:call-template name="labelCodeListFormated">
@@ -66,17 +66,9 @@
         <xsl:copy-of select="$Codes"/>
     </xsl:template>
 
-    <xsl:template match="xhtml:p">
-        <xsl:value-of select="node()"/>
-    </xsl:template>
-
-    <xsl:template match="xhtml:b">
-        <xsl:value-of select="node()"/>
-    </xsl:template>
-
     <xsl:template name="labelCodeFormatedLevel1">
         <xsl:param name="ID"/>
-        <xsl:apply-templates select="//l:Category[r:ID=$ID]/r:Label/r:Content/xhtml:p/xhtml:b"/>
+        <xsl:apply-templates select="//l:Category[r:ID=$ID]/r:Label/r:Content"/>
     </xsl:template>
 
     <xsl:template name="labelCodeFormatedLevel2">
@@ -86,7 +78,7 @@
 
     <xsl:template name="labelCodeListFormated">
         <xsl:param name="ID"/>
-        <xsl:apply-templates select="//l:CodeList[r:ID=$ID]/r:Label/r:Content/xhtml:p"/>
+        <xsl:apply-templates select="//r:CodeList[r:ID=$ID]/r:Label/r:Content"/>
     </xsl:template>
 
 </xsl:transform>
