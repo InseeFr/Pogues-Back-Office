@@ -1,5 +1,5 @@
 FROM tomcat:8.5.16-jre8
 
-MAINTAINER a-cordier
+MAINTAINER bwerquin
 
 CMD ["catalina.sh", "run"]
