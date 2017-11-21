@@ -52,15 +52,18 @@ services:
     ports:
       - "8080:8080"
   exist:
-    build: ./exist
-    volumes:
-      - "./exist/db:/exist-data"
+    build: ./eXist
     networks:
       back:
         ipv4_address: 172.20.0.25
     ports:
       - "9080:8080"
-
+  exist-seed:
+    build: ./eXist-seed
+    depends_on:
+      - exist
+    networks:
+      back:
 networks:
   back:
     driver: bridge
