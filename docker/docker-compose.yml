@@ -1,11 +1,11 @@
-version: "2"
+version: '2.1'
 
 services:
   ldap:
     build: ./ldap
     networks:
-      intra:
-        ipv4_address: 172.20.0.1
+      back:
+        ipv4_address: 172.20.0.21
     volumes:
       - "./ldap/db:/db"
     ports:
@@ -13,8 +13,8 @@ services:
   postgresql:
     build: ./postgresql
     networks:
-      intra:
-        ipv4_address: 172.20.0.2
+      back:
+        ipv4_address: 172.20.0.22
     volumes:
       - "./postgresql/db/data.sql:/docker-entrypoint-initdb.d/data.sql"
     ports:
@@ -30,8 +30,8 @@ services:
   colectica:
     build: ./colectica
     networks:
-      intra:
-        ipv4_address: 172.20.0.4
+      back:
+        ipv4_address: 172.20.0.24
     volumes:
       - ./colectica/app/db.json:/usr/src/app/db.json
       - ./colectica/app/routes.json:/usr/src/app/routes.json
@@ -48,20 +48,23 @@ services:
       - "./tomcat/rmspogfo.properties:/usr/local/tomcat/webapps/rmspogfo.properties"
       - "./tomcat/ddi-access-services.properties:/usr/local/tomcat/webapps/ddi-access-services.properties"
     networks:
-      - intra
+      - back
     ports:
       - "8080:8080"
   exist:
     build: ./exist
+    volumes:
+      - "./exist/db:/exist-data"
     networks:
-      intra:
-        ipv4_address: 172.20.0.5
+      back:
+        ipv4_address: 172.20.0.25
     ports:
       - "9080:8080"
 
 networks:
-  intra:
+  back:
+    driver: bridge
     ipam:
+      driver: default
       config:
         - subnet: 172.20.0.0/16
-          ip_range: 172.28.5.0/24
