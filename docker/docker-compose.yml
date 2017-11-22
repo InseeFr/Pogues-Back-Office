@@ -59,7 +59,10 @@ services:
     ports:
       - "9080:8080"
   exist-seed:
-    build: ./eXist-seed
+    build:
+      context: ./eXist-seed
+      args:
+        - HTTP_PROXY=$HTTP_PROXY
     depends_on:
       - exist
     networks:
