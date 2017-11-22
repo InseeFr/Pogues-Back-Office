@@ -46,6 +46,7 @@ def push(host, user, password, root):
             collection = _root.split(root)[1][1:]
             document = os.path.join(_root, f)
             print c.upload(document, collection)
+            print c.chmod(document, collection)
 
 '''
 USAGE:

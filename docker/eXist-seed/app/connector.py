@@ -22,7 +22,20 @@ class Connector:
         }
         response = requests.put('%s/exist/rest/%s/'% (self.url, collection), auth=self.auth, headers=headers, data='')
         return response.status_code
-   
+    
+    def chmod(self, document, collection):
+        # sm:chmod(xs:anyURI('/db/test/aaa.xml'),'rwxrwxrwx')
+        p = rfind(document, '/')
+        if p > -1:
+            doc = document[p+1:]
+        else:
+            doc = document
+        print "setting permission on /db/%s/%s "% (collection, doc)
+        params = {
+            '_query': 'sm:chmod(xs:anyURI("/db/%s/%s"),"rwxrwxrwx")'% (collection, doc)
+        }
+        response = requests.get('%s/exist/rest/db'% (self.url), auth=self.auth, params=params)
+
     '''
     Put document to collection 
     Collection will be created if it does not exist
