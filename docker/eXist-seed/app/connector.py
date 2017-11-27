@@ -16,10 +16,11 @@ class Connector:
     which is not beautiful but just work
     '''
     def create(self, collection):
+        print "creating collection %s ..." % (collection)
         headers = {
-            'Content-Type': 'application/xquery'
+            'Content-Type': 'application/xml'
         }
-        response = requests.put('%s/exist/rest/%s'% (self.url, collection), auth=self.auth, headers=headers, data='')
+        response = requests.put('%s/exist/rest/%s/'% (self.url, collection), auth=self.auth, headers=headers, data='')
         return response.status_code
    
     '''
@@ -40,4 +41,14 @@ class Connector:
             'Content-Type': 'application/xquery'
         }
         response = requests.put('%s/exist/rest/%s/%s'% (self.url, collection, doc), auth=self.auth, headers=headers, data=xqm)
+        return response.status_code
+
+    '''
+    Execute a stored Xquery remotely 
+    '''
+    def execute(self, document):
+        headers = {
+            'Content-Type': 'application/xquery'
+        }
+        response = requests.get('%s/exist/rest/%s'% (self.url, document), auth=self.auth, headers=headers)
         return response.status_code

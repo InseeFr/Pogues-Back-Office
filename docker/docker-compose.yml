@@ -39,7 +39,7 @@ services:
     ports:
       - "3000:3000"
   tomcat:
-    build: ./tomcat
+    build: ./pogues-bo
     environment:
       - fr.insee.pogues.env=qa
     volumes:
@@ -59,9 +59,16 @@ services:
     ports:
       - "9080:8080"
   exist-seed:
-    build: ./eXist-seed
+    build:
+      context: ./eXist-seed
+      args:
+        - HTTP_PROXY=$HTTP_PROXY
     depends_on:
       - exist
+    volumes:
+      - ./eXist-seed/app:/opt/exist/app
+      - ./eXist-seed/db:/opt/exist/db
+      - ./eXist-seed/system:/opt/exist/system
     networks:
       back:
 networks:
