@@ -1,1 +1,11 @@
-<properties><host_exist><ip>qfstromaeldb01.ad.insee.intra</ip><port>8080</port></host_exist><host_orbeon><ip>qfstromaelht01.ad.insee.intra</ip><port>80</port></host_orbeon></properties>
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+    <host_exist>
+        <ip>exist</ip>
+        <port>8080</port>
+    </host_exist>
+    <host_orbeon>
+        <ip>localhost</ip>
+        <port>8181</port>
+    </host_orbeon>
+</properties>

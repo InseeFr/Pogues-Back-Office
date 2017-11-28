@@ -11,7 +11,7 @@ declare namespace compression = "http://exist-db.org/xquery/compression";
 declare namespace ngram = "http://exist-db.org/xquery/ngram";
 declare namespace xf="http://www.w3.org/2002/xforms";
 declare namespace xhtml="http://www.w3.org/1999/xhtml";
-
+declare namespace http="http://expath.org/ns/http-client";
 import module namespace common= "http://www.insee.fr/collectes/commonstromae/common" at "xmldb:exist:///db/services/orbeon/common/commonStromae.xqm";
 
 (:************ Vizualise Questionnaire  *************:)
