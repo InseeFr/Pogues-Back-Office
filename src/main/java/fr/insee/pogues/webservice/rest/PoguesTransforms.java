@@ -1,8 +1,25 @@
 package fr.insee.pogues.webservice.rest;
 
-import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.transforms.*;
-import io.swagger.annotations.*;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.InputStream;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.StreamingOutput;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -10,20 +27,20 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.StreamingOutput;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.Map;
+import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.transforms.DDIToXForm;
+import fr.insee.pogues.transforms.JSONToXML;
+import fr.insee.pogues.transforms.PipeLine;
+import fr.insee.pogues.transforms.Transformer;
+import fr.insee.pogues.transforms.XFormToURI;
+import fr.insee.pogues.transforms.XFormsToXFormsHack;
+import fr.insee.pogues.transforms.XMLToDDI;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * Main WebService class of the PoguesBOOrchestrator
@@ -49,6 +66,9 @@ public class PoguesTransforms {
 	XFormToURI xformToUri;
 
 	@Autowired
+	XFormsToXFormsHack xformToXformsHack;
+
+	@Autowired
 	QuestionnairesService questionnairesService;
 
 	@POST
@@ -70,7 +90,8 @@ public class PoguesTransforms {
 				try {
 					output.write(pipeline.from(request.getInputStream()).map(jsonToXML::transform, params)
 							.map(xmlToDDI::transform, params).map(ddiToXForm::transform, params)
-							.map(xformToUri::transform, params).transform().getBytes());
+							.map(xformToXformsHack::transform, params).map(xformToUri::transform, params).transform()
+							.getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
@@ -99,7 +120,8 @@ public class PoguesTransforms {
 			params.put("questionnaire", questionnaireName);
 			input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
 			String uri = pipeline.from(input).map(jsonToXML::transform, params).map(xmlToDDI::transform, params)
-					.map(ddiToXForm::transform, params).map(xformToUri::transform, params).transform();
+					.map(ddiToXForm::transform, params).map(xformToXformsHack::transform, params)
+					.map(xformToUri::transform, params).transform();
 			return Response.seeOther(URI.create(uri)).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -220,7 +242,7 @@ public class PoguesTransforms {
 	@ApiOperation(value = "Get Pogues XForm From Pogues DDI metadata", notes = "Returns XForm description based on a DDI standard compliant document describing a Pogues Model entity")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Error") })
 	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "ddi body", value = "DDI representation of the Pogues Model", paramType = "body", dataType = "string") })
+			@ApiImplicitParam(name = "ddi body", value = "DDI representation of the questionnaire", paramType = "body", dataType = "string") })
 	public Response ddi2XForm(@Context final HttpServletRequest request) throws Exception {
 		try {
 			return transform(request, ddiToXForm);
@@ -231,13 +253,30 @@ public class PoguesTransforms {
 	}
 
 	@POST
+	@Path("xforms2xformHack")
+	@Produces(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get XForm (extended) From Xforms", notes = "Returns XForm extended based on a XForms standard")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Error") })
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "xforms body", value = "XForms questionnaire", paramType = "body", dataType = "string") })
+	public Response ddi2XFormHack(@Context final HttpServletRequest request) throws Exception {
+		try {
+			return transform(request, xformToXformsHack);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+	
+	@POST
 	@Path("xform2uri/{dataCollection}/{questionnaire}")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_XML)
 	@ApiOperation(value = "Get Pogues visualization URI From Pogues XForm document", notes = "Returns the vizualisation URI of a form that was generated from XForm description found in body")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Error") })
 	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "xform body", value = "XForm document generated from Pogues DDI metadata", paramType = "body", dataType = "string") })
+			@ApiImplicitParam(name = "xform body", value = "XForm document generated from DDI metadata", paramType = "body", dataType = "string") })
 	public String xForm2URI(@Context final HttpServletRequest request,
 			@PathParam(value = "dataCollection") String dataCollection,
 			@PathParam(value = "questionnaire") String questionnaire) throws Exception {

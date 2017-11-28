@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<properties>
+    <host_exist>
+        <ip>exist</ip>
+        <port>8080</port>
+    </host_exist>
+    <host_orbeon>
+        <ip>localhost</ip>
+        <port>8181</port>
+    </host_orbeon>
+</properties>

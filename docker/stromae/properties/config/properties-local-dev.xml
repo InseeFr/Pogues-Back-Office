@@ -1,0 +1,52 @@
+<properties xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:oxf="http://www.orbeon.com/oxf/processors">
+
+    <!--********************************Les propriétés existantes d'orbeon********************************-->
+
+    <!-- Le chemin vers la collection fr qui va abriter les formulaires qui vont être traités par le form-runner d'orbeon
+     (avec id et mdp de connexion)-->
+    <!--<property as="xs:anyURI" name="oxf.fr.persistence.exist.exist-uri"
+        value="http://admin:Ex1st0PaSSw0rd@dvcoltldb02.ad.insee.intra:8080/exist/rest/db/orbeon/fr"/>-->
+	<property as="xs:anyURI" name="oxf.fr.persistence.exist.exist-uri"
+        value="http://admin:@exist:8080/exist/rest/db/orbeon/fr"/>
+	<!--<property as="xs:anyURI" name="oxf.fr.persistence.exist.exist-uri"
+        value="http://admin:test@10.20.110.72:8079/exist/rest/db/orbeon/fr"/>-->
+
+    <!-- L'url vers coltorb pour la redirection des services orbeon (bien indiquer l'adresse du serveur et pas l'url accédée) -->
+    <property as="xs:anyURI" name="oxf.url-rewriting.service.base-uri"
+        value="http://localhost:8181/rmesstromae"/>
+
+    <!--********************************Les propriétés créées par coltrane********************************-->
+
+    <!-- L'url de base pour la redirection vers l'url form runner -->
+    <property as="xs:anyURI" name="url-orbeon" value="http://localhost:8181/rmesstromae"/>
+	<property as="xs:anyURI" name="url-orbeon-s" value="http://localhost:8181/rmesstromae/saml"/>
+
+    <!-- L'adresse du serveur exist (avec id et mdp de connexion) -->
+    <!--<property as="xs:anyURI" name="server-exist"
+        value="http://admin:Ex1st0PaSSw0rd@dvcoltldb02.ad.insee.intra:8080/exist"/>-->
+	<property as="xs:anyURI" name="server-exist"
+        value="http://admin:@exist:8080/exist"/>
+	<property as="xs:anyURI" name="server-exist-orbeon"
+        value="http://admin:@exist:8080/exist"/>
+	<!--<property as="xs:anyURI" name="server-exist"
+        value="http://admin:test@10.20.110.72:8079/exist"/>-->
+
+    <!-- L'adresse du serveur exist Pilotage (avec id et mdp de connexion)-->
+    <property as="xs:anyURI" name="server-exist-pilotage"
+        value="http://admin:JTOS3S4GQNypDoKPyxEw@dvcoltldb01.ad.insee.intra:8080/exist0"/>
+
+    <!-- Le lien vers le portail -->
+    <property as="xs:anyURI" name="lien-portail"
+        value="http://dvcoltportlht01.ad.insee.intra/coltport0"/>
+    <property as="xs:anyURI" name="url-portail"
+        value="http://dvcoltportlht01.ad.insee.intra/coltport0"/>
+
+    <!-- Affichage du numéro de version -->
+    <property as="xs:boolean" name="affichage-numero" value="true"/>
+	
+	<!--<property as="xs:anyURI" name="oxf.fr.default-logo.uri.acemotrim-2017-t02.*" value="/img/dares.png"/>-->
+	<!--<property as="xs:anyURI" name="oxf.fr.default-logo.uri.acemotrim-2017-t02.*" value="/img/LOGO_ACEMO.png"/>-->
+	<property as="xs:anyURI" name="oxf.fr.default-logo.uri.acemotrim-2017-t02.*" value="/img/logo_dares.png"/>
+	<property as="xs:string" name="lien-deconnexion" value="/logout"/>
+</properties>
