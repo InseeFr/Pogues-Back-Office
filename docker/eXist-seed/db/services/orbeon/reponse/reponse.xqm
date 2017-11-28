@@ -2,21 +2,9 @@ xquery version "3.0";
 module namespace reponse="http://www.insee.fr/collectes/reponse";
 import module namespace common= "http://www.insee.fr/collectes/commonstromae/common" at "../common/commonStromae.xqm";
 declare namespace rest="http://exquery.org/ns/restxq";
-(:TEST MARIE:)
-declare
-%rest:GET
-%rest:path("/reponse/helloworld")
-%rest:query-param("racine", "{$racine-enquete}","")
-function reponse:helloworld($racine-enquete as xs:string*) as item()+{
-    let $log := util:log("INFO", "reponse:helloworld - racine : "||$racine-enquete||"*****************************************************")     
-    let $message := common:racine($racine-enquete) || 'Hello World!'
-    return(
-        common:rest-response(202),
-    <results>
-        <message>{$message}</message>
-    </results>)
-};
-(:GET REPONSE:) 
+
+
+(:GET REPONSE:)
 declare
 %rest:GET
 %rest:path("/collectes/reponse/{$enquete}/{$modele}/{$unite}")
@@ -79,10 +67,17 @@ return
                 let $del := xmldb:remove($col-save,concat($unite,'.xml'))
                 return xmldb:store($col-save,concat($unite,'.xml'),$body)
              )
-             else xmldb:store($col-save,concat($unite,'.xml'),$body)
+             else xmldb:store($col-save,concat($unite,'.xml'),$body)			 
         return
             if (empty($save)) then (common:rest-response(500,"Sauvegarde a échoué"))
-              else (common:rest-response(201,"Sauvegarde réussie"))              
+              else (
+				let $droit := sm:chown($doc-user,'guest')		
+				let $droit := sm:chgrp($doc-user,'guest')		
+				let $droit := sm:chown($col-save,'guest')		
+				let $droit := sm:chgrp($col-save,'guest')		
+				return common:rest-response(201,"Sauvegarde réussie")
+			  )              
     )
     else (common:rest-response(404,"Sauvegarde a échoué. Collection n'existe pas"))
 };
+
