@@ -4,6 +4,9 @@ import sys
 from string import rfind
 import base64
 
+class XdbException(Exception):
+    '''Exist db connector exception'''
+
 class Connector:
 
     def __init__(self, url, user, password):
@@ -12,49 +15,52 @@ class Connector:
 
     '''
     Create collection 
-    Apparently we need to put empty content to create an empty collection,
-    which is not beautiful but just work
     '''
-    def create(self, collection):
-        print "creating collection %s ..." % (collection)
-        headers = {
-            'Content-Type': 'application/xml'
-        }
-        response = requests.put('%s/exist/rest/%s/'% (self.url, collection), auth=self.auth, headers=headers, data='')
-        return response.status_code
-    
-    def chmod(self, document, collection):
-        # sm:chmod(xs:anyURI('/db/test/aaa.xml'),'rwxrwxrwx')
-        p = rfind(document, '/')
-        if p > -1:
-            doc = document[p+1:]
-        else:
-            doc = document
-        print "setting permission on /db/%s/%s "% (collection, doc)
+    def create(self, root, collection):
+        print "creating collection %s in %s ..." % (collection, root)
         params = {
-            '_query': 'sm:chmod(xs:anyURI("/db/%s/%s"),"rwxrwxrwx")'% (collection, doc)
+            '_query': 'xmldb:create-collection("%s","%s")'% (root, collection)
         }
         response = requests.get('%s/exist/rest/db'% (self.url), auth=self.auth, params=params)
+        if 200 != response.status_code:
+            raise XdbException
+        return '%s/%s'%(root, collection)
+
+    '''
+    chmod resource
+    Apply given permission on eXist-db resource,
+    '''
+    def chmod(self, resource, permissions):
+        print "setting permissions %s on %s "% (permissions, resource)
+        params = {
+            '_query': 'sm:chmod(xs:anyURI("%s"), "%s")'% (resource, permissions)
+        }
+        response = requests.get('%s/exist/rest/db'% (self.url), auth=self.auth, params=params)
+        if 200 != response.status_code:
+            raise XdbException
 
     '''
     Put document to collection 
     Collection will be created if it does not exist
     '''
-    def upload(self, document, collection):
-        print "storing document %s to collection %s ..." % (document,collection)
-        f = open(document, 'r')
+    def upload(self, fsPath, collection):
+        print "storing from fs path %s to collection /%s ..." % (fsPath, collection)
+        f = open(fsPath, 'r')
         xqm= f.read()
         f.close()
-        p = rfind(document, '/')
+        p = rfind(fsPath, '/')
         if p > -1:
-            doc = document[p+1:]
+            doc = fsPath[p+1:]
         else:
-            doc = document
+            doc = fsPath
         headers = {
             'Content-Type': 'application/xquery'
         }
         response = requests.put('%s/exist/rest/%s/%s'% (self.url, collection, doc), auth=self.auth, headers=headers, data=xqm)
-        return response.status_code
+        print response.status_code
+        if 201 != response.status_code:
+            raise XdbException
+        return '%s/%s' % (collection, doc)
 
     '''
     Execute a stored Xquery remotely 
