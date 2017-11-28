@@ -1,6 +1,7 @@
 import requests
 from requests.auth import HTTPBasicAuth
 import sys
+import os
 from string import rfind
 import base64
 
@@ -45,20 +46,24 @@ class Connector:
     '''
     def upload(self, fsPath, collection):
         print "storing from fs path %s to collection /%s ..." % (fsPath, collection)
+        _, doc = os.path.split(fsPath)
+        __, extension = os.path.splitext(doc)
+        print 'extension, doc', extension, doc
         f = open(fsPath, 'r')
         xqm= f.read()
         f.close()
-        p = rfind(fsPath, '/')
-        if p > -1:
-            doc = fsPath[p+1:]
-        else:
-            doc = fsPath
-        headers = {
-            'Content-Type': 'application/xquery'
+        content_types = {
+            '.xqm': 'application/xquery',
+            '.xml': 'application/xml',
+            '.xhtml': 'application/xml',
+            '.xsl': 'application/xml'
         }
-        response = requests.put('%s/exist/rest/%s/%s'% (self.url, collection, doc), auth=self.auth, headers=headers, data=xqm)
-        print response.status_code
+        headers = {
+            'Content-Type': content_types[extension]
+        }
+        response = requests.put('%s/exist/rest/% s/%s'% (self.url, collection, doc), auth=self.auth, headers=headers, data=xqm)
         if 201 != response.status_code:
+            print str(response)
             raise XdbException
         return '%s/%s' % (collection, doc)
 
@@ -70,4 +75,6 @@ class Connector:
             'Content-Type': 'application/xquery'
         }
         response = requests.get('%s/exist/rest/%s'% (self.url, document), auth=self.auth, headers=headers)
-        return response.status_code
+        if 200 != response.status_code:
+            raise XdbException
+        return response

@@ -14,7 +14,7 @@ class Contractor:
     before we go. So far this is what we've got ...
     '''
     def poll(self, host):
-        attempts = 5
+        attempts = 90
         while True:
             try:
                 attempts -= 1
@@ -32,15 +32,14 @@ class Contractor:
     '''  
     def push(self, fsRoot, xDbRoot): 
         for root, dirs, files in os.walk(fsRoot):
-            print root, dirs, files
-            print root.split(fsRoot)[1][1:]
             xDbCollection = '%s/%s'% (xDbRoot, root.split(fsRoot)[1][1:])
-            print 'xdbcollection', xDbCollection
             for d in dirs:
-                self.connector.chmod(self.connector.create(xDbCollection, d), 'rwxrwxrwx')
+                newCollection = self.connector.create(xDbCollection, d)
+                self.connector.chmod(newCollection, 'rwxrwxrwx')
             for f in files:
                 fsPath = os.path.join(root, f)
-                self.connector.chmod(self.connector.upload(fsPath, xDbCollection), 'rwxrwxrwx')
+                newDocument = self.connector.upload(fsPath, xDbCollection)
+                self.connector.chmod(newDocument, 'rwxrwxrwx')
 
 '''
 USAGE:

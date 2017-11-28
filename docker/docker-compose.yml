@@ -1,11 +1,11 @@
-version: '2.1'
+version: '3.1'
 
 services:
   ldap:
     build: ./ldap
     networks:
       back:
-        ipv4_address: 172.20.0.21
+        ipv4_address: 172.20.0.253
     volumes:
       - "./ldap/db:/db"
     ports:
@@ -14,7 +14,7 @@ services:
     build: ./postgresql
     networks:
       back:
-        ipv4_address: 172.20.0.22
+        ipv4_address: 172.20.0.252
     volumes:
       - "./postgresql/db/data.sql:/docker-entrypoint-initdb.d/data.sql"
     ports:
@@ -31,22 +31,37 @@ services:
     build: ./colectica
     networks:
       back:
-        ipv4_address: 172.20.0.24
+        ipv4_address: 172.20.0.251
     volumes:
       - ./colectica/app/db.json:/usr/src/app/db.json
       - ./colectica/app/routes.json:/usr/src/app/routes.json
       - ./colectica/app/middleware.js:/usr/src/app/middleware.js
     ports:
       - "3000:3000"
-  tomcat:
+  ddi-access-services:
+    build: ./ddi-access-services
+    volumes:
+      - "./ddi-access-services/ddi-access-services.war:/usr/local/tomcat/webapps/ddi-access-services.war"
+      - "./ddi-access-services/ddi-access-services.properties:/usr/local/tomcat/webapps/ddi-access-services.properties"
+    networks:
+      - back
+  stromae:
+    build: ./stromae
+    volumes:
+      - "./stromae/rmesstromae.war:/usr/local/tomcat/webapps/rmesstromae.war"
+      - "./stromae/properties/:/usr/local/tomcat/webapps/properties/"
+    networks:
+      back:
+        ipv4_address: 172.20.0.250
+    ports:
+      - "8181:8080"
+  pogues-bo:
     build: ./pogues-bo
     environment:
       - fr.insee.pogues.env=qa
     volumes:
-      - "./tomcat/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war"
-      - "./tomcat/ddi-access-services.war:/usr/local/tomcat/webapps/ddi-access-services.war"
-      - "./tomcat/rmspogfo.properties:/usr/local/tomcat/webapps/rmspogfo.properties"
-      - "./tomcat/ddi-access-services.properties:/usr/local/tomcat/webapps/ddi-access-services.properties"
+      - "./pogues-bo/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war"
+      - "./pogues-bo/rmspogfo.properties:/usr/local/tomcat/webapps/rmspogfo.properties"
     networks:
       - back
     ports:
@@ -55,7 +70,7 @@ services:
     build: ./eXist
     networks:
       back:
-        ipv4_address: 172.20.0.25
+        ipv4_address: 172.20.0.249
     ports:
       - "9080:8080"
   exist-seed:
