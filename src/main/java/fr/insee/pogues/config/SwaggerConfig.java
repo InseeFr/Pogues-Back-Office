@@ -62,6 +62,12 @@ public class SwaggerConfig extends HttpServlet {
             props.load(r2);
             r2.close();
         }
+        File f3 = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "production.properties"));
+        if(f3.exists() && !f3.isDirectory()) {
+            FileReader r3 = new FileReader(f3);
+            props.load(r3);
+            r3.close();
+        }
         return props;
     }
 
