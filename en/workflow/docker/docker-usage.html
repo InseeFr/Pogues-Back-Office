@@ -346,57 +346,101 @@
 <li>Port bindings (ports directive)</li>
 <li>Mounted data volumes for each of our containers (volumes directive)</li>
 </ul>
-<pre><code class="lang-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&quot;2&quot;</span>
+<pre><code class="lang-yaml"><span class="hljs-attr">version:</span> <span class="hljs-string">&apos;3.1&apos;</span>
 
 <span class="hljs-attr">services:</span>
 <span class="hljs-attr">  ldap:</span>
 <span class="hljs-attr">    build:</span> ./ldap
 <span class="hljs-attr">    networks:</span>
-<span class="hljs-attr">      intra:</span>
-<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.1</span>
+<span class="hljs-attr">      back:</span>
+<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.253</span>
 <span class="hljs-attr">    volumes:</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./ldap/db:/db&quot;</span>
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;389:389&quot;</span>
 <span class="hljs-attr">  postgresql:</span>
 <span class="hljs-attr">    build:</span> ./postgresql
 <span class="hljs-attr">    networks:</span>
-<span class="hljs-attr">      intra:</span>
-<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.2</span>
+<span class="hljs-attr">      back:</span>
+<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.252</span>
 <span class="hljs-attr">    volumes:</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./postgresql/db/data.sql:/docker-entrypoint-initdb.d/data.sql&quot;</span>
-<span class="hljs-attr">  elastic:</span>
-<span class="hljs-attr">    build:</span> ./elastic
-<span class="hljs-attr">    environment:</span>
-<span class="hljs-bullet">      -</span> http.host=<span class="hljs-number">0.0</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>
-<span class="hljs-bullet">      -</span> xpack.security.enabled=<span class="hljs-literal">false</span>
-<span class="hljs-attr">    networks:</span>
-<span class="hljs-attr">      intra:</span>
-<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.3</span>
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;5432:5432&quot;</span>
+  <span class="hljs-comment">#elastic:</span>
+  <span class="hljs-comment">#  build: ./elastic</span>
+  <span class="hljs-comment">#  environment:</span>
+  <span class="hljs-comment">#    - http.host=0.0.0.0</span>
+  <span class="hljs-comment">#    - xpack.security.enabled=false</span>
+  <span class="hljs-comment">#  networks:</span>
+  <span class="hljs-comment">#    intra:</span>
+  <span class="hljs-comment">#      ipv4_address: 172.20.0.3     </span>
 <span class="hljs-attr">  colectica:</span>
 <span class="hljs-attr">    build:</span> ./colectica
 <span class="hljs-attr">    networks:</span>
-<span class="hljs-attr">      intra:</span>
-<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.4</span>
+<span class="hljs-attr">      back:</span>
+<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.251</span>
 <span class="hljs-attr">    volumes:</span>
 <span class="hljs-bullet">      -</span> ./colectica/app/db.json:/usr/src/app/db.json
 <span class="hljs-bullet">      -</span> ./colectica/app/routes.json:/usr/src/app/routes.json
 <span class="hljs-bullet">      -</span> ./colectica/app/middleware.js:/usr/src/app/middleware.js
-<span class="hljs-attr">  tomcat:</span>
-<span class="hljs-attr">    build:</span> ./tomcat
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;3000:3000&quot;</span>
+<span class="hljs-attr">  ddi-access-services:</span>
+<span class="hljs-attr">    build:</span> ./ddi-access-services
+<span class="hljs-attr">    volumes:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./ddi-access-services/ddi-access-services.war:/usr/local/tomcat/webapps/ddi-access-services.war&quot;</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./ddi-access-services/ddi-access-services.properties:/usr/local/tomcat/webapps/ddi-access-services.properties&quot;</span>
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-bullet">      -</span> back
+<span class="hljs-attr">  stromae:</span>
+<span class="hljs-attr">    build:</span> ./stromae
+<span class="hljs-attr">    volumes:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./stromae/rmesstromae.war:/usr/local/tomcat/webapps/rmesstromae.war&quot;</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./stromae/properties/:/usr/local/tomcat/webapps/properties/&quot;</span>
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-attr">      back:</span>
+<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.250</span>
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;8181:8080&quot;</span>
+<span class="hljs-attr">  pogues-bo:</span>
+<span class="hljs-attr">    build:</span> ./pogues-bo
 <span class="hljs-attr">    environment:</span>
 <span class="hljs-bullet">      -</span> fr.insee.pogues.env=qa
 <span class="hljs-attr">    volumes:</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./tomcat/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war&quot;</span>
-<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./tomcat/pogues-bo.properties:/usr/local/tomcat/webapps/rmspogfo.properties&quot;</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./pogues-bo/rmspogfo.war:/usr/local/tomcat/webapps/rmspogfo.war&quot;</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;./pogues-bo/rmspogfo.properties:/usr/local/tomcat/webapps/rmspogfo.properties&quot;</span>
 <span class="hljs-attr">    networks:</span>
-<span class="hljs-bullet">      -</span> intra
+<span class="hljs-bullet">      -</span> back
 <span class="hljs-attr">    ports:</span>
 <span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;8080:8080&quot;</span>
+<span class="hljs-attr">  exist:</span>
+<span class="hljs-attr">    build:</span> ./eXist
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-attr">      back:</span>
+<span class="hljs-attr">        ipv4_address:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.249</span>
+<span class="hljs-attr">    ports:</span>
+<span class="hljs-bullet">      -</span> <span class="hljs-string">&quot;9080:8080&quot;</span>
+<span class="hljs-attr">  exist-seed:</span>
+<span class="hljs-attr">    build:</span>
+<span class="hljs-attr">      context:</span> ./eXist-seed
+<span class="hljs-attr">      args:</span>
+<span class="hljs-bullet">        -</span> HTTP_PROXY=$HTTP_PROXY
+<span class="hljs-attr">    depends_on:</span>
+<span class="hljs-bullet">      -</span> exist
+<span class="hljs-attr">    volumes:</span>
+<span class="hljs-bullet">      -</span> ./eXist-seed/app:/opt/exist/app
+<span class="hljs-bullet">      -</span> ./eXist-seed/db:/opt/exist/db
+<span class="hljs-bullet">      -</span> ./eXist-seed/system:/opt/exist/system
+<span class="hljs-attr">    networks:</span>
+<span class="hljs-attr">      back:</span>
 <span class="hljs-attr">networks:</span>
-<span class="hljs-attr">  intra:</span>
+<span class="hljs-attr">  back:</span>
+<span class="hljs-attr">    driver:</span> bridge
 <span class="hljs-attr">    ipam:</span>
+<span class="hljs-attr">      driver:</span> default
 <span class="hljs-attr">      config:</span>
 <span class="hljs-attr">        - subnet:</span> <span class="hljs-number">172.20</span><span class="hljs-number">.0</span><span class="hljs-number">.0</span>/<span class="hljs-number">16</span>
-<span class="hljs-attr">          ip_range:</span> <span class="hljs-number">172.28</span><span class="hljs-number">.5</span><span class="hljs-number">.0</span>/<span class="hljs-number">24</span>
 </code></pre>
 <p>Travis will run the following command to run the containers:</p>
 <pre><code class="lang-bash">docker-compose up
@@ -462,7 +506,7 @@ Tomcat container will start a server instance using the &apos;qa&apos; environme
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Docker Usage","level":"1.4.2.2","depth":3,"next":{"title":"Travis CI","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"previous":{"title":"The docker Folder","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"workflow/docker/docker-usage.md","mtime":"2017-10-22T17:33:38.187Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-10-22T17:45:55.592Z"},"basePath":"../..","book":{"language":"en"}});
+            gitbook.page.hasChanged({"page":{"title":"Docker Usage","level":"1.4.2.2","depth":3,"next":{"title":"Travis CI","level":"1.4.3","depth":2,"path":"workflow/travis.md","ref":"workflow/travis.md","articles":[]},"previous":{"title":"The docker Folder","level":"1.4.2.1","depth":3,"path":"workflow/docker/docker-folders.md","ref":"workflow/docker/docker-folders.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"workflow/docker/docker-usage.md","mtime":"2017-11-30T08:02:24.048Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2017-11-30T08:14:35.921Z"},"basePath":"../..","book":{"language":"en"}});
         });
     </script>
 </div>
