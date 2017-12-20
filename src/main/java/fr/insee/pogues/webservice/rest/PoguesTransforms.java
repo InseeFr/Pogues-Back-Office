@@ -1,8 +1,13 @@
 package fr.insee.pogues.webservice.rest;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -15,6 +20,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -28,6 +34,7 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.transforms.DDIToODT;
 import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.JSONToXML;
 import fr.insee.pogues.transforms.PipeLine;
@@ -61,6 +68,9 @@ public class PoguesTransforms {
 
 	@Autowired
 	DDIToXForm ddiToXForm;
+	
+	@Autowired
+	DDIToODT ddiToOdt;
 
 	@Autowired
 	XFormToURI xformToUri;
@@ -139,11 +149,24 @@ public class PoguesTransforms {
 	@ApiImplicitParams(value = {
 			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
 	public Response visualizeSpecFromBody(@Context final HttpServletRequest request) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
 		try {
-			// JSON : request.getInputStream()
-			File file = new File(getClass().getClassLoader().getResource("odt/test.odt").getPath());
-			return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
-					.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").build();
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream()).map(jsonToXML::transform, params)
+							.map(xmlToDDI::transform, params).map(ddiToOdt::transform, params)
+							.transform()
+							.getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			
+			return Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM)
+					.header("Content-Disposition", "attachment; filename=form.fodt")
+					.build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
@@ -154,16 +177,42 @@ public class PoguesTransforms {
 	@Path("visualize-spec/{id}")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@ApiOperation(value = "Get specification odt file from JSON serialized Pogues entity", notes = "Retrieves entity in datastore before pass it through the transformation pipeline")
-	public Response visualizeSpecFromId(@PathParam(value = "id") String id) throws Exception {
+	public Response visualizeSpecFromId(@Context final HttpServletRequest request, @PathParam(value = "id") String id) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
 		try {
-
-			File file = new File(getClass().getClassLoader().getResource("odt/test.odt").getPath());
-			return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
-					.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").build();
+			JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
+			JSONObject dataCollection = (JSONObject) ((JSONArray) questionnaire.get("DataCollection")).get(0);
+			String name = ((String) dataCollection.get("id")).toLowerCase();
+			params.put("dataCollection", name);
+			String questionnaireName = ((String) questionnaire.get("Name")).toLowerCase();
+			params.put("questionnaire", questionnaireName);
+			
+			StreamingOutput stream = output -> {
+				InputStream input = null;
+				try {
+					input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
+					output.write(pipeline.from(input).map(jsonToXML::transform, params)
+							.map(xmlToDDI::transform, params).map(ddiToOdt::transform, params)
+							.transform()
+							.getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+				finally {
+					input.close();
+				}
+			};
+			
+			return Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM)
+					.header("Content-Disposition", "attachment; filename=form.fodt")
+					.build();
+			
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
-		}
+		} 
 	}
 
 	@POST
@@ -300,6 +349,25 @@ public class PoguesTransforms {
 				throw new PoguesException(500, "Transformation error", e.getMessage());
 			}
 		};
+		return Response.ok(stream).build();
+	}
+	
+	private Response transform(HttpServletRequest request, String string) throws Exception {
+		StreamingOutput stream = new StreamingOutput() {
+		    @Override
+		    public void write(OutputStream os) throws IOException,
+		    WebApplicationException {
+		    	try {
+		    		Writer writer = new BufferedWriter(new OutputStreamWriter(os));
+				    writer.write(string);
+				    writer.flush(); 
+				} catch (Exception e) {
+					throw new PoguesException(500, "Transformation error", e.getMessage());
+				}
+		    	
+		    	
+		    }
+		  };
 		return Response.ok(stream).build();
 	}
 }
