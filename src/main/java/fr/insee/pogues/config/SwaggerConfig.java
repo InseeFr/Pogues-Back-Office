@@ -26,8 +26,8 @@ public class SwaggerConfig extends HttpServlet {
             BeanConfig beanConfig = new BeanConfig();
             beanConfig.setTitle("Pogues Backoffice");
             beanConfig.setVersion("0.1");
-            beanConfig.setDescription("Poges Backoffice API endpoints");
-            beanConfig.setSchemes(new String[]{"http"});
+            beanConfig.setDescription("Pogues Backoffice API endpoints");
+            beanConfig.setSchemes(new String[]{props.getProperty("fr.insee.pogues.api.scheme")});
             beanConfig.setBasePath(props.getProperty("fr.insee.pogues.api.name"));
             beanConfig.setHost(props.getProperty("fr.insee.pogues.api.host"));
             beanConfig.setResourcePackage("fr.insee.pogues.webservice.rest");
@@ -43,7 +43,7 @@ public class SwaggerConfig extends HttpServlet {
         Properties props = new Properties();
         String env = System.getProperty("fr.insee.pogues.env");
         if(null == env) {
-            env = "dv";
+            env = "dev";
         }
         String propsPath = String.format("env/%s/pogues-bo.properties", env);
         props.load(getClass()
@@ -61,7 +61,7 @@ public class SwaggerConfig extends HttpServlet {
             props.load(r2);
             r2.close();
         }
-        File f3 = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "production.properties"));
+        File f3 = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmespogfo.properties"));
         if(f3.exists() && !f3.isDirectory()) {
             FileReader r3 = new FileReader(f3);
             props.load(r3);
