@@ -38,6 +38,7 @@ import fr.insee.pogues.transforms.DDIToODT;
 import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.JSONToXML;
 import fr.insee.pogues.transforms.PipeLine;
+import fr.insee.pogues.transforms.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.Transformer;
 import fr.insee.pogues.transforms.XFormToURI;
 import fr.insee.pogues.transforms.XFormsToXFormsHack;
@@ -64,8 +65,8 @@ public class PoguesTransforms {
 	JSONToXML jsonToXML;
 
 	@Autowired
-	XMLToDDI xmlToDDI;
-
+	PoguesXMLToDDI poguesXMLToDDI;
+	
 	@Autowired
 	DDIToXForm ddiToXForm;
 	
@@ -99,7 +100,7 @@ public class PoguesTransforms {
 			StreamingOutput stream = output -> {
 				try {
 					output.write(pipeline.from(request.getInputStream()).map(jsonToXML::transform, params)
-							.map(xmlToDDI::transform, params).map(ddiToXForm::transform, params)
+							.map(poguesXMLToDDI::transform, params).map(ddiToXForm::transform, params)
 							.map(xformToXformsHack::transform, params).map(xformToUri::transform, params).transform()
 							.getBytes());
 				} catch (Exception e) {
@@ -129,7 +130,7 @@ public class PoguesTransforms {
 			String questionnaireName = ((String) questionnaire.get("Name")).toLowerCase();
 			params.put("questionnaire", questionnaireName);
 			input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
-			String uri = pipeline.from(input).map(jsonToXML::transform, params).map(xmlToDDI::transform, params)
+			String uri = pipeline.from(input).map(jsonToXML::transform, params).map(poguesXMLToDDI::transform, params)
 					.map(ddiToXForm::transform, params).map(xformToXformsHack::transform, params)
 					.map(xformToUri::transform, params).transform();
 			return Response.seeOther(URI.create(uri)).build();
@@ -155,7 +156,7 @@ public class PoguesTransforms {
 			StreamingOutput stream = output -> {
 				try {
 					output.write(pipeline.from(request.getInputStream()).map(jsonToXML::transform, params)
-							.map(xmlToDDI::transform, params).map(ddiToOdt::transform, params)
+							.map(poguesXMLToDDI::transform, params).map(ddiToOdt::transform, params)
 							.transform()
 							.getBytes());
 				} catch (Exception e) {
@@ -193,7 +194,7 @@ public class PoguesTransforms {
 				try {
 					input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
 					output.write(pipeline.from(input).map(jsonToXML::transform, params)
-							.map(xmlToDDI::transform, params).map(ddiToOdt::transform, params)
+							.map(poguesXMLToDDI::transform, params).map(ddiToOdt::transform, params)
 							.transform()
 							.getBytes());
 				} catch (Exception e) {
@@ -266,18 +267,18 @@ public class PoguesTransforms {
 			throw e;
 		}
 	}
-
+	
 	@POST
-	@Path("xml2ddi")
+	@Path("pogues-xml2ddi")
 	@Produces(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_XML)
-	@ApiOperation(value = "Get DDI From Pogues XML", notes = "Returns a DDI standard compliant document based on a XML representation of a Pogues data model entity")
+	@ApiOperation(value = "Get DDI From Pogues XML", notes = "Returns a DDI standard compliant document based on a Pogues XML representation of a data model entity")
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Error") })
 	@ApiImplicitParams(value = {
 			@ApiImplicitParam(name = "xml body", value = "XML representation of the Pogues Model", paramType = "body", dataType = "string") })
-	public Response xml2DDi(@Context final HttpServletRequest request) throws Exception {
+	public Response poguesXml2DDi(@Context final HttpServletRequest request) throws Exception {
 		try {
-			return transform(request, xmlToDDI);
+			return transform(request, poguesXMLToDDI);
 		} catch (Exception e) {
 			logger.error(e);
 			throw e;
