@@ -15,7 +15,6 @@ import fr.insee.eno.GenerationService;
 import fr.insee.eno.generation.DDI2ODTGenerator;
 import fr.insee.eno.postprocessing.NoopPostprocessor;
 import fr.insee.eno.preprocessing.DDIPreprocessor;
-import fr.insee.pogues.webservice.rest.PoguesTransforms;
 
 @Service
 public class DDIToODTImpl implements DDIToODT {
