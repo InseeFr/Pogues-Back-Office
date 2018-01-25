@@ -22,6 +22,9 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 
 	private DirContext context = null;
 
+	@Value("${fr.insee.pogues.authentication}")
+	private Boolean authentication;
+
 	@Value("${fr.insee.pogues.permission.ldap.hostname}")
 	private String ldapHost;
 
@@ -84,18 +87,21 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 	}
 
 	public User getNameAndPermissionByID(String id) throws Exception {
+
 		String name = null;
 		String permission = null;
 		String firstName = null;
 		String lastName = null;
-		if (id == null) {
+		User user = null;
+		if (!authentication) {
 			id = "Guest";
 			name = "Guest";
 			permission = "TEST";
 			firstName = "Guest";
 			lastName = "";
+			user = new User(id, name, firstName, lastName, permission);
 		} else {
-			
+
 			try {
 				this.initConnection();
 				// Criteria specification for the permission search
@@ -116,13 +122,14 @@ public class UserServiceQueryLDAPImpl implements UserServiceQuery {
 					}
 					firstName = entree.getAttributes().get(ldapUserGivenName).get().toString();
 					lastName = entree.getAttributes().get(ldapUserSn).get().toString();
+					user = new User(id, name, firstName, lastName, permission);
 				}
 			} finally {
 				this.closeConnection();
 			}
 		}
+		return user;
 
-		return new User(id, name, firstName, lastName, permission);
 	}
 
 	public List<String> getPermissions() throws Exception {
