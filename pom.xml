@@ -102,12 +102,6 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-core</artifactId>
 			<version>${spring.security.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-log4j12</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.elasticsearch.client</groupId>
@@ -135,13 +129,9 @@
 			<artifactId>spring-ldap-core</artifactId>
 			<version>2.3.1.RELEASE</version>
 		</dependency>
-		<dependencies>
-			<dependency>
-				<groupId>org.springframework.security.extensions</groupId>
-				<artifactId>spring-security-saml2-core</artifactId>
-				<version>1.0.2.RELEASE</version>
-			</dependency>
-		</dependencies>
+		<!-- <dependency> <groupId>org.springframework.security.extensions</groupId> 
+			<artifactId>spring-security-saml2-core</artifactId> <version>1.0.2.RELEASE</version> 
+			</dependency> -->
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -182,12 +172,10 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>9.4-1200-jdbc41</version>
-			<!-- TODO This should be provided by the container -->
-			<!--<scope>provided</scope> -->
+			<version>42.1.4</version>
 		</dependency>
 		<dependency><!-- TODO provide via central -->
-			<groupId>fr.insee</groupId>
+			<groupId>fr.insee.pogues</groupId>
 			<artifactId>pogues-model</artifactId>
 			<version>0.1</version>
 		</dependency>
