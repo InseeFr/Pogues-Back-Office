@@ -13,7 +13,7 @@
 
 	<context-param>
 		<param-name>isLog4jAutoInitializationDisabled</param-name>
-		<param-value>false</param-value>
+		<param-value>true</param-value>
 	</context-param>
 
 	<context-param>
@@ -22,15 +22,11 @@
 	</context-param>
 
 	<listener>
-		<listener-class>
-			fr.insee.pogues.config.Log4j2ServletContextListener
-		</listener-class>
+		<listener-class>fr.insee.pogues.config.Log4j2PoguesServletContextListener</listener-class>
 	</listener>
 
 	<listener>
-		<listener-class>
-			org.springframework.web.context.ContextLoaderListener
-		</listener-class>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
 
 
@@ -81,13 +77,23 @@
 	<!-- Spring Security -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
-		<filter-class>org.springframework.web.filter.DelegatingFilterProxy
-		</filter-class>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
-
 	<filter-mapping>
 		<filter-name>springSecurityFilterChain</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
+
+
+	<!-- PRODUCTION -->
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>Pogues-BO</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
 
 </web-app>

@@ -16,7 +16,7 @@ public class AnonymousAuthenticatorProvider implements AuthenticationProvider {
 		String username = auth.getName();
 		String password = auth.getCredentials().toString();
 
-		if ("user".equals(username) && "pass".equals(password)) {
+		if ("Guest".equals(username) && "Guest".equals(password)) {
 			return new UsernamePasswordAuthenticationToken(username, password, Collections.emptyList());
 		} else {
 			throw new BadCredentialsException("Anonymous system authentication failed");

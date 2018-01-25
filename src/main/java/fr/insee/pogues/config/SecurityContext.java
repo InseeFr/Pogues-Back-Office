@@ -1,18 +1,18 @@
 package fr.insee.pogues.config;
 
+import java.util.Arrays;
+
+import fr.insee.pogues.config.AnonymousAuthenticatorProvider;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.ldap.DefaultSpringSecurityContextSource;
-import org.springframework.security.web.savedrequest.NullRequestCache;
-
-import java.util.Arrays;
 
 /**
  * Created by acordier on 14/07/17.
@@ -47,9 +47,7 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
-		if (!authentication) {
-			
-		} else {
+		if (authentication) {
 			http.csrf().disable().authorizeRequests().antMatchers("/login*").permitAll().antMatchers("/error*")
 					.permitAll().anyRequest().authenticated().and().formLogin().usernameParameter("username")
 					.passwordParameter("password").loginPage("/login.jsp").loginProcessingUrl("/login")
@@ -60,14 +58,27 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-		if (!authentication) {
-			auth.authenticationProvider(anonymousAuthProvider);
-			auth.inMemoryAuthentication().withUser("user").password("pass").roles("USER");
+		if (authentication) {
+			if (authenticationMode.equals("LDAP")) {
+				auth.ldapAuthentication().userSearchBase(userDn).userSearchFilter("(uid={0})").groupSearchBase(groupDn)
+				.groupSearchFilter("member={0}").contextSource(contextSource()).passwordCompare()
+				.passwordAttribute("uid");
+			}
+			if (authenticationMode.equals("SAML")) {
+				auth.ldapAuthentication().userSearchBase(userDn).userSearchFilter("(uid={0})").groupSearchBase(groupDn)
+				.groupSearchFilter("member={0}").contextSource(contextSource()).passwordCompare()
+				.passwordAttribute("uid");
+			}
+			if (authenticationMode.equals("OAUTH2")) {
+				auth.ldapAuthentication().userSearchBase(userDn).userSearchFilter("(uid={0})").groupSearchBase(groupDn)
+				.groupSearchFilter("member={0}").contextSource(contextSource()).passwordCompare()
+				.passwordAttribute("uid");
+			}
 		} else {
-			auth.ldapAuthentication().userSearchBase(userDn).userSearchFilter("(uid={0})").groupSearchBase(groupDn)
-					.groupSearchFilter("member={0}").contextSource(contextSource()).passwordCompare()
-					.passwordAttribute("uid");
+			auth.authenticationProvider(anonymousAuthProvider);
+			auth.inMemoryAuthentication().withUser("Guest").password("Guest").roles("TEST");
 		}
+		
 	}
 
 	@Bean
