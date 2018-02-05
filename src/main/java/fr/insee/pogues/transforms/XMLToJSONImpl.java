@@ -50,11 +50,12 @@ public class XMLToJSONImpl implements XMLToJSON {
             throw new NullPointerException("Null input");
         }
         try {
-            JSONParser parser = new JSONParser();
-            JSONObject questionnaire = (JSONObject) parser.parse(input);
-            questionnaire = JSONFunctions.renameQuestionnairePlural(questionnaire);
-            return translator.translate(questionnaire.toJSONString());
+//            JSONParser parser = new JSONParser();
+//            JSONObject questionnaire = (JSONObject) parser.parse(input);
+//            questionnaire = JSONFunctions.renameQuestionnairePlural(questionnaire);
+            return translator.translate(input);
         } catch (Exception e) {
+        	e.printStackTrace();
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }
 

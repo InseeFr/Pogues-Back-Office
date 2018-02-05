@@ -42,7 +42,7 @@ import fr.insee.pogues.transforms.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.Transformer;
 import fr.insee.pogues.transforms.XFormToURI;
 import fr.insee.pogues.transforms.XFormsToXFormsHack;
-import fr.insee.pogues.transforms.XMLToDDI;
+import fr.insee.pogues.transforms.XMLToJSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -63,6 +63,9 @@ public class PoguesTransforms {
 
 	@Autowired
 	JSONToXML jsonToXML;
+	
+	@Autowired
+	XMLToJSON xmlToJson;
 
 	@Autowired
 	PoguesXMLToDDI poguesXMLToDDI;
@@ -269,6 +272,25 @@ public class PoguesTransforms {
 	}
 	
 	@POST
+	@Path("xml2json")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get Pogues JSON From Pogues XML", notes = "Returns a JSON entity that must comply with Pogues data model based on XML")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Error") })
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "xml body", value = "XML representation of the Pogues Model", paramType = "body", dataType = "string") })
+	public Response xml2Json(@Context final HttpServletRequest request) throws Exception {
+		try {
+			return transform(request, xmlToJson);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			System.out.println(e.getMessage());
+			System.out.println(e);
+			throw e;
+		}
+	}
+	
+	@POST
 	@Path("pogues-xml2ddi")
 	@Produces(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_XML)
@@ -343,10 +365,11 @@ public class PoguesTransforms {
 	}
 
 	private Response transform(HttpServletRequest request, Transformer transformer) throws Exception {
-		StreamingOutput stream = output -> {
+		StreamingOutput stream = output -> {			
 			try {
 				transformer.transform(request.getInputStream(), output, null);
 			} catch (Exception e) {
+				e.printStackTrace();
 				throw new PoguesException(500, "Transformation error", e.getMessage());
 			}
 		};
