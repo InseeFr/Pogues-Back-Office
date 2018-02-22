@@ -4,3 +4,7 @@ target
 .idea/
 *.log
 node_modules
+# Ignore Eclipse files
+.classpath
+.project
+.settings/
