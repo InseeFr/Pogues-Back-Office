@@ -33,6 +33,9 @@ public class TestOwnerRestrictedFilter {
 
     @InjectMocks
     OwnerRestrictedFilter filter;
+    
+    @InjectMocks
+    Boolean authentication = false;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();

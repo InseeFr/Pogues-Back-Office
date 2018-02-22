@@ -59,7 +59,18 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
 				logger.error(message);
 				throw new PoguesException(500, "Invalid Data", message);
 			}
-			if (authentication) {// Filter request
+			if (authentication != null) {// Filter request
+				if (authentication) {
+					Principal principal = requestContext.getSecurityContext().getUserPrincipal();
+					if (null == principal) {
+						throw new PoguesException(401, "Unauthenticated", "You are not logged in");
+					}
+					String permission = userServiceQuery.getNameAndPermissionByID(principal.getName()).getPermission();
+					if (null == permission || !permission.equals(owner.toString())) {
+						throw new PoguesException(403, "Unauthorized", "This object is not yours");
+					}
+				}
+			}else{
 				Principal principal = requestContext.getSecurityContext().getUserPrincipal();
 				if (null == principal) {
 					throw new PoguesException(401, "Unauthenticated", "You are not logged in");
