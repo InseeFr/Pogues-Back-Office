@@ -40,11 +40,13 @@ public class PoguesEnvironment {
     public Response getEnvironment() throws Exception {
         try {
             JSONObject entity = new JSONObject();
-            entity.put("colecticaUrl", env.getProperty("fr.insee.pogues.api.remote.metadata.url"));
-            entity.put("colecticaAgency", env.getProperty("fr.insee.pogues.api.remote.metadata.agency"));
-            entity.put("visualisationUrl", env.getProperty("fr.insee.pogues.api.remote.stromae.vis.url"));
-            entity.put("elasticsearchUrl", env.getProperty("fr.insee.pogues.elasticsearch.host"));
-            entity.put("elasticsearch.index", env.getProperty("fr.insee.pogues.elasticsearch.index.name"));
+            entity.put("Swagger Host", env.getProperty("fr.insee.pogues.api.host"));
+            entity.put("Swagger Name", env.getProperty("fr.insee.pogues.api.name"));   
+            entity.put("Swagger Scheme", env.getProperty("fr.insee.pogues.api.scheme"));
+            entity.put("Database", env.getProperty("fr.insee.pogues.persistence.database.host"));
+            entity.put("LDAP", env.getProperty("fr.insee.pogues.permission.ldap.hostname"));
+            entity.put("Metadata services", env.getProperty("fr.insee.pogues.api.remote.metadata.url"));
+            entity.put("Vizualisation service", env.getProperty("fr.insee.pogues.api.remote.stromae.vis.url"));
             return Response.ok().entity(entity).build();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

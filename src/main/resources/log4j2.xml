@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<appenders>
+
+		<RollingFile name="RollingFile" fileName="D://logs/pogues-local.log"
+			filePattern="D://logs/pogues-local-%d{MM-dd-yyyy}-%i.log.gz"
+			ignoreExceptions="false">
+			<PatternLayout>
+				<Pattern>%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="1 MB" />
+			</Policies>
+		</RollingFile>
+
+	</appenders>
+
+	<loggers>
+		<Logger name="fr.insee.pogues" level="DEBUG" additivity="false">
+			<appender-ref ref="RollingFile" />
+		</Logger>
+		<Logger name="io.swagger" level="DEBUG" additivity="false">
+			<appender-ref ref="RollingFile" />
+		</Logger>
+		<Logger name="org.springframework" level="DEBUG" additivity="false">
+			<appender-ref ref="RollingFile" />
+		</Logger>
+		<Logger name="org.apache.http.wire" level="DEBUG" additivity="false">
+			<appender-ref ref="RollingFile" />
+		</Logger>
+		<root level="ERROR">
+			<appender-ref ref="RollingFile" />
+		</root>
+	</loggers>
+</configuration>

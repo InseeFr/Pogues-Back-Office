@@ -61,3 +61,33 @@ INSERT INTO "ddi_item" VALUES ('antipol-D4','942e565e-0866-496b-b5e2-6181533385d
 INSERT INTO "ddi_item" VALUES ('Liste des codes de la nomenclature NAF','942e565e-0866-496b-b5e2-6181533385d5','c5f8a4cf-a037-4ac9-8a31-bfe2ff77a8c6',null,'5a7204a5-a91b-4aca-a383-feff8930213c',null,null,'1dcb97a9-21f2-4f7e-816e-8b9fbdc4923b','code-list',null);
 INSERT INTO "ddi_item" VALUES ('Age revolu condense - 3 tranches','937b77d6-fc9b-436e-af23-428797c381b6','6ef7d67e-f0bd-4a22-9cdb-1cda397c98e0',null,null,null,null,'d574ed7e-2a7c-491f-b25c-f84141d4e96e','code-list',null);
 INSERT INTO "ddi_item" VALUES ('Act eco du cj de la pers ref 17 sections','937b77d6-fc9b-436e-af23-428797c381b6','508b32bc-e783-41d8-8a49-cf9c37cb01a3',null,null,null,null,'d574ed7e-2a7c-491f-b25c-f84141d4e96e','code-list',null);
+
+INSERT INTO "ddi_item" VALUES ('ESA',null,'esa-g','esa-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sectorielle annuelle','esa-g','esa-sg','esa-g','esa-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sectorielle annuelle 2018','esa-sg', 'esa-su-2018','esa-g','esa-sg','esa-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sectorielle annuelle 2018','esa-su-2018','esa-dc-2018','esa-g','esa-sg','esa-su-2018','esa-dc-2018','rp','data-collection',null);
+
+INSERT INTO "ddi_item" VALUES ('Artisanat',null,'art-g','art-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans l''artisanat du bâtiment','art-g','art-sg','art-g','art-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans l''artisanat du bâtiment 2018','art-sg', 'art-su-2018','art-g','art-sg','art-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans l''artisanat du bâtiment 1er trimestre 2018','art-su-2018','art-dc-2018','art-g','art-sg','art-su-2018','art-dc-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans l''artisanat du bâtiment 2ème trimestre 2018','art-su-2018','art-dc2-2018','art-g','art-sg','art-su-2018','art-dc2-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans l''artisanat du bâtiment 3ème trimestre 2018','art-su-2018','art-dc3-2018','art-g','art-sg','art-su-2018','art-dc3-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans l''artisanat du bâtiment 4ème trimestre 2018','art-su-2018','art-dc4-2018','art-g','art-sg','art-su-2018','art-dc4-2018','rp','data-collection',null);
+
+INSERT INTO "ddi_item" VALUES ('Immo',null,'immo-g','immo-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans la promotion immobilière','immo-g','immo-sg','immo-g','immo-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans la promotion immobilière 2018','immo-sg', 'immo-su-2018','immo-g','immo-sg','immo-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans la promotion immobilière 1er trimestre 2018','immo-su-2018','immo-dc-2018','immo-g','immo-sg','immo-su-2018','immo-dc-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans la promotion immobilière 2ème trimestre 2018','immo-su-2018','immo-dc2-2018','immo-g','immo-sg','immo-su-2018','immo-dc2-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans la promotion immobilière 3ème trimestre 2018','immo-su-2018','immo-dc3-2018','immo-g','immo-sg','immo-su-2018','immo-dc3-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans la promotion immobilière 4ème trimestre 2018','immo-su-2018','immo-dc4-2018','immo-g','immo-sg','immo-su-2018','immo-dc4-2018','rp','data-collection',null);
+
+
+INSERT INTO "ddi_item" VALUES ('FPE',null,'fpe-g','fpe-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête auprès des salariés de l’État','fpe-g','fpe-sg','fpe-g','fpe-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête auprès des salariés de l’État 2019','fpe-sg', 'fpe-su-2018','fpe-g','fpe-sg','fpe-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête auprès des salariés de l’État 2019','fpe-su-2018','fpe-dc-2018','fpe-g','fpe-sg','fpe-su-2018','fpe-dc-2018','rp','data-collection',null);
+
+
+

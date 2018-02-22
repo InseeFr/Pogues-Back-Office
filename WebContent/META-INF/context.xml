@@ -1,1 +1,21 @@
-<Context></Context>
+<?xml version='1.0' encoding='utf-8'?>
+<!-- <Context>
+	<Valve className="fr.insee.tomcat.saml.sp.SPAuthenticator"
+		oiosamlHome="${catalina.base}/conf/saml/" />
+	<Realm className="fr.insee.tomcat.saml.sp.SAMLRealm"
+		roleAttribute="roles" usernameAttribute="uid" allRolesMode="authOnly" />
+</Context>
+ -->
+<Context>
+	<!-- <Realm className="org.apache.catalina.realm.JNDIRealm"
+		connectionURL="ldap://openldap.insee.test:389"
+		userBase="ou=Personnes,o=insee,c=fr"
+		userSearch="(uid={0})"
+		userPassword="uid"
+		roleBase="ou=Applications,o=insee,c=fr"
+		roleSubtree="true"
+		roleName="cn"
+		roleSearch="(uniquemember={0})"
+		userRoleName="ou" />
+		 -->
+</Context>

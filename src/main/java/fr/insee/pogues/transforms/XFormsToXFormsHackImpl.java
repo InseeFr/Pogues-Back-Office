@@ -22,6 +22,7 @@ import java.util.Map;
 public class XFormsToXFormsHackImpl implements XFormsToXFormsHack {
 
     private final String XSLT_FILE_0 = "transforms/xslt/xformsToXformsHack.xsl";
+    private final String XSLT_FILE_1 = "transforms/xslt/xformsToXformsHack2.xsl";
 
 
     private Logger logger = LogManager.getLogger(XFormsToXFormsHackImpl.class);
@@ -67,9 +68,11 @@ public class XFormsToXFormsHackImpl implements XFormsToXFormsHack {
         DocumentBuilder builder = processor.newDocumentBuilder();
         XdmNode source = builder.build(input);
         XsltTransformer t0 = createTransformer(processor, XSLT_FILE_0);
+        XsltTransformer t1 = createTransformer(processor, XSLT_FILE_1);
         Serializer out = createSerializer(processor, output);
         t0.setInitialContextNode(source);
-        t0.setDestination(out);
+        t0.setDestination(t1);
+        t1.setDestination(out);
         return t0;
     }
 

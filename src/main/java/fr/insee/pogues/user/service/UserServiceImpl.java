@@ -34,7 +34,10 @@ public class UserServiceImpl implements UserService {
 
 
     public User getNameAndPermission(HttpServletRequest request) throws Exception {
-        String id = request.getUserPrincipal().getName();
+    	String id = null;
+    	if(request.getUserPrincipal()!=null){
+    		id = request.getUserPrincipal().getName();
+    	}
         return userServiceQuery.getNameAndPermissionByID(id);
     }
 

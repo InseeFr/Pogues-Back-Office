@@ -8,6 +8,11 @@ env:
 - DOCKER_COMPOSE_VERSION=1.9.0
 addons:
   sauce_connect: true
+before_install:
+  # Let's stop postgresql
+  - sudo service postgresql stop
+  # wait for postgresql to shutdown
+  - while sudo lsof -Pi :5432 -sTCP:LISTEN -t; do sleep 1; done
 install:
 - bash scripts/install.sh
 - bash scripts/build.sh rmspogfo
@@ -15,7 +20,7 @@ install:
 before_script:
 - sudo sysctl -w vm.max_map_count=262144
 - pushd docker
-- docker-compose up -d
+- docker-compose up -d --build
 - popd
 script:
 - mvn test
