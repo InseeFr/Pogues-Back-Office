@@ -117,6 +117,38 @@ public class PoguesTransforms {
 			throw e;
 		}
 	}
+	
+	@POST
+	@Path("visualize-from-ddi/{dataCollection}/{questionnaire}")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get visualization URI from DDI questionnaire", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "ddi body", value = "DDI representation of the questionnaire", paramType = "body") })
+	public Response visualizeFromDDIBody(@Context final HttpServletRequest request,
+			@PathParam(value = "dataCollection") String dataCollection,
+			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("dataCollection", dataCollection.toLowerCase());
+		params.put("questionnaire", questionnaire.toLowerCase());
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream()).map(ddiToXForm::transform, params)
+							.map(xformToXformsHack::transform, params).map(xformToUri::transform, params).transform()
+							.getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
 
 	@GET
 	@Path("visualize/{id}")
