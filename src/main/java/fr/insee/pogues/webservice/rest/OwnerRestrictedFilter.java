@@ -8,6 +8,7 @@ import org.glassfish.jersey.server.ContainerRequest;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -19,6 +20,7 @@ import java.security.Principal;
  * Created by acordier on 06/07/17.
  */
 @Provider
+@Component
 @OwnerRestricted
 public class OwnerRestrictedFilter implements ContainerRequestFilter {
 
@@ -57,14 +59,15 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
 				logger.error(message);
 				throw new PoguesException(500, "Invalid Data", message);
 			}
-			// Filter request
-			Principal principal = requestContext.getSecurityContext().getUserPrincipal();
-			if (null == principal) {
-				throw new PoguesException(401, "Unauthenticated", "You are not logged in");
-			}
-			String permission = userServiceQuery.getNameAndPermissionByID(principal.getName()).getPermission();
-			if (null == permission || !permission.equals(owner.toString())) {
-				throw new PoguesException(403, "Unauthorized", "This object is not yours");
+			if (authentication) {// Filter request
+				Principal principal = requestContext.getSecurityContext().getUserPrincipal();
+				if (null == principal) {
+					throw new PoguesException(401, "Unauthenticated", "You are not logged in");
+				}
+				String permission = userServiceQuery.getNameAndPermissionByID(principal.getName()).getPermission();
+				if (null == permission || !permission.equals(owner.toString())) {
+					throw new PoguesException(403, "Unauthorized", "This object is not yours");
+				}
 			}
 		} catch (PoguesException e) {
 			throw e;
