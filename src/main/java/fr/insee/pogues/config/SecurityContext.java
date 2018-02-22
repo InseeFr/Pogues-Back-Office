@@ -49,7 +49,9 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
 		}
 
 		if (requiresSSL) {
-			http.antMatcher("/**").requiresChannel().anyRequest().requiresSecure();
+			http.antMatcher("/**").requiresChannel().anyRequest().requiresSecure().and().csrf().disable();;
+		} else {
+			http.csrf().disable();
 		}
 
 	}
