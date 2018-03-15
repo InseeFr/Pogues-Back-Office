@@ -54,7 +54,11 @@ class Connector:
         f.close()
         content_types = {
             '.xqm': 'application/xquery',
+			'.xq': 'application/xquery',
+			'.xpl': 'application/xml',
+			'.xquery': 'application/xquery',
             '.xml': 'application/xml',
+			'.xconf': 'application/xml',
             '.xhtml': 'application/xml',
             '.xsl': 'application/xml'
         }

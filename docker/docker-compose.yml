@@ -49,7 +49,7 @@ services:
     build: ./stromae
     volumes:
       - "./stromae/rmesstromae.war:/usr/local/tomcat/webapps/rmesstromae.war"
-      - "./stromae/properties/:/usr/local/tomcat/webapps/properties/"
+      - "./stromae/config/:/usr/local/tomcat/webapps/config/"
     networks:
       back:
         ipv4_address: 172.20.0.250
