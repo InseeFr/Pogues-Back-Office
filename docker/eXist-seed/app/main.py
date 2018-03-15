@@ -52,7 +52,7 @@ if __name__ == '__main__':
     '''
     root='/opt/exist/db'
     collection = '/db'
-    host='http://exist:8080'
+    host='http://exist-coll:8080'
     user='admin'
     password=''
     opts, args = getopt.getopt(sys.argv[1:],"r: h: u: p:")    

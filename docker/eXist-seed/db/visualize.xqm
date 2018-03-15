@@ -12,30 +12,18 @@ declare namespace ngram = "http://exist-db.org/xquery/ngram";
 declare namespace xf="http://www.w3.org/2002/xforms";
 declare namespace xhtml="http://www.w3.org/1999/xhtml";
 declare namespace http="http://expath.org/ns/http-client";
-import module namespace common= "http://www.insee.fr/collectes/commonstromae/common" at "xmldb:exist:///db/services/orbeon/common/commonStromae.xqm";
+import module namespace common="http://www.insee.fr/collectes/commonstromae/common" at "/db/restxq/common/commonStromae.xqm";
 
 (:************ Vizualise Questionnaire  *************:)
 
-
 declare
- %rest:GET
- %rest:path("/visualize")
- %rest:produces("text/xml")
-function pogues:get-visualize ()   
-{
-  let $retour := 'toto'
-  return 
-(     
-<rest:response>
-    <http:response status="200">    
-    	<http:header name="Access-Control-Allow-Headers" value="Location, Content-Type" />
-    	<http:header name="Access-Control-Allow-Origin" value="*" />
-    </http:response>
-</rest:response>,  
-    $retour
-  )
-}
-;
+%rest:GET
+%rest:path("/visualize")
+function pogues:get-visualize()  as item()+{
+    let $mess:=<resultat><xqm>{'/visualize'}</xqm><message>{"It's work"}</message></resultat>
+    return (common:rest-response(200),$mess)
+};
+
 
 
 (:************ Vizualise Questionnaire  *************:)
@@ -47,22 +35,22 @@ function pogues:post-publish ($body as node()*, $dataCollection as xs:string*, $
 {
 let $dataCollection := lower-case($dataCollection)
 let $orbeon-root := '/db/orbeon/fr'
-let $a := common:collection($orbeon-root,$dataCollection)
+let $a := common:create-collection-if-necessary(concat($orbeon-root,'/',$dataCollection))
 let $dataCollection-root := concat($orbeon-root,'/',$dataCollection)
-let $b := common:collection($dataCollection-root,$model)
+let $b := common:create-collection-if-necessary(concat($dataCollection-root,'/',$model))
 let $model-root := concat($dataCollection-root,'/',$model)
-let $c := common:collection($model-root,'form')
-let $d := common:collection($model-root,'data')
+let $c := common:create-collection-if-necessary(concat($model-root,'/','form'))
+let $d := common:create-collection-if-necessary(concat($model-root,'/','data'))
 let $model-form-folder := concat($model-root,'/form')
 let $model-data-folder := concat($model-root,'/data')
-let $e := common:collection($model-data-folder,'init')
+let $e := common:create-collection-if-necessary(concat($model-data-folder,'/','init'))
 let $model-data-init-folder := concat($model-data-folder,'/init')
 
 let $form := xmldb:store($model-form-folder, 'form.xhtml', $body)
 
 let $unite := xs:string('123456789')
 let $collection := xs:string('15')
-let $f := common:collection($model-data-init-folder,$collection)
+let $f := common:create-collection-if-necessary(concat($model-data-init-folder,'/',$collection))
 let $model-data-init-collection-folder := concat($model-data-init-folder,'/',$collection)
 
 let $perso := xmldb:store($model-data-init-collection-folder, '123456789.xml', doc(concat($model-form-folder,'/form.xhtml'))//xf:instance[@id='fr-form-instance']/form)
