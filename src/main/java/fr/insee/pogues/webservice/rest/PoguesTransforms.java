@@ -35,6 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.DDIToODT;
+import fr.insee.pogues.transforms.DDIToPDF;
 import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.JSONToXML;
 import fr.insee.pogues.transforms.PipeLine;
@@ -63,18 +64,21 @@ public class PoguesTransforms {
 
 	@Autowired
 	JSONToXML jsonToXML;
-	
+
 	@Autowired
 	XMLToJSON xmlToJson;
 
 	@Autowired
 	PoguesXMLToDDI poguesXMLToDDI;
-	
+
 	@Autowired
 	DDIToXForm ddiToXForm;
-	
+
 	@Autowired
 	DDIToODT ddiToOdt;
+
+	@Autowired
+	DDIToPDF ddiToPdf;
 
 	@Autowired
 	XFormToURI xformToUri;
@@ -102,10 +106,12 @@ public class PoguesTransforms {
 		try {
 			StreamingOutput stream = output -> {
 				try {
-					output.write(pipeline.from(request.getInputStream()).map(jsonToXML::transform, params)
-							.map(poguesXMLToDDI::transform, params).map(ddiToXForm::transform, params)
-							.map(xformToXformsHack::transform, params).map(xformToUri::transform, params).transform()
-							.getBytes());
+					output.write(pipeline.from(request.getInputStream())
+							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
+							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
+							.map(xformToXformsHack::transform, params, questionnaire.toLowerCase())
+							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
@@ -117,7 +123,7 @@ public class PoguesTransforms {
 			throw e;
 		}
 	}
-	
+
 	@POST
 	@Path("visualize-from-ddi/{dataCollection}/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_XML)
@@ -135,9 +141,10 @@ public class PoguesTransforms {
 		try {
 			StreamingOutput stream = output -> {
 				try {
-					output.write(pipeline.from(request.getInputStream()).map(ddiToXForm::transform, params)
-							.map(xformToXformsHack::transform, params).map(xformToUri::transform, params).transform()
-							.getBytes());
+					output.write(pipeline.from(request.getInputStream())
+							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
+							.map(xformToXformsHack::transform, params, questionnaire.toLowerCase())
+							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
@@ -165,9 +172,11 @@ public class PoguesTransforms {
 			String questionnaireName = ((String) questionnaire.get("Name")).toLowerCase();
 			params.put("questionnaire", questionnaireName);
 			input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
-			String uri = pipeline.from(input).map(jsonToXML::transform, params).map(poguesXMLToDDI::transform, params)
-					.map(ddiToXForm::transform, params).map(xformToXformsHack::transform, params)
-					.map(xformToUri::transform, params).transform();
+			String uri = pipeline.from(input).map(jsonToXML::transform, params, questionnaireName)
+					.map(poguesXMLToDDI::transform, params, questionnaireName)
+					.map(ddiToXForm::transform, params, questionnaireName)
+					.map(xformToXformsHack::transform, params, questionnaireName)
+					.map(xformToUri::transform, params, questionnaireName).transform();
 			return Response.seeOther(URI.create(uri)).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -187,22 +196,53 @@ public class PoguesTransforms {
 	public Response visualizeSpecFromBody(@Context final HttpServletRequest request) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
+		String questionnaireName = "spec";
 		try {
 			StreamingOutput stream = output -> {
 				try {
-					output.write(pipeline.from(request.getInputStream()).map(jsonToXML::transform, params)
-							.map(poguesXMLToDDI::transform, params).map(ddiToOdt::transform, params)
-							.transform()
-							.getBytes());
+					output.write(
+							pipeline.from(request.getInputStream()).map(jsonToXML::transform, params, questionnaireName)
+									.map(poguesXMLToDDI::transform, params, questionnaireName)
+									.map(ddiToOdt::transform, params, questionnaireName).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
 				}
 			};
-			
+
 			return Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM)
-					.header("Content-Disposition", "attachment; filename=form.fodt")
-					.build();
+					.header("Content-Disposition", "attachment; filename=form.fodt").build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@POST
+	@Path("visualize-ddi")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	@ApiOperation(value = "Get visualization DDI file from JSON serialized Pogues entity")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
+	public Response visualizeDDIFromBody(@Context final HttpServletRequest request) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		String questionnaireName = "ddi";
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(
+							pipeline.from(request.getInputStream()).map(jsonToXML::transform, params, questionnaireName)
+									.map(poguesXMLToDDI::transform, params, questionnaireName).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+
+			return Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM)
+					.header("Content-Disposition", "attachment; filename=form.xml").build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
@@ -213,7 +253,8 @@ public class PoguesTransforms {
 	@Path("visualize-spec/{id}")
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@ApiOperation(value = "Get specification odt file from JSON serialized Pogues entity", notes = "Retrieves entity in datastore before pass it through the transformation pipeline")
-	public Response visualizeSpecFromId(@Context final HttpServletRequest request, @PathParam(value = "id") String id) throws Exception {
+	public Response visualizeSpecFromId(@Context final HttpServletRequest request, @PathParam(value = "id") String id)
+			throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		try {
@@ -223,32 +264,68 @@ public class PoguesTransforms {
 			params.put("dataCollection", name);
 			String questionnaireName = ((String) questionnaire.get("Name")).toLowerCase();
 			params.put("questionnaire", questionnaireName);
-			
+
 			StreamingOutput stream = output -> {
 				InputStream input = null;
 				try {
 					input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
-					output.write(pipeline.from(input).map(jsonToXML::transform, params)
-							.map(poguesXMLToDDI::transform, params).map(ddiToOdt::transform, params)
-							.transform()
-							.getBytes());
+					output.write(pipeline.from(input).map(jsonToXML::transform, params, questionnaireName)
+							.map(poguesXMLToDDI::transform, params, questionnaireName)
+							.map(ddiToOdt::transform, params, questionnaireName).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
-				}
-				finally {
+				} finally {
 					input.close();
 				}
 			};
-			
+
 			return Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM)
-					.header("Content-Disposition", "attachment; filename=form.fodt")
-					.build();
-			
+					.header("Content-Disposition", "attachment; filename=form.fodt").build();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
-		} 
+		}
+	}
+
+	@GET
+	@Path("visualize-ddi/{id}")
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	@ApiOperation(value = "Get DDI file from JSON serialized Pogues entity", notes = "Retrieves entity in datastore before pass it through the transformation pipeline")
+	public Response visualizeDDIFromId(@Context final HttpServletRequest request, @PathParam(value = "id") String id)
+			throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		try {
+			JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
+			JSONObject dataCollection = (JSONObject) ((JSONArray) questionnaire.get("DataCollection")).get(0);
+			String name = ((String) dataCollection.get("id")).toLowerCase();
+			params.put("dataCollection", name);
+			String questionnaireName = ((String) questionnaire.get("Name")).toLowerCase();
+			params.put("questionnaire", questionnaireName);
+
+			StreamingOutput stream = output -> {
+				InputStream input = null;
+				try {
+					input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
+					output.write(pipeline.from(input).map(jsonToXML::transform, params, questionnaireName)
+							.map(poguesXMLToDDI::transform, params, questionnaireName).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				} finally {
+					input.close();
+				}
+			};
+
+			return Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM)
+					.header("Content-Disposition", "attachment; filename=form.xml").build();
+
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
 	}
 
 	@POST
@@ -259,15 +336,23 @@ public class PoguesTransforms {
 	@ApiImplicitParams(value = {
 			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
 	public Response visualizePDFFromBody(@Context final HttpServletRequest request) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		String filePath = null;
+		String questionnaireName = "pdf";
 		try {
-			// JSON : request.getInputStream()
-			File file = new File(getClass().getClassLoader().getResource("pdf/test.pdf").getPath());
-			return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
-					.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").build();
+			filePath = pipeline.from(request.getInputStream()).map(jsonToXML::transform, params, questionnaireName)
+					.map(poguesXMLToDDI::transform, params, questionnaireName)
+					.map(ddiToPdf::transform, params, questionnaireName).transform();
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
+			logger.error(e.getMessage());
+			throw new PoguesException(500, e.getMessage(), null);
 		}
+
+		File file = new File(filePath);
+		return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
+				.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").build();
+
 	}
 
 	@GET
@@ -275,11 +360,34 @@ public class PoguesTransforms {
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@ApiOperation(value = "Get visualization PDF questionnaire from JSON serialized Pogues entity", notes = "Retrieves entity in datastore before pass it through the transformation pipeline")
 	public Response visualizePDFFromId(@PathParam(value = "id") String id) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
 		try {
+			JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
+			JSONObject dataCollection = (JSONObject) ((JSONArray) questionnaire.get("DataCollection")).get(0);
+			String name = ((String) dataCollection.get("id")).toLowerCase();
+			params.put("dataCollection", name);
+			String questionnaireName = ((String) questionnaire.get("Name")).toLowerCase();
+			params.put("questionnaire", questionnaireName);
 
-			File file = new File(getClass().getClassLoader().getResource("pdf/test.pdf").getPath());
-			return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
-					.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").build();
+			StreamingOutput stream = output -> {
+				InputStream input = null;
+				try {
+					input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
+					output.write(pipeline.from(input).map(jsonToXML::transform, params, questionnaireName)
+							.map(poguesXMLToDDI::transform, params, questionnaireName)
+							.map(ddiToPdf::transform, params, questionnaireName).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				} finally {
+					input.close();
+				}
+			};
+
+			return Response.ok(stream, MediaType.APPLICATION_OCTET_STREAM)
+					.header("Content-Disposition", "attachment; filename=form.pdf").build();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
@@ -295,14 +403,15 @@ public class PoguesTransforms {
 	@ApiImplicitParams(value = {
 			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "string") })
 	public Response json2XML(@Context final HttpServletRequest request) throws Exception {
+		String questionnaire = "xforms";
 		try {
-			return transform(request, jsonToXML);
+			return transform(request, jsonToXML, questionnaire);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
-	
+
 	@POST
 	@Path("xml2json")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -312,8 +421,9 @@ public class PoguesTransforms {
 	@ApiImplicitParams(value = {
 			@ApiImplicitParam(name = "xml body", value = "XML representation of the Pogues Model", paramType = "body", dataType = "string") })
 	public Response xml2Json(@Context final HttpServletRequest request) throws Exception {
+		String questionnaire = "xforms";
 		try {
-			return transform(request, xmlToJson);
+			return transform(request, xmlToJson, questionnaire);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			System.out.println(e.getMessage());
@@ -321,7 +431,7 @@ public class PoguesTransforms {
 			throw e;
 		}
 	}
-	
+
 	@POST
 	@Path("pogues-xml2ddi")
 	@Produces(MediaType.APPLICATION_XML)
@@ -331,8 +441,9 @@ public class PoguesTransforms {
 	@ApiImplicitParams(value = {
 			@ApiImplicitParam(name = "xml body", value = "XML representation of the Pogues Model", paramType = "body", dataType = "string") })
 	public Response poguesXml2DDi(@Context final HttpServletRequest request) throws Exception {
+		String questionnaire = "xforms";
 		try {
-			return transform(request, poguesXMLToDDI);
+			return transform(request, poguesXMLToDDI, questionnaire);
 		} catch (Exception e) {
 			logger.error(e);
 			throw e;
@@ -348,8 +459,9 @@ public class PoguesTransforms {
 	@ApiImplicitParams(value = {
 			@ApiImplicitParam(name = "ddi body", value = "DDI representation of the questionnaire", paramType = "body", dataType = "string") })
 	public Response ddi2XForm(@Context final HttpServletRequest request) throws Exception {
+		String questionnaire = "xforms";
 		try {
-			return transform(request, ddiToXForm);
+			return transform(request, ddiToXForm, questionnaire);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
@@ -365,14 +477,15 @@ public class PoguesTransforms {
 	@ApiImplicitParams(value = {
 			@ApiImplicitParam(name = "xforms body", value = "XForms questionnaire", paramType = "body", dataType = "string") })
 	public Response ddi2XFormHack(@Context final HttpServletRequest request) throws Exception {
+		String questionnaire = "xforms";
 		try {
-			return transform(request, xformToXformsHack);
+			return transform(request, xformToXformsHack, questionnaire);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
-	
+
 	@POST
 	@Path("xform2uri/{dataCollection}/{questionnaire}")
 	@Produces(MediaType.TEXT_PLAIN)
@@ -389,17 +502,19 @@ public class PoguesTransforms {
 			params.put("dataCollection", dataCollection.toLowerCase());
 			params.put("questionnaire", questionnaire.toLowerCase());
 			String input = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
-			return xformToUri.transform(input, params);
+			return xformToUri.transform(input, params, questionnaire);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
 
-	private Response transform(HttpServletRequest request, Transformer transformer) throws Exception {
-		StreamingOutput stream = output -> {			
+	private Response transform(HttpServletRequest request, Transformer transformer, String questionnaire)
+			throws Exception {
+
+		StreamingOutput stream = output -> {
 			try {
-				transformer.transform(request.getInputStream(), output, null);
+				transformer.transform(request.getInputStream(), output, null, questionnaire);
 			} catch (Exception e) {
 				e.printStackTrace();
 				throw new PoguesException(500, "Transformation error", e.getMessage());
@@ -407,23 +522,21 @@ public class PoguesTransforms {
 		};
 		return Response.ok(stream).build();
 	}
-	
+
 	private Response transform(HttpServletRequest request, String string) throws Exception {
 		StreamingOutput stream = new StreamingOutput() {
-		    @Override
-		    public void write(OutputStream os) throws IOException,
-		    WebApplicationException {
-		    	try {
-		    		Writer writer = new BufferedWriter(new OutputStreamWriter(os));
-				    writer.write(string);
-				    writer.flush(); 
+			@Override
+			public void write(OutputStream os) throws IOException, WebApplicationException {
+				try {
+					Writer writer = new BufferedWriter(new OutputStreamWriter(os));
+					writer.write(string);
+					writer.flush();
 				} catch (Exception e) {
 					throw new PoguesException(500, "Transformation error", e.getMessage());
 				}
-		    	
-		    	
-		    }
-		  };
+
+			}
+		};
 		return Response.ok(stream).build();
 	}
 }

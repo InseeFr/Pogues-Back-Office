@@ -23,7 +23,6 @@ import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.model.Unit;
 import fr.insee.pogues.metadata.service.MetadataService;
-import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.transforms.DDIToXML;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.XMLToJSON;
@@ -255,8 +254,8 @@ public class PoguesMetadata {
 		try {
 			StreamingOutput stream = output -> {
 				try {
-					output.write(pipeline.from(codeList).map(ddiToXML::transform, params)
-							.map(xmlToJSON::transform, params).transform().getBytes());
+//					output.write(pipeline.from(codeList).map(ddiToXML::transform, params,"codeList")
+//							.map(xmlToJSON::transform, params,"codeList").transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);

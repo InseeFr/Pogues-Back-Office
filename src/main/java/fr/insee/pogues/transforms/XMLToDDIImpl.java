@@ -30,7 +30,7 @@ public class XMLToDDIImpl implements XMLToDDI {
 
     private Logger logger = LogManager.getLogger(XMLToDDIImpl.class);
 
-    public void transform(InputStream input, OutputStream output, Map<String, Object>params) throws Exception {
+    public void transform(InputStream input, OutputStream output, Map<String, Object>params, String surveyName) throws Exception {
         if (null == input) {
             throw new NullPointerException("Null input");
         }
@@ -48,22 +48,22 @@ public class XMLToDDIImpl implements XMLToDDI {
         }
     }
 
-    public String transform(InputStream input, Map<String, Object>params) throws Exception {
+    public String transform(InputStream input, Map<String, Object>params, String surveyName) throws Exception {
         if (null == input) {
             throw new NullPointerException("Null input");
         }
         try ( ByteArrayOutputStream output = new ByteArrayOutputStream()){
-            transform(input, output, params);
+            transform(input, output, params,surveyName);
             return output.toString(StandardCharsets.UTF_8).trim();
         }
     }
 
-    public String transform(String input, Map<String, Object>params) throws Exception {
+    public String transform(String input, Map<String, Object>params, String surveyName) throws Exception {
         if (null == input) {
             throw new NullPointerException("Null input");
         }
         try (InputStream is = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8))){
-            return transform(is, params);
+            return transform(is, params,surveyName);
         }
     }
 

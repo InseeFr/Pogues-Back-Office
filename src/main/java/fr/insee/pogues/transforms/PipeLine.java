@@ -24,10 +24,10 @@ public class PipeLine {
         return this;
     }
 
-    public PipeLine map(Transform<String, String> t, Map<String, Object> params) throws Exception {
+    public PipeLine map(Transform<String, String> t, Map<String, Object> params, String surveyName) throws Exception {
         transforms.add(() -> {
             try {
-                output = t.apply(output, params);
+                output = t.apply(output, params, surveyName);
             } catch (Exception e) {
                 throw new RuntimeException(
                         String.format("Exception occured while executing mapping function: %s", e.getMessage())
@@ -52,7 +52,7 @@ public class PipeLine {
     /// [marker0]
     @FunctionalInterface
     public interface Transform<I, O> {
-        O apply(I i, Map<String, Object> params) throws Exception;
+        O apply(I i, Map<String, Object> params, String surveyName) throws Exception;
     }
     /// [marker0]
 

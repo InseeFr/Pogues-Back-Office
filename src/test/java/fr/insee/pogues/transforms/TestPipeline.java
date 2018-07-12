@@ -25,9 +25,9 @@ public class TestPipeline {
     @Test
     public void mapsTest() throws Exception {
         String input = "";
-        PipeLine.Transform<String, String> t0 = (String i, Map<String, Object> params) -> i + "concat";
+        PipeLine.Transform<String, String> t0 = (String i, Map<String, Object> params,String survey) -> i + "concat";
         PipeLine pipeline = new PipeLine();
-        String output = pipeline.from(input).map(t0, null).transform();
+        String output = pipeline.from(input).map(t0, null,null).transform();
         assertEquals("concat", output);
     }
 
@@ -36,10 +36,10 @@ public class TestPipeline {
         exception.expect(RuntimeException.class);
         exception.expectMessage("Exception occured while executing mapping function: Expected error");
         String input = "";
-        PipeLine.Transform<String, String> t0 = (String i, Map<String, Object> params) -> {
+        PipeLine.Transform<String, String> t0 = (String i, Map<String, Object> params,String survey) -> {
             throw new PoguesException(500, "Expected error", "Mapping function exception correctly propagates through pipeline");
         };
         PipeLine pipeline = new PipeLine();
-        pipeline.from(input).map(t0, null).transform();
+        pipeline.from(input).map(t0, null,null).transform();
     }
 }

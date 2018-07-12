@@ -30,7 +30,8 @@ public class TestDDIToXForm {
         exception.expectMessage("Null input");
         exception.expect(NullPointerException.class);
         String input = null;
-        transformer.transform(input, new HashMap<>());
+        String survey = "";
+        transformer.transform(input, new HashMap<>(), survey);
     }
 
     @Test
@@ -38,7 +39,8 @@ public class TestDDIToXForm {
         exception.expectMessage("Null input");
         exception.expect(NullPointerException.class);
         InputStream input = null;
-        transformer.transform(input, new HashMap<>());
+        String survey = "";
+        transformer.transform(input, new HashMap<>(),survey);
     }
 
     private void performDiffTest(String path) throws XMLUnitException {
