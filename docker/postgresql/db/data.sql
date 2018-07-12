@@ -1,5 +1,7 @@
 CREATE TABLE "pogues" (id VARCHAR PRIMARY KEY, data jsonb);
 CREATE TABLE "ddi_item"(label character varying,parent character varying,id character varying NOT NULL,groupid character varying,subgroupid character varying,studyunitid character varying,datacollectionid character varying,resourcepackageid character varying,type character varying,name character varying,CONSTRAINT pk_id PRIMARY KEY (id));
+
+DELETE FROM "ddi_item" ;
 INSERT INTO "ddi_item" VALUES (null,'d574ed7e-2a7c-491f-b25c-f84141d4e96e','937b77d6-fc9b-436e-af23-428797c381b6',null,null,null,null,'d574ed7e-2a7c-491f-b25c-f84141d4e96e','code-list-scheme',null);
 INSERT INTO "ddi_item" VALUES ('Annee de collecte','937b77d6-fc9b-436e-af23-428797c381b6','9b52eb5c-f242-4c04-afcb-f06fd4f8b30d',null,null,null,null,'d574ed7e-2a7c-491f-b25c-f84141d4e96e','code-list',null);
 INSERT INTO "ddi_item" VALUES ('Act. eco. NA08 en 5 divisions','937b77d6-fc9b-436e-af23-428797c381b6','974e52c5-dd48-4f95-8500-1de294701ff7',null,null,null,null,'d574ed7e-2a7c-491f-b25c-f84141d4e96e','code-list',null);
@@ -86,8 +88,84 @@ INSERT INTO "ddi_item" VALUES ('Enquête trimestrielle de conjoncture dans la pr
 
 INSERT INTO "ddi_item" VALUES ('FPE',null,'fpe-g','fpe-g',null,null,null,'rp','group',null);
 INSERT INTO "ddi_item" VALUES ('Enquête auprès des salariés de l’État','fpe-g','fpe-sg','fpe-g','fpe-sg',null,null,'rp','sub-group',null);
-INSERT INTO "ddi_item" VALUES ('Enquête auprès des salariés de l’État 2019','fpe-sg', 'fpe-su-2018','fpe-g','fpe-sg','fpe-su-2018',null,'rp','study-unit',null);
-INSERT INTO "ddi_item" VALUES ('Enquête auprès des salariés de l’État 2019','fpe-su-2018','fpe-dc-2018','fpe-g','fpe-sg','fpe-su-2018','fpe-dc-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête auprès des salariés de l’État 2019','fpe-sg', 'fpe-su-2019','fpe-g','fpe-sg','fpe-su-2019',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête auprès des salariés de l’État 2019','fpe-su-2019','fpe-dc-2019','fpe-g','fpe-sg','fpe-su-2019','fpe-dc-2019','rp','data-collection',null);
+
+INSERT INTO "ddi_item" VALUES ('EEC',null,'eec-g','eec-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête Emploi en continu','eec-g','eec-sg','eec-g','eec-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête Emploi en continu 2017','eec-sg', 'eec-su-2017','eec-g','eec-sg','eec-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête Emploi en continu 2017 - Vague 1','eec-su-2017','eec-dc1-2017','eec-g','eec-sg','eec-su-2017','eec-dc1-2017','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête Emploi en continu 2017 - Vague 2','eec-su-2017','eec-dc2-2017','eec-g','eec-sg','eec-su-2017','eec-dc2-2017','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête Emploi en continu 2017 - Vague 3','eec-su-2017','eec-dc3-2017','eec-g','eec-sg','eec-su-2017','eec-dc3-2017','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête Emploi en continu 2017 - Vague 4','eec-su-2017','eec-dc4-2017','eec-g','eec-sg','eec-su-2017','eec-dc4-2017','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête Emploi en continu 2017 - Vague 5','eec-su-2017','eec-dc5-2017','eec-g','eec-sg','eec-su-2017','eec-dc5-2017','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête Emploi en continu 2017 - Vague 6','eec-su-2017','eec-dc6-2017','eec-g','eec-sg','eec-su-2017','eec-dc6-2017','rp','data-collection',null);
+
+INSERT INTO "ddi_item" VALUES ('EAP',null,'eap-g','eap-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête Achats-Production','eap-g','eap-sg','eap-g','eap-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête Achats-Production 2018','eap-sg', 'eap-su-2018','eap-g','eap-sg','eap-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête Achats-Production 2018','eap-su-2018','eap-dc-2018','eap-g','eap-sg','eap-su-2018','eap-dc-2018','rp','data-collection',null);
+
+INSERT INTO "ddi_item" VALUES ('EMAGSA',null,'emagsa-g','emagsa-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires','emagsa-g','emagsa-sg','emagsa-g','emagsa-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires 2018','emagsa-sg', 'emagsa-su-2018','emagsa-g','emagsa-sg','emagsa-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires janvier 2018','emagsa-su-2018','emagsa-dc1-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc1-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires février 2018','emagsa-su-2018','emagsa-dc2-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc2-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires mars 2018','emagsa-su-2018','emagsa-dc3-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc3-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires avril 2018','emagsa-su-2018','emagsa-dc4-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc4-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires mai 2018','emagsa-su-2018','emagsa-dc5-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc5-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires juin 2018','emagsa-su-2018','emagsa-dc6-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc6-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires juillet 2018','emagsa-su-2018','emagsa-dc7-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc7-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires août 2018','emagsa-su-2018','emagsa-dc8-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc8-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires septembre 2018','emagsa-su-2018','emagsa-dc9-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc9-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires octobre 2018','emagsa-su-2018','emagsa-dc10-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc10-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires novembre 2018','emagsa-su-2018','emagsa-dc11-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc11-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête mensuelle sur l''activité des grandes surfaces alimentaires décembre 2018','emagsa-su-2018','emagsa-dc12-2018','emagsa-g','emagsa-sg','emagsa-su-2018','emagsa-dc12-2018','rp','data-collection',null);
+
+INSERT INTO "ddi_item" VALUES ('EAMTIC',null,'eamtic-g','eamtic-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête annuelle auprès des ménages sur les technologies de l''information et de la communication','eamtic-g','eamtic-sg','eamtic-g','eamtic-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête annuelle auprès des ménages sur les technologies de l''information et de la communication 2018','eamtic-sg', 'eamtic-su-2018','eamtic-g','eamtic-sg','eamtic-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête annuelle auprès des ménages sur les technologies de l''information et de la communication 2018','eamtic-su-2018','eamtic-dc-2018','eamtic-g','eamtic-sg','eamtic-su-2018','eamtic-dc-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête annuelle auprès des ménages sur les technologies de l''information et de la communication 2019','eamtic-sg', 'eamtic-su-2019','eamtic-g','eamtic-sg','eamtic-su-2019',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête annuelle auprès des ménages sur les technologies de l''information et de la communication 2019','eamtic-su-2019','eamtic-dc-2019','eamtic-g','eamtic-sg','eamtic-su-2019','eamtic-dc-2019','rp','data-collection',null);
+
+INSERT INTO "ddi_item" VALUES ('ETICE',null,'etice-g','etice-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les technologies de l''information et de la communication dans les entreprises','etice-g','etice-sg','etice-g','etice-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les technologies de l''information et de la communication dans les entreprises 2018','etice-sg', 'etice-su-2018','etice-g','etice-sg','etice-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les technologies de l''information et de la communication dans les entreprises 2018','etice-su-2018','etice-dc-2018','etice-g','etice-sg','etice-su-2018','etice-dc-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les technologies de l''information et de la communication dans les entreprises 2019','etice-sg', 'etice-su-2019','etice-g','etice-sg','etice-su-2019',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les technologies de l''information et de la communication dans les entreprises 2019','etice-su-2019','etice-dc-2019','etice-g','etice-sg','etice-su-2019','etice-dc-2019','rp','data-collection',null);
+
+INSERT INTO "ddi_item" VALUES ('RECME',null,'recme-g','recme-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Répertoire des entreprises contrôlées majoritairement par l''État','recme-g','recme-sg','recme-g','recme-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Répertoire des entreprises contrôlées majoritairement par l''État 2018','recme-sg', 'recme-su-2018','recme-g','recme-sg','recme-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Répertoire des entreprises contrôlées majoritairement par l''État 2018','recme-su-2018','recme-dc-2018','recme-g','recme-sg','recme-su-2018','recme-dc-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Répertoire des entreprises contrôlées majoritairement par l''État 2019','recme-sg', 'recme-su-2019','recme-g','recme-sg','recme-su-2019',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Répertoire des entreprises contrôlées majoritairement par l''État 2019','recme-su-2019','recme-dc-2019','recme-g','recme-sg','recme-su-2019','recme-dc-2019','rp','data-collection',null);
+
+INSERT INTO "ddi_item" VALUES ('Enquête sur les investissements dans l''industrie pour protéger l''environnement 2018','eiipe-dc-2018','eiipe-i-2018','eiipe-g','eiipe-sg','eiipe-su-2018','eiipe-dc-2018','rp','instrument','v1');
+INSERT INTO "ddi_item" VALUES ('Enquête sur les investissements dans l''industrie pour protéger l''environnement 2019','eiipe-dc-2019','eiipe-i-2019','eiipe-g','eiipe-sg','eiipe-su-2019','eiipe-dc-2019','rp','instrument','v1');
+INSERT INTO "ddi_item" VALUES ('Enquête sur les investissements dans l''industrie pour protéger l''environnement 2020','eiipe-dc-2019','eiipe-i-2020','eiipe-g','eiipe-sg','eiipe-su-2020','eiipe-dc-2020','rp','instrument','v1');
 
 
+INSERT INTO "ddi_item" VALUES ('EIIPE',null,'eiipe-g','eiipe-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les investissements dans l''industrie pour protéger l''environnement','eiipe-g','eiipe-sg','eiipe-g','eiipe-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les investissements dans l''industrie pour protéger l''environnement 2018','eiipe-sg', 'eiipe-su-2018','eiipe-g','eiipe-sg','eiipe-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les investissements dans l''industrie pour protéger l''environnement 2018','eiipe-su-2018','eiipe-dc-2018','eiipe-g','eiipe-sg','eiipe-su-2018','eiipe-dc-2018','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les investissements dans l''industrie pour protéger l''environnement 2019','eiipe-sg', 'eiipe-su-2019','eiipe-g','eiipe-sg','eiipe-su-2019',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les investissements dans l''industrie pour protéger l''environnement 2019','eiipe-su-2019','eiipe-dc-2019','eiipe-g','eiipe-sg','eiipe-su-2019','eiipe-dc-2019','rp','data-collection',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les investissements dans l''industrie pour protéger l''environnement 2020','eiipe-sg', 'eiipe-su-2020','eiipe-g','eiipe-sg','eiipe-su-2020',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les investissements dans l''industrie pour protéger l''environnement 2020','eiipe-su-2020','eiipe-dc-2020','eiipe-g','eiipe-sg','eiipe-su-2020','eiipe-dc-2020','rp','data-collection',null);
+
+INSERT INTO "ddi_item" VALUES ('EACEI',null,'eacei-g','eacei-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les consommations d''énergie dans l''industrie','eacei-g','eacei-sg','eacei-g','eacei-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les consommations d''énergie dans l''industrie 2018','eacei-sg', 'eacei-su-2018','eacei-g','eacei-sg','eacei-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur les consommations d''énergie dans l''industrie 2018','eacei-su-2018','eacei-dc-2018','eacei-g','eacei-sg','eacei-su-2018','eacei-dc-2018','rp','data-collection',null);
+
+INSERT INTO "ddi_item" VALUES ('EFASGSO',null,'efasgso-g','efasgso-g',null,null,null,'rp','group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur la filière aéronautique et Spatiale dans le Grand Sud-Ouest','efasgso-g','efasgso-sg','efasgso-g','efasgso-sg',null,null,'rp','sub-group',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur la filière aéronautique et Spatiale dans le Grand Sud-Ouest 2018','efasgso-sg', 'efasgso-su-2018','efasgso-g','efasgso-sg','efasgso-su-2018',null,'rp','study-unit',null);
+INSERT INTO "ddi_item" VALUES ('Enquête sur la filière aéronautique et Spatiale dans le Grand Sud-Ouest 2018','efasgso-su-2018','efasgso-dc-2018','efasgso-g','efasgso-sg','efasgso-su-2018','efasgso-dc-2018','rp','data-collection',null);
+
+ 
 
