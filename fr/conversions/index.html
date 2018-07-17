@@ -346,9 +346,12 @@
 <span class="hljs-keyword">import</span> java.util.Map;
 
 <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Transformer</span> </span>{
-    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">transform</span><span class="hljs-params">(InputStream input, OutputStream output, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
-    <span class="hljs-function">String <span class="hljs-title">transform</span><span class="hljs-params">(InputStream input, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
-    <span class="hljs-function">String <span class="hljs-title">transform</span><span class="hljs-params">(String input, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+    <span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">transform</span><span class="hljs-params">(InputStream input, OutputStream output, Map&lt;String, Object&gt; params, String surveyName)</span>
+            <span class="hljs-keyword">throws</span> Exception</span>;
+
+    <span class="hljs-function">String <span class="hljs-title">transform</span><span class="hljs-params">(InputStream input, Map&lt;String, Object&gt; params, String surveyName)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+
+    <span class="hljs-function">String <span class="hljs-title">transform</span><span class="hljs-params">(String input, Map&lt;String, Object&gt; params, String surveyName)</span> <span class="hljs-keyword">throws</span> Exception</span>;
 
 }
 </code></pre>
@@ -357,7 +360,7 @@
 <p>Pour nous permettre d&apos;utiliser les m&#xE9;thodes de l&apos;interface Transform en s&apos;appuyant sur <a href="https://docs.oracle.com/javase/tutorial/java/javaOO/methodreferences.html" target="_blank">les r&#xE9;f&#xE9;rences de m&#xE9;thodes</a> de Java 8, une interface fonctionnelle Transform est d&#xE9;finie, &#xE0; laquelle se conforment toutes les m&#xE9;thodes de l&apos;interface Transformer:</p>
 <pre><code class="lang-java">    <span class="hljs-meta">@FunctionalInterface</span>
     <span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">interface</span> <span class="hljs-title">Transform</span>&lt;<span class="hljs-title">I</span>, <span class="hljs-title">O</span>&gt; </span>{
-        <span class="hljs-function">O <span class="hljs-title">apply</span><span class="hljs-params">(I i, Map&lt;String, Object&gt; params)</span> <span class="hljs-keyword">throws</span> Exception</span>;
+        <span class="hljs-function">O <span class="hljs-title">apply</span><span class="hljs-params">(I i, Map&lt;String, Object&gt; params, String surveyName)</span> <span class="hljs-keyword">throws</span> Exception</span>;
     }
 </code></pre>
 <h2 id="la-classe-pipeline">La classe Pipeline</h2>
@@ -421,7 +424,7 @@ Nous pouvons ensuite cha&#xEE;ner nos diff&#xE9;rentes &#xE9;tapes de transforma
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Transformations","level":"1.7","depth":1,"previous":{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"conversions/README.md","mtime":"2018-03-22T09:55:03.919Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-03-22T10:09:17.237Z"},"basePath":"..","book":{"language":"fr"}});
+            gitbook.page.hasChanged({"page":{"title":"Transformations","level":"1.7","depth":1,"previous":{"title":"Autorisations","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"fr","gitbook":"*"},"file":{"path":"conversions/README.md","mtime":"2018-07-17T13:06:29.931Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2018-07-17T13:19:54.179Z"},"basePath":"..","book":{"language":"fr"}});
         });
     </script>
 </div>
