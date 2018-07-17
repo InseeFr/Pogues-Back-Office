@@ -4,7 +4,7 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>war</packaging>
-	<version>0.0.31-SNAPSHOT</version>
+	<version>1.0.2</version>
 	<name>Pogues-BO</name>
 
 	<properties>
@@ -14,6 +14,7 @@
 		<spring.version>4.3.9.RELEASE</spring.version>
 		<spring.security.version>4.2.3.RELEASE</spring.security.version>
 		<jackson.version>2.9.0</jackson.version>
+		<fop.version>2.2</fop.version>
 	</properties>
 
 	<repositories>
@@ -29,6 +30,8 @@
 			<url>http://repo.spring.io/release</url>
 		</repository>
 	</repositories>
+	
+	
 
 	<dependencyManagement>
 		<dependencies>
@@ -179,11 +182,16 @@
 			<artifactId>pogues-model</artifactId>
 			<version>0.1</version>
 		</dependency>
-		<dependency><!-- TODO provide via central -->
+		<dependency>
 			<groupId>fr.insee.eno</groupId>
 			<artifactId>eno-core</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.2</version>
 		</dependency>
+<!-- 		<dependency>
+			<groupId>org.apache.xmlgraphics</groupId>
+			<artifactId>fop</artifactId>
+			<version>${fop.version}</version>
+		</dependency> -->
 		<dependency>
 			<groupId>com.jayway.restassured</groupId>
 			<artifactId>rest-assured</artifactId>

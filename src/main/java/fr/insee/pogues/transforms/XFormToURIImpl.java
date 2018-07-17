@@ -15,17 +15,17 @@ public class XFormToURIImpl implements XFormToURI {
     private StromaeService stromaeService;
 
     @Override
-    public void transform(InputStream input, OutputStream output, Map<String, Object> params) throws Exception {
+    public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
         throw new NotImplementedException();
     }
 
     @Override
-    public String transform(InputStream input, Map<String, Object> params) throws Exception {
+    public String transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
         throw new NotImplementedException();
     }
 
     @Override
-    public String transform(String input, Map<String, Object> params) throws Exception {
+    public String transform(String input, Map<String, Object> params, String surveyName) throws Exception {
         try {
             return stromaeService.transform(input, params);
         } catch (Exception e) {

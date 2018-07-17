@@ -16,7 +16,8 @@ public class GenericExceptionMapper implements ExceptionMapper<Throwable> {
     private Status STATUS = Status.INTERNAL_SERVER_ERROR;
 
     public Response toResponse(Throwable error){
-        RestMessage message = new RestMessage(
+    	error.printStackTrace();
+    	RestMessage message = new RestMessage(
                 STATUS.getStatusCode(),
                 "An unexpected error occured", error.getMessage());
         if(error instanceof NotFoundException) {

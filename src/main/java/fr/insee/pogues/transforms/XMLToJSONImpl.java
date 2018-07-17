@@ -26,26 +26,26 @@ public class XMLToJSONImpl implements XMLToJSON {
         System.setProperty("javax.xml.bind.context.factory", "org.eclipse.persistence.jaxb.JAXBContextFactory");
     }
 
-    public void transform(InputStream input, OutputStream output, Map<String, Object> params) throws Exception {
+    public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
         if (null == input) {
             throw new NullPointerException("Null input");
         }
         if (null == output) {
             throw new NullPointerException("Null output");
         }
-        byte[] out = transform(input, params).getBytes(Charset.forName("UTF-8"));
+        byte[] out = transform(input, params, surveyName).getBytes(Charset.forName("UTF-8"));
         output.write(out, 0, out.length);
     }
 
-    public String transform(InputStream input, Map<String, Object> params) throws Exception {
+    public String transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
         if (null == input) {
             throw new NullPointerException("Null input");
         }
-        return transform(IOUtils.toString(input, StandardCharsets.UTF_8.name()), params);
+        return transform(IOUtils.toString(input, StandardCharsets.UTF_8.name()), params, surveyName);
 
     }
 
-    public String transform(String input, Map<String, Object> params) throws Exception {
+    public String transform(String input, Map<String, Object> params, String surveyName) throws Exception {
         if (null == input) {
             throw new NullPointerException("Null input");
         }

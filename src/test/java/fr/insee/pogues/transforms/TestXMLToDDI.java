@@ -89,7 +89,7 @@ public class TestXMLToDDI {
             }
         };
         new XMLToDDIImpl()
-                .transform(input, output, null);
+                .transform(input, output, null,"test");
 
     }
     @Test
@@ -104,7 +104,7 @@ public class TestXMLToDDI {
         };
         OutputStream output = null;
         new XMLToDDIImpl()
-                .transform(input, output, null);
+                .transform(input, output, null,"test");
 
     }
 

@@ -42,7 +42,7 @@ public class TestXFormToURI {
         try {
             when(stromaeService.transform(input, params))
                     .thenReturn(output);
-            String uri = xformToURI.transform(input, params);
+            String uri = xformToURI.transform(input, params,"test");
             assertEquals(uri, output);
         } catch (Exception e) {
             e.printStackTrace();
