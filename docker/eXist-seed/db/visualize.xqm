@@ -40,10 +40,11 @@ let $model-root := concat($dataCollection-root,'/',$model)
 let $model-form-folder := concat($model-root,'/form')
 let $model-data-folder := concat($model-root,'/data')
 let $model-data-init-folder := concat($model-data-folder,'/init')
-let $model-data-init-collection-folder := concat($model-data-init-folder,'/',$collection)
+
 
 let $unite := xs:string('123456789')
 let $collection := xs:string('15')
+let $model-data-init-collection-folder := concat($model-data-init-folder,'/',$collection)
 
 let $ip_orbeon := doc('/db/properties.xml')/properties/host_orbeon/ip/text()
 let $port_orbeon := doc('/db/properties.xml')/properties/host_orbeon/port/text()
