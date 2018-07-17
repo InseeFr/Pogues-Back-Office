@@ -6,7 +6,7 @@
 FINAL_WAR_NAME=${1?Final war name must be passed as first argument}
 STATIC_GH_URL="https://github.com/InseeFr/Pogues"
 MAIN_BRANCH="zenika-dev"
-HTTP_PROXY="http://proxy-orange.http.insee.fr:8080"
+HTTP_PROXY="http://proxy-rie.http.insee.fr:8080"
 
 # Local Mode detection
 if [[ (-z "$CI") && (-z "$TRAVIS") ]];then
