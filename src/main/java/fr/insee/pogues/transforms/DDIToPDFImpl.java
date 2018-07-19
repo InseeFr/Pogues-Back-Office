@@ -29,6 +29,7 @@ import org.springframework.stereotype.Service;
 import fr.insee.eno.GenerationService;
 import fr.insee.eno.generation.DDI2PDFGenerator;
 import fr.insee.eno.postprocessing.NoopPostprocessor;
+import fr.insee.eno.postprocessing.Postprocessor;
 import fr.insee.eno.preprocessing.DDIPreprocessor;
 
 @Service
@@ -75,7 +76,7 @@ public class DDIToPDFImpl implements DDIToPDF {
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
 
 		GenerationService genServiceDDI2PDF = new GenerationService(new DDIPreprocessor(), new DDI2PDFGenerator(),
-				new NoopPostprocessor());
+				new Postprocessor[] {new NoopPostprocessor()});
 
 		File conf = new File(DDIToPDFImpl.class.getResource("/pdf/fop.xconf").toURI());
 		InputStream isXconf = new FileInputStream(conf);

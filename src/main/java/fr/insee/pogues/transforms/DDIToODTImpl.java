@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import fr.insee.eno.GenerationService;
 import fr.insee.eno.generation.DDI2ODTGenerator;
 import fr.insee.eno.postprocessing.NoopPostprocessor;
+import fr.insee.eno.postprocessing.Postprocessor;
 import fr.insee.eno.preprocessing.DDIPreprocessor;
 
 @Service
@@ -60,7 +61,7 @@ public class DDIToODTImpl implements DDIToODT {
     private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
         try {
             File output;
-            GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2ODTGenerator(), new NoopPostprocessor());
+            GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2ODTGenerator(), new Postprocessor[] {new NoopPostprocessor()});
             output = genService.generateQuestionnaire(file, null, surveyName);
             return FileUtils.readFileToString(output, StandardCharsets.UTF_8);
         } catch (Exception e) {
