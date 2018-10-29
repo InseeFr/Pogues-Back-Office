@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import fr.insee.eno.GenerationService;
 import fr.insee.eno.generation.PoguesXML2DDIGenerator;
 import fr.insee.eno.postprocessing.DDIPostprocessor;
+import fr.insee.eno.postprocessing.NoopPostprocessor;
+import fr.insee.eno.postprocessing.Postprocessor;
 import fr.insee.eno.preprocessing.PoguesXMLPreprocessor;
 
 /**
@@ -59,8 +61,8 @@ public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
 		try {
 			File output;
 			GenerationService genService = new GenerationService(new PoguesXMLPreprocessor(),
-					new PoguesXML2DDIGenerator(), new DDIPostprocessor());
-			output = genService.generateQuestionnaire(file, null, surveyName);
+					new PoguesXML2DDIGenerator(), new Postprocessor[] {new DDIPostprocessor()});
+			output = genService.generateQuestionnaire(file, surveyName);
 			return FileUtils.readFileToString(output, StandardCharsets.UTF_8);
 		} catch (Exception e) {
 			throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
