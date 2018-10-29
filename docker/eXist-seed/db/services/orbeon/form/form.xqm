@@ -1,76 +1,56 @@
 xquery version "3.0";
-module namespace common="http://www.insee.fr/collectes/commonstromae/common";
+module namespace form="http://www.insee.fr/collectes/form";
+import module namespace common= "http://www.insee.fr/collectes/commonstromae/common" at "../common/commonStromae.xqm";
 declare namespace rest="http://exquery.org/ns/restxq";
-declare namespace functx = "http://www.functx.com";
-
-declare variable $common:racine-racine := '/db/' ;
-declare variable $common:repertoire-default := 'orbeon/fr/' ;
-
-(: log et retourne une réponse rest, avec le statut passé en paramètre. Le message de <http:response> n'est jamais affiché => inutile :)
-declare function common:rest-response($status as xs:int*) as node()* {
-   let $niveauLog := if($status>=200 and $status <300)then "INFO" else "ERROR"
-    let $log := util:log($niveauLog, concat("rest-response - $status : ", $status)) 
-    let $restResponse :=  
-            <rest:response>
-               <http:response status="{$status}">
-                   <http:header name="Content-Type" value="application/xml; charset=utf-8"/>
-               </http:response>
-           </rest:response>
-    return $restResponse
+(:TEST MARIE:)
+declare
+%rest:GET
+%rest:path("/collectes/form/helloworld")
+%rest:query-param("racine", "{$racine}","")
+function form:helloworld($racine as xs:string*) as item()+{
+    let $log := util:log("INFO", "helloworldinit - *****************************************************")     
+    let $message := common:racine($racine)||' Hello World!nnnn'
+    return (common:rest-response(202),
+    <results>
+        <message>{$message}</message>
+    </results>)
 };
-(: log et retourne une réponse rest, avec le statut passé en paramètre. Le message de <http:response> n'est jamais affiché => inutile :)
-declare function common:rest-response($status as xs:int*, $message as xs:string*) as node()* {
-   let $niveauLog := if($status>=200 and $status <300)then "INFO" else "ERROR"
-    let $log := util:log($niveauLog, concat("rest-response - $status : ", $status)) 
-    let $restResponse :=  
-            <rest:response>
-               <http:response status="{$status}" message="{$message}">
-                   <http:header name="Content-Type" value="application/xml; charset=utf-8"/>
-               </http:response>
-           </rest:response>
-    return $restResponse
-};
-(: fonction qui revoie la racine de la base : utilise la base par défaut (/db, ou /db/orbeon), 
-ajoute soit le répertoire par défaut défini ici, soit celui passé en paramètre qui provient d'un query
-vérifie que le chemin renvoyé correspond à un dossier : avec / à la fin, le rajoute le cas échéant :)
-declare function common:racine($racine-query as xs:string*) as xs:string* {
-    let $racine := if($racine-query="") then ($common:racine-racine||$common:repertoire-default) else ($common:racine-racine||$racine-query)    
-    let $racine2 := if(fn:ends-with($racine ,"/"))then($racine)else($racine||"/")
-    let $log := util:log("INFO", concat("racine - $racine-query : ", $racine-query, " - racine définie : ",$racine2)) 
-    return $racine2
+(:INSTANCE POUR QUESTIONNAIRE:)
+declare
+%rest:GET
+%rest:path("/collectes/form/{$enquete}/{$modele}/{$unite}")
+%rest:query-param("racine", "{$racine}","")
+function form:get-instance ($enquete as xs:string*, $modele as xs:string*,$unite as xs:string*,$racine as xs:string*) as node()* 
+{
+(:let $racine-enquete := '/db/testCei/fr':) 
+let $col := common:calcol($unite)
+let $racine :=common:racine($racine)
+let $doc-user := concat( $racine,'/',$enquete,'/',$modele,'/data/',$col,'/',$unite,'.xml')
+let $doc-prerempli := concat( $racine,'/',$enquete,'/',$modele,'/data/init/',$col,'/',$unite,'.xml')
+    (:important de renvoyer un élément vide (0 descendant) pour l'affichage du formulaire (cf le form.xhtml instance('control'):)
+return 
+    if (not(doc-available($doc-prerempli))) 
+    then (<vide/>)
+    else (    
+        if (doc-available($doc-user)) then doc($doc-user)
+        else doc($doc-prerempli)        
+      )
 };
 
-(: fonction utilitaire pour calculer le répertoire dans lequel est le questionnaire :)
-declare function functx:chars ($arg as xs:string?) as xs:string* {
-    for $ch in string-to-codepoints($arg)
-    return codepoints-to-string($ch)
-};
-(: fonction pour calculer le répertoire dans lequel est le questionnaire :)
-declare function common:calcol ($arg as xs:string?) as xs:integer* {
-    let $NOMBRE-COLLECTIONS := 30
-    let $LETTRES := 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    let $spli := functx:chars(translate($arg,$LETTRES,'0000000000000000000000000000000000000000000000000000'))
-    let $tot := for $s in $spli return xs:integer($s)
-    let $col := sum($tot) mod $NOMBRE-COLLECTIONS
-    return $col
-};
-
-
-declare function common:mapping($enquete as xs:string,$racine-query as xs:string?) as xs:string {
-let $racine := common:racine($racine-query)
-return concat($racine,$enquete,'/mapping.xml')
-};
-
-declare function common:mapping($enquete as xs:string) as xs:string {
-let $mapping := common:mapping($enquete,'')
-return $mapping
-};
-
-(: Une fonction qui vérifie l'existence d'une collection à un emplacement donné et la crée si elle n'existe pas :)
-declare function common:collection($emplacement as xs:string, $collection as xs:string) as xs:string{
-
-let $test := if(not(xmldb:collection-available(concat($emplacement,'/',$collection))))
-            then (xmldb:create-collection($emplacement, $collection))
-            else ''
-            return ''
+(:Recuperation du formulaire:)
+declare
+%rest:GET
+%rest:path("/collectes/formulaire/{$enquete}/{$modele}")
+%rest:query-param("racine", "{$racine}","")
+function form:get-instance ($enquete as xs:string*, $modele as xs:string*,$racine as xs:string*) as node()* 
+{
+(:let $racine-enquete := '/db/testCei/fr':) 
+let $racine :=common:racine($racine)
+let $formulaire := concat( $racine,'/',$enquete,'/',$modele,'/form/form.xhtml')
+    (:important de renvoyer un élément vide (0 descendant) pour l'affichage du formulaire (cf le form.xhtml instance('control'):)
+return 
+    if (not(doc-available($formulaire))) 
+    then (<vide/>)
+    else
+    doc($formulaire)
 };
