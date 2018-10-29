@@ -55,7 +55,7 @@ public class DDIToXFormImpl implements DDIToXForm {
         try {
             File output;
             GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2FRGenerator(), new Postprocessor[] {new NoopPostprocessor()});
-            output = genService.generateQuestionnaire(file, null,surveyName);
+            output = genService.generateQuestionnaire(file, surveyName);
             return FileUtils.readFileToString(output, StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));

@@ -62,7 +62,7 @@ public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
 			File output;
 			GenerationService genService = new GenerationService(new PoguesXMLPreprocessor(),
 					new PoguesXML2DDIGenerator(), new Postprocessor[] {new DDIPostprocessor()});
-			output = genService.generateQuestionnaire(file, null, surveyName);
+			output = genService.generateQuestionnaire(file, surveyName);
 			return FileUtils.readFileToString(output, StandardCharsets.UTF_8);
 		} catch (Exception e) {
 			throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
