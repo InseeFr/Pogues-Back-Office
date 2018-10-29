@@ -10,7 +10,6 @@ import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,14 +32,12 @@ import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.DDIToODT;
 import fr.insee.pogues.transforms.DDIToPDF;
 import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.JSONToXML;
-import fr.insee.pogues.transforms.PDFFile;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.Transformer;
@@ -406,7 +403,7 @@ public class PoguesTransforms {
 			@ApiImplicitParam(name = "ddi body", value = "DDI representation of the questionnaire", paramType = "body", dataType = "string"),
 			@ApiImplicitParam(name = "columns", value = "Columns", paramType = "query", dataType = "string"),
 			@ApiImplicitParam(name = "orientation", value = "Orientation", paramType = "query", dataType = "string"),
-			@ApiImplicitParam(name = "capture", value = "capture", paramType = "query", dataType = "string")})
+			@ApiImplicitParam(name = "capture", value = "capture", paramType = "query", dataType = "string") })
 	public Response ddi2pdfWithParamTest(@Context final HttpServletRequest request) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
