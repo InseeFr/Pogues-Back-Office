@@ -5,6 +5,7 @@ import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
@@ -31,15 +32,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.transforms.DDIToLunaticXML;
 import fr.insee.pogues.transforms.DDIToODT;
 import fr.insee.pogues.transforms.DDIToPDF;
 import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.JSONToXML;
+import fr.insee.pogues.transforms.LunaticXMLFToLunaticJSONF;
+import fr.insee.pogues.transforms.LunaticXMLToLunaticJSON;
+import fr.insee.pogues.transforms.LunaticXMLToLunaticXMLF;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.PoguesXMLToDDI;
+import fr.insee.pogues.transforms.PoguesXMLToDDIDeprecated;
 import fr.insee.pogues.transforms.Transformer;
 import fr.insee.pogues.transforms.XFormToURI;
 import fr.insee.pogues.transforms.XFormsToXFormsHack;
@@ -72,10 +79,25 @@ public class PoguesTransforms {
 	PoguesXMLToDDI poguesXMLToDDI;
 
 	@Autowired
+	PoguesXMLToDDIDeprecated poguesXMLToDDIDeprecated;
+
+	@Autowired
 	DDIToXForm ddiToXForm;
 
 	@Autowired
 	DDIToODT ddiToOdt;
+
+	@Autowired
+	DDIToLunaticXML ddiToLunaticXML;
+
+	@Autowired
+	LunaticXMLToLunaticXMLF lunaticXMLToLunaticXMLF;
+
+	@Autowired
+	LunaticXMLToLunaticJSON lunaticXMLToLunaticJSON;
+
+	@Autowired
+	LunaticXMLFToLunaticJSONF lunaticXMLFToLunaticJSONF;
 
 	@Autowired
 	DDIToPDF ddiToPdf;
@@ -125,6 +147,73 @@ public class PoguesTransforms {
 	}
 
 	@POST
+	@Path("visualize-deprecated/{dataCollection}/{questionnaire}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get visualization URI from JSON serialized Pogues entity - Deprecated (old goto2ite version)", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
+	public Response visualizercFromBody(@Context final HttpServletRequest request,
+			@PathParam(value = "dataCollection") String dataCollection,
+			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("dataCollection", dataCollection.toLowerCase());
+		params.put("questionnaire", questionnaire.toLowerCase());
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream())
+							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
+							.map(poguesXMLToDDIDeprecated::transform, params, questionnaire.toLowerCase())
+							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
+							.map(xformToXformsHack::transform, params, questionnaire.toLowerCase())
+							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@POST
+	@Path("visualize-capi/{dataCollection}/{questionnaire}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get visualization URI from JSON serialized Pogues entity")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
+	public Response visualizeCapiFromBody(@Context final HttpServletRequest request,
+			@PathParam(value = "dataCollection") String dataCollection,
+			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
+
+		JSONParser parser = new JSONParser();
+		JSONObject questionnaireJSON = (JSONObject) parser
+				.parse(new InputStreamReader(request.getInputStream(), "UTF-8"));
+		String id = (String) questionnaireJSON.get("id");
+		String uri = "https://pogues-vis.dev.innovation.insee.eu/questionnaire/" + id;
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(uri.getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@POST
 	@Path("visualize-from-ddi/{dataCollection}/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
@@ -145,6 +234,94 @@ public class PoguesTransforms {
 							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
 							.map(xformToXformsHack::transform, params, questionnaire.toLowerCase())
 							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@POST
+	@Path("xml-pogues2lunaticflat")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Get JSON  Lunatic FLat model from XML Pogues questionnaire")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "xml pogues body", value = "XML Pogues representation of the questionnaire", paramType = "body") })
+	public Response xmlPogues2lunaticflat(@Context final HttpServletRequest request) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		String survey = "test";
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream()).map(poguesXMLToDDI::transform, params, survey)
+							.map(ddiToLunaticXML::transform, params, survey)
+							.map(lunaticXMLToLunaticXMLF::transform, params, survey)
+							.map(lunaticXMLFToLunaticJSONF::transform, params, survey).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@POST
+	@Path("xml-pogues2lunatic")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Get JSON  Lunatic FLat model from XML Pogues questionnaire")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "xml pogues body", value = "XML Pogues representation of the questionnaire", paramType = "body") })
+	public Response xmlPogues2lunatic(@Context final HttpServletRequest request) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		String survey = "test";
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream()).map(poguesXMLToDDI::transform, params, survey)
+							.map(ddiToLunaticXML::transform, params, survey)
+							.map(lunaticXMLToLunaticJSON::transform, params, survey).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@POST
+	@Path("ddi2lunaticflat")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Get JSON Lunatic FLat model from DDI questionnaire")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "DDI model body", value = "DDI representation of the questionnaire", paramType = "body") })
+	public Response ddi2lunaticflat(@Context final HttpServletRequest request) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		String survey = "test";
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream()).map(ddiToLunaticXML::transform, params, survey)
+							.map(lunaticXMLToLunaticXMLF::transform, params, survey)
+							.map(lunaticXMLFToLunaticJSONF::transform, params, survey).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
@@ -184,6 +361,14 @@ public class PoguesTransforms {
 		} finally {
 			input.close();
 		}
+	}
+
+	@GET
+	@Path("visualize-capi/{id}")
+	@ApiOperation(value = "Get visualization CAPI URI from questionnaire id (Pogues entity)")
+	public Response visualizeCapiFromId(@PathParam(value = "id") String id) throws Exception {
+		String uri = "https://pogues-vis.dev.innovation.insee.eu/questionnaire/" + id;
+		return Response.seeOther(URI.create(uri)).build();
 	}
 
 	@POST
@@ -452,6 +637,37 @@ public class PoguesTransforms {
 	}
 
 	@POST
+	@Path("json2ddi-deprecated")
+	@Produces(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Get DDI questionnaire From Pogues JSON - Deprecated version", notes = "Returns a serialized DDI based on a JSON entity that must comply with Pogues data model- Deprecated version (old goto2ite version)")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Error") })
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "string") })
+	public Response json2XMLRC(@Context final HttpServletRequest request) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		String questionnaire = "xforms";
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream())
+							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
+							.map(poguesXMLToDDIDeprecated::transform, params, questionnaire.toLowerCase()).transform()
+							.getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@POST
 	@Path("xml2json")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_XML)
@@ -519,6 +735,77 @@ public class PoguesTransforms {
 		String questionnaire = "xforms";
 		try {
 			return transform(request, xformToXformsHack, questionnaire);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@GET
+	@Path("pogues-json2lunatic-xml/questionnaire/{id}")
+	@Produces(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get Lunatic XML implementation from JSON serialized Pogues entity id")
+	public Response poguesJson2lunaticXML(@PathParam(value = "id") String id) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		try {
+			JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
+			String questionnaireName = id;
+
+			StreamingOutput stream = output -> {
+				InputStream input = null;
+				try {
+					input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
+					output.write(pipeline.from(input).map(jsonToXML::transform, params, questionnaireName)
+							.map(poguesXMLToDDI::transform, params, questionnaireName)
+							.map(ddiToLunaticXML::transform, params, questionnaireName).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				} finally {
+					input.close();
+				}
+			};
+
+			return Response.ok(stream, MediaType.APPLICATION_XML).build();
+
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@GET
+	@Path("pogues-json2lunatic-json/questionnaire/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(value = "Get Lunatic JSON implementation from JSON serialized Pogues entity id")
+	public Response poguesJson2lunaticJson(@PathParam(value = "id") String id) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		try {
+			JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
+			String questionnaireName = id;
+
+			StreamingOutput stream = output -> {
+				InputStream input = null;
+				try {
+					input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
+					output.write(pipeline.from(input).map(jsonToXML::transform, params, questionnaireName)
+							.map(poguesXMLToDDI::transform, params, questionnaireName)
+							.map(ddiToLunaticXML::transform, params, questionnaireName)
+							.map(lunaticXMLToLunaticXMLF::transform, params, questionnaireName)
+							.map(lunaticXMLFToLunaticJSONF::transform, params, questionnaireName).transform()
+							.getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				} finally {
+					input.close();
+				}
+			};
+
+			return Response.ok(stream, MediaType.APPLICATION_JSON).build();
+
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
