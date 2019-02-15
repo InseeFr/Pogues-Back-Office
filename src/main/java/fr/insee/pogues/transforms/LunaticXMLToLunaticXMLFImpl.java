@@ -1,7 +1,5 @@
 package fr.insee.pogues.transforms;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -13,12 +11,10 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 
-import fr.insee.lunatic.conversion.XMLLunaticToXMLLunaticFlatTranslator;
-
 @Service
 public class LunaticXMLToLunaticXMLFImpl implements LunaticXMLToLunaticXMLF {
 
-	private XMLLunaticToXMLLunaticFlatTranslator translator = new XMLLunaticToXMLLunaticFlatTranslator();
+	//private XMLLunaticToXMLLunaticFlatTranslator translator = new XMLLunaticToXMLLunaticFlatTranslator();
 
 	@PostConstruct
 	public void onInit() {
@@ -50,17 +46,15 @@ public class LunaticXMLToLunaticXMLFImpl implements LunaticXMLToLunaticXMLF {
 			throw new NullPointerException("Null input");
 		}
 		try {
-			// JSONParser parser = new JSONParser();
-			// JSONObject questionnaire = (JSONObject) parser.parse(input);
-			// questionnaire = JSONFunctions.renameQuestionnairePlural(questionnaire);
-			InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-			OutputStream result = translator.generateOS(stream);
-			ByteArrayOutputStream bos = (ByteArrayOutputStream) result;
-			String finalString = new String(bos.toByteArray());
-			stream.close();
-			bos.close();
-			return finalString;
-
+			
+//			InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
+//			OutputStream result = translator.generateOS(stream);
+//			ByteArrayOutputStream bos = (ByteArrayOutputStream) result;
+//			String finalString = new String(bos.toByteArray());
+//			stream.close();
+//			bos.close();
+//			return finalString;
+			return "";
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));

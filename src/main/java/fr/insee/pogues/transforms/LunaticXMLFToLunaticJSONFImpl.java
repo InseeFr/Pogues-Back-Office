@@ -11,12 +11,10 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 
-import fr.insee.lunatic.conversion.XMLLunaticFlatToJSONLunaticFlatTranslator;
-
 @Service
 public class LunaticXMLFToLunaticJSONFImpl implements LunaticXMLFToLunaticJSONF {
 
-	private XMLLunaticFlatToJSONLunaticFlatTranslator translator = new XMLLunaticFlatToJSONLunaticFlatTranslator(true);
+	//private XMLLunaticFlatToJSONLunaticFlatTranslator translator = new XMLLunaticFlatToJSONLunaticFlatTranslator(true);
 
 	@PostConstruct
 	public void onInit() {
@@ -51,7 +49,9 @@ public class LunaticXMLFToLunaticJSONFImpl implements LunaticXMLFToLunaticJSONF 
 			// JSONParser parser = new JSONParser();
 			// JSONObject questionnaire = (JSONObject) parser.parse(input);
 			// questionnaire = JSONFunctions.renameQuestionnairePlural(questionnaire);
-			return translator.translate(input);
+			//return translator.translate(input);
+			return "";
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
