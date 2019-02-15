@@ -13,13 +13,13 @@ public class RestAssuredConfig {
 
     private static Logger logger = LogManager.getLogger(RestAssuredConfig.class);
 
-    public static String jUsername = "D5WQNO";
-    public static String jPassword = "D5WQNO";
+    public static String fakejUsername = "D5WQNO";
+    public static String fakejPassword = "D5WQNO";
     public static String jUserPermission = "DG75-L120";
 
 
     public static void configure() {
-        configure(jUsername, jPassword);
+        configure(fakejUsername, fakejPassword);
     }
 
     public static void configure(String username, String password) {

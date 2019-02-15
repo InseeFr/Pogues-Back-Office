@@ -53,7 +53,7 @@ public class TestPoguesUser {
                 .body()
                 .jsonPath()
                 .get("id");
-        assertEquals(id, RestAssuredConfig.jUsername);
+        assertEquals(id, RestAssuredConfig.fakejUsername);
     }
 
     @Test
@@ -64,11 +64,11 @@ public class TestPoguesUser {
                 .statusCode(200)
                 .contentType(MediaType.APPLICATION_JSON)
                 .when()
-                .get(String.format("/pogues/user/attributes", RestAssuredConfig.jUsername))
+                .get(String.format("/pogues/user/attributes", RestAssuredConfig.fakejUsername))
                 .body()
                 .jsonPath()
                 .get("id");
-        assertEquals(id, RestAssuredConfig.jUsername);
+        assertEquals(id, RestAssuredConfig.fakejUsername);
     }
 
     /**
