@@ -24,11 +24,11 @@ function get_sources(){
 
 function install_files(){
     pushd "$TARGET"
-    if [[ -n "$(git tag -l)" ]];then # If tag found, checkout last tag
-        latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
-        echo "Found latest tag: $latest_tag"
-        git checkout "$latest_tag"
-    fi
+ #   if [[ -n "$(git tag -l)" ]];then # If tag found, checkout last tag
+ #       latest_tag=$(git describe --tags `git rev-list --tags --max-count=1`)
+ #       echo "Found latest tag: $latest_tag"
+ #       git checkout "$latest_tag"
+ #   fi
     mvn clean install -DskipTests -Djar.finalName="$ARTIFACT_ID"
     mvn install:install-file -Dfile=target/"$ARTIFACT_ID".jar -DgroupId="$GROUP_ID" -DartifactId="$ARTIFACT_ID" -Dversion="$VERSION" -Dpackaging=jar
     popd

@@ -6,7 +6,7 @@
 #
 
 DOC_FOLDER="docs"
-MAIN_BRANCH="zenika-dev"
+MAIN_BRANCH="master"
 UPSTREAM="https://$GITHUB_TOKEN@github.com/$TRAVIS_REPO_SLUG.git"
 MESSAGE="Auto release from $USER: build $TRAVIS_BUILD_NUMBER"
 AUTHOR="$USER <>"

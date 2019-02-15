@@ -15,9 +15,10 @@ import fr.insee.eno.postprocessing.DDIPostprocessor;
 import fr.insee.eno.postprocessing.NoopPostprocessor;
 import fr.insee.eno.postprocessing.Postprocessor;
 import fr.insee.eno.preprocessing.PoguesXMLPreprocessor;
+import fr.insee.eno.preprocessing.PoguesXMLPreprocessorGoToTreatment;
 
 /**
- * Created by I6VWID 12/01/18.
+ * Created by I6VWID 25/01/19.
  */
 @Service
 public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
@@ -60,7 +61,7 @@ public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
 		try {
 			File output;
-			GenerationService genService = new GenerationService(new PoguesXMLPreprocessor(),
+			GenerationService genService = new GenerationService(new PoguesXMLPreprocessorGoToTreatment(),
 					new PoguesXML2DDIGenerator(), new Postprocessor[] {new DDIPostprocessor()});
 			output = genService.generateQuestionnaire(file, surveyName);
 			return FileUtils.readFileToString(output, StandardCharsets.UTF_8);

@@ -167,5 +167,3 @@ INSERT INTO "ddi_item" VALUES ('Enquête sur la filière aéronautique et Spatia
 INSERT INTO "ddi_item" VALUES ('Enquête sur la filière aéronautique et Spatiale dans le Grand Sud-Ouest 2018','efasgso-sg', 'efasgso-su-2018','efasgso-g','efasgso-sg','efasgso-su-2018',null,'rp','study-unit',null);
 INSERT INTO "ddi_item" VALUES ('Enquête sur la filière aéronautique et Spatiale dans le Grand Sud-Ouest 2018','efasgso-su-2018','efasgso-dc-2018','efasgso-g','efasgso-sg','efasgso-su-2018','efasgso-dc-2018','rp','data-collection',null);
 
- 
-
