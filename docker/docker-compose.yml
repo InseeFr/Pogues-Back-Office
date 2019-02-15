@@ -86,6 +86,19 @@ services:
       - ./eXist-seed/system:/opt/exist/system
     networks:
       back:
+  json-db-seed:
+    build:
+      context: ./json-db-seed
+      args:
+        - HTTP_PROXY=$HTTP_PROXY
+    depends_on:
+      - pogues-bo
+    volumes:
+      - ./json-db-seed/app:/opt/json-db-seed/app
+      - ./json-db-seed/json:/opt/json-db-seed/json
+
+    networks:
+      back:
 networks:
   back:
     driver: bridge
