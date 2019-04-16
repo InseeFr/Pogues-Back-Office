@@ -11,6 +11,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import fr.insee.eno.GenerationService;
+import fr.insee.eno.generation.DDI2JSGenerator;
+import fr.insee.eno.postprocessing.JSAddVariableReferencePostprocessor;
+import fr.insee.eno.postprocessing.Postprocessor;
+import fr.insee.eno.preprocessing.DDIPreprocessor;
+
 @Service
 public class DDIToLunaticXMLImpl implements DDIToLunaticXML {
 
@@ -55,9 +61,9 @@ public class DDIToLunaticXMLImpl implements DDIToLunaticXML {
     private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
         try {
             File output=null;
-//            GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2JSGenerator(), new Postprocessor[] {new NoopPostprocessor()});
-//            output = genService.generateQuestionnaire(file, surveyName);
-//            
+            GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2JSGenerator(), new Postprocessor[] {new JSAddVariableReferencePostprocessor()});
+            output = genService.generateQuestionnaire(file, surveyName);
+            
             return FileUtils.readFileToString(output, StandardCharsets.UTF_8);
         } catch (Exception e) {
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
