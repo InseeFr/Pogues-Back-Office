@@ -7,6 +7,7 @@
 		<Language>fr</Language>
 		<Language>en</Language>
 	</Languages>
+	<StudyUnit>default</StudyUnit>
 	<Format>
 		<Columns>1</Columns>
 		<!-- Orientation : portrait= 0 ou paysage =90 -->
@@ -22,6 +23,10 @@
 	<AccompanyingMails>
 		<!--<AccompanyingMail>ouvertureCOL</AccompanyingMail> -->
 	</AccompanyingMails>
+	 <EndQuestion>
+      <ResponseTimeQuestion>true</ResponseTimeQuestion>
+      <CommentQuestion>true</CommentQuestion>
+    </EndQuestion>
 	<Title>
 		<Browsing>module</Browsing>
 		<Sequence>

@@ -1,5 +1,7 @@
 package fr.insee.pogues.transforms;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -9,12 +11,17 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.IOUtils;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
+
+import fr.insee.lunatic.conversion.XMLLunaticToJSONLunaticTranslator;
+import fr.insee.pogues.utils.json.JSONFunctions;
 
 @Service
 public class LunaticXMLToLunaticJSONImpl implements LunaticXMLToLunaticJSON {
 
-	//private XMLLunaticToJSONLunaticTranslator translator = new XMLLunaticToXMLLunaticFlatTranslator();
+	private XMLLunaticToJSONLunaticTranslator translator = new XMLLunaticToJSONLunaticTranslator(true);
 
 	@PostConstruct
 	public void onInit() {
@@ -46,17 +53,7 @@ public class LunaticXMLToLunaticJSONImpl implements LunaticXMLToLunaticJSON {
 			throw new NullPointerException("Null input");
 		}
 		try {
-			// JSONParser parser = new JSONParser();
-			// JSONObject questionnaire = (JSONObject) parser.parse(input);
-			// questionnaire = JSONFunctions.renameQuestionnairePlural(questionnaire);
-//			InputStream stream = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8));
-//			OutputStream result = translator.generateOS(stream);
-//			ByteArrayOutputStream bos = (ByteArrayOutputStream) result;
-//			String finalString = new String(bos.toByteArray());
-//			stream.close();
-//			bos.close();
-//			return finalString;
-			return "";
+			return translator.translate(input);
 
 		} catch (Exception e) {
 			e.printStackTrace();
