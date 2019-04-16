@@ -586,9 +586,11 @@ public class PoguesTransforms {
 	@ApiOperation(value = "Get visualization PDF questionnaire from DDI questionnaire")
 	@ApiImplicitParams(value = {
 			@ApiImplicitParam(name = "ddi body", value = "DDI representation of the questionnaire", paramType = "body", dataType = "string"),
-			@ApiImplicitParam(name = "columns", value = "Columns", paramType = "query", dataType = "string"),
-			@ApiImplicitParam(name = "orientation", value = "Orientation", paramType = "query", dataType = "string"),
-			@ApiImplicitParam(name = "capture", value = "capture", paramType = "query", dataType = "string") })
+			@ApiImplicitParam(name = "columns", value = "Columns", paramType = "query", dataType = "string",allowableValues="1,2,3,4"),
+			@ApiImplicitParam(name = "orientation", value = "Orientation", paramType = "query", dataType = "string",allowableValues="0,90"),
+			@ApiImplicitParam(name = "capture", value = "capture", paramType = "query", dataType = "string",allowableValues="optical,manual"),
+			@ApiImplicitParam(name = "studyunit", value = "StudyUnit", paramType = "query", dataType = "string",allowableValues="business,household,default"),
+			@ApiImplicitParam(name = "timequestion", value = "TimeQuestion", paramType = "query", dataType = "string",allowableValues="true,false")})
 	public Response ddi2pdfWithParamTest(@Context final HttpServletRequest request) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
@@ -600,6 +602,12 @@ public class PoguesTransforms {
 		}
 		if (request.getParameter("capture") != null) {
 			params.put("capture", request.getParameter("capture"));
+		}
+		if (request.getParameter("studyunit") != null) {
+			params.put("studyunit", request.getParameter("studyunit"));
+		}
+		if (request.getParameter("timequestion") != null) {
+			params.put("timequestion", request.getParameter("timequestion"));
 		}
 		String filePath = null;
 		String questionnaireName = "pdf";
