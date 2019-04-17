@@ -85,6 +85,23 @@ public class MetadataClientImpl implements MetadataClient {
     	unit3.setLabel("%");
     	unit3.setUri("http://id.insee.fr/unit/percent");
     	units.add(unit3);
+    	Unit unit4 =new Unit();
+    	unit4.setLabel("heures");
+    	unit4.setUri("http://id.insee.fr/unit/heure");
+    	units.add(unit4);
+    	Unit unit5 =new Unit();
+    	unit5.setLabel("jours");
+    	unit5.setUri("http://id.insee.fr/unit/jour");
+    	units.add(unit5);
+    	Unit unit6 =new Unit();
+    	unit6.setLabel("mois");
+    	unit6.setUri("http://id.insee.fr/unit/mois");
+    	units.add(unit6);
+    	Unit unit7 =new Unit();
+    	unit7.setLabel("années");
+    	unit7.setUri("http://id.insee.fr/unit/annee");
+    	units.add(unit7);
+    	
         return units;
     }
 
