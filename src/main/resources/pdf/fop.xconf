@@ -27,6 +27,9 @@
         <font kerning="yes" embed-url="LiberationSans-BoldItalic.ttf">
           <font-triplet name="Liberation Sans" style="italic" weight="bold"/>
         </font>
+        <font kerning="yes" embed-url="LucidaConsole.ttf">
+          <font-triplet name="Lucida Console" style="normal" weight="normal"/>
+        </font>
       </fonts>
     </renderer>
   </renderers>
