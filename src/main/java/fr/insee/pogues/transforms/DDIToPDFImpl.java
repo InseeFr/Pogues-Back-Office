@@ -39,10 +39,13 @@ import org.w3c.dom.NodeList;
 
 import fr.insee.eno.GenerationService;
 import fr.insee.eno.generation.DDI2PDFGenerator;
-import fr.insee.eno.postprocessing.PDFStep1MailingPostprocessor;
-import fr.insee.eno.postprocessing.PDFStep2SpecificTreatmentPostprocessor;
-import fr.insee.eno.postprocessing.PDFStep3TableColumnPostprocessorFake;
-import fr.insee.eno.postprocessing.PDFStep4InsertGenericPagesPostprocessor;
+import fr.insee.eno.postprocessing.PDFEditStructurePagesPostprocessor;
+import fr.insee.eno.postprocessing.PDFInsertAccompanyingMailsPostprocessor;
+import fr.insee.eno.postprocessing.PDFInsertCoverPagePostprocessor;
+import fr.insee.eno.postprocessing.PDFInsertEndQuestionPostprocessor;
+import fr.insee.eno.postprocessing.PDFMailingPostprocessor;
+import fr.insee.eno.postprocessing.PDFSpecificTreatmentPostprocessor;
+import fr.insee.eno.postprocessing.PDFTableColumnPostprocessorFake;
 import fr.insee.eno.postprocessing.Postprocessor;
 import fr.insee.eno.preprocessing.DDIPreprocessor;
 
@@ -91,8 +94,13 @@ public class DDIToPDFImpl implements DDIToPDF {
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
 
 		GenerationService genServiceDDI2PDF = new GenerationService(new DDIPreprocessor(), new DDI2PDFGenerator(),
-				new Postprocessor[] { new PDFStep1MailingPostprocessor(), new PDFStep2SpecificTreatmentPostprocessor(),
-						new PDFStep3TableColumnPostprocessorFake(), new PDFStep4InsertGenericPagesPostprocessor()
+				new Postprocessor[] { new PDFMailingPostprocessor(),
+						new PDFTableColumnPostprocessorFake(),
+						new PDFInsertEndQuestionPostprocessor(),
+						new PDFEditStructurePagesPostprocessor(),
+						new PDFSpecificTreatmentPostprocessor(),
+						new PDFInsertCoverPagePostprocessor(),
+						new PDFInsertAccompanyingMailsPostprocessor()
 				/*
 				 * new NoopPostprocessor()
 				 * 
@@ -122,6 +130,16 @@ public class DDIToPDFImpl implements DDIToPDF {
 				NodeList myNodeList = (NodeList) xPath.compile("//Parameters/Capture/Numeric/text()").evaluate(document,
 						XPathConstants.NODESET);
 				myNodeList.item(0).setNodeValue((String) params.get("capture"));
+			}
+			if (params.get("studyunit") != null) {
+				NodeList myNodeList = (NodeList) xPath.compile("//Parameters/StudyUnit/text()").evaluate(document,
+						XPathConstants.NODESET);
+				myNodeList.item(0).setNodeValue((String) params.get("studyunit"));
+			}
+			if (params.get("timequestion") != null) {
+				NodeList myNodeList = (NodeList) xPath.compile("//Parameters/EndQuestion/ResponseTimeQuestion/text()").evaluate(document,
+						XPathConstants.NODESET);
+				myNodeList.item(0).setNodeValue((String) params.get("timequestion"));
 			}
 			// Create InputStream from Dom document
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
