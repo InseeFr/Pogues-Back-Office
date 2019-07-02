@@ -9,17 +9,16 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.IOUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
+import fr.insee.lunatic.conversion.JSONCleaner;
 import fr.insee.lunatic.conversion.XMLLunaticFlatToJSONLunaticFlatTranslator;
-import fr.insee.pogues.utils.json.JSONFunctions;
 
 @Service
 public class LunaticXMLFToLunaticJSONFImpl implements LunaticXMLFToLunaticJSONF {
 
 	private XMLLunaticFlatToJSONLunaticFlatTranslator translator = new XMLLunaticFlatToJSONLunaticFlatTranslator(true);
+	private JSONCleaner jsonCleaner = new JSONCleaner();
 
 	@PostConstruct
 	public void onInit() {
@@ -51,7 +50,7 @@ public class LunaticXMLFToLunaticJSONFImpl implements LunaticXMLFToLunaticJSONF 
 			throw new NullPointerException("Null input");
 		}
 		try {
-			return translator.translate(input);
+			return jsonCleaner.clean(translator.translate(input));
 			
 		} catch (Exception e) {
 			e.printStackTrace();
