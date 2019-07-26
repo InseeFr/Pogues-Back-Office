@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 import fr.insee.eno.GenerationService;
 import fr.insee.eno.generation.DDI2JSGenerator;
-import fr.insee.eno.postprocessing.JSExternalizeCodeListsPostprocessor;
+import fr.insee.eno.postprocessing.JSExternalizeVariablesPostprocessor;
 import fr.insee.eno.postprocessing.JSSortComponentsPostprocessor;
 import fr.insee.eno.postprocessing.Postprocessor;
 import fr.insee.eno.preprocessing.DDIPreprocessor;
@@ -63,7 +63,7 @@ public class DDIToLunaticXMLImpl implements DDIToLunaticXML {
         try {
             File output=null;
 			Postprocessor[] postprocessors = { new JSSortComponentsPostprocessor(),
-					new JSExternalizeCodeListsPostprocessor() };
+					new JSExternalizeVariablesPostprocessor() };
 			GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2JSGenerator(),
 					postprocessors);
             output = genService.generateQuestionnaire(file, surveyName);
