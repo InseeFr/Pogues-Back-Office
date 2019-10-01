@@ -12,15 +12,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
 import fr.insee.eno.GenerationService;
-import fr.insee.eno.generation.DDI2JSGenerator;
-import fr.insee.eno.generation.DDI2ODTGenerator;
 import fr.insee.eno.generation.IdentityGenerator;
-import fr.insee.eno.postprocessing.JSExternalizeVariablesPostprocessor;
-import fr.insee.eno.postprocessing.JSSortComponentsPostprocessor;
 import fr.insee.eno.postprocessing.NoopPostprocessor;
 import fr.insee.eno.postprocessing.Postprocessor;
 import fr.insee.eno.preprocessing.DDI32ToDDI33Preprocessor;
-import fr.insee.eno.preprocessing.DDIPreprocessor;
 
 
 @Service
