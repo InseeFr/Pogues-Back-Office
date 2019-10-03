@@ -11,8 +11,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<final.war.name>rmspogfo</final.war.name>
 		<jersey.version>2.19</jersey.version>
-		<spring.version>4.3.9.RELEASE</spring.version>
-		<spring.security.version>4.2.3.RELEASE</spring.security.version>
+		<spring.version>4.3.25.RELEASE</spring.version>
+		<spring.security.version>4.2.13.RELEASE</spring.security.version>
 		<jackson.version>2.9.0</jackson.version>
 		<fop.version>2.2</fop.version>
 	</properties>
