@@ -222,124 +222,14 @@
         </modeles>
     </xsl:template>-->
 
-    <!--***********************************************************Pas d'adhérences, remplaçable***********************************************************-->
-
-
-
-    <!--*****************************************************************classes CSS**********************************************************************-->
-    <xsl:variable name="block">
-        <xsl:value-of select="string('span class=&quot;block')"/>
-    </xsl:variable>
-    <xsl:template match="*[(name()='label' or name()='help') and contains(text(),$block)]">
-        <xsl:copy>
-            <xsl:value-of select="
-                replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
-                text()
-                ,'block','bloc')
-                ,'submodule','paragraphe')
-                ,'text','texte'),'textee','texte'),'texte-decoration','text-decoration'),'texteile','textile')
-                ,'hint','consigne')
-                ,'help','aide')
-                ,'number','nombre')
-                ,'multiple-choice-question','fauxTableau')
-                ,'simple-grid','tableauSimple')
-                ,'complex-grid','tableauComplexe')
-                ,'double-duration','double-duree')
-                ,'double-duration-suffix','suffixe-double-duree')
-                "/>
-        </xsl:copy>
-    </xsl:template>
-
-    <xsl:template match="xf:bind[@id='fr-form-resources-bind']//@calculate[contains(.,$block)]">
-        <xsl:attribute name="calculate" select="
-            replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(replace(
-            .
-            ,'block','bloc')
-            ,'submodule','paragraphe')
-            ,'text','texte'),'textee','texte'),'texte-decoration','text-decoration'),'texteile','textile')
-            ,'hint','consigne')
-            ,'help','aide')
-            ,'number','nombre')
-            ,'multiple-choice-question','fauxTableau')
-            ,'simple-grid','tableauSimple')
-            ,'complex-grid','tableauComplexe')
-            ,'double-duration','double-duree')
-            ,'double-duration-suffix','suffixe-double-duree')
-            "/>
-    </xsl:template>    
+    <!--***********************************************************Pas d'adhérences, remplaçable***********************************************************-->  
     
-    <xsl:template match="@class[.='progress-bar-container']">
-        <xsl:attribute name="class" select="string('barreFixe')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='right']">
-        <xsl:attribute name="class" select="string('droite')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='submodule']">
-        <xsl:attribute name="class" select="string('paragraphe')"/>
-    </xsl:template>
-    <xsl:template match="@class[contains(.,'text')]">
-        <xsl:attribute name="class" select="replace(replace(.,'text','texte'),'textee','texte')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='hint']">
-        <xsl:attribute name="class" select="string('consigne')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='help']">
-        <xsl:attribute name="class" select="string('aide')"/>
-    </xsl:template>
-    <xsl:template match="@class[contains(.,'number')]">
-        <xsl:attribute name="class" select="replace(.,'number','nombre')"/>
-    </xsl:template>
-    <xsl:template match="@class[contains(.,'multiple-choice-question')]">
-        <xsl:attribute name="class" select="replace(.,'multiple-choice-question','fauxTableau')"/>
-    </xsl:template>
-    <xsl:template match="@class[contains(.,'simple-grid')]">
-        <xsl:attribute name="class" select="replace(.,'simple-grid','tableauSimple')"/>
-    </xsl:template>
-    <xsl:template match="@class[contains(.,'complex-grid')]">
-        <xsl:attribute name="class" select="replace(.,'complex-grid','tableauComplexe')"/>
-    </xsl:template>
-    <xsl:template match="@class[contains(.,'double-duration')]">
-        <xsl:attribute name="class" select="replace(.,'double-duration','double-duree')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='double-duration-suffix']" priority="2">
-        <xsl:attribute name="class" select="string('suffixe-double-duree')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='duration']">
-        <xsl:attribute name="class" select="string('duree')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='center']">
-        <xsl:attribute name="class" select="string('centre')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='indentation-with-bullet']">
-        <xsl:attribute name="class" select="string('retraitMarque')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='simple-identation']">
-        <xsl:attribute name="class" select="string('retraitNonMarque')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='double-indentation']">
-        <xsl:attribute name="class" select="string('doubleRetrait')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='center-body']">
-        <xsl:attribute name="class" select="string('contenuCentre')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='center center-body']">
-        <xsl:attribute name="class" select="string('centre contenuCentre')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='page-top']">
-        <xsl:attribute name="class" select="string('remontePage')"/>
-    </xsl:template>
-    <xsl:template match="@class[.='']">
-        <xsl:attribute name="class" select="string('')"/>
-    </xsl:template>
-    <!--*****************************************************************classes CSS**********************************************************************-->
-
-
-
-    <!--********************************Adhérences dans les css (pas les classes, c'est au dessus) ou dans les xslt Orbeon********************************-->
+     <!--********************************Adhérences dans les css (pas les classes, c'est au dessus) ou dans les xslt Orbeon********************************-->
 
     <!-- Pour l'ensemble des attributs, on procède à certaines modifications de chaînes -->
     <xsl:template match="@*">
         <xsl:attribute name="{name()}" select="boom:modifications(.)"/>
+        <!--<xsl:attribute name="{name()}" select="."/>-->
     </xsl:template>
 
     <!-- Voici une liste de chaînes à remplacer dans les attributs (adhérences dans Orbeon) -->
@@ -363,11 +253,6 @@
     <!-- Cet élément doit être renommé, il y a une adhérence dans readonly.xsl -->
     <xsl:template match="PageChangeDone[ancestor::xf:instance[@id='fr-form-util']]">
         <changementPageEffectue/>
-    </xsl:template>
-
-    <!-- Cet attribut doit être renommé, l'identifiant HTML correspondant est utilisé dans les css Orbeon -->
-    <xsl:template match="@id[.='progress-percent' and parent::xf:output]" priority="2">
-        <xsl:attribute name="id" select="'pourcentageAvancement'"/>
     </xsl:template>
 
     <!-- ATTENTION : si on supprime ces différences et qu'on se cale sur ce qui est fait côté OpenSource (il faut modifier fin.xsl), le HTML généré n'est plus exactement le même pour le texte correspondant -->
