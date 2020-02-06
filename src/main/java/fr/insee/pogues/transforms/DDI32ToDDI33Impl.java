@@ -9,19 +9,19 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.insee.eno.GenerationService;
-import fr.insee.eno.generation.IdentityGenerator;
-import fr.insee.eno.postprocessing.NoopPostprocessor;
-import fr.insee.eno.postprocessing.Postprocessor;
-import fr.insee.eno.preprocessing.DDI32ToDDI33Preprocessor;
+import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
 
 
 @Service
 public class DDI32ToDDI33Impl implements DDI32ToDDI33 {
 	
-final static Logger logger = LogManager.getLogger(DDI32ToDDI33Impl.class);
+	final static Logger logger = LogManager.getLogger(DDI32ToDDI33Impl.class);
+	
+	@Autowired
+	EnoClient enoClient;	
 	
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
@@ -62,14 +62,10 @@ final static Logger logger = LogManager.getLogger(DDI32ToDDI33Impl.class);
 	
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
 		try {
-            File output=null;
-			GenerationService genService = new GenerationService(new DDI32ToDDI33Preprocessor(), new IdentityGenerator(), new Postprocessor[] {new NoopPostprocessor()});
-            output = genService.generateQuestionnaire(file, surveyName);
-            
-            return FileUtils.readFileToString(output, StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
-        }
+			return enoClient.getDDI32ToDDI33(file);
+		} catch (Exception e) {
+			throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
+		}
 	}	
 
 }

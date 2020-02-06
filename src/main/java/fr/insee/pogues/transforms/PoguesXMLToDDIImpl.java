@@ -7,21 +7,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.insee.eno.GenerationService;
-import fr.insee.eno.generation.PoguesXML2DDIGenerator;
-import fr.insee.eno.postprocessing.DDIPostprocessor;
-import fr.insee.eno.postprocessing.NoopPostprocessor;
-import fr.insee.eno.postprocessing.Postprocessor;
-import fr.insee.eno.preprocessing.PoguesXMLPreprocessor;
-import fr.insee.eno.preprocessing.PoguesXMLPreprocessorGoToTreatment;
+import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
 
 /**
  * Created by I6VWID 25/01/19.
  */
 @Service
 public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
+	
+	@Autowired
+	EnoClient enoClient;
 
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
@@ -60,11 +58,7 @@ public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
 
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
 		try {
-			File output;
-			GenerationService genService = new GenerationService(new PoguesXMLPreprocessorGoToTreatment(),
-					new PoguesXML2DDIGenerator(), new Postprocessor[] {new DDIPostprocessor()});
-			output = genService.generateQuestionnaire(file, surveyName);
-			return FileUtils.readFileToString(output, StandardCharsets.UTF_8);
+			return enoClient.getXMLPoguesToDDI(file);
 		} catch (Exception e) {
 			throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
 		}
