@@ -36,10 +36,11 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.transforms.DDIToLunaticXML;
-import fr.insee.pogues.transforms.DDIToODT;
 import fr.insee.pogues.transforms.DDI32ToDDI33;
 import fr.insee.pogues.transforms.DDIToFO;
+import fr.insee.pogues.transforms.DDIToLunaticXML;
+import fr.insee.pogues.transforms.DDIToODT;
+import fr.insee.pogues.transforms.DDIToPDF;
 import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.FOToPDF;
 import fr.insee.pogues.transforms.JSONToXML;
@@ -48,7 +49,6 @@ import fr.insee.pogues.transforms.LunaticXMLToLunaticJSON;
 import fr.insee.pogues.transforms.LunaticXMLToLunaticXMLF;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.PoguesXMLToDDI;
-import fr.insee.pogues.transforms.PoguesXMLToDDIDeprecated;
 import fr.insee.pogues.transforms.Transformer;
 import fr.insee.pogues.transforms.XFormToURI;
 import fr.insee.pogues.transforms.XFormsToXFormsHack;
@@ -81,9 +81,6 @@ public class PoguesTransforms {
 	PoguesXMLToDDI poguesXMLToDDI;
 
 	@Autowired
-	PoguesXMLToDDIDeprecated poguesXMLToDDIDeprecated;
-
-	@Autowired
 	DDIToXForm ddiToXForm;
 
 	@Autowired
@@ -106,6 +103,9 @@ public class PoguesTransforms {
 	
 	@Autowired
 	FOToPDF foToPdf;
+	
+	@Autowired
+	DDIToPDF ddiToPdf;
 	
 	@Autowired
 	DDI32ToDDI33 ddi32Toddi33;
@@ -139,41 +139,6 @@ public class PoguesTransforms {
 					output.write(pipeline.from(request.getInputStream())
 							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
 							.map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
-							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
-							.map(xformToXformsHack::transform, params, questionnaire.toLowerCase())
-							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
-				}
-			};
-			return Response.ok(stream).build();
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
-	}
-
-	@POST
-	@Path("visualize-deprecated/{dataCollection}/{questionnaire}")
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_XML)
-	@ApiOperation(value = "Get visualization URI from JSON serialized Pogues entity - Deprecated (old goto2ite version)", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
-	public Response visualizercFromBody(@Context final HttpServletRequest request,
-			@PathParam(value = "dataCollection") String dataCollection,
-			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
-		PipeLine pipeline = new PipeLine();
-		Map<String, Object> params = new HashMap<>();
-		params.put("dataCollection", dataCollection.toLowerCase());
-		params.put("questionnaire", questionnaire.toLowerCase());
-		try {
-			StreamingOutput stream = output -> {
-				try {
-					output.write(pipeline.from(request.getInputStream())
-							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
-							.map(poguesXMLToDDIDeprecated::transform, params, questionnaire.toLowerCase())
 							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
 							.map(xformToXformsHack::transform, params, questionnaire.toLowerCase())
 							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
@@ -536,8 +501,7 @@ public class PoguesTransforms {
 		try {
 			filePath = pipeline.from(request.getInputStream()).map(jsonToXML::transform, params, questionnaireName)
 					.map(poguesXMLToDDI::transform, params, questionnaireName)
-					.map(ddiToFo::transform, params, questionnaireName)
-					.map(foToPdf::transform, params, questionnaireName).transform();			
+					.map(ddiToPdf::transform, params, questionnaireName).transform();			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw new PoguesException(500, e.getMessage(), null);
@@ -623,8 +587,8 @@ public class PoguesTransforms {
 		String questionnaireName = "pdf";
 
 		try {
-			filePath = pipeline.from(request.getInputStream()).map(ddiToFo::transform, params, questionnaireName)
-					.map(foToPdf::transform, params, questionnaireName)
+			filePath = pipeline.from(request.getInputStream()).map(ddiToPdf::transform, params, questionnaireName)
+					/*.map(foToPdf::transform, params, questionnaireName)*/
 					.transform();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -724,37 +688,6 @@ public class PoguesTransforms {
 		String questionnaire = "xforms";
 		try {
 			return transform(request, jsonToXML, questionnaire);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
-	}
-
-	@POST
-	@Path("json2ddi-deprecated")
-	@Produces(MediaType.APPLICATION_XML)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get DDI questionnaire From Pogues JSON - Deprecated version", notes = "Returns a serialized DDI based on a JSON entity that must comply with Pogues data model- Deprecated version (old goto2ite version)")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Error") })
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "string") })
-	public Response json2XMLRC(@Context final HttpServletRequest request) throws Exception {
-		PipeLine pipeline = new PipeLine();
-		Map<String, Object> params = new HashMap<>();
-		String questionnaire = "xforms";
-		try {
-			StreamingOutput stream = output -> {
-				try {
-					output.write(pipeline.from(request.getInputStream())
-							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
-							.map(poguesXMLToDDIDeprecated::transform, params, questionnaire.toLowerCase()).transform()
-							.getBytes());
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
-				}
-			};
-			return Response.ok(stream).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
