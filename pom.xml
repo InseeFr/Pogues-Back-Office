@@ -185,7 +185,7 @@
 		<dependency><!-- TODO provide via central -->
 			<groupId>fr.insee.lunatic</groupId>
 			<artifactId>lunatic-model</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.insee.eno</groupId>
