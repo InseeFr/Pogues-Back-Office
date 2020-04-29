@@ -501,7 +501,8 @@ public class PoguesTransforms {
 		try {
 			filePath = pipeline.from(request.getInputStream()).map(jsonToXML::transform, params, questionnaireName)
 					.map(poguesXMLToDDI::transform, params, questionnaireName)
-					.map(ddiToPdf::transform, params, questionnaireName).transform();			
+					.map(ddiToFo::transform, params, questionnaireName)
+					.map(foToPdf::transform, params, questionnaireName).transform();			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw new PoguesException(500, e.getMessage(), null);
@@ -587,8 +588,8 @@ public class PoguesTransforms {
 		String questionnaireName = "pdf";
 
 		try {
-			filePath = pipeline.from(request.getInputStream()).map(ddiToPdf::transform, params, questionnaireName)
-					/*.map(foToPdf::transform, params, questionnaireName)*/
+			filePath = pipeline.from(request.getInputStream()).map(ddiToFo::transform, params, questionnaireName)
+					.map(foToPdf::transform, params, questionnaireName)
 					.transform();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
