@@ -83,6 +83,14 @@ public class FOToPDFImpl implements FOToPDF {
 		// (reuse if you plan to render multiple documents!)
 		FopFactory fopFactory = FopFactory.newInstance(imgFolderUri, isXconf);
 		
+		File dirTemp = new File(TEMP_FOLDER_PATH);
+		if (!dirTemp.exists()) {
+			if (dirTemp.mkdir()) {
+				logger.debug("Create eno temp directory");
+			} else {
+				logger.debug("Fail to create temp directory");
+			}
+		}
 		String outFilePath = TEMP_FOLDER_PATH + "/form" + FINAL_PDF_EXTENSION;
 		File outFilePDF = new File(FilenameUtils.removeExtension(outFilePath) + ".pdf");
 
