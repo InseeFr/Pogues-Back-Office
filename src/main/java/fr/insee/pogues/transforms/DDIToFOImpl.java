@@ -1,14 +1,10 @@
 package fr.insee.pogues.transforms;
 
-import java.io.BufferedOutputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -16,21 +12,14 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.transform.stream.StreamSource;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.fop.apps.Fop;
-import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.MimeConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -50,9 +39,9 @@ import fr.insee.eno.postprocessing.Postprocessor;
 import fr.insee.eno.preprocessing.DDIPreprocessor;
 
 @Service
-public class DDIToPDFImpl implements DDIToPDF {
+public class DDIToFOImpl implements DDIToFO {
 
-	final static Logger logger = LogManager.getLogger(DDIToPDFImpl.class);
+	final static Logger logger = LogManager.getLogger(DDIToFOImpl.class);
 
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
@@ -111,7 +100,7 @@ public class DDIToPDFImpl implements DDIToPDF {
 			Document document;
 			DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder builder = domFactory.newDocumentBuilder();
-			document = builder.parse(new File(DDIToPDFImpl.class.getResource("/pdf/parameters.xml").toURI()));
+			document = builder.parse(new File(DDIToFOImpl.class.getResource("/pdf/parameters.xml").toURI()));
 
 			// Xpath to modify params value
 			XPathFactory xPathfactory = XPathFactory.newInstance();
@@ -151,51 +140,12 @@ public class DDIToPDFImpl implements DDIToPDF {
 			// set parameter to the Generation service
 			genServiceDDI2PDF.setParameters(parametersIS);
 		}
-		File conf = new File(DDIToPDFImpl.class.getResource("/pdf/fop.xconf").toURI());
-		InputStream isXconf = new FileInputStream(conf);
-		URI imgFolderUri = DDIToPDFImpl.class.getResource("/pdf/img/").toURI();
+		File conf = new File(DDIToFOImpl.class.getResource("/pdf/fop.xconf").toURI());
 
 		logger.info("Conf file : " + conf.getAbsolutePath());
 		File outputFO = genServiceDDI2PDF.generateQuestionnaire(file, surveyName);
 		logger.info("FO output file : " + outputFO.getAbsolutePath());
-
-		// Step 1: Construct a FopFactory by specifying a reference to the
-		// configuration file
-		// (reuse if you plan to render multiple documents!)
-		FopFactory fopFactory = FopFactory.newInstance(imgFolderUri, isXconf);
-
-		String outFilePath = FilenameUtils.removeExtension(outputFO.getPath()) + ".pdf";
-		File outFilePDF = new File(outFilePath);
-
-		// Step 2: Set up output stream.
-		// Note: Using BufferedOutputStream for performance reasons
-		// (helpful with FileOutputStreams).
-		OutputStream out = new BufferedOutputStream(new FileOutputStream(outFilePDF));
-
-		// Step 3: Construct fop with desired output format
-		Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
-
-		// Step 4: Setup JAXP using identity transformer
-		TransformerFactory factory = TransformerFactory.newInstance();
-		Transformer transformer = factory.newTransformer(); // identity
-															// transformer
-
-		// Step 5: Setup input and output for XSLT transformation
-		// Setup input stream
-		Source src = new StreamSource(outputFO);
-		// Resulting SAX events (the generated FO) must be piped through
-		// to FOP
-		Result res = new SAXResult(fop.getDefaultHandler());
-
-		// Step 6: Start XSLT transformation and FOP processing
-		transformer.transform(src, res);
-
-		// Clean-up
-		out.close();
-
-		logger.info("PDF output file : " + outFilePDF.getAbsolutePath());
-
-		return outFilePDF.getAbsolutePath();
-
+		
+		return FileUtils.readFileToString(outputFO, StandardCharsets.UTF_8);
 	}
 }

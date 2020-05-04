@@ -38,8 +38,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.DDIToLunaticXML;
 import fr.insee.pogues.transforms.DDIToODT;
-import fr.insee.pogues.transforms.DDIToPDF;
+import fr.insee.pogues.transforms.DDI32ToDDI33;
+import fr.insee.pogues.transforms.DDIToFO;
 import fr.insee.pogues.transforms.DDIToXForm;
+import fr.insee.pogues.transforms.FOToPDF;
 import fr.insee.pogues.transforms.JSONToXML;
 import fr.insee.pogues.transforms.LunaticXMLFToLunaticJSONF;
 import fr.insee.pogues.transforms.LunaticXMLToLunaticJSON;
@@ -98,9 +100,15 @@ public class PoguesTransforms {
 
 	@Autowired
 	LunaticXMLFToLunaticJSONF lunaticXMLFToLunaticJSONF;
-
+	
 	@Autowired
-	DDIToPDF ddiToPdf;
+	DDIToFO ddiToFo;
+	
+	@Autowired
+	FOToPDF foToPdf;
+	
+	@Autowired
+	DDI32ToDDI33 ddi32Toddi33;
 
 	@Autowired
 	XFormToURI xformToUri;
@@ -528,7 +536,8 @@ public class PoguesTransforms {
 		try {
 			filePath = pipeline.from(request.getInputStream()).map(jsonToXML::transform, params, questionnaireName)
 					.map(poguesXMLToDDI::transform, params, questionnaireName)
-					.map(ddiToPdf::transform, params, questionnaireName).transform();
+					.map(ddiToFo::transform, params, questionnaireName)
+					.map(foToPdf::transform, params, questionnaireName).transform();			
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			throw new PoguesException(500, e.getMessage(), null);
@@ -561,7 +570,8 @@ public class PoguesTransforms {
 					input = new ByteArrayInputStream(questionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
 					output.write(pipeline.from(input).map(jsonToXML::transform, params, questionnaireName)
 							.map(poguesXMLToDDI::transform, params, questionnaireName)
-							.map(ddiToPdf::transform, params, questionnaireName).transform().getBytes());
+							.map(ddiToFo::transform, params, questionnaireName)
+							.map(foToPdf::transform, params, questionnaireName).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
@@ -613,7 +623,8 @@ public class PoguesTransforms {
 		String questionnaireName = "pdf";
 
 		try {
-			filePath = pipeline.from(request.getInputStream()).map(ddiToPdf::transform, params, questionnaireName)
+			filePath = pipeline.from(request.getInputStream()).map(ddiToFo::transform, params, questionnaireName)
+					.map(foToPdf::transform, params, questionnaireName)
 					.transform();
 		} catch (Exception e) {
 			logger.error(e.getMessage());
@@ -624,6 +635,81 @@ public class PoguesTransforms {
 		return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
 				.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").build();
 
+	}
+	
+	@POST
+	@Path("ddi2fo")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get FO questionnaire from DDI questionnaire")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "ddi body", value = "DDI representation of the questionnaire", paramType = "body", dataType = "string"),
+			@ApiImplicitParam(name = "columns", value = "Columns", paramType = "query", dataType = "string",allowableValues="1,2,3,4"),
+			@ApiImplicitParam(name = "orientation", value = "Orientation", paramType = "query", dataType = "string",allowableValues="0,90"),
+			@ApiImplicitParam(name = "capture", value = "capture", paramType = "query", dataType = "string",allowableValues="optical,manual"),
+			@ApiImplicitParam(name = "studyunit", value = "StudyUnit", paramType = "query", dataType = "string",allowableValues="business,household,default"),
+			@ApiImplicitParam(name = "timequestion", value = "TimeQuestion", paramType = "query", dataType = "string",allowableValues="true,false")})
+	public Response ddi2foWithParamTest(@Context final HttpServletRequest request) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		if (request.getParameter("columns") != null) {
+			params.put("columns", request.getParameter("columns"));
+		}
+		if (request.getParameter("orientation") != null) {
+			params.put("orientation", request.getParameter("orientation"));
+		}
+		if (request.getParameter("capture") != null) {
+			params.put("capture", request.getParameter("capture"));
+		}
+		if (request.getParameter("studyunit") != null) {
+			params.put("studyunit", request.getParameter("studyunit"));
+		}
+		if (request.getParameter("timequestion") != null) {
+			params.put("timequestion", request.getParameter("timequestion"));
+		}
+		String questionnaireName = "fo";
+
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream()).map(ddiToFo::transform, params, questionnaireName)
+					.transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();	
+			} catch (Exception e) {
+				logger.error(e.getMessage(), e);
+				throw e;
+			}
+	}
+	
+	@POST
+	@Path("fo2pdf")
+	@Consumes(MediaType.APPLICATION_XML)
+	@Produces(MediaType.APPLICATION_OCTET_STREAM)
+	@ApiOperation(value = "Get visualization PDF questionnaire from FO questionnaire")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "FO body", value = "FO representation of the questionnaire", paramType = "body", dataType = "string") })
+	public Response fo2Pdf (@Context final HttpServletRequest request) throws Exception{
+		String filePath = null;
+		String questionnaireName = "pdf";
+		
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		try {
+			filePath = pipeline.from(request.getInputStream()).map(foToPdf::transform, params, questionnaireName)
+					.transform();;
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+		
+		File file = new File(filePath);
+		return Response.ok(file, MediaType.APPLICATION_OCTET_STREAM)
+				.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").build();
 	}
 
 	@POST
@@ -725,6 +811,35 @@ public class PoguesTransforms {
 		String questionnaire = "xforms";
 		try {
 			return transform(request, ddiToXForm, questionnaire);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@POST
+	@Path("ddi32Toddi33")
+	@Produces(MediaType.APPLICATION_XML)
+	@Consumes(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get DDI 3.3 From DDI 3.2")
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Error") })
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "ddi body", value = "DDI 3.2 representation of the questionnaire", paramType = "body", dataType = "string") })
+	public Response ddi32Toddi33(@Context final HttpServletRequest request) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		String survey = "test";
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream()).map(ddi32Toddi33::transform, params, survey)
+							.transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();	
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
