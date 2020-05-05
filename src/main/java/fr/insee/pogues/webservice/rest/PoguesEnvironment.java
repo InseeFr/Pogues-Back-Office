@@ -47,6 +47,7 @@ public class PoguesEnvironment {
             entity.put("LDAP", env.getProperty("fr.insee.pogues.permission.ldap.hostname"));
             entity.put("Metadata services", env.getProperty("fr.insee.pogues.api.remote.metadata.url"));
             entity.put("Vizualisation service", env.getProperty("fr.insee.pogues.api.remote.stromae.vis.url"));
+            entity.put("Eno Webservice", env.getProperty("fr.insee.pogues.api.remote.eno.host"));
             return Response.ok().entity(entity).build();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
