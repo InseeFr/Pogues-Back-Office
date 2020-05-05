@@ -11,36 +11,11 @@ declare
 %rest:query-param("racine", "{$racine}","")
 function reponse:get-reponse ( $enquete as xs:string*, $modele as xs:string*,$unite as xs:string*,$racine as xs:string*) as node()* 
 {
-(:let $racine-enquete := '/db/testCei/fr' 
-:)let $col := common:calcol($unite)
+let $col := common:calcol($unite)
 let $doc := concat(common:racine($racine),'/',$enquete,'/',$modele,'/data/',$col,'/',$unite,'.xml')
 return 
 if (doc-available($doc)) then (doc($doc))
 else (common:rest-response(404,"Fichier reponse introuvable"))
-};
-
-(:GET ALL REPONSE:)
-declare
-%rest:GET
-%rest:path("/collectes/reponse/{$enquete}")
-%rest:query-param("racine", "{$racine}","")
-function reponse:get-all-reponse ( $enquete as xs:string*,$racine as xs:string*) as node()* 
-{
-let $racine-enquete-full := concat(common:racine($racine),$enquete,'/')
-return
-<r>{
-for $collection-modele in xmldb:get-child-collections($racine-enquete-full)[ . != 'lib']
-let $collection-data :=
-    if (xmldb:collection-available(concat($racine-enquete-full,$collection-modele,'/data')))
-    then (concat($racine-enquete-full,$collection-modele,'/data/'))
-    else ()
-for $collection-data-nonvide in $collection-data[.!='']    
-for $collection-unite in  xmldb:get-child-collections($collection-data-nonvide)[.!='init']
-let $doc := concat($collection-data,$collection-unite)
-for $nom-fichier in xmldb:get-child-resources($doc)
-let $fichier := concat($doc,'/',$nom-fichier)
-return doc($fichier)
-}</r>
 };
 
 
