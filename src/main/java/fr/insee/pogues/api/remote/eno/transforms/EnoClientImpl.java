@@ -39,7 +39,8 @@ public class EnoClientImpl implements EnoClient{
 	@Value("${fr.insee.pogues.api.remote.eno.host}")
     String enoHost;
 	
-	static final String SCHEME = "http";
+	@Value("${fr.insee.pogues.api.remote.eno.scheme}")
+	String enoScheme;
 	
 	@Override
 	public String getDDI32ToDDI33 (File fileInput) throws Exception{
@@ -62,7 +63,7 @@ public class EnoClientImpl implements EnoClient{
 	@Override
 	public String getDDIToPDF (File fileInput) throws URISyntaxException, ClientProtocolException, IOException{
 		URIBuilder uriBuilder = new URIBuilder();
-		uriBuilder.setScheme(SCHEME).setHost(enoHost).setPath("/questionnaire/DEFAULT/pdf");
+		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath("/questionnaire/DEFAULT/pdf");
 		
 		CloseableHttpClient httpclient = HttpClients.createDefault();		
 		HttpPost post = new HttpPost(uriBuilder.build());
@@ -112,7 +113,7 @@ public class EnoClientImpl implements EnoClient{
 	public void getParameters () throws Exception{
 		
 		URIBuilder uriBuilder = new URIBuilder();
-		uriBuilder.setScheme(SCHEME).setHost(enoHost).setPath("/parameter/default");
+		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath("/parameter/default");
 		
 	    RestTemplate restTemplate = new RestTemplate();
 	    ResponseEntity<String> result = restTemplate.exchange(uriBuilder.build(), HttpMethod.GET, null, String.class);
@@ -121,7 +122,7 @@ public class EnoClientImpl implements EnoClient{
 	
 	private HttpEntity callEnoApi(File fileInput, String WSPath) throws URISyntaxException, ClientProtocolException, IOException {
 		URIBuilder uriBuilder = new URIBuilder();
-		uriBuilder.setScheme(SCHEME).setHost(enoHost).setPath(WSPath);
+		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(WSPath);
 		
 		CloseableHttpClient httpclient = HttpClients.createDefault();		
 		HttpPost post = new HttpPost(uriBuilder.build());
