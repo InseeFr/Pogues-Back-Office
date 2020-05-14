@@ -21,7 +21,7 @@ public class DDI32ToDDI33Impl implements DDI32ToDDI33 {
 	final static Logger logger = LogManager.getLogger(DDI32ToDDI33Impl.class);
 	
 	@Autowired
-	EnoClient enoClient;	
+	private EnoClient enoClient;	
 	
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)

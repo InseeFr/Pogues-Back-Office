@@ -21,7 +21,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -33,37 +32,37 @@ public class EnoClientImpl implements EnoClient{
 	
 	private static final Logger logger = LogManager.getLogger(EnoClientImpl.class);
 	
-	@Autowired
-	RestTemplate restTemplate;
-	
 	@Value("${fr.insee.pogues.api.remote.eno.host}")
     String enoHost;
 	
 	@Value("${fr.insee.pogues.api.remote.eno.scheme}")
 	String enoScheme;
 	
+	private static final String FORMAT = "UTF-8";
+	private static final String BASE_PATH = "/questionnaire/DEFAULT";
+	
 	@Override
 	public String getDDI32ToDDI33 (File fileInput) throws Exception{
 		HttpEntity entityResponse = callEnoApi(fileInput, "/questionnaire/ddi32-2-ddi33");
-        return EntityUtils.toString(entityResponse, "UTF-8");
+        return EntityUtils.toString(entityResponse, FORMAT);
 	};
 	
 	@Override
 	public String getDDIToODT (File fileInput) throws Exception{
 		HttpEntity entityResponse = callEnoApi(fileInput, "/questionnaire/fodt");
-        return EntityUtils.toString(entityResponse, "UTF-8");
+        return EntityUtils.toString(entityResponse, FORMAT);
 	};
 	
 	@Override
 	public String getXMLPoguesToDDI (File fileInput) throws Exception{
 		HttpEntity entityResponse = callEnoApi(fileInput, "/questionnaire/poguesxml-2-ddi");
-        return EntityUtils.toString(entityResponse, "UTF-8");
+        return EntityUtils.toString(entityResponse, FORMAT);
 	};
 	
 	@Override
 	public String getDDIToPDF (File fileInput) throws URISyntaxException, ClientProtocolException, IOException{
 		URIBuilder uriBuilder = new URIBuilder();
-		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath("/questionnaire/DEFAULT/pdf");
+		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(BASE_PATH+"/pdf");
 		
 		CloseableHttpClient httpclient = HttpClients.createDefault();		
 		HttpPost post = new HttpPost(uriBuilder.build());
@@ -87,26 +86,26 @@ public class EnoClientImpl implements EnoClient{
 	
 	@Override
 	public String getDDIToFO(File fileInput) throws URISyntaxException, ClientProtocolException, IOException {
-		HttpEntity entityResponse = callEnoApi(fileInput, "/questionnaire/DEFAULT/fo");
-        return EntityUtils.toString(entityResponse, "UTF-8");
+		HttpEntity entityResponse = callEnoApi(fileInput, BASE_PATH+"/fo");
+        return EntityUtils.toString(entityResponse, FORMAT);
 	}
 	
 	@Override
 	public String getDDITOLunaticXML(File fileInput) throws URISyntaxException, ClientProtocolException, IOException {
-		HttpEntity entityResponse = callEnoApi(fileInput, "/questionnaire/DEFAULT/lunatic-xml");
-        return EntityUtils.toString(entityResponse, "UTF-8");
+		HttpEntity entityResponse = callEnoApi(fileInput, BASE_PATH+"/lunatic-xml");
+        return EntityUtils.toString(entityResponse, FORMAT);
 	}
 	
 	@Override
 	public String getDDITOLunaticJSON(File fileInput) throws URISyntaxException, ClientProtocolException, IOException {
-		HttpEntity entityResponse = callEnoApi(fileInput, "/questionnaire/DEFAULT/lunatic-json-flat");
-        return EntityUtils.toString(entityResponse, "UTF-8");
+		HttpEntity entityResponse = callEnoApi(fileInput, BASE_PATH+"/lunatic-json-flat");
+        return EntityUtils.toString(entityResponse, FORMAT);
 	}
 	
 	@Override
 	public String getDDITOXForms(File fileInput) throws URISyntaxException, ClientProtocolException, IOException {
-		HttpEntity entityResponse = callEnoApi(fileInput, "/questionnaire/DEFAULT/xforms");
-        return EntityUtils.toString(entityResponse, "UTF-8");
+		HttpEntity entityResponse = callEnoApi(fileInput, BASE_PATH+"/xforms");
+        return EntityUtils.toString(entityResponse, FORMAT);
 	}
 	
 	@Override
@@ -117,7 +116,6 @@ public class EnoClientImpl implements EnoClient{
 		
 	    RestTemplate restTemplate = new RestTemplate();
 	    ResponseEntity<String> result = restTemplate.exchange(uriBuilder.build(), HttpMethod.GET, null, String.class);
-	    System.out.println(result.getBody());
 	};
 	
 	private HttpEntity callEnoApi(File fileInput, String WSPath) throws URISyntaxException, ClientProtocolException, IOException {

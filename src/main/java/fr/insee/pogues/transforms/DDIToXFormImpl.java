@@ -16,7 +16,7 @@ import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
 public class DDIToXFormImpl implements DDIToXForm {
 	
 	@Autowired
-	EnoClient enoClient;
+	private EnoClient enoClient;
 
     @Override
     public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {

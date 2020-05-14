@@ -33,7 +33,7 @@ public class FOToPDFImpl implements FOToPDF {
 	
 	public static final String TEMP_FOLDER_PATH = System.getProperty("java.io.tmpdir") + "/eno";
 	
-	public static final String FINAL_PDF_EXTENSION = "-final-out.fo";
+	public static final String FINAL_FO_EXTENSION = "-final-out.fo";
 
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
@@ -91,7 +91,7 @@ public class FOToPDFImpl implements FOToPDF {
 				logger.debug("Fail to create temp directory");
 			}
 		}		
-		String outFilePath = TEMP_FOLDER_PATH + "/form" + FINAL_PDF_EXTENSION;
+		String outFilePath = TEMP_FOLDER_PATH + "/form" + FINAL_FO_EXTENSION;
 		File outFilePDF = new File(FilenameUtils.removeExtension(outFilePath) + ".pdf");
 
 		// Step 2: Set up output stream.

@@ -18,7 +18,7 @@ import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
 public class DDIToODTImpl implements DDIToODT {
 	
 	@Autowired
-	EnoClient enoClient;
+	private EnoClient enoClient;
 
 	final static Logger logger = LogManager.getLogger(DDIToODTImpl.class);
 	
