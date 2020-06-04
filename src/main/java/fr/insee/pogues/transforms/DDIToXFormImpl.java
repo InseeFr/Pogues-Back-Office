@@ -1,21 +1,22 @@
 package fr.insee.pogues.transforms;
 
-import fr.insee.eno.GenerationService;
-import fr.insee.eno.generation.DDI2FRGenerator;
-import fr.insee.eno.postprocessing.NoopPostprocessor;
-import fr.insee.eno.postprocessing.Postprocessor;
-import fr.insee.eno.preprocessing.DDIPreprocessor;
-import org.apache.commons.io.FileUtils;
-import org.springframework.stereotype.Service;
-
 import java.io.File;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import org.apache.commons.io.FileUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
+
 @Service
 public class DDIToXFormImpl implements DDIToXForm {
+	
+	@Autowired
+	private EnoClient enoClient;
 
     @Override
     public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
@@ -53,10 +54,7 @@ public class DDIToXFormImpl implements DDIToXForm {
 
     private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
         try {
-            File output;
-            GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2FRGenerator(), new Postprocessor[] {new NoopPostprocessor()});
-            output = genService.generateQuestionnaire(file, surveyName);
-            return FileUtils.readFileToString(output, StandardCharsets.UTF_8);
+			return enoClient.getDDITOXForms(file);
         } catch (Exception e) {
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }
