@@ -13,7 +13,7 @@ ENO_CORE_ARTIFACT_ID="eno-core"
 ENO_CORE_VERSION="1.2.0"
 LUNATIC_MODEL_URL="https://github.com/InseeFr/Lunatic-Model"
 LUNATIC_MODEL_ARTIFACT_ID="lunatic-model"
-LUNATIC_MODEL_VERSION="2.0.0-rc"
+LUNATIC_MODEL_VERSION="1.0.2"
 
 function install_pogues_model(){
     bash scripts/gh2mvn.sh  "$POGUES_MODEL_URL" "$GROUP_ID" "$POGUES_MODEL_ARTIFACT_ID" "$POGUES_MODEL_VERSION"
