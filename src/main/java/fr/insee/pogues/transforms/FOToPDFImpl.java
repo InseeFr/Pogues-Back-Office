@@ -26,12 +26,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import fr.insee.eno.Constants;
-
 @Service
 public class FOToPDFImpl implements FOToPDF {
 
 	final static Logger logger = LogManager.getLogger(FOToPDFImpl.class);
+	
+	public static final String TEMP_FOLDER_PATH = System.getProperty("java.io.tmpdir") + "/eno";
+	
+	public static final String FINAL_FO_EXTENSION = "-final-out.fo";
 
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
@@ -81,7 +83,15 @@ public class FOToPDFImpl implements FOToPDF {
 		// (reuse if you plan to render multiple documents!)
 		FopFactory fopFactory = FopFactory.newInstance(imgFolderUri, isXconf);
 		
-		String outFilePath = Constants.TEMP_FOLDER_PATH + "/form" + Constants.FINAL_PDF_EXTENSION;
+		File dirTemp = new File(TEMP_FOLDER_PATH);
+		if (!dirTemp.exists()) {
+			if (dirTemp.mkdir()) {
+				logger.debug("Create eno temp directory");
+			} else {
+				logger.debug("Fail to create temp directory");
+			}
+		}		
+		String outFilePath = TEMP_FOLDER_PATH + "/form" + FINAL_FO_EXTENSION;
 		File outFilePDF = new File(FilenameUtils.removeExtension(outFilePath) + ".pdf");
 
 		// Step 2: Set up output stream.

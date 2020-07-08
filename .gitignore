@@ -8,3 +8,9 @@ node_modules
 .classpath
 .project
 .settings/
+#Ignore Pogues Front files
+WebContent/static/
+WebContent/index.html
+WebContent/*.css
+WebContent/*.map
+WebContent/*.js

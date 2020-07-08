@@ -9,17 +9,16 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.insee.eno.GenerationService;
-import fr.insee.eno.generation.DDI2JSGenerator;
-import fr.insee.eno.postprocessing.JSExternalizeVariablesPostprocessor;
-import fr.insee.eno.postprocessing.JSSortComponentsPostprocessor;
-import fr.insee.eno.postprocessing.Postprocessor;
-import fr.insee.eno.preprocessing.DDIPreprocessor;
+import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
 
 @Service
 public class DDIToLunaticXMLImpl implements DDIToLunaticXML {
+	
+	@Autowired
+	EnoClient enoClient;
 
 	final static Logger logger = LogManager.getLogger(DDIToLunaticXMLImpl.class);
 	
@@ -61,14 +60,7 @@ public class DDIToLunaticXMLImpl implements DDIToLunaticXML {
 
     private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
         try {
-            File output=null;
-			Postprocessor[] postprocessors = { new JSSortComponentsPostprocessor(),
-					new JSExternalizeVariablesPostprocessor() };
-			GenerationService genService = new GenerationService(new DDIPreprocessor(), new DDI2JSGenerator(),
-					postprocessors);
-            output = genService.generateQuestionnaire(file, surveyName);
-            
-            return FileUtils.readFileToString(output, StandardCharsets.UTF_8);
+			return enoClient.getDDITOLunaticXML(file);
         } catch (Exception e) {
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }

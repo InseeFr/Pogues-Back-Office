@@ -22,7 +22,6 @@ declare
 %rest:query-param("racine", "{$racine}","")
 function form:get-instance ($enquete as xs:string*, $modele as xs:string*,$unite as xs:string*,$racine as xs:string*) as node()* 
 {
-(:let $racine-enquete := '/db/testCei/fr':) 
 let $col := common:calcol($unite)
 let $racine :=common:racine($racine)
 let $doc-user := concat( $racine,'/',$enquete,'/',$modele,'/data/',$col,'/',$unite,'.xml')
