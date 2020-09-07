@@ -49,7 +49,7 @@ public class EnoClientImpl implements EnoClient{
 	
 	@Override
 	public String getDDIToODT (File fileInput) throws Exception{
-		HttpEntity entityResponse = callEnoApi(fileInput, "/questionnaire/fodt");
+		HttpEntity entityResponse = callEnoApi(fileInput, "/questionnaire/ddi-2-fodt");
         return EntityUtils.toString(entityResponse, FORMAT);
 	};
 	
