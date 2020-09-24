@@ -47,12 +47,7 @@ public class EnoClientImpl implements EnoClient{
         return EntityUtils.toString(entityResponse, FORMAT);
 	};
 	
-	@Override
-	public String getDDIToODT (File fileInput) throws Exception{
-		HttpEntity entityResponse = callEnoApi(fileInput, "/questionnaire/fodt");
-        return EntityUtils.toString(entityResponse, FORMAT);
-	};
-	
+
 	@Override
 	public String getXMLPoguesToDDI (File fileInput) throws Exception{
 		HttpEntity entityResponse = callEnoApi(fileInput, "/questionnaire/poguesxml-2-ddi");
@@ -107,6 +102,13 @@ public class EnoClientImpl implements EnoClient{
 		HttpEntity entityResponse = callEnoApi(fileInput, BASE_PATH+"/xforms");
         return EntityUtils.toString(entityResponse, FORMAT);
 	}
+	
+	@Override
+	public String getDDIToODT (File fileInput) throws Exception{
+		HttpEntity entityResponse = callEnoApi(fileInput, BASE_PATH+"/fodt");
+        return EntityUtils.toString(entityResponse, FORMAT);
+	};
+	
 	
 	@Override
 	public void getParameters () throws Exception{
