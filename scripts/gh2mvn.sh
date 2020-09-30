@@ -30,7 +30,7 @@ function install_files(){
  #       git checkout "$latest_tag"
  #   fi
     mvn clean install -DskipTests -Djar.finalName="$ARTIFACT_ID"
-    mvn install:install-file -Dfile=target/"$ARTIFACT_ID".jar -DgroupId="$GROUP_ID" -DartifactId="$ARTIFACT_ID" -Dversion="$VERSION" -Dpackaging=jar
+#  mvn install:install-file -Dfile=target/"$ARTIFACT_ID".jar -DgroupId="$GROUP_ID" -DartifactId="$ARTIFACT_ID" -Dversion="$VERSION" -Dpackaging=jar
     popd
 }
 
