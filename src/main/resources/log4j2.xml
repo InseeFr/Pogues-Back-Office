@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<appenders>
-
+		<Console name="Console-Appender" target="SYSTEM_OUT">
+			<PatternLayout>
+				<pattern>
+					[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
+				</pattern>
+			</PatternLayout>
+		</Console>
 		<RollingFile name="RollingFile" fileName="D://logs/pogues-local.log"
 			filePattern="D://logs/pogues-local-%d{MM-dd-yyyy}-%i.log.gz"
 			ignoreExceptions="false">
@@ -17,20 +23,11 @@
 	</appenders>
 
 	<loggers>
-		<Logger name="fr.insee.pogues" level="DEBUG" additivity="false">
-			<appender-ref ref="RollingFile" />
-		</Logger>
-		<Logger name="io.swagger" level="DEBUG" additivity="false">
-			<appender-ref ref="RollingFile" />
-		</Logger>
-		<Logger name="org.springframework" level="DEBUG" additivity="false">
-			<appender-ref ref="RollingFile" />
-		</Logger>
-		<Logger name="org.apache.http.wire" level="DEBUG" additivity="false">
-			<appender-ref ref="RollingFile" />
+		<Logger name="fr.insee.pogues" level="INFO" additivity="false">
+			<AppenderRef ref="Console-Appender" level="info" />
 		</Logger>
 		<root level="ERROR">
-			<appender-ref ref="RollingFile" />
+			<appender-ref ref="Console-Appender" />
 		</root>
 	</loggers>
 </configuration>
