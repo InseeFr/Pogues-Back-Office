@@ -15,8 +15,6 @@ function install_pogues_model(){
 
 function main(){
     install_pogues_model
-    install_eno
-    install_lunatic_model
 #    mvn clean install -DskipTests -Dfinal.war.name="$FINAL_WAR_NAME"
 }
 
