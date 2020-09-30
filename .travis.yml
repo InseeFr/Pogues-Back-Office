@@ -13,7 +13,6 @@ script:
 - mvn test
 - mvn clean install -DskipTests
 - docker build -t bwerquin/pogues .
-- bash scripts/coveralls.sh
 after_success:
 - bash scripts/tag.sh
 deploy:
