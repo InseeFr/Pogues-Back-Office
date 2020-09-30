@@ -8,10 +8,9 @@ before_script:
 
 install:
 - bash scripts/install.sh
-- bash scripts/build.sh rmspogfo
 script:
 - mvn test
-- mvn clean install -DskipTests
+- bash scripts/build.sh rmspogfo
 - docker build -t bwerquin/pogues-bo .
 after_success:
 - bash scripts/tag.sh
