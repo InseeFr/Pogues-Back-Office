@@ -31,6 +31,7 @@ public class SwaggerConfig extends HttpServlet {
             beanConfig.setBasePath(props.getProperty("fr.insee.pogues.api.name"));
             beanConfig.setHost(props.getProperty("fr.insee.pogues.api.host"));
             beanConfig.setResourcePackage("fr.insee.pogues.webservice.rest");
+            beanConfig.setScan(false);
         } catch(Exception e) {
             e.printStackTrace();
             logger.error(e.getMessage());
