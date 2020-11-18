@@ -96,7 +96,7 @@ public class PoguesPersistence {
     }
     
 	@GET
-	@Path("questionnaires/meta/search")
+	@Path("questionnaires/search/meta")
 	@Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 	        value = "Get questionnaires' metadata",
