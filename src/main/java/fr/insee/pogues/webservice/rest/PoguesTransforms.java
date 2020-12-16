@@ -29,6 +29,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.DDIToFO;
+import fr.insee.pogues.transforms.DDIToLunaticJSON;
 import fr.insee.pogues.transforms.DDIToODT;
 import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.FOToPDF;
@@ -74,6 +75,9 @@ public class PoguesTransforms {
 	
 	@Autowired
 	DDIToFO ddiToFo;
+	
+	@Autowired
+	DDIToLunaticJSON ddiToLunaticJSON;
 	
 	@Autowired
 	FOToPDF foToPdf;
@@ -122,6 +126,40 @@ public class PoguesTransforms {
 		}
 	}
 
+	@POST
+	@Path("visualize-lunatic/{questionnaire}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get visualization URI Queen from JSON serialized Pogues entity", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
+	public Response visualizeFromBody(@Context final HttpServletRequest request,
+			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("questionnaire", questionnaire.toLowerCase());
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream())
+							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaire.toLowerCase())
+							.map(LunaticJSONToUriQueen::transform, params, questionnaire.toLowerCase()).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	
+	
 	@POST
 	@Path("visualize-from-ddi/{dataCollection}/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_XML)
