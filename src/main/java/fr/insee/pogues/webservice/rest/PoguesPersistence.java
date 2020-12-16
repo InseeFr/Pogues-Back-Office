@@ -66,6 +66,32 @@ public class PoguesPersistence {
 		}
 
 	}
+	
+	@GET
+	@Path("questionnaire/JsonLunatic/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+	        value = "Get questionnaire",
+            notes = "Gets the questionnaire with id JsonLunatic {id}",
+            response = String.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 404, message = "Not found")
+    })
+	public Response getJsonLunatic(
+			@ApiParam(value = "This is the id of the object we want to retrieve", required = true)
+			@PathParam(value = "id") String id
+	) throws Exception {
+		try {
+			JSONObject result = questionnaireService.getJsonLunaticByID(id);
+			return Response.status(Status.OK).entity(result).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+
+	}
 
     @GET
     @Path("questionnaires/search")
