@@ -19,6 +19,8 @@ public interface QuestionnairesServiceQuery {
     JSONObject getJsonLunaticByID(String id) throws Exception;
 
     void deleteQuestionnaireByID(String id) throws Exception;
+    
+    void deleteJsonLunaticByID(String id) throws Exception;
 
     List<JSONObject> getQuestionnairesByOwner(String owner) throws Exception;
 

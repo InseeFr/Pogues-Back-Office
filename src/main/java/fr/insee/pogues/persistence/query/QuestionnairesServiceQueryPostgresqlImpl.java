@@ -91,6 +91,21 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			throw new PoguesException(404, "Not Found", String.format("Entity with id %s not found", id));
 		}
 	}
+	
+	/**
+	 * A method to delete the questionnaire with an id
+	 * 
+	 * @param id
+	 *            id of the questionnaire
+	 */
+	public void deleteJsonLunaticByID(String id) throws Exception {
+		String qString = "DELETE FROM visu_lunatic where id=?";
+		int r = jdbcTemplate.update(qString,
+				new Object[] { id });
+		if(0 == r) {
+			throw new PoguesException(404, "Not Found", String.format("Entity with id %s not found", id));
+		}
+	}
 
 	/**
 	 * A method to get the `QuestionnaireList` with an owner in the database
@@ -146,11 +161,11 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		}
     }
     
-    public void updateJsonLunatic(String id, JSONObject data_lunatic) throws Exception {
+    public void updateJsonLunatic(String id, JSONObject dataLunatic) throws Exception {
        	String qString = "UPDATE visu_lunatic SET data_lunatic=? WHERE id=?";
 		PGobject q = new PGobject();
 		q.setType("json");
-		q.setValue(data_lunatic.toJSONString());
+		q.setValue(dataLunatic.toJSONString());
 		int r = jdbcTemplate.update(qString, q, id);
 		if(0 == r) {
 			throw new NonUniqueResultException("Entity already exists");
