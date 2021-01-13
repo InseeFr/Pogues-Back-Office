@@ -156,7 +156,7 @@ public class PoguesPersistence {
             @ApiResponse(code = 204, message = "No content"),
             @ApiResponse(code = 404, message = "Not found")
     })
-	@OwnerRestricted
+//	@OwnerRestricted
 	public Response deleteJsonLunatic(
 			@ApiParam(value = "The id of the object that need to be deleted", required = true)
 			@PathParam(value = "id") String id
