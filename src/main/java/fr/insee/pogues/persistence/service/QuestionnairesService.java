@@ -10,6 +10,8 @@ import java.util.List;
 public interface QuestionnairesService {
 
     List<JSONObject> getQuestionnaireList() throws Exception;
+    
+    List<JSONObject> getQuestionnairesMetadata(String owner) throws Exception;
 
     /**
      *

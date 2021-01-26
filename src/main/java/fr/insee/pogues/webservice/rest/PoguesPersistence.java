@@ -94,6 +94,34 @@ public class PoguesPersistence {
             throw e;
         }
     }
+    
+	@GET
+	@Path("questionnaires/search/meta")
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+	        value = "Get questionnaires' metadata",
+            notes = "Get questionnaires' metadata matching query params",
+            response = List.class
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 400, message = "Bad request")
+    })
+	public Response getQuestionnairesMetadata(
+			@ApiParam(value = "A user id matching owner permission on each object of the collection", required = false)
+            @QueryParam("owner") String owner
+	) throws Exception {
+		try {
+			List<JSONObject> questionnairesMetadata = new ArrayList<>();
+            if(null != owner){
+                questionnairesMetadata.addAll(questionnaireService.getQuestionnairesMetadata(owner));
+            }
+            return Response.status(Status.OK).entity(questionnairesMetadata).build();
+        } catch (Exception e) {
+			logger.error(e.getMessage(), e);
+            throw e;
+        }
+	}
 
 	@DELETE
 	@Path("questionnaire/{id}")
@@ -143,8 +171,6 @@ public class PoguesPersistence {
 		}
 	}
 	
-	
-
 	@PUT
 	@Path("questionnaire/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)

@@ -37,6 +37,13 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
         }
         return questionnaires;
     }
+    
+    public List<JSONObject> getQuestionnairesMetadata(String owner) throws Exception {
+    	if (null == owner || owner.isEmpty()) {
+            throw new PoguesException(400, "Bad Request", "Missing parameter: owner");
+        }
+        return questionnaireServiceQuery.getMetaQuestionnaire(owner);
+    }
 
     public List<JSONObject> getQuestionnairesByOwner(String owner) throws Exception {
         if (null == owner || owner.isEmpty()) {
