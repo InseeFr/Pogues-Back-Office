@@ -43,7 +43,7 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
 
 		if (authentication) {
 			http.csrf().disable().authorizeRequests()
-					.antMatchers("/pogues/persistence/questionnaire/json-lunatic*").permitAll()
+					.antMatchers("/pogues/persistence/questionnaire/json-lunatic/**").permitAll()
 					.antMatchers("/login*").permitAll()
 					.antMatchers("/error*").permitAll()
 					.anyRequest().authenticated().and().formLogin().usernameParameter("username")
