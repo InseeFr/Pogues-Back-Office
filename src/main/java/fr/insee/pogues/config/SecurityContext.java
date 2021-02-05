@@ -43,9 +43,9 @@ public class SecurityContext extends WebSecurityConfigurerAdapter {
 
 		if (authentication) {
 			http.csrf().disable().authorizeRequests()
+					.antMatchers("/pogues/persistence/questionnaire/json-lunatic*").permitAll()
 					.antMatchers("/login*").permitAll()
 					.antMatchers("/error*").permitAll()
-					.antMatchers("/pogues/persistence/questionnaire/json-lunatic*").permitAll()
 					.anyRequest().authenticated().and().formLogin().usernameParameter("username")
 					.passwordParameter("password").loginPage("/login.jsp").loginProcessingUrl("/login")
 					.defaultSuccessUrl("/").failureUrl("/error.jsp");
