@@ -86,7 +86,15 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 				new Object[] { owner }, PGobject.class);
 		return PgToJSON(data);
     }
-
+    
+	public List<JSONObject> getMetaQuestionnaire(String owner) throws Exception{
+		String qString = "SELECT CONCAT('{\"id\": ',data -> 'id',', \"lastUpdatedDate\": ', data -> 'lastUpdatedDate',', \"label\": ', data -> 'Label',', \"final\": ', data -> 'final',', \"DataCollection\": ', data -> 'DataCollection',', \"TargetMode\": ', data -> 'TargetMode','}') FROM pogues WHERE data ->> 'owner' = ?";
+    	List<PGobject> data = jdbcTemplate.queryForList(qString,
+				new Object[] { owner }, PGobject.class);
+    	System.out.println(data);
+		return PgToJSON(data);
+	}
+	
 	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
 		String qString =
 				"INSERT INTO pogues (id, data) VALUES (?, ?)";
@@ -120,5 +128,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			}
 		});
 	}
+    
+
 
 }
