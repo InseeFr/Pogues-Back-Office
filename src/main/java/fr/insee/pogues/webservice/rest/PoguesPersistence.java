@@ -1,19 +1,34 @@
 package fr.insee.pogues.webservice.rest;
 
-import fr.insee.pogues.persistence.service.QuestionnairesService;
-import io.swagger.annotations.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import java.util.ArrayList;
-import java.util.List;
+import fr.insee.pogues.persistence.service.QuestionnairesService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * WebService class for the Instrument Persistence
@@ -40,7 +55,9 @@ public class PoguesPersistence {
     @Autowired
 	private QuestionnairesService questionnaireService;
 
-
+    @Autowired
+    Environment env;
+    
 	@GET
 	@Path("questionnaire/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -68,7 +85,7 @@ public class PoguesPersistence {
 	}
 	
 	@GET
-	@Path("questionnaire/JsonLunatic/{id}")
+	@Path("questionnaire/json-lunatic/{id}")
     @Produces(MediaType.APPLICATION_JSON)
 	@ApiOperation(
 	        value = "Get questionnaire",
@@ -145,6 +162,30 @@ public class PoguesPersistence {
 			throw e;
 		}
 	}
+	
+	@DELETE
+	@Path("questionnaire/json-lunatic/{id}")
+	@ApiOperation(
+	        value = "Delete Json Lunatic of a questionnaire",
+            notes = "Delete Json Lunatic of a  questionnaire with id {id}"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 204, message = "No content"),
+            @ApiResponse(code = 404, message = "Not found")
+    })
+//	@OwnerRestricted
+	public Response deleteJsonLunatic(
+			@ApiParam(value = "The id of the object that need to be deleted", required = true)
+			@PathParam(value = "id") String id
+	) throws Exception {
+		try {
+			questionnaireService.deleteJsonLunaticByID(id);
+			logger.info("Questionnaire "+ id +" deleted");
+			return Response.status(Status.NO_CONTENT).build();
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 
 	@GET
 	@Path("questionnaires")
@@ -171,6 +212,33 @@ public class PoguesPersistence {
 	
 	
 
+	@PUT
+	@Path("questionnaire/json-lunatic/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+	        value = "Update Json Lunatic",
+            notes = "Update Json Lunatic of a `Questionnaire` object with id {id}"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Success"),
+            @ApiResponse(code = 404, message = "Not found")
+    })
+//	@OwnerRestricted
+	public Response updateJsonLunatic(
+			@ApiParam(value = "The id of the questionnaire which json lunatic needs to be updated", required = true)
+			@PathParam(value = "id") String id,
+			@ApiParam(value = "Json Lunatic to be updated") JSONObject jsonLunatic
+	) throws Exception {
+        try {
+			questionnaireService.updateJsonLunatic(id, jsonLunatic);
+			logger.info("Json Lunatic of questionnaire "+ id +" updated");
+			return Response.status(Status.NO_CONTENT).build();
+        } catch (Exception e) {
+            throw e;
+        }
+	}
+	
 	@PUT
 	@Path("questionnaire/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -199,6 +267,7 @@ public class PoguesPersistence {
         }
 	}
 
+
 	@POST
 	@Path("questionnaires")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -215,11 +284,40 @@ public class PoguesPersistence {
 	) throws Exception {
         try {
 			questionnaireService.createQuestionnaire(jsonContent);
-			//TODO return a generic uri
 			String id = (String) jsonContent.get("id");
-			String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
+			String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
+			String apiName = env.getProperty("fr.insee.pogues.api.name");
+			String uriQuestionnaire = String.format("http://%s%s/persistence/questionnaire/%s",dbHost,apiName,id);
 			logger.debug("New questionnaire created , uri :" + uriQuestionnaire);
 			return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+	
+	@POST
+	@Path("questionnaires/json-lunatic")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@ApiOperation(
+	        value = "Create Json Lunatic of questionnaire",
+            notes = "Creates a new Json Lunatic entry"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Created"),
+            @ApiResponse(code = 400, message = "Entity already exists")
+    })
+	public Response createJsonLunatic(
+			@ApiParam(value = "New Instrument Object", required = true) JSONObject jsonContent
+	) throws Exception {
+        try {
+			questionnaireService.createJsonLunatic(jsonContent);
+			String id = (String) jsonContent.get("id");
+			String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
+			String apiName = env.getProperty("fr.insee.pogues.api.name");
+			String uriJsonLunaticQuestionnaire = String.format("http://%s%s/persistence/questionnaire/json-lunatic/%s",dbHost,apiName,id);
+			logger.debug("New Json Lunatic created , uri :" + uriJsonLunaticQuestionnaire);
+			return Response.status(Status.CREATED).header("Location", uriJsonLunaticQuestionnaire).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;

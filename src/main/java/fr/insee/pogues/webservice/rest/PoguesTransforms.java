@@ -34,6 +34,7 @@ import fr.insee.pogues.transforms.DDIToODT;
 import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.FOToPDF;
 import fr.insee.pogues.transforms.JSONToXML;
+import fr.insee.pogues.transforms.LunaticJSONToUriQueen;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.Transformer;
@@ -78,6 +79,9 @@ public class PoguesTransforms {
 	
 	@Autowired
 	DDIToLunaticJSON ddiToLunaticJSON;
+	
+	@Autowired
+	LunaticJSONToUriQueen lunaticJSONToUriQueen;
 	
 	@Autowired
 	FOToPDF foToPdf;
@@ -145,7 +149,7 @@ public class PoguesTransforms {
 							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
 							.map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
 							.map(ddiToLunaticJSON::transform, params, questionnaire.toLowerCase())
-							.map(LunaticJSONToUriQueen::transform, params, questionnaire.toLowerCase()).transform().getBytes());
+							.map(lunaticJSONToUriQueen::transform, params, questionnaire.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);

@@ -65,8 +65,12 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
     public void deleteQuestionnaireByID(String id) throws Exception {
         questionnaireServiceQuery.deleteQuestionnaireByID(id);
     }
+    
+	public void deleteJsonLunaticByID(String id) throws Exception {
+		questionnaireServiceQuery.deleteJsonLunaticByID(id);		
+	}
 
-    public void createQuestionnaire(JSONObject questionnaire) throws Exception {
+	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
         try {
             this.questionnaireServiceQuery.createQuestionnaire(questionnaire);
         } catch (NonUniqueResultException e) {
@@ -91,11 +95,11 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
     }
 
 
-public void updateJsonLunatic(String id, JSONObject dataLunatic) throws Exception {
-    try {
-        this.questionnaireServiceQuery.updateJsonLunatic(id, dataLunatic);
-    } catch (EntityNotFoundException e) {
-        throw new PoguesException(404, "Not found", e.getMessage());
-    }
-}
+	public void updateJsonLunatic(String id, JSONObject dataLunatic) throws Exception {
+	    try {
+	        this.questionnaireServiceQuery.updateJsonLunatic(id, dataLunatic);
+	    } catch (EntityNotFoundException e) {
+	        throw new PoguesException(404, "Not found", e.getMessage());
+	    }
+	}
 }
