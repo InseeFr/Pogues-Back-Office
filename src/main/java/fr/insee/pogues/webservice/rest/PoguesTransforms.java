@@ -131,7 +131,7 @@ public class PoguesTransforms {
 	}
 
 	@POST
-	@Path("visualize-lunatic/{questionnaire}")
+	@Path("visualize-queen/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_XML)
 	@ApiOperation(value = "Get visualization URI Queen from JSON serialized Pogues entity", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
