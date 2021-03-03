@@ -16,7 +16,7 @@ import fr.insee.pogues.webservice.rest.PoguesException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Service
-public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
+public class LunaticJSONToUriStromaeV2Imp implements LunaticJSONToUriStromaeV2{
 	
 	@Autowired
 	private QuestionnairesService questionnaireService;
@@ -30,8 +30,8 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 	@Value("${fr.insee.pogues.api.scheme}")// http
 	private String apiScheme;
 	
-	@Value("${fr.insee.pogues.api.remote.queen.vis.url}")// http
-	private String uriQueen;
+	@Value("${fr.insee.pogues.api.remote.stromaev2.vis.url}")// http
+	private String uriStromaeV2;
 
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
@@ -58,8 +58,8 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }
 		String urlGetJsonLunatic = String.format("%s://%s%s/persistence/questionnaire/json-lunatic/%s",apiScheme,apiHost,apiName,id);
-		String uriVisuQueen = String.format("%s%s", uriQueen, URLEncoder.encode(urlGetJsonLunatic, "UTF-8"));
-		return uriVisuQueen;
+		String uriVisuStromaeV2 = String.format("%s%s", uriStromaeV2, URLEncoder.encode(urlGetJsonLunatic, "UTF-8"));
+		return uriVisuStromaeV2;
 	}
 
 

@@ -35,6 +35,7 @@ import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.FOToPDF;
 import fr.insee.pogues.transforms.JSONToXML;
 import fr.insee.pogues.transforms.LunaticJSONToUriQueen;
+import fr.insee.pogues.transforms.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.Transformer;
@@ -82,6 +83,9 @@ public class PoguesTransforms {
 	
 	@Autowired
 	LunaticJSONToUriQueen lunaticJSONToUriQueen;
+	
+	@Autowired
+	LunaticJSONToUriStromaeV2 lunaticJSONToUriStromaeV2;
 	
 	@Autowired
 	FOToPDF foToPdf;
@@ -137,7 +141,7 @@ public class PoguesTransforms {
 	@ApiOperation(value = "Get visualization URI Queen from JSON serialized Pogues entity", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
 	@ApiImplicitParams(value = {
 			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
-	public Response visualizeFromBody(@Context final HttpServletRequest request,
+	public Response visualizeQueenFromBody(@Context final HttpServletRequest request,
 			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
@@ -150,6 +154,38 @@ public class PoguesTransforms {
 							.map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
 							.map(ddiToLunaticJSON::transform, params, questionnaire.toLowerCase())
 							.map(lunaticJSONToUriQueen::transform, params, questionnaire.toLowerCase()).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@POST
+	@Path("visualize-stromae-v2/{questionnaire}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get visualization URI Queen from JSON serialized Pogues entity", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
+	public Response visualizeStromaeV2FromBody(@Context final HttpServletRequest request,
+			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("questionnaire", questionnaire.toLowerCase());
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream())
+							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaire.toLowerCase())
+							.map(lunaticJSONToUriStromaeV2::transform, params, questionnaire.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
