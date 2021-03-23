@@ -111,13 +111,12 @@ public class EnoClientImpl implements EnoClient{
 	
 	
 	@Override
-	public void getParameters () throws Exception{
-		
+	public String getParameters () throws Exception{
 		URIBuilder uriBuilder = new URIBuilder();
 		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath("/parameter/default");
-		
 	    RestTemplate restTemplate = new RestTemplate();
 	    ResponseEntity<String> result = restTemplate.exchange(uriBuilder.build(), HttpMethod.GET, null, String.class);
+	    return result.getBody();
 	};
 	
 	private HttpEntity callEnoApi(File fileInput, String WSPath) throws URISyntaxException, ClientProtocolException, IOException {

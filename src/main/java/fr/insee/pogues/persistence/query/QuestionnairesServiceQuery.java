@@ -25,5 +25,7 @@ public interface QuestionnairesServiceQuery {
     void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception;
 
     List<JSONObject> getMetaQuestionnaire(String owner) throws Exception;
+    
+    String countQuestionnaires() throws Exception;
 
 }
