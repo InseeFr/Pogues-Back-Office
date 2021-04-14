@@ -118,6 +118,13 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			throw new NonUniqueResultException("Entity already exists");
 		}
     }
+    
+    public String countQuestionnaires() throws Exception{
+		String qString = "SELECT count(*) FROM pogues";
+		PGobject q = jdbcTemplate.queryForObject(qString, PGobject.class);
+		return q.toString();
+    }
+    
 
     private List<JSONObject> PgToJSON(List<PGobject> data) {
 		return Lists.transform(data, q -> {
