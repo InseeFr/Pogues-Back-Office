@@ -1,7 +1,6 @@
-package fr.insee.pogues.webservice.rest;
+                       package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.user.query.UserServiceQuery;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.glassfish.jersey.server.ContainerRequest;
@@ -28,9 +27,6 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
 
 	@Value("${fr.insee.pogues.authentication}")
 	Boolean authentication;
-
-	@Autowired
-	private UserServiceQuery userServiceQuery;
 
 	@Autowired
 	private QuestionnairesService questionnairesService;
@@ -65,7 +61,8 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
 					if (null == principal) {
 						throw new PoguesException(401, "Unauthenticated", "You are not logged in");
 					}
-					String permission = userServiceQuery.getNameAndPermissionByID(principal.getName()).getPermission();
+					//TODO:get from token
+					String permission = "TEST";
 					if (null == permission || !permission.equals(owner.toString())) {
 						throw new PoguesException(403, "Unauthorized", "This object is not yours");
 					}
@@ -75,7 +72,8 @@ public class OwnerRestrictedFilter implements ContainerRequestFilter {
 				if (null == principal) {
 					throw new PoguesException(401, "Unauthenticated", "You are not logged in");
 				}
-				String permission = userServiceQuery.getNameAndPermissionByID(principal.getName()).getPermission();
+				//TODO:get from token
+				String permission = "TEST";
 				if (null == permission || !permission.equals(owner.toString())) {
 					throw new PoguesException(403, "Unauthorized", "This object is not yours");
 				}
