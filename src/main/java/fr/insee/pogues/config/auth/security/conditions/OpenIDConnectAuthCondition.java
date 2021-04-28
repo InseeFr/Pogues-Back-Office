@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
 
-public class NoOpenIDConnectAuthCondition implements Condition {
+public class OpenIDConnectAuthCondition implements Condition {
 
 	final static Logger logger = LogManager.getLogger(NoOpenIDConnectAuthCondition.class);
 
@@ -27,7 +27,7 @@ public class NoOpenIDConnectAuthCondition implements Condition {
 			logger.error(e.getMessage());
 		}
 		boolean authentification = env.getProperty("fr.insee.pogues.authentication").equals("true") ? true : false;
-		return !authentification;
+		return authentification;
 	}
 
 	private Properties getEnvironmentProperties() throws IOException {
@@ -53,5 +53,4 @@ public class NoOpenIDConnectAuthCondition implements Condition {
 			}
 		}
 	}
-
 }
