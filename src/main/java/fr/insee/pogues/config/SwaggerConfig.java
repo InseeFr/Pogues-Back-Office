@@ -18,6 +18,9 @@ import java.util.Properties;
 public class SwaggerConfig extends HttpServlet {
 
     private final static Logger logger = LogManager.getLogger(SwaggerConfig.class);
+    
+    private static final String WEBAPPS = "%s/webapps/%s";
+	private static final String CATALINA_BASE = "catalina.base";
 
     public void init(ServletConfig config) throws ServletException {
         try {
@@ -49,25 +52,20 @@ public class SwaggerConfig extends HttpServlet {
         props.load(getClass()
                 .getClassLoader()
                 .getResourceAsStream(propsPath));
-        File f = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "pogues-bo.properties"));
-        if(f.exists() && !f.isDirectory()) {
-            FileReader r = new FileReader(f);
-            props.load(r);
-            r.close();
-        }
-        File f2 = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmspogfo.properties"));
-        if(f2.exists() && !f2.isDirectory()) {
-            FileReader r2 = new FileReader(f2);
-            props.load(r2);
-            r2.close();
-        }
-        File f3 = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmespogfo.properties"));
-        if(f3.exists() && !f3.isDirectory()) {
-            FileReader r3 = new FileReader(f3);
-            props.load(r3);
-            r3.close();
-        }
+        loadPropertiesIfExist(props, "pogues-bo.properties");
+		loadPropertiesIfExist(props, "rmspogfo.properties");
+		loadPropertiesIfExist(props, "rmespogfo.properties");
         return props;
     }
+    
+	private void loadPropertiesIfExist(Properties props, String fileName) throws IOException {
+		File f = new File(String.format(WEBAPPS, System.getProperty(CATALINA_BASE), fileName));
+		if (f.exists() && !f.isDirectory()) {
+			try (FileReader r = new FileReader(f)) {
+				props.load(r);
+				r.close();
+			}
+		}
+	}
 
 }

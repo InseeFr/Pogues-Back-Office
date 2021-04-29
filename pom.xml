@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>fr.insee</groupId>
@@ -30,8 +31,8 @@
 			<url>http://repo.spring.io/release</url>
 		</repository>
 	</repositories>
-	
-	
+
+
 
 	<dependencyManagement>
 		<dependencies>
@@ -115,7 +116,6 @@
 			<groupId>org.springframework.security</groupId>
 			<artifactId>spring-security-config</artifactId>
 			<version>${spring.security.version}</version>
-
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -132,6 +132,44 @@
 			<artifactId>spring-ldap-core</artifactId>
 			<version>2.3.1.RELEASE</version>
 		</dependency>
+		
+		<!-- Keycloak -->
+		<dependency>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-spring-security-adapter</artifactId>
+			<version>2.5.5.Final</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.security</groupId>
+					<artifactId>spring-security-config</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.security</groupId>
+					<artifactId>spring-security-web</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.apache.httpcomponents</groupId>
+					<artifactId>httpclient</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-databind</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.fasterxml.jackson.core</groupId>
+					<artifactId>jackson-annotations</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		
 		<!-- <dependency> <groupId>org.springframework.security.extensions</groupId> 
 			<artifactId>spring-security-saml2-core</artifactId> <version>1.0.2.RELEASE</version> 
 			</dependency> -->
@@ -199,11 +237,11 @@
 			<version>4.5.11</version>
 		</dependency>
 		<dependency>
-               <groupId>org.apache.httpcomponents</groupId>
-               <artifactId>httpmime</artifactId>
-               <version>4.5.11</version>
-        </dependency>
-        <dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.5.11</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>fop</artifactId>
 			<version>2.2</version>
