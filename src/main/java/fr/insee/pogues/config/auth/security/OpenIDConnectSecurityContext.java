@@ -82,7 +82,7 @@ public class OpenIDConnectSecurityContext extends KeycloakWebSecurityConfigurerA
 	 */
     @Bean
 	public KeycloakConfigResolver keycloakConfigResolver() {
-		logger.info("adding RMeS keycloak config resolver");
+		logger.info("adding Pogues keycloak config resolver");
         return new PoguesKeycloakConfigResolver();
 	}
 }
