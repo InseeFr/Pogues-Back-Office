@@ -99,8 +99,6 @@ public class PoguesPersistence {
     ) throws Exception {
         try {
 			List<JSONObject> questionnaires = new ArrayList<>();
-			//TODO
-			owner="TEST";
             if(null != owner){
                 questionnaires.addAll(questionnaireService.getQuestionnairesByOwner(owner));
             }
