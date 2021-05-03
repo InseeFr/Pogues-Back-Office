@@ -1,19 +1,33 @@
 package fr.insee.pogues.webservice.rest;
 
-import fr.insee.pogues.persistence.service.QuestionnairesService;
-import io.swagger.annotations.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import java.util.ArrayList;
-import java.util.List;
+import fr.insee.pogues.persistence.service.QuestionnairesService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 
 /**
  * WebService class for the Instrument Persistence
@@ -85,6 +99,8 @@ public class PoguesPersistence {
     ) throws Exception {
         try {
 			List<JSONObject> questionnaires = new ArrayList<>();
+			//TODO
+			owner="TEST";
             if(null != owner){
                 questionnaires.addAll(questionnaireService.getQuestionnairesByOwner(owner));
             }
@@ -133,7 +149,6 @@ public class PoguesPersistence {
             @ApiResponse(code = 204, message = "No content"),
             @ApiResponse(code = 404, message = "Not found")
     })
-	@OwnerRestricted
 	public Response deleteQuestionnaire(
 			@ApiParam(value = "The id of the object that need to be deleted", required = true)
 			@PathParam(value = "id") String id
@@ -183,7 +198,6 @@ public class PoguesPersistence {
             @ApiResponse(code = 200, message = "Success"),
             @ApiResponse(code = 404, message = "Not found")
     })
-	@OwnerRestricted
 	public Response updateQuestionnaire(
 			@ApiParam(value = "The id of the object that need to be updated", required = true)
 			@PathParam(value = "id") String id,

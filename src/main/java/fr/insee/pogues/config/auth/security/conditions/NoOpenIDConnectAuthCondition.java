@@ -26,8 +26,7 @@ public class NoOpenIDConnectAuthCondition implements Condition {
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
-		boolean authentification = env.getProperty("fr.insee.pogues.authentication").equals("true") ? true : false;
-		return !authentification;
+		return env.getProperty("fr.insee.pogues.authentication").equals("NONE");
 	}
 
 	private Properties getEnvironmentProperties() throws IOException {
