@@ -25,7 +25,7 @@ public class Analyser {
         context.setBindings(bindings, ScriptContext.ENGINE_SCOPE);
         try {
             engine.eval(script);
-        } catch (ScriptException e) {
+        } catch (Exception e) {
             return new AnalyserResult(e.getMessage(),false);
         }
         return new AnalyserResult("ok !",true);
