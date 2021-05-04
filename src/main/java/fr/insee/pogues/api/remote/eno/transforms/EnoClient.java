@@ -30,7 +30,9 @@ public interface EnoClient {
 	String getDDITOLunaticJSON(File fileInput) throws URISyntaxException, ClientProtocolException, IOException;
 	
 	String getDDITOXForms(File fileInput) throws URISyntaxException, ClientProtocolException, IOException;
-	
+
+	String getXpathToVtl(String input) throws Exception;
+
 	void getParameters () throws Exception;
 
 }

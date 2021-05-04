@@ -22,23 +22,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
+import fr.insee.pogues.transforms.*;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.transforms.DDIToFO;
-import fr.insee.pogues.transforms.DDIToODT;
-import fr.insee.pogues.transforms.DDIToXForm;
-import fr.insee.pogues.transforms.FOToPDF;
-import fr.insee.pogues.transforms.JSONToXML;
-import fr.insee.pogues.transforms.PipeLine;
-import fr.insee.pogues.transforms.PoguesXMLToDDI;
-import fr.insee.pogues.transforms.Transformer;
-import fr.insee.pogues.transforms.XFormToURI;
-import fr.insee.pogues.transforms.XFormsToXFormsHack;
-import fr.insee.pogues.transforms.XMLToJSON;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -86,6 +76,9 @@ public class PoguesTransforms {
 
 	@Autowired
 	QuestionnairesService questionnairesService;
+
+	@Autowired
+	XpathToVtl xpathToVtl;
 
 	@POST
 	@Path("visualize/{dataCollection}/{questionnaire}")
@@ -379,6 +372,16 @@ public class PoguesTransforms {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
+	}
+
+	@POST
+	@Path("xpath-to-vtl")
+	@ApiOperation(value = "Parse xpath to vtl")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "forumla", value = "forumla", paramType = "query", dataType = "string")})
+	public String xpathToVtl(@Context final HttpServletRequest request) throws Exception {
+		String formula = request.getParameter("forumla");
+		return xpathToVtl.transform(formula);
 	}
 
 	private Response transform(HttpServletRequest request, Transformer transformer, String questionnaire)

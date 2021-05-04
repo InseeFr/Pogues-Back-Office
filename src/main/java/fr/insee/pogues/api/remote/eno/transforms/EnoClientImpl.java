@@ -102,7 +102,22 @@ public class EnoClientImpl implements EnoClient{
 		HttpEntity entityResponse = callEnoApi(fileInput, BASE_PATH+"/xforms");
         return EntityUtils.toString(entityResponse, FORMAT);
 	}
-	
+
+	@Override
+	public String getXpathToVtl(String input) throws Exception {
+		URIBuilder uriBuilder = new URIBuilder();
+		uriBuilder
+				.setScheme(enoScheme)
+				.setHost(enoHost)
+				.setPath("/util/xpath-2-vtl")
+				.setParameter("xpath",input);
+		CloseableHttpClient httpclient = HttpClients.createDefault();
+		HttpPost post = new HttpPost(uriBuilder.build());
+		HttpResponse response = httpclient.execute(post);
+		HttpEntity httpEntity = response.getEntity();
+		return EntityUtils.toString(httpEntity, FORMAT);
+	}
+
 	@Override
 	public String getDDIToODT (File fileInput) throws Exception{
 		HttpEntity entityResponse = callEnoApi(fileInput, BASE_PATH+"/fodt");
