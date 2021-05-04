@@ -47,9 +47,6 @@ public class StromaePublishing {
 	@PUT
 	@Path("questionnaire")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Operation(
-			summary = "publishQuestionnaire",
-			description = "Publish a questionnaire on the vizualisation platform")
 	public Response publishQuestionnaire(String jsonContent) {
 
 		return Response.status(Status.NOT_IMPLEMENTED).build();

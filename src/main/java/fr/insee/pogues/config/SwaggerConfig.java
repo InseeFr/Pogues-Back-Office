@@ -3,6 +3,7 @@ package fr.insee.pogues.config;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Properties;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,8 +18,11 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
 import io.swagger.v3.oas.integration.SwaggerConfiguration;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import io.swagger.v3.oas.models.servers.Server;
 
 public class SwaggerConfig extends ResourceConfig {
@@ -60,6 +64,16 @@ public class SwaggerConfig extends ResourceConfig {
 				.prettyPrint(true);
 		String oasConfigString = oasConfig.toString();
 		logger.info("SWAGGER : {}", oasConfigString);
+		
+		openApi.components(
+                new Components().addSecuritySchemes("bearer-jwt",
+        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
+                .in(SecurityScheme.In.HEADER).name("Authorization"))
+        );
+
+        openApi.addSecurityItem(
+                new SecurityRequirement().addList("bearer-jwt", Arrays.asList("read", "write"))
+        );
 
 		OpenApiResource openApiResource = new OpenApiResource();
 		openApiResource.setOpenApiConfiguration(oasConfig);
