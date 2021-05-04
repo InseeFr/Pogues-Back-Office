@@ -26,9 +26,12 @@ import fr.insee.pogues.metadata.service.MetadataService;
 import fr.insee.pogues.transforms.DDIToXML;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.XMLToJSON;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Main WebService class of the MetaData service
@@ -36,7 +39,7 @@ import io.swagger.annotations.ApiParam;
  * @author I6VWID
  */
 @Path("/meta-data")
-@Api(value = "Pogues MetaData API")
+@Tag(name = "Pogues MetaData API")
 public class PoguesMetadata {
 
 	final static Logger logger = LogManager.getLogger(PoguesMetadata.class);
@@ -46,14 +49,15 @@ public class PoguesMetadata {
 
 	@Autowired
 	DDIToXML ddiToXML;
-	
+
 	@Autowired
 	XMLToJSON xmlToJSON;
-	
+
 	@GET
 	@Path("item/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Gets the item with id {id}", notes = "Get an item from Colectica Repository, given it's {id}", response = ColecticaItem.class)
+	@Operation(operationId = "getItem", summary = "Gets the item with id {id}", description = "Get an item from Colectica Repository, given it's {id}", responses = {
+			@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = ColecticaItem.class))) })
 	public Response getItem(@PathParam(value = "id") String id) throws Exception {
 		try {
 			ColecticaItem item = metadataService.getItem(id);
@@ -67,9 +71,10 @@ public class PoguesMetadata {
 	@GET
 	@Path("item/{id}/refs/")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get the children refs with parent id {id}", notes = "This will give a list of object containing a reference id, version and agency. Note that you will"
+	@Operation(operationId = "getChildrenRef", summary = "Get the children refs with parent id {id}", description = "This will give a list of object containing a reference id, version and agency. Note that you will"
 			+ "need to map response objects keys to be able to use it for querying items "
-			+ "(see /items doc model)", response = ColecticaItemRefList.class)
+			+ "(see /items doc model)", responses = {
+					@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = ColecticaItemRefList.class))) })
 	public Response getChildrenRef(@PathParam(value = "id") String id) throws Exception {
 		try {
 			ColecticaItemRefList refs = metadataService.getChildrenRef(id);
@@ -83,7 +88,8 @@ public class PoguesMetadata {
 	@GET
 	@Path("units")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get units measure", notes = "This will give a list of objects containing the uri and the label for all units", response = Unit.class, responseContainer = "List")
+	@Operation(operationId = "getUnits", summary = "Get units measure", description = "This will give a list of objects containing the uri and the label for all units", responses = {
+			@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = Unit.class))) })
 	public Response getUnits() throws Exception {
 		try {
 			List<Unit> units = metadataService.getUnits();
@@ -98,9 +104,14 @@ public class PoguesMetadata {
 	@Path("items")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get all de-referenced items", notes = "Maps a list of ColecticaItemRef given as a payload to a list of actual full ColecticaItem objects", response = ColecticaItem.class, responseContainer = "List")
+	@Operation(
+			operationId = "getItems",
+			summary = "Get all de-referenced items", 
+			description = "Maps a list of ColecticaItemRef given as a payload to a list of actual full ColecticaItem objects",
+			responses = { @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = ColecticaItem.class)))}
+			)
 	public Response getItems(
-			@ApiParam(value = "Item references query object", required = true) ColecticaItemRefList query)
+			@Parameter(description = "Item references query object", required = true) ColecticaItemRefList query)
 			throws Exception {
 		try {
 			List<ColecticaItem> children = metadataService.getItems(query);
@@ -114,7 +125,8 @@ public class PoguesMetadata {
 	@GET
 	@Path("item/{id}/ddi")
 	@Produces(MediaType.APPLICATION_XML)
-	@ApiOperation(value = "Get DDI document", notes = "Gets a full DDI document from Colectica repository reference {id}", response = String.class)
+	@Operation(operationId = "getFullDDI", summary = "Get DDI document", description = "Gets a full DDI document from Colectica repository reference {id}"
+	/* ,response = String.class */)
 	public Response getFullDDI(@PathParam(value = "id") String id) throws Exception {
 		try {
 			String ddiDocument = metadataService.getDDIDocument(id);
@@ -246,7 +258,8 @@ public class PoguesMetadata {
 	@GET
 	@Path("code-list/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "getCodeList", notes = "Gets the code-list with id {id}", response = String.class)
+	@Operation(operationId = "getCodeList", summary = "getCodeList", description = "Gets the code-list with id {id}"
+	/* ,response = String.class */)
 	public Response getCodeList(@PathParam(value = "id") String id) throws Exception {
 		String codeList = metadataService.getCodeList(id);
 		PipeLine pipeline = new PipeLine();

@@ -44,7 +44,7 @@ public class OpenIDConnectSecurityContext extends KeycloakWebSecurityConfigurerA
 			http.antMatcher("/**").requiresChannel().anyRequest().requiresSecure();
 		http.sessionManagement().disable();
 		http.authorizeRequests().antMatchers("/api/init").permitAll().antMatchers("/swagger-ui/**").permitAll()
-				.antMatchers("/pogues/swagger.json").permitAll().anyRequest().authenticated();
+				.antMatchers("/pogues/openapi.json").permitAll().anyRequest().authenticated();
 	}
 
 	/**
