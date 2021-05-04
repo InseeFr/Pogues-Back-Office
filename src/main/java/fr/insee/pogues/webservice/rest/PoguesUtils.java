@@ -4,7 +4,6 @@ import fr.insee.pogues.transforms.XpathToVtl;
 import fr.insee.pogues.utils.vtl.Analyser;
 import fr.insee.pogues.utils.vtl.AnalyserResult;
 import io.swagger.annotations.*;
-import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -19,12 +18,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.nio.charset.StandardCharsets;
 
 /**
- * Main WebService class of the PoguesBOOrchestrator
+ * Utils web-services
  *
- * @author I6VWID
+ * @author Laurent Caouissin
  */
 @Path("/utils")
 @Api(value = "Pogues Utils")
