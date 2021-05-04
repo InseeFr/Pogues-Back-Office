@@ -1,14 +1,21 @@
 package fr.insee.pogues.utils.json;
 
+import fr.insee.pogues.utils.vtl.Variable;
+import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Test Class used to test JSON functions
@@ -87,6 +94,16 @@ public class TestJSONFunctions {
 		Assert.assertTrue(output.containsKey("GoTo"));
 		Assert.assertTrue(output.containsKey("Response"));
 		Assert.assertTrue(output.containsKey("Declaration"));
+	}
+
+	@Test
+	public void extractVariables() throws IOException, ParseException {
+		JSONParser jsonParser = new JSONParser();
+		String jsonString = FileUtils.readFileToString(new File("src/test/resources/vtl/questionnaire-simpsons.json"), StandardCharsets.UTF_8);
+		JSONObject questionnaire = (JSONObject) jsonParser.parse(jsonString);
+		List<Variable> variables = JSONFunctions.getVariablesListFromJsonQuestionnaire(questionnaire);
+		Assert.assertEquals(121, variables.size());
+
 	}
 
 }

@@ -1,5 +1,6 @@
 package fr.insee.pogues.utils.json;
 
+import fr.insee.pogues.utils.vtl.Variable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 /**
  * This class contains JSON functions to convert Java collection on JSON string.
@@ -32,6 +34,18 @@ public class JSONFunctions {
 		questionnaire = renameKey(questionnaire, "responses", "Response");
 		questionnaire = renameKey(questionnaire, "declarations", "Declaration");
 		return questionnaire;
+	}
+
+	public static List<Variable> getVariablesListFromJsonQuestionnaire(JSONObject questionnaire) {
+		JSONObject variablesJsonWrapper = (JSONObject) questionnaire.get("Variables");
+		JSONArray variablesJson = (JSONArray) variablesJsonWrapper.get("Variable");
+		return (List<Variable>) variablesJson.stream().map(v -> {
+			JSONObject var = (JSONObject) v;
+			String name = (String) var.get("Name");
+			String type = (String) ((JSONObject) var.get("Datatype")).get("typeName");
+			return new Variable(name,type);
+		}).collect(Collectors.toList());
+
 	}
 
 	private static JSONObject renameKey(JSONObject input, String key, String replacement){
