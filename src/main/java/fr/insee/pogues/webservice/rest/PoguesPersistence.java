@@ -136,6 +136,31 @@ public class PoguesPersistence {
             throw e;
         }
 	}
+	
+	@GET
+	@Path("questionnaires/stamps")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId = "searchQuestionnairesStamps",
+	        summary = "Get stamps in database",
+            description = "Get stamps with at least one questionnaire saved in database"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized")
+    })
+	public Response getQuestionnaireStamps() throws Exception {
+		try {
+			List<JSONObject> questionnairesStamps = new ArrayList<>();
+			questionnairesStamps.addAll(questionnaireService.getQuestionnairesStamps());
+            return Response.status(Status.OK).entity(questionnairesStamps).build();
+        } catch (Exception e) {
+			logger.error(e.getMessage(), e);
+            throw e;
+        }
+	}
+	
 
 	@DELETE
 	@Path("questionnaire/{id}")

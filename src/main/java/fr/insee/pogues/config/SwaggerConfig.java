@@ -64,16 +64,12 @@ public class SwaggerConfig extends ResourceConfig {
 				.prettyPrint(true);
 		String oasConfigString = oasConfig.toString();
 		logger.info("SWAGGER : {}", oasConfigString);
-		
-		openApi.components(
-                new Components().addSecuritySchemes("bearer-jwt",
-        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
-                .in(SecurityScheme.In.HEADER).name("Authorization"))
-        );
 
-        openApi.addSecurityItem(
-                new SecurityRequirement().addList("bearer-jwt", Arrays.asList("read", "write"))
-        );
+		openApi.components(
+				new Components().addSecuritySchemes("bearer-jwt", new SecurityScheme().type(SecurityScheme.Type.HTTP)
+						.scheme("bearer").bearerFormat("JWT").in(SecurityScheme.In.HEADER).name("Authorization")));
+
+		openApi.addSecurityItem(new SecurityRequirement().addList("bearer-jwt", Arrays.asList("read", "write")));
 
 		OpenApiResource openApiResource = new OpenApiResource();
 		openApiResource.setOpenApiConfiguration(oasConfig);
