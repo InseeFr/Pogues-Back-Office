@@ -140,11 +140,18 @@ public class PoguesTransforms {
 	@Produces(MediaType.APPLICATION_XML)
 	@ApiOperation(value = "Get visualization URI Queen from JSON serialized Pogues entity", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
 	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
+			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject"),
+			@ApiImplicitParam(name = "xpath", value = "The transformation from Xpath to VTL is needed", paramType = "query", dataType = "string",allowableValues="true,false",defaultValue="true")})
 	public Response visualizeQueenFromBody(@Context final HttpServletRequest request,
 			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
+		if (request.getParameter("xpath") != null) {
+			params.put("xpath", request.getParameter("xpath"));
+		} else {
+			params.put("xpath", "true");
+		}
+		logger.info("Parsing from Xpath to VTL needed : "+params.get("xpath"));
 		params.put("questionnaire", questionnaire.toLowerCase());
 		try {
 			StreamingOutput stream = output -> {
@@ -170,13 +177,20 @@ public class PoguesTransforms {
 	@Path("visualize-stromae-v2/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_XML)
-	@ApiOperation(value = "Get visualization URI Queen from JSON serialized Pogues entity", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+	@ApiOperation(value = "Get visualization URI Stromae V2 from JSON serialized Pogues entity", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
 	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
+			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject"),
+			@ApiImplicitParam(name = "xpath", value = "The transformation from Xpath to VTL is needed", paramType = "query", dataType = "string",allowableValues="true,false",defaultValue="true")})
 	public Response visualizeStromaeV2FromBody(@Context final HttpServletRequest request,
 			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
+		if (request.getParameter("xpath") != null) {
+			params.put("xpath", request.getParameter("xpath"));
+		} else {
+			params.put("xpath", "true");
+		}
+		logger.info("Parsing from Xpath to VTL needed : "+params.get("xpath"));
 		params.put("questionnaire", questionnaire.toLowerCase());
 		try {
 			StreamingOutput stream = output -> {
