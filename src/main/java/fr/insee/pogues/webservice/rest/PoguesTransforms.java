@@ -140,12 +140,19 @@ public class PoguesTransforms {
 	@Produces(MediaType.APPLICATION_XML)
 	@ApiOperation(value = "Get visualization URI Queen from JSON serialized Pogues entity", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
 	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject")})
+			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject"),
+			@ApiImplicitParam(name = "pagination", value = "The transformation from Xpath to VTL is needed", paramType = "query", dataType = "string",allowableValues="NONE,SEQUENCE,SUBSEQUENCE,QUESTION,",defaultValue="QUESTION")})
 	public Response visualizeQueenFromBody(@Context final HttpServletRequest request,
 			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		params.put("questionnaire", questionnaire.toLowerCase());
+		if (request.getParameter("pagination") != null) {
+			params.put("pagination", request.getParameter("pagination"));
+		} else {
+			params.put("pagination", "QUESTION");
+		}
+		logger.info("Type of pagination : "+params.get("pagination"));
 		try {
 			StreamingOutput stream = output -> {
 				try {
