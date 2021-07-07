@@ -28,6 +28,14 @@ public interface QuestionnairesService {
      * @throws Exception
      */
     JSONObject getQuestionnaireByID(String id) throws Exception;
+    
+    /**
+    *
+    * @param id Id of requested object
+    * @return
+    * @throws Exception
+    */
+   JSONObject getJsonLunaticByID(String id) throws Exception;
 
     /**
      *
@@ -35,7 +43,21 @@ public interface QuestionnairesService {
      * @throws Exception
      */
     void deleteQuestionnaireByID(String id) throws Exception;
+    
+    /**
+    *
+    * @param id Id of the object we want to delete
+    * @throws Exception
+    */
+   void deleteJsonLunaticByID(String id) throws Exception;
 
+    /**
+     * Create a questionnaire object
+     * @param questionnaire
+     * @throws Exception
+     */
+    void createJsonLunatic(JSONObject dataLunatic) throws Exception;
+    
     /**
      * Create a questionnaire object
      * @param questionnaire
@@ -43,10 +65,19 @@ public interface QuestionnairesService {
      */
     void createQuestionnaire(JSONObject questionnaire) throws Exception;
 
+
     /**
      * Update a questionnaire object
      * @param questionnaire
      * @throws Exception
      */
     void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception;
+
+	/**
+	 * Update a questionnaire object
+	 * @param questionnaire
+	 * @throws Exception
+	 */
+	void updateJsonLunatic(String id, JSONObject dataLunatic) throws Exception;
 }
+

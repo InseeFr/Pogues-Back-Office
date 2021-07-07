@@ -29,10 +29,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.DDIToFO;
+import fr.insee.pogues.transforms.DDIToLunaticJSON;
 import fr.insee.pogues.transforms.DDIToODT;
 import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.FOToPDF;
 import fr.insee.pogues.transforms.JSONToXML;
+import fr.insee.pogues.transforms.LunaticJSONToUriQueen;
+import fr.insee.pogues.transforms.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.Transformer;
@@ -74,6 +77,15 @@ public class PoguesTransforms {
 	
 	@Autowired
 	DDIToFO ddiToFo;
+	
+	@Autowired
+	DDIToLunaticJSON ddiToLunaticJSON;
+	
+	@Autowired
+	LunaticJSONToUriQueen lunaticJSONToUriQueen;
+	
+	@Autowired
+	LunaticJSONToUriStromaeV2 lunaticJSONToUriStromaeV2;
 	
 	@Autowired
 	FOToPDF foToPdf;
@@ -122,6 +134,86 @@ public class PoguesTransforms {
 		}
 	}
 
+	@POST
+	@Path("visualize-queen/{questionnaire}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get visualization URI Queen from JSON serialized Pogues entity", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject"),
+			@ApiImplicitParam(name = "pagination", value = "The transformation from Xpath to VTL is needed", paramType = "query", dataType = "string",allowableValues="NONE,SEQUENCE,SUBSEQUENCE,QUESTION,",defaultValue="QUESTION")})
+	public Response visualizeQueenFromBody(@Context final HttpServletRequest request,
+			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("questionnaire", questionnaire.toLowerCase());
+		if (request.getParameter("pagination") != null) {
+			params.put("pagination", request.getParameter("pagination"));
+		} else {
+			params.put("pagination", "QUESTION");
+		}
+		logger.info("Type of pagination : "+params.get("pagination"));
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream())
+							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaire.toLowerCase())
+							.map(lunaticJSONToUriQueen::transform, params, questionnaire.toLowerCase()).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@POST
+	@Path("visualize-stromae-v2/{questionnaire}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
+	@ApiOperation(value = "Get visualization URI Stromae V2 from JSON serialized Pogues entity", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+	@ApiImplicitParams(value = {
+			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject"),
+			@ApiImplicitParam(name = "pagination", value = "The transformation from Xpath to VTL is needed", paramType = "query", dataType = "string",allowableValues="NONE,SEQUENCE,SUBSEQUENCE,QUESTION,",defaultValue="QUESTION")})
+	public Response visualizeStromaeV2FromBody(@Context final HttpServletRequest request,
+			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		if (request.getParameter("pagination") != null) {
+			params.put("pagination", request.getParameter("pagination"));
+		} else {
+			params.put("pagination", "QUESTION");
+		}
+		logger.info("Type of pagination : "+params.get("pagination"));
+		params.put("questionnaire", questionnaire.toLowerCase());
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream())
+							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaire.toLowerCase())
+							.map(lunaticJSONToUriStromaeV2::transform, params, questionnaire.toLowerCase()).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	
+	
 	@POST
 	@Path("visualize-from-ddi/{dataCollection}/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_XML)
