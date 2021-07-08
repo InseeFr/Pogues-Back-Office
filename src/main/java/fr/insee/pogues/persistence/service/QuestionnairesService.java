@@ -12,6 +12,8 @@ public interface QuestionnairesService {
     List<JSONObject> getQuestionnaireList() throws Exception;
     
     List<JSONObject> getQuestionnairesMetadata(String owner) throws Exception;
+    
+    List<JSONObject> getQuestionnairesStamps() throws Exception;
 
     /**
      *

@@ -38,6 +38,14 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 		return questionnaireServiceQuery.getMetaQuestionnaire(owner);
 	}
+	
+	public List<JSONObject> getQuestionnairesStamps() throws Exception {
+		List<JSONObject> stamps = questionnaireServiceQuery.getStamps();
+		if (stamps.isEmpty()) {
+			throw new PoguesException(404, "Not found", "Aucun timbre enregistré");
+		}
+		return stamps;
+	}
 
 	public List<JSONObject> getQuestionnairesByOwner(String owner) throws Exception {
 		if (null == owner || owner.isEmpty()) {

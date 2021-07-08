@@ -43,8 +43,8 @@ public class OpenIDConnectSecurityContext extends KeycloakWebSecurityConfigurerA
 		if (requireSSL)
 			http.antMatcher("/**").requiresChannel().anyRequest().requiresSecure();
 		http.sessionManagement().disable();
-		http.authorizeRequests().antMatchers("/api/init").permitAll().antMatchers("/swagger-ui/*").permitAll()
-				.antMatchers("/api/swagger.json").permitAll().anyRequest().authenticated();
+		http.authorizeRequests().antMatchers("/api/init").permitAll().antMatchers("/swagger-ui/**").permitAll()
+				.antMatchers("/pogues/openapi.json").permitAll().anyRequest().authenticated();
 	}
 
 	/**

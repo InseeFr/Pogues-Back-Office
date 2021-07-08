@@ -27,15 +27,15 @@ import fr.insee.pogues.search.model.DataCollectionContext;
 import fr.insee.pogues.search.model.PoguesQuery;
 import fr.insee.pogues.search.model.ResponseSearchItem;
 import fr.insee.pogues.search.service.SearchService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @Component
 @Path("/search")
-@Api(value = "Pogues Search")
+@Tag(name = "Pogues Search")
 public class PoguesSearch {
 
     final static Logger logger = LogManager.getLogger(PoguesSearch.class);
@@ -46,20 +46,20 @@ public class PoguesSearch {
     @POST
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
-    @ApiOperation(
-            value = "Search Item",
-            notes = "Search the application index for item across types`"
+    @Operation(
+            summary = "Search Item",
+            description = "Search the application index for item across types`"
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "OK"),
-            @ApiResponse(code = 500, message = "Unexpected error")
+            @ApiResponse(responseCode = "200", description = "OK"),
+            @ApiResponse(responseCode = "500", description = "Unexpected error"),
     })
     public List<ResponseSearchItem> search(
-            @ApiParam(value = "Search only items referring to sub-group id", required = false)
+            @Parameter(description = "Search only items referring to sub-group id", required = false)
             @QueryParam("subgroupId") String subgroupId,
-            @ApiParam(value = "Search only items referring to study-unit id", required = false)
+            @Parameter(description = "Search only items referring to study-unit id", required = false)
             @QueryParam("studyUnitId") String studyUnitId,
-            @ApiParam(value = "Search only items referring to data-collection id", required = false)
+            @Parameter(description = "Search only items referring to data-collection id", required = false)
             @QueryParam("dataCollectionId") String dataCollectionId,
             PoguesQuery query,
             @Context UriInfo info
@@ -79,9 +79,9 @@ public class PoguesSearch {
     @GET
     @Path("series")
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Import indexes from Colectica",
-            notes = "This require a living instance of colectica aswell as a up and running elasticsearch cluster",
-            response = String.class)
+    @Operation(
+    		summary = "Import indexes from Colectica",
+            description = "This require a living instance of colectica aswell as a up and running elasticsearch cluster")
     public List<DDIItem> getSubGroups() throws Exception {
         try {
             return searchService.getSubGroups();
@@ -94,9 +94,9 @@ public class PoguesSearch {
     @GET
     @Path("series/{id}/operations")
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get all study-units (operations) for a given sub-group (series)",
-            notes = "Retrieve all operations with a parent id matching the series id given as a path parameter",
-            response = String.class)
+    @Operation(
+    		summary = "Get all study-units (operations) for a given sub-group (series)",
+            description = "Retrieve all operations with a parent id matching the series id given as a path parameter")
     public List<DDIItem> getStudyUnits(
             @PathParam(value = "id") String id
     ) throws Exception {
@@ -112,9 +112,9 @@ public class PoguesSearch {
     @GET
     @Path("context/collection/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(value = "Get data collection context (Sub-group id, StudyUnit id) for a given data collection",
-            notes = "Retrieve the context (Sub-group id, StudyUnit id) for a id given as a path parameter",
-            response = String.class)
+    @Operation(
+    		summary = "Get data collection context (Sub-group id, StudyUnit id) for a given data collection",
+            description = "Retrieve the context (Sub-group id, StudyUnit id) for a id given as a path parameter")
     public DataCollectionContext getDataCollectionContext(
             @PathParam(value = "id") String id
     ) throws Exception {
@@ -130,9 +130,9 @@ public class PoguesSearch {
     @GET
     @Path("operations/{id}/collections")
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(
-            value = "Get all data collections for a given operation",
-            notes = "Retrieve all data collections with a parent id matching the operation id given as a path parameter"
+    @Operation(
+            summary = "Get all data collections for a given operation",
+            description = "Retrieve all data collections with a parent id matching the operation id given as a path parameter"
     )
     public List<DDIItem> getDataCollections(
             @PathParam(value = "id") String id
