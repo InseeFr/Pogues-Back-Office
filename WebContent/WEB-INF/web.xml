@@ -50,7 +50,7 @@
 
 	<servlet-mapping>
 		<servlet-name>PoguesBackOffice</servlet-name>
-		<url-pattern>/pogues/*</url-pattern>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 
 
