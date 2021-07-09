@@ -340,111 +340,7 @@
 <p>Authentication configuration is made using the Spring Security API in a dedicated SecurityContext class placed in the config package.
 Connexion to the identity provider (an Open LDAP directory) is made in this class using parameters retrieved from a property file depending on which <a href="../environments/">environnement</a> we are running on..</p>
 <h3 id="securitycontextjava">SecurityContext.java</h3>
-<pre><code class="lang-java"><span class="hljs-keyword">package</span> fr.insee.pogues.config;
-
-<span class="hljs-keyword">import</span> java.util.Arrays;
-
-<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Autowired;
-<span class="hljs-keyword">import</span> org.springframework.beans.factory.annotation.Value;
-<span class="hljs-keyword">import</span> org.springframework.context.annotation.Bean;
-<span class="hljs-keyword">import</span> org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-<span class="hljs-keyword">import</span> org.springframework.security.config.annotation.web.builders.HttpSecurity;
-<span class="hljs-keyword">import</span> org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-<span class="hljs-keyword">import</span> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-<span class="hljs-keyword">import</span> org.springframework.security.ldap.DefaultSpringSecurityContextSource;
-
-<span class="hljs-meta">@EnableWebSecurity</span>
-<span class="hljs-keyword">public</span> <span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">SecurityContext</span> <span class="hljs-keyword">extends</span> <span class="hljs-title">WebSecurityConfigurerAdapter</span> </span>{
-
-    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;${fr.insee.pogues.force.ssl}&quot;</span>)
-    Boolean requiresSSL;
-
-    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;${fr.insee.pogues.authentication}&quot;</span>)
-    Boolean authentication;
-
-    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;${fr.insee.pogues.authentication.mode}&quot;</span>)
-    String authenticationMode;
-
-    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;${fr.insee.pogues.permission.ldap.hostname}&quot;</span>)
-    String ldapHost;
-
-    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;${fr.insee.pogues.permission.ldap.root}&quot;</span>)
-    String rootDn;
-
-    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;${fr.insee.pogues.permission.ldap.user.base}&quot;</span>)
-    String userDn;
-
-    <span class="hljs-meta">@Value</span>(<span class="hljs-string">&quot;${fr.insee.pogues.permission.ldap.unite.base}&quot;</span>)
-    String groupDn;
-
-    <span class="hljs-meta">@Autowired</span>
-    AnonymousAuthenticatorProvider anonymousAuthProvider;
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(HttpSecurity http)</span> <span class="hljs-keyword">throws</span> Exception </span>{
-
-        <span class="hljs-keyword">if</span> (authentication) {
-            http.csrf().disable().authorizeRequests().antMatchers(<span class="hljs-string">&quot;/login*&quot;</span>).permitAll().antMatchers(<span class="hljs-string">&quot;/error*&quot;</span>)
-                    .permitAll().anyRequest().authenticated().and().formLogin().usernameParameter(<span class="hljs-string">&quot;username&quot;</span>)
-                    .passwordParameter(<span class="hljs-string">&quot;password&quot;</span>).loginPage(<span class="hljs-string">&quot;/login.jsp&quot;</span>).loginProcessingUrl(<span class="hljs-string">&quot;/login&quot;</span>)
-                    .defaultSuccessUrl(<span class="hljs-string">&quot;/&quot;</span>).failureUrl(<span class="hljs-string">&quot;/error.jsp&quot;</span>);
-        }
-
-        <span class="hljs-keyword">if</span> (requiresSSL) {
-            http.antMatcher(<span class="hljs-string">&quot;/**&quot;</span>).requiresChannel().anyRequest().requiresSecure().and().csrf().disable();;
-        } <span class="hljs-keyword">else</span> {
-            http.csrf().disable();
-        }
-
-    }
-
-    <span class="hljs-meta">@Override</span>
-    <span class="hljs-function"><span class="hljs-keyword">protected</span> <span class="hljs-keyword">void</span> <span class="hljs-title">configure</span><span class="hljs-params">(AuthenticationManagerBuilder auth)</span> <span class="hljs-keyword">throws</span> Exception </span>{
-
-        <span class="hljs-keyword">if</span> (authentication) {
-            <span class="hljs-keyword">if</span> (authenticationMode.equals(<span class="hljs-string">&quot;LDAP&quot;</span>)) {
-                auth.ldapAuthentication().userSearchBase(userDn).userSearchFilter(<span class="hljs-string">&quot;(uid={0})&quot;</span>).groupSearchBase(groupDn)
-                        .groupSearchFilter(<span class="hljs-string">&quot;member={0}&quot;</span>).contextSource(contextSource()).passwordCompare()
-                        .passwordAttribute(<span class="hljs-string">&quot;uid&quot;</span>);
-            }
-            <span class="hljs-keyword">if</span> (authenticationMode.equals(<span class="hljs-string">&quot;SAML&quot;</span>)) {
-                auth.ldapAuthentication().userSearchBase(userDn).userSearchFilter(<span class="hljs-string">&quot;(uid={0})&quot;</span>).groupSearchBase(groupDn)
-                        .groupSearchFilter(<span class="hljs-string">&quot;member={0}&quot;</span>).contextSource(contextSource()).passwordCompare()
-                        .passwordAttribute(<span class="hljs-string">&quot;uid&quot;</span>);
-            }
-            <span class="hljs-keyword">if</span> (authenticationMode.equals(<span class="hljs-string">&quot;OAUTH2&quot;</span>)) {
-                auth.ldapAuthentication().userSearchBase(userDn).userSearchFilter(<span class="hljs-string">&quot;(uid={0})&quot;</span>).groupSearchBase(groupDn)
-                        .groupSearchFilter(<span class="hljs-string">&quot;member={0}&quot;</span>).contextSource(contextSource()).passwordCompare()
-                        .passwordAttribute(<span class="hljs-string">&quot;uid&quot;</span>);
-            }
-        } <span class="hljs-keyword">else</span> {
-            auth.authenticationProvider(anonymousAuthProvider);
-            auth.inMemoryAuthentication().withUser(<span class="hljs-string">&quot;Guest&quot;</span>).password(<span class="hljs-string">&quot;Guest&quot;</span>).roles(<span class="hljs-string">&quot;TEST&quot;</span>);
-        }
-
-    }
-
-    <span class="hljs-meta">@Bean</span>
-    <span class="hljs-function"><span class="hljs-keyword">public</span> DefaultSpringSecurityContextSource <span class="hljs-title">contextSource</span><span class="hljs-params">()</span> </span>{
-        DefaultSpringSecurityContextSource contextSource = <span class="hljs-keyword">null</span>;
-        <span class="hljs-keyword">if</span> (authentication) {
-            <span class="hljs-keyword">if</span> (authenticationMode.equals(<span class="hljs-string">&quot;LDAP&quot;</span>)) {
-                contextSource = <span class="hljs-keyword">new</span> DefaultSpringSecurityContextSource(Arrays.asList(ldapHost), rootDn);
-            }
-            <span class="hljs-keyword">if</span> (authenticationMode.equals(<span class="hljs-string">&quot;SAML&quot;</span>)) {
-
-                contextSource = <span class="hljs-keyword">new</span> DefaultSpringSecurityContextSource(Arrays.asList(ldapHost), rootDn);
-            }
-            <span class="hljs-keyword">if</span> (authenticationMode.equals(<span class="hljs-string">&quot;OAUTH2&quot;</span>)) {
-                contextSource = <span class="hljs-keyword">new</span> DefaultSpringSecurityContextSource(Arrays.asList(ldapHost), rootDn);
-            }
-        } <span class="hljs-keyword">else</span> {
-            contextSource = <span class="hljs-keyword">new</span> DefaultSpringSecurityContextSource(Arrays.asList(ldapHost), rootDn);
-        }
-
-        <span class="hljs-keyword">return</span> contextSource;
-    }
-}
+<pre><code class="lang-java">Error: file not found: /github/workspace/src/main/java/fr/insee/pogues/config/SecurityContext.java
 </code></pre>
 
                                 
@@ -489,7 +385,7 @@ Connexion to the identity provider (an Open LDAP directory) is made in this clas
     <script>
         var gitbook = gitbook || [];
         gitbook.push(function() {
-            gitbook.page.hasChanged({"page":{"title":"Authentication","level":"1.6.1","depth":2,"next":{"title":"Authorization","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"previous":{"title":"Security and Access Control","level":"1.6","depth":1,"path":"security/README.md","ref":"security/README.md","articles":[{"title":"Authentication","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},{"title":"Authorization","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"security/authentication.md","mtime":"2021-05-19T15:33:57.235Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-05-19T15:39:18.534Z"},"basePath":"..","book":{"language":"en"}});
+            gitbook.page.hasChanged({"page":{"title":"Authentication","level":"1.6.1","depth":2,"next":{"title":"Authorization","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]},"previous":{"title":"Security and Access Control","level":"1.6","depth":1,"path":"security/README.md","ref":"security/README.md","articles":[{"title":"Authentication","level":"1.6.1","depth":2,"path":"security/authentication.md","ref":"security/authentication.md","articles":[]},{"title":"Authorization","level":"1.6.2","depth":2,"path":"security/permissions.md","ref":"security/permissions.md","articles":[]}]},"dir":"ltr"},"config":{"plugins":["include-codeblock","sequence-diagrams"],"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"pluginsConfig":{"include-codeblock":{"check":false,"edit":false,"fixlang":false,"lang":"","template":"default","theme":"chrome","unindent":false},"sequence-diagrams":{},"highlight":{},"search":{},"lunr":{"maxIndexSize":1000000,"ignoreSpecialCharacters":false},"sharing":{"facebook":true,"twitter":true,"google":false,"weibo":false,"instapaper":false,"vk":false,"all":["facebook","google","twitter","weibo","instapaper"]},"fontsettings":{"theme":"white","family":"sans","size":2},"theme-default":{"styles":{"website":"styles/website.css","pdf":"styles/pdf.css","epub":"styles/epub.css","mobi":"styles/mobi.css","ebook":"styles/ebook.css","print":"styles/print.css"},"showLevel":false}},"theme":"default","pdf":{"pageNumbers":true,"fontSize":12,"fontFamily":"Arial","paperSize":"a4","chapterMark":"pagebreak","pageBreaksBefore":"/","margin":{"right":62,"left":62,"top":56,"bottom":56}},"structure":{"langs":"LANGS.md","readme":"README.md","glossary":"GLOSSARY.md","summary":"SUMMARY.md"},"variables":{},"language":"en","gitbook":"*"},"file":{"path":"security/authentication.md","mtime":"2021-07-09T09:10:53.868Z","type":"markdown"},"gitbook":{"version":"3.2.3","time":"2021-07-09T09:11:47.768Z"},"basePath":"..","book":{"language":"en"}});
         });
     </script>
 </div>
