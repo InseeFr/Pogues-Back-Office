@@ -18,6 +18,12 @@
 		<fop.version>2.2</fop.version>
 		<swagger.core.version>2.1.9</swagger.core.version>
 		<jacoco.version>0.8.5</jacoco.version>
+		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.language>java</sonar.language>
+        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+		<argLine>-Xms256m -Xmx512m -XX:MaxPermSize=128m -ea -Dfile.encoding=UTF-8</argLine>
 	</properties>
 
 	<repositories>
