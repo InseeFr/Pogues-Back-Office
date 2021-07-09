@@ -89,6 +89,7 @@ public class SwaggerConfig extends ResourceConfig {
 		loadPropertiesIfExist(props, "pogues-bo.properties");
 		loadPropertiesIfExist(props, "rmspogfo.properties");
 		loadPropertiesIfExist(props, "rmespogfo.properties");
+		loadPropertiesIfExist(props, "/config/rmspogfo.properties");
 		return props;
 	}
 
