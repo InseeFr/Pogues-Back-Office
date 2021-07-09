@@ -42,9 +42,10 @@ public class OpenIDConnectSecurityContext extends KeycloakWebSecurityConfigurerA
 		http.csrf().disable();
 		if (requireSSL)
 			http.antMatcher("/**").requiresChannel().anyRequest().requiresSecure();
+		//TODO : variabiliser path /api...
 		http.sessionManagement().disable();
 		http.authorizeRequests().antMatchers("/api/init").permitAll().antMatchers("/swagger-ui/**").permitAll()
-				.antMatchers("/pogues/openapi.json").permitAll().anyRequest().authenticated();
+				.antMatchers("/api/openapi.json").permitAll().anyRequest().authenticated();
 	}
 
 	/**
