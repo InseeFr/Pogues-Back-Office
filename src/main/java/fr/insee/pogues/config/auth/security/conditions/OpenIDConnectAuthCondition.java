@@ -40,6 +40,7 @@ public class OpenIDConnectAuthCondition implements Condition {
 		loadPropertiesIfExist(props, "pogues-bo.properties");
 		loadPropertiesIfExist(props, "rmspogfo.properties");
 		loadPropertiesIfExist(props, "rmespogfo.properties");
+		loadPropertiesIfExist(props, "config/rmspogfo.properties");
 		return props;
 	}
 

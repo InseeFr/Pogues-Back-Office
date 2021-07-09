@@ -26,7 +26,7 @@ public class NoOpenIDConnectAuthCondition implements Condition {
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}
-		return env.getProperty("fr.insee.pogues.authentication").equals("NONE");
+		return !env.getProperty("fr.insee.pogues.authentication").equals("OIDC");
 	}
 
 	private Properties getEnvironmentProperties() throws IOException {
@@ -40,6 +40,7 @@ public class NoOpenIDConnectAuthCondition implements Condition {
 		loadPropertiesIfExist(props, "pogues-bo.properties");
 		loadPropertiesIfExist(props, "rmspogfo.properties");
 		loadPropertiesIfExist(props, "rmespogfo.properties");
+		loadPropertiesIfExist(props, "config/rmspogfo.properties");
 		return props;
 	}
 
