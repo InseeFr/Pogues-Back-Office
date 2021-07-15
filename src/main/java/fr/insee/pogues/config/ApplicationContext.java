@@ -28,7 +28,7 @@ import org.springframework.web.client.RestTemplate;
 @PropertySource(value = {
         "classpath:env/${fr.insee.pogues.env:dev}/pogues-bo.properties",
         "file:${catalina.base}/webapps/pogues-bo.properties",
-        "file:${catalina.base}/webapps/rmspogfo.properties",
+        "file:${catalina.base}/webapps/rmes-pogbo.properties",
         "file:${catalina.base}/webapps/rmespogfo.properties",
         "file:${catalina.base}/webapps/config/rmspogfo.properties"
 }, ignoreResourceNotFound = true)

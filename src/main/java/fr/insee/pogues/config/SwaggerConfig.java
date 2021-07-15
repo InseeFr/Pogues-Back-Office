@@ -87,7 +87,7 @@ public class SwaggerConfig extends ResourceConfig {
 		String propsPath = String.format("env/%s/pogues-bo.properties", env);
 		props.load(getClass().getClassLoader().getResourceAsStream(propsPath));
 		loadPropertiesIfExist(props, "pogues-bo.properties");
-		loadPropertiesIfExist(props, "rmspogfo.properties");
+		loadPropertiesIfExist(props, "rmes-pogbo.properties");
 		loadPropertiesIfExist(props, "rmespogfo.properties");
 		loadPropertiesIfExist(props, "/config/rmspogfo.properties");
 		return props;

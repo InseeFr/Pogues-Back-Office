@@ -71,7 +71,7 @@ public class Log4j2PoguesServletContextListener implements ServletContextListene
             props.load(r);
             r.close();
         }
-        File f2 = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmspogfo.properties"));
+        File f2 = new File(String.format("%s/webapps/%s", System.getProperty("catalina.base"), "rmes-pogbo.properties"));
         if(f2.exists() && !f2.isDirectory()) {
             FileReader r2 = new FileReader(f2);
             props.load(r2);
