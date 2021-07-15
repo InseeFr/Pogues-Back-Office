@@ -17,7 +17,7 @@ import java.util.Map;
 @Service
 public class JSONToXMLImpl implements JSONToXML {
 
-	private JSONToXMLTranslator translator = new JSONToXMLTranslator(true);
+	private JSONToXMLTranslator translator = new JSONToXMLTranslator(false);
 
 	@PostConstruct
 	public void onInit() {
