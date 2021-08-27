@@ -16,6 +16,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -29,10 +30,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.DDIToFO;
+import fr.insee.pogues.transforms.DDIToLunaticJSON;
 import fr.insee.pogues.transforms.DDIToODT;
 import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.FOToPDF;
 import fr.insee.pogues.transforms.JSONToXML;
+import fr.insee.pogues.transforms.LunaticJSONToUriQueen;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.Transformer;
@@ -87,6 +90,12 @@ public class PoguesTransforms {
 
 	@Autowired
 	XFormsToXFormsHack xformToXformsHack;
+	
+	@Autowired
+	DDIToLunaticJSON ddiToLunaticJSON;
+	
+	@Autowired
+	LunaticJSONToUriQueen lunaticJSONToUriQueen;
 
 	@Autowired
 	QuestionnairesService questionnairesService;
@@ -118,6 +127,47 @@ public class PoguesTransforms {
 							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
 							.map(xformToXformsHack::transform, params, questionnaire.toLowerCase())
 							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+	
+	@POST
+	@Path("visualize-queen/{questionnaire}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
+	@Operation(summary = "Get visualization URI Queen from JSON serialized Pogues entity", description = "Get visualization URI Queen from JSON serialized Pogues entity")
+	@RequestBody(
+			description = "JSON Lunatic representation of the questionnaire",
+			content = @Content(mediaType = "application/json")
+			)
+	public Response visualizeQueenFromBody(@Context final HttpServletRequest request,
+			@Parameter(description="Name of the questionnaire") @PathParam(value = "questionnaire") String questionnaireName, 
+			@Parameter(description="Type of pagination", schema = @Schema(type = "string",allowableValues = {"NONE","SEQUENCE","SUBSEQUENCE","QUESTION"},defaultValue="QUESTION")) @QueryParam(value= "pagination") String pagination) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("questionnaire", questionnaireName.toLowerCase());
+		if (request.getParameter("pagination") != null) {
+			params.put("pagination", request.getParameter("pagination"));
+		} else {
+			params.put("pagination", "QUESTION");
+		}
+		logger.info("Type of pagination : "+params.get("pagination"));
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream())
+							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
