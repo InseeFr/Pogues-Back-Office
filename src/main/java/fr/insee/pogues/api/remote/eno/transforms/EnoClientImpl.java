@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URISyntaxException;
+import java.util.Map;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
@@ -40,6 +41,7 @@ public class EnoClientImpl implements EnoClient{
 	
 	private static final String FORMAT = "UTF-8";
 	private static final String BASE_PATH = "/questionnaire/DEFAULT";
+	private static final String MODE = "CAWI";
 	
 	@Override
 	public String getDDI32ToDDI33 (File fileInput) throws Exception{
@@ -92,8 +94,26 @@ public class EnoClientImpl implements EnoClient{
 	}
 	
 	@Override
-	public String getDDITOLunaticJSON(File fileInput) throws URISyntaxException, ClientProtocolException, IOException {
-		HttpEntity entityResponse = callEnoApi(fileInput, BASE_PATH+"/lunatic-json-flat");
+	public String getDDITOLunaticJSON(File fileInput, Map<String, Object> params) throws URISyntaxException, ClientProtocolException, IOException {
+		String WSPath = BASE_PATH+"/lunatic-json/"+MODE;
+		URIBuilder uriBuilder = new URIBuilder();
+		//TODO : integrate the following part when Eno Endpoint takes pagination query param 
+//		if (params.get("pagination") != null) {
+//			uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(WSPath).setParameter("pagination", params.get("pagination").toString());
+//		} else {
+//			uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(WSPath);
+//		}
+		//TODO : remove this line when Eno Endpoint takes pagination query param
+		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(WSPath);
+		CloseableHttpClient httpclient = HttpClients.createDefault();		
+		HttpPost post = new HttpPost(uriBuilder.build());
+		logger.info("Calling Eno URL : "+uriBuilder.build().toString());
+		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
+		builder.addBinaryBody("in", fileInput, ContentType.DEFAULT_BINARY, fileInput.getName());
+		HttpEntity entity = builder.build();
+		post.setEntity(entity);
+		HttpResponse response = httpclient.execute(post);
+		HttpEntity entityResponse = response.getEntity();
         return EntityUtils.toString(entityResponse, FORMAT);
 	}
 	
