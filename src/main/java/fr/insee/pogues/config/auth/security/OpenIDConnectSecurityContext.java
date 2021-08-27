@@ -46,7 +46,7 @@ public class OpenIDConnectSecurityContext extends KeycloakWebSecurityConfigurerA
 		http.sessionManagement().disable();
 		http.authorizeRequests().antMatchers("/api/init").permitAll().antMatchers("/swagger-ui/**").permitAll()
 				.antMatchers("/api/openapi.json").permitAll()
-				.antMatchers("/pogues/persistence/questionnaire/json-lunatic/**").permitAll().anyRequest()
+				.antMatchers("/api/persistence/questionnaire/json-lunatic/**").permitAll().anyRequest()
 				.authenticated();
 	}
 
