@@ -20,6 +20,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
@@ -53,6 +54,9 @@ public class PoguesPersistence {
 
     @Autowired
 	private QuestionnairesService questionnaireService;
+    
+    @Autowired
+    Environment env;
 
 
     @GET
@@ -73,6 +77,31 @@ public class PoguesPersistence {
 	) throws Exception {
 		try {
 			JSONObject result = questionnaireService.getQuestionnaireByID(id);
+			return Response.status(Status.OK).entity(result).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+    
+    @GET
+	@Path("questionnaire/json-lunatic/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId = "getJsonLunatic",
+	        summary = "Get questionnaire",
+            description = "Gets the questionnaire with id JsonLunatic {id}"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+	public Response getJsonLunatic(
+			@Parameter(description = "This is the id of the object we want to retrieve", required = true)
+			@PathParam(value = "id") String id
+	) throws Exception {
+		try {
+			JSONObject result = questionnaireService.getJsonLunaticByID(id);
 			return Response.status(Status.OK).entity(result).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -186,6 +215,31 @@ public class PoguesPersistence {
 			throw e;
 		}
 	}
+	
+	@DELETE
+	@Path("questionnaire/json-lunatic/{id}")
+	@Operation(
+			operationId = "deleteJsonLunatic",
+	        summary = "Delete Json Lunatic of a questionnaire",
+            description = "Delete the Json Lunatic representation of a  questionnaire with id {id}"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No content"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+//	@OwnerRestricted
+	public Response deleteJsonLunatic(
+			@Parameter(description = "The id of the object that need to be deleted", required = true)
+			@PathParam(value = "id") String id
+	) throws Exception {
+		try {
+			questionnaireService.deleteJsonLunaticByID(id);
+			logger.info("Questionnaire "+ id +" deleted");
+			return Response.status(Status.NO_CONTENT).build();
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 
 	@GET
 	@Path("questionnaires")
@@ -236,6 +290,34 @@ public class PoguesPersistence {
             throw e;
         }
 	}
+	
+	@PUT
+	@Path("questionnaire/json-lunatic/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId = "updateJsonLunatic",
+	        summary = "Update Json Lunatic",
+            description = "Update Json Lunatic of a `Questionnaire` object with id {id}"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+//	@OwnerRestricted
+	public Response updateJsonLunatic(
+			@Parameter(description = "The id of the questionnaire which json lunatic needs to be updated", required = true)
+			@PathParam(value = "id") String id,
+			@Parameter(description = "Json Lunatic to be updated") JSONObject jsonLunatic
+	) throws Exception {
+        try {
+			questionnaireService.updateJsonLunatic(id, jsonLunatic);
+			logger.info("Json Lunatic of questionnaire "+ id +" updated");
+			return Response.status(Status.NO_CONTENT).build();
+        } catch (Exception e) {
+            throw e;
+        }
+	}
 
 	@POST
 	@Path("questionnaires")
@@ -253,12 +335,42 @@ public class PoguesPersistence {
 			@Parameter(description = "New Instrument Object", required = true) JSONObject jsonContent
 	) throws Exception {
         try {
-			questionnaireService.createQuestionnaire(jsonContent);
-			//TODO return a generic uri
+        	questionnaireService.createQuestionnaire(jsonContent);
 			String id = (String) jsonContent.get("id");
-			String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
+			String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
+			String apiName = env.getProperty("fr.insee.pogues.api.name");
+			String uriQuestionnaire = String.format("http://%s%s/persistence/questionnaire/%s",dbHost,apiName,id);
 			logger.debug("New questionnaire created , uri :" + uriQuestionnaire);
 			return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+	
+	@POST
+	@Path("questionnaires/json-lunatic")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId = "createJsonLunatic",
+	        summary = "Create Json Lunatic of questionnaire",
+            description = "Creates a new Json Lunatic entry"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created"),
+            @ApiResponse(responseCode = "400", description = "Entity already exists")
+    })
+	public Response createJsonLunatic(
+			@Parameter(description = "New Instrument Object", required = true) JSONObject jsonContent
+	) throws Exception {
+        try {
+			questionnaireService.createJsonLunatic(jsonContent);
+			String id = (String) jsonContent.get("id");
+			String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
+			String apiName = env.getProperty("fr.insee.pogues.api.name");
+			String uriJsonLunaticQuestionnaire = String.format("http://%s%s/persistence/questionnaire/json-lunatic/%s",dbHost,apiName,id);
+			logger.debug("New Json Lunatic created , uri :" + uriJsonLunaticQuestionnaire);
+			return Response.status(Status.CREATED).header("Location", uriJsonLunaticQuestionnaire).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;

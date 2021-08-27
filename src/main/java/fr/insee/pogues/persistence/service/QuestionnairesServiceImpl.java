@@ -12,7 +12,7 @@ import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
 import fr.insee.pogues.webservice.rest.PoguesException;
 
 /**
- * Questionnaire Service to assume the persistance of Pogues UI in JSON
+ * Questionnaire Service to assume the persistence of Pogues UI in JSON
  *
  * @author I6VWID
  * @see /Pogues-BO/src/main/java/fr/insee/pogues/webservice/rest/
@@ -61,9 +61,21 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 		return questionnaire;
 	}
+	
+	public JSONObject getJsonLunaticByID(String id) throws Exception {
+        JSONObject questionnaireLunatic = this.questionnaireServiceQuery.getJsonLunaticByID(id);
+        if (null == questionnaireLunatic) {
+            throw new PoguesException(404, "Not found", "Pas de questionnaire pour cet identifiant");
+        }
+        return questionnaireLunatic;
+    }
 
 	public void deleteQuestionnaireByID(String id) throws Exception {
 		questionnaireServiceQuery.deleteQuestionnaireByID(id);
+	}
+	
+	public void deleteJsonLunaticByID(String id) throws Exception {
+		questionnaireServiceQuery.deleteJsonLunaticByID(id);		
 	}
 
 	public void createQuestionnaire(JSONObject questionnaire) throws Exception {
@@ -73,6 +85,14 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 			throw new PoguesException(409, "Conflict", e.getMessage());
 		}
 	}
+	
+	public void createJsonLunatic(JSONObject dataLunatic) throws Exception {
+        try {
+            this.questionnaireServiceQuery.createJsonLunatic(dataLunatic);
+        } catch (NonUniqueResultException e) {
+            throw new PoguesException(409, "Conflict", e.getMessage());
+        }
+    }
 
 	public void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception {
 		try {
@@ -80,5 +100,13 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		} catch (EntityNotFoundException e) {
 			throw new PoguesException(404, "Not found", e.getMessage());
 		}
+	}
+	
+	public void updateJsonLunatic(String id, JSONObject dataLunatic) throws Exception {
+	    try {
+	        this.questionnaireServiceQuery.updateJsonLunatic(id, dataLunatic);
+	    } catch (EntityNotFoundException e) {
+	        throw new PoguesException(404, "Not found", e.getMessage());
+	    }
 	}
 }
