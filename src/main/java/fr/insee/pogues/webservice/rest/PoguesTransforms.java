@@ -36,6 +36,7 @@ import fr.insee.pogues.transforms.DDIToXForm;
 import fr.insee.pogues.transforms.FOToPDF;
 import fr.insee.pogues.transforms.JSONToXML;
 import fr.insee.pogues.transforms.LunaticJSONToUriQueen;
+import fr.insee.pogues.transforms.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.Transformer;
@@ -96,6 +97,9 @@ public class PoguesTransforms {
 	
 	@Autowired
 	LunaticJSONToUriQueen lunaticJSONToUriQueen;
+	
+	@Autowired
+	LunaticJSONToUriStromaeV2 lunaticJSONToUriStromaeV2;
 
 	@Autowired
 	QuestionnairesService questionnairesService;
@@ -168,6 +172,40 @@ public class PoguesTransforms {
 							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
 							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
 							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+	
+	@POST
+	@Path("visualize-stromae-v2/{questionnaire}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
+	@Operation(summary = "Get visualization URI Stromae V2 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V2 from JSON serialized Pogues entity")
+	@RequestBody(
+			description = "JSON Lunatic representation of the questionnaire",
+			content = @Content(mediaType = "application/json")
+			)
+	public Response visualizeStromaeV2FromBody(@Context final HttpServletRequest request,
+			@Parameter(description="Name of the questionnaire") @PathParam(value = "questionnaire") String questionnaireName) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("questionnaire", questionnaireName.toLowerCase());
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream())
+							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+							.map(lunaticJSONToUriStromaeV2::transform, params, questionnaireName.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
