@@ -33,7 +33,7 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 	@Value("${fr.insee.pogues.api.remote.queen.host}")
 	private String queenHost;
 	
-	@Value("${fr.insee.pogues.api.remote.vis.path}")
+	@Value("${fr.insee.pogues.api.remote.queen.vis.path}")
 	private String queenVisualizationPath;
 
 	@Override
