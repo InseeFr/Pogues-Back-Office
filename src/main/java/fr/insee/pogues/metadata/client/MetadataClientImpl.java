@@ -94,21 +94,25 @@ public class MetadataClientImpl implements MetadataClient {
     	unit5.setUri("http://id.insee.fr/unit/jour");
     	units.add(unit5);
     	Unit unit6 =new Unit();
-    	unit6.setLabel("mois");
-    	unit6.setUri("http://id.insee.fr/unit/mois");
+    	unit6.setLabel("semaine");
+    	unit6.setUri("http://id.insee.fr/unit/semaine");
     	units.add(unit6);
     	Unit unit7 =new Unit();
-    	unit7.setLabel("années");
-    	unit7.setUri("http://id.insee.fr/unit/annee");
+    	unit7.setLabel("mois");
+    	unit7.setUri("http://id.insee.fr/unit/mois");
     	units.add(unit7);
     	Unit unit8 =new Unit();
-    	unit8.setLabel("m");
-    	unit8.setUri("http://id.insee.fr/unit/metre");
+    	unit8.setLabel("années");
+    	unit8.setUri("http://id.insee.fr/unit/annee");
     	units.add(unit8);
     	Unit unit9 =new Unit();
-    	unit9.setLabel("m2");
-    	unit9.setUri("http://id.insee.fr/unit/metrecarre");
+    	unit9.setLabel("m");
+    	unit9.setUri("http://id.insee.fr/unit/metre");
     	units.add(unit9);
+    	Unit unit10 =new Unit();
+    	unit10.setLabel("m2");
+    	unit10.setUri("http://id.insee.fr/unit/metrecarre");
+    	units.add(unit10);
     	
         return units;
     }
