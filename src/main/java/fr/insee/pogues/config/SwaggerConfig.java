@@ -61,7 +61,7 @@ public class SwaggerConfig extends ResourceConfig {
 
 		SwaggerConfiguration oasConfig = new SwaggerConfiguration().openAPI(openApi)
 				.resourcePackages(Stream.of("fr.insee.pogues.webservice.rest").collect(Collectors.toSet()))
-				.prettyPrint(true);
+				.prettyPrint(true).readAllResources(false);
 		String oasConfigString = oasConfig.toString();
 		logger.info("SWAGGER : {}", oasConfigString);
 
