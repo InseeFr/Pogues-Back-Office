@@ -35,4 +35,6 @@ public interface QuestionnairesServiceQuery {
     List<JSONObject> getMetaQuestionnaire(String owner) throws Exception;
 
     List<JSONObject> getStamps() throws Exception;
+    
+    String countQuestionnaires() throws Exception;
 }

@@ -30,8 +30,11 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 	@Value("${fr.insee.pogues.api.scheme}")
 	private String apiScheme;
 	
-	@Value("${fr.insee.pogues.api.remote.queen.vis.url}")
-	private String uriQueen;
+	@Value("${fr.insee.pogues.api.remote.queen.host}")
+	private String queenHost;
+	
+	@Value("${fr.insee.pogues.api.remote.vis.path}")
+	private String queenVisualizationPath;
 
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
@@ -58,7 +61,7 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }
 		String urlGetJsonLunatic = String.format("%s://%s%s/persistence/questionnaire/json-lunatic/%s",apiScheme,apiHost,apiName,id);
-		String uriVisuQueen = String.format("%s%s", uriQueen, URLEncoder.encode(urlGetJsonLunatic, "UTF-8"));
+		String uriVisuQueen = String.format("%s/%s%s", queenHost, queenVisualizationPath, URLEncoder.encode(urlGetJsonLunatic, "UTF-8"));
 		return uriVisuQueen;
 	}
 

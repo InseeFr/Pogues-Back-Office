@@ -19,13 +19,16 @@ public class StromaeServiceImpl implements StromaeService {
     @Autowired
     HttpClientBuilder httpClientBuilder;
 
-    @Value("${fr.insee.pogues.api.remote.stromae.vis.url}")
-    private String serviceUri;
+    @Value("${fr.insee.pogues.api.remote.stromae.host}")
+    private String serviceUriHost;
+    
+    @Value("${fr.insee.pogues.api.remote.stromae.vis.path}")
+    private String serviceUriVisualizationPath;
 
     @Override
     public String transform(String input, Map<String, Object> params) throws Exception {
         try(CloseableHttpClient httpClient = httpClientBuilder.build()) {
-            String uri = String.format("%s/%s/%s", serviceUri,
+            String uri = String.format("%s/%s/%s/%s", serviceUriHost, serviceUriVisualizationPath,
                     params.get("dataCollection"),params.get("questionnaire"));
             HttpPost post = new HttpPost(uri);
             post.setEntity(new StringEntity(input, StandardCharsets.UTF_8));

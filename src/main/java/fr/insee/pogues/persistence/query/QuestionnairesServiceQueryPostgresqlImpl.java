@@ -199,6 +199,16 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			throw new NonUniqueResultException("Entity already exists");
 		}
     }
+	
+	/**
+	 * A method to count the questionnaires stored in database
+	 */
+	@Override
+	public String countQuestionnaires() throws Exception {
+		String qString = "SELECT count(*) FROM pogues";
+		PGobject q = jdbcTemplate.queryForObject(qString, PGobject.class);
+		return q.toString();
+	}
 
 	private List<JSONObject> PgToJSON(List<PGobject> data) {
 		return Lists.transform(data, q -> {
@@ -209,5 +219,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 			}
 		});
 	}
+
+
 
 }
