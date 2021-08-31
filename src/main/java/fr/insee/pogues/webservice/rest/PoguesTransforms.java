@@ -153,17 +153,9 @@ public class PoguesTransforms {
 			content = @Content(mediaType = "application/json")
 			)
 	public Response visualizeQueenFromBody(@Context final HttpServletRequest request,
-			@Parameter(description="Name of the questionnaire") @PathParam(value = "questionnaire") String questionnaireName, 
-			@Parameter(description="Type of pagination", schema = @Schema(type = "string",allowableValues = {"NONE","SEQUENCE","SUBSEQUENCE","QUESTION"},defaultValue="QUESTION")) @QueryParam(value= "pagination") String pagination) throws Exception {
+			@Parameter(description="Name of the questionnaire") @PathParam(value = "questionnaire") String questionnaireName) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
-		params.put("questionnaire", questionnaireName.toLowerCase());
-		if (request.getParameter("pagination") != null) {
-			params.put("pagination", request.getParameter("pagination"));
-		} else {
-			params.put("pagination", "QUESTION");
-		}
-		logger.info("Type of pagination : "+params.get("pagination"));
 		try {
 			StreamingOutput stream = output -> {
 				try {

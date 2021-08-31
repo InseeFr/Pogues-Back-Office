@@ -97,13 +97,6 @@ public class EnoClientImpl implements EnoClient{
 	public String getDDITOLunaticJSON(File fileInput, Map<String, Object> params) throws URISyntaxException, ClientProtocolException, IOException {
 		String WSPath = BASE_PATH+"/lunatic-json/"+MODE;
 		URIBuilder uriBuilder = new URIBuilder();
-		//TODO : integrate the following part when Eno Endpoint takes pagination query param 
-//		if (params.get("pagination") != null) {
-//			uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(WSPath).setParameter("pagination", params.get("pagination").toString());
-//		} else {
-//			uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(WSPath);
-//		}
-		//TODO : remove this line when Eno Endpoint takes pagination query param
 		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(WSPath);
 		CloseableHttpClient httpclient = HttpClients.createDefault();		
 		HttpPost post = new HttpPost(uriBuilder.build());
