@@ -95,7 +95,13 @@ public class EnoClientImpl implements EnoClient{
 	
 	@Override
 	public String getDDITOLunaticJSON(File fileInput, Map<String, Object> params) throws URISyntaxException, ClientProtocolException, IOException {
-		String WSPath = BASE_PATH+"/lunatic-json/"+MODE;
+		String WSPath;
+		if (params.get("mode") != null) {
+			WSPath = BASE_PATH+"/lunatic-json/"+params.get("mode").toString();
+			logger.info("Url for DDI to Lunatic transformation : "+WSPath);
+		} else {
+			WSPath = BASE_PATH+"/lunatic-json/"+MODE;
+		}
 		URIBuilder uriBuilder = new URIBuilder();
 		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(WSPath);
 		CloseableHttpClient httpclient = HttpClients.createDefault();		
