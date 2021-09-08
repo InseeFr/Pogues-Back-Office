@@ -1,4 +1,4 @@
-package fr.insee.pogues.transforms;
+package fr.insee.pogues.transforms.visualize;
 
 import java.io.File;
 import java.io.InputStream;

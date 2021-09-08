@@ -1,10 +1,12 @@
-package fr.insee.pogues.transforms;
+package fr.insee.pogues.transforms.reuse;
 
 import net.sf.saxon.s9api.*;
 import org.apache.commons.io.output.ByteArrayOutputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
+
+import fr.insee.pogues.transforms.PoguesErrorListener;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
@@ -19,11 +21,11 @@ import java.util.Map;
  * TODO Register as a provider
  */
 @Service
-public class DDIToXMLImpl implements DDIToXML {
+public class DDIToPoguesXMLCodeListImpl implements DDIToPoguesXMLCodeList {
 
     private final String XSLT_FILE_CODE_LIST = "transforms/xslt/ddi2xml-code-list.xsl";
 
-    private Logger logger = LogManager.getLogger(DDIToXMLImpl.class);
+    private Logger logger = LogManager.getLogger(DDIToPoguesXMLCodeListImpl.class);
 
     public void transform(InputStream input, OutputStream output, Map<String, Object>params, String surveyName) throws Exception {
         if (null == input) {

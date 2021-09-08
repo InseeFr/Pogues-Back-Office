@@ -1,4 +1,4 @@
-package fr.insee.pogues.transforms;
+package fr.insee.pogues.transforms.visualize;
 
 import java.io.File;
 import java.io.InputStream;
@@ -7,34 +7,31 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
 
+/**
+ * Created by I6VWID 25/01/19.
+ */
 @Service
-public class DDIToFOImpl implements DDIToFO {
+public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
 	
 	@Autowired
 	EnoClient enoClient;
 
-	final static Logger logger = LogManager.getLogger(DDIToFOImpl.class);
-
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
 			throws Exception {
-		logger.debug("Eno transformation");
 		if (null == input) {
 			throw new NullPointerException("Null input");
 		}
 		if (null == output) {
 			throw new NullPointerException("Null output");
 		}
-		String odt = transform(input, params, surveyName);
-		logger.debug("Eno transformation finished");
-		output.write(odt.getBytes(StandardCharsets.UTF_8));
+		String xForm = transform(input, params, surveyName);
+		output.write(xForm.getBytes(StandardCharsets.UTF_8));
 	}
 
 	@Override
@@ -61,10 +58,10 @@ public class DDIToFOImpl implements DDIToFO {
 
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
 		try {
-			return enoClient.getDDIToFO(file);
-
+			return enoClient.getXMLPoguesToDDI(file);
 		} catch (Exception e) {
 			throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
 		}
 	}
+
 }

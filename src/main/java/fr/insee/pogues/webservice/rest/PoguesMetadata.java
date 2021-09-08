@@ -23,9 +23,9 @@ import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.model.Unit;
 import fr.insee.pogues.metadata.service.MetadataService;
-import fr.insee.pogues.transforms.DDIToXML;
 import fr.insee.pogues.transforms.PipeLine;
-import fr.insee.pogues.transforms.XMLToJSON;
+import fr.insee.pogues.transforms.reuse.DDIToPoguesXMLCodeList;
+import fr.insee.pogues.transforms.visualize.PoguesXMLToPoguesJSON;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -48,10 +48,10 @@ public class PoguesMetadata {
 	MetadataService metadataService;
 
 	@Autowired
-	DDIToXML ddiToXML;
+	DDIToPoguesXMLCodeList ddiToXML;
 
 	@Autowired
-	XMLToJSON xmlToJSON;
+	PoguesXMLToPoguesJSON xmlToJSON;
 
 	@GET
 	@Path("item/{id}")

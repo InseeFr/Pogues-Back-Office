@@ -1,4 +1,4 @@
-package fr.insee.pogues.transforms;
+package fr.insee.pogues.transforms.visualize;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -17,7 +17,7 @@ import fr.insee.pogues.conversion.XMLToJSONTranslator;
 import fr.insee.pogues.utils.json.JSONFunctions;
 
 @Service
-public class XMLToJSONImpl implements XMLToJSON {
+public class PoguesXMLToPoguesJSONImpl implements PoguesXMLToPoguesJSON {
 
     private XMLToJSONTranslator translator = new XMLToJSONTranslator(true);
 

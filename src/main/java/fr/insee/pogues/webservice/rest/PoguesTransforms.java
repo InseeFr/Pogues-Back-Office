@@ -28,19 +28,19 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.transforms.DDIToFO;
-import fr.insee.pogues.transforms.DDIToFODT;
-import fr.insee.pogues.transforms.DDIToLunaticJSON;
-import fr.insee.pogues.transforms.DDIToXForms;
-import fr.insee.pogues.transforms.FOToPDF;
-import fr.insee.pogues.transforms.LunaticJSONToUriQueen;
-import fr.insee.pogues.transforms.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.PipeLine;
-import fr.insee.pogues.transforms.PoguesJSONToPoguesXML;
-import fr.insee.pogues.transforms.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.Transformer;
-import fr.insee.pogues.transforms.XFormToURI;
-import fr.insee.pogues.transforms.XMLToJSON;
+import fr.insee.pogues.transforms.visualize.DDIToFO;
+import fr.insee.pogues.transforms.visualize.DDIToFODT;
+import fr.insee.pogues.transforms.visualize.DDIToLunaticJSON;
+import fr.insee.pogues.transforms.visualize.DDIToXForms;
+import fr.insee.pogues.transforms.visualize.FOToPDF;
+import fr.insee.pogues.transforms.visualize.LunaticJSONToUriQueen;
+import fr.insee.pogues.transforms.visualize.LunaticJSONToUriStromaeV2;
+import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
+import fr.insee.pogues.transforms.visualize.PoguesXMLToDDI;
+import fr.insee.pogues.transforms.visualize.PoguesXMLToPoguesJSON;
+import fr.insee.pogues.transforms.visualize.XFormsToURIStromaeV1;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
@@ -67,7 +67,7 @@ public class PoguesTransforms {
 	PoguesJSONToPoguesXML jsonToXML;
 
 	@Autowired
-	XMLToJSON xmlToJson;
+	PoguesXMLToPoguesJSON xmlToJson;
 
 	@Autowired
 	PoguesXMLToDDI poguesXMLToDDI;
@@ -85,7 +85,7 @@ public class PoguesTransforms {
 	FOToPDF foToPdf;
 
 	@Autowired
-	XFormToURI xformToUri;
+	XFormsToURIStromaeV1 xformToUri;
 	
 	@Autowired
 	DDIToLunaticJSON ddiToLunaticJSON;

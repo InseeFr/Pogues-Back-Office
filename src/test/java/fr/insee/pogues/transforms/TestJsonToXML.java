@@ -8,6 +8,8 @@ import org.junit.rules.ExpectedException;
 import org.xmlunit.XMLUnitException;
 import org.xmlunit.diff.Diff;
 
+import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXMLImpl;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;

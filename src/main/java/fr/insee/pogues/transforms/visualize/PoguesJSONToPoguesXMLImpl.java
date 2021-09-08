@@ -1,4 +1,4 @@
-package fr.insee.pogues.transforms;
+package fr.insee.pogues.transforms.visualize;
 
 import fr.insee.pogues.conversion.JSONToXMLTranslator;
 import fr.insee.pogues.utils.json.JSONFunctions;

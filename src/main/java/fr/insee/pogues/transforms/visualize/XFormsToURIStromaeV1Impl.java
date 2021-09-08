@@ -1,4 +1,4 @@
-package fr.insee.pogues.transforms;
+package fr.insee.pogues.transforms.visualize;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -9,13 +9,16 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Service
-public class StromaeServiceImpl implements StromaeService {
-
+public class XFormsToURIStromaeV1Impl implements XFormsToURIStromaeV1 {
+    
     @Autowired
     HttpClientBuilder httpClientBuilder;
 
@@ -26,8 +29,18 @@ public class StromaeServiceImpl implements StromaeService {
     private String serviceUriVisualizationPath;
 
     @Override
-    public String transform(String input, Map<String, Object> params) throws Exception {
-        try(CloseableHttpClient httpClient = httpClientBuilder.build()) {
+    public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public String transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
+        throw new NotImplementedException();
+    }
+
+    @Override
+    public String transform(String input, Map<String, Object> params, String surveyName) throws Exception {
+    	try(CloseableHttpClient httpClient = httpClientBuilder.build()) {
             String uri = String.format("%s/%s/%s/%s", serviceUriHost, serviceUriVisualizationPath,
                     params.get("dataCollection"),params.get("questionnaire"));
             HttpPost post = new HttpPost(uri);

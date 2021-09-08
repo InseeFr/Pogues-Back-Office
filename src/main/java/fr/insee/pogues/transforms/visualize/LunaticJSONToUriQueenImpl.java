@@ -1,4 +1,4 @@
-package fr.insee.pogues.transforms;
+package fr.insee.pogues.transforms.visualize;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -16,28 +16,31 @@ import fr.insee.pogues.webservice.rest.PoguesException;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Service
-public class LunaticJSONToUriStromaeV2Impl implements LunaticJSONToUriStromaeV2{
-
+public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
+	
 	@Autowired
 	private QuestionnairesService questionnaireService;
-
+	
 	@Value("${fr.insee.pogues.api.host}")
 	private String apiHost;
-
+	
 	@Value("${fr.insee.pogues.api.name}")
 	private String apiName;
-
+	
 	@Value("${fr.insee.pogues.api.scheme}")
 	private String apiScheme;
-
-	@Value("${fr.insee.pogues.api.remote.stromaev2.vis.url}")
-	private String uriStromaeV2;
+	
+	@Value("${fr.insee.pogues.api.remote.queen.host}")
+	private String queenHost;
+	
+	@Value("${fr.insee.pogues.api.remote.queen.vis.path}")
+	private String queenVisualizationPath;
 
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
 			throws Exception {
 		throw new NotImplementedException();
-
+		
 	}
 
 	@Override
@@ -58,8 +61,8 @@ public class LunaticJSONToUriStromaeV2Impl implements LunaticJSONToUriStromaeV2{
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }
 		String urlGetJsonLunatic = String.format("%s://%s%s/persistence/questionnaire/json-lunatic/%s",apiScheme,apiHost,apiName,id);
-		String uriVisuStromaeV2 = String.format("%s%s", uriStromaeV2, URLEncoder.encode(urlGetJsonLunatic, "UTF-8"));
-		return uriVisuStromaeV2;
+		String uriVisuQueen = String.format("%s/%s%s", queenHost, queenVisualizationPath, URLEncoder.encode(urlGetJsonLunatic, "UTF-8"));
+		return uriVisuQueen;
 	}
-	
+
 }
