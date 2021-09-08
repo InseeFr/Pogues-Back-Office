@@ -7,27 +7,33 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
 
 @Service
-public class DDIToXFormImpl implements DDIToXForm {
+public class DDIToFODTImpl implements DDIToFODT {
 	
 	@Autowired
 	private EnoClient enoClient;
 
+	final static Logger logger = LogManager.getLogger(DDIToFODTImpl.class);
+	
     @Override
     public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
-        if (null == input) {
+    	logger.debug("Eno transformation");
+    	if (null == input) {
             throw new NullPointerException("Null input");
         }
         if (null == output) {
             throw new NullPointerException("Null output");
         }
-        String xForm = transform(input, params,surveyName);
-        output.write(xForm.getBytes(StandardCharsets.UTF_8));
+        String odt = transform(input, params,surveyName);
+        logger.debug("Eno transformation finished");
+        output.write(odt.getBytes(StandardCharsets.UTF_8));
     }
 
     @Override
@@ -49,12 +55,12 @@ public class DDIToXFormImpl implements DDIToXForm {
         }
         enoInput = File.createTempFile("eno", ".xml");
         FileUtils.writeStringToFile(enoInput, input, StandardCharsets.UTF_8);
-        return transform(enoInput, params,surveyName);
+        return transform(enoInput, params, surveyName);
     }
 
     private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
         try {
-			return enoClient.getDDITOXForms(file);
+			return enoClient.getDDIToODT(file);
         } catch (Exception e) {
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }

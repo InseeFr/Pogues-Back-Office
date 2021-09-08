@@ -17,7 +17,7 @@ public class TestJsonToXML {
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
-	private Transformer transformer = new JSONToXMLImpl();
+	private Transformer transformer = new PoguesJSONToPoguesXMLImpl();
 	private XMLDiff xmlDiff = new XMLDiff(transformer);
 
 	@Before

@@ -16,7 +16,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
@@ -30,29 +29,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.DDIToFO;
+import fr.insee.pogues.transforms.DDIToFODT;
 import fr.insee.pogues.transforms.DDIToLunaticJSON;
-import fr.insee.pogues.transforms.DDIToODT;
-import fr.insee.pogues.transforms.DDIToXForm;
+import fr.insee.pogues.transforms.DDIToXForms;
 import fr.insee.pogues.transforms.FOToPDF;
-import fr.insee.pogues.transforms.JSONToXML;
 import fr.insee.pogues.transforms.LunaticJSONToUriQueen;
 import fr.insee.pogues.transforms.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.PipeLine;
+import fr.insee.pogues.transforms.PoguesJSONToPoguesXML;
 import fr.insee.pogues.transforms.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.Transformer;
 import fr.insee.pogues.transforms.XFormToURI;
-import fr.insee.pogues.transforms.XFormsToXFormsHack;
 import fr.insee.pogues.transforms.XMLToJSON;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Main WebService class of the PoguesBOOrchestrator
@@ -66,7 +64,7 @@ public class PoguesTransforms {
 	final static Logger logger = LogManager.getLogger(PoguesTransforms.class);
 
 	@Autowired
-	JSONToXML jsonToXML;
+	PoguesJSONToPoguesXML jsonToXML;
 
 	@Autowired
 	XMLToJSON xmlToJson;
@@ -75,10 +73,10 @@ public class PoguesTransforms {
 	PoguesXMLToDDI poguesXMLToDDI;
 
 	@Autowired
-	DDIToXForm ddiToXForm;
+	DDIToXForms ddiToXForm;
 
 	@Autowired
-	DDIToODT ddiToOdt;
+	DDIToFODT ddiToOdt;
 	
 	@Autowired
 	DDIToFO ddiToFo;
@@ -88,9 +86,6 @@ public class PoguesTransforms {
 
 	@Autowired
 	XFormToURI xformToUri;
-
-	@Autowired
-	XFormsToXFormsHack xformToXformsHack;
 	
 	@Autowired
 	DDIToLunaticJSON ddiToLunaticJSON;
@@ -129,7 +124,6 @@ public class PoguesTransforms {
 							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
 							.map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
 							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
-							.map(xformToXformsHack::transform, params, questionnaire.toLowerCase())
 							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
@@ -234,7 +228,6 @@ public class PoguesTransforms {
 				try {
 					output.write(pipeline.from(request.getInputStream())
 							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
-							.map(xformToXformsHack::transform, params, questionnaire.toLowerCase())
 							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());

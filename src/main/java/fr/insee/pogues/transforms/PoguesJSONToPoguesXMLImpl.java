@@ -15,7 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Service
-public class JSONToXMLImpl implements JSONToXML {
+public class PoguesJSONToPoguesXMLImpl implements PoguesJSONToPoguesXML {
 
 	private JSONToXMLTranslator translator = new JSONToXMLTranslator(true);
 
