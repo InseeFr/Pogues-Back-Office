@@ -7,16 +7,21 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
+import fr.insee.pogues.webservice.rest.PoguesMetadata;
 
 /**
  * Created by I6VWID 25/01/19.
  */
 @Service
 public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
+	
+	final static Logger logger = LogManager.getLogger(PoguesXMLToDDIImpl.class);
 	
 	@Autowired
 	EnoClient enoClient;
@@ -58,7 +63,9 @@ public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
 
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
 		try {
-			return enoClient.getXMLPoguesToDDI(file);
+			String questDDI = enoClient.getXMLPoguesToDDI(file);
+			logger.info("File "+file.getAbsolutePath()+" deleted : "+file.delete());
+			return questDDI;
 		} catch (Exception e) {
 			throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
 		}
