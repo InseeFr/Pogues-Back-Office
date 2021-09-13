@@ -38,13 +38,13 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
 			throws Exception {
-		throw new NotImplementedException();
+		throw new RuntimeException("Not Implemented");
 		
 	}
 
 	@Override
 	public String transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
-		throw new NotImplementedException();
+		throw new RuntimeException("Not Implemented");
 	}
 
 	@Override
