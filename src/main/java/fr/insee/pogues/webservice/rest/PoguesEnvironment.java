@@ -41,10 +41,11 @@ public class PoguesEnvironment {
 			entity.put("Swagger Name", env.getProperty("fr.insee.pogues.api.name"));
 			entity.put("Swagger Scheme", env.getProperty("fr.insee.pogues.api.scheme"));
 			entity.put("Database", env.getProperty("fr.insee.pogues.persistence.database.host"));
-			entity.put("LDAP", env.getProperty("fr.insee.pogues.permission.ldap.hostname"));
 			entity.put("Metadata services", env.getProperty("fr.insee.pogues.api.remote.metadata.url"));
-			entity.put("Stromae", env.getProperty("fr.insee.pogues.api.remote.stromae.host"));
 			entity.put("Eno Webservice", env.getProperty("fr.insee.pogues.api.remote.eno.host"));
+			entity.put("Stromae", env.getProperty("fr.insee.pogues.api.remote.stromae.host"));
+			entity.put("Stromae v2", env.getProperty("fr.insee.pogues.api.remote.stromaev2.vis.url"));
+			entity.put("Queen", env.getProperty("fr.insee.pogues.api.remote.queen.host"));
 			return Response.ok().entity(entity).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
