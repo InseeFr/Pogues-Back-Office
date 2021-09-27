@@ -54,13 +54,16 @@ public class HealthCheck {
     @Produces(MediaType.TEXT_PLAIN)
     @Operation(
             summary = "Perform HealthCheck on Pogues environment",
-            description = "This method will return the status of applications needed to Pogues"
+            description = "This method will return the status of applications needed for Pogues"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "404", description = "Not found")
+            @ApiResponse(responseCode = "209", description = "Warning"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     public Response getHealthcheck() throws Exception {
+		boolean haveError=false;
+		boolean haveWarning=false;
 		String stateResult="";
 		String errorMessage="Errors : \n";
 		logger.info("Begin healthCheck");
@@ -68,6 +71,7 @@ public class HealthCheck {
         	enoClient.getParameters();
         	stateResult = stateResult.concat(" - EnoWS : OK \n");	
         } catch (Exception e) {
+        	haveWarning=true;
         	errorMessage = errorMessage.concat("- Eno API doesn't return default parameters \n");
 			stateResult = stateResult.concat(" - EnoWS : KO \n");
         }
@@ -75,6 +79,7 @@ public class HealthCheck {
         	questionnaireServiceQuery.countQuestionnaires();
         	stateResult = stateResult.concat(" - DB PostgreSql : OK \n");	
         } catch (Exception e) {
+        	haveError=true;
         	logger.info(e.getMessage());
         	errorMessage = errorMessage.concat("- Couldn't connect to Pogues database \n");
 			stateResult = stateResult.concat(" - DB PostgreSql : KO \n");
@@ -85,6 +90,7 @@ public class HealthCheck {
             httpClient.execute(get);
             stateResult = stateResult.concat(" - Stromae, DB Exist : OK \n");
         } catch (Exception e) {
+        	haveWarning=true;
         	logger.info(e.getMessage());
         	errorMessage = errorMessage.concat("- Couldn't connect to Stromae Exist database \n");
 			stateResult = stateResult.concat(" - Stromae, DB Exist : KO \n");
@@ -93,6 +99,7 @@ public class HealthCheck {
             getCall(String.format("%s/%s", orbeonHost, "rmesstromae/fr/esa-dc-2018/simpsons/new?unite-enquete=123456789"));
             stateResult = stateResult.concat(" - Stromae, Orbeon : OK \n");
         } catch (Exception e) {
+        	haveWarning=true;
         	logger.info(e.getMessage());
         	errorMessage = errorMessage.concat("- Couldn't connect to orbeon \n");
 			stateResult = stateResult.concat(" - Stromae, Orbeon : KO \n");
@@ -101,6 +108,7 @@ public class HealthCheck {
             getCall(String.format("%s/%s", ddiAccessServicesUrl, "env"));
             stateResult = stateResult.concat(" - DDI-Access-Services : OK \n");
         } catch (Exception e) {
+        	haveError=true;
         	logger.info(e.getMessage());
         	errorMessage = errorMessage.concat("- DDI-Access-Services doesn't return environnement parameters \n");
 			stateResult = stateResult.concat(" - DDI-Access-Services : KO \n");
@@ -109,6 +117,7 @@ public class HealthCheck {
             getCall(String.format("%s/%s", queenHost, "queen/index.html"));
             stateResult = stateResult.concat(" - Vizualisation Queen : OK \n");
         } catch (Exception e) {
+        	haveWarning=true;
         	logger.info(e.getMessage());
         	errorMessage = errorMessage.concat("- Can't reach index.html on queen application\n");
 			stateResult = stateResult.concat(" - Vizualisation Queen : KO \n");
@@ -117,7 +126,13 @@ public class HealthCheck {
 		logger.info("HealthCheck complete");
 		logger.info(errorMessage);
 		logger.info(stateResult);
-		return Response.ok(stateResult).build();
+		if (!haveError && !haveWarning) {
+			return Response.ok(stateResult).build();
+		} else if (haveWarning && !haveError) {
+			return Response.status(209).entity(stateResult.concat(errorMessage)).build();
+		} else {
+			return Response.serverError().entity(stateResult.concat(errorMessage)).build();
+		}
     }
 
 	private void getCall(String uri) throws Exception{
