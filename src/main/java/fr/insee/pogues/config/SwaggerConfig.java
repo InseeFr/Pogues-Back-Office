@@ -13,7 +13,6 @@ import javax.ws.rs.core.Context;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.glassfish.jersey.media.multipart.MultiPartFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 
 import io.swagger.v3.jaxrs2.integration.resources.OpenApiResource;
@@ -74,7 +73,8 @@ public class SwaggerConfig extends ResourceConfig {
 		OpenApiResource openApiResource = new OpenApiResource();
 		openApiResource.setOpenApiConfiguration(oasConfig);
 		register(openApiResource);
-		register(MultiPartFeature.class);
+		//TODO debug when activate swagger
+		//register(MultiPartFeature.class);
 
 	}
 

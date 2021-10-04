@@ -2,6 +2,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.5.5</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>war</packaging>
@@ -10,14 +18,21 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>11</java.version>
+
 		<final.war.name>rmes-pogbo</final.war.name>
-		<jersey.version>2.19</jersey.version>
-		<spring.version>4.3.25.RELEASE</spring.version>
-		<spring.security.version>4.2.17.RELEASE</spring.security.version>
-		<jackson.version>2.11.0</jackson.version>
+		<rest-assured.version>2.9.0</rest-assured.version>
+		<json-simple.version>1.1.1</json-simple.version>
+
+		<pogues-model.version>1.0.0</pogues-model.version>
 		<fop.version>2.2</fop.version>
 		<swagger.core.version>2.1.9</swagger.core.version>
 		<jacoco.version>0.8.5</jacoco.version>
+		<saxon.version>9.7.0-8</saxon.version>
+		<eclipse-persistence.version>2.6.0</eclipse-persistence.version>
+		<commons.io.version>2.5</commons.io.version>
+		<keycloak.version>13.0.1</keycloak.version>
+
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -27,159 +42,54 @@
 	</properties>
 
 	<dependencies>
+
 		<dependency>
-			<groupId>org.glassfish.jersey.containers</groupId>
-			<artifactId>jersey-container-servlet-core</artifactId>
-			<version>${jersey.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
+
 		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-json-jackson</artifactId>
-			<version>${jersey.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-annotations</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.jaxrs</groupId>
-					<artifactId>jackson-jaxrs-json-provider</artifactId>
-				</exclusion>
-			</exclusions>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jdbc</artifactId>
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jersey</artifactId>
+		</dependency>
+
+
 		<dependency>
 		    <groupId>com.fasterxml.jackson.jaxrs</groupId>
 		    <artifactId>jackson-jaxrs-base</artifactId>
-		    <version>${jackson.version}</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.fasterxml.jackson.jaxrs</groupId>
 		    <artifactId>jackson-jaxrs-json-provider</artifactId>
-		    <version>${jackson.version}</version>
 		</dependency>
+
+
 		<dependency>
-			<groupId>org.glassfish.jersey.media</groupId>
-			<artifactId>jersey-media-multipart</artifactId>
-			<version>${jersey.version}</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.glassfish.jersey.ext</groupId>
-			<artifactId>jersey-spring3</artifactId>
-			<version>${jersey.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-web</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-beans</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-context</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-web</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-jdbc</artifactId>
-			<version>${spring.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-		<dependency>
+
+<!--		<dependency>
 			<groupId>org.elasticsearch.client</groupId>
 			<artifactId>elasticsearch-rest-high-level-client</artifactId>
-			<version>5.6.0</version>
+		</dependency>-->
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-ldap</artifactId>
-			<version>${spring.security.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.ldap</groupId>
-			<artifactId>spring-ldap-core</artifactId>
-			<version>2.3.1.RELEASE</version>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		
-		<!-- Keycloak -->
-		<dependency>
-			<groupId>org.keycloak</groupId>
-			<artifactId>keycloak-spring-security-adapter</artifactId>
-			<version>2.5.5.Final</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.security</groupId>
-					<artifactId>spring-security-config</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework.security</groupId>
-					<artifactId>spring-security-web</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.apache.httpcomponents</groupId>
-					<artifactId>httpclient</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-databind</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.fasterxml.jackson.core</groupId>
-					<artifactId>jackson-annotations</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-api</artifactId>
@@ -187,56 +97,48 @@
 			<scope>test</scope>
 		</dependency>
 
-		<!-- <dependency> <groupId>org.springframework.security.extensions</groupId> 
-			<artifactId>spring-security-saml2-core</artifactId> <version>1.0.2.RELEASE</version> 
-			</dependency> -->
-
-
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>${spring.version}</version>
-			<scope>test</scope>
+			<groupId>org.keycloak</groupId>
+			<artifactId>keycloak-spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.mockito</groupId>
 			<artifactId>mockito-core</artifactId>
-			<version>1.10.19</version>
 		</dependency>
+
+
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.5</version>
+			<version>${commons.io.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.8.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-web</artifactId>
-			<version>2.8.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.8.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.1.4</version>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>fr.insee.pogues</groupId>
 			<artifactId>pogues-model</artifactId>
-			<version>1.0.0</version>
+			<version>${pogues-model.version}</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.jayway.restassured</groupId>
 			<artifactId>rest-assured</artifactId>
-			<version>2.9.0</version>
+			<version>${rest-assured.version}</version>
 			<scope>test</scope>
 			<exclusions>
 				<exclusion>
@@ -248,104 +150,85 @@
 		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
-			<version>1.1.1</version>
+			<version>${json-simple.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.5.11</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
-			<version>4.5.11</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>fop</artifactId>
-			<version>2.2</version>
+			<version>${fop.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.saxon</groupId>
 			<artifactId>Saxon-HE</artifactId>
-			<version>9.7.0-8</version>
+			<version>${saxon.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.xmlunit</groupId>
 			<artifactId>xmlunit-matchers</artifactId>
-			<version>2.3.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>javax.servlet</artifactId>
-			<version>3.0</version>
+			<groupId>jakarta.servlet</groupId>
+			<artifactId>jakarta.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		
+
+
+
 		<!-- SWAGGER -->
 		<dependency>
 			<groupId>io.swagger.core.v3</groupId>
 			<artifactId>swagger-jaxrs2</artifactId>
 			<version>${swagger.core.version}</version>
-			<exclusions>
-				<exclusion>
-					<artifactId>
-						jersey-container-servlet-core
-					</artifactId>
-					<groupId>org.glassfish.jersey.containers</groupId>
-				</exclusion>
-			</exclusions>
 		</dependency>
-		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-jaxrs2-servlet-initializer</artifactId>
-			<version>${swagger.core.version}</version>
-		</dependency>
-<!-- 		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-jersey2-jaxrs</artifactId>
-			<version>1.5.9</version>
-		</dependency> -->
-		
-		
-		<dependency>
-		    <groupId>com.google.guava</groupId>
-		    <artifactId>guava</artifactId>
-		    <version>21.0</version>
-		</dependency>
-		
+
 		<!-- TODO: Find a way to get rid of this -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
-			<version>2.6.0</version>
+			<version>${eclipse-persistence.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
 
 	</dependencies>
 
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.keycloak.bom</groupId>
+				<artifactId>keycloak-adapter-bom</artifactId>
+				<version>${keycloak.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
 	<build>
-		<finalName>${final.war.name}</finalName>
-		<sourceDirectory>src/main/java</sourceDirectory>
-
 		<plugins>
-
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<failOnMissingWebXml>false</failOnMissingWebXml>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
-				<configuration>
-					<source>11</source>
-					<target>11</target>
-				</configuration>
-			</plugin>
 
 			 <plugin>
                 <groupId>org.jacoco</groupId>
@@ -380,6 +263,11 @@
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>3.7.0.1746</version>
             </plugin>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
 		</plugins>
 
 	</build>

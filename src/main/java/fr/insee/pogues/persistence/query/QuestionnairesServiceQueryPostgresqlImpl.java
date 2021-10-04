@@ -1,6 +1,5 @@
 package fr.insee.pogues.persistence.query;
 
-import com.google.common.collect.Lists;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,6 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Questionnaire Service Query for the Postgresql implementation to assume the
@@ -211,13 +212,15 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	}
 
 	private List<JSONObject> PgToJSON(List<PGobject> data) {
-		return Lists.transform(data, q -> {
-			try {
-				return (JSONObject) (new JSONParser().parse(q.toString()));
-			} catch (ParseException e) {
-				throw new RuntimeException("ERROR parsing Json DATA");
-			}
-		});
+		return Objects.requireNonNull(data).stream()
+				.map(q -> {
+					try {
+						return (JSONObject) (new JSONParser().parse(q.toString()));
+					} catch (ParseException e) {
+						throw new RuntimeException("ERROR parsing Json DATA");
+					}
+				})
+				.collect(Collectors.toList());
 	}
 
 
