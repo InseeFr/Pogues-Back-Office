@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.webservice.rest.PoguesException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @Service
 public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
