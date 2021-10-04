@@ -3,8 +3,8 @@ package fr.insee.pogues.search;
 import fr.insee.pogues.search.repository.PoguesItemRepository;
 import fr.insee.pogues.search.repository.PoguesItemRepositoryImpl;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
@@ -19,13 +19,13 @@ public class TestSearchRepository {
     @InjectMocks
     PoguesItemRepository repository;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         repository = spy(new PoguesItemRepositoryImpl()); // <- class under test
         initMocks(this);
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void saveTest() throws Exception {
 //        IndexResponse response = mock(IndexResponse.class);
 //        when(response.toString()).thenReturn("response");
@@ -39,7 +39,7 @@ public class TestSearchRepository {
 //        Assert.assertEquals(response, repository.save("anything", item));
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void deleteTest() throws Exception {
 //        DeleteResponse response = mock(DeleteResponse.class);
 //        when(response.toString()).thenReturn("response");

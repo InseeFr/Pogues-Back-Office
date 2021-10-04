@@ -5,9 +5,9 @@ import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
 import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.json.simple.JSONObject;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -34,7 +34,7 @@ public class TestQuestionnaireService {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
-    @Before
+    @BeforeEach
     public void setUp() {
         questionnairesService = spy(new QuestionnairesServiceImpl()); // <- class under test
         initMocks(this);
@@ -51,7 +51,7 @@ public class TestQuestionnaireService {
 
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void getQuestionnaireByOwnerWithNullException() throws Exception{
         exception.expect(PoguesException.class);
         exception.expectMessage("Bad Request");
@@ -96,7 +96,7 @@ public class TestQuestionnaireService {
     }
 
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void listReturnsNormally() throws Exception {
         try {
             when(questionnairesServiceQuery.getQuestionnaires())

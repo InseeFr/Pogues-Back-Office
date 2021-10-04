@@ -3,8 +3,8 @@ package fr.insee.pogues.metadata;
 import fr.insee.pogues.metadata.client.MetadataClient;
 import fr.insee.pogues.metadata.client.MetadataClientImpl;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
@@ -19,7 +19,7 @@ public class TestMetadataClient {
     @InjectMocks
     MetadataClient metadataClient;
 
-    @Before
+    @BeforeEach
     public void beforeEach(){
         metadataClient = spy(new MetadataClientImpl());
         initMocks(this);

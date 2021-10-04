@@ -1,9 +1,9 @@
 package fr.insee.pogues.transforms;
 
 import org.junit.Assert;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 import org.xmlunit.XMLUnitException;
 import org.xmlunit.diff.Diff;
@@ -22,17 +22,17 @@ public class TestJsonToXML {
 	private Transformer transformer = new PoguesJSONToPoguesXMLImpl();
 	private XMLDiff xmlDiff = new XMLDiff(transformer);
 
-	@Before
+	@BeforeEach
 	public void beforeEach() {
 		System.setProperty("javax.xml.bind.context.factory", "org.eclipse.persistence.jaxb.JAXBContextFactory");
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void fake157() {
 		// performDiffTest("transforms/pogues-to-xml");
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void transformWithNullStringInputException() throws Exception {
 		exception.expect(NullPointerException.class);
 		exception.expectMessage("Null input");
@@ -42,7 +42,7 @@ public class TestJsonToXML {
 		transformer.transform(input, params, survey);
 	}
 
-	@Test
+	@org.junit.jupiter.api.Test
 	public void transformWithNullStreamInputException() throws Exception {
 		exception.expect(NullPointerException.class);
 		exception.expectMessage("Null input");

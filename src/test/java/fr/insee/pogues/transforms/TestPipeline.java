@@ -2,7 +2,7 @@ package fr.insee.pogues.transforms;
 
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.junit.Rule;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.rules.ExpectedException;
 
 import java.util.Map;
@@ -14,7 +14,7 @@ public class TestPipeline {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
-    @Test
+    @org.junit.jupiter.api.Test
     public void passesThroughTest() throws Exception {
         String input = "";
         PipeLine pipeline = new PipeLine();
