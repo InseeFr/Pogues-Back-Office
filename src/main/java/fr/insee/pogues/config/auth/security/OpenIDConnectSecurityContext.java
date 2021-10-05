@@ -24,11 +24,11 @@ import fr.insee.pogues.config.auth.security.conditions.OpenIDConnectAuthConditio
 import fr.insee.pogues.config.auth.security.keycloak.KeycloakUserDetailsAuthenticationProvider;
 import fr.insee.pogues.config.auth.security.keycloak.PoguesKeycloakConfigResolver;
 
-@Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = true)
-@ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
-@Conditional(value = OpenIDConnectAuthCondition.class)
+//@Configuration
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(securedEnabled = true)
+//@ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
+//@Conditional(value = OpenIDConnectAuthCondition.class)
 public class OpenIDConnectSecurityContext extends KeycloakWebSecurityConfigurerAdapter {
 
 	@Value("${fr.insee.pogues.force.ssl}")

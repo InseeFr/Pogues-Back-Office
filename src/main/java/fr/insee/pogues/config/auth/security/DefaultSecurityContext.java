@@ -9,10 +9,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import fr.insee.pogues.config.auth.security.conditions.NoOpenIDConnectAuthCondition;
 
-@Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(securedEnabled = false)
-@Conditional(value = NoOpenIDConnectAuthCondition.class)
+//@Configuration
+//@EnableWebSecurity
+//@EnableGlobalMethodSecurity(securedEnabled = false)
+//@Conditional(value = NoOpenIDConnectAuthCondition.class)
 public class DefaultSecurityContext extends WebSecurityConfigurerAdapter{
 	
 	@Override
