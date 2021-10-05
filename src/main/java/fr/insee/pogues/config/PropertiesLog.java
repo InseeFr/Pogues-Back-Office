@@ -39,6 +39,7 @@ public class PropertiesLog {
                 }
                 )
                 .flatMap(Arrays::stream)
+                .distinct()
                 .forEach(key->log.info(key+" = "+afficheValeurAvecMasquePwd(key)));
     }
 
