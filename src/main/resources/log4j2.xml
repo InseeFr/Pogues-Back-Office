@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 	<appenders>
-		<Console name="Console-Appender" target="SYSTEM_OUT">
-			<PatternLayout>
-				<pattern>
-					[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n
-				</pattern>
-			</PatternLayout>
-		</Console>
-		<RollingFile name="RollingFile" fileName="D://logs/pogues-local.log"
-			filePattern="D://logs/pogues-local-%d{MM-dd-yyyy}-%i.log.gz"
+
+		<RollingFile name="RollingFile"
+			fileName="D://logs/pogues-bo-local.log"
+			filePattern="D://logs/pogues-bo-local-%d{MM-dd-yyyy}-%i.log.gz"
 			ignoreExceptions="false">
 			<PatternLayout>
-				<Pattern>%d{yyyy-mm-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n</Pattern>
+				<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %level %logger{36} -
+					%msg%n</Pattern>
 			</PatternLayout>
 			<Policies>
 				<TimeBasedTriggeringPolicy />
 				<SizeBasedTriggeringPolicy size="1 MB" />
 			</Policies>
 		</RollingFile>
+		<Console name="STDOUT" target="SYSTEM_OUT">
+			<PatternLayout pattern="%m%n" />
+		</Console>
 
 	</appenders>
 
 	<loggers>
-		<Logger name="fr.insee.pogues" level="INFO" additivity="false">
-			<AppenderRef ref="Console-Appender" level="info" />
-		</Logger>
-		<root level="ERROR">
-			<appender-ref ref="Console-Appender" />
-		</root>
+		<Root level="INFO">
+			<AppenderRef ref="RollingFile" />
+			<AppenderRef ref="STDOUT" />
+		</Root>
 	</loggers>
 </configuration>
