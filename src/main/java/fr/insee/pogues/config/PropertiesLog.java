@@ -44,7 +44,7 @@ public class PropertiesLog {
     }
 
     private Object afficheValeurAvecMasquePwd(String key) {
-        if (motsCaches.contains(key)) {
+        if (key!=null && motsCaches.stream().anyMatch(key::contains)) {
             return "******";
         }
         return environment.getProperty(key);
