@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
-          ref: master
+          ref: main
           repository: InseeFr/Pogues-Model
           path: Pogues-Model
       - name: Build with Maven Pogues-Model
@@ -64,7 +64,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           fetch-depth: 1
-          ref: master
+          ref: main
           repository: InseeFr/Pogues-Model
           path: Pogues-Model
 
