@@ -6,6 +6,7 @@ import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.model.Unit;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,9 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -21,15 +25,19 @@ import java.util.List;
 @Service
 public class MetadataClientImpl implements MetadataClient {
 
-	@Autowired
 	private RemoteMetadata remoteMetadata;
 
-    @Autowired
     private RestTemplate restTemplate;
 
+	protected MetadataClientImpl(){}
 
+	@Autowired
+	public MetadataClientImpl(RemoteMetadata remoteMetadata, RestTemplateBuilder restTemplateBuilder) {
+		this.remoteMetadata = remoteMetadata;
+		this.restTemplate=restTemplateBuilder.build();
+	}
 
-    public ColecticaItem getItem(String id) throws Exception {
+	public ColecticaItem getItem(String id) throws Exception {
         String url = String.format("%s/meta-data/item/%s", remoteMetadata.getUrl(), id);
         return restTemplate.getForObject(url, ColecticaItem.class);
     }

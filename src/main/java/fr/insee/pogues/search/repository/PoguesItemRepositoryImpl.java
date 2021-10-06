@@ -1,13 +1,13 @@
 package fr.insee.pogues.search.repository;
 
+import fr.insee.pogues.config.RemoteMetadata;
 import fr.insee.pogues.search.model.DDIItem;
 import fr.insee.pogues.search.model.DataCollectionContext;
 import fr.insee.pogues.search.model.PoguesQuery;
 import fr.insee.pogues.search.model.ResponseSearchItem;
-
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -26,17 +26,20 @@ import java.util.List;
 @Component(value="PoguesItemRepositoryImpl")
 public class PoguesItemRepositoryImpl implements PoguesItemRepository {
 
-    @Value("${fr.insee.pogues.api.remote.metadata.url}")
-    String serviceUrl;
+    private RemoteMetadata remoteMetadata;
 
+    private RestTemplate restTemplate;
+
+    protected PoguesItemRepositoryImpl(){}
 
     @Autowired
-    RestTemplate restTemplate;
-
-
+    public PoguesItemRepositoryImpl(RemoteMetadata remoteMetadata, RestTemplateBuilder restTemplateBuilder) {
+        this.remoteMetadata = remoteMetadata;
+        this.restTemplate=restTemplateBuilder.build();
+    }
     @Override
     public List<ResponseSearchItem> findByLabel(PoguesQuery query, MultiValueMap<String, String> params) throws Exception {
-        String url = String.format("%s/search", serviceUrl);
+        String url = String.format("%s/search", remoteMetadata.getUrl());
         url = UriComponentsBuilder.fromHttpUrl(url).queryParams(params).toUriString();
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
         headers.add("Content-type", ContentType.APPLICATION_JSON.getMimeType());
@@ -51,7 +54,7 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
 
     @Override
     public List<DDIItem> getSubGroups() throws Exception {
-        String url = String.format("%s/search/series", serviceUrl);
+        String url = String.format("%s/search/series", remoteMetadata.getUrl());
         ResponseEntity<DDIItem[]> response = restTemplate
                 .exchange(url, HttpMethod.GET, null, DDIItem[].class);
         return Arrays.asList(response.getBody());
@@ -59,7 +62,7 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
 
     @Override
     public List<DDIItem> getStudyUnits(String subgGroupId) throws Exception {
-        String url = String.format("%s/search/series/%s/operations", serviceUrl, subgGroupId);
+        String url = String.format("%s/search/series/%s/operations", remoteMetadata.getUrl(), subgGroupId);
         ResponseEntity<DDIItem[]> response = restTemplate
                 .exchange(url, HttpMethod.GET, null, DDIItem[].class);
         return Arrays.asList(response.getBody());
@@ -67,7 +70,7 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
 
     @Override
     public List<DDIItem> getDataCollections(String studyUnitId) throws Exception {
-        String url = String.format("%s/search/operations/%s/data-collection", serviceUrl, studyUnitId);
+        String url = String.format("%s/search/operations/%s/data-collection", remoteMetadata.getUrl(), studyUnitId);
         ResponseEntity<DDIItem[]> response = restTemplate
                 .exchange(url, HttpMethod.GET, null, DDIItem[].class);
         return Arrays.asList(response.getBody());
@@ -75,7 +78,7 @@ public class PoguesItemRepositoryImpl implements PoguesItemRepository {
     
     @Override
 	public DataCollectionContext getDataCollectionContext(String dataCollectionId) throws Exception {
-    	String url = String.format("%s/search/context/data-collection/%s", serviceUrl, dataCollectionId);
+    	String url = String.format("%s/search/context/data-collection/%s", remoteMetadata.getUrl(), dataCollectionId);
         ResponseEntity<DataCollectionContext> response = restTemplate
                 .exchange(url, HttpMethod.GET, null, DataCollectionContext.class);
         return response.getBody();

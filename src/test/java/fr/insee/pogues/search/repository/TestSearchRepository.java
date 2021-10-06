@@ -1,4 +1,4 @@
-package fr.insee.pogues.search;
+package fr.insee.pogues.search.repository;
 
 import fr.insee.pogues.search.repository.PoguesItemRepository;
 import fr.insee.pogues.search.repository.PoguesItemRepositoryImpl;

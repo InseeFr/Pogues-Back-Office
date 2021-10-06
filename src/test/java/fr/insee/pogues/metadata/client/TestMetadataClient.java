@@ -1,4 +1,4 @@
-package fr.insee.pogues.metadata;
+package fr.insee.pogues.metadata.client;
 
 import fr.insee.pogues.metadata.client.MetadataClient;
 import fr.insee.pogues.metadata.client.MetadataClientImpl;
