@@ -1,6 +1,11 @@
 name: Pogues Back Office Docker CI
 
-on: workflow_dispatch
+on:
+  push:
+    branches:
+      - "**"
+    tags:
+      - "*"
 
 jobs:
   test:
