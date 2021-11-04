@@ -1,34 +1,27 @@
 package fr.insee.pogues.webservice.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
-
+import fr.insee.pogues.config.auth.UserProvider;
+import fr.insee.pogues.config.auth.user.User;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.security.core.Authentication;
+import org.springframework.stereotype.Component;
+
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * WebService class for the Instrument Persistence
@@ -56,10 +49,13 @@ public class PoguesPersistence {
 	private QuestionnairesService questionnaireService;
     
     @Autowired
-    Environment env;
+    private Environment env;
+
+	@Autowired
+	private UserProvider userProvider;
 
 
-    @GET
+	@GET
 	@Path("questionnaire/{id}")
     @Produces(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -202,13 +198,14 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "204", description = "No content"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
-	public Response deleteQuestionnaire(
+	public Response deleteQuestionnaire(Authentication auth,
 			@Parameter(description = "The id of the object that need to be deleted", required = true)
 			@PathParam(value = "id") String id
 	) throws Exception {
 		try {
 			questionnaireService.deleteQuestionnaireByID(id);
-			logger.info("Questionnaire "+ id +" deleted");
+			User user=userProvider.getUser(auth);
+			logger.info("Questionnaire "+ id +" deleted by "+user.getName());
 			return Response.status(Status.NO_CONTENT).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
