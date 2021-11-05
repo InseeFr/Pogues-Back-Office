@@ -32,9 +32,6 @@ public class OpenIDConnectSecurityContext extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		super.configure(http);
-		if (requireSSL)
-			http.antMatcher("/**").requiresChannel().anyRequest().requiresSecure();
 		//TODO : variabiliser path /api...
 		http.sessionManagement().disable();
 		http.authorizeRequests()
@@ -45,7 +42,9 @@ public class OpenIDConnectSecurityContext extends WebSecurityConfigurerAdapter {
 				.anyRequest().authenticated()
 				.and()
 				.oauth2ResourceServer()
-				.jwt();;
+				.jwt();
+		if (requireSSL)
+			http.antMatcher("/**").requiresChannel().anyRequest().requiresSecure();
 	}
 
 	@Bean
