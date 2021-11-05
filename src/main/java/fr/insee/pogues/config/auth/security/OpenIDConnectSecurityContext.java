@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.jwt.Jwt;
 
+import javax.ws.rs.HEAD;
+
 @Configuration
 @EnableWebSecurity
 @ConditionalOnProperty(name = "fr.insee.pogues.authentication", havingValue = "OIDC")
@@ -35,10 +37,9 @@ public class OpenIDConnectSecurityContext extends WebSecurityConfigurerAdapter {
 			http.antMatcher("/**").requiresChannel().anyRequest().requiresSecure();
 		//TODO : variabiliser path /api...
 		http.sessionManagement().disable();
-		http.authorizeRequests().antMatchers("/api/init").permitAll()
-				.antMatchers("/api/healthcheck").permitAll()
-				.antMatchers("/swagger-ui/**").permitAll()
-				.antMatchers("/api/openapi.json").permitAll()
+		http.authorizeRequests()
+				.antMatchers("/api/init", "/api/healthcheck").permitAll()
+				.antMatchers("/swagger-ui/**", "/api/openapi.json").permitAll()
 				.antMatchers("/api/persistence/questionnaire/json-lunatic/**").permitAll()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
 				.anyRequest().authenticated()
