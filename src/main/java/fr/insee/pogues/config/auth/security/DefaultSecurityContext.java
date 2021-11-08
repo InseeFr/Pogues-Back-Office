@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 @Configuration
 @EnableWebSecurity
-@ConditionalOnExpression("!'OIDC'.equals(@environment.getProperty('fr.insee.pogues.authentication'))")
+@ConditionalOnExpression("!'OIDC'.equals('${fr.insee.pogues.authentication}')")
 public class DefaultSecurityContext extends WebSecurityConfigurerAdapter{
 	
 	@Override
