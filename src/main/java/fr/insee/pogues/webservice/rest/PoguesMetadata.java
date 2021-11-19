@@ -1,6 +1,7 @@
 package fr.insee.pogues.webservice.rest;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.logging.log4j.LogManager;
@@ -31,6 +33,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
@@ -90,14 +93,17 @@ public class PoguesMetadata {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getUnits", summary = "Get units measure", description = "This will give a list of objects containing the uri and the label for all units", responses = {
 			@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = Unit.class))) })
+	@ApiResponses(value = { 
+			@ApiResponse(responseCode = "200", description = "Success"),  
+			@ApiResponse(responseCode = "404", description = "Not found") })
 	public Response getUnits() throws Exception {
+		List<Unit> units = new ArrayList<>();
 		try {
-			List<Unit> units = metadataService.getUnits();
-			return Response.ok().entity(units).build();
+			units = metadataService.getUnits();
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
+			return Response.status(Status.NOT_FOUND).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
 		}
+		return Response.ok().entity(units).build();
 	}
 
 	@POST
