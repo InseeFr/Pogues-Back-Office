@@ -12,6 +12,8 @@ public interface QuestionnairesService {
     List<JSONObject> getQuestionnaireList() throws Exception;
     
     List<JSONObject> getQuestionnairesMetadata(String owner) throws Exception;
+    
+    List<JSONObject> getQuestionnairesStamps() throws Exception;
 
     /**
      *
@@ -24,10 +26,18 @@ public interface QuestionnairesService {
     /**
      *
      * @param id Id of requested object
-     * @return
+     * @return JSON representation of the questionnaire
      * @throws Exception
      */
     JSONObject getQuestionnaireByID(String id) throws Exception;
+    
+    /**
+    *
+    * @param id Id of requested object
+    * @return JSON Lunatic representation of a questionnaire
+    * @throws Exception
+    */
+    JSONObject getJsonLunaticByID(String id) throws Exception;
 
     /**
      *
@@ -35,18 +45,41 @@ public interface QuestionnairesService {
      * @throws Exception
      */
     void deleteQuestionnaireByID(String id) throws Exception;
+    
+    /**
+    *
+    * @param id Id of the object we want to delete
+    * @throws Exception
+    */
+   void deleteJsonLunaticByID(String id) throws Exception;
 
     /**
-     * Create a questionnaire object
-     * @param questionnaire
+     * Save the JSON representation of a questionnaire
+     * @param questionnaire JSON representation of a questionnaire
      * @throws Exception
      */
     void createQuestionnaire(JSONObject questionnaire) throws Exception;
+    
+    /**
+     * Save the JSON Lunatic representation of a questionnaire
+     * @param questionnaireLunatic JSON Lunatic representation of a questionnaire
+     * @throws Exception
+     */
+    void createJsonLunatic(JSONObject questionnaireLunatic) throws Exception;
 
     /**
      * Update a questionnaire object
-     * @param questionnaire
+     * @param questionnaire JSON representation of a questionnaire
+     * @param id id of the questionnaire
      * @throws Exception
      */
     void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception;
+    
+    /**
+	 * Update a questionnaire object
+	 * @param questionnaireLunatic JSON Lunatic representation of a questionnaire
+	 * @param id id of the questionnaire
+	 * @throws Exception
+	 */
+	void updateJsonLunatic(String id, JSONObject questionnaireLunatic) throws Exception;
 }

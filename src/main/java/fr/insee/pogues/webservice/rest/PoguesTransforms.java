@@ -28,23 +28,29 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.transforms.DDIToFO;
-import fr.insee.pogues.transforms.DDIToODT;
-import fr.insee.pogues.transforms.DDIToXForm;
-import fr.insee.pogues.transforms.FOToPDF;
-import fr.insee.pogues.transforms.JSONToXML;
 import fr.insee.pogues.transforms.PipeLine;
-import fr.insee.pogues.transforms.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.Transformer;
-import fr.insee.pogues.transforms.XFormToURI;
-import fr.insee.pogues.transforms.XFormsToXFormsHack;
-import fr.insee.pogues.transforms.XMLToJSON;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import fr.insee.pogues.transforms.visualize.DDIToFO;
+import fr.insee.pogues.transforms.visualize.DDIToFODT;
+import fr.insee.pogues.transforms.visualize.DDIToLunaticJSON;
+import fr.insee.pogues.transforms.visualize.DDIToXForms;
+import fr.insee.pogues.transforms.visualize.FOToPDF;
+import fr.insee.pogues.transforms.visualize.LunaticJSONToUriQueen;
+import fr.insee.pogues.transforms.visualize.LunaticJSONToUriStromaeV2;
+import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
+import fr.insee.pogues.transforms.visualize.PoguesXMLToDDI;
+import fr.insee.pogues.transforms.visualize.PoguesXMLToPoguesJSON;
+import fr.insee.pogues.transforms.visualize.XFormsToURIStromaeV1;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.Parameters;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * Main WebService class of the PoguesBOOrchestrator
@@ -52,25 +58,25 @@ import io.swagger.annotations.ApiResponses;
  * @author I6VWID
  */
 @Path("/transform")
-@Api(value = "Pogues Transforms")
+@Tag(name = "Pogues Transforms")
 public class PoguesTransforms {
 
 	final static Logger logger = LogManager.getLogger(PoguesTransforms.class);
 
 	@Autowired
-	JSONToXML jsonToXML;
+	PoguesJSONToPoguesXML jsonToXML;
 
 	@Autowired
-	XMLToJSON xmlToJson;
+	PoguesXMLToPoguesJSON xmlToJson;
 
 	@Autowired
 	PoguesXMLToDDI poguesXMLToDDI;
 
 	@Autowired
-	DDIToXForm ddiToXForm;
+	DDIToXForms ddiToXForm;
 
 	@Autowired
-	DDIToODT ddiToOdt;
+	DDIToFODT ddiToOdt;
 	
 	@Autowired
 	DDIToFO ddiToFo;
@@ -79,10 +85,16 @@ public class PoguesTransforms {
 	FOToPDF foToPdf;
 
 	@Autowired
-	XFormToURI xformToUri;
-
+	XFormsToURIStromaeV1 xformToUri;
+	
 	@Autowired
-	XFormsToXFormsHack xformToXformsHack;
+	DDIToLunaticJSON ddiToLunaticJSON;
+	
+	@Autowired
+	LunaticJSONToUriQueen lunaticJSONToUriQueen;
+	
+	@Autowired
+	LunaticJSONToUriStromaeV2 lunaticJSONToUriStromaeV2;
 
 	@Autowired
 	QuestionnairesService questionnairesService;
@@ -91,9 +103,13 @@ public class PoguesTransforms {
 	@Path("visualize/{dataCollection}/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_XML)
-	@ApiOperation(value = "Get visualization URI from JSON serialized Pogues entity", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
+	@Operation(
+			summary = "Get visualization URI from JSON serialized Pogues entity", 
+			description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+	@RequestBody(
+			description = "JSON representation of the Pogues Model",
+			content = @Content(mediaType = "application/json")
+			)
 	public Response visualizeFromBody(@Context final HttpServletRequest request,
 			@PathParam(value = "dataCollection") String dataCollection,
 			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
@@ -108,8 +124,75 @@ public class PoguesTransforms {
 							.map(jsonToXML::transform, params, questionnaire.toLowerCase())
 							.map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
 							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
-							.map(xformToXformsHack::transform, params, questionnaire.toLowerCase())
 							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+	
+	@POST
+	@Path("visualize-queen/{questionnaire}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
+	@Operation(summary = "Get visualization URI Queen from JSON serialized Pogues entity", description = "Get visualization URI Queen from JSON serialized Pogues entity")
+	@RequestBody(
+			description = "JSON Lunatic representation of the questionnaire",
+			content = @Content(mediaType = "application/json")
+			)
+	public Response visualizeQueenFromBody(@Context final HttpServletRequest request,
+			@Parameter(description="Name of the questionnaire") @PathParam(value = "questionnaire") String questionnaireName) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("mode","CAPI_CATI");
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream())
+							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return Response.ok(stream).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+	
+	@POST
+	@Path("visualize-stromae-v2/{questionnaire}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_XML)
+	@Operation(summary = "Get visualization URI Stromae V2 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V2 from JSON serialized Pogues entity")
+	@RequestBody(
+			description = "JSON Lunatic representation of the questionnaire",
+			content = @Content(mediaType = "application/json")
+			)
+	public Response visualizeStromaeV2FromBody(@Context final HttpServletRequest request,
+			@Parameter(description="Name of the questionnaire") @PathParam(value = "questionnaire") String questionnaireName) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("questionnaire", questionnaireName.toLowerCase());
+		try {
+			StreamingOutput stream = output -> {
+				try {
+					output.write(pipeline.from(request.getInputStream())
+							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+							.map(lunaticJSONToUriStromaeV2::transform, params, questionnaireName.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
@@ -126,9 +209,13 @@ public class PoguesTransforms {
 	@Path("visualize-from-ddi/{dataCollection}/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
-	@ApiOperation(value = "Get visualization URI from DDI questionnaire", notes = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "ddi body", value = "DDI representation of the questionnaire", paramType = "body") })
+	@Operation(
+			summary = "Get visualization URI from DDI questionnaire", 
+			description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+	@RequestBody(
+			description = "DDI representation of the Pogues Model",
+			content = @Content(mediaType = "application/xml")
+			)
 	public Response visualizeFromDDIBody(@Context final HttpServletRequest request,
 			@PathParam(value = "dataCollection") String dataCollection,
 			@PathParam(value = "questionnaire") String questionnaire) throws Exception {
@@ -141,7 +228,6 @@ public class PoguesTransforms {
 				try {
 					output.write(pipeline.from(request.getInputStream())
 							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
-							.map(xformToXformsHack::transform, params, questionnaire.toLowerCase())
 							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
@@ -159,9 +245,12 @@ public class PoguesTransforms {
 	@Path("visualize-spec")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	@ApiOperation(value = "Get visualization spec from JSON serialized Pogues entity", hidden = true)
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
+	@Operation(
+			summary = "Get visualization spec from JSON serialized Pogues entity", hidden = true)
+	@RequestBody(
+			description = "JSON representation of the Pogues Model",
+			content = @Content(mediaType = "application/json")
+			)
 	public Response visualizeSpecFromBody(@Context final HttpServletRequest request) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
@@ -191,9 +280,11 @@ public class PoguesTransforms {
 	@Path("visualize-ddi")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	@ApiOperation(value = "Get visualization DDI file from JSON serialized Pogues entity")
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
+	@Operation(summary = "Get visualization DDI file from JSON serialized Pogues entity")
+	@RequestBody(
+			description = "JSON representation of the Pogues Model",
+			content = @Content(mediaType = "application/json")
+			)
 	public Response visualizeDDIFromBody(@Context final HttpServletRequest request) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
@@ -222,9 +313,11 @@ public class PoguesTransforms {
 	@Path("visualize-pdf")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	@ApiOperation(value = "Get visualization PDF questionnaire from JSON serialized Pogues entity", hidden = true)
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "org.json.simple.JSONObject") })
+	@Operation(summary = "Get visualization PDF questionnaire from JSON serialized Pogues entity", hidden = true)
+	@RequestBody(
+			description = "JSON representation of the Pogues Model",
+			content = @Content(mediaType = "application/json")
+			)
 	public Response visualizePDFFromBody(@Context final HttpServletRequest request) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
@@ -250,14 +343,38 @@ public class PoguesTransforms {
 	@Path("ddi2pdf")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	@ApiOperation(value = "Get visualization PDF questionnaire from DDI questionnaire")
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "ddi body", value = "DDI representation of the questionnaire", paramType = "body", dataType = "string"),
-			@ApiImplicitParam(name = "columns", value = "Columns", paramType = "query", dataType = "string",allowableValues="1,2,3,4"),
-			@ApiImplicitParam(name = "orientation", value = "Orientation", paramType = "query", dataType = "string",allowableValues="0,90"),
-			@ApiImplicitParam(name = "capture", value = "capture", paramType = "query", dataType = "string",allowableValues="optical,manual"),
-			@ApiImplicitParam(name = "studyunit", value = "StudyUnit", paramType = "query", dataType = "string",allowableValues="business,household,default"),
-			@ApiImplicitParam(name = "timequestion", value = "TimeQuestion", paramType = "query", dataType = "string",allowableValues="true,false")})
+	@Operation(summary = "Get visualization PDF questionnaire from DDI questionnaire")
+	@RequestBody(
+			description = "DDI representation of the questionnaire",
+			content = @Content(mediaType = "application/xml")
+			)
+	@Parameters(value= {
+			@Parameter(
+					in = ParameterIn.QUERY, 
+					name = "columns", 
+					description="Columns",
+					schema=@Schema(type="string",allowableValues = {"1","2","3","4"})),
+			@Parameter(
+					in = ParameterIn.QUERY, 
+					name = "orientation", 
+					description="Orientation",
+					schema=@Schema(type="string",allowableValues = {"0","90"})),
+			@Parameter(
+					in = ParameterIn.QUERY, 
+					name = "capture", 
+					description="Capture",
+					schema=@Schema(type="string",allowableValues = {"optical","manual"})),
+			@Parameter(
+					in = ParameterIn.QUERY, 
+					name = "studyunit", 
+					description="StudyUnit",
+					schema=@Schema(type="string",allowableValues = {"business","household","default"})),
+			@Parameter(
+					in = ParameterIn.QUERY, 
+					name = "timequestion", 
+					description="TimeQuestion",
+					schema=@Schema(type="string",allowableValues = {"true","false"}))
+	})
 	public Response ddi2pdfWithParamTest(@Context final HttpServletRequest request) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
@@ -298,9 +415,11 @@ public class PoguesTransforms {
 	@Path("fo2pdf")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
-	@ApiOperation(value = "Get visualization PDF questionnaire from FO questionnaire")
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "FO body", value = "FO representation of the questionnaire", paramType = "body", dataType = "string") })
+	@Operation(summary = "Get visualization PDF questionnaire from FO questionnaire")
+	@RequestBody(
+			description = "FO representation of the Pogues Model",
+			content = @Content(mediaType = "application/xml")
+			)
 	public Response fo2Pdf (@Context final HttpServletRequest request) throws Exception{
 		String filePath = null;
 		String questionnaireName = "pdf";
@@ -324,10 +443,17 @@ public class PoguesTransforms {
 	@Path("json2xml")
 	@Produces(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(value = "Get Pogues XML From Pogues JSON", notes = "Returns a serialized XML based on a JSON entity that must comply with Pogues data model")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Error") })
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "json body", value = "JSON representation of the Pogues Model", paramType = "body", dataType = "string") })
+	@Operation(
+			summary = "Get Pogues XML From Pogues JSON", 
+			description = "Returns a serialized XML based on a JSON entity that must comply with Pogues data model")
+	@ApiResponses(value = { 
+			@ApiResponse(responseCode = "200", description = "OK"), 
+			@ApiResponse(responseCode = "500", description = "Error") 
+			})
+	@RequestBody(
+			description = "JSON representation of the Pogues Model",
+			content = @Content(mediaType = "application/json")
+			)
 	public Response json2XML(@Context final HttpServletRequest request) throws Exception {
 		String questionnaire = "xforms";
 		try {
@@ -342,10 +468,16 @@ public class PoguesTransforms {
 	@Path("xml2json")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_XML)
-	@ApiOperation(value = "Get Pogues JSON From Pogues XML", notes = "Returns a JSON entity that must comply with Pogues data model based on XML")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Error") })
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "xml body", value = "XML representation of the Pogues Model", paramType = "body", dataType = "string") })
+	@Operation(
+			summary = "Get Pogues JSON From Pogues XML", 
+			description = "Returns a JSON entity that must comply with Pogues data model based on XML")
+	@ApiResponses(value = { 
+			@ApiResponse(responseCode = "200", description = "OK"), 
+			@ApiResponse(responseCode = "500", description = "Error") })
+	@RequestBody(
+			description = "XML representation of the Pogues Model",
+			content = @Content(mediaType = "application/xml")
+			)
 	public Response xml2Json(@Context final HttpServletRequest request) throws Exception {
 		String questionnaire = "xforms";
 		try {
@@ -362,10 +494,16 @@ public class PoguesTransforms {
 	@Path("xform2uri/{dataCollection}/{questionnaire}")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_XML)
-	@ApiOperation(value = "Get Pogues visualization URI From Pogues XForm document", notes = "Returns the vizualisation URI of a form that was generated from XForm description found in body")
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"), @ApiResponse(code = 500, message = "Error") })
-	@ApiImplicitParams(value = {
-			@ApiImplicitParam(name = "xform body", value = "XForm document generated from DDI metadata", paramType = "body", dataType = "string") })
+	@Operation(
+			summary = "Get Pogues visualization URI From Pogues XForm document", 
+			description = "Returns the vizualisation URI of a form that was generated from XForm description found in body")
+	@ApiResponses(value = { 
+			@ApiResponse(responseCode = "200", description = "OK"), 
+			@ApiResponse(responseCode = "500", description = "Error") })
+	@RequestBody(
+			description = "XForm document generated from DDI metadata",
+			content = @Content(mediaType = "text/plain")
+			)
 	public String xForm2URI(@Context final HttpServletRequest request,
 			@PathParam(value = "dataCollection") String dataCollection,
 			@PathParam(value = "questionnaire") String questionnaire) throws Exception {

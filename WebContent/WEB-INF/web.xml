@@ -35,25 +35,22 @@
 		<servlet-class>org.glassfish.jersey.servlet.ServletContainer</servlet-class>
 		<init-param>
 			<param-name>jersey.config.server.provider.packages</param-name>
-			<param-value>io.swagger.jaxrs.listing,fr.insee.pogues.webservice.rest,fr.insee.pogues.utils.jersey</param-value>
+			<param-value>fr.insee.pogues.webservice.rest,fr.insee.pogues.utils.jersey,io.swagger.v3.jaxrs2.integration.resources</param-value>
 		</init-param>
 		<init-param>
-			<param-name>unit:WidgetPU</param-name>
-			<param-value>persistence/widget</param-value>
-		</init-param>
+			<param-name>javax.ws.rs.Application</param-name>
+			<param-value>fr.insee.pogues.config.SwaggerConfig</param-value>
+		</init-param> 
+		<init-param>
+	        <param-name>jersey.config.server.provider.classnames</param-name>
+	        <param-value>org.glassfish.jersey.media.multipart.MultiPartFeature</param-value>
+	    </init-param>
 		<load-on-startup>1</load-on-startup>
 	</servlet>
 
-	<servlet>
-		<servlet-name>SwaggerBootstrap</servlet-name>
-		<servlet-class>fr.insee.pogues.config.SwaggerConfig</servlet-class>
-		<load-on-startup>2</load-on-startup>
-	</servlet>
-
-
 	<servlet-mapping>
 		<servlet-name>PoguesBackOffice</servlet-name>
-		<url-pattern>/pogues/*</url-pattern>
+		<url-pattern>/api/*</url-pattern>
 	</servlet-mapping>
 
 
@@ -67,6 +64,14 @@
 		<init-param>
 			<param-name>cors.allowed.methods</param-name>
 			<param-value>GET,POST,HEAD,OPTIONS,PUT,DELETE</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cors.allowed.headers</param-name>
+			<param-value>Authorization,Access-Control-Allow-Origin,Content-Type,X-Requested-With,accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers, api_key</param-value>
+		</init-param>
+		<init-param>
+			<param-name>cors.exposed.headers</param-name>
+			<param-value>Access-Control-Allow-Origin,Access-Control-Allow-Credentials,Content-Disposition</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>

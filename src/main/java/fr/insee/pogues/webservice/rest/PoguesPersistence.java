@@ -1,19 +1,34 @@
 package fr.insee.pogues.webservice.rest;
 
-import fr.insee.pogues.persistence.service.QuestionnairesService;
-import io.swagger.annotations.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import java.util.ArrayList;
-import java.util.List;
+import fr.insee.pogues.persistence.service.QuestionnairesService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
  * WebService class for the Instrument Persistence
@@ -32,33 +47,61 @@ import java.util.List;
  */
 @Component
 @Path("/persistence")
-@Api(value = "Pogues Persistence")
+@Tag(name = "Pogues Persistence")
 public class PoguesPersistence {
 
     final static Logger logger = LogManager.getLogger(PoguesPersistence.class);
 
     @Autowired
 	private QuestionnairesService questionnaireService;
+    
+    @Autowired
+    Environment env;
 
 
-	@GET
+    @GET
 	@Path("questionnaire/{id}")
     @Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-	        value = "Get questionnaire",
-            notes = "Gets the questionnaire with id {id}",
-            response = String.class
+	@Operation(
+			operationId  = "getQuestionnaires",
+	        summary = "Get questionnaire",
+            description = "Gets the questionnaire with id {id}"
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 404, message = "Not found")
-    })
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })	
 	public Response getQuestionnaire(
-			@ApiParam(value = "This is the id of the object we want to retrieve", required = true)
+			@Parameter(description = "This is the id of the object we want to retrieve", required = true)
 			@PathParam(value = "id") String id
 	) throws Exception {
 		try {
 			JSONObject result = questionnaireService.getQuestionnaireByID(id);
+			return Response.status(Status.OK).entity(result).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+    
+    @GET
+	@Path("questionnaire/json-lunatic/{id}")
+    @Produces(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId = "getJsonLunatic",
+	        summary = "Get questionnaire",
+            description = "Gets the questionnaire with id JsonLunatic {id}"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+	public Response getJsonLunatic(
+			@Parameter(description = "This is the id of the object we want to retrieve", required = true)
+			@PathParam(value = "id") String id
+	) throws Exception {
+		try {
+			JSONObject result = questionnaireService.getJsonLunaticByID(id);
 			return Response.status(Status.OK).entity(result).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -70,17 +113,17 @@ public class PoguesPersistence {
     @GET
     @Path("questionnaires/search")
     @Produces(MediaType.APPLICATION_JSON)
-    @ApiOperation(
-            value = "Search questionnaires",
-            notes = "Search questionnaires matching query params",
-            response = List.class
+    @Operation(
+    		operationId = "searchQuestionnaires",
+            summary = "Search questionnaires",
+            description = "Search questionnaires matching query params"
     )
 	@ApiResponses(value = {
-			@ApiResponse(code = 200, message = "Success"),
-			@ApiResponse(code = 400, message = "Bad request")
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "400", description = "Bad request")
 	})
     public Response searchQuestionnaires(
-			@ApiParam(value = "A user id matching owner permission on each object of the collection", required = false)
+			@Parameter(description = "A user id matching owner permission on each object of the collection", required = false)
             @QueryParam("owner") String owner
     ) throws Exception {
         try {
@@ -98,17 +141,17 @@ public class PoguesPersistence {
 	@GET
 	@Path("questionnaires/search/meta")
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-	        value = "Get questionnaires' metadata",
-            notes = "Get questionnaires' metadata matching query params",
-            response = List.class
+	@Operation(
+			operationId = "searchQuestionnairesMetadata",
+	        summary = "Get questionnaires' metadata",
+            description = "Get questionnaires' metadata matching query params"
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 400, message = "Bad request")
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad request")
     })
 	public Response getQuestionnairesMetadata(
-			@ApiParam(value = "A user id matching owner permission on each object of the collection", required = false)
+			@Parameter(description = "A user id matching owner permission on each object of the collection", required = false)
             @QueryParam("owner") String owner
 	) throws Exception {
 		try {
@@ -122,20 +165,45 @@ public class PoguesPersistence {
             throw e;
         }
 	}
+	
+	@GET
+	@Path("questionnaires/stamps")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId = "searchQuestionnairesStamps",
+	        summary = "Get stamps in database",
+            description = "Get stamps with at least one questionnaire saved in database"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "400", description = "Bad request"),
+            @ApiResponse(responseCode = "401", description = "Unauthorized")
+    })
+	public Response getQuestionnaireStamps() throws Exception {
+		try {
+			List<JSONObject> questionnairesStamps = new ArrayList<>();
+			questionnairesStamps.addAll(questionnaireService.getQuestionnairesStamps());
+            return Response.status(Status.OK).entity(questionnairesStamps).build();
+        } catch (Exception e) {
+			logger.error(e.getMessage(), e);
+            throw e;
+        }
+	}
+	
 
 	@DELETE
 	@Path("questionnaire/{id}")
-	@ApiOperation(
-	        value = "Delete questionnaire",
-            notes = "Delete questionnaire with id {id}"
+	@Operation(
+			operationId = "deleteQuestionnaire",
+	        summary = "Delete questionnaire",
+            description = "Delete questionnaire with id {id}"
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 204, message = "No content"),
-            @ApiResponse(code = 404, message = "Not found")
+            @ApiResponse(responseCode = "204", description = "No content"),
+            @ApiResponse(responseCode = "404", description = "Not found")
     })
-	@OwnerRestricted
 	public Response deleteQuestionnaire(
-			@ApiParam(value = "The id of the object that need to be deleted", required = true)
+			@Parameter(description = "The id of the object that need to be deleted", required = true)
 			@PathParam(value = "id") String id
 	) throws Exception {
 		try {
@@ -147,19 +215,43 @@ public class PoguesPersistence {
 			throw e;
 		}
 	}
+	
+	@DELETE
+	@Path("questionnaire/json-lunatic/{id}")
+	@Operation(
+			operationId = "deleteJsonLunatic",
+	        summary = "Delete Json Lunatic of a questionnaire",
+            description = "Delete the Json Lunatic representation of a  questionnaire with id {id}"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "No content"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+//	@OwnerRestricted
+	public Response deleteJsonLunatic(
+			@Parameter(description = "The id of the object that need to be deleted", required = true)
+			@PathParam(value = "id") String id
+	) throws Exception {
+		try {
+			questionnaireService.deleteJsonLunaticByID(id);
+			logger.info("Questionnaire "+ id +" deleted");
+			return Response.status(Status.NO_CONTENT).build();
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 
 	@GET
 	@Path("questionnaires")
     @Produces(MediaType.APPLICATION_JSON)
-
-	@ApiOperation(
-	        value = "Get questionnaires",
-            notes = "Gets the `QuestionnaireList` object",
-            response = List.class
+	@Operation(
+			operationId = "getQuestionnaireList",
+	        summary = "Get questionnaires",
+            description = "Gets the `QuestionnaireList` object"
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 404, message = "Not found")
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Not found")
     })
 	public Response getQuestionnaireList() throws Exception {
 		try {
@@ -175,19 +267,19 @@ public class PoguesPersistence {
 	@Path("questionnaire/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-	        value = "Update questionnaire",
-            notes = "Update a `Questionnaire` object with id {id}"
+	@Operation(
+			operationId = "updateQuestionnaire",
+	        summary = "Update questionnaire",
+            description = "Update a `Questionnaire` object with id {id}"
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Success"),
-            @ApiResponse(code = 404, message = "Not found")
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Not found")
     })
-	@OwnerRestricted
 	public Response updateQuestionnaire(
-			@ApiParam(value = "The id of the object that need to be updated", required = true)
+			@Parameter(description = "The id of the object that need to be updated", required = true)
 			@PathParam(value = "id") String id,
-			@ApiParam(value = "Instrument object to be updated") JSONObject jsonContent
+			@Parameter(description = "Instrument object to be updated") JSONObject jsonContent
 	) throws Exception {
         try {
 			questionnaireService.updateQuestionnaire(id, jsonContent);
@@ -198,28 +290,87 @@ public class PoguesPersistence {
             throw e;
         }
 	}
+	
+	@PUT
+	@Path("questionnaire/json-lunatic/{id}")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId = "updateJsonLunatic",
+	        summary = "Update Json Lunatic",
+            description = "Update Json Lunatic of a `Questionnaire` object with id {id}"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+//	@OwnerRestricted
+	public Response updateJsonLunatic(
+			@Parameter(description = "The id of the questionnaire which json lunatic needs to be updated", required = true)
+			@PathParam(value = "id") String id,
+			@Parameter(description = "Json Lunatic to be updated") JSONObject jsonLunatic
+	) throws Exception {
+        try {
+			questionnaireService.updateJsonLunatic(id, jsonLunatic);
+			logger.info("Json Lunatic of questionnaire "+ id +" updated");
+			return Response.status(Status.NO_CONTENT).build();
+        } catch (Exception e) {
+            throw e;
+        }
+	}
 
 	@POST
 	@Path("questionnaires")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@ApiOperation(
-	        value = "Create Questionnaire",
-            notes = "Creates a new `Questionnaire`"
+	@Operation(
+			operationId = "createQuestionnaire",
+	        summary = "Create Questionnaire",
+            description = "Creates a new `Questionnaire`"
     )
     @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Created"),
-            @ApiResponse(code = 400, message = "Entity already exists")
+            @ApiResponse(responseCode = "201", description = "Created"),
+            @ApiResponse(responseCode = "400", description = "Entity already exists")
     })
 	public Response createQuestionnaire(
-			@ApiParam(value = "New Instrument Object", required = true) JSONObject jsonContent
+			@Parameter(description = "New Instrument Object", required = true) JSONObject jsonContent
 	) throws Exception {
         try {
-			questionnaireService.createQuestionnaire(jsonContent);
-			//TODO return a generic uri
+        	questionnaireService.createQuestionnaire(jsonContent);
 			String id = (String) jsonContent.get("id");
-			String uriQuestionnaire = "http://dvrmspogfolht01.ad.insee.intra/rmspogfo/pogues/persistence/questionnaire/"+id;
+			String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
+			String apiName = env.getProperty("fr.insee.pogues.api.name");
+			String uriQuestionnaire = String.format("http://%s%s/persistence/questionnaire/%s",dbHost,apiName,id);
 			logger.debug("New questionnaire created , uri :" + uriQuestionnaire);
 			return Response.status(Status.CREATED).header("Location", uriQuestionnaire).build();
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+	
+	@POST
+	@Path("questionnaires/json-lunatic")
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId = "createJsonLunatic",
+	        summary = "Create Json Lunatic of questionnaire",
+            description = "Creates a new Json Lunatic entry"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Created"),
+            @ApiResponse(responseCode = "400", description = "Entity already exists")
+    })
+	public Response createJsonLunatic(
+			@Parameter(description = "New Instrument Object", required = true) JSONObject jsonContent
+	) throws Exception {
+        try {
+			questionnaireService.createJsonLunatic(jsonContent);
+			String id = (String) jsonContent.get("id");
+			String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
+			String apiName = env.getProperty("fr.insee.pogues.api.name");
+			String uriJsonLunaticQuestionnaire = String.format("http://%s%s/persistence/questionnaire/json-lunatic/%s",dbHost,apiName,id);
+			logger.debug("New Json Lunatic created , uri :" + uriJsonLunaticQuestionnaire);
+			return Response.status(Status.CREATED).header("Location", uriJsonLunaticQuestionnaire).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
