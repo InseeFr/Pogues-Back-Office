@@ -1,13 +1,12 @@
 package fr.insee.pogues.metadata.client;
 
+import fr.insee.pogues.config.RemoteMetadata;
 import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.model.Unit;
 import org.apache.http.entity.ContentType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -23,27 +22,25 @@ import java.util.List;
 @Service
 public class MetadataClientImpl implements MetadataClient {
 
-    private static final Logger logger = LogManager.getLogger(MetadataClientImpl.class);
+	private RemoteMetadata remoteMetadata;
 
-    @Autowired
-    RestTemplate restTemplate;
+    private RestTemplate restTemplate;
 
-    @Value("${fr.insee.pogues.api.remote.metadata.url}")
-    String serviceUrl;
+	protected MetadataClientImpl(){}
 
-    @Value("${fr.insee.pogues.api.remote.metadata.agency}")
-    String agency;
+	@Autowired
+	public MetadataClientImpl(RemoteMetadata remoteMetadata, RestTemplateBuilder restTemplateBuilder) {
+		this.remoteMetadata = remoteMetadata;
+		this.restTemplate=restTemplateBuilder.build();
+	}
 
-    @Value("${fr.insee.pogues.api.remote.metadata.key}")
-    String apiKey;
-
-    public ColecticaItem getItem(String id) throws Exception {
-        String url = String.format("%s/meta-data/item/%s", serviceUrl, id);
+	public ColecticaItem getItem(String id) throws Exception {
+        String url = String.format("%s/meta-data/item/%s", remoteMetadata.getUrl(), id);
         return restTemplate.getForObject(url, ColecticaItem.class);
     }
 
     public List<ColecticaItem> getItems(ColecticaItemRefList query) throws Exception {
-        String url = String.format("%s/meta-data/items", serviceUrl);
+        String url = String.format("%s/meta-data/items", remoteMetadata.getUrl());
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add("Content-type", ContentType.APPLICATION_JSON.getMimeType());
         HttpEntity<ColecticaItemRefList> request = new HttpEntity<>(query, headers);
@@ -53,7 +50,7 @@ public class MetadataClientImpl implements MetadataClient {
     }
 
     public ColecticaItemRefList getChildrenRef(String id) throws Exception {
-        String url = String.format("%s/meta-data/item/%s/refs", serviceUrl, id);
+        String url = String.format("%s/meta-data/item/%s/refs", remoteMetadata.getUrl(), id);
         System.out.println(url);
         ResponseEntity<ColecticaItemRefList>  response;
         response = restTemplate
@@ -62,7 +59,7 @@ public class MetadataClientImpl implements MetadataClient {
     }
 
     public String getDDIDocument(String id) throws Exception {
-        String url = String.format("%s/meta-data/item/%s/ddi", serviceUrl, id);
+        String url = String.format("%s/meta-data/item/%s/ddi", remoteMetadata.getUrl(), id);
         ResponseEntity<String>  response;
         response = restTemplate
                 .exchange(url, HttpMethod.GET, null, String.class);
@@ -72,7 +69,7 @@ public class MetadataClientImpl implements MetadataClient {
     public List<Unit> getUnits() throws Exception {
         
     	// Fake
-    	List<Unit> units = new ArrayList<Unit>();
+    	List<Unit> units = new ArrayList<>();
     	Unit unit1 =new Unit();
     	unit1.setLabel("€");
     	unit1.setUri("http://id.insee.fr/unit/euro");
@@ -119,7 +116,7 @@ public class MetadataClientImpl implements MetadataClient {
 
 	@Override
 	public String getCodeList(String id) throws Exception {
-		 String url = String.format("%s/meta-data/codeList/%s/ddi", serviceUrl, id);
+		 String url = String.format("%s/meta-data/codeList/%s/ddi", remoteMetadata.getUrl(), id);
 	        ResponseEntity<String>  response;
 	        response = restTemplate
 	                .exchange(url, HttpMethod.GET, null, String.class);

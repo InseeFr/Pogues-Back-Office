@@ -6,8 +6,8 @@ import fr.insee.pogues.metadata.service.MetadataService;
 import fr.insee.pogues.metadata.service.MetadataServiceImpl;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
@@ -29,7 +29,7 @@ public class TestMetadataService {
         return StreamSupport.stream(((JSONArray) jsonArray).spliterator(), false);
     }
 
-    @Before
+    @BeforeEach
     public void beforeEach() {
         metadataService = spy(new MetadataServiceImpl());
         initMocks(this);

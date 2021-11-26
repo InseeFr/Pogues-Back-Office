@@ -3,8 +3,8 @@ package fr.insee.pogues.jersey;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import fr.insee.pogues.webservice.rest.PoguesExceptionMapper;
 import fr.insee.pogues.webservice.rest.RestMessage;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -16,7 +16,7 @@ public class TetsPoguesExceptionMapper {
 
     PoguesExceptionMapper mapper;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         mapper = spy(new PoguesExceptionMapper());
     }
