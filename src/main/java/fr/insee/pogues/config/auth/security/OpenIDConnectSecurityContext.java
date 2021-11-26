@@ -13,8 +13,16 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import javax.ws.rs.HEAD;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
 @EnableWebSecurity
@@ -29,12 +37,15 @@ public class OpenIDConnectSecurityContext extends WebSecurityConfigurerAdapter {
 	private String stampClaim;
 	@Value("${jwt.username-claim}")
 	private String nameClaim;
+	@Value("${fr.insee.pogues.cors.allowedOrigin}")
+	private Optional<String> allowedOrigin;
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		//TODO : variabiliser path /api...
 		http.sessionManagement().disable();
-		http.authorizeRequests()
+		http.cors(withDefaults())
+				.authorizeRequests()
 				.antMatchers("/api/init", "/api/healthcheck").permitAll()
 				.antMatchers("/swagger-ui/**", "/api/openapi.json").permitAll()
 				.antMatchers("/api/persistence/questionnaire/json-lunatic/**").permitAll()
@@ -53,6 +64,17 @@ public class OpenIDConnectSecurityContext extends WebSecurityConfigurerAdapter {
 			final Jwt jwt = (Jwt) auth.getPrincipal();
 			return new User(jwt.getClaimAsString(stampClaim), jwt.getClaimAsString(nameClaim));
 		};
+	}
+
+	@Bean
+	public CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+		configuration.setAllowedOrigins(allowedOrigin.stream().collect(Collectors.toList()));
+		configuration.setAllowedMethods(List.of("*"));
+		UrlBasedCorsConfigurationSource source = new
+				UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
 	}
 
 

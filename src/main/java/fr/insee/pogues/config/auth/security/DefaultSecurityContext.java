@@ -18,9 +18,6 @@ public class DefaultSecurityContext extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 		http.authorizeRequests().anyRequest().permitAll();
-//		if (Config.REQUIRES_SSL) {
-//			http.antMatcher("/**").requiresChannel().anyRequest().requiresSecure();
-//		}
 	}
 
 	@Bean
