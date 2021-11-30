@@ -26,6 +26,9 @@ public class PublicResources {
 	@Value("${fr.insee.pogues.authentication}")
     String authentificationType;
 	
+	@Value("${fr.insee.pogues.search.disable}")
+	boolean isSearchDisable;
+	
 	@GET
 	@Path("/init")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -34,6 +37,7 @@ public class PublicResources {
 		JSONObject props = new JSONObject();
 		try {
 			props.put("authType", authentificationType);
+			props.put("isSearchDisable", isSearchDisable);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 		}
