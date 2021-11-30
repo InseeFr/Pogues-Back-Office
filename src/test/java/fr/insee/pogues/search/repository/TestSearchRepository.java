@@ -2,7 +2,6 @@ package fr.insee.pogues.search.repository;
 
 import fr.insee.pogues.search.repository.PoguesItemRepository;
 import fr.insee.pogues.search.repository.PoguesItemRepositoryImpl;
-import org.elasticsearch.client.RestHighLevelClient;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,8 +12,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 public class TestSearchRepository {
 
-    @Mock
-    RestHighLevelClient client;
+    //@Mock
+    //RestHighLevelClient client;
 
     @InjectMocks
     PoguesItemRepository repository;

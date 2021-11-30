@@ -130,6 +130,12 @@
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>fop</artifactId>
 			<version>${fop.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>xml-apis</groupId>
+					<artifactId>xml-apis</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>net.sf.saxon</groupId>
