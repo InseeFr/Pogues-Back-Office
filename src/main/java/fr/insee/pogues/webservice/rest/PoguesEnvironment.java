@@ -1,7 +1,6 @@
 package fr.insee.pogues.webservice.rest;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -11,15 +10,17 @@ import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Component
-@Path("env")
+@RestController
+@RequestMapping("env")
 @Tag(name = "Pogues Environment")
 public class PoguesEnvironment {
 
@@ -29,6 +30,7 @@ public class PoguesEnvironment {
 	Environment env;
 
 	@GET
+	@GetMapping("")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getEnvironment", summary = "Get pogues back office environment")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Success"),

@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
@@ -18,6 +17,10 @@ import javax.ws.rs.core.StreamingOutput;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
@@ -38,7 +41,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  *
  * @author I6VWID
  */
-@Path("/meta-data")
+@RestController
+@RequestMapping("/meta-data")
 @Tag(name = "Pogues MetaData API")
 public class PoguesMetadata {
 
@@ -54,7 +58,7 @@ public class PoguesMetadata {
 	PoguesXMLToPoguesJSON xmlToJSON;
 
 	@GET
-	@Path("item/{id}")
+	@GetMapping("item/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getItem", summary = "Gets the item with id {id}", description = "Get an item from Colectica Repository, given it's {id}", responses = {
 			@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = ColecticaItem.class))) })
@@ -69,7 +73,7 @@ public class PoguesMetadata {
 	}
 
 	@GET
-	@Path("item/{id}/refs/")
+	@GetMapping("item/{id}/refs/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getChildrenRef", summary = "Get the children refs with parent id {id}", description = "This will give a list of object containing a reference id, version and agency. Note that you will"
 			+ "need to map response objects keys to be able to use it for querying items "
@@ -86,7 +90,7 @@ public class PoguesMetadata {
 	}
 
 	@GET
-	@Path("units")
+	@GetMapping("units")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getUnits", summary = "Get units measure", description = "This will give a list of objects containing the uri and the label for all units", responses = {
 			@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = Unit.class))) })
@@ -101,7 +105,7 @@ public class PoguesMetadata {
 	}
 
 	@POST
-	@Path("items")
+	@PostMapping("items")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -123,7 +127,7 @@ public class PoguesMetadata {
 	}
 
 	@GET
-	@Path("item/{id}/ddi")
+	@GetMapping("item/{id}/ddi")
 	@Produces(MediaType.APPLICATION_XML)
 	@Operation(operationId = "getFullDDI", summary = "Get DDI document", description = "Gets a full DDI document from Colectica repository reference {id}"
 	/* ,response = String.class */)
@@ -256,7 +260,7 @@ public class PoguesMetadata {
 	//
 
 	@GET
-	@Path("code-list/{id}")
+	@GetMapping("code-list/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getCodeList", summary = "getCodeList", description = "Gets the code-list with id {id}"
 	/* ,response = String.class */)

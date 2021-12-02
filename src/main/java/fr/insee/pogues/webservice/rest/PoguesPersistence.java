@@ -1,5 +1,33 @@
 package fr.insee.pogues.webservice.rest;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import fr.insee.pogues.config.auth.UserProvider;
 import fr.insee.pogues.config.auth.user.User;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
@@ -8,20 +36,6 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.security.core.Authentication;
-import org.springframework.stereotype.Component;
-
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * WebService class for the Instrument Persistence
@@ -38,8 +52,8 @@ import java.util.List;
  *         produces: - application/json
  *
  */
-@Component
-@Path("/persistence")
+@RestController
+@RequestMapping("/persistence")
 @Tag(name = "Pogues Persistence")
 public class PoguesPersistence {
 
@@ -56,7 +70,7 @@ public class PoguesPersistence {
 
 
 	@GET
-	@Path("questionnaire/{id}")
+	@GetMapping("questionnaire/{id}")
     @Produces(MediaType.APPLICATION_JSON)
 	@Operation(
 			operationId  = "getQuestionnaires",
@@ -81,7 +95,7 @@ public class PoguesPersistence {
 	}
     
     @GET
-	@Path("questionnaire/json-lunatic/{id}")
+    @GetMapping("questionnaire/json-lunatic/{id}")
     @Produces(MediaType.APPLICATION_JSON)
 	@Operation(
 			operationId = "getJsonLunatic",
@@ -107,7 +121,7 @@ public class PoguesPersistence {
 	}
 
     @GET
-    @Path("questionnaires/search")
+    @GetMapping("questionnaires/search")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
     		operationId = "searchQuestionnaires",
@@ -135,7 +149,7 @@ public class PoguesPersistence {
     }
     
 	@GET
-	@Path("questionnaires/search/meta")
+	@GetMapping("questionnaires/search/meta")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(
 			operationId = "searchQuestionnairesMetadata",
@@ -163,7 +177,7 @@ public class PoguesPersistence {
 	}
 	
 	@GET
-	@Path("questionnaires/stamps")
+	@GetMapping("questionnaires/stamps")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(
 			operationId = "searchQuestionnairesStamps",
@@ -188,7 +202,7 @@ public class PoguesPersistence {
 	
 
 	@DELETE
-	@Path("questionnaire/{id}")
+	@DeleteMapping("questionnaire/{id}")
 	@Operation(
 			operationId = "deleteQuestionnaire",
 	        summary = "Delete questionnaire",
@@ -214,7 +228,7 @@ public class PoguesPersistence {
 	}
 	
 	@DELETE
-	@Path("questionnaire/json-lunatic/{id}")
+	@DeleteMapping("questionnaire/json-lunatic/{id}")
 	@Operation(
 			operationId = "deleteJsonLunatic",
 	        summary = "Delete Json Lunatic of a questionnaire",
@@ -239,7 +253,7 @@ public class PoguesPersistence {
 	}
 
 	@GET
-	@Path("questionnaires")
+	@GetMapping("questionnaires")
     @Produces(MediaType.APPLICATION_JSON)
 	@Operation(
 			operationId = "getQuestionnaireList",
@@ -261,7 +275,7 @@ public class PoguesPersistence {
 	}
 	
 	@PUT
-	@Path("questionnaire/{id}")
+	@PutMapping("questionnaire/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -289,7 +303,7 @@ public class PoguesPersistence {
 	}
 	
 	@PUT
-	@Path("questionnaire/json-lunatic/{id}")
+	@PutMapping("questionnaire/json-lunatic/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -317,7 +331,7 @@ public class PoguesPersistence {
 	}
 
 	@POST
-	@Path("questionnaires")
+	@PostMapping("questionnaires")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Operation(
 			operationId = "createQuestionnaire",
@@ -346,7 +360,7 @@ public class PoguesPersistence {
 	}
 	
 	@POST
-	@Path("questionnaires/json-lunatic")
+	@PostMapping("questionnaires/json-lunatic")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Operation(
 			operationId = "createJsonLunatic",

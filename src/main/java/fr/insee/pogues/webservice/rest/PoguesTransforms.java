@@ -13,7 +13,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
@@ -26,6 +25,9 @@ import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.PipeLine;
@@ -57,7 +59,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  *
  * @author I6VWID
  */
-@Path("/transform")
+@RestController
+@RequestMapping("/transform")
 @Tag(name = "Pogues Transforms")
 public class PoguesTransforms {
 
@@ -100,7 +103,7 @@ public class PoguesTransforms {
 	QuestionnairesService questionnairesService;
 
 	@POST
-	@Path("visualize/{dataCollection}/{questionnaire}")
+	@PostMapping("visualize/{dataCollection}/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_XML)
 	@Operation(
@@ -138,7 +141,7 @@ public class PoguesTransforms {
 	}
 	
 	@POST
-	@Path("visualize-queen/{questionnaire}")
+	@PostMapping("visualize-queen/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_XML)
 	@Operation(summary = "Get visualization URI Queen from JSON serialized Pogues entity", description = "Get visualization URI Queen from JSON serialized Pogues entity")
@@ -172,7 +175,7 @@ public class PoguesTransforms {
 	}
 	
 	@POST
-	@Path("visualize-stromae-v2/{questionnaire}")
+	@PostMapping("visualize-stromae-v2/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_XML)
 	@Operation(summary = "Get visualization URI Stromae V2 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V2 from JSON serialized Pogues entity")
@@ -206,7 +209,7 @@ public class PoguesTransforms {
 	}
 
 	@POST
-	@Path("visualize-from-ddi/{dataCollection}/{questionnaire}")
+	@PostMapping("visualize-from-ddi/{dataCollection}/{questionnaire}")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_XML)
 	@Operation(
@@ -242,7 +245,7 @@ public class PoguesTransforms {
 	}
 
 	@POST
-	@Path("visualize-spec")
+	@PostMapping("visualize-spec")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@Operation(
@@ -277,7 +280,7 @@ public class PoguesTransforms {
 	}
 
 	@POST
-	@Path("visualize-ddi")
+	@PostMapping("visualize-ddi")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@Operation(summary = "Get visualization DDI file from JSON serialized Pogues entity")
@@ -310,7 +313,7 @@ public class PoguesTransforms {
 	}
 
 	@POST
-	@Path("visualize-pdf")
+	@PostMapping("visualize-pdf")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@Operation(summary = "Get visualization PDF questionnaire from JSON serialized Pogues entity", hidden = true)
@@ -340,7 +343,7 @@ public class PoguesTransforms {
 	}
 
 	@POST
-	@Path("ddi2pdf")
+	@PostMapping("ddi2pdf")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@Operation(summary = "Get visualization PDF questionnaire from DDI questionnaire")
@@ -412,7 +415,7 @@ public class PoguesTransforms {
 	}
 	
 	@POST
-	@Path("fo2pdf")
+	@PostMapping("fo2pdf")
 	@Consumes(MediaType.APPLICATION_XML)
 	@Produces(MediaType.APPLICATION_OCTET_STREAM)
 	@Operation(summary = "Get visualization PDF questionnaire from FO questionnaire")
@@ -440,7 +443,7 @@ public class PoguesTransforms {
 	}
 
 	@POST
-	@Path("json2xml")
+	@PostMapping("json2xml")
 	@Produces(MediaType.APPLICATION_XML)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -465,7 +468,7 @@ public class PoguesTransforms {
 	}
 
 	@POST
-	@Path("xml2json")
+	@PostMapping("xml2json")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_XML)
 	@Operation(
@@ -491,7 +494,7 @@ public class PoguesTransforms {
 	}
 
 	@POST
-	@Path("xform2uri/{dataCollection}/{questionnaire}")
+	@PostMapping("xform2uri/{dataCollection}/{questionnaire}")
 	@Produces(MediaType.TEXT_PLAIN)
 	@Consumes(MediaType.APPLICATION_XML)
 	@Operation(

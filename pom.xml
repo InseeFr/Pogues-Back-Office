@@ -26,7 +26,7 @@
 
 		<pogues-model.version>1.0.0</pogues-model.version>
 		<fop.version>2.2</fop.version>
-		<swagger.core.version>2.1.9</swagger.core.version>
+		<springdoc-openapi-ui.version>1.5.12</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.5</jacoco.version>
 		<saxon.version>9.7.0-8</saxon.version>
 		<eclipse-persistence.version>2.6.0</eclipse-persistence.version>
@@ -157,9 +157,9 @@
 
 		<!-- SWAGGER -->
 		<dependency>
-			<groupId>io.swagger.core.v3</groupId>
-			<artifactId>swagger-jaxrs2</artifactId>
-			<version>${swagger.core.version}</version>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-ui</artifactId>
+			<version>${springdoc-openapi-ui.version}</version>
 		</dependency>
 
 		<!-- TODO: Find a way to get rid of this -->

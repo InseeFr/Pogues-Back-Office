@@ -18,9 +18,12 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.insee.pogues.search.model.DDIItem;
 import fr.insee.pogues.search.model.DataCollectionContext;
@@ -33,8 +36,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Component
-@Path("/search")
+@RestController
+@RequestMapping("/search")
 @Tag(name = "Pogues Search")
 public class PoguesSearch {
 
@@ -44,6 +47,7 @@ public class PoguesSearch {
     SearchService searchService;
 
     @POST
+    @PostMapping("")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Operation(
@@ -77,7 +81,7 @@ public class PoguesSearch {
     }
 
     @GET
-    @Path("series")
+    @GetMapping("series")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
     		summary = "Import indexes from Colectica",
@@ -110,7 +114,7 @@ public class PoguesSearch {
     
     
     @GET
-    @Path("context/collection/{id}")
+    @GetMapping("context/collection/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
     		summary = "Get data collection context (Sub-group id, StudyUnit id) for a given data collection",
@@ -128,7 +132,7 @@ public class PoguesSearch {
     
 
     @GET
-    @Path("operations/{id}/collections")
+    @GetMapping("operations/{id}/collections")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
             summary = "Get all data collections for a given operation",

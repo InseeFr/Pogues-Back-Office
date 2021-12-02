@@ -1,7 +1,6 @@
 package fr.insee.pogues.webservice.rest;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -13,7 +12,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
 import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
@@ -22,8 +23,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Component
-@Path("healthcheck")
+@RestController
+@RequestMapping("healthcheck")
 @Tag(name="Health Check")
 public class HealthCheck {
 	
@@ -51,6 +52,7 @@ public class HealthCheck {
 	String stromaeDbHost;
 	
 	@GET
+	@GetMapping("")
     @Produces(MediaType.TEXT_PLAIN)
     @Operation(
             summary = "Perform HealthCheck on Pogues environment",
