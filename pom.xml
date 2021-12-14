@@ -5,7 +5,7 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>war</packaging>
-	<version>3.1.0</version>
+	<version>3.1.1</version>
 	<name>Pogues-BO</name>
 
 	<properties>
@@ -18,6 +18,7 @@
 		<fop.version>2.2</fop.version>
 		<swagger.core.version>2.1.9</swagger.core.version>
 		<jacoco.version>0.8.5</jacoco.version>
+		<log4j2.version>2.16.0</log4j2.version>
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
@@ -224,17 +225,17 @@
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>
-			<version>2.8.2</version>
+			<version>${log4j2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-web</artifactId>
-			<version>2.8.2</version>
+			<version>${log4j2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-slf4j-impl</artifactId>
-			<version>2.8.2</version>
+			<version>${log4j2.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.postgresql</groupId>
@@ -244,7 +245,7 @@
 		<dependency><!-- TODO provide via central -->
 			<groupId>fr.insee.pogues</groupId>
 			<artifactId>pogues-model</artifactId>
-			<version>1.0.0</version>
+			<version>1.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.jayway.restassured</groupId>
