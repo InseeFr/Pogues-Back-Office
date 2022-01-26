@@ -18,7 +18,7 @@
 		<fop.version>2.2</fop.version>
 		<swagger.core.version>2.1.9</swagger.core.version>
 		<jacoco.version>0.8.5</jacoco.version>
-		<log4j2.version>2.16.0</log4j2.version>
+		<log4j2.version>2.17.1</log4j2.version>
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
         <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
