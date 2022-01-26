@@ -26,7 +26,7 @@ public class PublicResources {
 	@Value("${fr.insee.pogues.authentication}")
     String authentificationType;
 	
-	@Value("${fr.insee.pogues.search.disable}")
+	@Value("${fr.insee.pogues.search.disable:false}")
 	boolean isSearchDisable;
 	
 	@GET
