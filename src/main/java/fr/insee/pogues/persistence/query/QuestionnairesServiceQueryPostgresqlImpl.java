@@ -1,7 +1,9 @@
 package fr.insee.pogues.persistence.query;
 
 import com.google.common.collect.Lists;
-import fr.insee.pogues.webservice.rest.PoguesException;
+
+import fr.insee.pogues.exceptions.PoguesException;
+
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
