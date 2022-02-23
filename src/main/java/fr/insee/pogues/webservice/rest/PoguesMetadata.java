@@ -51,7 +51,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Pogues MetaData API")
 public class PoguesMetadata {
 
-	final static Logger logger = LogManager.getLogger(PoguesMetadata.class);
+	static final Logger logger = LogManager.getLogger(PoguesMetadata.class);
 
 	@Autowired
 	MetadataService metadataService;
@@ -208,7 +208,7 @@ public class PoguesMetadata {
 	@GET
 	@Path("context/collection/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId= "getSeries", summary = "Get the list of data-collections for a specific operation", description= "Get the list of data collections of a specific operation registered in gestion metadata API")
+	@Operation(operationId= "getSeries", summary = "Get the statistical context for a specific data-collection", description= "Get the parents (serie and operation) for a specific data-collection")
 	public Response getContextFromCollection(@PathParam(value="id") String id) throws Exception{
 		try {
 			Context context = metadataService.getContextFromDataCollection(id);
