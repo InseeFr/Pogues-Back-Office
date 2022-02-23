@@ -65,8 +65,11 @@ public class MetadataServiceImpl implements MetadataService {
 
 	@Override
 	public String getCodeList(String id) throws Exception {
-		String codeList = metadataRepository.getCodeList(id);
-		return null;
+		if (id.matches("\\b[0-9a-f]{8}\\b-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-\\b[0-9a-f]{12}\\b")) {
+		return metadataRepository.getCodeList(id);
+		} else {
+			throw new PoguesException(500,INVALID_IDENTIFER,String.format(MESSAGE_INVALID_IDENTIFIER,id));
+		}
 	}
 	
 	@Override
