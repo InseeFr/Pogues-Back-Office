@@ -21,8 +21,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import fr.insee.pogues.exceptions.PoguesClientException;
+import fr.insee.pogues.exceptions.PoguesException;
 import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
+import fr.insee.pogues.metadata.model.Context;
+import fr.insee.pogues.metadata.model.DataCollectionOut;
+import fr.insee.pogues.metadata.model.OperationOut;
+import fr.insee.pogues.metadata.model.SerieOut;
 import fr.insee.pogues.metadata.model.Unit;
 import fr.insee.pogues.metadata.service.MetadataService;
 import fr.insee.pogues.transforms.PipeLine;
@@ -149,7 +155,70 @@ public class PoguesMetadata {
 			throw e;
 		}
 	}
-
+	
+	@GET
+	@Path("series")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(operationId= "getSeries", summary = "Get the list of series", description= "Get the list of series registered in gestion metadata API")
+	public Response getSeries() throws Exception {
+		List<SerieOut> series = new ArrayList<>();
+		try {
+			series = metadataService.getSeries();
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+		}
+		return Response.ok().entity(series).build();
+	}
+	
+	@GET
+	@Path("series/{id}/operations")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(operationId= "getSeries", summary = "Get the list of operations for a specific serie", description= "Get the list of operations of a specific serie registered in gestion metadata API")
+	public Response getOperationsBySerieId(@PathParam(value = "id") String id) throws Exception {
+		List<OperationOut> operations = new ArrayList<>();
+		try {
+			operations = metadataService.getOperationsBySerieId(id);
+		} catch (PoguesClientException e) {
+			if (e.getStatus() == 204) {
+				return Response.status(Status.NO_CONTENT).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			} else {
+				return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+			}
+		} catch (Exception e) {
+			return Response.status(Status.INTERNAL_SERVER_ERROR).entity(e.getMessage()).type(MediaType.TEXT_PLAIN).build();
+		}
+		return Response.ok().entity(operations).build();
+	}
+	
+	@GET
+	@Path("operations/{id}/data-collections")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(operationId= "getSeries", summary = "Get the list of data-collections for a specific operation", description= "Get the list of data collections of a specific operation registered in gestion metadata API")
+	public Response getDataCollectionssByOperationId(@PathParam(value = "id") String id) throws Exception {
+		List<DataCollectionOut> dcs = new ArrayList<>();
+		try {
+			dcs = metadataService.getDataCollectionsByOperationId(id);
+		} catch (PoguesException e) {
+			RestMessage message = e.toRestMessage();
+			return Response.status(message.getStatus()).entity(message).type(MediaType.APPLICATION_JSON).build();
+		}
+		return Response.ok().entity(dcs).build();
+	}
+	
+	@GET
+	@Path("context/collection/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(operationId= "getSeries", summary = "Get the list of data-collections for a specific operation", description= "Get the list of data collections of a specific operation registered in gestion metadata API")
+	public Response getContextFromCollection(@PathParam(value="id") String id) throws Exception{
+		try {
+			Context context = metadataService.getContextFromDataCollection(id);
+			return Response.ok().entity(context).build();
+		} catch (PoguesException e) {
+			RestMessage message = e.toRestMessage();
+			return Response.status(message.getStatus()).entity(message).type(MediaType.APPLICATION_JSON).build();
+		}
+	}
+	
 	//
 	// @GET
 	// @Path("questionnaire/{id}")
