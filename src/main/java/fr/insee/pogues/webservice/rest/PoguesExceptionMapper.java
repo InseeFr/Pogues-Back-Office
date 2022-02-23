@@ -5,6 +5,8 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.ExceptionMapper;
 import javax.ws.rs.ext.Provider;
 
+import fr.insee.pogues.exceptions.PoguesException;
+
 /**
  * Created by acordier on 04/07/17.
  */
