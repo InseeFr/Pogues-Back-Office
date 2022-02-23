@@ -10,6 +10,8 @@ import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +38,7 @@ public class PoguesEnvironment {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
-	public Response getEnvironment() throws Exception {
+	public ResponseEntity<Object> getEnvironment() throws Exception {
 		try {
 			JSONObject entity = new JSONObject();
 			entity.put("Swagger Host", env.getProperty("fr.insee.pogues.api.host"));
@@ -48,7 +50,7 @@ public class PoguesEnvironment {
 			entity.put("Stromae", env.getProperty("fr.insee.pogues.api.remote.stromae.host"));
 			entity.put("Stromae v2", env.getProperty("fr.insee.pogues.api.remote.stromaev2.vis.url"));
 			entity.put("Queen", env.getProperty("fr.insee.pogues.api.remote.queen.host"));
-			return Response.ok().entity(entity).build();
+			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;

@@ -96,7 +96,7 @@ public class PoguesSearch {
     }
 
     @GET
-    @Path("series/{id}/operations")
+    @GetMapping("series/{id}/operations")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
     		summary = "Get all study-units (operations) for a given sub-group (series)",

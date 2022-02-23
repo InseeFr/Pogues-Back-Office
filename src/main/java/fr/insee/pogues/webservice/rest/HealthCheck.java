@@ -3,7 +3,6 @@ package fr.insee.pogues.webservice.rest;
 import javax.ws.rs.GET;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -12,6 +11,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -63,7 +64,7 @@ public class HealthCheck {
             @ApiResponse(responseCode = "209", description = "Warning"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public Response getHealthcheck() throws Exception {
+    public ResponseEntity<Object> getHealthcheck() throws Exception {
 		boolean haveError=false;
 		boolean haveWarning=false;
 		String stateResult="";
@@ -129,11 +130,11 @@ public class HealthCheck {
 		logger.info(errorMessage);
 		logger.info(stateResult);
 		if (!haveError && !haveWarning) {
-			return Response.ok(stateResult).build();
+			return ResponseEntity.status(HttpStatus.OK).body(stateResult);
 		} else if (haveWarning && !haveError) {
-			return Response.status(209).entity(stateResult.concat(errorMessage)).build();
+			return ResponseEntity.status(209).body(stateResult.concat(errorMessage));
 		} else {
-			return Response.serverError().entity(stateResult.concat(errorMessage)).build();
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(stateResult.concat(errorMessage));
 		}
     }
 
