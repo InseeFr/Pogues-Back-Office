@@ -1,9 +1,10 @@
 package fr.insee.pogues.persistence;
 
+import fr.insee.pogues.exceptions.PoguesException;
 import fr.insee.pogues.persistence.query.NonUniqueResultException;
 import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
 import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
-import fr.insee.pogues.webservice.rest.PoguesException;
+
 import org.json.simple.JSONObject;
 import org.junit.Before;
 import org.junit.Rule;

@@ -1,9 +1,10 @@
 package fr.insee.pogues.transforms;
 
-import fr.insee.pogues.webservice.rest.PoguesException;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import fr.insee.pogues.exceptions.PoguesException;
 
 import java.util.Map;
 

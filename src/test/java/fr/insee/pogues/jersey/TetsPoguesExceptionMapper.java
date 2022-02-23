@@ -1,6 +1,6 @@
 package fr.insee.pogues.jersey;
 
-import fr.insee.pogues.webservice.rest.PoguesException;
+import fr.insee.pogues.exceptions.PoguesException;
 import fr.insee.pogues.webservice.rest.PoguesExceptionMapper;
 import fr.insee.pogues.webservice.rest.RestMessage;
 import org.junit.Before;
