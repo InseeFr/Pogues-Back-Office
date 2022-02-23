@@ -1,14 +1,13 @@
 package fr.insee.pogues.metadata.client;
 
+import java.util.List;
+
 import fr.insee.pogues.exceptions.PoguesClientException;
 import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.model.Operation;
-import fr.insee.pogues.metadata.model.Operation;
 import fr.insee.pogues.metadata.model.Serie;
 import fr.insee.pogues.metadata.model.Unit;
-
-import java.util.List;
 
 public interface MetadataClient {
 

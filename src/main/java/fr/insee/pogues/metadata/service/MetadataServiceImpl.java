@@ -25,6 +25,7 @@ import fr.insee.pogues.metadata.model.Serie;
 import fr.insee.pogues.metadata.model.SerieOut;
 import fr.insee.pogues.metadata.model.Unit;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
+import fr.insee.pogues.utils.UserInputValidation;
 
 @Service
 public class MetadataServiceImpl implements MetadataService {
@@ -84,55 +85,64 @@ public class MetadataServiceImpl implements MetadataService {
 	}
 	
 	@Override
-	public List<OperationOut> getOperationsBySerieId(String id) throws PoguesClientException {
-		List<OperationOut> operationsOut = metadataRepository.getOperationsBySerieId(id).stream().map(op -> {
-			OperationOut opOut = new OperationOut();
-			opOut.setLabels(op.getLabels());
-			opOut.setId(op.getId());
-			if (op.getSerie() != null) {
-				opOut.setParent(op.getSerie().getId());
-			}
-			return opOut;
-		}).collect(Collectors.toList());
-		logger.info("Operations found : {}", operationsOut.size());
-		return operationsOut;
+	public List<OperationOut> getOperationsBySerieId(String id) throws PoguesClientException, PoguesException {
+		if (UserInputValidation.validateSerieId(id)) {
+			List<OperationOut> operationsOut = metadataRepository.getOperationsBySerieId(id).stream().map(op -> {
+				OperationOut opOut = new OperationOut();
+				opOut.setLabels(op.getLabels());
+				opOut.setId(op.getId());
+				if (op.getSerie() != null) {
+					opOut.setParent(op.getSerie().getId());
+				}
+				return opOut;
+			}).collect(Collectors.toList());
+			logger.info("Operations found : {}", operationsOut.size());
+			return operationsOut;
+		} else {
+			throw new PoguesException(500,"Invalid identifier","Identifier "+id+" is invalid");
+		}
 	}
 	
 	@Override
 	public List<DataCollectionOut> getDataCollectionsByOperationId(String id) throws Exception {
-		Operation op = metadataRepository.getOperationById(id);
-		if (op == null) {
-			throw new PoguesException(404, "Not found", String.format("No operation found for identifier %s",id));
-		}
-		Serie serie = metadataRepository.getSerieById(op.getSerie().getId());
-		List<DataCollectionOut> dcOut = new ArrayList<>();
-		if (serie.getFrequence() == null) {
-			throw new PoguesException(500, "Internal server error", String.format("Frequence unavailable in Metadata API for serie %s",op.getSerie().getId()));
-		} else {
-			switch (serie.getFrequence().getId()) {
-			case "A":
-			case "C":
-			case "P":
-				dcOut.add(new DataCollectionOut(op.getLabels(),
-						String.format("%s-dc%s1", op.getId(), serie.getFrequence().getId()), op.getId()));
-				break;
-			case "Q":
-				dcOut = generateDataCollections(4, "T", op);
-				break;
-			case "T":
-				dcOut = generateDataCollections(6, "B", op);
-				break;
-			case "M":
-				dcOut = generateDataCollections(12, "M", op);
-				break;
-			default:
-				if (serie.getFrequence().getId() != null) {
-					logger.error("Invalid frequence {}", serie.getFrequence().getId());
-				} else {
-					logger.error("No frequence");
-				}
+		if (UserInputValidation.validateSerieId(id)) {
+			Operation op = metadataRepository.getOperationById(id);
+			if (op == null) {
+				throw new PoguesException(404, "Not found", String.format("No operation found for identifier %s", id));
 			}
-			return dcOut;
+			Serie serie = metadataRepository.getSerieById(op.getSerie().getId());
+			List<DataCollectionOut> dcOut = new ArrayList<>();
+			if (serie.getFrequence() == null) {
+				throw new PoguesException(500, "Internal server error",
+						String.format("Frequence unavailable in Metadata API for serie %s", op.getSerie().getId()));
+			} else {
+				switch (serie.getFrequence().getId()) {
+				case "A":
+				case "C":
+				case "P":
+					dcOut.add(new DataCollectionOut(op.getLabels(),
+							String.format("%s-dc%s1", op.getId(), serie.getFrequence().getId()), op.getId()));
+					break;
+				case "Q":
+					dcOut = generateDataCollections(4, "T", op);
+					break;
+				case "T":
+					dcOut = generateDataCollections(6, "B", op);
+					break;
+				case "M":
+					dcOut = generateDataCollections(12, "M", op);
+					break;
+				default:
+					if (serie.getFrequence().getId() != null) {
+						logger.error("Invalid frequence {}", serie.getFrequence().getId());
+					} else {
+						logger.error("No frequence");
+					}
+				}
+				return dcOut;
+			}
+		} else {
+			throw new PoguesException(500, "Invalid identifier", "Identifier " + id + " is invalid");
 		}
 	}
 
@@ -140,10 +150,10 @@ public class MetadataServiceImpl implements MetadataService {
 		List<DataCollectionOut> dcOut = new ArrayList<>();
 		IntStream.range(1, nbDataCollections + 1).forEach(i -> {
 			List<Label> newLabels = new ArrayList<>();
-			IntStream.range(0, op.getLabels().size()).forEach(j -> {
+			IntStream.range(0, op.getLabels().size()).forEach(j -> 
 				newLabels.add(new Label(op.getLabels().get(j).getLanguage(),
-						String.format("%s %s%s", op.getLabels().get(j).getContent(), suffix, i)));
-			});
+						String.format("%s %s%s", op.getLabels().get(j).getContent(), suffix, i)))
+			);
 			dcOut.add(new DataCollectionOut(newLabels, String.format("%s-dc%s%s", op.getId(), suffix, i), op.getId()));
 		});
 		return dcOut;
@@ -151,21 +161,25 @@ public class MetadataServiceImpl implements MetadataService {
 	
 	@Override
 	public Context getContextFromDataCollection(String id) throws Exception {
-		final String regex = "(s\\d{4})(-dc[A-Z]\\d+)";
-        
-        final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
-        final Matcher matcher = pattern.matcher(id);
-        Context context = new Context();
-        if (matcher.find()) {
-			Operation op = metadataRepository.getOperationById(matcher.group(1));
-			context.setDataCollectionId(id);
-			context.setOperationId(op.getId());
-			context.setSerieId(op.getSerie().getId());
-        } else {
-        	logger.error("No match found");
-        	throw new PoguesException(400,"Bad Request","Data Collection identifier is invalid");
-        }
-		return context;
+		if (UserInputValidation.validateDataCollectionId(id)) {
+			final String regex = "(s\\d{4})(-dc[A-Z]\\d+)";
+
+			final Pattern pattern = Pattern.compile(regex, Pattern.MULTILINE);
+			final Matcher matcher = pattern.matcher(id);
+			Context context = new Context();
+			if (matcher.find()) {
+				Operation op = metadataRepository.getOperationById(matcher.group(1));
+				context.setDataCollectionId(id);
+				context.setOperationId(op.getId());
+				context.setSerieId(op.getSerie().getId());
+			} else {
+				logger.error("No match found");
+				throw new PoguesException(400, "Bad Request", "Data Collection identifier is invalid");
+			}
+			return context;
+		} else {
+			throw new PoguesException(500, "Invalid identifier", "Identifier " + id + " is invalid");
+		}
 	}
 	
 	

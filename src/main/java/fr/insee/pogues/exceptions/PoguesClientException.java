@@ -10,11 +10,11 @@ public class PoguesClientException extends Exception{
 	 */
 	private static final long serialVersionUID = -6576322059017435882L;
 
-	@Getter @Setter
-	private int status;
+	@Getter
+	private final int status;
 	
-	@Getter @Setter
-	private String details;
+	@Getter
+	private final String details;
 
 	/**
 	 *

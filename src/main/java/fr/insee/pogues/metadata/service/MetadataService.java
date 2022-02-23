@@ -28,7 +28,7 @@ public interface MetadataService {
 	
 	List<SerieOut> getSeries() throws Exception;
 	
-	List<OperationOut> getOperationsBySerieId(String id) throws PoguesClientException;
+	List<OperationOut> getOperationsBySerieId(String id) throws PoguesClientException, PoguesException;
 	
 	List<DataCollectionOut> getDataCollectionsByOperationId(String id) throws Exception;
 

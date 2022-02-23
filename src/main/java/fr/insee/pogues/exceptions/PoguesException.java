@@ -9,8 +9,8 @@ import fr.insee.pogues.webservice.rest.RestMessage;
  */
 public class PoguesException extends IOException {
 
-    private int status;
-    private String details;
+    private final int status;
+    private final String details;
 
     /**
      *
