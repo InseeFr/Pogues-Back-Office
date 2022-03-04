@@ -23,9 +23,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import fr.insee.pogues.config.auth.UserProvider;
@@ -35,6 +37,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
@@ -53,8 +56,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  *
  */
 @RestController
-@RequestMapping("/persistence")
+@RequestMapping("/api/persistence")
 @Tag(name = "Pogues Persistence")
+@SecurityRequirement(name = "bearerAuth")
 public class PoguesPersistence {
 
     final static Logger logger = LogManager.getLogger(PoguesPersistence.class);
@@ -69,7 +73,6 @@ public class PoguesPersistence {
 	private UserProvider userProvider;
 
 
-	@GET
 	@GetMapping("questionnaire/{id}")
     @Produces(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -82,8 +85,7 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "404", description = "Not found")
     })	
 	public ResponseEntity<Object> getQuestionnaire(
-			@Parameter(description = "This is the id of the object we want to retrieve", required = true)
-			@PathParam(value = "id") String id
+			@PathVariable(value = "id") String id
 	) throws Exception {
 		try {
 			JSONObject result = questionnaireService.getQuestionnaireByID(id);
@@ -94,7 +96,6 @@ public class PoguesPersistence {
 		}
 	}
     
-    @GET
     @GetMapping("questionnaire/json-lunatic/{id}")
     @Produces(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -107,8 +108,7 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "404", description = "Not found")
     })
 	public ResponseEntity<Object> getJsonLunatic(
-			@Parameter(description = "This is the id of the object we want to retrieve", required = true)
-			@PathParam(value = "id") String id
+			@PathVariable(value = "id") String id
 	) throws Exception {
 		try {
 			JSONObject result = questionnaireService.getJsonLunaticByID(id);
@@ -120,7 +120,6 @@ public class PoguesPersistence {
 
 	}
 
-    @GET
     @GetMapping("questionnaires/search")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
@@ -133,8 +132,7 @@ public class PoguesPersistence {
 			@ApiResponse(responseCode = "400", description = "Bad request")
 	})
     public ResponseEntity<Object> searchQuestionnaires(
-			@Parameter(description = "A user id matching owner permission on each object of the collection", required = false)
-            @QueryParam("owner") String owner
+            @RequestParam("owner") String owner
     ) throws Exception {
         try {
 			List<JSONObject> questionnaires = new ArrayList<>();
@@ -148,7 +146,6 @@ public class PoguesPersistence {
         }
     }
     
-	@GET
 	@GetMapping("questionnaires/search/meta")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -161,8 +158,7 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
 	public ResponseEntity<Object> getQuestionnairesMetadata(
-			@Parameter(description = "A user id matching owner permission on each object of the collection", required = false)
-            @QueryParam("owner") String owner
+            @RequestParam("owner") String owner
 	) throws Exception {
 		try {
 			List<JSONObject> questionnairesMetadata = new ArrayList<>();
@@ -176,7 +172,6 @@ public class PoguesPersistence {
         }
 	}
 	
-	@GET
 	@GetMapping("questionnaires/stamps")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -201,7 +196,6 @@ public class PoguesPersistence {
 	}
 	
 
-	@DELETE
 	@DeleteMapping("questionnaire/{id}")
 	@Operation(
 			operationId = "deleteQuestionnaire",
@@ -213,8 +207,7 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "404", description = "Not found")
     })
 	public ResponseEntity<Object> deleteQuestionnaire(Authentication auth,
-			@Parameter(description = "The id of the object that need to be deleted", required = true)
-			@PathParam(value = "id") String id
+			@PathVariable(value = "id") String id
 	) throws Exception {
 		try {
 			questionnaireService.deleteQuestionnaireByID(id);
@@ -227,7 +220,6 @@ public class PoguesPersistence {
 		}
 	}
 	
-	@DELETE
 	@DeleteMapping("questionnaire/json-lunatic/{id}")
 	@Operation(
 			operationId = "deleteJsonLunatic",
@@ -240,8 +232,7 @@ public class PoguesPersistence {
     })
 //	@OwnerRestricted
 	public ResponseEntity<Object> deleteJsonLunatic(
-			@Parameter(description = "The id of the object that need to be deleted", required = true)
-			@PathParam(value = "id") String id
+			@PathVariable(value = "id") String id
 	) throws Exception {
 		try {
 			questionnaireService.deleteJsonLunaticByID(id);
@@ -252,7 +243,6 @@ public class PoguesPersistence {
 		}
 	}
 
-	@GET
 	@GetMapping("questionnaires")
     @Produces(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -274,7 +264,6 @@ public class PoguesPersistence {
 		}
 	}
 	
-	@PUT
 	@PutMapping("questionnaire/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -302,7 +291,6 @@ public class PoguesPersistence {
         }
 	}
 	
-	@PUT
 	@PutMapping("questionnaire/json-lunatic/{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -330,7 +318,6 @@ public class PoguesPersistence {
         }
 	}
 
-	@POST
 	@PostMapping("questionnaires")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Operation(
