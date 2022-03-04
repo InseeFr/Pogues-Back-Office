@@ -12,7 +12,7 @@
 
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
-	<packaging>jar</packaging>
+	<packaging>war</packaging>
 	<version>3.0.0</version>
 	<name>Pogues-BO</name>
 
@@ -26,6 +26,7 @@
 
 		<pogues-model.version>1.0.0</pogues-model.version>
 		<fop.version>2.2</fop.version>
+		<swagger.version>2.1.9</swagger.version>
 		<springdoc-openapi-ui.version>1.5.12</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.5</jacoco.version>
 		<saxon.version>9.7.0-8</saxon.version>
@@ -161,7 +162,7 @@
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>${springdoc-openapi-ui.version}</version>
 		</dependency>
-
+		
 		<!-- TODO: Find a way to get rid of this -->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
@@ -195,6 +196,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>${final.war.name}</finalName>
 		<plugins>
 
 			 <plugin>

@@ -47,7 +47,7 @@ public class OpenIDConnectSecurityContext extends WebSecurityConfigurerAdapter {
 		http.cors(withDefaults())
 				.authorizeRequests()
 				.antMatchers("/api/init", "/api/healthcheck").permitAll()
-				.antMatchers("/swagger-ui/**", "/api/openapi.json").permitAll()
+				.antMatchers("/swagger-ui/**", "/v3/api-docs/**").permitAll()
 				.antMatchers("/api/persistence/questionnaire/json-lunatic/**").permitAll()
 				.antMatchers(HttpMethod.OPTIONS).permitAll()
 				.anyRequest().authenticated()
