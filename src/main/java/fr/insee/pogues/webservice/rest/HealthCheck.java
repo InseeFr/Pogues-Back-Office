@@ -25,7 +25,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("healthcheck")
+@RequestMapping("/api/healthcheck")
 @Tag(name="Health Check")
 public class HealthCheck {
 	

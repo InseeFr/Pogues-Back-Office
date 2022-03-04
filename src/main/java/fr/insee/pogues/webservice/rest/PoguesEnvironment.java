@@ -19,11 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
-@RequestMapping("env")
+@RequestMapping("/api/env")
 @Tag(name = "Pogues Environment")
+@SecurityRequirement(name = "bearerAuth")
 public class PoguesEnvironment {
 
 	private final static Logger logger = LogManager.getLogger(PoguesEnvironment.class);

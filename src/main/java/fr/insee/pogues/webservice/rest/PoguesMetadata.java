@@ -36,6 +36,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 /**
@@ -44,8 +45,9 @@ import io.swagger.v3.oas.annotations.tags.Tag;
  * @author I6VWID
  */
 @RestController
-@RequestMapping("/meta-data")
+@RequestMapping("/api/meta-data")
 @Tag(name = "Pogues MetaData API")
+@SecurityRequirement(name = "bearerAuth")
 public class PoguesMetadata {
 
 	final static Logger logger = LogManager.getLogger(PoguesMetadata.class);
