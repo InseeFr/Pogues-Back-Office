@@ -20,9 +20,12 @@ public class XFormsToURIStromaeV1Impl implements XFormsToURIStromaeV1 {
     
     @Autowired
     HttpClientBuilder httpClientBuilder;
-
+    
     @Value("${fr.insee.pogues.api.remote.stromae.host}")
     private String serviceUriHost;
+    
+    @Value("${fr.insee.pogues.api.remote.stromae.orbeon.host}")
+    private String serviceUriOrbeonHost;
     
     @Value("${fr.insee.pogues.api.remote.stromae.vis.path}")
     private String serviceUriVisualizationPath;
@@ -46,7 +49,7 @@ public class XFormsToURIStromaeV1Impl implements XFormsToURIStromaeV1 {
             post.setEntity(new StringEntity(input, StandardCharsets.UTF_8));
             post.setHeader("Content-type", "application/xml");
             HttpResponse response = httpClient.execute(post);
-            return EntityUtils.toString(response.getEntity());
+            return String.format("%s/%s%s",serviceUriOrbeonHost,"rmesstromae",EntityUtils.toString(response.getEntity()));
         } catch (Exception e) {
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }

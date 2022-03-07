@@ -1,6 +1,7 @@
 package fr.insee.pogues.webservice.rest;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.StreamingOutput;
 
 import org.apache.logging.log4j.LogManager;
@@ -99,13 +99,13 @@ public class PoguesMetadata {
 	@Operation(operationId = "getUnits", summary = "Get units measure", description = "This will give a list of objects containing the uri and the label for all units", responses = {
 			@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = Unit.class))) })
 	public ResponseEntity<Object> getUnits() throws Exception {
+		List<Unit> units = new ArrayList<>();
 		try {
-			List<Unit> units = metadataService.getUnits();
-			return ResponseEntity.status(HttpStatus.OK).body(units);
+			units = metadataService.getUnits();
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 		}
+		return ResponseEntity.status(HttpStatus.OK).body(units);
 	}
 
 	@POST
