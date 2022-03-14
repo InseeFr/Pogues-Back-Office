@@ -59,9 +59,8 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
         } catch (Exception e) {
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }
-		String urlGetJsonLunatic = String.format("%s://%s%s/persistence/questionnaire/json-lunatic/%s",apiScheme,apiHost,apiName,id);
-		String uriVisuQueen = String.format("%s/%s%s", queenHost, queenVisualizationPath, URLEncoder.encode(urlGetJsonLunatic, "UTF-8"));
-		return uriVisuQueen;
+		String urlGetJsonLunatic = String.format("%s://%s%s/api/persistence/questionnaire/json-lunatic/%s",apiScheme,apiHost,apiName,id);
+		return String.format("%s/%s%s", queenHost, queenVisualizationPath, URLEncoder.encode(urlGetJsonLunatic, "UTF-8"));
 	}
 
 }

@@ -56,9 +56,8 @@ public class LunaticJSONToUriStromaeV2Impl implements LunaticJSONToUriStromaeV2{
         } catch (Exception e) {
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }
-		String urlGetJsonLunatic = String.format("%s://%s%s/persistence/questionnaire/json-lunatic/%s",apiScheme,apiHost,apiName,id);
-		String uriVisuStromaeV2 = String.format("%s%s", uriStromaeV2, URLEncoder.encode(urlGetJsonLunatic, "UTF-8"));
-		return uriVisuStromaeV2;
+		String urlGetJsonLunatic = String.format("%s://%s%s/api/persistence/questionnaire/json-lunatic/%s",apiScheme,apiHost,apiName,id);
+		return String.format("%s%s", uriStromaeV2, URLEncoder.encode(urlGetJsonLunatic, "UTF-8"));
 	}
 	
 }

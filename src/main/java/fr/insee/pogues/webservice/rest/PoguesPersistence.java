@@ -337,7 +337,7 @@ public class PoguesPersistence {
 			String id = (String) jsonContent.get("id");
 			String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
 			String apiName = env.getProperty("fr.insee.pogues.api.name");
-			String uriQuestionnaire = String.format("http://%s%s/persistence/questionnaire/%s",dbHost,apiName,id);
+			String uriQuestionnaire = String.format("http://%s%s/api/persistence/questionnaire/%s",dbHost,apiName,id);
 			logger.debug("New questionnaire created , uri : {}",uriQuestionnaire);
 			return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriQuestionnaire).build();
 		} catch (Exception e) {
@@ -366,7 +366,7 @@ public class PoguesPersistence {
 			String id = (String) jsonContent.get("id");
 			String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
 			String apiName = env.getProperty("fr.insee.pogues.api.name");
-			String uriJsonLunaticQuestionnaire = String.format("http://%s%s/persistence/questionnaire/json-lunatic/%s",dbHost,apiName,id);
+			String uriJsonLunaticQuestionnaire = String.format("http://%s%s/api/persistence/questionnaire/json-lunatic/%s",dbHost,apiName,id);
 			logger.debug("New Json Lunatic created , uri : {}", uriJsonLunaticQuestionnaire);
 			return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriJsonLunaticQuestionnaire).build();
 		} catch (Exception e) {
