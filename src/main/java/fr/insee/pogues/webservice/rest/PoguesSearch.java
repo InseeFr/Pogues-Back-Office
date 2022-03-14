@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,12 +44,11 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearerAuth")
 public class PoguesSearch {
 
-    final static Logger logger = LogManager.getLogger(PoguesSearch.class);
+    static final Logger logger = LogManager.getLogger(PoguesSearch.class);
 
     @Autowired
     SearchService searchService;
 
-    @POST
     @PostMapping("")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
@@ -82,7 +82,6 @@ public class PoguesSearch {
         }
     }
 
-    @GET
     @GetMapping("series")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
@@ -97,14 +96,13 @@ public class PoguesSearch {
         }
     }
 
-    @GET
     @GetMapping("series/{id}/operations")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
     		summary = "Get all study-units (operations) for a given sub-group (series)",
             description = "Retrieve all operations with a parent id matching the series id given as a path parameter")
     public List<DDIItem> getStudyUnits(
-            @PathParam(value = "id") String id
+            @PathVariable(value = "id") String id
     ) throws Exception {
         try {
             return searchService.getStudyUnits(id);
@@ -115,14 +113,13 @@ public class PoguesSearch {
     }
     
     
-    @GET
     @GetMapping("context/collection/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
     		summary = "Get data collection context (Sub-group id, StudyUnit id) for a given data collection",
             description = "Retrieve the context (Sub-group id, StudyUnit id) for a id given as a path parameter")
     public DataCollectionContext getDataCollectionContext(
-            @PathParam(value = "id") String id
+    		@PathVariable(value = "id") String id
     ) throws Exception {
         try {
             return searchService.getDataCollectionContext(id);
@@ -133,7 +130,6 @@ public class PoguesSearch {
     }
     
 
-    @GET
     @GetMapping("operations/{id}/collections")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
@@ -141,7 +137,7 @@ public class PoguesSearch {
             description = "Retrieve all data collections with a parent id matching the operation id given as a path parameter"
     )
     public List<DDIItem> getDataCollections(
-            @PathParam(value = "id") String id
+    		@PathVariable(value = "id") String id
     ) throws Exception {
         try {
             return searchService.getDataCollections(id);
