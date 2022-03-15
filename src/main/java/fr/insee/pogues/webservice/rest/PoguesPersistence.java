@@ -21,11 +21,13 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -277,9 +279,8 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "404", description = "Not found")
     })
 	public ResponseEntity<Object> updateQuestionnaire(
-			@Parameter(description = "The id of the object that need to be updated", required = true)
-			@PathParam(value = "id") String id,
-			@Parameter(description = "Instrument object to be updated") JSONObject jsonContent
+			@PathVariable(value = "id") String id,
+			@RequestBody JSONObject jsonContent
 	) throws Exception {
         try {
 			questionnaireService.updateQuestionnaire(id, jsonContent);
@@ -303,11 +304,9 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
-//	@OwnerRestricted
 	public ResponseEntity<Object> updateJsonLunatic(
-			@Parameter(description = "The id of the questionnaire which json lunatic needs to be updated", required = true)
-			@PathParam(value = "id") String id,
-			@Parameter(description = "Json Lunatic to be updated") JSONObject jsonLunatic
+			@PathVariable(value = "id") String id,
+			@RequestBody JSONObject jsonLunatic
 	) throws Exception {
         try {
 			questionnaireService.updateJsonLunatic(id, jsonLunatic);
@@ -330,7 +329,7 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "400", description = "Entity already exists")
     })
 	public ResponseEntity<Object> createQuestionnaire(
-			@Parameter(description = "New Instrument Object", required = true) JSONObject jsonContent
+			@RequestBody JSONObject jsonContent
 	) throws Exception {
         try {
         	questionnaireService.createQuestionnaire(jsonContent);
@@ -346,7 +345,6 @@ public class PoguesPersistence {
 		}
 	}
 	
-	@POST
 	@PostMapping("questionnaires/json-lunatic")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -359,7 +357,7 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "400", description = "Entity already exists")
     })
 	public ResponseEntity<Object> createJsonLunatic(
-			@Parameter(description = "New Instrument Object", required = true) JSONObject jsonContent
+			@RequestBody JSONObject jsonContent
 	) throws Exception {
         try {
 			questionnaireService.createJsonLunatic(jsonContent);
