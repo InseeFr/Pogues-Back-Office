@@ -26,7 +26,7 @@ public class TestJSONFunctions {
 	
 	private HashMap<String, String> data = new HashMap<String, String>();
 	
-	@org.junit.jupiter.api.Test
+	@Test
 	public void getJSONArray() {
 		data.put("2",json2);
 		data.put("1",json1);
@@ -34,7 +34,7 @@ public class TestJSONFunctions {
 		Assert.assertEquals(expected, JSONFunctions.getJSONArray(data));
 	}
 	
-	@org.junit.jupiter.api.Test
+	@Test
 	public void getJSON() {
 		data.put("id", "1");
 		data.put("Name", "FIRSTQUESTIONNAIRE");
@@ -42,7 +42,7 @@ public class TestJSONFunctions {
 		Assert.assertEquals(expected, JSONFunctions.getJSON(data));
 	}
 	
-	@org.junit.jupiter.api.Test
+	@Test
 	public void getMap() {
 		
 		HashMap<String, String> expected = new HashMap<String, String>();
@@ -61,7 +61,7 @@ public class TestJSONFunctions {
 		
 	}
 	
-	@org.junit.jupiter.api.Test
+	@Test
 	public void getIDinQuestionnaireList() {
 		
 		
@@ -73,7 +73,7 @@ public class TestJSONFunctions {
 	}
 
 
-	@org.junit.jupiter.api.Test
+	@Test
 	public void renamePluralTest() throws ParseException {
 		JSONObject input = new JSONObject();
 		input.put("children", "some children");

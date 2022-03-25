@@ -1,0 +1,414 @@
+{
+  "owner": "DR59-SNDI",
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "idendquest",
+        "l13ocjuq",
+        "l13ot8fi",
+        "l13oud4g",
+        "l13okmh2",
+        "l13otzsi",
+        "l13osatz",
+        "l13otchv"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "l13q62gr",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "Questionnaire simple"
+  ],
+  "Name": "SIMPL",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "QUEST1 label",
+        "id": "l13ovgro",
+        "type": "CollectedVariableType",
+        "Name": "QUEST1",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Label": "QUESTION2 label",
+        "id": "l13oej2k",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l13ol6zz",
+        "Name": "QUESTION2",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "Oui-Libellé de l'information mesurée",
+        "id": "l13orhp8",
+        "type": "CollectedVariableType",
+        "Name": "QUESTION311",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Label": "Non-Libellé de l'information mesurée",
+        "id": "l13ou5o8",
+        "type": "CollectedVariableType",
+        "Name": "QUESTION321",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Label": "1 - Oui",
+        "id": "l13oiau7",
+        "type": "CollectedVariableType",
+        "Name": "QUESTION41",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "2 - Non",
+        "id": "l13okz4h",
+        "type": "CollectedVariableType",
+        "Name": "QUESTION42",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Wed Mar 23 2022 16:19:53 GMT+0100 (heure normale d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "REDIRECTION",
+  "id": "l13ob2fa",
+  "TargetMode": [
+    "CAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "Oui-Non",
+        "id": "l13ol6zz",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Oui",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Non",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Séquence 1"
+      ],
+      "id": "l13ocjuq",
+      "TargetMode": [
+        ""
+      ],
+      "Declaration": [
+        {
+          "declarationType": "HELP",
+          "Text": "Libellé déclaration",
+          "id": "l13oghzb",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            ""
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "l13ovgro",
+              "id": "l13pwlwc",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": 249
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "Question 1"
+          ],
+          "id": "l13ot8fi",
+          "TargetMode": [
+            ""
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "QUEST1"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "l13oej2k",
+              "id": "l13pssfd",
+              "mandatory": false,
+              "CodeListReference": "l13ol6zz",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "CHECKBOX",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "Question 2"
+          ],
+          "ClarificationQuestion": [],
+          "id": "l13oud4g",
+          "TargetMode": [
+            ""
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "QUESTION2"
+        },
+        {
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "genericName": "SUBMODULE",
+          "Label": [
+            "Sous-Séquence 11"
+          ],
+          "id": "l13okmh2",
+          "TargetMode": [
+            ""
+          ],
+          "Declaration": [],
+          "type": "SequenceType",
+          "Child": [
+            {
+              "FlowControl": [],
+              "Label": [
+                "Question 3"
+              ],
+              "ResponseStructure": {
+                "Attribute": [],
+                "Mapping": [
+                  {
+                    "MappingSource": "l13prfm5",
+                    "MappingTarget": "1 1"
+                  },
+                  {
+                    "MappingSource": "l13psuji",
+                    "MappingTarget": "2 1"
+                  }
+                ],
+                "Dimension": [
+                  {
+                    "dimensionType": "PRIMARY",
+                    "dynamic": "0",
+                    "CodeListReference": "l13ol6zz"
+                  },
+                  {
+                    "dimensionType": "MEASURE",
+                    "Label": "Libellé de l'information mesurée",
+                    "dynamic": "0"
+                  }
+                ]
+              },
+              "type": "QuestionType",
+              "Name": "QUESTION3",
+              "Response": [
+                {
+                  "CollectedVariableReference": "l13orhp8",
+                  "id": "l13prfm5",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 249
+                  }
+                },
+                {
+                  "CollectedVariableReference": "l13ou5o8",
+                  "id": "l13psuji",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 249
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "ClarificationQuestion": [],
+              "id": "l13otzsi",
+              "TargetMode": [
+                ""
+              ],
+              "Declaration": [],
+              "questionType": "TABLE"
+            }
+          ],
+          "Name": "SOUSSQUENC"
+        }
+      ],
+      "Name": "SQUENCE1"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Séquence 2"
+      ],
+      "id": "l13osatz",
+      "TargetMode": [
+        "CAPI"
+      ],
+      "Declaration": [
+        {
+          "declarationType": "CODECARD",
+          "Text": "Libellé carte-code",
+          "id": "l13oza22",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI"
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "FlowControl": [],
+          "Label": [
+            "Question 4"
+          ],
+          "ResponseStructure": {
+            "Attribute": [],
+            "Mapping": [
+              {
+                "MappingSource": "l13pywzn",
+                "MappingTarget": "1"
+              },
+              {
+                "MappingSource": "l13q6z2c",
+                "MappingTarget": "2"
+              }
+            ],
+            "Dimension": [
+              {
+                "dimensionType": "PRIMARY",
+                "dynamic": "0",
+                "CodeListReference": "l13ol6zz"
+              },
+              {
+                "dimensionType": "MEASURE",
+                "dynamic": "0"
+              }
+            ]
+          },
+          "type": "QuestionType",
+          "Name": "QUESTION4",
+          "Response": [
+            {
+              "CollectedVariableReference": "l13oiau7",
+              "id": "l13pywzn",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            },
+            {
+              "CollectedVariableReference": "l13okz4h",
+              "id": "l13q6z2c",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "ClarificationQuestion": [],
+          "id": "l13otchv",
+          "TargetMode": [
+            "CAPI"
+          ],
+          "Declaration": [],
+          "questionType": "MULTIPLE_CHOICE"
+        }
+      ],
+      "Name": "SQUENCE2"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

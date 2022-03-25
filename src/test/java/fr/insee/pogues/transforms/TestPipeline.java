@@ -1,21 +1,18 @@
 package fr.insee.pogues.transforms;
 
-import fr.insee.pogues.webservice.rest.PoguesException;
-import org.junit.Rule;
-import org.junit.jupiter.api.Test;
-import org.junit.rules.ExpectedException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.Test;
 
-public class TestPipeline {
+import fr.insee.pogues.webservice.rest.PoguesException;
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
+class TestPipeline {
 
-    @org.junit.jupiter.api.Test
-    public void passesThroughTest() throws Exception {
+    @Test
+    void passesThroughTest() throws Exception {
         String input = "";
         PipeLine pipeline = new PipeLine();
         String output = pipeline.from(input).transform();
@@ -23,7 +20,7 @@ public class TestPipeline {
     }
 
     @Test
-    public void mapsTest() throws Exception {
+    void mapsTest() throws Exception {
         String input = "";
         PipeLine.Transform<String, String> t0 = (String i, Map<String, Object> params,String survey) -> i + "concat";
         PipeLine pipeline = new PipeLine();
@@ -32,14 +29,13 @@ public class TestPipeline {
     }
 
     @Test
-    public void throwsExceptionTest() throws Exception {
-        exception.expect(RuntimeException.class);
-        exception.expectMessage("Exception occured while executing mapping function: Expected error");
+    void throwsExceptionTest() throws Exception {
         String input = "";
         PipeLine.Transform<String, String> t0 = (String i, Map<String, Object> params,String survey) -> {
             throw new PoguesException(500, "Expected error", "Mapping function exception correctly propagates through pipeline");
         };
         PipeLine pipeline = new PipeLine();
-        pipeline.from(input).map(t0, null,null).transform();
+        Throwable exception = assertThrows(RuntimeException.class, () -> pipeline.from(input).map(t0, null,null).transform());
+        assertEquals("Exception occured while executing mapping function: Expected error",exception.getMessage());
     }
 }
