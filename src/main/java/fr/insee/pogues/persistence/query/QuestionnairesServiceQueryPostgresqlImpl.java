@@ -47,7 +47,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	public JSONObject getQuestionnaireByID(String id) throws Exception {
 		try {
 			String qString = "SELECT data FROM pogues WHERE id=?";
-			PGobject q = jdbcTemplate.queryForObject(qString, new Object[] { id }, PGobject.class);
+			PGobject q = jdbcTemplate.queryForObject(qString, PGobject.class, id);
 			return (JSONObject) (new JSONParser().parse(q.toString()));
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -63,8 +63,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	public JSONObject getJsonLunaticByID(String id) throws Exception {
 		try {
 			String qString = "SELECT data_lunatic FROM visu_lunatic WHERE id=?";
-			PGobject q = jdbcTemplate.queryForObject(qString,
-					new Object[]{id}, PGobject.class);
+			PGobject q = jdbcTemplate.queryForObject(qString,PGobject.class, id);
 			return (JSONObject) (new JSONParser().parse(q.toString()));
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -108,7 +107,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 */
 	public List<JSONObject> getQuestionnairesByOwner(String owner) throws Exception {
 		String qString = "SELECT data FROM pogues WHERE data ->> 'owner' = ?";
-		List<PGobject> data = jdbcTemplate.queryForList(qString, new Object[] { owner }, PGobject.class);
+		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class, owner);
 		return PgToJSON(data);
 	}
 
@@ -121,7 +120,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	public List<JSONObject> getMetaQuestionnaire(String owner) throws Exception {
 		String qString = "SELECT CONCAT('{\"id\": ',data -> 'id',', \"lastUpdatedDate\": ', data -> 'lastUpdatedDate',', \"Label\": ', data -> 'Label',', \"final\": ', data -> 'final',', \"DataCollection\": ', data -> 'DataCollection',', \"TargetMode\": ', data -> 'TargetMode','}') "
 				+ "FROM pogues WHERE data ->> 'owner' = ? AND data -> 'TargetMode' IS NOT NULL";
-		List<PGobject> data = jdbcTemplate.queryForList(qString, new Object[] { owner }, PGobject.class);
+		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class, owner);
 		System.out.println(data);
 		return PgToJSON(data);
 	}
