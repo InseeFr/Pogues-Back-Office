@@ -11,7 +11,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class TestMetadataClient {
+class TestMetadataClient {
 
     @Mock
     HttpClientBuilder clientFactory;
@@ -26,7 +26,7 @@ public class TestMetadataClient {
     }
 
     @Test
-    public void testClientGet() throws Exception {
+    void testClientGet() throws Exception {
 //        ColecticaItem expectedResponse = new ColecticaItem();
 //        expectedResponse.setIdentifier("foo");
 //        CloseableHttpResponse response = mock(CloseableHttpResponse.class);

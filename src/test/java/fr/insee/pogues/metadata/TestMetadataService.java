@@ -1,9 +1,11 @@
 package fr.insee.pogues.metadata;
 
-import fr.insee.pogues.metadata.mock.ColecticaMocks;
-import fr.insee.pogues.metadata.repository.MetadataRepository;
-import fr.insee.pogues.metadata.service.MetadataService;
-import fr.insee.pogues.metadata.service.MetadataServiceImpl;
+import static org.mockito.Mockito.spy;
+import static org.mockito.MockitoAnnotations.initMocks;
+
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,14 +13,11 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+import fr.insee.pogues.metadata.repository.MetadataRepository;
+import fr.insee.pogues.metadata.service.MetadataService;
+import fr.insee.pogues.metadata.service.MetadataServiceImpl;
 
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
-import static org.mockito.MockitoAnnotations.initMocks;
-
-public class TestMetadataService {
+class TestMetadataService {
 
     @Mock
     MetadataRepository metadataRepository;
@@ -36,7 +35,7 @@ public class TestMetadataService {
     }
 
     @Test
-    public void getGroupTest() throws Exception {
+    void getGroupTest() throws Exception {
 //        mockFindByIdResponse("99c6b5c5-e591-4e64-af1b-f7e24970e20e");
 //        mockFindByIdResponse("391e505c-dc05-4042-8b9d-c602ff72690d");
 //        mockFindByIdResponse("bd18e047-560c-49ff-9c59-d620164e5f95");
@@ -166,12 +165,4 @@ public class TestMetadataService {
 //                .thenReturn("Investissements et dépenses courantes pour protéger l'environnement 2016");
     }
 
-    private void mockFindByIdResponse(String id) throws Exception {
-        when(metadataRepository.findById(id))
-                .thenReturn(ColecticaMocks
-                        .getItems()
-                        .stream()
-                        .filter(item -> item.getIdentifier().equals(id))
-                        .findFirst().get());
-    }
 }

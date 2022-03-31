@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
-public class TestMetadataRepository {
+class TestMetadataRepository {
 
     @Mock
     MetadataClient metadataClient;
@@ -30,7 +30,7 @@ public class TestMetadataRepository {
     }
 
     @Test
-    public void findByIdTest() throws Exception {
+    void findByIdTest() throws Exception {
         ColecticaItem expected = new ColecticaItem();
         expected.setIdentifier("foo");
         when(metadataClient.getItem(expected.getIdentifier())).thenReturn(expected);

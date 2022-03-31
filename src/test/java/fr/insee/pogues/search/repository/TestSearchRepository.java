@@ -10,7 +10,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class TestSearchRepository {
+class TestSearchRepository {
 
     //@Mock
     //RestHighLevelClient client;
@@ -25,7 +25,7 @@ public class TestSearchRepository {
     }
 
     @org.junit.jupiter.api.Test
-    public void saveTest() throws Exception {
+    void saveTest() throws Exception {
 //        IndexResponse response = mock(IndexResponse.class);
 //        when(response.toString()).thenReturn("response");
 //        IndexRequestBuilder irb = mock(IndexRequestBuilder.class);
@@ -39,7 +39,7 @@ public class TestSearchRepository {
     }
 
     @org.junit.jupiter.api.Test
-    public void deleteTest() throws Exception {
+    void deleteTest() throws Exception {
 //        DeleteResponse response = mock(DeleteResponse.class);
 //        when(response.toString()).thenReturn("response");
 //        DeleteRequestBuilder drb = mock(DeleteRequestBuilder.class);
@@ -49,7 +49,7 @@ public class TestSearchRepository {
     }
 
     @Test
-    public void findByLabelTest() throws Exception {
+    void findByLabelTest() throws Exception {
 //        SearchResponse response = mock(SearchResponse.class);
 //        SearchRequestBuilder srb = mock(SearchRequestBuilder.class);
 //        SearchHits shs = mock(SearchHits.class);

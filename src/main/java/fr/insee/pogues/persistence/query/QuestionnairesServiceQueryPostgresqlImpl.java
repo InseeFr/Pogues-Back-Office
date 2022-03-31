@@ -26,6 +26,8 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+	
+	private static final String NOT_FOUND="Not found";
 
 	/**
 	 * A method to get the `QuestionnaireList` object in the database
@@ -35,7 +37,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 */
 	public List<JSONObject> getQuestionnaires() throws Exception {
 		List<PGobject> data = jdbcTemplate.queryForList("SELECT data FROM pogues", PGobject.class);
-		return PgToJSON(data);
+		return pgToJSON(data);
 	}
 
 	/**
@@ -79,7 +81,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		String qString = "DELETE FROM pogues where id=?";
 		int r = jdbcTemplate.update(qString, new Object[] { id });
 		if (0 == r) {
-			throw new PoguesException(404, "Not Found", String.format("Entity with id %s not found", id));
+			throw new PoguesException(404, NOT_FOUND, String.format("Entity with id %s not found", id));
 		}
 	}
 	
@@ -94,7 +96,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		int r = jdbcTemplate.update(qString,
 				new Object[] { id });
 		if(0 == r) {
-			throw new PoguesException(404, "Not Found", String.format("Entity with id %s not found", id));
+			throw new PoguesException(404, NOT_FOUND, String.format("Entity with id %s not found", id));
 		}
 	}
 
@@ -108,7 +110,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	public List<JSONObject> getQuestionnairesByOwner(String owner) throws Exception {
 		String qString = "SELECT data FROM pogues WHERE data ->> 'owner' = ?";
 		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class, owner);
-		return PgToJSON(data);
+		return pgToJSON(data);
 	}
 
 	/**
@@ -121,14 +123,13 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		String qString = "SELECT CONCAT('{\"id\": ',data -> 'id',', \"lastUpdatedDate\": ', data -> 'lastUpdatedDate',', \"Label\": ', data -> 'Label',', \"final\": ', data -> 'final',', \"DataCollection\": ', data -> 'DataCollection',', \"TargetMode\": ', data -> 'TargetMode','}') "
 				+ "FROM pogues WHERE data ->> 'owner' = ? AND data -> 'TargetMode' IS NOT NULL";
 		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class, owner);
-		System.out.println(data);
-		return PgToJSON(data);
+		return pgToJSON(data);
 	}
 
 	public List<JSONObject> getStamps() throws Exception {
 		String qString = "SELECT DISTINCT CONCAT('{\"id\": ',data -> 'owner',', \"label\": ',data -> 'owner','}')  FROM pogues WHERE data -> 'owner' IS NOT NULL";
 		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class);
-		return PgToJSON(data);
+		return pgToJSON(data);
 	}
 
 	/**
@@ -211,11 +212,11 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		if (q != null) {
 			return q.toString();
 		} else {
-			throw new PoguesException(404, "Not Found", "No questionnaires found in database");
+			throw new PoguesException(404, NOT_FOUND, "No questionnaires found in database");
 		}
 	}
 
-	private List<JSONObject> PgToJSON(List<PGobject> data) {
+	private List<JSONObject> pgToJSON(List<PGobject> data) {
 		return Objects.requireNonNull(data).stream()
 				.map(q -> {
 					try {

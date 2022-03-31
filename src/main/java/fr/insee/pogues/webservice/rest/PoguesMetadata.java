@@ -263,31 +263,31 @@ public class PoguesMetadata {
 	// }
 	//
 
-	@GET
-	@GetMapping("code-list/{id}")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(operationId = "getCodeList", summary = "getCodeList", description = "Gets the code-list with id {id}"
-	/* ,response = String.class */)
-	public ResponseEntity<Object> getCodeList(@PathParam(value = "id") String id) throws Exception {
-		String codeList = metadataService.getCodeList(id);
-		PipeLine pipeline = new PipeLine();
-		Map<String, Object> params = new HashMap<>();
-		try {
-			StreamingOutput stream = output -> {
-				try {
+//	@GET
+//	@GetMapping("code-list/{id}")
+//	@Produces(MediaType.APPLICATION_JSON)
+//	@Operation(operationId = "getCodeList", summary = "getCodeList", description = "Gets the code-list with id {id}"
+//	/* ,response = String.class */)
+//	public ResponseEntity<Object> getCodeList(@PathParam(value = "id") String id) throws Exception {
+//		String codeList = metadataService.getCodeList(id);
+//		PipeLine pipeline = new PipeLine();
+//		Map<String, Object> params = new HashMap<>();
+//		try {
+//			StreamingOutput stream = output -> {
+//				try {
 //					output.write(pipeline.from(codeList).map(ddiToXML::transform, params,"codeList")
 //							.map(xmlToJSON::transform, params,"codeList").transform().getBytes());
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
-				}
-			};
-			return ResponseEntity.status(HttpStatus.OK).body(stream);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
-	}
+//				} catch (Exception e) {
+//					logger.error(e.getMessage());
+//					throw new PoguesException(500, e.getMessage(), null);
+//				}
+//			};
+//			return ResponseEntity.status(HttpStatus.OK).body(stream);
+//		} catch (Exception e) {
+//			logger.error(e.getMessage(), e);
+//			throw e;
+//		}
+//	}
 
 	//
 	// @GET
