@@ -32,7 +32,7 @@ public class OpenIDConnectSecurityContext extends WebSecurityConfigurerAdapter {
 	@Value("${fr.insee.pogues.force.ssl}")
 	boolean requireSSL;
 
-	final static Logger logger = LogManager.getLogger(OpenIDConnectSecurityContext.class);
+	static final Logger logger = LogManager.getLogger(OpenIDConnectSecurityContext.class);
 	@Value("${jwt.stamp-claim}")
 	private String stampClaim;
 	@Value("${jwt.username-claim}")
@@ -69,13 +69,15 @@ public class OpenIDConnectSecurityContext extends WebSecurityConfigurerAdapter {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(allowedOrigin.stream().collect(Collectors.toList()));
-		configuration.setAllowedMethods(List.of("*"));
+		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
+		configuration.setAllowedHeaders(Arrays.asList("*"));
+		configuration.addExposedHeader("Content-Disposition");
+		configuration.addAllowedOrigin("*");
 		UrlBasedCorsConfigurationSource source = new
 				UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;
 	}
-
 
 }

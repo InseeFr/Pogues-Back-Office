@@ -1,5 +1,6 @@
 package fr.insee.pogues.config;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
@@ -15,8 +16,6 @@ public class PropertiesLog {
 
     private static final Logger log = Logger.getLogger(PropertiesLog.class.getName());
     private final Environment environment;
-    private final Set<String> motsCaches = Set.of("password", "pwd", "jeton", "secret");
-
 
     public PropertiesLog(Environment environment) {
         Objects.requireNonNull(environment);
@@ -38,15 +37,14 @@ public class PropertiesLog {
                 )
                 .flatMap(Arrays::stream)
                 .distinct()
-                .forEach(key->log.info(key+" = "+afficheValeurAvecMasquePwd(key)));
+                .forEach(key->log.info(key+" = "+printValueWithoutPassword(key)));
     }
-
-    private Object afficheValeurAvecMasquePwd(String key) {
-        if (key!=null && motsCaches.stream().anyMatch(key::contains)) {
-            return "******";
-        }
-        return environment.getProperty(key);
-
-    }
+    
+	private String printValueWithoutPassword(String key) {
+		if (StringUtils.containsAny(key, "password", "pwd", "keycloak.key", "jeton", "secret")) {
+			return "******";
+		}
+		return environment.getProperty(key);
+	}
 
 }
