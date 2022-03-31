@@ -29,14 +29,17 @@ import static org.springframework.security.config.Customizer.withDefaults;
 @ConditionalOnProperty(name = "fr.insee.pogues.authentication", havingValue = "OIDC")
 public class OpenIDConnectSecurityContext extends WebSecurityConfigurerAdapter {
 
+	static final Logger logger = LogManager.getLogger(OpenIDConnectSecurityContext.class);
+	
 	@Value("${fr.insee.pogues.force.ssl}")
 	boolean requireSSL;
-
-	static final Logger logger = LogManager.getLogger(OpenIDConnectSecurityContext.class);
+	
 	@Value("${jwt.stamp-claim}")
 	private String stampClaim;
+	
 	@Value("${jwt.username-claim}")
 	private String nameClaim;
+	
 	@Value("${fr.insee.pogues.cors.allowedOrigin}")
 	private Optional<String> allowedOrigin;
 
@@ -69,7 +72,7 @@ public class OpenIDConnectSecurityContext extends WebSecurityConfigurerAdapter {
 	@Bean
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOrigins(Arrays.asList("*"));
+		configuration.setAllowedOrigins(Arrays.asList(allowedOrigin.get()));
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		configuration.addExposedHeader("Content-Disposition");
