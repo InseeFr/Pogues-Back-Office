@@ -1,15 +1,14 @@
 package fr.insee.pogues.config;
 
+import java.util.Arrays;
+import java.util.Objects;
+import java.util.logging.Logger;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Set;
-import java.util.logging.Logger;
 
 @Component
 public class PropertiesLog {

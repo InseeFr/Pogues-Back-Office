@@ -208,7 +208,11 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	public String countQuestionnaires() throws Exception {
 		String qString = "SELECT count(*) FROM pogues";
 		PGobject q = jdbcTemplate.queryForObject(qString, PGobject.class);
-		return q.toString();
+		if (q != null) {
+			return q.toString();
+		} else {
+			throw new PoguesException(404, "Not Found", "No questionnaires found in database");
+		}
 	}
 
 	private List<JSONObject> PgToJSON(List<PGobject> data) {

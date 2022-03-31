@@ -1,7 +1,10 @@
 package fr.insee.pogues.config.auth.security;
 
-import fr.insee.pogues.config.auth.UserProvider;
-import fr.insee.pogues.config.auth.user.User;
+import static org.springframework.security.config.Customizer.withDefaults;
+
+import java.util.Arrays;
+import java.util.Optional;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,12 +20,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
-import static org.springframework.security.config.Customizer.withDefaults;
+import fr.insee.pogues.config.auth.UserProvider;
+import fr.insee.pogues.config.auth.user.User;
 
 @Configuration
 @EnableWebSecurity
@@ -76,7 +75,6 @@ public class OpenIDConnectSecurityContext extends WebSecurityConfigurerAdapter {
 		configuration.setAllowedMethods(Arrays.asList("GET","POST","PUT","DELETE"));
 		configuration.setAllowedHeaders(Arrays.asList("*"));
 		configuration.addExposedHeader("Content-Disposition");
-		configuration.addAllowedOrigin("*");
 		UrlBasedCorsConfigurationSource source = new
 				UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
