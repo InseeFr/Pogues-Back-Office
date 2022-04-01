@@ -209,7 +209,7 @@ public class PoguesPersistence {
 		try {
 			questionnaireService.deleteQuestionnaireByID(id);
 			User user=userProvider.getUser(auth);
-			logger.info("Questionnaire "+ id +" deleted by "+user.getName());
+			logger.info("Questionnaire {} deleted by {}", id, user.getName());
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
@@ -236,6 +236,7 @@ public class PoguesPersistence {
 			logger.info("Questionnaire {} deleted", id);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -308,6 +309,7 @@ public class PoguesPersistence {
 			logger.info("Json Lunatic of questionnaire {} updated", id);
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         } catch (Exception e) {
+        	logger.error(e.getMessage(), e);
             throw e;
         }
 	}

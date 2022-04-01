@@ -22,7 +22,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @Tag(name = "Pogues Public Resources")
 public class PublicResources {
 	
-	final static Logger logger = LogManager.getLogger(PublicResources.class);
+	static final Logger logger = LogManager.getLogger(PublicResources.class);
 	
 	@Value("${fr.insee.pogues.authentication}")
     String authentificationType;
@@ -34,7 +34,7 @@ public class PublicResources {
 	@GetMapping("/init")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getInit", summary = "Initial properties")
-	public ResponseEntity<Object> getProperties() throws Exception {
+	public ResponseEntity<Object> getProperties() {
 		JSONObject props = new JSONObject();
 		try {
 			props.put("authType", authentificationType);

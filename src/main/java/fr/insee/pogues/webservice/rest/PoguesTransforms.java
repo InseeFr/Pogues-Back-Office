@@ -96,6 +96,8 @@ public class PoguesTransforms {
 
 	@Autowired
 	QuestionnairesService questionnairesService;
+	
+	private static final String CONTENT_DISPOSITION = "Content-Disposition";
 
 	@PostMapping(path = "visualize/{dataCollection}/{questionnaire}",
 			consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -243,7 +245,7 @@ public class PoguesTransforms {
 			};
 
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
-					.header("Content-Disposition", "attachment; filename=form.fodt").body(stream);
+					.header(CONTENT_DISPOSITION, "attachment; filename=form.fodt").body(stream);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
@@ -272,7 +274,7 @@ public class PoguesTransforms {
 			};
 
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
-					.header("Content-Disposition", "attachment; filename=form.xml").body(stream);
+					.header(CONTENT_DISPOSITION, "attachment; filename=form.xml").body(stream);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
@@ -303,7 +305,7 @@ public class PoguesTransforms {
 		InputStream inputStream = new FileInputStream(file);
 	    InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
-				.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").body(inputStreamResource);
+				.header(CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"").body(inputStreamResource);
 
 	}
 
@@ -351,7 +353,7 @@ public class PoguesTransforms {
 		InputStream inputStream = new FileInputStream(file);
 	    InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
 	    return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
-				.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").body(inputStreamResource);
+				.header(CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"").body(inputStreamResource);
 	}
 	
 	@PostMapping(path = "fo2pdf",
@@ -377,7 +379,7 @@ public class PoguesTransforms {
 		InputStream inputStream = new FileInputStream(file);
 	    InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
-				.header("Content-Disposition", "attachment; filename=\"" + file.getName() + "\"").body(inputStreamResource);
+				.header(CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"").body(inputStreamResource);
 	}
 
 	@PostMapping(path = "json2xml",
@@ -443,8 +445,7 @@ public class PoguesTransforms {
 		}
 	}
 
-	private ResponseEntity<StreamingResponseBody> transform(InputStream request, Transformer transformer, String questionnaire, MediaType type)
-			throws Exception {
+	private ResponseEntity<StreamingResponseBody> transform(InputStream request, Transformer transformer, String questionnaire, MediaType type) {
 
 		StreamingResponseBody stream = output -> {
 			try {

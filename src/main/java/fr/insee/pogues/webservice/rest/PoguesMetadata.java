@@ -2,9 +2,7 @@ package fr.insee.pogues.webservice.rest;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -28,7 +26,6 @@ import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.model.Unit;
 import fr.insee.pogues.metadata.service.MetadataService;
-import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.reuse.DDIToPoguesXMLCodeList;
 import fr.insee.pogues.transforms.visualize.PoguesXMLToPoguesJSON;
 import io.swagger.v3.oas.annotations.Operation;
