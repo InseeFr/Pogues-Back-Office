@@ -66,6 +66,9 @@ public class PoguesPersistence {
 	@Autowired
 	private UserProvider userProvider;
 
+	private static final String IDQUESTIONNAIRE_PATTERN="[a-zA-Z0-9]*";
+	private static final String BAD_REQUEST = "Bad Request";
+    private static final String MESSAGE_INVALID_IDENTIFIER = "Identifier %s is invalid";
 
 	@GetMapping("questionnaire/{id}")
     @Produces(MediaType.APPLICATION_JSON)
@@ -326,11 +329,15 @@ public class PoguesPersistence {
         try {
         	questionnaireService.createQuestionnaire(jsonContent);
 			String id = (String) jsonContent.get("id");
-			String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
-			String apiName = env.getProperty("fr.insee.pogues.api.name");
-			String uriQuestionnaire = String.format("http://%s%s/api/persistence/questionnaire/%s",dbHost,apiName,id);
-			logger.debug("New questionnaire created , uri : {}",uriQuestionnaire);
-			return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriQuestionnaire).build();
+			if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+				String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
+				String apiName = env.getProperty("fr.insee.pogues.api.name");
+				String uriQuestionnaire = String.format("http://%s%s/api/persistence/questionnaire/%s",dbHost,apiName,id);
+				logger.debug("New questionnaire created , uri : {}",uriQuestionnaire);
+				return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriQuestionnaire).build();
+    		} else {
+    			throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
+    		}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
@@ -354,11 +361,15 @@ public class PoguesPersistence {
         try {
 			questionnaireService.createJsonLunatic(jsonContent);
 			String id = (String) jsonContent.get("id");
-			String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
-			String apiName = env.getProperty("fr.insee.pogues.api.name");
-			String uriJsonLunaticQuestionnaire = String.format("http://%s%s/api/persistence/questionnaire/json-lunatic/%s",dbHost,apiName,id);
-			logger.debug("New Json Lunatic created , uri : {}", uriJsonLunaticQuestionnaire);
-			return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriJsonLunaticQuestionnaire).build();
+			if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+				String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
+				String apiName = env.getProperty("fr.insee.pogues.api.name");
+				String uriJsonLunaticQuestionnaire = String.format("http://%s%s/api/persistence/questionnaire/json-lunatic/%s",dbHost,apiName,id);
+				logger.debug("New Json Lunatic created , uri : {}", uriJsonLunaticQuestionnaire);
+				return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriJsonLunaticQuestionnaire).build();
+			} else {
+				throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
