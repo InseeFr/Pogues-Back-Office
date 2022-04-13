@@ -21,7 +21,7 @@ public class PropertiesLog {
         this.environment=environment;
 
         log.info("===============================================================================================");
-        log.info("                                Valeurs des properties                                         ");
+        log.info("                                   Properties values                                           ");
         log.info("===============================================================================================");
 
         ((AbstractEnvironment) environment).getPropertySources().stream()
@@ -29,7 +29,7 @@ public class PropertiesLog {
                     if (propertySource instanceof EnumerablePropertySource){
                         return ((EnumerablePropertySource<?>)propertySource).getPropertyNames();
                     }else{
-                        log.warning(propertySource+ " n'est pas EnumerablePropertySource : impossible à lister");
+                        log.warning(propertySource+ " is not EnumerablePropertySource : listing impossible");
                         return new String[] {};
                     }
                 }

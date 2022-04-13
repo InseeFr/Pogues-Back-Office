@@ -15,7 +15,7 @@ import fr.insee.pogues.metadata.repository.MetadataRepository;
 @Service
 public class MetadataServiceImpl implements MetadataService {
 
-    private final static Logger logger = LogManager.getLogger(MetadataServiceImpl.class);
+    private static final Logger logger = LogManager.getLogger(MetadataServiceImpl.class);
 
     @Autowired
     MetadataRepository metadataRepository;

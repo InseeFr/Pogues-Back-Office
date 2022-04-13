@@ -32,7 +32,6 @@ public class PoguesEnvironment {
 	@Autowired
 	Environment env;
 
-	@GET
 	@GetMapping("")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getEnvironment", summary = "Get pogues back office environment")

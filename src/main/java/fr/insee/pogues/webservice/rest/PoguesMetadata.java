@@ -57,8 +57,7 @@ public class PoguesMetadata {
 
 	@Autowired
 	PoguesXMLToPoguesJSON xmlToJSON;
-
-	@GET
+	
 	@GetMapping("item/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getItem", summary = "Gets the item with id {id}", description = "Get an item from Colectica Repository, given it's {id}", responses = {
@@ -73,7 +72,6 @@ public class PoguesMetadata {
 		}
 	}
 
-	@GET
 	@GetMapping("item/{id}/refs/")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getChildrenRef", summary = "Get the children refs with parent id {id}", description = "This will give a list of object containing a reference id, version and agency. Note that you will"
@@ -90,7 +88,6 @@ public class PoguesMetadata {
 		}
 	}
 
-	@GET
 	@GetMapping("units")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getUnits", summary = "Get units measure", description = "This will give a list of objects containing the uri and the label for all units", responses = {
@@ -105,7 +102,6 @@ public class PoguesMetadata {
 		return ResponseEntity.status(HttpStatus.OK).body(units);
 	}
 
-	@POST
 	@PostMapping("items")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -127,7 +123,6 @@ public class PoguesMetadata {
 		}
 	}
 
-	@GET
 	@GetMapping("item/{id}/ddi")
 	@Produces(MediaType.APPLICATION_XML)
 	@Operation(operationId = "getFullDDI", summary = "Get DDI document", description = "Gets a full DDI document from Colectica repository reference {id}"

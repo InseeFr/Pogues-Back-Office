@@ -83,7 +83,7 @@ class TestQuestionnaireService {
 
 
     @Test
-    public void listReturnsNormally() throws Exception {
+    void listReturnsNormally() throws Exception {
         try {
             when(questionnairesServiceQuery.getQuestionnaires())
                     .thenReturn(new ArrayList<JSONObject>() {
