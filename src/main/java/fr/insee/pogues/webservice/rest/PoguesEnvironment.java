@@ -1,26 +1,30 @@
 package fr.insee.pogues.webservice.rest;
 
 import javax.ws.rs.GET;
-import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Component
-@Path("env")
+@RestController
+@RequestMapping("/api/env")
 @Tag(name = "Pogues Environment")
+@SecurityRequirement(name = "bearerAuth")
 public class PoguesEnvironment {
 
 	private final static Logger logger = LogManager.getLogger(PoguesEnvironment.class);
@@ -28,13 +32,13 @@ public class PoguesEnvironment {
 	@Autowired
 	Environment env;
 
-	@GET
+	@GetMapping("")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getEnvironment", summary = "Get pogues back office environment")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
-	public Response getEnvironment() throws Exception {
+	public ResponseEntity<Object> getEnvironment() throws Exception {
 		try {
 			JSONObject entity = new JSONObject();
 			entity.put("Swagger Host", env.getProperty("fr.insee.pogues.api.host"));
@@ -46,7 +50,7 @@ public class PoguesEnvironment {
 			entity.put("Stromae", env.getProperty("fr.insee.pogues.api.remote.stromae.host"));
 			entity.put("Stromae v2", env.getProperty("fr.insee.pogues.api.remote.stromaev2.vis.url"));
 			entity.put("Queen", env.getProperty("fr.insee.pogues.api.remote.queen.host"));
-			return Response.ok().entity(entity).build();
+			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;

@@ -1,29 +1,29 @@
 package fr.insee.pogues.persistence;
 
-import fr.insee.pogues.persistence.query.NonUniqueResultException;
-import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
-import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
-import fr.insee.pogues.webservice.rest.PoguesException;
-import org.json.simple.JSONObject;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.initMocks;
+import org.json.simple.JSONObject;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
-/**
- * Created by acordier on 28/07/17.
- */
-public class TestQuestionnaireService {
+import fr.insee.pogues.persistence.query.NonUniqueResultException;
+import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
+import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
+import fr.insee.pogues.webservice.rest.PoguesException;
+
+@ExtendWith(MockitoExtension.class)
+class TestQuestionnaireService {
 
     @Mock
     QuestionnairesServiceQuery questionnairesServiceQuery;
@@ -31,61 +31,47 @@ public class TestQuestionnaireService {
     @InjectMocks
     QuestionnairesServiceImpl questionnairesService;
 
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
-
-    @Before
-    public void setUp() {
-        questionnairesService = spy(new QuestionnairesServiceImpl()); // <- class under test
-        initMocks(this);
-    }
-
-
     @Test
-    public void emptyListThrowsException() throws Exception {
-        exception.expect(PoguesException.class);
-        exception.expectMessage("Not found");
+    void emptyListThrowsException() throws Exception {
         when(questionnairesServiceQuery.getQuestionnaires())
                 .thenReturn(new ArrayList<JSONObject>());
-        questionnairesService.getQuestionnaireList();
+        Throwable exception = assertThrows(PoguesException.class,()->questionnairesService.getQuestionnaireList());
+        assertEquals("Not found",exception.getMessage());
 
     }
 
     @Test
-    public void getQuestionnaireByOwnerWithNullException() throws Exception{
-        exception.expect(PoguesException.class);
-        exception.expectMessage("Bad Request");
-        questionnairesService.getQuestionnairesByOwner(null);
+    void getQuestionnaireByOwnerWithNullException() throws Exception{
+        Throwable exception = assertThrows(PoguesException.class,()->questionnairesService.getQuestionnairesByOwner(null));
+        assertEquals("Bad Request",exception.getMessage());
     }
+    
     @Test
-    public void getQuestionnaireByOwnerWithEmptyException() throws Exception{
-        exception.expect(PoguesException.class);
-        exception.expectMessage("Bad Request");
-        questionnairesService.getQuestionnairesByOwner("");
+    void getQuestionnaireByOwnerWithEmptyException() throws Exception{
+        Throwable exception = assertThrows(PoguesException.class,()->questionnairesService.getQuestionnairesByOwner(""));
+        assertEquals("Bad Request",exception.getMessage());
     }
 
 
     @Test
-    public void questionnaireNotFoundThrowsException() throws Exception {
-        exception.expect(PoguesException.class);
-        exception.expectMessage("Not found");
+    void questionnaireNotFoundThrowsException() throws Exception {
         when(questionnairesServiceQuery.getQuestionnaireByID("id"))
                 .thenReturn(null);
-        questionnairesService.getQuestionnaireByID("id");
+        Throwable exception = assertThrows(PoguesException.class,()->questionnairesService.getQuestionnaireByID("id"));
+        assertEquals("Not found",exception.getMessage());
 
     }
 
     @Test
-    public void ambiguousIdThrowsException() throws Exception {
-        exception.expect(NonUniqueResultException.class);
-        exception.expectMessage("Test: Exception should propagate");
+    void ambiguousIdThrowsException() throws Exception {
         when(questionnairesServiceQuery.getQuestionnaireByID("id"))
                 .thenThrow(new NonUniqueResultException("Test: Exception should propagate"));
-        questionnairesService.getQuestionnaireByID("id");
+        Throwable exception = assertThrows(NonUniqueResultException.class,()->questionnairesService.getQuestionnaireByID("id"));
+        assertEquals("Test: Exception should propagate",exception.getMessage());
     }
 
     @Test
-    public void getQuestionnaireById() throws Exception {
+    void getQuestionnaireById() throws Exception {
         JSONObject q1 = new JSONObject();
         q1.put("id", "foo");
         when(questionnairesServiceQuery.getQuestionnaireByID("foo")).thenReturn(q1);
@@ -97,7 +83,7 @@ public class TestQuestionnaireService {
 
 
     @Test
-    public void listReturnsNormally() throws Exception {
+    void listReturnsNormally() throws Exception {
         try {
             when(questionnairesServiceQuery.getQuestionnaires())
                     .thenReturn(new ArrayList<JSONObject>() {
@@ -113,18 +99,17 @@ public class TestQuestionnaireService {
     }
 
     @Test
-    public void deleteExceptionPropagate() throws Exception {
-        exception.expect(SQLException.class);
-        exception.expectMessage("Test: Exception should propagate");
+    void deleteExceptionPropagate() throws Exception {
         doThrow(new SQLException("Test: Exception should propagate"))
                 .when(questionnairesServiceQuery)
                 .deleteQuestionnaireByID("1");
-        questionnairesService.deleteQuestionnaireByID("1");
+        Throwable exception = assertThrows(SQLException.class,()->questionnairesService.deleteQuestionnaireByID("1"));
+        assertEquals("Test: Exception should propagate",exception.getMessage());
 
     }
 
     @Test
-    public void deleteQuestionnaireById() throws Exception {
+    void deleteQuestionnaireById() throws Exception {
         doAnswer(invocationOnMock -> null).when(questionnairesServiceQuery).deleteQuestionnaireByID("foo");
         questionnairesService.deleteQuestionnaireByID("foo");
     }

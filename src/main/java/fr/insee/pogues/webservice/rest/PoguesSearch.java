@@ -5,10 +5,6 @@ import static javax.ws.rs.core.MediaType.APPLICATION_JSON;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
@@ -18,9 +14,13 @@ import javax.ws.rs.core.UriInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import fr.insee.pogues.search.model.DDIItem;
 import fr.insee.pogues.search.model.DataCollectionContext;
@@ -31,19 +31,21 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
-@Component
-@Path("/search")
+@RestController
+@RequestMapping("/api/search")
 @Tag(name = "Pogues Search")
+@SecurityRequirement(name = "bearerAuth")
 public class PoguesSearch {
 
-    final static Logger logger = LogManager.getLogger(PoguesSearch.class);
+    static final Logger logger = LogManager.getLogger(PoguesSearch.class);
 
     @Autowired
     SearchService searchService;
 
-    @POST
+    @PostMapping("")
     @Consumes(APPLICATION_JSON)
     @Produces(APPLICATION_JSON)
     @Operation(
@@ -76,8 +78,7 @@ public class PoguesSearch {
         }
     }
 
-    @GET
-    @Path("series")
+    @GetMapping("series")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
     		summary = "Import indexes from Colectica",
@@ -91,14 +92,13 @@ public class PoguesSearch {
         }
     }
 
-    @GET
-    @Path("series/{id}/operations")
+    @GetMapping("series/{id}/operations")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
     		summary = "Get all study-units (operations) for a given sub-group (series)",
             description = "Retrieve all operations with a parent id matching the series id given as a path parameter")
     public List<DDIItem> getStudyUnits(
-            @PathParam(value = "id") String id
+            @PathVariable(value = "id") String id
     ) throws Exception {
         try {
             return searchService.getStudyUnits(id);
@@ -109,14 +109,13 @@ public class PoguesSearch {
     }
     
     
-    @GET
-    @Path("context/collection/{id}")
+    @GetMapping("context/collection/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
     		summary = "Get data collection context (Sub-group id, StudyUnit id) for a given data collection",
             description = "Retrieve the context (Sub-group id, StudyUnit id) for a id given as a path parameter")
     public DataCollectionContext getDataCollectionContext(
-            @PathParam(value = "id") String id
+    		@PathVariable(value = "id") String id
     ) throws Exception {
         try {
             return searchService.getDataCollectionContext(id);
@@ -127,15 +126,14 @@ public class PoguesSearch {
     }
     
 
-    @GET
-    @Path("operations/{id}/collections")
+    @GetMapping("operations/{id}/collections")
     @Produces(MediaType.APPLICATION_JSON)
     @Operation(
             summary = "Get all data collections for a given operation",
             description = "Retrieve all data collections with a parent id matching the operation id given as a path parameter"
     )
     public List<DDIItem> getDataCollections(
-            @PathParam(value = "id") String id
+    		@PathVariable(value = "id") String id
     ) throws Exception {
         try {
             return searchService.getDataCollections(id);

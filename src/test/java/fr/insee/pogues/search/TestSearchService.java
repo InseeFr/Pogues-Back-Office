@@ -2,8 +2,8 @@ package fr.insee.pogues.search;
 
 import fr.insee.pogues.search.repository.PoguesItemRepository;
 import fr.insee.pogues.search.service.SearchServiceImpl;
-import org.junit.Before;
 import org.junit.Rule;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -20,7 +20,7 @@ public class TestSearchService {
     @InjectMocks
     SearchServiceImpl service;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         service = spy(new SearchServiceImpl()); // <- class under test
         initMocks(this);

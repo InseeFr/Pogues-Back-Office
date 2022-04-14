@@ -1,6 +1,5 @@
 package fr.insee.pogues.persistence.query;
 
-import com.google.common.collect.Lists;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -12,6 +11,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Questionnaire Service Query for the Postgresql implementation to assume the
@@ -25,6 +26,8 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 
 	@Autowired
 	JdbcTemplate jdbcTemplate;
+	
+	private static final String NOT_FOUND="Not found";
 
 	/**
 	 * A method to get the `QuestionnaireList` object in the database
@@ -34,7 +37,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 */
 	public List<JSONObject> getQuestionnaires() throws Exception {
 		List<PGobject> data = jdbcTemplate.queryForList("SELECT data FROM pogues", PGobject.class);
-		return PgToJSON(data);
+		return pgToJSON(data);
 	}
 
 	/**
@@ -46,7 +49,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	public JSONObject getQuestionnaireByID(String id) throws Exception {
 		try {
 			String qString = "SELECT data FROM pogues WHERE id=?";
-			PGobject q = jdbcTemplate.queryForObject(qString, new Object[] { id }, PGobject.class);
+			PGobject q = jdbcTemplate.queryForObject(qString, PGobject.class, id);
 			return (JSONObject) (new JSONParser().parse(q.toString()));
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -62,8 +65,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	public JSONObject getJsonLunaticByID(String id) throws Exception {
 		try {
 			String qString = "SELECT data_lunatic FROM visu_lunatic WHERE id=?";
-			PGobject q = jdbcTemplate.queryForObject(qString,
-					new Object[]{id}, PGobject.class);
+			PGobject q = jdbcTemplate.queryForObject(qString,PGobject.class, id);
 			return (JSONObject) (new JSONParser().parse(q.toString()));
 		} catch (EmptyResultDataAccessException e) {
 			return null;
@@ -79,7 +81,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		String qString = "DELETE FROM pogues where id=?";
 		int r = jdbcTemplate.update(qString, new Object[] { id });
 		if (0 == r) {
-			throw new PoguesException(404, "Not Found", String.format("Entity with id %s not found", id));
+			throw new PoguesException(404, NOT_FOUND, String.format("Entity with id %s not found", id));
 		}
 	}
 	
@@ -94,7 +96,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		int r = jdbcTemplate.update(qString,
 				new Object[] { id });
 		if(0 == r) {
-			throw new PoguesException(404, "Not Found", String.format("Entity with id %s not found", id));
+			throw new PoguesException(404, NOT_FOUND, String.format("Entity with id %s not found", id));
 		}
 	}
 
@@ -107,8 +109,8 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 */
 	public List<JSONObject> getQuestionnairesByOwner(String owner) throws Exception {
 		String qString = "SELECT data FROM pogues WHERE data ->> 'owner' = ?";
-		List<PGobject> data = jdbcTemplate.queryForList(qString, new Object[] { owner }, PGobject.class);
-		return PgToJSON(data);
+		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class, owner);
+		return pgToJSON(data);
 	}
 
 	/**
@@ -120,15 +122,14 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	public List<JSONObject> getMetaQuestionnaire(String owner) throws Exception {
 		String qString = "SELECT CONCAT('{\"id\": ',data -> 'id',', \"lastUpdatedDate\": ', data -> 'lastUpdatedDate',', \"Label\": ', data -> 'Label',', \"final\": ', data -> 'final',', \"DataCollection\": ', data -> 'DataCollection',', \"TargetMode\": ', data -> 'TargetMode','}') "
 				+ "FROM pogues WHERE data ->> 'owner' = ? AND data -> 'TargetMode' IS NOT NULL";
-		List<PGobject> data = jdbcTemplate.queryForList(qString, new Object[] { owner }, PGobject.class);
-		System.out.println(data);
-		return PgToJSON(data);
+		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class, owner);
+		return pgToJSON(data);
 	}
 
 	public List<JSONObject> getStamps() throws Exception {
 		String qString = "SELECT DISTINCT CONCAT('{\"id\": ',data -> 'owner',', \"label\": ',data -> 'owner','}')  FROM pogues WHERE data -> 'owner' IS NOT NULL";
 		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class);
-		return PgToJSON(data);
+		return pgToJSON(data);
 	}
 
 	/**
@@ -208,17 +209,23 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	public String countQuestionnaires() throws Exception {
 		String qString = "SELECT count(*) FROM pogues";
 		PGobject q = jdbcTemplate.queryForObject(qString, PGobject.class);
-		return q.toString();
+		if (q != null) {
+			return q.toString();
+		} else {
+			throw new PoguesException(404, NOT_FOUND, "No questionnaires found in database");
+		}
 	}
 
-	private List<JSONObject> PgToJSON(List<PGobject> data) {
-		return Lists.transform(data, q -> {
-			try {
-				return (JSONObject) (new JSONParser().parse(q.toString()));
-			} catch (ParseException e) {
-				throw new RuntimeException("ERROR parsing Json DATA");
-			}
-		});
+	private List<JSONObject> pgToJSON(List<PGobject> data) {
+		return Objects.requireNonNull(data).stream()
+				.map(q -> {
+					try {
+						return (JSONObject) (new JSONParser().parse(q.toString()));
+					} catch (ParseException e) {
+						throw new RuntimeException("ERROR parsing Json DATA");
+					}
+				})
+				.collect(Collectors.toList());
 	}
 
 

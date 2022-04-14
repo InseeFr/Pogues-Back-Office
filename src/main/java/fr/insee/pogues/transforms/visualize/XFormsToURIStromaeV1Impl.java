@@ -9,7 +9,6 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -33,12 +32,12 @@ public class XFormsToURIStromaeV1Impl implements XFormsToURIStromaeV1 {
 
     @Override
     public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
-        throw new NotImplementedException();
+        throw new RuntimeException("Not implemented");
     }
 
     @Override
     public String transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
-        throw new NotImplementedException();
+        throw new RuntimeException("Not implemented");
     }
 
     @Override

@@ -5,7 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.ParseException;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.HashMap;
  * @author I6VWID
  *
  */
-public class TestJSONFunctions {
+class TestJSONFunctions {
 
 	final static Logger logger = LogManager.getLogger(TestJSONFunctions.class);
 
@@ -27,7 +27,7 @@ public class TestJSONFunctions {
 	private HashMap<String, String> data = new HashMap<String, String>();
 	
 	@Test
-	public void getJSONArray() {
+	void getJSONArray() {
 		data.put("2",json2);
 		data.put("1",json1);
 		String expected = jsonArray;
@@ -35,7 +35,7 @@ public class TestJSONFunctions {
 	}
 	
 	@Test
-	public void getJSON() {
+	void getJSON() {
 		data.put("id", "1");
 		data.put("Name", "FIRSTQUESTIONNAIRE");
 		String expected = json1;
@@ -43,7 +43,7 @@ public class TestJSONFunctions {
 	}
 	
 	@Test
-	public void getMap() {
+	void getMap() {
 		
 		HashMap<String, String> expected = new HashMap<String, String>();
 		expected.put("1",json1);
@@ -54,7 +54,7 @@ public class TestJSONFunctions {
 	}
 	
 	@Test
-	public void getIDinQuestionnaire() {
+	void getIDinQuestionnaire() {
 		
 		String expected = "1";
 		Assert.assertEquals(expected, JSONFunctions.getQuestionnaireIDinQuestionnaire(json1));
@@ -62,7 +62,7 @@ public class TestJSONFunctions {
 	}
 	
 	@Test
-	public void getIDinQuestionnaireList() {
+	void getIDinQuestionnaireList() {
 		
 		
 		ArrayList<String>  expected = new ArrayList<String>();
@@ -74,7 +74,7 @@ public class TestJSONFunctions {
 
 
 	@Test
-	public void renamePluralTest() throws ParseException {
+	void renamePluralTest() throws ParseException {
 		JSONObject input = new JSONObject();
 		input.put("children", "some children");
 		input.put("controls", "some controls");
