@@ -13,16 +13,16 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>war</packaging>
-	<version>4.0.0</version>
+	<version>4.0.1</version>
 	<name>Pogues-BO</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>8</java.version>
+		<java.version>11</java.version>
 		<final.war.name>rmes-pogbo</final.war.name>
 		
 		<json-simple.version>1.1.1</json-simple.version>
-		<pogues-model.version>1.0.1</pogues-model.version>
+		<pogues-model.version>1.0.3</pogues-model.version>
 		<fop.version>2.7</fop.version>
 		<springdoc-openapi-ui.version>1.6.6</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.7</jacoco.version>
