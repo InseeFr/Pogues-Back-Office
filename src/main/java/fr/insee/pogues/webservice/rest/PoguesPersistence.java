@@ -281,11 +281,14 @@ public class PoguesPersistence {
         try {
 			questionnaireService.updateQuestionnaire(id, jsonContent);
 			logger.info("Questionnaire {} updated", id);
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (Exception e) {
+        } catch (PoguesException e) {
 			logger.error(e.getMessage(), e);
+			return ResponseEntity.status(e.getStatus()).body(e.getDetails());
+        } catch (Exception e) {
+        	logger.error(e.getMessage(), e);
             throw e;
         }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 	
 	@PutMapping("questionnaire/json-lunatic/{id}")
