@@ -208,9 +208,12 @@ public class PoguesPersistence {
 	) throws Exception {
 		try {
 			questionnaireService.deleteQuestionnaireByID(id);
-			User user=userProvider.getUser(auth);
+			User user = userProvider.getUser(auth);
 			logger.info("Questionnaire {} deleted by {}", id, user.getName());
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} catch (PoguesException e) {
+				logger.error(e.getMessage(), e);
+				return ResponseEntity.status(e.getStatus()).body(e.getDetails());
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;

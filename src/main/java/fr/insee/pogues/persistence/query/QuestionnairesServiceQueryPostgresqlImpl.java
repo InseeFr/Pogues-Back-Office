@@ -93,6 +93,12 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 * @param id id of the questionnaire
 	 */
 	public void deleteQuestionnaireByID(String id) throws Exception {
+		JSONObject questionnaire= getQuestionnaireByID(id);
+		//Check rights
+		if (!isUserAuthorized(id,questionnaire, "Delete")) {
+			logger.info("User not authorized to delete questionnaire {}",id);
+			throw new PoguesException(403, FORBIDDEN, "Only the owner of the questionnaire can delete it");
+		}
 		String qString = "DELETE FROM pogues where id=?";
 		int r = jdbcTemplate.update(qString, new Object[] { id });
 		if (0 == r) {
@@ -192,9 +198,8 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 */
 	public void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception {
 		//Check rights
-		String stamp = questionnaire.get("owner").toString();
-		logger.info("Update questionnaire {} from owner {}",id, stamp);		
-		if (isStampRestricted(stamp) && !stampsRestrictionsService.isQuestionnaireOwner(stamp)) {
+		if (!isUserAuthorized(id,questionnaire, "Update")) {
+			logger.info("User not authorized to modify questionnaire {}", id);
 			throw new PoguesException(403, FORBIDDEN, "Only the owner of the questionnaire can modify it");
 		}
 		//If permit, do the update
@@ -253,6 +258,16 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	
 	private boolean isStampRestricted(String stamp) {
 		return stamp.equals(stampRestricted);
+	}
+	
+	private boolean isUserAuthorized(String id, JSONObject questionnaire, String action) {
+		boolean isAuthorized=true;
+		String stamp = questionnaire.get("owner").toString();
+		logger.info("{} questionnaire {} owned by {}",action, id, stamp);		
+		if (isStampRestricted(stamp) && !stampsRestrictionsService.isQuestionnaireOwner(stamp)) {
+			isAuthorized=false;
+		}
+		return isAuthorized;
 	}
 
 }
