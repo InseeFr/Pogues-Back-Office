@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.*;
 import fr.insee.pogues.config.auth.UserProvider;
 import fr.insee.pogues.config.auth.user.User;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.VariablesService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -54,6 +56,9 @@ public class PoguesPersistence {
 	private QuestionnairesService questionnaireService;
     
     @Autowired
+	private VariablesService variablesService;
+    
+    @Autowired
     private Environment env;
 
 	@Autowired
@@ -80,7 +85,32 @@ public class PoguesPersistence {
 			JSONObject result = questionnaireService.getQuestionnaireByID(id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
-    
+	
+	@GetMapping("questionnaire/{id}/variables")
+    @Produces(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId  = "getQuestionnaireVariables",
+	        summary = "Get the variables of a questionnaire",
+            description = "Gets the variables with questionnaire id {id}",
+            responses = {
+        			@ApiResponse(content = @Content(mediaType = "application/json"))}
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+	public ResponseEntity<Object> getQuestionnaireVariables(
+			@PathVariable(value = "id") String id
+	) throws Exception {
+		try {
+			String result = variablesService.getVariablesByQuestionnaire(id);
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+	
     @GetMapping("questionnaire/json-lunatic/{id}")
     @Produces(MediaType.APPLICATION_JSON)
 	@Operation(
