@@ -13,7 +13,7 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>war</packaging>
-	<version>4.0.3</version>
+	<version>4.0.4</version>
 	<name>Pogues-BO</name>
 
 	<properties>
