@@ -141,7 +141,7 @@ public class PoguesTransforms {
 			@PathVariable(value = "questionnaire") String questionnaireName) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
-		params.put("mode","CAPI_CATI");
+		params.put("mode","CAPI");
 		try {
 			StreamingResponseBody stream = output -> {
 				try {
