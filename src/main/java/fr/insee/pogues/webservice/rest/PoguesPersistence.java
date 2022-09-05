@@ -282,8 +282,12 @@ public class PoguesPersistence {
 			@RequestBody JSONObject jsonContent
 	) throws Exception {
         try {
-			questionnaireService.updateQuestionnaire(id, jsonContent);
-			logger.info("Questionnaire {} updated", id);
+			if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+				questionnaireService.updateQuestionnaire(id, jsonContent);
+				logger.info("Questionnaire {} updated", id);
+			} else {
+				throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
+			}
         } catch (PoguesException e) {
 			logger.error(e.getMessage(), e);
 			return ResponseEntity.status(e.getStatus()).body(e.getDetails());
