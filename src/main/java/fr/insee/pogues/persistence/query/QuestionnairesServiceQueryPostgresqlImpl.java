@@ -263,10 +263,11 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	private boolean isUserAuthorized(String id, JSONObject questionnaire, String action) {
 		boolean isAuthorized=true;
 		String stamp = questionnaire.get("owner").toString();
-		logger.info("{} questionnaire {} owned by {}",action, id, stamp);		
 		if (isStampRestricted(stamp) && !stampsRestrictionsService.isQuestionnaireOwner(stamp)) {
 			isAuthorized=false;
+			logger.info("{} questionnaire authorized",action);
 		}
+		logger.info("{} questionnaire forbidden",action);
 		return isAuthorized;
 	}
 
