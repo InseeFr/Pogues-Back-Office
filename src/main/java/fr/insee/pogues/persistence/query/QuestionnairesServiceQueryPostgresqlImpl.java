@@ -1,6 +1,13 @@
 package fr.insee.pogues.persistence.query;
 
-import fr.insee.pogues.webservice.rest.PoguesException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -10,9 +17,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import fr.insee.pogues.config.auth.security.restrictions.StampsRestrictionsService;
+import fr.insee.pogues.webservice.rest.PoguesException;
 
 /**
  * Questionnaire Service Query for the Postgresql implementation to assume the
@@ -23,11 +29,20 @@ import java.util.stream.Collectors;
  */
 @Service
 public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesServiceQuery {
+	
+	static final Logger logger = LogManager.getLogger(QuestionnairesServiceQueryPostgresqlImpl.class);
 
+	@Value("${fr.insee.pogues.stamp.restricted}")
+	String stampRestricted; 
+	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 	
+	@Autowired
+	protected StampsRestrictionsService stampsRestrictionsService;
+		
 	private static final String NOT_FOUND="Not found";
+	private static final String FORBIDDEN="Forbidden";
 
 	/**
 	 * A method to get the `QuestionnaireList` object in the database
@@ -78,6 +93,12 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 * @param id id of the questionnaire
 	 */
 	public void deleteQuestionnaireByID(String id) throws Exception {
+		JSONObject questionnaire= getQuestionnaireByID(id);
+		//Check rights
+		if (!isUserAuthorized(questionnaire, "Delete")) {
+			logger.info("User not authorized to delete questionnaire {}",id);
+			throw new PoguesException(403, FORBIDDEN, "Only the owner of the questionnaire can delete it");
+		}
 		String qString = "DELETE FROM pogues where id=?";
 		int r = jdbcTemplate.update(qString, new Object[] { id });
 		if (0 == r) {
@@ -173,8 +194,15 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 * 
 	 * @param id id of the questionnaire
 	 * @param questionnaire the JSON description of the questionnaire
+	 * @throws SQLException 
 	 */
 	public void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception {
+		//Check rights
+		if (!isUserAuthorized(questionnaire, "Update")) {
+			logger.info("User not authorized to modify questionnaire {}", id);
+			throw new PoguesException(403, FORBIDDEN, "Only the owner of the questionnaire can modify it");
+		}
+		//If permitted, do the update
 		String qString = "UPDATE pogues SET data=? WHERE id=?";
 		PGobject q = new PGobject();
 		q.setType("json");
@@ -227,7 +255,20 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 				})
 				.collect(Collectors.toList());
 	}
-
-
+	
+	private boolean isStampRestricted(String stamp) {
+		return stamp.equals(stampRestricted);
+	}
+	
+	private boolean isUserAuthorized(JSONObject questionnaire, String action) {
+		boolean isAuthorized=true;
+		String stamp = questionnaire.get("owner").toString();
+		if (isStampRestricted(stamp) && !stampsRestrictionsService.isQuestionnaireOwner(stamp)) {
+			isAuthorized=false;
+			logger.info("{} questionnaire authorized",action);
+		}
+		logger.info("{} questionnaire forbidden",action);
+		return isAuthorized;
+	}
 
 }
