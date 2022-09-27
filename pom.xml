@@ -19,7 +19,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>11</java.version>
-		<final.war.name>rmes-pogbo</final.war.name>
+		<final.asset.name>rmes-pogbo</final.asset.name>
 		
 		<json-simple.version>1.1.1</json-simple.version>
 		<pogues-model.version>1.0.3</pogues-model.version>
@@ -178,7 +178,7 @@
 	</dependencies>
 
 	<build>
-		<finalName>${final.war.name}</finalName>
+		<finalName>${final.asset.name}</finalName>
 		<plugins>
 
 			 <plugin>
