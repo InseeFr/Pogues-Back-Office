@@ -40,7 +40,6 @@ import fr.insee.pogues.transforms.visualize.PoguesXMLToPoguesJSON;
 import fr.insee.pogues.transforms.visualize.XFormsToURIStromaeV1;
 import fr.insee.pogues.webservice.model.CaptureEnum;
 import fr.insee.pogues.webservice.model.ColumnsEnum;
-import fr.insee.pogues.webservice.model.ModeQueenEnum;
 import fr.insee.pogues.webservice.model.OrientationEnum;
 import fr.insee.pogues.webservice.model.StudyUnitEnum;
 import io.swagger.v3.oas.annotations.Operation;
