@@ -133,10 +133,39 @@ public class PoguesTransforms {
 			throw e;
 		}
 	}
+
+	@PostMapping(path = "visualize-queen-telephone/{questionnaire}",
+			consumes = MediaType.APPLICATION_JSON_VALUE)
+	@Operation(summary = "Get visualization URI CATI Queen from JSON serialized Pogues entity", description = "Get visualization URI CATI Queen from JSON serialized Pogues entity")
+	public ResponseEntity<StreamingResponseBody> visualizeCatiQueenFromBody(@RequestBody String request,
+			@PathVariable(value = "questionnaire") String questionnaireName) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("mode","CATI");
+		try {
+			StreamingResponseBody stream = output -> {
+				try {
+					output.write(pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+	
 	
 	@PostMapping(path = "visualize-queen/{questionnaire}",
 			consumes = MediaType.APPLICATION_JSON_VALUE)
-	@Operation(summary = "Get visualization URI Queen from JSON serialized Pogues entity", description = "Get visualization URI Queen from JSON serialized Pogues entity")
+	@Operation(summary = "Get visualization URI CAPI Queen from JSON serialized Pogues entity", description = "Get visualization URI CAPI Queen from JSON serialized Pogues entity")
 	public ResponseEntity<StreamingResponseBody> visualizeQueenFromBody(@RequestBody String request,
 			@PathVariable(value = "questionnaire") String questionnaireName) throws Exception {
 		PipeLine pipeline = new PipeLine();
@@ -170,6 +199,7 @@ public class PoguesTransforms {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		params.put("questionnaire", questionnaireName.toLowerCase());
+		params.put("mode","CAWI");
 		try {
 			StreamingResponseBody stream = output -> {
 				try {

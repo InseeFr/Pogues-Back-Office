@@ -36,6 +36,9 @@ public class EnoClientImpl implements EnoClient{
 	@Value("${fr.insee.pogues.api.remote.eno.host}")
     String enoHost;
 	
+	@Value("${fr.insee.pogues.api.remote.eno.host.queen}")
+    String enoHostQueen;
+	
 	@Value("${fr.insee.pogues.api.remote.eno.scheme}")
 	String enoScheme;
 	
@@ -96,14 +99,19 @@ public class EnoClientImpl implements EnoClient{
 	@Override
 	public String getDDITOLunaticJSON(File fileInput, Map<String, Object> params) throws URISyntaxException, ClientProtocolException, IOException {
 		String WSPath;
+		/*Temporaire : Queen en Lunatic V1 et Stromae V2 en Lunatic V2*/
+		String enoHostLunatic = enoHost;
 		if (params.get("mode") != null) {
 			WSPath = BASE_PATH+"/lunatic-json/"+params.get("mode").toString();
 			logger.info("Url for DDI to Lunatic transformation : "+WSPath);
+			if(params.get("mode").equals("CATI") || params.get("mode").equals("CAPI") ) {
+				enoHostLunatic = enoHostQueen;
+			}
 		} else {
 			WSPath = BASE_PATH+"/lunatic-json/"+MODE;
 		}
 		URIBuilder uriBuilder = new URIBuilder();
-		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(WSPath);
+		uriBuilder.setScheme(enoScheme).setHost(enoHostLunatic).setPath(WSPath);
 		CloseableHttpClient httpclient = HttpClients.createDefault();		
 		HttpPost post = new HttpPost(uriBuilder.build());
 		logger.info("Calling Eno URL : "+uriBuilder.build().toString());
