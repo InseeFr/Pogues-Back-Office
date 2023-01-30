@@ -148,43 +148,59 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
             return "";
         }
     }
-    private void insertReference(Questionnaire quest, String ref, Questionnaire refJava) {
+    private void insertReference(Questionnaire questionnaire, String reference, Questionnaire referencedQuestionnaire) {
+        // Coherence check
+        if (! reference.equals(referencedQuestionnaire.getId())) {
+            logger.warn("Reference '{}' found in questionnaire '{}' mismatch referenced questionnaire's id '{}'",
+                    reference, questionnaire.getId(), referencedQuestionnaire.getId());
+        }
 
         // 1- Add sequences
-        List<ComponentType> refSequences = refJava.getChild().stream()
+        List<ComponentType> refSequences = referencedQuestionnaire.getChild().stream()
                 .filter(seq -> !seq.getId().equals("idendquest"))
                 .collect(Collectors.toList());
-        logger.info("Reference {} retrieved", ref);
+        logger.info("Reference {} retrieved", reference);
         int indexOfModification = 0;
-        for (ComponentType seq : quest.getChild()) {
-            if (seq.getId().equals(ref)) {
+        for (ComponentType seq : questionnaire.getChild()) {
+            if (seq.getId().equals(reference)) {
                 break;
             }
             indexOfModification++;
         }
         logger.info("Index to modify {}", indexOfModification);
         // Suppression of the questionnaire reference
-        quest.getChild().remove(indexOfModification);
+        questionnaire.getChild().remove(indexOfModification);
         // Insertion of the sequences
         for (int i=0; i<refSequences.size();i++) {
-            quest.getChild().add(indexOfModification, refJava.getChild().get(refSequences.size()-1-i));
+            questionnaire.getChild().add(indexOfModification, referencedQuestionnaire.getChild().get(refSequences.size()-1-i));
         }
-        logger.info("Sequences from {} inserted", ref);
+        logger.info("Sequences from {} inserted", reference);
 
         // 2 - Add variables
-        List<VariableType> refVariables = refJava.getVariables().getVariable();
-        refVariables.forEach(variable -> quest.getVariables().getVariable().add(variable));
-        logger.info("Var from {} inserted", ref);
+        List<VariableType> refVariables = referencedQuestionnaire.getVariables().getVariable();
+        refVariables.forEach(variable -> questionnaire.getVariables().getVariable().add(variable));
+        logger.info("Variables from {} inserted", reference);
 
-        // 3 - Add codeslist
-        List<CodeList> refCodesList = refJava.getCodeLists().getCodeList();
-        refCodesList.forEach(codeList -> quest.getCodeLists().getCodeList().add(codeList));
-        logger.info("CodeList from {} inserted", ref);
+        // 3 - Add code lists
+        List<CodeList> refCodesList = referencedQuestionnaire.getCodeLists().getCodeList();
+        refCodesList.forEach(codeList -> questionnaire.getCodeLists().getCodeList().add(codeList));
+        logger.info("CodeList from {} inserted", reference);
 
         // 4 - Filters : add flowControl section
-        List<FlowControlType> refFlowControl = refJava.getFlowControl();
-        refFlowControl.forEach(flowControl -> quest.getFlowControl().add(flowControl));
-        logger.info("FlowControl from {} inserted", ref);
+        List<FlowControlType> refFlowControl = referencedQuestionnaire.getFlowControl();
+        refFlowControl.forEach(flowControl -> questionnaire.getFlowControl().add(flowControl));
+        logger.info("FlowControl from {} inserted", reference);
+
+        // Loops: add iterations (loops)
+        Questionnaire.Iterations refIterations = referencedQuestionnaire.getIterations();
+        if (refIterations != null) {
+            questionnaire.setIterations(new Questionnaire.Iterations());
+            List<IterationType> iterationList = questionnaire.getIterations().getIteration();
+            iterationList.addAll(refIterations.getIteration());
+            logger.info("Iterations from {} inserted", reference);
+        } else {
+            logger.info("No iterations in referenced questionnaire {}", reference);
+        }
 
         // Component group is not updated since it is not used by eno generation
     }
