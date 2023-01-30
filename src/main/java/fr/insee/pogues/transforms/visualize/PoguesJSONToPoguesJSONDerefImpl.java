@@ -10,6 +10,7 @@ import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -69,6 +70,11 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
             logger.info("No de-referencing needed");
             return input;
         }
+        Questionnaire questionnaire = transformAsQuestionnaire(input);
+        return questionnaireJavaToString(questionnaire);
+    }
+
+    public Questionnaire transformAsQuestionnaire(String input) throws JAXBException, IOException, ParseException {
         // Parse Pogues json questionnaire
         JSONParser parser = new JSONParser();
         JSONObject jsonQuestionnaire = (JSONObject) parser.parse(input);
@@ -80,8 +86,8 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         //
         deReference(references, questionnaire);
         logger.info("Sequences inserted");
-        return questionnaireJavaToString(questionnaire);
-
+        //
+        return questionnaire;
     }
 
     private void deReference(List<String> references, Questionnaire questionnaire) {
