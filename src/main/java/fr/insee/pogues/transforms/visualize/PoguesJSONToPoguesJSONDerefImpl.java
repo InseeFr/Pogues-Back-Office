@@ -26,6 +26,9 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
 
     static final Logger logger = LogManager.getLogger(PoguesJSONToPoguesJSONDerefImpl.class);
 
+    private static final String NULL_INPUT_MESSAGE = "Null input";
+    private static final String NULL_OUTPUT_MESSAGE = "Null output";
+
     @Autowired
     QuestionnairesService questionnairesService;
 
@@ -38,10 +41,10 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
     @Override
     public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
         if (null == input) {
-            throw new NullPointerException("Null input");
+            throw new NullPointerException(NULL_INPUT_MESSAGE);
         }
         if (null == output) {
-            throw new NullPointerException("Null output");
+            throw new NullPointerException(NULL_OUTPUT_MESSAGE);
         }
         String jsonDeref = transform(input, params, surveyName);
         output.write(jsonDeref.getBytes(StandardCharsets.UTF_8));
@@ -50,13 +53,16 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
     @Override
     public String transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
         if (null == input) {
-            throw new NullPointerException("Null input");
+            throw new NullPointerException(NULL_INPUT_MESSAGE);
         }
         return transform(IOUtils.toString(input, StandardCharsets.UTF_8), params, surveyName);
     }
 
     @Override
     public String transform(String input, Map<String, Object> params, String surveyName) throws Exception {
+        if (null == input) {
+            throw new NullPointerException(NULL_INPUT_MESSAGE);
+        }
         // TODO: This parameter could be replaced by logical check in back-office
         // (when Pogues-Model supports "childQuestionnaireRef")
         if (!(boolean) params.get("needDeref")) {
