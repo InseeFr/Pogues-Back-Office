@@ -27,6 +27,9 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
 
     static final Logger logger = LogManager.getLogger(PoguesJSONToPoguesJSONDerefImpl.class);
 
+    /** Name of the artificial end sequence added by the front (to manage some GoTo cases). */
+    public static final String FAKE_LAST_ELEMENT_ID = "idendquest";
+
     private static final String NULL_INPUT_MESSAGE = "Null input";
     private static final String NULL_OUTPUT_MESSAGE = "Null output";
 
@@ -155,9 +158,9 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
                     reference, questionnaire.getId(), referencedQuestionnaire.getId());
         }
 
-        // 1- Add sequences
+        // Add sequences
         List<ComponentType> refSequences = referencedQuestionnaire.getChild().stream()
-                .filter(seq -> !seq.getId().equals("idendquest"))
+                .filter(seq -> !seq.getId().equals(FAKE_LAST_ELEMENT_ID))
                 .collect(Collectors.toList());
         logger.info("Reference {} retrieved", reference);
         int indexOfModification = 0;
@@ -176,17 +179,42 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         }
         logger.info("Sequences from {} inserted", reference);
 
-        // 2 - Add variables
+        // Add variables
         List<VariableType> refVariables = referencedQuestionnaire.getVariables().getVariable();
         refVariables.forEach(variable -> questionnaire.getVariables().getVariable().add(variable));
         logger.info("Variables from {} inserted", reference);
 
-        // 3 - Add code lists
+        // Add code lists
         List<CodeList> refCodesList = referencedQuestionnaire.getCodeLists().getCodeList();
         refCodesList.forEach(codeList -> questionnaire.getCodeLists().getCodeList().add(codeList));
         logger.info("CodeList from {} inserted", reference);
 
-        // 4 - Filters : add flowControl section
+        // Filters defined on referenced questionnaire
+        questionnaire.getFlowControl().forEach(flowControlType -> {
+            // The 'IfTrue' property defines begin/end member references (separated with '-') of the filter
+            String[] flowControlBounds = flowControlType.getIfTrue().split("-");
+            if (flowControlBounds.length != 2) {
+                logger.error(
+                        "'IfTrue' value '{}' is not compliant with Pogues-Model specification in FlowControl '{}'",
+                        flowControlType.getIfTrue(), flowControlType.getId());
+            }
+            // Replace questionnaire reference by its first/last sequence
+            String beginMember = flowControlBounds[0];
+            String endMember = flowControlBounds[1];
+            if (beginMember.equals(reference)) {
+                beginMember = referencedQuestionnaire.getChild().get(0).getId();
+            }
+            if (endMember.equals(reference)) {
+                List<ComponentType> referenceSequences = referencedQuestionnaire.getChild().stream()
+                        .filter(componentType -> !FAKE_LAST_ELEMENT_ID.equals(componentType.getId()))
+                        .collect(Collectors.toList());
+                endMember = referenceSequences.get(referenceSequences.size() - 1).getId();
+            }
+            flowControlType.setIfTrue(beginMember+"-"+endMember);
+        });
+        logger.info("FlowControl member references updated from {}", reference);
+
+        // Filters : add flowControl section
         List<FlowControlType> refFlowControl = referencedQuestionnaire.getFlowControl();
         refFlowControl.forEach(flowControl -> questionnaire.getFlowControl().add(flowControl));
         logger.info("FlowControl from {} inserted", reference);

@@ -1,6 +1,7 @@
 package fr.insee.pogues.transforms.visualize;
 
 import fr.insee.pogues.model.ComponentType;
+import fr.insee.pogues.model.FlowControlType;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import org.json.simple.JSONObject;
@@ -66,6 +67,16 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         assertTrue(outQuestionnaire.getChild().stream()
                 .map(ComponentType::getId)
                 .anyMatch(loopMemberRef::equals));
+
+        // Test: filters
+        FlowControlType flowControlType = outQuestionnaire.getFlowControl().get(0);
+        assertNotEquals("l4i3m6qa", flowControlType.getIfTrue().split("-")[0]);
+        assertNotEquals("l4i3m6qa", flowControlType.getIfTrue().split("-")[1]);
+        // closer look
+        String filteredReferenceBeginMember = "l4i3a6ii";
+        String filteredReferenceEndMember = "l4i3b1na";
+        assertEquals(filteredReferenceBeginMember, flowControlType.getIfTrue().split("-")[0]);
+        assertEquals(filteredReferenceEndMember, flowControlType.getIfTrue().split("-")[1]);
     }
 
 }
