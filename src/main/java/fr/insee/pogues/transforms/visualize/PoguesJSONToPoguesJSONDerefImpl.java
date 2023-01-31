@@ -77,7 +77,7 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         return questionnaireJavaToString(questionnaire);
     }
 
-    public Questionnaire transformAsQuestionnaire(String input) throws JAXBException, IOException, ParseException {
+    public Questionnaire transformAsQuestionnaire(String input) throws Exception {
         // Parse Pogues json questionnaire
         JSONParser parser = new JSONParser();
         JSONObject jsonQuestionnaire = (JSONObject) parser.parse(input);
@@ -93,22 +93,18 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         return questionnaire;
     }
 
-    private void deReference(List<String> references, Questionnaire questionnaire) {
-        references.forEach(reference -> {
-            try {
-                JSONObject referencedJsonQuestionnaire = questionnairesService.getQuestionnaireByID(reference);
-                if (referencedJsonQuestionnaire == null) {
-                    logger.warn(
-                            "Null reference behind reference '{}' in questionnaire '{}'.",
-                            reference, questionnaire.getId());
-                } else {
-                    Questionnaire referencedQuestionnaire = questionnaireToJavaObject(referencedJsonQuestionnaire);
-                    insertReference(questionnaire, reference, referencedQuestionnaire);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
+    private void deReference(List<String> references, Questionnaire questionnaire) throws Exception {
+        for (String reference : references) {
+            JSONObject referencedJsonQuestionnaire = questionnairesService.getQuestionnaireByID(reference);
+            if (referencedJsonQuestionnaire == null) {
+                logger.warn(
+                        "Null reference behind reference '{}' in questionnaire '{}'.",
+                        reference, questionnaire.getId());
+            } else {
+                Questionnaire referencedQuestionnaire = questionnaireToJavaObject(referencedJsonQuestionnaire);
+                insertReference(questionnaire, reference, referencedQuestionnaire);
             }
-        });
+        }
     }
 
     /** This should be moved in Pogues-Model. */
