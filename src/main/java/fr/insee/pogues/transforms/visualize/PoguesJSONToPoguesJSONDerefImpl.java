@@ -1,5 +1,6 @@
 package fr.insee.pogues.transforms.visualize;
 
+import fr.insee.pogues.exception.IllegalFlowControlException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.json.JSONFunctions;
@@ -10,11 +11,13 @@ import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.*;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -78,6 +81,9 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
     }
 
     public Questionnaire transformAsQuestionnaire(String input) throws Exception {
+        if (null == input) {
+            throw new NullPointerException(NULL_INPUT_MESSAGE);
+        }
         // Parse Pogues json questionnaire
         JSONParser parser = new JSONParser();
         JSONObject jsonQuestionnaire = (JSONObject) parser.parse(input);
@@ -108,23 +114,20 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
     }
 
     /** This should be moved in Pogues-Model. */
-    private Questionnaire questionnaireToJavaObject(JSONObject questionnaire)
+    private Questionnaire questionnaireToJavaObject(JSONObject jsonQuestionnaire)
             throws JAXBException, IOException {
         StreamSource json;
-        if (questionnaire != null) {
-            logger.info("Deserializing questionnaire {}", questionnaire.get("id"));
-            JAXBContext context = JAXBContext.newInstance(Questionnaire.class);
-            Unmarshaller unmarshaller = context.createUnmarshaller();
-            unmarshaller.setProperty(UnmarshallerProperties.MEDIA_TYPE, "application/json");
-            unmarshaller.setProperty(UnmarshallerProperties.JSON_INCLUDE_ROOT, false);
-            try(InputStream inQuestionnaire = new ByteArrayInputStream(questionnaire.toString().getBytes())){
-                json = new StreamSource(inQuestionnaire);
-                Questionnaire questionnaireJava = unmarshaller.unmarshal(json, Questionnaire.class).getValue();
-                logger.info("Deserializing success");
-                return questionnaireJava;
-            }
+        logger.info("Deserializing questionnaire {}", jsonQuestionnaire.get("id"));
+        JAXBContext context = JAXBContext.newInstance(Questionnaire.class);
+        Unmarshaller unmarshaller = context.createUnmarshaller();
+        unmarshaller.setProperty(UnmarshallerProperties.MEDIA_TYPE, "application/json");
+        unmarshaller.setProperty(UnmarshallerProperties.JSON_INCLUDE_ROOT, false);
+        try (InputStream inQuestionnaire = new ByteArrayInputStream(jsonQuestionnaire.toString().getBytes())) {
+            json = new StreamSource(inQuestionnaire);
+            Questionnaire questionnaire = unmarshaller.unmarshal(json, Questionnaire.class).getValue();
+            logger.info("Deserializing success");
+            return questionnaire;
         }
-        return null;
     }
 
 
@@ -147,7 +150,8 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
             return "";
         }
     }
-    private void insertReference(Questionnaire questionnaire, String reference, Questionnaire referencedQuestionnaire) {
+    private void insertReference(Questionnaire questionnaire, String reference, Questionnaire referencedQuestionnaire)
+            throws IllegalFlowControlException {
         // Coherence check
         if (! reference.equals(referencedQuestionnaire.getId())) {
             logger.warn("Reference '{}' found in questionnaire '{}' mismatch referenced questionnaire's id '{}'",
@@ -186,28 +190,9 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         logger.info("CodeList from {} inserted", reference);
 
         // Filters defined on referenced questionnaire
-        questionnaire.getFlowControl().forEach(flowControlType -> {
-            // The 'IfTrue' property defines begin/end member references (separated with '-') of the filter
-            String[] flowControlBounds = flowControlType.getIfTrue().split("-");
-            if (flowControlBounds.length != 2) {
-                logger.error(
-                        "'IfTrue' value '{}' is not compliant with Pogues-Model specification in FlowControl '{}'",
-                        flowControlType.getIfTrue(), flowControlType.getId());
-            }
-            // Replace questionnaire reference by its first/last sequence
-            String beginMember = flowControlBounds[0];
-            String endMember = flowControlBounds[1];
-            if (beginMember.equals(reference)) {
-                beginMember = referencedQuestionnaire.getChild().get(0).getId();
-            }
-            if (endMember.equals(reference)) {
-                List<ComponentType> referenceSequences = referencedQuestionnaire.getChild().stream()
-                        .filter(componentType -> !FAKE_LAST_ELEMENT_ID.equals(componentType.getId()))
-                        .collect(Collectors.toList());
-                endMember = referenceSequences.get(referenceSequences.size() - 1).getId();
-            }
-            flowControlType.setIfTrue(beginMember+"-"+endMember);
-        });
+        for (FlowControlType flowControlType : questionnaire.getFlowControl()) {
+            updateFlowControlBounds(reference, referencedQuestionnaire, flowControlType);
+        }
         logger.info("FlowControl member references updated from {}", reference);
 
         // Filters : add flowControl section
@@ -228,4 +213,36 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
 
         // Component group is not updated since it is not used by eno generation
     }
+
+    /** Replace filter bounds that reference a questionnaire by its first or last sequence.  */
+    private static void updateFlowControlBounds(String reference, Questionnaire referencedQuestionnaire, FlowControlType flowControlType)
+            throws IllegalFlowControlException {
+        if (flowControlType.getIfTrue() == null) {
+            throw new IllegalFlowControlException(String.format(
+                    "'IfTrue' property is null in FlowControl '%s'",
+                    flowControlType.getId()));
+        }
+        // The 'IfTrue' property defines begin/end member references (separated with '-') of the filter
+        String[] flowControlBounds = flowControlType.getIfTrue().split("-");
+        if (flowControlBounds.length != 2) {
+            throw new IllegalFlowControlException(String.format(
+                    "'IfTrue' value '%s' is not compliant with Pogues-Model specification in FlowControl '%s'",
+                    flowControlType.getIfTrue(), flowControlType.getId()));
+        }
+        // Replace questionnaire reference by its first/last sequence
+        String beginMember = flowControlBounds[0];
+        String endMember = flowControlBounds[1];
+        if (beginMember.equals(reference)) {
+            beginMember = referencedQuestionnaire.getChild().get(0).getId();
+        }
+        if (endMember.equals(reference)) {
+            List<ComponentType> referenceSequences = referencedQuestionnaire.getChild().stream()
+                    .filter(componentType -> !FAKE_LAST_ELEMENT_ID.equals(componentType.getId()))
+                    .collect(Collectors.toList());
+            endMember = referenceSequences.get(referenceSequences.size() - 1).getId();
+        }
+        flowControlType.setIfTrue(beginMember+"-"+endMember);
+    }
+
+
 }
