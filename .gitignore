@@ -14,3 +14,4 @@ WebContent/index.html
 WebContent/*.css
 WebContent/*.map
 WebContent/*.js
+/bin/

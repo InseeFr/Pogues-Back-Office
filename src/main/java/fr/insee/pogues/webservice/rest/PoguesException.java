@@ -2,9 +2,6 @@ package fr.insee.pogues.webservice.rest;
 
 import java.io.IOException;
 
-/**
- * Created by acordier on 04/07/17.
- */
 public class PoguesException extends IOException {
 
     private int status;
@@ -25,4 +22,12 @@ public class PoguesException extends IOException {
     public RestMessage toRestMessage(){
         return new RestMessage(this.status, this.getMessage(), this.details);
     }
+    
+    public int getStatus() {
+		return status;
+	}
+
+	public String getDetails() {
+		return details;
+	}
 }
