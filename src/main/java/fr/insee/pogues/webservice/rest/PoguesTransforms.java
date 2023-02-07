@@ -89,22 +89,22 @@ public class PoguesTransforms {
 
 	@Autowired
 	DDIToFODT ddiToOdt;
-	
+
 	@Autowired
 	DDIToFO ddiToFo;
-	
+
 	@Autowired
 	FOToPDF foToPdf;
 
 	@Autowired
 	XFormsToURIStromaeV1 xformToUri;
-	
+
 	@Autowired
 	DDIToLunaticJSON ddiToLunaticJSON;
-	
+
 	@Autowired
 	LunaticJSONToUriQueen lunaticJSONToUriQueen;
-	
+
 	@Autowired
 	LunaticJSONToUriStromaeV2 lunaticJSONToUriStromaeV2;
 
@@ -116,23 +116,18 @@ public class PoguesTransforms {
 
 	private static final String CONTENT_DISPOSITION = "Content-Disposition";
 
-	@PostMapping(path = "visualize/{dataCollection}/{questionnaire}",
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	@Operation(
-			summary = "Get visualization URI from JSON serialized Pogues entity", 
-			description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
-	@io.swagger.v3.oas.annotations.parameters.RequestBody(
-			description = "JSON representation of the Pogues Model"
-			)
+	@PostMapping(path = "visualize/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@Operation(summary = "Get visualization URI from JSON serialized Pogues entity", description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+	@io.swagger.v3.oas.annotations.parameters.RequestBody(description = "JSON representation of the Pogues Model")
 	public ResponseEntity<StreamingResponseBody> visualizeFromBody(@RequestBody String request,
-																   @PathVariable(value = "dataCollection") String dataCollection,
-																   @PathVariable(value = "questionnaire") String questionnaire,
-																   @RequestParam(name = "references",defaultValue = "false") Boolean ref) throws Exception {
+			@PathVariable(value = "dataCollection") String dataCollection,
+			@PathVariable(value = "questionnaire") String questionnaire,
+			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		params.put("dataCollection", dataCollection.toLowerCase());
 		params.put("questionnaire", questionnaire.toLowerCase());
-		params.put("needDeref",ref);
+		params.put("needDeref", ref);
 		try {
 			StreamingResponseBody stream = output -> {
 				try {
@@ -153,57 +148,23 @@ public class PoguesTransforms {
 			throw e;
 		}
 	}
-	
-	@PostMapping(path = "visualize-queen/{questionnaire}",
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	@Operation(summary = "Get visualization URI Queen from JSON serialized Pogues entity", description = "Get visualization URI Queen from JSON serialized Pogues entity")
-	public ResponseEntity<StreamingResponseBody> visualizeQueenFromBody(@RequestBody String request,
-																		@PathVariable(value = "questionnaire") String questionnaireName,
-																		@RequestParam(name = "references",defaultValue = "false") Boolean ref) throws Exception {
+
+	@PostMapping(path = "visualize-queen-telephone/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@Operation(summary = "Get visualization URI CATI Queen from JSON serialized Pogues entity", description = "Get visualization URI CATI Queen from JSON serialized Pogues entity")
+	public ResponseEntity<StreamingResponseBody> visualizeCatiQueenFromBody(@RequestBody String request,
+			@PathVariable(value = "questionnaire") String questionnaireName) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
-		params.put("mode","CAPI");
-		params.put("needDeref",ref);
+		params.put("mode", "CATI");
 		try {
 			StreamingResponseBody stream = output -> {
 				try {
 					output.write(pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-							.map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
 							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
 							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
 							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
-							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform().getBytes());
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
-				}
-			};
-			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
-	}
-	
-	@PostMapping(path = "visualize-stromae-v2/{questionnaire}",
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	@Operation(summary = "Get visualization URI Stromae V2 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V2 from JSON serialized Pogues entity")
-	public ResponseEntity<StreamingResponseBody> visualizeStromaeV2FromBody(@RequestBody String request,
-																			@PathVariable(value = "questionnaire") String questionnaireName,
-																			@RequestParam(name = "references",defaultValue = "false") Boolean ref) throws Exception {
-		PipeLine pipeline = new PipeLine();
-		Map<String, Object> params = new HashMap<>();
-		params.put("questionnaire", questionnaireName.toLowerCase());
-		params.put("needDeref",ref);
-		try {
-			StreamingResponseBody stream = output -> {
-				try {
-					output.write(pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-							.map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
-							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
-							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
-							.map(lunaticJSONToUriStromaeV2::transform, params, questionnaireName.toLowerCase()).transform().getBytes());
+							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform()
+							.getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
@@ -216,12 +177,72 @@ public class PoguesTransforms {
 		}
 	}
 
-	@PostMapping(path = "visualize-from-ddi/{dataCollection}/{questionnaire}",
-			consumes = MediaType.APPLICATION_JSON_VALUE)
-	@Operation(
-			summary = "Get visualization URI from DDI questionnaire", 
-			description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
-	public ResponseEntity<StreamingResponseBody> visualizeFromDDIBody(@RequestBody  String request,
+	@PostMapping(path = "visualize-queen/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@Operation(summary = "Get visualization URI CAPI Queen from JSON serialized Pogues entity", description = "Get visualization URI CAPI Queen from JSON serialized Pogues entity")
+	public ResponseEntity<StreamingResponseBody> visualizeQueenFromBody(@RequestBody String request,
+			@PathVariable(value = "questionnaire") String questionnaireName,
+			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("mode", "CAPI");
+		params.put("needDeref", ref);
+		try {
+			StreamingResponseBody stream = output -> {
+				try {
+					output.write(pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+							.map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
+							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform()
+							.getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@PostMapping(path = "visualize-stromae-v2/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@Operation(summary = "Get visualization URI Stromae V2 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V2 from JSON serialized Pogues entity")
+	public ResponseEntity<StreamingResponseBody> visualizeStromaeV2FromBody(@RequestBody String request,
+			@PathVariable(value = "questionnaire") String questionnaireName,
+			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("questionnaire", questionnaireName.toLowerCase());
+		params.put("needDeref", ref);
+		params.put("mode", "CAWI");
+		try {
+			StreamingResponseBody stream = output -> {
+				try {
+					output.write(pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+							.map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
+							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+							.map(lunaticJSONToUriStromaeV2::transform, params, questionnaireName.toLowerCase())
+							.transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@PostMapping(path = "visualize-from-ddi/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@Operation(summary = "Get visualization URI from DDI questionnaire", description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+	public ResponseEntity<StreamingResponseBody> visualizeFromDDIBody(@RequestBody String request,
 			@PathVariable(value = "dataCollection") String dataCollection,
 			@PathVariable(value = "questionnaire") String questionnaire) throws Exception {
 		PipeLine pipeline = new PipeLine();
@@ -246,17 +267,13 @@ public class PoguesTransforms {
 		}
 	}
 
-	@PostMapping(path = "visualize-spec",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
-			)
-	@Operation(
-			summary = "Get visualization spec from JSON serialized Pogues entity", hidden = true)
+	@PostMapping(path = "visualize-spec", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@Operation(summary = "Get visualization spec from JSON serialized Pogues entity", hidden = true)
 	public ResponseEntity<StreamingResponseBody> visualizeSpecFromBody(@RequestBody String request,
-																	   @RequestParam(name = "references",defaultValue = "false") Boolean ref) throws Exception {
+			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
-		params.put("needDeref",ref);
+		params.put("needDeref", ref);
 		String questionnaireName = "spec";
 		try {
 			StreamingResponseBody stream = output -> {
@@ -281,16 +298,13 @@ public class PoguesTransforms {
 		}
 	}
 
-	@PostMapping(path = "visualize-ddi",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
-			)
+	@PostMapping(path = "visualize-ddi", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization DDI file from JSON serialized Pogues entity")
-	public ResponseEntity<StreamingResponseBody> visualizeDDIFromBody(	@RequestBody String request,
-																		@RequestParam(name = "references",defaultValue = "false") Boolean ref) throws Exception {
+	public ResponseEntity<StreamingResponseBody> visualizeDDIFromBody(@RequestBody String request,
+			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
-		params.put("needDeref",ref);
+		params.put("needDeref", ref);
 		String questionnaireName = "ddi";
 		try {
 			StreamingResponseBody stream = output -> {
@@ -314,16 +328,13 @@ public class PoguesTransforms {
 		}
 	}
 
-	@PostMapping(path = "visualize-pdf",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
-			)
+	@PostMapping(path = "visualize-pdf", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization PDF questionnaire from JSON serialized Pogues entity")
 	public ResponseEntity<InputStreamResource> visualizePDFFromBody(@RequestBody String request,
-																	@RequestParam(name = "references",defaultValue = "false") Boolean ref) throws Exception {
+			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
-		params.put("needDeref",ref);
+		params.put("needDeref", ref);
 		String filePath = null;
 		String questionnaireName = "pdf";
 		try {
@@ -339,16 +350,14 @@ public class PoguesTransforms {
 		}
 		File file = new File(filePath);
 		InputStream inputStream = new FileInputStream(file);
-	    InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+		InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
-				.header(CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"").body(inputStreamResource);
+				.header(CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+				.body(inputStreamResource);
 
 	}
 
-	@PostMapping(path = "ddi2pdf",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE
-			)
+	@PostMapping(path = "ddi2pdf", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization PDF questionnaire from DDI questionnaire")
 	public ResponseEntity<InputStreamResource> ddi2pdfWithParamTest(@RequestBody String questDDI,
 			@RequestParam(name = "columns") ColumnsEnum columns,
@@ -377,7 +386,8 @@ public class PoguesTransforms {
 		String questionnaireName = "pdf";
 
 		try {
-			filePath = pipeline.from(new ByteArrayInputStream(questDDI.getBytes(StandardCharsets.UTF_8))).map(ddiToFo::transform, params, questionnaireName)
+			filePath = pipeline.from(new ByteArrayInputStream(questDDI.getBytes(StandardCharsets.UTF_8)))
+					.map(ddiToFo::transform, params, questionnaireName)
 					.map(foToPdf::transform, params, questionnaireName)
 					.transform();
 		} catch (Exception e) {
@@ -387,85 +397,76 @@ public class PoguesTransforms {
 
 		File file = new File(filePath);
 		InputStream inputStream = new FileInputStream(file);
-	    InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
-	    return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
-				.header(CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"").body(inputStreamResource);
+		InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
+				.header(CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+				.body(inputStreamResource);
 	}
-	
-	@PostMapping(path = "fo2pdf",
-			consumes = MediaType.APPLICATION_XML_VALUE,
-			produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+
+	@PostMapping(path = "fo2pdf", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization PDF questionnaire from FO questionnaire")
-	public ResponseEntity<InputStreamResource> fo2Pdf (@RequestBody String questFO) throws Exception{
+	public ResponseEntity<InputStreamResource> fo2Pdf(@RequestBody String questFO) throws Exception {
 		String filePath = null;
 		String questionnaireName = "pdf";
-		
+
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		try {
 			filePath = pipeline.from(new ByteArrayInputStream(questFO.getBytes(StandardCharsets.UTF_8)))
 					.map(foToPdf::transform, params, questionnaireName)
-					.transform();;
+					.transform();
+			;
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
-		
+
 		File file = new File(filePath);
 		InputStream inputStream = new FileInputStream(file);
-	    InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
+		InputStreamResource inputStreamResource = new InputStreamResource(inputStream);
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
-				.header(CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"").body(inputStreamResource);
+				.header(CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+				.body(inputStreamResource);
 	}
 
-	@PostMapping(path = "json2xml",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_XML_VALUE
-			)
-	@Operation(
-			summary = "Get Pogues XML From Pogues JSON", 
-			description = "Returns a serialized XML based on a JSON entity that must comply with Pogues data model")
-	@ApiResponses(value = { 
-			@ApiResponse(responseCode = "200", description = "OK"), 
-			@ApiResponse(responseCode = "500", description = "Error") 
-			})
+	@PostMapping(path = "json2xml", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
+	@Operation(summary = "Get Pogues XML From Pogues JSON", description = "Returns a serialized XML based on a JSON entity that must comply with Pogues data model")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK"),
+			@ApiResponse(responseCode = "500", description = "Error")
+	})
 	public ResponseEntity<StreamingResponseBody> json2XML(@RequestBody String questJson) throws Exception {
 		String questionnaire = "xforms";
 		try {
-			return transform(new ByteArrayInputStream(questJson.getBytes(StandardCharsets.UTF_8)), jsonToXML, questionnaire, MediaType.APPLICATION_XML);
+			return transform(new ByteArrayInputStream(questJson.getBytes(StandardCharsets.UTF_8)), jsonToXML,
+					questionnaire, MediaType.APPLICATION_XML);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
 
-	@PostMapping(path = "xml2json",
-			consumes = MediaType.APPLICATION_XML_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	@Operation(
-			summary = "Get Pogues JSON From Pogues XML", 
-			description = "Returns a JSON entity that must comply with Pogues data model based on XML")
-	@ApiResponses(value = { 
-			@ApiResponse(responseCode = "200", description = "OK"), 
+	@PostMapping(path = "xml2json", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Operation(summary = "Get Pogues JSON From Pogues XML", description = "Returns a JSON entity that must comply with Pogues data model based on XML")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "500", description = "Error") })
 	@ResponseBody
 	public ResponseEntity<StreamingResponseBody> xml2Json(@RequestBody String questXML) throws Exception {
 		String questionnaire = "xforms";
 		try {
-			return transform(new ByteArrayInputStream(questXML.getBytes(StandardCharsets.UTF_8)), xmlToJson, questionnaire, MediaType.APPLICATION_JSON);
+			return transform(new ByteArrayInputStream(questXML.getBytes(StandardCharsets.UTF_8)), xmlToJson,
+					questionnaire, MediaType.APPLICATION_JSON);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
 
-	@PostMapping(path = "xform2uri/{dataCollection}/{questionnaire}",
-			produces = MediaType.TEXT_PLAIN_VALUE)
-	@Operation(
-			summary = "Get Pogues visualization URI From Pogues XForm document", 
-			description = "Returns the vizualisation URI of a form that was generated from XForm description found in body")
-	@ApiResponses(value = { 
-			@ApiResponse(responseCode = "200", description = "OK"), 
+	@PostMapping(path = "xform2uri/{dataCollection}/{questionnaire}", produces = MediaType.TEXT_PLAIN_VALUE)
+	@Operation(summary = "Get Pogues visualization URI From Pogues XForm document", description = "Returns the vizualisation URI of a form that was generated from XForm description found in body")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "500", description = "Error") })
 	public String xForm2URI(@RequestBody String questXforms,
 			@PathVariable(value = "dataCollection") String dataCollection,
@@ -480,28 +481,26 @@ public class PoguesTransforms {
 			throw e;
 		}
 	}
-	
-	@PostMapping(path = "json/dereferenced",
-			consumes = MediaType.APPLICATION_JSON_VALUE,
-			produces = MediaType.APPLICATION_JSON_VALUE)
-	@Operation(
-			summary = "Get Pogues JSON complete from Pogues JSON with references", 
-			description = "Returns a JSON entity that must comply with Pogues data model based on XML without any references to other questionnaires")
-	@ApiResponses(value = { 
-			@ApiResponse(responseCode = "200", description = "OK"), 
+
+	@PostMapping(path = "json/dereferenced", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+	@Operation(summary = "Get Pogues JSON complete from Pogues JSON with references", description = "Returns a JSON entity that must comply with Pogues data model based on XML without any references to other questionnaires")
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "500", description = "Error") })
 	@ResponseBody
 	public ResponseEntity<StreamingResponseBody> jsonRef2JsonDeref(@RequestBody String questJson) throws Exception {
 		String questionnaire = "jsonDeref";
 		try {
-			return transform(new ByteArrayInputStream(questJson.getBytes(StandardCharsets.UTF_8)), jsonToJsonDeref, questionnaire, MediaType.APPLICATION_XML);
+			return transform(new ByteArrayInputStream(questJson.getBytes(StandardCharsets.UTF_8)), jsonToJsonDeref,
+					questionnaire, MediaType.APPLICATION_XML);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
 		}
 	}
 
-	private ResponseEntity<StreamingResponseBody> transform(InputStream request, Transformer transformer, String questionnaire, MediaType type) {
+	private ResponseEntity<StreamingResponseBody> transform(InputStream request, Transformer transformer,
+			String questionnaire, MediaType type) {
 
 		StreamingResponseBody stream = output -> {
 			try {
