@@ -1,7 +1,12 @@
 package fr.insee.pogues.persistence.service;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.List;
 
+import fr.insee.pogues.conversion.JSONDeserializer;
+import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.model.VariableType;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -108,5 +113,15 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	    } catch (EntityNotFoundException e) {
 	        throw new PoguesException(404, "Not found", e.getMessage());
 	    }
+	}
+
+	@Override
+	public List<VariableType> getQuestionnaireVariables(String questionnaireId) throws Exception {
+		JSONObject questionnaireJson = getQuestionnaireByID(questionnaireId);
+		JSONDeserializer jsonDeserializer = new JSONDeserializer();
+		byte[] questionnaireBytes = questionnaireJson.toString().getBytes();
+		InputStream questionnaireStream = new ByteArrayInputStream(questionnaireBytes);
+		Questionnaire questionnaire = jsonDeserializer.deserialize(questionnaireStream);
+		return questionnaire.getVariables().getVariable();
 	}
 }
