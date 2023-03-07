@@ -15,15 +15,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import fr.insee.pogues.config.auth.UserProvider;
 import fr.insee.pogues.config.auth.user.User;
@@ -55,7 +47,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearerAuth")
 public class PoguesPersistence {
 
-    final static Logger logger = LogManager.getLogger(PoguesPersistence.class);
+	static final Logger logger = LogManager.getLogger(PoguesPersistence.class);
 
     @Autowired
 	private QuestionnairesService questionnaireService;
@@ -84,13 +76,8 @@ public class PoguesPersistence {
 	public ResponseEntity<Object> getQuestionnaire(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		try {
 			JSONObject result = questionnaireService.getQuestionnaireByID(id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
 	}
     
     @GetMapping("questionnaire/json-lunatic/{id}")
@@ -388,4 +375,10 @@ public class PoguesPersistence {
 		}
 	}
 
+	@ExceptionHandler(PoguesException.class)
+	public ResponseEntity<ApiError> handlePoguesException(PoguesException pe) {
+		logger.error(pe.getMessage(), pe);
+		ApiError apiErrorResponse = new ApiError(pe.getStatus(), pe.getMessage(), pe.getDetails());
+		return new ResponseEntity<>(apiErrorResponse, HttpStatus.valueOf(pe.getStatus()));
+	}
 }
