@@ -7,6 +7,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import fr.insee.pogues.model.VariableType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
@@ -214,6 +215,29 @@ public class PoguesPersistence {
 		} catch (PoguesException e) {
 				logger.error(e.getMessage(), e);
 				return ResponseEntity.status(e.getStatus()).body(e.getDetails());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+
+	@GetMapping("questionnaire/{id}/variables")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId  = "getQuestionnaireVariables",
+			summary = "Get questionnaire variables (external and collected)",
+			description = "Gets the questionnaire with id {id}"
+	)
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "404", description = "Not found")
+	})
+	public List<VariableType> getQuestionnaireVariables(
+			@PathVariable(value = "id") String questionnaireId
+	) throws Exception {
+		try {
+			return questionnaireService.getQuestionnaireVariables(questionnaireId);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
