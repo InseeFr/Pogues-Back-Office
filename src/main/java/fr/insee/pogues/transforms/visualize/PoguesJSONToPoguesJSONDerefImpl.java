@@ -130,7 +130,6 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         }
     }
 
-
     /** This should be moved in Pogues-Model. */
     private String questionnaireJavaToString(Questionnaire quest) {
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
@@ -150,6 +149,14 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
             return "";
         }
     }
+
+    /**
+     * Replace referenced questionnaire by its component. Update elements that are impacted.
+     * @param questionnaire Referencing questionnaire.
+     * @param reference Identifier of the referenced questionnaire.
+     * @param referencedQuestionnaire Referenced questionnaire object.
+     * @throws IllegalFlowControlException if the 'IfTrue' property of a FlowControl object is invalid.
+     */
     private void insertReference(Questionnaire questionnaire, String reference, Questionnaire referencedQuestionnaire)
             throws IllegalFlowControlException {
         // Coherence check
@@ -214,7 +221,12 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         // Component group is not updated since it is not used by eno generation
     }
 
-    /** Replace filter bounds that reference a questionnaire by its first or last sequence.  */
+    /** Replace filter bounds that reference a questionnaire by its first or last sequence.
+     * @param reference Identifier of the referenced questionnaire.
+     * @param referencedQuestionnaire Referenced questionnaire.
+     * @param flowControlType The FlowControl object to be updated.
+     * @throws IllegalFlowControlException If the FlowControl 'IfTrue' property doesn't match the format "id-id".
+     */
     private static void updateFlowControlBounds(String reference, Questionnaire referencedQuestionnaire, FlowControlType flowControlType)
             throws IllegalFlowControlException {
         if (flowControlType.getIfTrue() == null) {
@@ -243,6 +255,5 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         }
         flowControlType.setIfTrue(beginMember+"-"+endMember);
     }
-
 
 }
