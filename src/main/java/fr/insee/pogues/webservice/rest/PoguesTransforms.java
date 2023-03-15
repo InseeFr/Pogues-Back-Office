@@ -3,60 +3,7 @@ package fr.insee.pogues.webservice.rest;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.Transformer;
-import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
-import fr.insee.pogues.transforms.visualize.PoguesXMLToPoguesJSON;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.PropertyException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
-
 import fr.insee.pogues.transforms.visualize.*;
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.eclipse.persistence.jaxb.MarshallerProperties;
-import org.eclipse.persistence.jaxb.UnmarshallerProperties;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
-
-import fr.insee.pogues.conversion.JSONSerializer;
-import fr.insee.pogues.model.CodeList;
-import fr.insee.pogues.model.ComponentType;
-import fr.insee.pogues.model.Questionnaire;
-import fr.insee.pogues.model.VariableType;
-import fr.insee.pogues.model.FlowControlType;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.transforms.PipeLine;
-import fr.insee.pogues.transforms.Transformer;
 import fr.insee.pogues.webservice.model.CaptureEnum;
 import fr.insee.pogues.webservice.model.ColumnsEnum;
 import fr.insee.pogues.webservice.model.OrientationEnum;
@@ -83,25 +30,6 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.PropertyException;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
-
-import fr.insee.pogues.transforms.visualize.*;
-import org.apache.commons.io.IOUtils;
-import org.eclipse.persistence.jaxb.MarshallerProperties;
-import org.eclipse.persistence.jaxb.UnmarshallerProperties;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 /**
  * Main WebService class of the PoguesBOOrchestrator
@@ -206,69 +134,6 @@ public class PoguesTransforms {
 							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
 							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform()
 							.getBytes());
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
-				}
-			};
-			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
-	}
-
-	@PostMapping(path = "visualize-queen/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@Operation(summary = "Get visualization URI CAPI Queen from JSON serialized Pogues entity", description = "Get visualization URI CAPI Queen from JSON serialized Pogues entity")
-	public ResponseEntity<StreamingResponseBody> visualizeQueenFromBody(@RequestBody String request,
-			@PathVariable(value = "questionnaire") String questionnaireName,
-			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
-		PipeLine pipeline = new PipeLine();
-		Map<String, Object> params = new HashMap<>();
-		params.put("mode", "CAPI");
-		params.put("needDeref", ref);
-		try {
-			StreamingResponseBody stream = output -> {
-				try {
-					output.write(pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-							.map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
-							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
-							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
-							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform()
-							.getBytes());
-				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
-				}
-			};
-			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
-	}
-
-	@PostMapping(path = "visualize-stromae-v2/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
-	@Operation(summary = "Get visualization URI Stromae V2 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V2 from JSON serialized Pogues entity")
-	public ResponseEntity<StreamingResponseBody> visualizeStromaeV2FromBody(@RequestBody String request,
-			@PathVariable(value = "questionnaire") String questionnaireName,
-			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
-		PipeLine pipeline = new PipeLine();
-		Map<String, Object> params = new HashMap<>();
-		params.put("questionnaire", questionnaireName.toLowerCase());
-		params.put("needDeref", ref);
-		params.put("mode", "CAWI");
-		try {
-			StreamingResponseBody stream = output -> {
-				try {
-					output.write(pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-							.map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
-							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
-							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
-							.map(lunaticJSONToUriStromaeV2::transform, params, questionnaireName.toLowerCase())
-							.transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
 					throw new PoguesException(500, e.getMessage(), null);
