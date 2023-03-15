@@ -86,31 +86,6 @@ public class PoguesPersistence {
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
-	@GetMapping("questionnaire/{id}/variables")
-    @Produces(MediaType.APPLICATION_JSON)
-	@Operation(
-			operationId  = "getQuestionnaireVariables",
-	        summary = "Get the variables of a questionnaire",
-            description = "Gets the variables with questionnaire id {id}",
-            responses = {
-        			@ApiResponse(content = @Content(mediaType = "application/json"))}
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "404", description = "Not found")
-    })
-	public ResponseEntity<Object> getQuestionnaireVariables(
-			@PathVariable(value = "id") String id
-	) throws Exception {
-		try {
-			String result = variablesService.getVariablesByQuestionnaire(id);
-			return ResponseEntity.status(HttpStatus.OK).body(result);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
-	}
-	
     @GetMapping("questionnaire/json-lunatic/{id}")
     @Produces(MediaType.APPLICATION_JSON)
 	@Operation(
