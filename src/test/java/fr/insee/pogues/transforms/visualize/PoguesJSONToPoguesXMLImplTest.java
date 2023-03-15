@@ -70,7 +70,6 @@ class PoguesJSONToPoguesXMLImplTest {
 	}
 	
 	@Test
-	@Disabled("Fails since jaxb classes are imported from org.eclipse.persistence.moxy artifact")
 	void convertSimpleQuestionnairePoguesJSONToPoguesXML() {
 		performDiffTest("transforms/PoguesJSONToPoguesXML");
 	}
