@@ -10,6 +10,7 @@ import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -24,7 +25,8 @@ import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
 
 @Service
-public class VariablesServiceImpl implements VariablesService{
+@Slf4j
+public class VariablesServiceImpl implements VariablesService {
 	
 	private static final Logger logger = LogManager.getLogger(VariablesServiceImpl.class);
 	
@@ -64,7 +66,7 @@ public class VariablesServiceImpl implements VariablesService{
 				return baos.toString(StandardCharsets.UTF_8);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.error("Exception occurred when trying to get variables from questionnaire with id={}", id, e);
 		} finally {
 			IOUtils.closeQuietly(baos);
 		}

@@ -35,8 +35,7 @@ public class PoguesSerializer {
             marshaller.marshal(questionnaire, outputStream);
             return outputStream.toString(StandardCharsets.UTF_8);
         } catch (JAXBException | IOException e) {
-            log.error("Unable to serialize Pogues questionnaire '{}'.", questionnaire);
-            e.printStackTrace();
+            log.error("Unable to serialize Pogues questionnaire '{}'.", questionnaire, e);
             return "";
         }
     }
