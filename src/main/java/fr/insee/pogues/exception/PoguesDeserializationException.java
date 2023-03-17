@@ -6,4 +6,8 @@ public class PoguesDeserializationException extends Exception {
         super(message, e);
     }
 
+    public PoguesDeserializationException(String message) {
+        super(message);
+    }
+
 }

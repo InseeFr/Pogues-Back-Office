@@ -28,8 +28,8 @@ public class PoguesDeserializer {
      */
     public static Questionnaire questionnaireToJavaObject(JSONObject jsonQuestionnaire)
             throws PoguesDeserializationException {
-        String questionnaireId = (String) jsonQuestionnaire.get("id");
-        log.info("Deserializing json questionnaire '{}'", questionnaireId);
+        log.info("Deserializing json questionnaire");
+        String questionnaireId = getIdFromJson(jsonQuestionnaire);
         try (InputStream inQuestionnaire = new ByteArrayInputStream(jsonQuestionnaire.toString().getBytes())) {
             StreamSource json = new StreamSource(inQuestionnaire);
             //
@@ -45,6 +45,19 @@ public class PoguesDeserializer {
             throw new PoguesDeserializationException(
                     "Exception occurred while trying to deserialize json questionnaire '"+questionnaireId+"'",
                     e);
+        }
+    }
+
+    private static String getIdFromJson(JSONObject jsonQuestionnaire) throws PoguesDeserializationException {
+        try {
+            String id = (String) jsonQuestionnaire.get("id");
+            if (id == null) {
+                throw new PoguesDeserializationException("Property 'id' is null in given json questionnaire.");
+            }
+            return id;
+        } catch (Exception e) {
+            throw new PoguesDeserializationException(
+                    "Unable to retrieve 'id' property in given json questionnaire", e);
         }
     }
 

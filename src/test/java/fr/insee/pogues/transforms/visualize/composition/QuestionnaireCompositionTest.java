@@ -7,7 +7,7 @@ import fr.insee.pogues.utils.PoguesModelUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionnaireCompositionTest {
 
@@ -75,6 +75,82 @@ class QuestionnaireCompositionTest {
         assertEquals(2, questionnaire.getVariables().getVariable().size());
     }
 
-    // TODO: other unit tests
+    @Test
+    void insertReference_loopInReferenced() throws IllegalIterationException, IllegalFlowControlException {
+        //
+        IterationType iteration = new DynamicIterationType();
+        iteration.setId("loop11");
+        iteration.getMemberReference().add("seq11"); // begin member
+        iteration.getMemberReference().add("seq11"); // end member
+        referenced1.setIterations(new Questionnaire.Iterations());
+        referenced1.getIterations().getIteration().add(iteration);
+        //
+        assertNull(questionnaire.getIterations());
+        //
+        QuestionnaireComposition.insertReference(questionnaire, referenced1);
+        //
+        assertNotNull(questionnaire.getIterations());
+        assertFalse(questionnaire.getIterations().getIteration().isEmpty());
+        assertEquals("loop11", questionnaire.getIterations().getIteration().get(0).getId());
+        assertEquals("seq11", questionnaire.getIterations().getIteration().get(0).getMemberReference().get(0));
+        assertEquals("seq11", questionnaire.getIterations().getIteration().get(0).getMemberReference().get(1));
+    }
+
+    @Test
+    void insertReference_loopOnReference() throws IllegalIterationException, IllegalFlowControlException {
+        //
+        IterationType iteration = new DynamicIterationType();
+        iteration.setId("loop1");
+        iteration.getMemberReference().add("ref1"); // begin member
+        iteration.getMemberReference().add("ref1"); // end member
+        questionnaire.setIterations(new Questionnaire.Iterations());
+        questionnaire.getIterations().getIteration().add(iteration);
+        //
+        QuestionnaireComposition.insertReference(questionnaire, referenced1);
+        //
+        assertEquals("seq11", questionnaire.getIterations().getIteration().get(0).getMemberReference().get(0));
+        assertEquals("seq11", questionnaire.getIterations().getIteration().get(0).getMemberReference().get(1));
+    }
+
+    @Test
+    void insertReference_referencedWithinLoop() throws IllegalIterationException, IllegalFlowControlException {
+        // Add second sequence in referenced
+        SequenceType sequence12 = new SequenceType();
+        sequence12.setId("seq12");
+        sequence12.getChild().add(new QuestionType());
+        referenced1.getChild().add(sequence12);
+        //
+        IterationType iteration = new DynamicIterationType();
+        iteration.setId("loop1");
+        iteration.getMemberReference().add("seq1"); // begin member
+        iteration.getMemberReference().add("ref1"); // end member
+        questionnaire.setIterations(new Questionnaire.Iterations());
+        questionnaire.getIterations().getIteration().add(iteration);
+        //
+        QuestionnaireComposition.insertReference(questionnaire, referenced1);
+        //
+        assertEquals("seq1", questionnaire.getIterations().getIteration().get(0).getMemberReference().get(0));
+        assertEquals("seq12", questionnaire.getIterations().getIteration().get(0).getMemberReference().get(1));
+    }
+
+    /** To make sure de-referencing doesn't affect loops that shouldn't be affected. */
+    @Test
+    void insertReference_referenceOutsideLoop() throws IllegalIterationException, IllegalFlowControlException {
+        //
+        IterationType iteration = new DynamicIterationType();
+        iteration.setId("loop1");
+        iteration.getMemberReference().add("seq1"); // begin member
+        iteration.getMemberReference().add("seq1"); // end member
+        questionnaire.setIterations(new Questionnaire.Iterations());
+        questionnaire.getIterations().getIteration().add(iteration);
+        //
+        QuestionnaireComposition.insertReference(questionnaire, referenced1);
+        //
+        assertEquals("seq1", questionnaire.getIterations().getIteration().get(0).getMemberReference().get(0));
+        assertEquals("seq1", questionnaire.getIterations().getIteration().get(0).getMemberReference().get(1));
+    }
+
+    // Other cases are currently covered in integration tests,
+    // we might add unit test for these later, though.
 
 }

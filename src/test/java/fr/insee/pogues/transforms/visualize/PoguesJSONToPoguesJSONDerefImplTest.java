@@ -14,9 +14,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Map;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -25,6 +29,66 @@ import static org.junit.jupiter.api.Assertions.*;
  * Integration tests for questionnaire composition / de-referencing.
  */
 class PoguesJSONToPoguesJSONDerefImplTest {
+
+    @Test
+    void transform_nullCases() {
+        //
+        InputStream fooInputStream = new ByteArrayInputStream("foo".getBytes());
+        OutputStream fooOutputStream = new ByteArrayOutputStream();
+        Map<String, Object> fooParams = Map.of("needDeref", false);
+        String fooSurveyName = "FOO_SURVEY_NAME";
+        //
+        PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl();
+        //
+        assertThrows(NullPointerException.class, () ->
+                deref.transform(null, fooOutputStream, fooParams, fooSurveyName));
+        assertThrows(NullPointerException.class, () ->
+                deref.transform(fooInputStream, null, fooParams, fooSurveyName));
+        assertThrows(NullPointerException.class, () ->
+                deref.transform((InputStream) null, fooParams, fooSurveyName));
+        assertThrows(NullPointerException.class, () ->
+                deref.transform((String) null, fooParams, fooSurveyName));
+        assertThrows(NullPointerException.class, () ->
+                deref.transformAsQuestionnaire(null));
+    }
+
+    @Test
+    void transform_needsDerefFalse() throws Exception {
+        //
+        String mocked = "some json questionnaire";
+        Map<String, Object> fooParams = Map.of("needDeref", false);
+        String fooSurveyName = "FOO_SURVEY_NAME";
+        //
+        PoguesJSONToPoguesJSONDeref deref = new PoguesJSONToPoguesJSONDerefImpl();
+        //
+        assertEquals(mocked, deref.transform(mocked, fooParams, fooSurveyName));
+    }
+
+    /**
+     * The questionnaire 'lct78jr8' contains references to other questionnaires: 'l4i3m6qa', 'l6dnlrka' and 'lct8pcsy'.
+     * These will be mocked as null, but the method should still return a questionnaire.
+     * */
+    @Test
+    void dereference_nullReferences() throws Exception {
+        // Given
+        // Read tested questionnaire
+        URL url = this.getClass().getClassLoader().getResource(
+                "transforms/PoguesJSONToPoguesJSONDeref/filter_and_loop/lct78jr8.json");
+        assert url != null;
+        String testedInput = Files.readString(Path.of(url.toURI()));
+        // Mock questionnaire service
+        QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
+        Mockito.when(questionnairesService.getQuestionnaireByID("l4i3m6qa")).thenReturn(null);
+        Mockito.when(questionnairesService.getQuestionnaireByID("l6dnlrka")).thenReturn(null);
+        Mockito.when(questionnairesService.getQuestionnaireByID("lct8pcsy")).thenReturn(null);
+
+        // When
+        PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
+        Questionnaire outQuestionnaire = deref.transformAsQuestionnaire(testedInput);
+
+        // Then
+        assertNotNull(outQuestionnaire);
+    }
 
     /**
      * Tested questionnaire: 'lct78jr8'
