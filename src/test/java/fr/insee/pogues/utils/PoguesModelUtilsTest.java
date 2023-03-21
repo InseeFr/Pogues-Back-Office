@@ -14,6 +14,7 @@ class PoguesModelUtilsTest {
     @Test
     void getFlowControlBounds_nullIfTrue() {
         FlowControlType flowControlType = new FlowControlType();
+        // The 'IfTrue' property is not set and is null
         assertThrows(IllegalFlowControlException.class, () -> PoguesModelUtils.getFlowControlBounds(flowControlType));
     }
 
