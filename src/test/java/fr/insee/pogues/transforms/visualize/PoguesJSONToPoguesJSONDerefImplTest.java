@@ -3,6 +3,7 @@ package fr.insee.pogues.transforms.visualize;
 import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.conversion.JSONSerializer;
 import fr.insee.pogues.conversion.XMLSerializer;
+import fr.insee.pogues.exception.NullReferenceException;
 import fr.insee.pogues.model.ComponentType;
 import fr.insee.pogues.model.ExternalVariableType;
 import fr.insee.pogues.model.FlowControlType;
@@ -70,7 +71,6 @@ class PoguesJSONToPoguesJSONDerefImplTest {
      * */
     @Test
     void dereference_nullReferences() throws Exception {
-        // Given
         // Read tested questionnaire
         URL url = this.getClass().getClassLoader().getResource(
                 "transforms/PoguesJSONToPoguesJSONDeref/filter_and_loop/lct78jr8.json");
@@ -82,12 +82,9 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         Mockito.when(questionnairesService.getQuestionnaireByID("l6dnlrka")).thenReturn(null);
         Mockito.when(questionnairesService.getQuestionnaireByID("lct8pcsy")).thenReturn(null);
 
-        // When
+        //
         PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
-        Questionnaire outQuestionnaire = deref.transformAsQuestionnaire(testedInput);
-
-        // Then
-        assertNotNull(outQuestionnaire);
+        assertThrows(NullReferenceException.class, () -> deref.transformAsQuestionnaire(testedInput));
     }
 
     /**

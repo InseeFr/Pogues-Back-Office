@@ -1,5 +1,6 @@
 package fr.insee.pogues.transforms.visualize;
 
+import fr.insee.pogues.exception.NullReferenceException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesDeserializer;
@@ -95,9 +96,9 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         for (String reference : references) {
             JSONObject referencedJsonQuestionnaire = questionnairesService.getQuestionnaireByID(reference);
             if (referencedJsonQuestionnaire == null) {
-                logger.warn(
-                        "Null reference behind reference '{}' in questionnaire '{}'.",
-                        reference, questionnaire.getId());
+                throw new NullReferenceException(String.format(
+                        "Null reference behind reference '%s' in questionnaire '%s'.",
+                        reference, questionnaire.getId()));
             } else {
                 Questionnaire referencedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(referencedJsonQuestionnaire);
                 // Coherence check
