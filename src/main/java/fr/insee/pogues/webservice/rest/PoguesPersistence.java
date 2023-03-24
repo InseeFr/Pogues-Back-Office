@@ -2,7 +2,6 @@ package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.config.auth.UserProvider;
 import fr.insee.pogues.config.auth.user.User;
-import fr.insee.pogues.model.VariableType;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.VariablesService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -204,29 +203,6 @@ public class PoguesPersistence {
 		} catch (PoguesException e) {
 				logger.error(e.getMessage(), e);
 				return ResponseEntity.status(e.getStatus()).body(e.getDetails());
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
-	}
-
-
-	@GetMapping("questionnaire/{id}/variables")
-	@Produces(MediaType.APPLICATION_JSON)
-	@Operation(
-			operationId  = "getQuestionnaireVariables",
-			summary = "Get questionnaire variables (external and collected)",
-			description = "Gets the questionnaire with id {id}"
-	)
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Success"),
-			@ApiResponse(responseCode = "404", description = "Not found")
-	})
-	public List<VariableType> getQuestionnaireVariables(
-			@PathVariable(value = "id") String questionnaireId
-	) throws Exception {
-		try {
-			return questionnaireService.getQuestionnaireVariables(questionnaireId);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
