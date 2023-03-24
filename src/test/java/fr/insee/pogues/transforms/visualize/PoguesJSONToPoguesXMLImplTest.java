@@ -70,7 +70,6 @@ class PoguesJSONToPoguesXMLImplTest {
 	}
 	
 	@Test
-	@Disabled("File has to be updated")
 	void convertSimpleQuestionnairePoguesJSONToPoguesXML() {
 		performDiffTest("transforms/PoguesJSONToPoguesXML");
 	}
