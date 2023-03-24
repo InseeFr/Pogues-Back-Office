@@ -36,7 +36,7 @@ public class EnoClientImpl implements EnoClient{
 	@Value("${fr.insee.pogues.api.remote.eno.host}")
     String enoHost;
 	
-	@Value("${fr.insee.pogues.api.remote.queen.host}")
+	@Value("${fr.insee.pogues.api.remote.eno.host.queen}")
     String enoHostQueen;
 	
 	@Value("${fr.insee.pogues.api.remote.eno.scheme}")
