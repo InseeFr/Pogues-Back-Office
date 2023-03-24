@@ -4,6 +4,7 @@ import fr.insee.pogues.config.auth.UserProvider;
 import fr.insee.pogues.config.auth.user.User;
 import fr.insee.pogues.model.VariableType;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.VariablesService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -50,6 +51,9 @@ public class PoguesPersistence {
 
     @Autowired
 	private QuestionnairesService questionnaireService;
+    
+    @Autowired
+	private VariablesService variablesService;
     
     @Autowired
     private Environment env;
