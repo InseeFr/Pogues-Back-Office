@@ -9,6 +9,7 @@ import fr.insee.pogues.model.ExternalVariableType;
 import fr.insee.pogues.model.FlowControlType;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.utils.PoguesSerializer;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.junit.jupiter.api.Test;
@@ -21,6 +22,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -242,6 +244,75 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         // The external variable in referenced questionnaire should have its scope updated
         String iterationId = "leybzt37";
         assertEquals(iterationId, externalVariableInReferenced.get().getScope());
+    }
+
+    // ----- Using factorized code for the last tests ----- //
+
+    private final static String TEST_FOLDER = "transforms/PoguesJSONToPoguesJSONDeref/";
+    private final ClassLoader classLoader = this.getClass().getClassLoader();;
+
+    private QuestionnairesService mockQuestionnaireService(
+            String folderName, List<String> referencedFileNames, List<String> referenceIds) throws Exception {
+        assert referencedFileNames.size() == referenceIds.size();
+        String testRelativePath = TEST_FOLDER+folderName;
+        JSONParser jsonParser = new JSONParser();
+        QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
+        for (int i=0; i<referencedFileNames.size(); i++) {
+            // Load test questionnaire into json objects
+            URL url = classLoader.getResource(testRelativePath+"/"+referencedFileNames.get(i));
+            assert url != null;
+            JSONObject jsonQuestionnaire1 = (JSONObject) jsonParser.parse(Files.readString(Path.of(url.toURI())));
+            // Mock questionnaire service
+            Mockito.when(questionnairesService.getQuestionnaireByID(referenceIds.get(i))).thenReturn(jsonQuestionnaire1);
+        }
+        return questionnairesService;
+
+    }
+
+    private String readQuestionnaire(String folderName, String fileName) throws Exception {
+        URL url = classLoader.getResource(TEST_FOLDER+folderName+"/"+fileName);
+        assert url != null;
+        return Files.readString(Path.of(url.toURI()));
+    }
+
+    @Test
+    void acceptanceTest1() throws Exception {
+        // Given
+        String folderName = "acceptance_test_1";
+        QuestionnairesService questionnairesService = mockQuestionnaireService(
+                folderName, List.of("l4i3m6qa_referenced.json"), List.of("l4i3m6qa"));
+        String testedInput = readQuestionnaire(folderName, "lfqic931_reference.json");
+
+        // When
+        PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
+        Questionnaire outQuestionnaire = deref.transformAsQuestionnaire(testedInput);
+
+        // Then
+        assertNotNull(outQuestionnaire);
+        assertDoesNotThrow(() -> PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+        // many things on out questionnaire's content could be tested here
+        // (If you read this, and you're willing to, feel free :) )
+    }
+
+    @Test
+    void acceptanceTest2() throws Exception {
+        // Given
+        String folderName = "acceptance_test_2";
+        QuestionnairesService questionnairesService = mockQuestionnaireService(
+                folderName,
+                List.of("l4i3m6qa_referenced.json", "lfqw6sdu_referenced.json"),
+                List.of("l4i3m6qa", "lfqw6sdu"));
+        String testedInput = readQuestionnaire(folderName, "lfqx2030_reference.json");
+
+        // When
+        PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
+        Questionnaire outQuestionnaire = deref.transformAsQuestionnaire(testedInput);
+
+        // Then
+        assertNotNull(outQuestionnaire);
+        assertDoesNotThrow(() -> PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+        // many things on out questionnaire's content could be tested here
+        // (If you read this, and you're willing to, feel free :) )
     }
 
 }

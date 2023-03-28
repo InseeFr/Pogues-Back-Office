@@ -3,12 +3,14 @@ package fr.insee.pogues.utils;
 import fr.insee.pogues.exception.IllegalFlowControlException;
 import fr.insee.pogues.exception.IllegalIterationException;
 import fr.insee.pogues.model.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 /** Helper class to factorize methods on Pogues-Model objects.
  * Some parts of the model should be revised to make this class obsolete. */
+@Slf4j
 public class PoguesModelUtils {
 
     /** Name of the artificial end sequence added by the front (to manage some GoTo cases). */
@@ -51,16 +53,25 @@ public class PoguesModelUtils {
 
     /**
      * The 'MemberReference' property is a list containing begin/end member references of the loop.
+     * If the list contains only one reference, it means that begin and end members are the same.
+     * A 'MemberReference' property with one element is accepted for now, yet a warning is shown in the log in that case
+     * (Pogues UI will be updated so that this case should not exist).
      * @param iterationType An Iteration object.
      * @return A List of strings of size 2 containing begin/end member references of the iteration.
-     * @throws IllegalIterationException If The 'MemberReference' property is not of size 2.
+     * (The result will always be of size 2 even if begin and end members are equal.)
+     * @throws IllegalIterationException If The 'MemberReference' property is not of size 1 or 2.
      */
     public static List<String> getIterationBounds(IterationType iterationType) throws IllegalIterationException {
         int size = iterationType.getMemberReference().size();
-        if (size != 2) {
+        if (!(size == 2 || size == 1)) {
             throw new IllegalIterationException(String.format(
-                    "'MemberReference' of iteration object '%s' contains %s references (should contain 2).",
+                    "'MemberReference' of iteration object '%s' contains %s references (should contain 1 or 2).",
                     iterationType.getId(), size));
+        }
+        if (size == 1) {
+            log.warn("'MemberReference' property with 1 element is deprecated (iteration object '{}').",
+                    iterationType.getId());
+            iterationType.getMemberReference().add(iterationType.getMemberReference().get(0));
         }
         return iterationType.getMemberReference();
     }
