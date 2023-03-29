@@ -16,6 +16,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,7 +36,21 @@ public class VariablesServiceImpl implements VariablesService {
 	
 	@Autowired
 	private QuestionnairesServiceQuery questionnaireServiceQuery;
-	
+
+	public JSONArray getVariablesByQuestionnaireForPublicEnemy(String id){
+		try {
+			JSONObject questionnaire = questionnaireServiceQuery.getQuestionnaireByID(id);
+			// We test the existence of the questionnaire in repository
+			if (questionnaire != null) {
+				JSONObject variables = (JSONObject) questionnaire.get("Variables");
+				return (JSONArray) variables.get("Variable");
+			}
+		} catch (Exception e) {
+			log.error("Exception occurred when trying to get variables from questionnaire with id={}", id, e);
+		}
+		return null;
+	}
+
 	public String getVariablesByQuestionnaire(String id){
 		StreamSource json = null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -60,9 +75,9 @@ public class VariablesServiceImpl implements VariablesService {
 					marshaller.setProperty(MarshallerProperties.JSON_INCLUDE_ROOT, true);
 					// Set it to true if you need the JSON output to formatted
 					marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-					// Marshal the questionnaire object to JSON and put the output in a string		
-					marshaller.marshal(questionnaireJava.getVariables(), baos);	
-				}		
+					// Marshal the questionnaire object to JSON and put the output in a string
+					marshaller.marshal(questionnaireJava.getVariables(), baos);
+				}
 				return baos.toString(StandardCharsets.UTF_8);
 			}
 		} catch (Exception e) {
