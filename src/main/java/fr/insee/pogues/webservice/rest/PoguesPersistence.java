@@ -224,7 +224,7 @@ public class PoguesPersistence {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "404", description = "Not found")
 	})
-	public ResponseEntity<String> getQuestionnaireVariables(
+	public ResponseEntity<Object> getQuestionnaireVariables(
 			@PathVariable(value = "id") String id
 	) throws Exception {
 		try {
