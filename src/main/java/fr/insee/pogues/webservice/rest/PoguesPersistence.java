@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -214,7 +215,7 @@ public class PoguesPersistence {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(
 			operationId  = "getQuestionnaireVariables",
-			summary = "Get the variables of a questionnaire",
+			summary = "Get the variables of a questionnaire, used for pogues frontend",
 			description = "Gets the variables with questionnaire id {id}",
 			responses = {
 					@ApiResponse(content = @Content(mediaType = "application/json"))}
@@ -228,6 +229,31 @@ public class PoguesPersistence {
 	) throws Exception {
 		try {
 			String result = variablesService.getVariablesByQuestionnaire(id);
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@GetMapping("questionnaire/{id}/vars")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId  = "getQuestionnaireVars",
+			summary = "Get the variables of a questionnaire",
+			description = "Gets the variables with questionnaire id {id}",
+			responses = {
+					@ApiResponse(content = @Content(mediaType = "application/json"))}
+	)
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "404", description = "Not found")
+	})
+	public ResponseEntity<JSONArray> getVariables(
+			@PathVariable(value = "id") String id
+	) throws Exception {
+		try {
+			JSONArray result = variablesService.getVariablesByQuestionnaireForPublicEnemy(id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
