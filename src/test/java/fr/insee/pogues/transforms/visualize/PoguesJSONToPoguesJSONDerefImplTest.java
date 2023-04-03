@@ -4,10 +4,7 @@ import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.conversion.JSONSerializer;
 import fr.insee.pogues.conversion.XMLSerializer;
 import fr.insee.pogues.exception.NullReferenceException;
-import fr.insee.pogues.model.ComponentType;
-import fr.insee.pogues.model.ExternalVariableType;
-import fr.insee.pogues.model.FlowControlType;
-import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesSerializer;
 import org.json.simple.JSONObject;
@@ -313,6 +310,33 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         assertDoesNotThrow(() -> PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
         // many things on out questionnaire's content could be tested here
         // (If you read this, and you're willing to, feel free :) )
+    }
+
+    @Test
+    void dereference_twoReferences() throws Exception {
+        // Given
+        String folderName = "two_references";
+        QuestionnairesService questionnairesService = mockQuestionnaireService(
+                folderName,
+                List.of("lftc45n2_referenced.json", "lftdvxe6_referenced.json"),
+                List.of("lftc45n2", "lftdvxe6"));
+        String testedInput = readQuestionnaire(folderName, "lftc9bn9_reference.json");
+
+        // When
+        PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
+        Questionnaire outQuestionnaire = deref.transformAsQuestionnaire(testedInput);
+
+        // Then
+        assertNotNull(outQuestionnaire);
+        assertDoesNotThrow(() -> PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+        assertEquals(3, outQuestionnaire.getChild().size());
+        assertEquals("REF1_S1", outQuestionnaire.getChild().get(0).getName());
+        assertEquals("REF2_S1", outQuestionnaire.getChild().get(1).getName());
+        assertEquals("idendquest", outQuestionnaire.getChild().get(2).getId());
+        assertEquals(1, ((SequenceType) outQuestionnaire.getChild().get(0)).getChild().size());
+        assertEquals("REF1_Q1", ((SequenceType) outQuestionnaire.getChild().get(0)).getChild().get(0).getName());
+        assertEquals(1, ((SequenceType) outQuestionnaire.getChild().get(1)).getChild().size());
+        assertEquals("REF2_Q1", ((SequenceType) outQuestionnaire.getChild().get(1)).getChild().get(0).getName());
     }
 
 }
