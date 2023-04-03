@@ -328,7 +328,6 @@ class PoguesJSONToPoguesJSONDerefImplTest {
 
         // Then
         assertNotNull(outQuestionnaire);
-        assertDoesNotThrow(() -> PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
         assertEquals(3, outQuestionnaire.getChild().size());
         assertEquals("REF1_S1", outQuestionnaire.getChild().get(0).getName());
         assertEquals("REF2_S1", outQuestionnaire.getChild().get(1).getName());
@@ -337,6 +336,14 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         assertEquals("REF1_Q1", ((SequenceType) outQuestionnaire.getChild().get(0)).getChild().get(0).getName());
         assertEquals(1, ((SequenceType) outQuestionnaire.getChild().get(1)).getChild().size());
         assertEquals("REF2_Q1", ((SequenceType) outQuestionnaire.getChild().get(1)).getChild().get(0).getName());
+        assertEquals(FlowLogicEnum.FILTER, outQuestionnaire.getFlowLogic());
+        //
+        assertDoesNotThrow(() -> {
+            // Serialization is ok
+            String result = PoguesSerializer.questionnaireJavaToString(outQuestionnaire);
+            // Json to xml conversion is ok
+            new PoguesJSONToPoguesXMLImpl().transform(new ByteArrayInputStream(result.getBytes()), null, null);
+        });
     }
 
 }
