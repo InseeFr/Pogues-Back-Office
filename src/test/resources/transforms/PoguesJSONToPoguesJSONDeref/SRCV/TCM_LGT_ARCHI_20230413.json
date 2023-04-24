@@ -1,0 +1,432 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+    {
+      "Description": "Surface du logement non déclarée",
+      "Expression": "isnull($T_SURFACE$)",
+      "id": "l1awk81j",
+      "IfTrue": "l1aueqyb-l1aueqyb"
+    }
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "l1asf1w0",
+        "l1atmg24",
+        "l1au1n73",
+        "l1au4bgg",
+        "l1aueqyb",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_LGT_ARCHI"
+  ],
+  "Name": "TCM_LGT_ARCHI",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_TYPLOG label",
+        "id": "lfti4gsr",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1au0pkk",
+        "Name": "T_TYPLOG",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NPIECES label",
+        "id": "lfthtvfg",
+        "type": "CollectedVariableType",
+        "Name": "T_NPIECES",
+        "Datatype": {
+          "Maximum": "100",
+          "Minimum": "1",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      },
+      {
+        "Label": "T_SURFACE label",
+        "id": "lgdx3swn",
+        "type": "CollectedVariableType",
+        "Name": "T_SURFACE",
+        "Datatype": {
+          "Maximum": "10000",
+          "Minimum": "1",
+          "typeName": "NUMERIC",
+          "Unit": "http://id.insee.fr/unit/metrecarre",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      },
+      {
+        "Label": "T_SURFTR label",
+        "id": "lfthxhdc",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1aufkzv",
+        "Name": "T_SURFTR",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:07:44 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lge09s4g",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_TYPLOG",
+        "id": "l1au0pkk",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Une maison",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Un appartement",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "Un logement-foyer",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "Une chambre d'hôtel",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "Une habitation de fortune",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "Une pièce indépendante (ayant sa propre entrée)",
+            "Value": "6"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_SURFTR",
+        "id": "l1aufkzv",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Moins de 25 m²\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"De 26 à 40 m²\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"De 41 à 70 m²\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"De 71 à 100 m²\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"De 101 à 150 m²\"",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Plus de 151 m²\"",
+            "Value": "6"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Description du logement "
+      ],
+      "id": "l1asf1w0",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "declarationType": "HELP",
+          "Text": "\"Nous allons maintenant décrire rapidement le logement situé à l'adresse : \" || $ADR$ || \".\"",
+          "id": "lfjyi810",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfti4gsr",
+              "id": "l1auvika",
+              "mandatory": false,
+              "CodeListReference": "l1au0pkk",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A quoi correspond le logement situé à l'adresse \" || $ADR$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l1atmg24",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_TYPLOG"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthtvfg",
+              "id": "l1aurrer",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "100",
+                "Minimum": "1",
+                "typeName": "NUMERIC",
+                "Unit": "",
+                "type": "NumericDatatypeType",
+                "Decimals": ""
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Combien de pièces compte le logement situé à l'adresse \" || $ADR$ || \" ?\""
+          ],
+          "id": "l1au1n73",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Compter les pièces d'habitation telles que salle à manger, séjour, chambre, etc., quelle que soit leur surface. Compter la cuisine uniquement si sa surface est supérieure à 12 m²\"",
+              "id": "l1au0511",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Ne pas compter les pièces telles que l'entrée, le couloir, la salle de bains, la buanderie, les WC, la véranda ni les pièces à usage exclusivement professionnel (atelier, cabinet de médecin, etc.).\"",
+              "id": "l1au1wbc",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Une pièce combinée cuisine-séjour compte comme une seule pièce, sauf si elle est partagée par une cloison.\"",
+              "id": "l1au4wcm",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_NPIECES"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lgdx3swn",
+              "id": "l1av085u",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "10000",
+                "Minimum": "1",
+                "typeName": "NUMERIC",
+                "Unit": "http://id.insee.fr/unit/metrecarre",
+                "type": "NumericDatatypeType",
+                "Decimals": ""
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Quelle est la surface du logement situé à l'adresse \" || $ADR$ || \" ?\""
+          ],
+          "id": "l1au4bgg",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Cette fois-ci, tenir compte de toutes les pièces, y compris couloir, cuisine, WC, salle de bain. Ne pas tenir compte des balcons, terrasses, caves, greniers ou parkings, ni des pièces à usage exclusivement professionnel\"",
+              "id": "l1au6utz",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_SURFACE"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthxhdc",
+              "id": "l1auw3l5",
+              "mandatory": false,
+              "CodeListReference": "l1aufkzv",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A combien estimez-vous approximativement la surface du logement situé à l'adresse \" || $ADR$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l1aueqyb",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_SURFTR"
+        }
+      ],
+      "Name": "TCM_LGT"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

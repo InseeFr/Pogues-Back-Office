@@ -1,0 +1,1136 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+    {
+      "Description": "PRENOM possède un diplôme",
+      "Expression": "$T_TYPDIP$ = \"1\" or $T_TYPDIP$ = \"2\"",
+      "id": "l2rdcfu3",
+      "IfTrue": "l2rcd5gr-l2rcixoc"
+    },
+    {
+      "Description": "Le diplôme n'est pas dans la liste",
+      "Expression": "nvl($T_DIPINTAL$, \"999\") = \"999\"",
+      "id": "l2rdp3ao",
+      "IfTrue": "l2rcas4h-l2rcva4b"
+    },
+    {
+      "Description": "La spécialité du diplôme n'est pas connue (soit parce que libellé en clair soit parce diplôme sans spécialité)",
+      "Expression": "nvl($T_DIPINTA$,\"999\") = \"999\"",
+      "id": "l2rdssqh",
+      "IfTrue": "l2rcqw4z-l2rcixoc"
+    },
+    {
+      "Description": "La spécialité n'est pas dans la liste",
+      "Expression": "$T_DIPSDA$ = \"999\"",
+      "id": "l2rdp8ln",
+      "IfTrue": "l2rcixoc-l2rcixoc"
+    },
+    {
+      "Description": "PRENOM ne suit pas de formation formelle et ne possède pas de diplôme",
+      "Expression": "$T_FFM$ = \"2\" and $T_TYPDIP$ = \"3\"",
+      "id": "l2redyb8",
+      "IfTrue": "l2rdg7w4-l2rdg7w4"
+    },
+    {
+      "Description": "PRENOM a été à l'école, ou si PRENOM n’est pas en formation (T_FFM = 2), son diplôme n’est pas dans liste (T_DIPINTAL = 999) et niveau de diplôme est primaire ou collège (T_DIPLNIV = 2 ou 3)",
+      "Expression": "$T_FSANSDIP$ = \"1\" or ($T_FFM$ = \"2\" and (nvl($T_DIPLNIV$,\"2\")= \"2\" or $T_DIPLNIV$ = \"3\"))",
+      "id": "l2remeoj",
+      "IfTrue": "l2rdhhat-l2rdhhat"
+    },
+    {
+      "Description": "PRENOM n'a pas de diplôme et a été à l'école ou possède un diplôme du primaire et a arrêté au-delà du primaire",
+      "Expression": "$T_FSANSDIP$ = \"1\" or (($T_NIV0INIT$ = \"3\" or $T_NIV0INIT$ = \"4\" or $T_NIV0INIT$ = \"5\") and ($T_DIPLNIV$ = \"1\" or $T_DIPLNIV$ = \"2\"))",
+      "id": "l2refn50",
+      "IfTrue": "l2rdky32-l2rdlnzu"
+    },
+    {
+      "Description": "Année d'obtention d'arrêt d'études inconnue",
+      "Expression": "isnull($T_DATNIV$)",
+      "id": "l2rej2zr",
+      "IfTrue": "l2rdlnzu-l2rdlnzu"
+    },
+    {
+      "Description": "Si aucun libellé renseigné",
+      "Expression": "isnull($T_DIPINTA$)",
+      "id": "lgdxi9c7",
+      "IfTrue": "l2rcvw2t-l2rcvw2t"
+    },
+    {
+      "Description": "Pas de date renseignée",
+      "Expression": "isnull($T_DATDIP$)",
+      "id": "lgdxtrv4",
+      "IfTrue": "l2rckr4f-l2rckr4f"
+    },
+    {
+      "Description": "Si niveau autre que Primaire ou collège",
+      "Expression": "nvl($T_DIPLNIV$, \"4\") <> \"2\" or $T_DIPLNIV$ <> \"3\"",
+      "id": "lgdxncc1",
+      "IfTrue": "l2rdky32-l2rdlnzu"
+    },
+    {
+      "Description": "Niveau différent de primaire ou collège",
+      "Expression": "nvl($T_DIPLNIV$ ,\"4\") <> \"2\" or $T_DIPLNIV$  <> \"3\"",
+      "id": "lgdxus0r",
+      "IfTrue": "l2rcxgow-l2rcixoc"
+    }
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "lge0907h",
+        "l2pxzz6g",
+        "l2rcd5gr",
+        "l2rcas4h",
+        "l2rcvw2t",
+        "l2rcva4b",
+        "l2rcxgow",
+        "l2rckr4f",
+        "l2rcqw4z",
+        "l2rcixoc",
+        "l2rdg7w4",
+        "l2rdhhat",
+        "l2rdky32",
+        "l2rdlnzu",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_F_DIPL_DET"
+  ],
+  "Name": "TCM_F_DIPL_DET",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_TYPDIP label",
+        "id": "lftip5l3",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2pxtla8",
+        "Name": "T_TYPDIP",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_DIPINTAL label",
+        "id": "lftie6j2",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rbx0fm",
+        "Name": "T_DIPINTAL",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_DIPINTA label",
+        "id": "lftigp7o",
+        "type": "CollectedVariableType",
+        "Name": "T_DIPINTA",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Label": "T_DIPLNIV label",
+        "id": "lftinphi",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rcvh69",
+        "Name": "T_DIPLNIV",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_DIPETR label",
+        "id": "lftidoia",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_DIPETR",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_DATDIP label",
+        "id": "lftimn1h",
+        "type": "CollectedVariableType",
+        "Name": "T_DATDIP",
+        "Datatype": {
+          "Pattern": "AAAA",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "4"
+        }
+      },
+      {
+        "Label": "T_AGEDIP label",
+        "id": "lftidzjb",
+        "type": "CollectedVariableType",
+        "Name": "T_AGEDIP",
+        "Datatype": {
+          "Maximum": "120",
+          "Minimum": "0",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      },
+      {
+        "Label": "T_DIPSDA label",
+        "id": "lfti867g",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rced3i",
+        "Name": "T_DIPSDA",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_DIPSINTA label",
+        "id": "lftido0o",
+        "type": "CollectedVariableType",
+        "Name": "T_DIPSINTA",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Label": "T_FSANSDIP label",
+        "id": "lftin4c4",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_FSANSDIP",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NIV0INIT label",
+        "id": "lftin065",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rd6kme",
+        "Name": "T_NIV0INIT",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_DATNIV label",
+        "id": "lftvt5dj",
+        "type": "CollectedVariableType",
+        "Name": "T_DATNIV",
+        "Datatype": {
+          "Pattern": "AAAA",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "4"
+        }
+      },
+      {
+        "Label": "T_AGENIV label",
+        "id": "lftifuhn",
+        "type": "CollectedVariableType",
+        "Name": "T_AGENIV",
+        "Datatype": {
+          "Maximum": "120",
+          "Minimum": "0",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:06:12 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lgdzfhfx",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_TYPDIP",
+        "id": "l2pxtla8",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Un diplôme ou titre de niveau baccalauréat ou inférieur (bac, CAP, BEP, brevet des collèges ...)\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Un diplôme ou titre de l'enseignement supérieur\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "(if($PRENOM$=$PRENOMREF$) then \"Vous ne possédez\" else $LIB_PR$ || \" ne possède\") ||\r\n\" aucun diplôme\"",
+            "Value": "3"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_DIPINTAL",
+        "id": "l2rbx0fm",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Recherche sur liste\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Je n'ai pas trouvé dans la liste\"",
+            "Value": "999"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_DIPLNIV",
+        "id": "l2rcvh69",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Aucun niveau\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Niveau primaire\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Diplôme national du Brevet (DNB)\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"CAP\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Bac (brevet professionnel, BMA, BTM...)\"",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Bac + 2 (BTS, DUT)\"",
+            "Value": "6"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Bac + 3 (Licence,...)\"",
+            "Value": "7"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Bac + 4\"",
+            "Value": "8"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Bac + 5 (master,...), doctorat de santé (médecine, pharmacie, dentaire)\"",
+            "Value": "9"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Doctorat autre que professions de santé\"",
+            "Value": "10"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_OUI_NON",
+        "id": "l0v2k0fj",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Oui",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Non",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_DIPSDA",
+        "id": "l2rced3i",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Recherche sur liste\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Je n'ai pas trouvé dans la liste.\"",
+            "Value": "999"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_NIV0INIT",
+        "id": "l2rd6kme",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Avant la fin du primaire\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"A la fin du primaire ou du CEP, avant la fin du collège\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"A la fin du collège\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Au lycée (terminale ou classes précédentes)\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Au cours d'études supérieures\"",
+            "Value": "5"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Plus haut niveau de diplôme"
+      ],
+      "id": "lge0907h",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "declarationType": "HELP",
+          "Text": "\"Parlons maintenant du plus haut diplôme que \" || if ($PRENOM$ = $PRENOMREF$) then \"vous avez obtenu.\" else \"que \" || $PRENOM$ || \" a obtenu.\"",
+          "id": "lge07csi",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftip5l3",
+              "id": "l2py9d1q",
+              "mandatory": false,
+              "CodeListReference": "l2pxtla8",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A ce jour, quel est le plus haut diplôme que \" || (if ($PRENOM$=$PRENOMREF$) then \"vous possédez ?\" else $PRENOM$ || \" possède ?\")"
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2pxzz6g",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Inclure : DAEU, capacité en droit, mise à niveau post bac, école de la fonction publique suite à un concours (IRA...), concours de la fonction publique (Capes, CRPE...).\"",
+              "id": "l2py8yq1",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Exclure : CQP, CACES, BAFA, permis de conduire, TOEIC ou autre test de langue, habilitations électriques ou de type équivalent.\"",
+              "id": "l2pxtgaz",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_TYPDIP"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftie6j2",
+              "id": "l2rcatz6",
+              "mandatory": false,
+              "CodeListReference": "l2rbx0fm",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "DROPDOWN",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Quel est ce diplôme ou titre ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rcd5gr",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "(if ($PRENOM$ = $PRENOMREF$) then \"Saisir votre diplôme\" else \"Saisir le diplôme de \" ||$PRENOM$) ||\r\n\" sans spécialité et le sélectionner dans la liste. Par exemple, saisir 'BTS' et non 'BTS comptabilité'.\"",
+              "id": "l2rc2lxt",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Choisir \" ||$LIB_SON$ || \" diplôme ou titre exact et non un équivalent. Exception : pour les diplômes étrangers, indiquer si possible le diplôme français équivalent.\"",
+              "id": "l2rcakd4",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CAWI",
+                "PAPI",
+                "CATI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Si non trouvé, taper '999 - Je n'ai pas trouvé dans la liste'\"",
+              "id": "l2rc0owl",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CATI",
+                "CAPI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_DIPINTAL"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftigp7o",
+              "id": "l2rd09bm",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": 249
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if($PRENOM$=$PRENOMREF$) then \"Votre diplôme ou titre\" else \"Le diplôme ou titre de \" ||$PRENOM$) || \" n'est pas dans la liste. Pouvez-vous inscrire, le plus exactement possible, ce plus haut diplôme ou titre ?\""
+          ],
+          "id": "l2rcas4h",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Indiquez le diplôme ou titre sans spécialité\"",
+              "id": "l2rcnrp3",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Indiquez le nom exact et non un diplôme équivalent. Exception : pour les diplômes étrangers, indiquez si possible le diplôme français équivalent.\"",
+              "id": "l2rcev3p",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CATI",
+                "CAPI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_DIPINTA"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftinphi",
+              "id": "l2rd0a5e",
+              "mandatory": false,
+              "CodeListReference": "l2rcvh69",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Quel est le niveau \" ||(if($PRENOM$=$PRENOMREF$) then \"de votre plus haut diplôme ou titre ?\" else \"du plus haut diplôme ou titre de \" ||$PRENOM$ || \" ?\")"
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rcvw2t",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_DIPLNIV"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftidoia",
+              "id": "l2rdsr4j",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Est-ce un diplôme ou titre étranger ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rcva4b",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Un diplôme étranger est un diplôme délivré par une institution étrangère. Cela exclut les diplômes français obtenus lors d'échanges Erasmus qui sont délivrés par l'établissement d'enseignement d'origine.\"",
+              "id": "l2rd15u8",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Si diplôme sur liste non codé et diplôme en clair non codé ou partiellement codé ==> Sicore embarque ?\"",
+              "id": "l2rczzky",
+              "position": "BEFORE_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_DIPETR"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftimn1h",
+              "id": "l2rd02uu",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "AAAA",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": "4"
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"En quelle année \" || (if($PRENOM$=$PRENOMREF$) then \"avez-vous\" else $PRENOM$ || \" a-t-\" || $LIB_PR$)|| \" obtenu ce diplôme ou titre ?\""
+          ],
+          "id": "l2rcxgow",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"(AAAA)\"",
+              "id": "lftvya65",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_DATDIP"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftidzjb",
+              "id": "l2rd7iim",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "120",
+                "Minimum": "0",
+                "typeName": "NUMERIC",
+                "Unit": "",
+                "type": "NumericDatatypeType",
+                "Decimals": ""
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A quel âge \" || (if($PRENOM$=$PRENOMREF$) then \"avez-vous\" else $PRENOM$ || \" a-t-\" || $LIB_PR$)|| \" obtenu ce diplôme ou titre ?\""
+          ],
+          "id": "l2rckr4f",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_AGEDIP"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfti867g",
+              "id": "l2rczvmd",
+              "mandatory": false,
+              "CodeListReference": "l2rced3i",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "DROPDOWN",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Quelle est la spécialité de ce diplôme ou titre ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rcqw4z",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Saisir, sans accent, uniquement la spécialité et la sélectionner dans la liste. Par exemple, 'COMPTABILITE' et non 'BTS COMPTABILITE'\".",
+              "id": "l2rcpxrq",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Pour le brevet des collèges (DNB) ou le CEP seulement, saisir 'FORMATION GENERALE'\"",
+              "id": "l2rcuc74",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Si non trouvé, taper '999 - Je n'ai pas trouvé dans la liste'\"",
+              "id": "l2rdj3w1",
+              "position": "BEFORE_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_DIPSDA"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftido0o",
+              "id": "l2rd5odl",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": 249
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"La spécialité n'est pas dans la liste. Pouvez-vous inscrire, le plus précisément possible, la spécialité de ce plus haut diplôme ou titre ?\""
+          ],
+          "id": "l2rcixoc",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_DIPSINTA"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftin4c4",
+              "id": "l2rdx1da",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if($PRENOM$=$PRENOMREF$) then \"Avez-vous\" else $PRENOM$ || \" a-t-\" ||$LIB_PR$) || \" cependant été à l'école, au collège, au lycée ou dans le supérieur ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rdg7w4",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_FSANSDIP"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftin065",
+              "id": "l2re8dqw",
+              "mandatory": false,
+              "CodeListReference": "l2rd6kme",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Quand \" || (if($PRENOM$=$PRENOMREF$) then \"avez-vous\" else $PRENOM$ || \" a-t-\" ||$LIB_PR$) || \" arrêté \" ||$LIB_SES$ || \" études ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rdhhat",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_NIV0INIT"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftvt5dj",
+              "id": "l2rec0fe",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "AAAA",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": "4"
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"En quelle année était-ce ?\""
+          ],
+          "id": "l2rdky32",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"(AAAA)\"",
+              "id": "lftvy1yy",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_DATNIV"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftifuhn",
+              "id": "l2re9cc6",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "120",
+                "Minimum": "0",
+                "typeName": "NUMERIC",
+                "Unit": "",
+                "type": "NumericDatatypeType",
+                "Decimals": ""
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A quel âge était-ce ?\""
+          ],
+          "id": "l2rdlnzu",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_AGENIV"
+        }
+      ],
+      "Name": "TCM_FORM_DIPL"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

@@ -1,0 +1,1323 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+    {
+      "Description": "PRENOM a plus de 15 ans",
+      "Expression": "$T_TRAGE6$ <> \"1\"",
+      "id": "l2ru1yyg",
+      "IfTrue": "l2rtx7s1-l2ru38xi"
+    },
+    {
+      "Description": "PRENOM a des enfants hors du logement",
+      "Expression": "$T_ENFHORS$ = \"1\"",
+      "id": "l2rts3dy",
+      "IfTrue": "l2rtpdmi-l2ru38xi"
+    },
+    {
+      "Description": "Mineur avec un seul parent dans le logement",
+      "Expression": "$T_MINEUR$ = \"1\" and $T_NBPARL$ = \"1\"",
+      "id": "l2ru72fo",
+      "IfTrue": "l2rrx0wp-l2rtlmtn"
+    },
+    {
+      "Description": "PRENOM n'a pas déclaré résider aussi dans le logement d'un autre parent dans le THL",
+      "Expression": "nvl($T_MINLOGAUT$, \"0\") <> \"1\"",
+      "id": "l2ruavln",
+      "IfTrue": "l2rrx0wp-l2rrx0wp"
+    },
+    {
+      "Description": "PRENOM ne dort jamais chez son autre parent",
+      "Expression": "$T_APDOR$ = \"2\"",
+      "id": "l2ru9a1e",
+      "IfTrue": "l2rsgo4e-l2rspbb4"
+    },
+    {
+      "Description": "PRENOM est parfois en contact avec son autre parent",
+      "Expression": "$T_APCONTACT$ = \"1\"",
+      "id": "l2ru851s",
+      "IfTrue": "l2rspbb4-l2rspbb4"
+    },
+    {
+      "Description": "PRENOM a un autre parent hors du logement",
+      "Expression": "$T_MINLOGAUT$ = \"1\" or nvl($T_APDOR$,\"3\") <> \"3\"",
+      "id": "l2rtvx06",
+      "IfTrue": "l2rrn5na-l2rrn5na"
+    },
+    {
+      "Description": "PRENOM dort parfois chez son autre parent",
+      "Expression": "($T_MINLOGAUT$ = \"1\" and nvl($T_DURLOG$, \"1\") <> \"2\") or $T_APDOR$ = \"1\"",
+      "id": "l2rue5kw",
+      "IfTrue": "l2rsvbbn-l2rszrdg"
+    },
+    {
+      "Description": "Modalités 1 à 6 de FAPDOR",
+      "Expression": "$T_APDOR$ = \"1\" or isnull($T_DURLOG$)",
+      "id": "l2rub3rx",
+      "IfTrue": "l2rsvbbn-l2rsvbbn"
+    },
+    {
+      "Description": "Modalités 1 et 2 de FAPDOR",
+      "Expression": "$T_DURLOG$ = \"3\"",
+      "id": "l2rukmdp",
+      "IfTrue": "l2rss4sb-l2rss4sb"
+    },
+    {
+      "Description": "Modalités 4 à 6 de FAPDOR",
+      "Expression": "$T_DURLOG$ = \"1\"",
+      "id": "l2ru52pu",
+      "IfTrue": "l2rszrdg-l2rszrdg"
+    },
+    {
+      "Description": "PRENOM a un autre parent en dehors du logement",
+      "Expression": "$T_MINLOGAUT$ = \"1\" or nvl($T_APDOR$,\"3\") <> \"3\"",
+      "id": "l2ru9b6c",
+      "IfTrue": "l2rt2xtu-l2rtlmtn"
+    },
+    {
+      "Description": "PARENT a déjà vécu avec l'autre parent de PRENOM",
+      "Expression": "$T_APVECU$ = \"1\"",
+      "id": "l2rumr7c",
+      "IfTrue": "l2rt05m9-l2rtfy87"
+    },
+    {
+      "Description": "L'autre parent de PRENOM habite dans une autre commune",
+      "Expression": "$T_APLOG$ = \"2\"",
+      "id": "l2rui7dr",
+      "IfTrue": "l2rtx9hc-l2rtx9hc"
+    },
+    {
+      "Description": "L'autre parent de PRENOM habite dans un autre pays",
+      "Expression": "$T_APLOG$ = \"3\"",
+      "id": "l2ruaje5",
+      "IfTrue": "l2rtlmtn-l2rtlmtn"
+    },
+    {
+      "Description": "PRENOM est limité dans ses activités quotidiennes",
+      "Expression": "nvl($T_GALI$,\"3\") <> \"3\"",
+      "id": "l2succcj",
+      "IfTrue": "l2j8c4jh-l2j8c4jh"
+    }
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "l2j8ad33",
+        "l2rrx0wp",
+        "l2rrn5na",
+        "l2rsgo4e",
+        "l2rspbb4",
+        "l2rsvbbn",
+        "l2rss4sb",
+        "l2rszrdg",
+        "l2rt2xtu",
+        "l2rt05m9",
+        "l2rtfy87",
+        "l2rtlf4m",
+        "l2rtlzjy",
+        "l2rtx9hc",
+        "l2rtlmtn",
+        "l2rtx7s1",
+        "l2rtpdmi",
+        "l2ru38xi",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_FAMILLE"
+  ],
+  "Name": "TCM_FAM",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_APDOR label",
+        "id": "lftipmpf",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rrpm2g",
+        "Name": "T_APDOR",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_PRENOMP label",
+        "id": "lftiuomc",
+        "type": "CollectedVariableType",
+        "Name": "T_PRENOMP",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Label": "T_APCONTACT label",
+        "id": "lftidfkk",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_APCONTACT",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_FAPCONTACT label",
+        "id": "lftijpb1",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rsje54",
+        "Name": "T_FAPCONTACT",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_FAPDOR6 label",
+        "id": "lftiqn8t",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rsxu61",
+        "Name": "T_FAPDOR6",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_FAPDOR12 label",
+        "id": "lftiqsi9",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rse0u8",
+        "Name": "T_FAPDOR12",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_FAPDOR46 label",
+        "id": "lftilwcx",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rtc9rp",
+        "Name": "T_FAPDOR46",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_APVECU label",
+        "id": "lftit00g",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_APVECU",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_APSEP label",
+        "id": "lftiewc8",
+        "type": "CollectedVariableType",
+        "Name": "T_APSEP",
+        "Datatype": {
+          "Pattern": "AAAA",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "4"
+        }
+      },
+      {
+        "Label": "T_APGARDE label",
+        "id": "lftierhf",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rtios5",
+        "Name": "T_APGARDE",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_APDECGARDE label",
+        "id": "lftimhra",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rtgwrv",
+        "Name": "T_APDECGARDE",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_APLOG label",
+        "id": "lftis9y4",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rtrakg",
+        "Name": "T_APLOG",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_APLOGCOM label",
+        "id": "lftix87b",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rtxvh7",
+        "Name": "T_APLOGCOM",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_APLOGPAYS label",
+        "id": "lftiwsbw",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l120pefc",
+        "Name": "T_APLOGPAYS",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_ENFHORS label",
+        "id": "lftincm0",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_ENFHORS",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NBENFHORS label",
+        "id": "lftijo51",
+        "type": "CollectedVariableType",
+        "Name": "T_NBENFHORS",
+        "Datatype": {
+          "Maximum": "20",
+          "Minimum": "1",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      },
+      {
+        "Label": "T_NBENFHORSMIN label",
+        "id": "lftihh7x",
+        "type": "CollectedVariableType",
+        "Name": "T_NBENFHORSMIN",
+        "Datatype": {
+          "Maximum": "20",
+          "Minimum": "1",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:04:20 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lgdy5off",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_APDOR",
+        "id": "l2rrpm2g",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Oui\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Non\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "(if ($PRENOM$ = $PRENOMREF$) then \"Vous n'avez \" else $PRENOM$ || \" n'a \") ||\r\n\"pas ou plus d'autre parent\"",
+            "Value": "3"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_OUI_NON",
+        "id": "l0v2k0fj",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Oui",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Non",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_FAPCONTACT",
+        "id": "l2rsje54",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Tous les jours\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Une ou plusieurs fois par semaine\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Une ou plusieurs fois par mois (mais moins d'une fois par semaine)\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Une ou plusieurs fois par an (mais moins d'une fois par mois)\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Moins d'une fois par an\"",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Je ne sais pas\"",
+            "Value": "6"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_FAPDOR6",
+        "id": "l2rsxu61",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Presque tout le temps, sauf quelques nuits par mois où il réside ici (au logement situé à l'adresse \" || $ADR$ || \")\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"La plupart du temps, sauf un week-end sur deux et la moitié des vacances scolaires où il réside ici (au logement situé à l'adresse \" ||$ADR$ || \")\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"La moitié du temps\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Un week-end sur deux et la moitié des vacances scolaires\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Plus rarement, quelques nuits par mois\"",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Autre situation\"",
+            "Value": "6"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_FAPDOR12",
+        "id": "l2rse0u8",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Presque tout le temps, sauf quelques nuits par mois où il réside ici (au logement situé à l'adresse \" || $ADR$ || \")\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"La plupart du temps, sauf un week-end sur deux et la moitié des vacances scolaires où il réside ici (au logement situé à l'adresse \" || $ADR$ || \")\"",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_FAPDOR46",
+        "id": "l2rtc9rp",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Un week-end sur deux et la moitié des vacances scolaires\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Plus rarement, quelquse nuits par mois\"",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Autre situation\"",
+            "Value": "6"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_APGARDE",
+        "id": "l2rtios5",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Au domicile de PARENT seulement\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Au domicile de \" || $T_PRENOMAP$ || \" seulement\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Elle était partagée entre les deux domiciles\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Chez une autre personne (par exemple les grands-parents, d'autres membres de la famille...) ou dans le cadre d'une prise en charge de l'aide sociale à l'enfance\"",
+            "Value": "4"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_APDECGARDE",
+        "id": "l2rtgwrv",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"La décision a été prise par un juge aux affaires familiales\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"PARENT a établi avec \" || $T_PRENOMAP$ || \" une convention de séparation parentale, homologuée par un juge aux affaires familiales\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"PARENT a établi avec \" || $T_PRENOMAP$ || \" une convention de séparation parentale, non homologuée par un juge aux affaires familiales\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"PARENT s'est mis d'accord avec \" || $T_PRENOMAP$ || \" sans rédiger de convention\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Autre situation (y compris absence de décision ou en cours)\"",
+            "Value": "5"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_APLOG",
+        "id": "l2rtrakg",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Oui\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Non, \" || $T_PRENOMAP$ || \" habite dans une autre commune (ou arrondissement municipale)\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Non, \" || $T_PRENOMAP$ || \" habite dans un autre pays\"",
+            "Value": "3"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_APLOGCOM",
+        "id": "l2rtxvh7",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"(Recherche sur liste des communes)\"",
+            "Value": "1"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_PAYSNAIS",
+        "id": "l120pefc",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Recherche sur liste des pays",
+            "Value": "1"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Enfants de parents séparés"
+      ],
+      "id": "l2j8ad33",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "declarationType": "HELP",
+          "Text": "\"Les questions suivantes portent sur les relations entre les parents et les enfants qui n'habite pas dans le logement situé à l'adresse : \" || $ADR$ || \".\"",
+          "id": "l2rrsmwp",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftipmpf",
+              "id": "l2rs1smt",
+              "mandatory": false,
+              "CodeListReference": "l2rrpm2g",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if($PRENOM$=$PRENOMREF$) then \"Vous arrive-t-il\" else \"Arrive-t-il à \" ||$PRENOM$ ) ||\r\n\" de dormir chez \" ||$LIB_SON$ || \" autre parent, même rarement ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rrx0wp",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_APDOR"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftiuomc",
+              "id": "l2rs0hyu",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": 249
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Quel est le prénom de \" ||\r\n(if ($PRENOM$ = $PRENOMREF$) then \"votre autre parent ?\"\r\nelse \"l'autre parent de \" ||$PRENOM$ || \" ?\")"
+          ],
+          "id": "l2rrn5na",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_PRENOMP"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftidfkk",
+              "id": "l2rshdff",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$=$PRENOMREF$) then \"Vous ne dormez jamais chez \" || $T_PRENOMAP$ \r\nelse $PRENOM$ || \" ne dort jamais chez \" || $T_PRENOMAP$) ||\r\n\", mais \" ||$LIB_LUI$ || \" arrive-t-il d'être en contact avec lui ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rsgo4e",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_APCONTACT"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftijpb1",
+              "id": "l2ru9eft",
+              "mandatory": false,
+              "CodeListReference": "l2rsje54",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A quelle fréquence \" ||(\r\nif($PRENOM$=$PRENOMREF$) then \" êtes-vous\" \r\nelse $PRENOM$ ||\" est-\" ||$LIB_PR$\r\n)|| \" en contact avec \" || $T_PRENOMAP$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rspbb4",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Il peut s'agir de rencontres mais aussi de contacts par téléphone, SMS ou réseaux sociaux.\"",
+              "id": "l2rsjxh5",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_FAPCONTACT"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftiqn8t",
+              "id": "l2ru45x7",
+              "mandatory": false,
+              "CodeListReference": "l2rsxu61",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A quelle fréquence \" ||(\r\nif($PRENOM$=$PRENOMREF$) then \" dormez-vous\" \r\nelse $PRENOM$ ||\" dort-\" || $LIB_PR$\r\n)|| \" chez \" || $T_PRENOMAP$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rsvbbn",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_FAPDOR6"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftiqsi9",
+              "id": "l2rtqmzs",
+              "mandatory": false,
+              "CodeListReference": "l2rse0u8",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "CHECKBOX",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A quelle fréquence \" ||(\r\nif($PRENOM$=$PRENOMREF$) then \" dormez-vous\" \r\nelse $PRENOM$ ||\" dort-\" ||$LIB_PR$\r\n)|| \" chez \" || $T_PRENOMAP$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rss4sb",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_FAPDOR12"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftilwcx",
+              "id": "l2rubvq2",
+              "mandatory": false,
+              "CodeListReference": "l2rtc9rp",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "CHECKBOX",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A quelle fréquence \" ||(\r\nif($PRENOM$=$PRENOMREF$) then \" dormez-vous\" \r\nelse $PRENOM$ ||\" dort-\" || $LIB_PR$\r\n)|| \" chez \" || $T_PRENOMAP$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rszrdg",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_FAPDOR46"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftit00g",
+              "id": "l2ru5rk2",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"PARENT a-t-il déjà vécu avec \" || $T_PRENOMAP$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rt2xtu",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_APVECU"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftiewc8",
+              "id": "l2rtv3jz",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "AAAA",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": "4"
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"En quelle année PARENT s'est-il (ou elle) séparé(e) de \" || $T_PRENOMAP$ || \" ?\""
+          ],
+          "id": "l2rt05m9",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"(AAAA)\"",
+              "id": "lftvo5na",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_APSEP"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftierhf",
+              "id": "l2ru6sx2",
+              "mandatory": false,
+              "CodeListReference": "l2rtios5",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Où a été fixée \" || (\r\n    if($PRENOM$=$PRENOMREF$) then \"votre résidence habituelle\"\r\n    else \"la résidence habituelle de \" || $PRENOM$\r\n)||\r\n\" au moment de cette séparation ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rtfy87",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Décrire ici les modalités d'accueil fixées, qu'elles aient été respectées ou non.\"",
+              "id": "l2rtm403",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_APGARDE"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftimhra",
+              "id": "l2ru1n41",
+              "mandatory": false,
+              "CodeListReference": "l2rtgwrv",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Comment \" ||(\r\n    if($PRENOM$=$PRENOMREF$) then \"votre résidence habituelle\"\r\n    else \"la résidence habituelle de \" || $PRENOM$\r\n)||\r\n\" a-t-elle été décidée ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rtlf4m",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_APDECGARDE"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftis9y4",
+              "id": "l2rtqtp0",
+              "mandatory": false,
+              "CodeListReference": "l2rtrakg",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "$T_PRENOMAP$ || \" habite-t-il(elle) dans la même commune (ou le même arrondissement municipale) que PARENT ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rtlzjy",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_APLOG"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftix87b",
+              "id": "l2ru650j",
+              "mandatory": false,
+              "CodeListReference": "l2rtxvh7",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "DROPDOWN",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Dans quelle commune (ou arrondissement municipal) se situe le logement de \" || $T_PRENOMAP$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rtx9hc",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_APLOGCOM"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftiwsbw",
+              "id": "l2rtsa3u",
+              "mandatory": false,
+              "CodeListReference": "l120pefc",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "DROPDOWN",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Dans quel pays se situe le logement de \" || $T_PRENOMAP$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rtlmtn",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_APLOGPAYS"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftincm0",
+              "id": "l2ru2rjf",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$ = $PRENOMREF$) then \"Avez-vous\"\r\nelse $PRENOM$ || \" a-t-\" ||$LIB_PR$) \r\n|| \" des enfants qui n'habitent pas dans le logement situé à l'adresse \" ||$ADR$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rtx7s1",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_ENFHORS"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftijo51",
+              "id": "l2rubxrk",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "20",
+                "Minimum": "1",
+                "typeName": "NUMERIC",
+                "Unit": "",
+                "type": "NumericDatatypeType",
+                "Decimals": ""
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Combien d'enfants ?\""
+          ],
+          "id": "l2rtpdmi",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_NBENFHORS"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftihh7x",
+              "id": "l2rtu4zf",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "20",
+                "Minimum": "1",
+                "typeName": "NUMERIC",
+                "Unit": "",
+                "type": "NumericDatatypeType",
+                "Decimals": ""
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Parmi eux, combien ont moins de 18 ans ?\""
+          ],
+          "id": "l2ru38xi",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_NBENFHORSMIN"
+        }
+      ],
+      "Name": "TCM_FAMILLE"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

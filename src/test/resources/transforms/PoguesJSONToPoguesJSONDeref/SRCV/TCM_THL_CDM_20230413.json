@@ -1,0 +1,336 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+    {
+      "Description": "Il y a plus d'un habitant dans le logement",
+      "Expression": "$T_NBHAB$ > 1 ",
+      "id": "l1asjr4k",
+      "IfTrue": "lfjx6m5t-lfjyoqn0"
+    },
+    {
+      "Description": "S'il y a des budgets séparés dans le logement",
+      "Expression": "$T_PRESBS$ = \"1\"",
+      "id": "lfjyg9o4",
+      "IfTrue": "lfjxi9et-lfjyoqn0"
+    }
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "kfxmfvwj",
+        "lfjx6m5t",
+        "lfjxi9et",
+        "lfjy4tlq",
+        "lfjyoqn0",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_THL_CDM"
+  ],
+  "Name": "TCM_THL_CDM",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_PRESBS label",
+        "id": "lfthuago",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_PRESBS",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "Nombre de ménage dans le logement (T_NBBS)",
+        "id": "lfjx9nod",
+        "type": "CollectedVariableType",
+        "Name": "T_NBBS",
+        "Datatype": {
+          "Maximum": "20",
+          "Minimum": "1",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      },
+      {
+        "Label": "T_NOMBS label",
+        "id": "lfjyi89m",
+        "type": "CollectedVariableType",
+        "Name": "T_NOMBS",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Label": "T_NOBS label",
+        "id": "lgdwul20",
+        "type": "CollectedVariableType",
+        "Name": "T_NOBS",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:07:57 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lge03sax",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_OUI_NON",
+        "id": "l0v2k0fj",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Oui",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Non",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Contour des ménages"
+      ],
+      "id": "kfxmfvwj",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "declarationType": "INSTRUCTION",
+          "Text": "\"Nous allons maintenant voir si des personnes habitant dans votre logement ne font pas partie de votre ménage. Toutes les personnes qui contribuent au budget du ménage, ou en bénéficient, font partie de votre ménage.\"",
+          "id": "lfjwkohf",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthuago",
+              "id": "lfjye8v3",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Parmi les habitants du logement, y a-t-il des personnes qui, dans la vie courante, font budget à part, en ayant des dépenses séparées, en particulier les dépenses alimentaires ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "lfjx6m5t",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Percevoir de l’argent de poche pour les enfants, ou avoir des comptes en banque séparés pour un couple, ne signifie pas forcément faire budget séparé.\"",
+              "id": "lfjxheio",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_PRESBS"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfjx9nod",
+              "id": "lfjygd4s",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "20",
+                "Minimum": "1",
+                "typeName": "NUMERIC",
+                "Unit": "",
+                "type": "NumericDatatypeType",
+                "Decimals": ""
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Combien de ménage y a-t-il dans votre logement ?\""
+          ],
+          "id": "lfjxi9et",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_NBBS"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfjyi89m",
+              "id": "lfjysune",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": 249
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Pouvez-vous nommer chacun de ces ménages ? (En leur donnant un numéro ou un nom de famille par exemple)\""
+          ],
+          "id": "lfjy4tlq",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_NOMBS"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lgdwul20",
+              "id": "lfjyjvc5",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": 249
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Dans quel ménage \" || if ($PRENOM$ = $PRENOMREF$) then \"êtes-vous ?\" else $PRENOM$ || \" est-\" || $LIB_PR$ || \" ?\""
+          ],
+          "id": "lfjyoqn0",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_NOBS"
+        }
+      ],
+      "Name": "TCM_THL_CDMEN"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

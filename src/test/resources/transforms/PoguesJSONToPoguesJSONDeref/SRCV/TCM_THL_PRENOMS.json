@@ -1,0 +1,604 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "kfxmfvwj",
+        "l0v2t2lc",
+        "l0mkvvru",
+        "l0v3g11i",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_THL_PRENOMS"
+  ],
+  "Name": "TCM_THL_PRENOMS",
+  "Variables": {
+    "Variable": [
+      {
+        "Formula": "nvl($T_NHAB$,1)",
+        "Label": "Nombre d'habitants prise en compte du null (T_NBHAB)",
+        "id": "lgf93mxs",
+        "type": "CalculatedVariableType",
+        "Name": "T_NBHAB",
+        "Datatype": {
+          "Maximum": "30",
+          "Minimum": "1",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      },
+      {
+        "Formula": "first_value($T_PRENOM$ over())\r\n",
+        "Label": "Premier prénom (PRENOMREF)",
+        "id": "lgf8xahq",
+        "type": "CalculatedVariableType",
+        "Name": "PRENOMREF",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Formula": "$T_PRENOM$",
+        "Scope": "lge0kz45",
+        "Label": "PRENOM",
+        "id": "lgf8q5n1",
+        "type": "CalculatedVariableType",
+        "Name": "PRENOM",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Formula": "if isnull($T_DATENAIS$) then null\r\nelse substr(cast($T_DATENAIS$,string,\"YYYY-MM-DD\"),1,4)",
+        "Scope": "lge0kz45",
+        "Label": "Année de naissance (T_ANNAIS)",
+        "id": "lgf8nkls",
+        "type": "CalculatedVariableType",
+        "Name": "T_ANNAIS",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "4"
+        }
+      },
+      {
+        "Formula": "if isnull($T_ANNAIS$) then null\r\nelse 2023 - cast($T_ANNAIS$,integer)",
+        "Scope": "lge0kz45",
+        "Label": "Âge (T_AGE)",
+        "id": "lgf8xk2a",
+        "type": "CalculatedVariableType",
+        "Name": "T_AGE",
+        "Datatype": {
+          "Maximum": "120",
+          "Minimum": "0",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      },
+      {
+        "Formula": "if isnull($T_ANNAIS$) and isnull($T_TRAGE$) then null\r\nelse if isnull($T_ANNAIS$) and not(isnull($T_TRAGE$)) then $T_TRAGE$ \r\nelse if not(isnull($T_ANNAIS$)) and $T_AGE$ < 15 then \"1\"\r\nelse if not(isnull($T_ANNAIS$)) and $T_AGE$ > 14 and $T_AGE$ < 18 then \"2\"\r\nelse if not(isnull($T_ANNAIS$)) and $T_AGE$ > 17 and $T_AGE$ < 25 then \"3\"\r\nelse if not(isnull($T_ANNAIS$)) and $T_AGE$ > 24 and $T_AGE$ < 40 then \"4\"\r\nelse if not(isnull($T_ANNAIS$)) and $T_AGE$ > 39 and $T_AGE$ < 60 then \"5\"\r\nelse \"6\"",
+        "Scope": "lge0kz45",
+        "Label": "Tranches d'âges calculées (T_TRAGE6)",
+        "id": "lgf90avm",
+        "type": "CalculatedVariableType",
+        "Name": "T_TRAGE6",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "1"
+        }
+      },
+      {
+        "Formula": "if (cast($T_TRAGE6$ ,integer) <= 2) then \"1\"\r\nelse \"2\"",
+        "Scope": "lge0kz45",
+        "Label": "Individu mineur (T_MINEUR)",
+        "id": "lgf8qyak",
+        "type": "CalculatedVariableType",
+        "Name": "T_MINEUR",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "1"
+        }
+      },
+      {
+        "Formula": "if $T_SITUAEU$ = \"1\" then \"1\"\r\nelse if $T_TRAVAIL$ = \"1\" then \"1\"\r\nelse if isnull($T_SITUAEU$) and isnull ($T_TRAVAIL$) then \"2\"\r\nelse \"2\"",
+        "Scope": "lge0kz45",
+        "Label": "En emploi (T_EMPLOI)",
+        "id": "lgf8okjq",
+        "type": "CalculatedVariableType",
+        "Name": "T_EMPLOI",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "1"
+        }
+      },
+      {
+        "Formula": "if ($T_FF$ = \"1\") then \"1\"\r\nelse if ($T_FFVAC$ = \"1\") then \"1\"\r\nelse if isnull($T_FF$) and isnull($T_FFVAC$) then \"2\"\r\nelse \"2\"",
+        "Scope": "lge0kz45",
+        "Label": "Formation formelle en cours (T_FFM)",
+        "id": "lgf8tdg7",
+        "type": "CalculatedVariableType",
+        "Name": "FFM",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "1"
+        }
+      },
+      {
+        "Formula": "if nvl($T_NBPARL$, \"0\")=\"0\" then \"2\"\r\nelse if $T_NBPARL$ = \"1\" and $T_SPAR1$ = \"1\" then \"1\"\r\nelse if $T_NBPARL$ = \"1\" and $T_SPAR1$ = \"2\" then \"2\"\r\nelse if $T_NBPARL$ = \"2\" and $T_SPAR1$ = \"1\" then \"1\"\r\nelse if $T_NBPARL$ = \"2\" and $T_SPAR1$ = \"2\" and $T_SPAR2$ = \"1\" then \"1\"\r\nelse if $T_NBPARL$ = \"2\" and $T_SPAR1$ = \"2\" and $T_SPAR2$ = \"2\" then \"2\"\r\nelse \"2\"",
+        "Scope": "lge0kz45",
+        "Label": "Père dans le logement (T_PER1E)",
+        "id": "lgf99ly5",
+        "type": "CalculatedVariableType",
+        "Name": "T_PER1E",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "1"
+        }
+      },
+      {
+        "Formula": "if nvl($T_NBPARL$, \"0\") = \"0\" then \"2\"\r\nelse if $T_NBPARL$ = \"1\" and $T_SPAR1$ = \"2\" then \"1\"\r\nelse if $T_NBPARL$ = \"1\" and $T_SPAR1$ = \"1\" then \"2\"\r\nelse if $T_NBPARL$ = \"2\" and $T_SPAR1$ = \"2\" then \"1\"\r\nelse if $T_NBPARL$ = \"2\" and $T_SPAR1$ = \"1\" and $T_SPAR2$ = \"2\" then \"1\"\r\nelse if $T_NBPARL$ = \"2\" and $T_SPAR1$ = \"1\" and $T_SPAR2$ = \"1\" then \"2\"\r\nelse \"2\"",
+        "Scope": "lge0kz45",
+        "Label": "Mère dans le logement (T_MER1E)",
+        "id": "lgf9goco",
+        "type": "CalculatedVariableType",
+        "Name": "T_MER1E",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "1"
+        }
+      },
+      {
+        "Formula": "if nvl($T_PRENOMP$, \"0\")=\"0\" and $T_PRENOM$ = $T_PRENOMREF$ then \"votre autre parent\"\r\nelse if nvl($T_PRENOMP$, \"0\")=\"0\" and $T_PRENOM$ <> $T_PRENOMREF$ then \"son autre parent\"\r\nelse $T_PRENOMP$",
+        "Scope": "lge0kz45",
+        "Label": "Prénom de l'autre parent avec null (T_PRENOMAP)",
+        "id": "lgf9hfg0",
+        "type": "CalculatedVariableType",
+        "Name": "T_PRENOMAP",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "1"
+        }
+      },
+      {
+        "Formula": "if isnull($T_SEXE$) then \"il(elle)\"\r\nelse if $T_SEXE$ = \"1\" then \"il\"\r\nelse \"elle\"",
+        "Scope": "lge0kz45",
+        "Label": "GENRER - Pronom il/elle (LIB_PR)",
+        "id": "lgf9fvop",
+        "type": "CalculatedVariableType",
+        "Name": "LIB_PR",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "10"
+        }
+      },
+      {
+        "Formula": "if isnull($T_SEXE$) then \"er(ère)\"\r\nelse if $T_SEXE$ = \"1\" then \"er\"\r\nelse \"ère\"",
+        "Scope": "lge0kz45",
+        "Label": "GENRER - Terminaisons en ERE (LIB_ERE)",
+        "id": "lgf9d9zy",
+        "type": "CalculatedVariableType",
+        "Name": "LIB_ERE",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "10"
+        }
+      },
+      {
+        "Formula": "if isnull($T_SEXE$) then \"(ne)\"\r\nelse if $T_SEXE$ = \"1\" then \"\"\r\nelse \"ne\"",
+        "Scope": "lge0kz45",
+        "Label": "GENRER - Terminaisons en NE (LIB_NE)",
+        "id": "lgf9hhmm",
+        "type": "CalculatedVariableType",
+        "Name": "LIB_NE",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "10"
+        }
+      },
+      {
+        "Formula": "if isnull($T_SEXE$) then \"Homme ou Femme\"\r\nelse if $T_SEXE$ = \"1\" then \"Homme\"\r\nelse \"Femme\"",
+        "Scope": "lge0kz45",
+        "Label": "GENRER - Hommes Femmes (LIB_HF)",
+        "id": "lgf9eg9g",
+        "type": "CalculatedVariableType",
+        "Name": "LIB_HF",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "10"
+        }
+      },
+      {
+        "Formula": "if isnull($T_SEXE$) then \"le(la)\"\r\nelse if $T_SEXE$ = \"1\" then \"le\"\r\nelse \"la\"",
+        "Scope": "lge0kz45",
+        "Label": "GENRER - Attributs LE/LA (LIB_LE)",
+        "id": "lgf9elbi",
+        "type": "CalculatedVariableType",
+        "Name": "LIB_LE",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "10"
+        }
+      },
+      {
+        "Formula": "if ($PRENOM$ = $PRENOMREF$) then \"votre\"\r\nelse \"son\"",
+        "Scope": "lge0kz45",
+        "Label": "VOUVOIEMENT - SON (LIB_SON)",
+        "id": "lgf902wr",
+        "type": "CalculatedVariableType",
+        "Name": "LIB_SON",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "10"
+        }
+      },
+      {
+        "Formula": "if ($PRENOM$ = $PRENOMREF$) then \"votre\"\r\nelse \"sa\"",
+        "Scope": "lge0kz45",
+        "Label": "VOUVOIEMENT - SA (LIB_SA)",
+        "id": "lgf955c7",
+        "type": "CalculatedVariableType",
+        "Name": "LIB_SA",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "10"
+        }
+      },
+      {
+        "Formula": "if ($PRENOM$ = $PRENOMREF$) then \"vos\"\r\nelse \"ses\"",
+        "Scope": "lge0kz45",
+        "Label": "VOUVOIEMENT - SES (LIB_SES)",
+        "id": "lgf9gxqn",
+        "type": "CalculatedVariableType",
+        "Name": "LIB_SES",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "10"
+        }
+      },
+      {
+        "Formula": "if ($PRENOM$ = $PRENOMREF$) then \"vous\"\r\nelse \"lui\"",
+        "Scope": "lge0kz45",
+        "Label": "VOUVOIEMENT - LUI (LIB_LUI)",
+        "id": "lgf91ne6",
+        "type": "CalculatedVariableType",
+        "Name": "LIB_LUI",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "10"
+        }
+      },
+      {
+        "Formula": "if ($PRENOM$ = $PRENOMREF$) then \"vous\"\r\nelse \"se\"",
+        "Scope": "lge0kz45",
+        "Label": "VOUVOIEMENT - SE (LIB_SE)",
+        "id": "lgf9eays",
+        "type": "CalculatedVariableType",
+        "Name": "LIB_SE",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "10"
+        }
+      },
+      {
+        "Formula": "if isnull($T_SEXE$) then \"(e)\"\r\nelse if $T_SEXE$ = \"1\" then \"\"\r\nelse \"e\"",
+        "Scope": "lge0kz45",
+        "Label": "GENRER - Terminaisons en E (LIB_E)",
+        "id": "lgf92kmb",
+        "type": "CalculatedVariableType",
+        "Name": "LIB_E",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "5"
+        }
+      },
+      {
+        "Label": "ADRESSE",
+        "id": "lgf9c0zb",
+        "type": "ExternalVariableType",
+        "Name": "ADR",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Label": "Nombre d'habitants (T_HAB)",
+        "id": "lfthszef",
+        "type": "CollectedVariableType",
+        "Name": "T_NHAB",
+        "Datatype": {
+          "Maximum": "20",
+          "Minimum": "1",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      },
+      {
+        "Scope": "lge0kz45",
+        "Label": "T_PRENOM label",
+        "id": "lftrwvwz",
+        "type": "CollectedVariableType",
+        "Name": "T_PRENOM",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "40"
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:09:14 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lgf69bqb",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": []
+  },
+  "Iterations": {
+    "Iteration": [
+      {
+        "Maximum": "nvl($T_NHAB$, 1)",
+        "Minimum": "nvl($T_NHAB$, 1)",
+        "MemberReference": [
+          "l0mkvvru"
+        ],
+        "id": "lge0kz45",
+        "Step": "1",
+        "type": "DynamicIterationType",
+        "Name": "BOUCLE_PRENOMS"
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Tableau des habitants du logement"
+      ],
+      "id": "kfxmfvwj",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "declarationType": "INSTRUCTION",
+          "Text": "\"Commençons par décrire les personnes qui habitent dans le logement situé à l'adresse : \" || $ADR$ || \".\"",
+          "id": "lfjwkohf",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthszef",
+              "id": "l0v3s94m",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "20",
+                "Minimum": "1",
+                "typeName": "NUMERIC",
+                "Unit": "",
+                "type": "NumericDatatypeType",
+                "Decimals": ""
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"En vous comptant, combien de personnes habitent dans le logement situé à l'adresse \" || $ADR$ || \" ?\""
+          ],
+          "id": "l0v2t2lc",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_NHAB"
+        },
+        {
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "genericName": "SUBMODULE",
+          "Label": [
+            "Prénoms des habitants"
+          ],
+          "id": "l0mkvvru",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\" Si plusieurs habitants ont le même prénom, ajouter une initiale pour pouvoir les distinguer dans la suite du questionnaire.\"",
+              "id": "l2yohc5k",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "SequenceType",
+          "Child": [
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lftrwvwz",
+                  "id": "l0v3lt3g",
+                  "mandatory": false,
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "type": "TextDatatypeType",
+                    "MaxLength": "40"
+                  }
+                }
+              ],
+              "Control": [
+                {
+                  "post_collect": false,
+                  "Description": "Prénoms non renseigné",
+                  "Expression": "(nvl($G_PRENOM$, \"\") = \"\") and (not(isnull($NBHAB$)) and cast($NBHAB$,integer)>1)",
+                  "during_collect": false,
+                  "criticity": "INFO",
+                  "FailMessage": "\"Merci d'indiquer l'ensemble des prénoms (initiales ou autre) afin de pouvoir vous repérer dans la suite du questionnaire lorsque les questions porteront sur une personne en particulier.\"",
+                  "id": "l38jhx0d"
+                },
+                {
+                  "post_collect": false,
+                  "Description": "Prénom non renseigné pour 1 habitant uniquement",
+                  "Expression": "(nvl($G_PRENOM$, \"\") = \"\") and (isnull($NBHAB$) or cast($NBHAB$,integer)=1)",
+                  "during_collect": false,
+                  "criticity": "INFO",
+                  "FailMessage": "\"Votre réponse est importante pour le bon déroulement du questionnaire. Merci d'indiquer votre prénom (ou vos initiales, ou autre) pour pouvoir poursuivre le questionnaire.\"",
+                  "id": "l38j7rwn"
+                }
+              ],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Prénom (en commençant par le vôtre)\""
+              ],
+              "id": "l0v3g11i",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "type": "QuestionType",
+              "questionType": "SIMPLE",
+              "Name": "T_PRENOM"
+            }
+          ],
+          "Name": "TCM-PRENOM"
+        }
+      ],
+      "Name": "TCM_THL"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

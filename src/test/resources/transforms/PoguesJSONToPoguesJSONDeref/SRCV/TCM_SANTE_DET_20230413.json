@@ -1,0 +1,780 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+    {
+      "Description": "Si PRENOM a une activité professionnelle",
+      "Expression": "$T_EMPLOI$ = \"1\"",
+      "id": "lfkzarl4",
+      "IfTrue": "lfkzdbv8-lfkzdbv8"
+    }
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "kfxmfvwj",
+        "lfkyot01",
+        "lfkyz224",
+        "lfkzdbv8",
+        "lfkzcyt6",
+        "lfkzl040",
+        "lfkzrqes",
+        "lfkzri7j",
+        "lfkzuugc",
+        "lfl0fosz",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_SANTE_DET"
+  ],
+  "Name": "TCM_SANT_DET",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_TAILLE label",
+        "id": "lftie87d",
+        "type": "CollectedVariableType",
+        "Name": "T_TAILLE",
+        "Datatype": {
+          "Maximum": "250",
+          "Minimum": "10",
+          "typeName": "NUMERIC",
+          "Unit": "http://id.insee.fr/unit/centimetre",
+          "type": "NumericDatatypeType",
+          "Decimals": "0"
+        }
+      },
+      {
+        "Label": "T_POIDS label",
+        "id": "lftimuc7",
+        "type": "CollectedVariableType",
+        "Name": "T_POIDS",
+        "Datatype": {
+          "Maximum": "350",
+          "Minimum": "10",
+          "typeName": "NUMERIC",
+          "Unit": "http://id.insee.fr/unit/kg",
+          "type": "NumericDatatypeType",
+          "Decimals": "0"
+        }
+      },
+      {
+        "Label": "T_EFFORTRAV label",
+        "id": "lftil48p",
+        "type": "CollectedVariableType",
+        "CodeListReference": "lfkz0gp0",
+        "Name": "T_EFFORTRAV",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_ACTPHYS label",
+        "id": "lftirsbl",
+        "type": "CollectedVariableType",
+        "CodeListReference": "lfkzbj29",
+        "Name": "T_ACTPHYS",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_FRUIT label",
+        "id": "lfkzzlao",
+        "type": "CollectedVariableType",
+        "CodeListReference": "lfkzbj29",
+        "Name": "T_FRUIT",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_LEGUME label",
+        "id": "lfkzo6ow",
+        "type": "CollectedVariableType",
+        "CodeListReference": "lfkzbj29",
+        "Name": "T_LEGUME",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_FUMECIG label",
+        "id": "lfl0a06f",
+        "type": "CollectedVariableType",
+        "CodeListReference": "lfkzv6yx",
+        "Name": "T_FUMECIG",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_FUMELEC label",
+        "id": "lfl0bl3t",
+        "type": "CollectedVariableType",
+        "CodeListReference": "lfkzv6yx",
+        "Name": "T_FUMELEC",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_ALCOOL label",
+        "id": "lfl0iuex",
+        "type": "CollectedVariableType",
+        "CodeListReference": "lfkztiwj",
+        "Name": "T_ALCOOL",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:04:43 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lgdygcql",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_EFFORTRAV",
+        "id": "lfkz0gp0",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "(if($PRENOM$ = $PRENOMREF$) then \"Vous êtes \" else $PRENOM$ || \" est \") || \"surtout assis\" || $LIB_E$ || \".\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "(if($PRENOM$ = $PRENOMREF$) then \"Vous êtes \" else $PRENOM$ || \" est \") || \"surtout debout.\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "(if($PRENOM$ = $PRENOMREF$) then \"Vous marchez ou accomplissez \" else $PRENOM$ || \" marche ou accomplit \") || \"des tâches qui demandent un effort physique modéré.\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "(if($PRENOM$ = $PRENOMREF$) then \"Vous accomplissez \" else $PRENOM$ || \" accomplit \") || \"des travaux de force, physiquement exigeants.\"",
+            "Value": "4"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_ACTPHYS",
+        "id": "lfkzbj29",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Deux fois par jour ou plus\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Une fois par jour\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"4 à 6 fois par semaine\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"1 à 3 fois par semaine\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Moins d'une fois par semaine\"",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Jamais\"",
+            "Value": "6"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_FUME",
+        "id": "lfkzv6yx",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Oui, tous les jours\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Oui, quelques fois par semaine\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Oui, quelques fois par mois\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Oui, quelques fois par an\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Non, jamais\"",
+            "Value": "5"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_ALCOOL",
+        "id": "lfkztiwj",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Tous les jours\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"5 à 6 jours par semaine\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"3 à 4 jours par semaine\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"1 à 2 jours par semaine\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Quelques fois par mois\"",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Quelques fois par an\"",
+            "Value": "6"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Jamais\"",
+            "Value": "7"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Déterminants de santé"
+      ],
+      "id": "kfxmfvwj",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftie87d",
+              "id": "lfkzqna5",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "250",
+                "Minimum": "10",
+                "typeName": "NUMERIC",
+                "Unit": "http://id.insee.fr/unit/centimetre",
+                "type": "NumericDatatypeType",
+                "Decimals": "0"
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Combien \" || if ($PRENOM$ = $PRENOMREF$) then \"mesurez-vous ?\" else $PRENOM$ || \" mesure-t-\" || $LIB_PR$ || \" ?\""
+          ],
+          "id": "lfkyot01",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_TAILLE"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftimuc7",
+              "id": "lfkz0b4z",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "350",
+                "Minimum": "10",
+                "typeName": "NUMERIC",
+                "Unit": "http://id.insee.fr/unit/kg",
+                "type": "NumericDatatypeType",
+                "Decimals": "0"
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Quel est \" || if ($PRENOM$ = $PRENOMREF$) then \"votre poids ?\" else \"le poids de \" || $PRENOM$ || \" ?\""
+          ],
+          "id": "lfkyz224",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Sans vêtements ni chaussures.\"",
+              "id": "lfkz04fa",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Pour les femmes enceintes, indiquer le poids avant grossesse.\"",
+              "id": "lfkyx60y",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_POIDS"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftil48p",
+              "id": "lfl05ged",
+              "mandatory": false,
+              "CodeListReference": "lfkz0gp0",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Dans le cadre de \" || $LIB_SON$ || \" activité professionnelle, qu'est ce qui décrit le mieux les efforts physiques que \" || (if ( $PRENOM$ = $PRENOMREF$ ) then \"vous réalisez\" else $PRENOM$ || \" réalise\") || \" au cours d'une semaine type.\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "lfkzdbv8",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_EFFORTRAV"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftirsbl",
+              "id": "lfkzmfrq",
+              "mandatory": false,
+              "CodeListReference": "lfkzbj29",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($T_EMPLOI$ = \"1\") then \"En dehors de \" || $LIB_SON$ || \" activité professionnelle, au\" else \"Au\") || \" cours d'une semaine type, à quelle fréquence \" || (if ($PRENOM$ = $PRENOMREF$) then \"pratiquez-vous\" else $PRENOM$ || \" pratique-t-\" || $LIB_PR$ ) || \" des activités physiques ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "lfkzcyt6",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Tenir compte des trajets : aller en vélo au travail par exemple\"",
+              "id": "lfkzgnrz",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Activités de loisir, à condition qu'elles provoquent une augmentation du rythme cardiaque et qu'elles durent au moins 10 minutes, sans interruption.\"",
+              "id": "lfkzdroq",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CATI",
+                "CAWI",
+                "PAPI",
+                "CAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_ACTPHYS"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfkzzlao",
+              "id": "lfkzoig2",
+              "mandatory": false,
+              "CodeListReference": "lfkzbj29",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A quelle fréquence \" || (if ($PRENOM$ = $PRENOMREF$) then \"consommez-vous\" else $PRENOM$ || \" consomme-t-\" || $LIB_PR$ ) || \" des fruits (hors jus) en moyenne ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "lfkzl040",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Fruits frais ou surgelés, entiers, coupés ou en purée\"",
+              "id": "lfkzj881",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_FRUIT"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfkzo6ow",
+              "id": "lfkzwoe5",
+              "mandatory": false,
+              "CodeListReference": "lfkzbj29",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A quelle fréquence \" || (if ($PRENOM$ = $PRENOMREF$) then \"consommez-vous\" else $PRENOM$ || \" consomme-t-\" || $LIB_PR$ ) || \" des légumes (hors pomme de terre) ou de la salade, en moyenne ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "lfkzrqes",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Légumes frais ou surgelés, entiers, coupés ou en purée. Exclure les soupes et les jus.\"",
+              "id": "lfkzytpx",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_LEGUME"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfl0a06f",
+              "id": "lfl0cdlk",
+              "mandatory": false,
+              "CodeListReference": "lfkzv6yx",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$=$PRENOMREF$) then \"Fumez-vous\" else $PRENOM$ || \" fume-t-\" || $LIB_PR$ ) || \", ne serait-ce que de temps en temps ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "lfkzri7j",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Nous parlons ici de tabac (cigarettes en paquet ou roulées), des cigarillos ou des cigares mais pas de cigarette électronique.\"",
+              "id": "lfl02tli",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_FUMECIG"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfl0bl3t",
+              "id": "lfl086tp",
+              "mandatory": false,
+              "CodeListReference": "lfkzv6yx",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$=$PRENOMREF$) then \"Vous arrive-t-il\" else \"Arrive-t-il à \" || $PRENOM$ ) || \" d'utiliser une cigarette électronique, ne serait-ce que de temps en temps ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "lfkzuugc",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_FUMELEC"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfl0iuex",
+              "id": "lfl0buuw",
+              "mandatory": false,
+              "CodeListReference": "lfkztiwj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A quelle fréquence \" || (if ($PRENOM$ = $PRENOMREF$) then \"consommez-vous\" else $PRENOM$ || \" consomme-t-\" || $LIB_PR$) || \" des boissons alcoolisées ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "lfl0fosz",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "INSTRUCTION",
+              "Text": "\"C'est-à-dire le vin, la bière, le cidre, les alcools forts, les panachés, les liqueurs, le champagne etc.\"",
+              "id": "lfl0ihac",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_ALCOOL"
+        }
+      ],
+      "Name": "TCM_SANTE_DET"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}
