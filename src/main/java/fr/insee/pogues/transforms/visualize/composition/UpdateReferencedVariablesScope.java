@@ -1,5 +1,6 @@
 package fr.insee.pogues.transforms.visualize.composition;
 
+import fr.insee.pogues.exception.DeReferencingException;
 import fr.insee.pogues.exception.IllegalIterationException;
 import fr.insee.pogues.model.*;
 import lombok.extern.slf4j.Slf4j;
@@ -7,36 +8,20 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.List;
 
 import static fr.insee.pogues.utils.PoguesModelUtils.getIterationBounds;
-import static fr.insee.pogues.utils.PoguesModelUtils.getSequences;
 
-/**
- * Methods to insert and update Iteration (loop) objects when de-referencing a questionnaire.
- */
 @Slf4j
-class LoopComposition {
+class UpdateReferencedVariablesScope implements CompositionStep {
 
-    private LoopComposition() {}
-
-    /** Replace loop bounds that reference a questionnaire by its first or last sequence.
-     * @param referencedQuestionnaire Referenced questionnaire.
-     * @param iterationType The Iteration object to be updated.
-     * @throws IllegalIterationException if the 'MemberReference' property in the iteration is invalid.
-     */
-    static void updateIterationBounds(Questionnaire referencedQuestionnaire, IterationType iterationType)
-            throws IllegalIterationException {
-        //
-        String reference = referencedQuestionnaire.getId();
-        //
-        List<String> iterationBounds = getIterationBounds(iterationType);
-        // Replace questionnaire reference by its first/last sequence
-        String beginMember = iterationBounds.get(0);
-        String endMember = iterationBounds.get(1);
-        if (beginMember.equals(reference)) {
-            iterationBounds.set(0, referencedQuestionnaire.getChild().get(0).getId());
-        }
-        if (endMember.equals(reference)) {
-            List<ComponentType> referenceSequences = getSequences(referencedQuestionnaire);
-            iterationBounds.set(1, referenceSequences.get(referenceSequences.size() - 1).getId());
+    @Override
+    public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
+            throws DeReferencingException {
+        try {
+            updateReferencedVariablesScope(questionnaire, referencedQuestionnaire);
+        } catch (IllegalIterationException e) {
+            String message = String.format(
+                    "Error when updating referenced variables scope in questionnaire '%s' with reference '%s'",
+                    questionnaire.getId(), referencedQuestionnaire.getId());
+            throw new DeReferencingException(message, e);
         }
     }
 
