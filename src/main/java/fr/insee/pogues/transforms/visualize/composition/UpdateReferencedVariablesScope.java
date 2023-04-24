@@ -16,7 +16,8 @@ class UpdateReferencedVariablesScope implements CompositionStep {
     public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
             throws DeReferencingException {
         try {
-            updateReferencedVariablesScope(questionnaire, referencedQuestionnaire);
+            if (questionnaire.getIterations() != null)
+                updateReferencedVariablesScope(questionnaire, referencedQuestionnaire);
         } catch (IllegalIterationException e) {
             String message = String.format(
                     "Error when updating referenced variables scope in questionnaire '%s' with reference '%s'",

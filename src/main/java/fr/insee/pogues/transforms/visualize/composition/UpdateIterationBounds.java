@@ -5,28 +5,33 @@ import fr.insee.pogues.exception.IllegalIterationException;
 import fr.insee.pogues.model.ComponentType;
 import fr.insee.pogues.model.IterationType;
 import fr.insee.pogues.model.Questionnaire;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
 import static fr.insee.pogues.utils.PoguesModelUtils.getIterationBounds;
 import static fr.insee.pogues.utils.PoguesModelUtils.getSequences;
 
+@Slf4j
 public class UpdateIterationBounds implements CompositionStep {
 
     @Override
     public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
             throws DeReferencingException {
-        try {
-            for (IterationType iterationType : questionnaire.getIterations().getIteration()) {
-                updateIterationBounds(referencedQuestionnaire, iterationType);
+        if (questionnaire.getIterations() != null) {
+            try {
+                for (IterationType iterationType : questionnaire.getIterations().getIteration()) {
+                    updateIterationBounds(referencedQuestionnaire, iterationType);
+                }
+                log.info("Iterations' bounds updated in '{}' when de-referencing '{}'",
+                        questionnaire.getId(), referencedQuestionnaire.getId());
+            } catch (IllegalIterationException e) {
+                String message = String.format(
+                        "Error when updating iteration bounds in questionnaire '%s' with reference '%s'",
+                        questionnaire.getId(), referencedQuestionnaire.getId());
+                throw new DeReferencingException(message, e);
             }
-        } catch (IllegalIterationException e) {
-            String message = String.format(
-                    "Error when updating iteration bounds in questionnaire '%s' with reference '%s'",
-                    questionnaire.getId(), referencedQuestionnaire.getId());
-            throw new DeReferencingException(message, e);
         }
-
     }
 
     /** Replace loop bounds that reference a questionnaire by its first or last sequence.
