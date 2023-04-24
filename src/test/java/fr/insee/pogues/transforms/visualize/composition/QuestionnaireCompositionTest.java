@@ -5,6 +5,7 @@ import fr.insee.pogues.exception.IllegalIterationException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.utils.PoguesModelUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import java.util.Optional;
@@ -214,5 +215,18 @@ class QuestionnaireCompositionTest {
 
     // Other cases are currently covered in integration tests,
     // we might add unit test for these later, though.
+
+    @Test
+    @Disabled("Work in progress")
+    void insertReference_duplicateIdentifiers() throws IllegalIterationException, IllegalFlowControlException {
+        //
+        referenced1.getChild().get(0).setId("seq1");
+        assertEquals(questionnaire.getChild().get(0).getId(), referenced1.getChild().get(0).getId());
+        //
+        QuestionnaireComposition.insertReference(questionnaire, referenced1);
+        QuestionnaireComposition.insertReference(questionnaire, referenced2);
+        //
+        assertNotEquals(questionnaire.getChild().get(0).getId(), questionnaire.getChild().get(1).getId());
+    }
 
 }
