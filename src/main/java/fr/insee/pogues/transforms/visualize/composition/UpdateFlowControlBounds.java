@@ -5,6 +5,7 @@ import fr.insee.pogues.exception.IllegalFlowControlException;
 import fr.insee.pogues.model.ComponentType;
 import fr.insee.pogues.model.FlowControlType;
 import fr.insee.pogues.model.Questionnaire;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -14,6 +15,7 @@ import static fr.insee.pogues.utils.PoguesModelUtils.getSequences;
 /**
  * Methods to insert and update FlowControl (filters) objects when de-referencing a questionnaire.
  */
+@Slf4j
 class UpdateFlowControlBounds implements CompositionStep {
 
     @Override
@@ -23,6 +25,8 @@ class UpdateFlowControlBounds implements CompositionStep {
             for (FlowControlType flowControlType : questionnaire.getFlowControl()) {
                 updateFlowControlBounds(referencedQuestionnaire, flowControlType);
             }
+            log.info("Flow controls' bounds updated in '{}' when de-referencing '{}'",
+                    questionnaire.getId(), referencedQuestionnaire.getId());
         } catch (IllegalFlowControlException e) {
             String message = String.format(
                     "Error when updating flow control bounds in questionnaire '%s' with reference '%s'",
