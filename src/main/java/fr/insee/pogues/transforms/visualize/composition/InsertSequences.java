@@ -21,8 +21,7 @@ class InsertSequences implements CompositionStep {
      * @param referencedQuestionnaire Referenced questionnaire.
      */
     @Override
-    public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
-            throws DeReferencingException {
+    public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire) {
         //
         List<ComponentType> refSequences = getSequences(referencedQuestionnaire);
         int indexOfModification = 0;

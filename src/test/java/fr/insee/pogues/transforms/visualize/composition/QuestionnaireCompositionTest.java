@@ -1,7 +1,6 @@
 package fr.insee.pogues.transforms.visualize.composition;
 
-import fr.insee.pogues.exception.IllegalFlowControlException;
-import fr.insee.pogues.exception.IllegalIterationException;
+import fr.insee.pogues.exception.DeReferencingException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.utils.PoguesModelUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,14 +13,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class QuestionnaireCompositionTest {
 
-    private Questionnaire questionnaire;
-    private Questionnaire referenced1;
-    private Questionnaire referenced2;
-
-    @BeforeEach
-    public void createQuestionnaires() {
+    static void questionnairesContent(
+            Questionnaire questionnaire, Questionnaire referenced1, Questionnaire referenced2) {
         //
-        referenced1 = new Questionnaire();
         referenced1.setId("ref1");
         SequenceType sequence11 = new SequenceType();
         sequence11.setId("seq11");
@@ -29,7 +23,6 @@ class QuestionnaireCompositionTest {
         referenced1.getChild().add(sequence11);
         referenced1.setVariables(new Questionnaire.Variables());
         //
-        referenced2 = new Questionnaire();
         referenced2.setId("ref2");
         SequenceType sequence21 = new SequenceType();
         sequence21.setId("seq21");
@@ -37,7 +30,6 @@ class QuestionnaireCompositionTest {
         referenced2.getChild().add(sequence21);
         referenced2.setVariables(new Questionnaire.Variables());
         //
-        questionnaire = new Questionnaire();
         questionnaire.setId("id");
         SequenceType sequence1 = new SequenceType();
         sequence1.setId("seq1");
@@ -55,56 +47,17 @@ class QuestionnaireCompositionTest {
         questionnaire.setVariables(new Questionnaire.Variables());
     }
 
-    @Test
-    void insertReference_sequences() throws IllegalIterationException, IllegalFlowControlException {
-        assertEquals("ref1", questionnaire.getChild().get(1).getId());
-        assertEquals("ref2", questionnaire.getChild().get(2).getId());
-        //
-        QuestionnaireComposition.insertReference(questionnaire, referenced1);
-        QuestionnaireComposition.insertReference(questionnaire, referenced2);
-        //
-        assertEquals("seq1", questionnaire.getChild().get(0).getId());
-        assertEquals("seq11", questionnaire.getChild().get(1).getId());
-        assertEquals("seq21", questionnaire.getChild().get(2).getId());
+    private final Questionnaire questionnaire = new Questionnaire();
+    private final Questionnaire referenced1 = new Questionnaire();
+    private final Questionnaire referenced2 = new Questionnaire();
+
+    @BeforeEach
+    public void createQuestionnaires() {
+        questionnairesContent(questionnaire, referenced1, referenced2);
     }
 
     @Test
-    void insertReference_variables() throws IllegalIterationException, IllegalFlowControlException {
-        //
-        referenced1.getVariables().getVariable().add(new ExternalVariableType());
-        referenced2.getVariables().getVariable().add(new ExternalVariableType());
-        //
-        assertEquals(0, questionnaire.getVariables().getVariable().size());
-        //
-        QuestionnaireComposition.insertReference(questionnaire, referenced1);
-        QuestionnaireComposition.insertReference(questionnaire, referenced2);
-        //
-        assertEquals(2, questionnaire.getVariables().getVariable().size());
-    }
-
-    @Test
-    void insertReference_loopInReferenced() throws IllegalIterationException, IllegalFlowControlException {
-        //
-        IterationType iteration = new DynamicIterationType();
-        iteration.setId("loop11");
-        iteration.getMemberReference().add("seq11"); // begin member
-        iteration.getMemberReference().add("seq11"); // end member
-        referenced1.setIterations(new Questionnaire.Iterations());
-        referenced1.getIterations().getIteration().add(iteration);
-        //
-        assertNull(questionnaire.getIterations());
-        //
-        QuestionnaireComposition.insertReference(questionnaire, referenced1);
-        //
-        assertNotNull(questionnaire.getIterations());
-        assertFalse(questionnaire.getIterations().getIteration().isEmpty());
-        assertEquals("loop11", questionnaire.getIterations().getIteration().get(0).getId());
-        assertEquals("seq11", questionnaire.getIterations().getIteration().get(0).getMemberReference().get(0));
-        assertEquals("seq11", questionnaire.getIterations().getIteration().get(0).getMemberReference().get(1));
-    }
-
-    @Test
-    void insertReference_loopOnReference() throws IllegalIterationException, IllegalFlowControlException {
+    void insertReference_loopOnReference() throws DeReferencingException {
         //
         IterationType iteration = new DynamicIterationType();
         iteration.setId("loop1");
@@ -120,7 +73,7 @@ class QuestionnaireCompositionTest {
     }
 
     @Test
-    void insertReference_referencedWithinLoop() throws IllegalIterationException, IllegalFlowControlException {
+    void insertReference_referencedWithinLoop() throws DeReferencingException {
         // Add second sequence in referenced
         SequenceType sequence12 = new SequenceType();
         sequence12.setId("seq12");
@@ -142,7 +95,7 @@ class QuestionnaireCompositionTest {
 
     /** To make sure de-referencing doesn't affect loops that shouldn't be affected. */
     @Test
-    void insertReference_referenceOutsideLoop() throws IllegalIterationException, IllegalFlowControlException {
+    void insertReference_referenceOutsideLoop() throws DeReferencingException {
         //
         questionnaire.setIterations(new Questionnaire.Iterations());
         IterationType iteration1 = new DynamicIterationType();
@@ -165,7 +118,7 @@ class QuestionnaireCompositionTest {
     }
 
     @Test
-    void insertReference_updateVariableScopes() throws IllegalIterationException, IllegalFlowControlException {
+    void insertReference_updateVariableScopes() throws DeReferencingException {
         // Add iteration on referenced 1 in referencing questionnaire
         IterationType iteration = new DynamicIterationType();
         iteration.setId("loop1");
@@ -218,7 +171,7 @@ class QuestionnaireCompositionTest {
 
     @Test
     @Disabled("Work in progress")
-    void insertReference_duplicateIdentifiers() throws IllegalIterationException, IllegalFlowControlException {
+    void insertReference_duplicateIdentifiers() throws DeReferencingException {
         //
         referenced1.getChild().get(0).setId("seq1");
         assertEquals(questionnaire.getChild().get(0).getId(), referenced1.getChild().get(0).getId());
