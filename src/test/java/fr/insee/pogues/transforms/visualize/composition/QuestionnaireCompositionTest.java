@@ -37,7 +37,7 @@ class QuestionnaireCompositionTest {
         questionnaire.getChild().add(referenced1);
         questionnaire.getChild().add(referenced2);
         SequenceType sequence2 = new SequenceType();
-        sequence2.setId("seq1");
+        sequence2.setId("seq2");
         sequence2.getChild().add(new QuestionType());
         questionnaire.getChild().add(sequence2);
         SequenceType fakeEndSequence = new SequenceType();
