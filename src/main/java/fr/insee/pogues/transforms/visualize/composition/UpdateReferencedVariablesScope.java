@@ -9,9 +9,22 @@ import java.util.List;
 
 import static fr.insee.pogues.utils.PoguesModelUtils.getIterationBounds;
 
+/**
+ * Implementation of CompositionStep to update variable scopes when de-referencing a questionnaire.
+ */
 @Slf4j
 class UpdateReferencedVariablesScope implements CompositionStep {
 
+    /**
+     * If the referenced questionnaire is in an iteration (loop) in referencing questionnaire,
+     * variables in referenced questionnaire that have null scope have to be updated.
+     * Warning: This must be done BEFORE replacing referenced questionnaire by its content.
+     * (Otherwise, we would have to scan every iteration and determine the variables in their scope,
+     * which would be much more complex.)
+     * @param questionnaire Referencing questionnaire.
+     * @param referencedQuestionnaire Referenced questionnaire.
+     * @throws DeReferencingException if an error occurs during variable scopes update.
+     */
     @Override
     public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
             throws DeReferencingException {
@@ -27,11 +40,8 @@ class UpdateReferencedVariablesScope implements CompositionStep {
     }
 
     /**
-     * If referenced questionnaire is in a loop in referencing questionnaire,
-     * variables in referenced questionnaire that have null scope have to be updated.
-     * Warning: This must be done BEFORE replacing referenced questionnaire by its content.
-     * Otherwise, we would have to scan every iteration and determine the variables in their scope,
-     * which would be much more complex.
+     * Iterate on iterations of the referencing questionnaire.
+     * For each iteration: update variables scope if the referenced questionnaire is in the scope of the iteration.
      * @param questionnaire Referencing questionnaire.
      * @param referencedQuestionnaire Referenced questionnaire.
      * @throws IllegalIterationException If the 'MemberReference' property is not of size 2

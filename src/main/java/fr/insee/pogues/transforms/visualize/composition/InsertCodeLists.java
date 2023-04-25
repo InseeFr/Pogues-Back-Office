@@ -1,16 +1,22 @@
 package fr.insee.pogues.transforms.visualize.composition;
 
-import fr.insee.pogues.exception.DeReferencingException;
 import fr.insee.pogues.model.CodeLists;
 import fr.insee.pogues.model.Questionnaire;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Implementation of CompositionStep to insert code lists of a referenced questionnaire.
+ */
 @Slf4j
-public class InsertCodeLists implements CompositionStep {
+class InsertCodeLists implements CompositionStep {
 
+    /**
+     * Insert code lists of the referenced questionnaire in the referencing questionnaire.
+     * @param questionnaire Referencing questionnaire.
+     * @param referencedQuestionnaire Referenced questionnaire.
+     */
     @Override
-    public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
-            throws DeReferencingException {
+    public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire) {
         CodeLists refCodeLists = referencedQuestionnaire.getCodeLists();
         if (refCodeLists != null) {
             questionnaire.setCodeLists(new CodeLists());

@@ -4,11 +4,20 @@ import fr.insee.pogues.exception.DeReferencingException;
 import fr.insee.pogues.model.Questionnaire;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * Class for the composition feature.
+ * Contains the logic to de-reference a questionnaire that contains references.
+ * De-referencing consists in replacing questionnaire references by their content.
+ * Note: 'composition' and 'de-referencing' words are used interchangeably.
+ */
 @Slf4j
 public class QuestionnaireComposition {
 
     private QuestionnaireComposition() {}
 
+    /**
+     * Inner class of the composition class designed to chain de-referencing steps.
+     */
     static class DeReferencingPipeline {
         Questionnaire questionnaire;
         Questionnaire referencedQuestionnaire;
@@ -16,12 +25,24 @@ public class QuestionnaireComposition {
             this.questionnaire = questionnaire;
             this.referencedQuestionnaire = referencedQuestionnaire;
         }
+
+        /**
+         * Return an instance of de-referencing pipeline.
+         * @param questionnaire Referencing questionnaire.
+         * @param referencedQuestionnaire Referenced questionnaire.
+         * @return A DeReferencingPipeline instance.
+         */
         static DeReferencingPipeline start(Questionnaire questionnaire, Questionnaire referencedQuestionnaire) {
             log.info("Starting de-referencing of questionnaire '{}' in questionnaire '{}'",
                     referencedQuestionnaire.getId(), questionnaire.getId());
             return new DeReferencingPipeline(questionnaire, referencedQuestionnaire);
         }
-        DeReferencingPipeline then(CompositionStep compositionStep) {
+        /**
+         * Applies the composition step processing given. This method can be chained.
+         * @param compositionStep An implementation of the CompositionStep interface.
+         * @return The DeReferencingPipeline instance.
+         */
+        DeReferencingPipeline then(CompositionStep compositionStep) throws DeReferencingException {
             compositionStep.apply(questionnaire, referencedQuestionnaire);
             return this;
         }
