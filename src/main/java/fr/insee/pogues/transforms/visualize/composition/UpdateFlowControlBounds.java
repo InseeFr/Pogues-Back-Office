@@ -13,11 +13,18 @@ import static fr.insee.pogues.utils.PoguesModelUtils.getFlowControlBounds;
 import static fr.insee.pogues.utils.PoguesModelUtils.getSequences;
 
 /**
- * Methods to insert and update FlowControl (filters) objects when de-referencing a questionnaire.
+ * Implementation of CompositionStep to update FlowControl (filters) objects when de-referencing a questionnaire.
  */
 @Slf4j
 class UpdateFlowControlBounds implements CompositionStep {
 
+    /**
+     * Update flow controls of the referencing questionnaire: if a start/end member of a flow control is a referenced
+     * questionnaire, replace the reference id by the right element's id from the referenced questionnaire.
+     * @param questionnaire Referencing questionnaire.
+     * @param referencedQuestionnaire Referenced questionnaire.
+     * @throws DeReferencingException if an error occurs during flow controls update.
+     */
     @Override
     public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
             throws DeReferencingException {

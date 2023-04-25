@@ -12,9 +12,19 @@ import java.util.List;
 import static fr.insee.pogues.utils.PoguesModelUtils.getIterationBounds;
 import static fr.insee.pogues.utils.PoguesModelUtils.getSequences;
 
+/**
+ * Implementation of CompositionStep to update Iteration (loops) objects when de-referencing a questionnaire.
+ */
 @Slf4j
-public class UpdateIterationBounds implements CompositionStep {
+class UpdateIterationBounds implements CompositionStep {
 
+    /**
+     * Update iterations of the referencing questionnaire: if a start/end member of an iteration is a referenced
+     * questionnaire, replace the reference id by the right element's id from the referenced questionnaire.
+     * @param questionnaire Referencing questionnaire.
+     * @param referencedQuestionnaire Referenced questionnaire.
+     * @throws DeReferencingException if an error occurs during iterations update.
+     */
     @Override
     public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
             throws DeReferencingException {

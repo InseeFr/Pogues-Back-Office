@@ -10,7 +10,7 @@ import java.util.List;
 import static fr.insee.pogues.utils.PoguesModelUtils.getSequences;
 
 /**
- * Methods to insert and update sequence objects when de-referencing a questionnaire.
+ * Implementation of CompositionStep to replace questionnaire reference by its sequences.
  */
 @Slf4j
 class InsertSequences implements CompositionStep {
