@@ -37,6 +37,12 @@ public class VariablesServiceImpl implements VariablesService {
 	@Autowired
 	private QuestionnairesServiceQuery questionnaireServiceQuery;
 
+	public VariablesServiceImpl() {}
+
+	public VariablesServiceImpl(QuestionnairesServiceQuery questionnairesServiceQuery) {
+		this.questionnaireServiceQuery = questionnairesServiceQuery;
+	}
+
 	public JSONArray getVariablesByQuestionnaireForPublicEnemy(String id){
 		try {
 			JSONObject questionnaire = questionnaireServiceQuery.getQuestionnaireByID(id);
