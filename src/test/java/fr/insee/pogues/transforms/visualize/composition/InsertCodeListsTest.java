@@ -37,4 +37,52 @@ class InsertCodeListsTest {
         assertEquals("codes11", questionnaire.getCodeLists().getCodeList().get(0).getId());
     }
 
+    @Test
+    void insertCodeList_differentName() {
+        //
+        CodeList codeList = new CodeList();
+        codeList.setId("codes1");
+        codeList.setName("CODE_LIST_A");
+        questionnaire.setCodeLists(new CodeLists());
+        questionnaire.getCodeLists().getCodeList().add(codeList);
+        //
+        CodeList codeListRef = new CodeList();
+        codeListRef.setId("codes11");
+        codeListRef.setName("CODE_LIST_B");
+        referenced1.setCodeLists(new CodeLists());
+        referenced1.getCodeLists().getCodeList().add(codeListRef);
+        //
+        InsertCodeLists insertCodeLists = new InsertCodeLists();
+        insertCodeLists.apply(questionnaire, referenced1);
+        //
+        assertNotNull(questionnaire.getCodeLists());
+        assertFalse(questionnaire.getCodeLists().getCodeList().isEmpty());
+        assertEquals(2, questionnaire.getCodeLists().getCodeList().size());
+    }
+
+    @Test
+    void insertCodeList_sameName() {
+        //
+        CodeList codeList = new CodeList();
+        codeList.setId("codes1");
+        codeList.setName("CODE_LIST_A");
+        questionnaire.setCodeLists(new CodeLists());
+        questionnaire.getCodeLists().getCodeList().add(codeList);
+        //
+        CodeList codeListRef = new CodeList();
+        codeListRef.setId("codes11");
+        codeListRef.setName("CODE_LIST_A");
+        referenced1.setCodeLists(new CodeLists());
+        referenced1.getCodeLists().getCodeList().add(codeListRef);
+        //
+        InsertCodeLists insertCodeLists = new InsertCodeLists();
+        insertCodeLists.apply(questionnaire, referenced1);
+        //
+        assertNotNull(questionnaire.getCodeLists());
+        assertFalse(questionnaire.getCodeLists().getCodeList().isEmpty());
+        assertEquals(1, questionnaire.getCodeLists().getCodeList().size());
+
+        assertEquals("codes1", questionnaire.getCodeLists().getCodeList().get(0).getId());
+    }
+
 }
