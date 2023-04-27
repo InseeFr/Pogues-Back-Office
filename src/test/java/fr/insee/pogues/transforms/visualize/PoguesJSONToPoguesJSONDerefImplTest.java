@@ -9,7 +9,6 @@ import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesSerializer;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -247,7 +246,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
     // ----- Using factorized code for the last tests ----- //
 
     private final static String TEST_FOLDER = "transforms/PoguesJSONToPoguesJSONDeref/";
-    private final ClassLoader classLoader = this.getClass().getClassLoader();;
+    private final ClassLoader classLoader = this.getClass().getClassLoader();
 
     private QuestionnairesService mockQuestionnaireService(
             String folderName, List<String> referencedFileNames, List<String> referenceIds) throws Exception {
@@ -348,7 +347,6 @@ class PoguesJSONToPoguesJSONDerefImplTest {
     }
 
     @Test
-    @Disabled("Work in progress")
     void dereference_linkedLoopIssue() throws Exception {
         // Given
         String folderName = "linked_loop";
@@ -367,10 +365,16 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         assertDoesNotThrow(() -> PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
         //
         assertEquals(2, outQuestionnaire.getIterations().getIteration().size());
-        assertTrue(outQuestionnaire.getIterations().getIteration().stream()
-                .anyMatch(iterationType -> "LOOP".equals(iterationType.getName())));
-        assertTrue(outQuestionnaire.getIterations().getIteration().stream()
-                .anyMatch(iterationType -> "LINKED_LOOP".equals(iterationType.getName())));
+        //
+        Optional<IterationType> loop = outQuestionnaire.getIterations().getIteration().stream()
+                .filter(iterationType -> "LOOP".equals(iterationType.getName()))
+                .findFirst();
+        Optional<IterationType> linkedLoop = outQuestionnaire.getIterations().getIteration().stream()
+                .filter(iterationType -> "LINKED_LOOP".equals(iterationType.getName()))
+                .findFirst();
+        assertTrue(loop.isPresent());
+        assertTrue(linkedLoop.isPresent());
+        assertEquals(loop.get().getId(), ((DynamicIterationType) linkedLoop.get()).getIterableReference());
     }
 
 }
