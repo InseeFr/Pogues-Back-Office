@@ -457,11 +457,10 @@ public class PoguesTransforms {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "500", description = "Error") })
 	@ResponseBody
-	public ResponseEntity<StreamingResponseBody> jsonRef2JsonDeref(@RequestBody String questJson) throws Exception {
-		String questionnaire = "jsonDeref";
+	public ResponseEntity<String> jsonRef2JsonDeref(@RequestBody String questJson) throws Exception {
 		try {
-			return transform(new ByteArrayInputStream(questJson.getBytes(StandardCharsets.UTF_8)), jsonToJsonDeref,
-					questionnaire, MediaType.APPLICATION_XML);
+			String result = jsonToJsonDeref.transform(questJson, Map.of("needDeref", true), null);
+			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;

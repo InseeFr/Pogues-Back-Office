@@ -246,7 +246,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
     // ----- Using factorized code for the last tests ----- //
 
     private final static String TEST_FOLDER = "transforms/PoguesJSONToPoguesJSONDeref/";
-    private final ClassLoader classLoader = this.getClass().getClassLoader();;
+    private final ClassLoader classLoader = this.getClass().getClassLoader();
 
     private QuestionnairesService mockQuestionnaireService(
             String folderName, List<String> referencedFileNames, List<String> referenceIds) throws Exception {
@@ -346,6 +346,37 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         });
     }
 
+    void dereference_linkedLoopIssue() throws Exception {
+        // Given
+        String folderName = "linked_loop";
+        QuestionnairesService questionnairesService = mockQuestionnaireService(
+                folderName,
+                List.of("lgyr3utb_referenced.json"),
+                List.of("lgyr3utb"));
+        String testedInput = readQuestionnaire(folderName, "lgyr1y6x_host.json");
+
+        // When
+        PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
+        Questionnaire outQuestionnaire = deref.transformAsQuestionnaire(testedInput);
+
+        // Then
+        assertNotNull(outQuestionnaire);
+        assertNotEquals("", PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+        assertDoesNotThrow(() -> PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+        //
+        assertEquals(2, outQuestionnaire.getIterations().getIteration().size());
+        //
+        Optional<IterationType> loop = outQuestionnaire.getIterations().getIteration().stream()
+                .filter(iterationType -> "LOOP".equals(iterationType.getName()))
+                .findFirst();
+        Optional<IterationType> linkedLoop = outQuestionnaire.getIterations().getIteration().stream()
+                .filter(iterationType -> "LINKED_LOOP".equals(iterationType.getName()))
+                .findFirst();
+        assertTrue(loop.isPresent());
+        assertTrue(linkedLoop.isPresent());
+        assertEquals(loop.get().getId(), ((DynamicIterationType) linkedLoop.get()).getIterableReference());
+    }
+
     @Test
     void dereference_SRCV() throws Exception {
         // Given
@@ -363,14 +394,6 @@ class PoguesJSONToPoguesJSONDerefImplTest {
                         "lge0fnja", "lge01yp0", "lge02hwz",
                         "lgdz4zf6", "lgdygcql", "lgdzfhfx"));
         String testedInput = readQuestionnaire(folderName, "SRCV-20230418.json");
-
-        // When
-        PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
-        Questionnaire outQuestionnaire = deref.transformAsQuestionnaire(testedInput);
-
-        // Then
-        assertNotNull(outQuestionnaire);
-        assertNotEquals("", PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
     }
 
 }
