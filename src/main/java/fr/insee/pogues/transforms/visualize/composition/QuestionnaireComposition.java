@@ -1,88 +1,75 @@
 package fr.insee.pogues.transforms.visualize.composition;
 
-import fr.insee.pogues.exception.IllegalFlowControlException;
-import fr.insee.pogues.exception.IllegalIterationException;
-import fr.insee.pogues.model.CodeLists;
-import fr.insee.pogues.model.FlowControlType;
-import fr.insee.pogues.model.IterationType;
+import fr.insee.pogues.exception.DeReferencingException;
 import fr.insee.pogues.model.Questionnaire;
 import lombok.extern.slf4j.Slf4j;
 
-import static fr.insee.pogues.transforms.visualize.composition.FilterComposition.updateFlowControlBounds;
-import static fr.insee.pogues.transforms.visualize.composition.LoopComposition.updateIterationBounds;
-import static fr.insee.pogues.transforms.visualize.composition.LoopComposition.updateReferencedVariablesScope;
-import static fr.insee.pogues.transforms.visualize.composition.SequenceComposition.insertSequences;
-
+/**
+ * Class for the composition feature.
+ * Contains the logic to de-reference a questionnaire that contains references.
+ * De-referencing consists in replacing questionnaire references by their content.
+ * Note: 'composition' and 'de-referencing' words are used interchangeably.
+ */
 @Slf4j
 public class QuestionnaireComposition {
 
     private QuestionnaireComposition() {}
 
     /**
+     * Inner class of the composition class designed to chain de-referencing steps.
+     */
+    static class DeReferencingPipeline {
+        Questionnaire questionnaire;
+        Questionnaire referencedQuestionnaire;
+        private DeReferencingPipeline(Questionnaire questionnaire, Questionnaire referencedQuestionnaire) {
+            this.questionnaire = questionnaire;
+            this.referencedQuestionnaire = referencedQuestionnaire;
+        }
+
+        /**
+         * Return an instance of de-referencing pipeline.
+         * @param questionnaire Referencing questionnaire.
+         * @param referencedQuestionnaire Referenced questionnaire.
+         * @return A DeReferencingPipeline instance.
+         */
+        static DeReferencingPipeline start(Questionnaire questionnaire, Questionnaire referencedQuestionnaire) {
+            log.info("Starting de-referencing of questionnaire '{}' in questionnaire '{}'",
+                    referencedQuestionnaire.getId(), questionnaire.getId());
+            return new DeReferencingPipeline(questionnaire, referencedQuestionnaire);
+        }
+        /**
+         * Applies the composition step processing given. This method can be chained.
+         * @param compositionStep An implementation of the CompositionStep interface.
+         * @return The DeReferencingPipeline instance.
+         */
+        DeReferencingPipeline then(CompositionStep compositionStep) throws DeReferencingException {
+            compositionStep.apply(questionnaire, referencedQuestionnaire);
+            return this;
+        }
+    }
+
+    /**
      * Replace referenced questionnaire by its component. Update elements that are impacted.
+     * Note: Component group is not updated since it is not used by eno generation.
      * @param questionnaire Referencing questionnaire.
      * @param referencedQuestionnaire Referenced questionnaire.
-     * @throws IllegalFlowControlException if one of the FlowControl object involved is invalid.
-     * @throws IllegalIterationException if one of the Iteration object involved is invalid.
+     * @throws DeReferencingException if an error occurs during de-referencing.
      */
     public static void insertReference(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
-            throws IllegalFlowControlException, IllegalIterationException {
+            throws DeReferencingException {
         //
-        String id = questionnaire.getId();
-        String reference = referencedQuestionnaire.getId();
-        log.info("Starting de-referencing of questionnaire '{}' in questionnaire '{}'", reference, id);
-
-        // Update the scope of the referenced questionnaire variables
-        if (questionnaire.getIterations() != null)
-            updateReferencedVariablesScope(questionnaire, referencedQuestionnaire);
-
-        // Add sequences
-        insertSequences(questionnaire, referencedQuestionnaire);
-        log.info("Sequences from '{}' inserted in '{}'", reference, id);
-
-        // Add variables
-        questionnaire.getVariables().getVariable().addAll(referencedQuestionnaire.getVariables().getVariable());
-        log.info("Variables from '{}' inserted in '{}'", reference, id);
-
-        // Add code lists
-        CodeLists refCodeLists = referencedQuestionnaire.getCodeLists();
-        if (refCodeLists != null) {
-            questionnaire.setCodeLists(new CodeLists());
-            questionnaire.getCodeLists().getCodeList().addAll(refCodeLists.getCodeList());
-            log.info("Code lists from '{}' inserted in '{}'", reference, id);
-        } else {
-            log.info("No code lists in referenced questionnaire '{}'", reference);
-        }
-
-        // Update filters in referencing questionnaire
-        for (FlowControlType flowControlType : questionnaire.getFlowControl()) {
-            updateFlowControlBounds(referencedQuestionnaire, flowControlType);
-        }
-        log.info("Flow controls' bounds updated in '{}' when de-referencing '{}'", id, reference);
-
-        // Add flow controls (filters)
-        questionnaire.getFlowControl().addAll(referencedQuestionnaire.getFlowControl());
-        log.info("FlowControl from '{}' inserted in '{}'", reference, id);
-
-        // Update loops in referencing questionnaire
-        if (questionnaire.getIterations() != null) {
-            for (IterationType iterationType : questionnaire.getIterations().getIteration()) {
-                updateIterationBounds(referencedQuestionnaire, iterationType);
-            }
-            log.info("Iterations' bounds updated in '{}' when de-referencing '{}'", id, reference);
-        }
-
-        // Add iterations (loops)
-        Questionnaire.Iterations refIterations = referencedQuestionnaire.getIterations();
-        if (refIterations != null) {
-            questionnaire.setIterations(new Questionnaire.Iterations());
-            questionnaire.getIterations().getIteration().addAll(refIterations.getIteration());
-            log.info("Iterations from '{}' inserted in '{}'", reference, id);
-        } else {
-            log.info("No iterations in referenced questionnaire '{}'", reference);
-        }
-
-        // Component group is not updated since it is not used by eno generation
+        DeReferencingPipeline.start(questionnaire, referencedQuestionnaire)
+                .then(new UpdateReferencedVariablesScope())
+                .then(new InsertSequences())
+                .then(new InsertVariables())
+                .then(new InsertCodeLists())
+                .then(new UpdateFlowControlBounds())
+                .then(new InsertFlowControls())
+                .then(new UpdateIterationBounds())
+                .then(new InsertIterations());
+        //
+        log.info("Finished de-referencing of questionnaire '{}' in questionnaire '{}'",
+                referencedQuestionnaire.getId(), questionnaire.getId());
     }
 
 }
