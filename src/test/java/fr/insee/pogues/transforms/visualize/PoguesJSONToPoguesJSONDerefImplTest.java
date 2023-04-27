@@ -9,6 +9,7 @@ import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesSerializer;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -344,6 +345,32 @@ class PoguesJSONToPoguesJSONDerefImplTest {
             // Json to xml conversion is ok
             new PoguesJSONToPoguesXMLImpl().transform(new ByteArrayInputStream(result.getBytes()), null, null);
         });
+    }
+
+    @Test
+    @Disabled("Work in progress")
+    void dereference_linkedLoopIssue() throws Exception {
+        // Given
+        String folderName = "linked_loop";
+        QuestionnairesService questionnairesService = mockQuestionnaireService(
+                folderName,
+                List.of("lgyr3utb_referenced.json"),
+                List.of("lgyr3utb"));
+        String testedInput = readQuestionnaire(folderName, "lgyr1y6x_host.json");
+
+        // When
+        PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
+        Questionnaire outQuestionnaire = deref.transformAsQuestionnaire(testedInput);
+
+        // Then
+        assertNotNull(outQuestionnaire);
+        assertDoesNotThrow(() -> PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+        //
+        assertEquals(2, outQuestionnaire.getIterations().getIteration().size());
+        assertTrue(outQuestionnaire.getIterations().getIteration().stream()
+                .anyMatch(iterationType -> "LOOP".equals(iterationType.getName())));
+        assertTrue(outQuestionnaire.getIterations().getIteration().stream()
+                .anyMatch(iterationType -> "LINKED_LOOP".equals(iterationType.getName())));
     }
 
 }
