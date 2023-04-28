@@ -1,5 +1,6 @@
 package fr.insee.pogues.transforms.visualize.composition;
 
+import fr.insee.pogues.exception.EmptyNameException;
 import fr.insee.pogues.model.CodeLists;
 import fr.insee.pogues.model.Questionnaire;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +40,13 @@ class InsertCodeLists implements CompositionStep {
                 questionnaire.setCodeLists(new CodeLists());
             //
             refCodeLists.getCodeList().forEach(codeList -> {
-                if (! codeListNames.contains(codeList.getName()))
+                String name = codeList.getName();
+                if (name.isEmpty()) {
+                    throw new EmptyNameException(String.format(
+                            "Code list '%s' from questionnaire '%s' has an empty name",
+                            codeList.getId(), referencedQuestionnaire.getId()));
+                }
+                if (! codeListNames.contains(name))
                     questionnaire.getCodeLists().getCodeList().add(codeList);
                 else
                     log.info("Code list with name '{}' is already in host questionnaire '{}', " +
@@ -54,7 +61,13 @@ class InsertCodeLists implements CompositionStep {
 
     private void hostCodeLists() {
         if (questionnaire.getCodeLists() != null)
-            questionnaire.getCodeLists().getCodeList().forEach(codeList -> codeListNames.add(codeList.getName()));
+            questionnaire.getCodeLists().getCodeList().forEach(codeList -> {
+                if (codeList.getName().isEmpty())
+                    throw new EmptyNameException(String.format(
+                            "Code list '%s' from questionnaire '%s' has an empty name",
+                            codeList.getId(), questionnaire.getId()));
+                codeListNames.add(codeList.getName());
+            });
     }
 
 }
