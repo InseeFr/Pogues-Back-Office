@@ -346,6 +346,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         });
     }
 
+    @Test
     void dereference_linkedLoopIssue() throws Exception {
         // Given
         String folderName = "linked_loop";
@@ -394,6 +395,15 @@ class PoguesJSONToPoguesJSONDerefImplTest {
                         "lge0fnja", "lge01yp0", "lge02hwz",
                         "lgdz4zf6", "lgdygcql", "lgdzfhfx"));
         String testedInput = readQuestionnaire(folderName, "SRCV-20230418.json");
+
+        // When
+        PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
+        Questionnaire outQuestionnaire = deref.transformAsQuestionnaire(testedInput);
+
+        // Then
+        assertNotNull(outQuestionnaire);
+        Files.writeString(Path.of("src/test/resources/transforms/PoguesJSONToPoguesJSONDeref/SRCV/SRCV-out.json"),
+                PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
     }
 
 }
