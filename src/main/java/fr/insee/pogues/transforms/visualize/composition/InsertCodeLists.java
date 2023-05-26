@@ -31,25 +31,27 @@ class InsertCodeLists implements CompositionStep {
         this.questionnaire = questionnaire;
         //
         CodeLists refCodeLists = referencedQuestionnaire.getCodeLists();
-        if (refCodeLists != null) {
-            //
-            hostCodeLists();
-            //
-            if (questionnaire.getCodeLists() == null)
-                questionnaire.setCodeLists(new CodeLists());
-            //
-            refCodeLists.getCodeList().forEach(codeList -> {
-                if (! codeListLabels.contains(codeList.getLabel()))
-                    questionnaire.getCodeLists().getCodeList().add(codeList);
-                else
-                    log.info("Code list with label '{}' is already in host questionnaire '{}', " +
-                            "so it has not been inserted from reference '{}'",
-                            codeList.getLabel(), questionnaire.getId(), referencedQuestionnaire.getId());
-            });
-            log.info("Code lists from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
-        } else {
+        if (refCodeLists == null) {
             log.info("No code lists in referenced questionnaire '{}'", referencedQuestionnaire.getId());
+            return;
         }
+        //
+        hostCodeLists();
+        //
+        if (questionnaire.getCodeLists() == null)
+            questionnaire.setCodeLists(new CodeLists());
+        //
+        refCodeLists.getCodeList().forEach(codeList -> {
+            if (codeListLabels.contains(codeList.getLabel())) {
+                log.info("Code list with label '{}' is already in host questionnaire '{}', " +
+                                "so it has not been inserted from reference '{}'",
+                        codeList.getLabel(), questionnaire.getId(), referencedQuestionnaire.getId());
+                return;
+            }
+            questionnaire.getCodeLists().getCodeList().add(codeList);
+
+        });
+        log.info("Code lists from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
     }
 
     private void hostCodeLists() {
