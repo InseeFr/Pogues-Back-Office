@@ -141,8 +141,18 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 * @return metadata of a questionnaire : id, lastUpdatedDate, label, final, DataCollection and TargetMode
 	 */
 	public List<JSONObject> getMetaQuestionnaire(String owner) throws Exception {
-		String qString = "SELECT CONCAT('{\"id\": ',data -> 'id',', \"lastUpdatedDate\": ', data -> 'lastUpdatedDate',', \"Label\": ', data -> 'Label',', \"final\": ', data -> 'final',', \"DataCollection\": ', data -> 'DataCollection',', \"TargetMode\": ', data -> 'TargetMode','}') "
-				+ "FROM pogues WHERE data ->> 'owner' = ? AND data -> 'TargetMode' IS NOT NULL";
+		String qString =
+				"SELECT CONCAT('{" +
+						"\"id\": ', data -> 'id',', " +
+						"\"name\": ', data -> 'name',', " +
+						"\"lastUpdatedDate\": ', data -> 'lastUpdatedDate',', " +
+						"\"Label\": ', data -> 'Label',', " +
+						"\"final\": ', data -> 'final',', " +
+						"\"DataCollection\": ', data -> 'DataCollection',', " +
+						"\"TargetMode\": ', data -> 'TargetMode',', " +
+						"\"flowLogic\": ', data -> 'flowLogic',', " +
+						"\"formulasLanguage\": ', data -> 'formulasLanguage','}') " +
+						"FROM pogues WHERE data ->> 'owner' = ? AND data -> 'TargetMode' IS NOT NULL";
 		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class, owner);
 		return pgToJSON(data);
 	}
