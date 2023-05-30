@@ -153,8 +153,8 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 						"\"flowLogic\": ', data -> 'flowLogic',', " +
 						"\"formulasLanguage\": ', data -> 'formulasLanguage','}') " +
 						"FROM pogues WHERE data ->> 'owner' = ? " +
-						"AND data -> 'TargetMode' IS NOT NULL" +
-						"AND data -> 'flowLogic' IS NOT NULL" +
+						"AND data -> 'TargetMode' IS NOT NULL " +
+						"AND data -> 'flowLogic' IS NOT NULL " +
 						"AND data -> 'formulasLanguage' IS NOT NULL"
 				;
 		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class, owner);
