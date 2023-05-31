@@ -1,7 +1,7 @@
 package fr.insee.pogues.persistence.service;
 
 import org.json.simple.JSONObject;
-import fr.insee.pogues.model.VariableType;
+
 import java.util.List;
 
 /**
@@ -82,12 +82,4 @@ public interface QuestionnairesService {
 	 * @throws Exception
 	 */
 	void updateJsonLunatic(String id, JSONObject questionnaireLunatic) throws Exception;
-
-
-    /**
-     * @param questionnaireId id of the questionnaire
-     * @return JSON representation of questionnaire variables
-     * @throws Exception
-     */
-    List<VariableType> getQuestionnaireVariables(String questionnaireId) throws Exception;
 }
