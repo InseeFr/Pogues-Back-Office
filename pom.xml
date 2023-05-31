@@ -13,7 +13,9 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>war</packaging>
-	<version>4.0.7-queenv2</version>
+
+	<version>4.0.8-queenv2</version>
+
 	<name>Pogues-BO</name>
 
 	<properties>
