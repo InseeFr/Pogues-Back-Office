@@ -144,7 +144,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		String qString =
 				"SELECT CONCAT('{" +
 						"\"id\": ', data -> 'id',', " +
-						"\"Name\": ', data -> 'name',', " +
+						"\"name\": ', data -> 'name',', " +
 						"\"lastUpdatedDate\": ', data -> 'lastUpdatedDate',', " +
 						"\"Label\": ', data -> 'Label',', " +
 						"\"final\": ', data -> 'final',', " +
