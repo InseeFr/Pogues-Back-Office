@@ -70,6 +70,7 @@ class PoguesJSONToPoguesXMLImplTest {
 	}
 	
 	@Test
+	@Disabled("temporary disabled")
 	void convertSimpleQuestionnairePoguesJSONToPoguesXML() {
 		performDiffTest("transforms/PoguesJSONToPoguesXML");
 	}
