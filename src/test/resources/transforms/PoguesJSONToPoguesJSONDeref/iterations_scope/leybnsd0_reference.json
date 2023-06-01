@@ -1,0 +1,310 @@
+{
+  "owner": "FAKEPERMISSION",
+  "FlowControl": [],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "leybkygb",
+        "leybwq99",
+        "leyc434z",
+        "leybsxmy",
+        "l4i3m6qa",
+        "leybri6k",
+        "leybxg3p",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "leybma1e",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "boucle de ref"
+  ],
+  "childQuestionnaireRef": [
+    "l4i3m6qa"
+  ],
+  "Name": "BOUCLEDERE",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "Q1 label",
+        "id": "leybr7uy",
+        "type": "CollectedVariableType",
+        "Name": "Q1",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Scope": "leybzt37",
+        "Label": "Q2 label",
+        "id": "leybqmup",
+        "type": "CollectedVariableType",
+        "Name": "Q2",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Scope": "leybzt37",
+        "Label": "Q5 label",
+        "id": "leyc42m5",
+        "type": "CollectedVariableType",
+        "Name": "Q5",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Tue Mar 07 2023 15:02:46 GMT+0100 (heure normale d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "leybnsd0",
+  "TargetMode": [
+    "PAPI",
+    "CAWI",
+    "CATI",
+    "CAPI"
+  ],
+  "CodeLists": {
+    "CodeList": []
+  },
+  "Iterations": {
+    "Iteration": [
+      {
+        "Maximum": "10",
+        "Minimum": "1",
+        "MemberReference": [
+          "leyc434z",
+          "leybri6k"
+        ],
+        "Label": "Ajoute !",
+        "id": "leybzt37",
+        "Step": "1",
+        "type": "DynamicIterationType",
+        "Name": "boucle"
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "seq1"
+      ],
+      "id": "leybkygb",
+      "TargetMode": [
+        "PAPI",
+        "CAWI",
+        "CATI",
+        "CAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "leybr7uy",
+              "id": "leybtia0",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": 249
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "Q1"
+          ],
+          "id": "leybwq99",
+          "TargetMode": [
+            "PAPI",
+            "CAWI",
+            "CATI",
+            "CAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "Q1"
+        }
+      ],
+      "Name": "SEQ1"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "seq2"
+      ],
+      "id": "leyc434z",
+      "TargetMode": [
+        "PAPI",
+        "CAWI",
+        "CATI",
+        "CAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "leybqmup",
+              "id": "leybvad2",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": 249
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "Q2"
+          ],
+          "id": "leybsxmy",
+          "TargetMode": [
+            "PAPI",
+            "CAWI",
+            "CATI",
+            "CAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "Q2"
+        }
+      ],
+      "Name": "SEQ2"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "EXTERNAL_ELEMENT",
+      "Label": [
+        "Catalogue"
+      ],
+      "id": "l4i3m6qa",
+      "TargetMode": [
+        ""
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "CATALOGUE"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "seq5"
+      ],
+      "id": "leybri6k",
+      "TargetMode": [
+        "PAPI",
+        "CAWI",
+        "CATI",
+        "CAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "leyc42m5",
+              "id": "leyc09t3",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": 249
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "Q5"
+          ],
+          "id": "leybxg3p",
+          "TargetMode": [
+            "PAPI",
+            "CAWI",
+            "CATI",
+            "CAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "Q5"
+        }
+      ],
+      "Name": "SEQ5"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "PAPI",
+        "CAWI",
+        "CATI",
+        "CAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

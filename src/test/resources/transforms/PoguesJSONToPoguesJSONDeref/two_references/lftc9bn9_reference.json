@@ -1,0 +1,108 @@
+{
+  "owner": "FAKEPERMISSION",
+  "FlowControl": [],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "idendquest",
+        "lftc45n2",
+        "lftdvxe6"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "lftc3yat",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "Composition Recette - 20230329 - HOTE1"
+  ],
+  "childQuestionnaireRef": [
+    "lftc45n2",
+    "lftdvxe6"
+  ],
+  "Name": "COMPO_HOTE_1",
+  "Variables": {
+    "Variable": []
+  },
+  "lastUpdatedDate": "Wed Mar 29 2023 14:12:27 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lftc9bn9",
+  "TargetMode": [
+    "CATI",
+    "CAPI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": []
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "EXTERNAL_ELEMENT",
+      "Label": [
+        "Composition Recette - 20230329 - REF1"
+      ],
+      "id": "lftc45n2",
+      "TargetMode": [
+        ""
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "COMPOSITIO"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "EXTERNAL_ELEMENT",
+      "Label": [
+        "XXX Composition Recette - 20230329 - REF2"
+      ],
+      "id": "lftdvxe6",
+      "TargetMode": [
+        ""
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "XXXCOMPOSI"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CATI",
+        "CAPI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

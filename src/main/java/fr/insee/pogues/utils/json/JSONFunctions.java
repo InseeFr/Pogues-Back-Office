@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 /**
  * This class contains JSON functions to convert Java collection on JSON string.
@@ -136,6 +138,14 @@ public class JSONFunctions {
 		
 		return result;
 
+	}
+
+	public static List<String> getChildReferencesFromQuestionnaire(JSONObject questionnaire) {
+		JSONArray references = (JSONArray) questionnaire.get("childQuestionnaireRef");
+		return IntStream.range(0, references.size())
+				.mapToObj(references::get)
+				.map(Object::toString)
+				.collect(Collectors.toList());
 	}
 	
 	
