@@ -1,208 +1,202 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Questionnaire xmlns="http://xml.insee.fr/schema/applis/pogues" id="l13ob2fa" genericName="QUESTIONNAIRE" owner="DR59-SNDI" agency="fr.insee" final="false" flowLogic="REDIRECTION" formulasLanguage="VTL">
-  <Name>SIMPL</Name>
-  <Label>Questionnaire simple</Label>
-  <TargetMode>CAPI</TargetMode>
-  <Child id="l13ocjuq" depth="1" genericName="MODULE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
-    <Name>SQUENCE1</Name>
-    <Label>Séquence 1</Label>
-    <Declaration id="l13oghzb" declarationType="HELP" position="AFTER_QUESTION_TEXT">
-      <Text>Libellé déclaration</Text>
-    </Declaration>
-    <Child id="l13ot8fi" questionType="SIMPLE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
-      <Name>QUEST1</Name>
-      <Label>Question 1</Label>
-      <Response id="l13pwlwc" mandatory="false">
-        <Datatype type="TextDatatypeType" typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
-          <MaxLength>249</MaxLength>
-          <Pattern>
-          </Pattern>
-        </Datatype>
-        <CollectedVariableReference>l13ovgro</CollectedVariableReference>
-      </Response>
-    </Child>
-    <Child id="l13oud4g" questionType="SINGLE_CHOICE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
-      <Name>QUESTION2</Name>
-      <Label>Question 2</Label>
-      <Response id="l13pssfd" mandatory="false">
-        <CodeListReference>l13ol6zz</CodeListReference>
-        <Datatype type="TextDatatypeType" typeName="TEXT" visualizationHint="CHECKBOX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
-          <MaxLength>1</MaxLength>
-          <Pattern>
-          </Pattern>
-        </Datatype>
-        <CollectedVariableReference>l13oej2k</CollectedVariableReference>
-      </Response>
-    </Child>
-    <Child id="l13okmh2" depth="2" genericName="SUBMODULE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
-      <Name>SOUSSQUENC</Name>
-      <Label>Sous-Séquence 11</Label>
-      <Child id="l13otzsi" questionType="TABLE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
-        <Name>QUESTION3</Name>
-        <Label>Question 3</Label>
-        <Response id="l13prfm5">
-          <Datatype type="TextDatatypeType" typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+  <Questionnaire xmlns="http://xml.insee.fr/schema/applis/pogues" id="l13ob2fa" genericName="QUESTIONNAIRE" agency="fr.insee" final="false" flowLogic="REDIRECTION" formulasLanguage="VTL">
+    <Name>SIMPL</Name>
+    <Label>Questionnaire simple</Label>
+    <TargetMode>CAPI</TargetMode>
+    <Child id="l13ocjuq" depth="1" genericName="MODULE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+      <Name>SQUENCE1</Name>
+      <Label>Séquence 1</Label>
+      <Declaration id="l13oghzb" declarationType="HELP" position="AFTER_QUESTION_TEXT">
+        <Text>Libellé déclaration</Text>
+      </Declaration>
+      <Child id="l13ot8fi" questionType="SIMPLE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+        <Name>QUEST1</Name>
+        <Label>Question 1</Label>
+        <Response id="l13pwlwc" mandatory="false">
+          <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
             <MaxLength>249</MaxLength>
             <Pattern>
             </Pattern>
           </Datatype>
-          <CollectedVariableReference>l13orhp8</CollectedVariableReference>
+          <CollectedVariableReference>l13ovgro</CollectedVariableReference>
         </Response>
-        <Response id="l13psuji">
-          <Datatype type="TextDatatypeType" typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
-            <MaxLength>249</MaxLength>
+      </Child>
+      <Child id="l13oud4g" questionType="SINGLE_CHOICE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+        <Name>QUESTION2</Name>
+        <Label>Question 2</Label>
+        <Response id="l13pssfd" mandatory="false">
+          <CodeListReference>l13ol6zz</CodeListReference>
+          <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+            <MaxLength>1</MaxLength>
             <Pattern>
             </Pattern>
           </Datatype>
-          <CollectedVariableReference>l13ou5o8</CollectedVariableReference>
+          <CollectedVariableReference>l13oej2k</CollectedVariableReference>
+        </Response>
+      </Child>
+      <Child id="l13okmh2" depth="2" genericName="SUBMODULE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+        <Name>SOUSSQUENC</Name>
+        <Label>Sous-Séquence 11</Label>
+        <Child id="l13otzsi" questionType="TABLE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+          <Name>QUESTION3</Name>
+          <Label>Question 3</Label>
+          <Response id="l13prfm5">
+            <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+              <MaxLength>249</MaxLength>
+              <Pattern>
+              </Pattern>
+            </Datatype>
+            <CollectedVariableReference>l13orhp8</CollectedVariableReference>
+          </Response>
+          <Response id="l13psuji">
+            <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+              <MaxLength>249</MaxLength>
+              <Pattern>
+              </Pattern>
+            </Datatype>
+            <CollectedVariableReference>l13ou5o8</CollectedVariableReference>
+          </Response>
+          <ResponseStructure>
+            <Dimension dimensionType="PRIMARY" dynamic="0">
+              <CodeListReference>l13ol6zz</CodeListReference>
+            </Dimension>
+            <Dimension dimensionType="MEASURE" dynamic="0">
+              <Label>Libellé de l'information mesurée</Label>
+            </Dimension>
+            <Mapping>
+              <MappingSource>l13prfm5</MappingSource>
+              <MappingTarget>1 1</MappingTarget>
+            </Mapping>
+            <Mapping>
+              <MappingSource>l13psuji</MappingSource>
+              <MappingTarget>2 1</MappingTarget>
+            </Mapping>
+          </ResponseStructure>
+        </Child>
+      </Child>
+    </Child>
+    <Child id="l13osatz" depth="1" genericName="MODULE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+      <Name>SQUENCE2</Name>
+      <Label>Séquence 2</Label>
+      <Declaration id="l13oza22" declarationType="CODECARD" position="AFTER_QUESTION_TEXT">
+        <Text>Libellé carte-code</Text>
+        <DeclarationMode>CAPI</DeclarationMode>
+      </Declaration>
+      <TargetMode>CAPI</TargetMode>
+      <Child id="l13otchv" questionType="MULTIPLE_CHOICE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
+        <Name>QUESTION4</Name>
+        <Label>Question 4</Label>
+        <TargetMode>CAPI</TargetMode>
+        <Response id="l13pywzn">
+          <Datatype typeName="BOOLEAN" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="BooleanDatatypeType"/>
+          <CollectedVariableReference>l13oiau7</CollectedVariableReference>
+        </Response>
+        <Response id="l13q6z2c">
+          <Datatype typeName="BOOLEAN" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="BooleanDatatypeType"/>
+          <CollectedVariableReference>l13okz4h</CollectedVariableReference>
         </Response>
         <ResponseStructure>
           <Dimension dimensionType="PRIMARY" dynamic="0">
             <CodeListReference>l13ol6zz</CodeListReference>
           </Dimension>
-          <Dimension dimensionType="MEASURE" dynamic="0">
-            <Label>Libellé de l'information mesurée</Label>
-          </Dimension>
+          <Dimension dimensionType="MEASURE" dynamic="0"/>
           <Mapping>
-            <MappingSource>l13prfm5</MappingSource>
-            <MappingTarget>1 1</MappingTarget>
+            <MappingSource>l13pywzn</MappingSource>
+            <MappingTarget>1</MappingTarget>
           </Mapping>
           <Mapping>
-            <MappingSource>l13psuji</MappingSource>
-            <MappingTarget>2 1</MappingTarget>
+            <MappingSource>l13q6z2c</MappingSource>
+            <MappingTarget>2</MappingTarget>
           </Mapping>
         </ResponseStructure>
       </Child>
     </Child>
-  </Child>
-  <Child id="l13osatz" depth="1" genericName="MODULE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
-    <Name>SQUENCE2</Name>
-    <Label>Séquence 2</Label>
-    <Declaration id="l13oza22" declarationType="CODECARD" position="AFTER_QUESTION_TEXT">
-      <Text>Libellé carte-code</Text>
-      <DeclarationMode>CAPI</DeclarationMode>
-    </Declaration>
-    <TargetMode>CAPI</TargetMode>
-    <Child id="l13otchv" questionType="MULTIPLE_CHOICE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="QuestionType">
-      <Name>QUESTION4</Name>
-      <Label>Question 4</Label>
+    <Child id="idendquest" depth="1" genericName="MODULE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
+      <Name>QUESTIONNAIRE_END</Name>
+      <Label>QUESTIONNAIRE_END</Label>
       <TargetMode>CAPI</TargetMode>
-      <Response id="l13pywzn">
-        <Datatype type="BooleanDatatypeType" typeName="BOOLEAN" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="BooleanDatatypeType"/>
-        <CollectedVariableReference>l13oiau7</CollectedVariableReference>
-      </Response>
-      <Response id="l13q6z2c">
-        <Datatype type="BooleanDatatypeType" typeName="BOOLEAN" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="BooleanDatatypeType"/>
-        <CollectedVariableReference>l13okz4h</CollectedVariableReference>
-      </Response>
-      <ResponseStructure>
-        <Dimension dimensionType="PRIMARY" dynamic="0">
-          <CodeListReference>l13ol6zz</CodeListReference>
-        </Dimension>
-        <Dimension dimensionType="MEASURE" dynamic="0"/>
-        <Mapping>
-          <MappingSource>l13pywzn</MappingSource>
-          <MappingTarget>1</MappingTarget>
-        </Mapping>
-        <Mapping>
-          <MappingSource>l13q6z2c</MappingSource>
-          <MappingTarget>2</MappingTarget>
-        </Mapping>
-      </ResponseStructure>
     </Child>
-  </Child>
-  <Child id="idendquest" depth="1" genericName="MODULE" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="SequenceType">
-    <Name>QUESTIONNAIRE_END</Name>
-    <Label>QUESTIONNAIRE_END</Label>
-    <TargetMode>CAPI</TargetMode>
-  </Child>
-  <DataCollection id="esa-dc-2018" uri="http://ddi:fr.insee:DataCollection.esa-dc-2018">
-    <Name>Enquête sectorielle annuelle 2018</Name>
-  </DataCollection>
-  <ComponentGroup id="l13q62gr">
-    <Name>PAGE_1</Name>
-    <Label>Components for page 1</Label>
-    <MemberReference>idendquest</MemberReference>
-    <MemberReference>l13ocjuq</MemberReference>
-    <MemberReference>l13ot8fi</MemberReference>
-    <MemberReference>l13oud4g</MemberReference>
-    <MemberReference>l13okmh2</MemberReference>
-    <MemberReference>l13otzsi</MemberReference>
-    <MemberReference>l13osatz</MemberReference>
-    <MemberReference>l13otchv</MemberReference>
-  </ComponentGroup>
-  <CodeLists>
-    <CodeList id="l13ol6zz">
-      <Name>
-      </Name>
-      <Label>Oui-Non</Label>
-      <Code>
-        <Value>1</Value>
-        <Label>Oui</Label>
-        <Parent>
-        </Parent>
-      </Code>
-      <Code>
-        <Value>2</Value>
-        <Label>Non</Label>
-        <Parent>
-        </Parent>
-      </Code>
-    </CodeList>
-  </CodeLists>
-  <Variables>
-    <Variable id="l13ovgro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
-      <type>CollectedVariableType</type>
-      <Datatype type="TextDatatypeType" typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
-        <MaxLength>249</MaxLength>
-        <Pattern>
-        </Pattern>
-      </Datatype>
-      <Name>QUEST1</Name>
-      <Label>QUEST1 label</Label>
-    </Variable>
-    <Variable id="l13oej2k" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
-      <type>CollectedVariableType</type>
-      <CodeListReference>l13ol6zz</CodeListReference>
-      <Datatype type="TextDatatypeType" typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
-        <MaxLength>1</MaxLength>
-        <Pattern>
-        </Pattern>
-      </Datatype>
-      <Name>QUESTION2</Name>
-      <Label>QUESTION2 label</Label>
-    </Variable>
-    <Variable id="l13orhp8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
-      <type>CollectedVariableType</type>
-      <Datatype type="TextDatatypeType" typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
-        <MaxLength>249</MaxLength>
-        <Pattern>
-        </Pattern>
-      </Datatype>
-      <Name>QUESTION311</Name>
-      <Label>Oui-Libellé de l'information mesurée</Label>
-    </Variable>
-    <Variable id="l13ou5o8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
-      <type>CollectedVariableType</type>
-      <Datatype type="TextDatatypeType" typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
-        <MaxLength>249</MaxLength>
-        <Pattern>
-        </Pattern>
-      </Datatype>
-      <Name>QUESTION321</Name>
-      <Label>Non-Libellé de l'information mesurée</Label>
-    </Variable>
-    <Variable id="l13oiau7" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
-      <type>CollectedVariableType</type>
-      <Datatype type="BooleanDatatypeType" typeName="BOOLEAN" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="BooleanDatatypeType"/>
-      <Name>QUESTION41</Name>
-      <Label>1 - Oui</Label>
-    </Variable>
-    <Variable id="l13okz4h" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
-      <type>CollectedVariableType</type>
-      <Datatype type="BooleanDatatypeType" typeName="BOOLEAN" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="BooleanDatatypeType"/>
-      <Name>QUESTION42</Name>
-      <Label>2 - Non</Label>
-    </Variable>
-  </Variables>
-</Questionnaire>
+    <DataCollection id="esa-dc-2018" uri="http://ddi:fr.insee:DataCollection.esa-dc-2018">
+      <Name>Enquête sectorielle annuelle 2018</Name>
+    </DataCollection>
+    <ComponentGroup id="l13q62gr">
+      <Name>PAGE_1</Name>
+      <Label>Components for page 1</Label>
+      <MemberReference>idendquest</MemberReference>
+      <MemberReference>l13ocjuq</MemberReference>
+      <MemberReference>l13ot8fi</MemberReference>
+      <MemberReference>l13oud4g</MemberReference>
+      <MemberReference>l13okmh2</MemberReference>
+      <MemberReference>l13otzsi</MemberReference>
+      <MemberReference>l13osatz</MemberReference>
+      <MemberReference>l13otchv</MemberReference>
+    </ComponentGroup>
+    <CodeLists>
+      <CodeList id="l13ol6zz">
+        <Name>
+        </Name>
+        <Label>Oui-Non</Label>
+        <Code>
+          <Value>1</Value>
+          <Label>Oui</Label>
+          <Parent>
+          </Parent>
+        </Code>
+        <Code>
+          <Value>2</Value>
+          <Label>Non</Label>
+          <Parent>
+          </Parent>
+        </Code>
+      </CodeList>
+    </CodeLists>
+    <Variables>
+      <Variable id="l13ovgro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
+        <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+          <MaxLength>249</MaxLength>
+          <Pattern>
+          </Pattern>
+        </Datatype>
+        <Name>QUEST1</Name>
+        <Label>QUEST1 label</Label>
+      </Variable>
+      <Variable id="l13oej2k" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
+        <CodeListReference>l13ol6zz</CodeListReference>
+        <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+          <MaxLength>1</MaxLength>
+          <Pattern>
+          </Pattern>
+        </Datatype>
+        <Name>QUESTION2</Name>
+        <Label>QUESTION2 label</Label>
+      </Variable>
+      <Variable id="l13orhp8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
+        <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+          <MaxLength>249</MaxLength>
+          <Pattern>
+          </Pattern>
+        </Datatype>
+        <Name>QUESTION311</Name>
+        <Label>Oui-Libellé de l'information mesurée</Label>
+      </Variable>
+      <Variable id="l13ou5o8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
+        <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
+          <MaxLength>249</MaxLength>
+          <Pattern>
+          </Pattern>
+        </Datatype>
+        <Name>QUESTION321</Name>
+        <Label>Non-Libellé de l'information mesurée</Label>
+      </Variable>
+      <Variable id="l13oiau7" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
+        <Datatype typeName="BOOLEAN" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="BooleanDatatypeType"/>
+        <Name>QUESTION41</Name>
+        <Label>1 - Oui</Label>
+      </Variable>
+      <Variable id="l13okz4h" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
+        <Datatype typeName="BOOLEAN" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="BooleanDatatypeType"/>
+        <Name>QUESTION42</Name>
+        <Label>2 - Non</Label>
+      </Variable>
+    </Variables>
+  </Questionnaire>
