@@ -1,15 +1,13 @@
 package fr.insee.pogues.metadata.client;
 
 import fr.insee.pogues.exception.IllegalFlowControlException;
-import fr.insee.pogues.exceptions.PoguesClientException;
+import java.util.List;
+
 import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.model.Operation;
-import fr.insee.pogues.metadata.model.Operation;
 import fr.insee.pogues.metadata.model.Serie;
 import fr.insee.pogues.metadata.model.Unit;
-
-import java.util.List;
 
 public interface MetadataClient {
 
@@ -25,11 +23,11 @@ public interface MetadataClient {
     
 	String getCodeList(String id) throws Exception;
 	
-	List<Serie> getSeries() throws Exception;
+	List<Serie> getSeries();
 	
-	List<Operation> getOperationsBySerieId(String id) throws PoguesClientException, IllegalFlowControlException.PoguesClientException;
+	List<Operation> getOperationsBySerieId(String id) throws IllegalFlowControlException.PoguesClientException;
 	
-	Serie getSerieById(String id) throws Exception;
+	Serie getSerieById(String id);
 	
 	Operation getOperationById(String id) throws Exception;
 	

@@ -1,9 +1,8 @@
 package fr.insee.pogues.metadata.repository;
 
+import fr.insee.pogues.exception.IllegalFlowControlException;
 import fr.insee.pogues.metadata.client.MetadataClient;
-import fr.insee.pogues.metadata.model.ColecticaItem;
-import fr.insee.pogues.metadata.model.ColecticaItemRefList;
-import fr.insee.pogues.metadata.model.Unit;
+import fr.insee.pogues.metadata.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -43,5 +42,25 @@ public class MetadataRepositoryImpl implements MetadataRepository {
 	@Override
 	public String getCodeList(String id) throws Exception {
 		return metadataClient.getCodeList(id);
+	}
+
+	@Override
+	public List<Serie> getSeries() throws Exception{
+		return metadataClient.getSeries();
+	}
+
+	@Override
+	public List<Operation> getOperationsBySerieId(String id) throws IllegalFlowControlException.PoguesClientException {
+		return metadataClient.getOperationsBySerieId(id);
+	}
+
+	@Override
+	public Serie getSerieById(String id) throws Exception {
+		return metadataClient.getSerieById(id);
+	}
+
+	@Override
+	public Operation getOperationById(String id) throws Exception {
+		return metadataClient.getOperationById(id);
 	}
 }

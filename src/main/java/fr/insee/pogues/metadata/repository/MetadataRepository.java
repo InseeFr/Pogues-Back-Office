@@ -1,8 +1,7 @@
 package fr.insee.pogues.metadata.repository;
 
-import fr.insee.pogues.metadata.model.ColecticaItem;
-import fr.insee.pogues.metadata.model.ColecticaItemRefList;
-import fr.insee.pogues.metadata.model.Unit;
+import fr.insee.pogues.exception.IllegalFlowControlException;
+import fr.insee.pogues.metadata.model.*;
 
 import java.util.List;
 
@@ -19,4 +18,12 @@ public interface MetadataRepository {
 	String getDDIDocument(String id) throws Exception;
 
 	String getCodeList(String id) throws Exception;
+
+	List<Serie> getSeries() throws Exception;
+
+	List<Operation> getOperationsBySerieId(String id) throws IllegalFlowControlException.PoguesClientException;
+
+	Serie getSerieById(String id) throws Exception;
+
+	Operation getOperationById(String group) throws Exception;
 }
