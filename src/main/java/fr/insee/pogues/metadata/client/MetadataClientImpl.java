@@ -29,7 +29,7 @@ import fr.insee.pogues.metadata.model.Unit;
 @Service
 public class MetadataClientImpl implements MetadataClient {
 
-	@Value("${fr.insee.pogues.api.remote.metadata.url}")
+	@Value("${fr.insee.pogues.api.remote.magma.host}")
 	String serviceUrl;
 
 	private RemoteMetadata remoteMetadata;
@@ -92,14 +92,14 @@ public class MetadataClientImpl implements MetadataClient {
 	
 	@Override
 	public List<Serie> getSeries() {
-		String url = String.format("%s/gestion/series", serviceUrl);
+		String url = String.format("%s/operations/series?survey=true", serviceUrl);
 		ResponseEntity<Serie[]> response = restTemplate.exchange(url, HttpMethod.GET, null, Serie[].class);
 		return Arrays.asList(response.getBody());
 	}
 	
 	@Override
 	public List<Operation> getOperationsBySerieId(String id) throws IllegalFlowControlException.PoguesClientException {
-		String url = String.format("%s/gestion/series/%s/operations", serviceUrl, id);
+		String url = String.format("%s/operations/serie/%s/operations", serviceUrl, id);
 		ResponseEntity<Operation[]> response;
 		response = restTemplate.exchange(url, HttpMethod.GET, null, Operation[].class);
 		if (response.getStatusCode() != HttpStatus.OK) {
@@ -110,14 +110,14 @@ public class MetadataClientImpl implements MetadataClient {
     
 	@Override
 	public Serie getSerieById(String id) {
-		String url = String.format("%s/gestion/serie/%s", serviceUrl, id);
+		String url = String.format("%s/operations/serie/%s/", serviceUrl, id);
 		ResponseEntity<Serie> response = restTemplate.exchange(url, HttpMethod.GET, null, Serie.class);
 		return response.getBody();
 	}
 	
 	@Override
 	public Operation getOperationById(String id) throws Exception {
-		String url = String.format("%s/gestion/operation/%s", serviceUrl, id);
+		String url = String.format("%s/operations/operation/%s", serviceUrl, id);
 		try {
 			ResponseEntity<Operation> response = restTemplate.exchange(url, HttpMethod.GET, null, Operation.class);
 			return response.getBody();

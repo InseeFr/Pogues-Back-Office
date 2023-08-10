@@ -133,9 +133,9 @@ public class MetadataServiceImpl implements MetadataService {
 					break;
 				default:
 					if (serie.getFrequence().getId() != null) {
-						logger.error("Invalid frequence {}", serie.getFrequence().getId());
+						throw new PoguesException(500, "Internal Servor Error", String.format("Invalid frequence %s", id));
 					} else {
-						logger.error("No frequence");
+						throw new PoguesException(500, "Internal Servor Error", String.format("No frequence"));
 					}
 				}
 				return dcOut;
