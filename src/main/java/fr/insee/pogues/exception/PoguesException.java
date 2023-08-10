@@ -1,4 +1,6 @@
-package fr.insee.pogues.webservice.rest;
+package fr.insee.pogues.exception;
+
+import fr.insee.pogues.webservice.rest.RestMessage;
 
 import java.io.IOException;
 

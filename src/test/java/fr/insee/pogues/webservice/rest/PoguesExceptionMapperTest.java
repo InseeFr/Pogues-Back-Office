@@ -7,6 +7,7 @@ import static org.mockito.Mockito.spy;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import fr.insee.pogues.exception.PoguesException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
