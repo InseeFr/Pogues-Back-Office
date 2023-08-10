@@ -11,8 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.webservice.rest.PoguesException;
+
 
 @Service
 public class LunaticJSONToUriStromaeV2Impl implements LunaticJSONToUriStromaeV2{

@@ -1,18 +1,18 @@
 package fr.insee.pogues.transforms.visualize;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URLEncoder;
-import java.util.Map;
-
+import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.persistence.service.QuestionnairesService;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.Map;
+
 
 @Service
 public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{

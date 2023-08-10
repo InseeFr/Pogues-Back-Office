@@ -6,10 +6,10 @@ import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.query.EntityNotFoundException;
 import fr.insee.pogues.persistence.query.NonUniqueResultException;
 import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
-import fr.insee.pogues.webservice.rest.PoguesException;
 
 /**
  * Questionnaire Service to assume the persistence of Pogues UI in JSON
