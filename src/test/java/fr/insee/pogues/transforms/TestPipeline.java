@@ -1,13 +1,13 @@
 package fr.insee.pogues.transforms;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
+import fr.insee.pogues.exception.PoguesException;
+import org.junit.Test;
 
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
-
-import fr.insee.pogues.webservice.rest.PoguesException;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TestPipeline {
 

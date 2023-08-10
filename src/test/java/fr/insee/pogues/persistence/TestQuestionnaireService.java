@@ -1,26 +1,23 @@
 package fr.insee.pogues.persistence;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
+import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.persistence.query.NonUniqueResultException;
+import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
+import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
 import org.json.simple.JSONObject;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import fr.insee.pogues.persistence.query.NonUniqueResultException;
-import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
-import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TestQuestionnaireService {
