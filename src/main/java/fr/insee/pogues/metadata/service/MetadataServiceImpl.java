@@ -111,7 +111,7 @@ public class MetadataServiceImpl implements MetadataService {
 			}
 			Serie serie = metadataRepository.getSerieById(op.getSerie().getId());
 			List<DataCollectionOut> dcOut = new ArrayList<>();
-			if (serie.getFrequence() == null) {
+			if (serie.getFrequence().getId() == null) {
 				throw new PoguesException(500, "Internal server error",
 						String.format("Frequence unavailable in Metadata API for serie %s", op.getSerie().getId()));
 			} else {
