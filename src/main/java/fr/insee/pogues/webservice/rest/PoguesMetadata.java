@@ -2,7 +2,9 @@ package fr.insee.pogues.webservice.rest;
 
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,6 +14,10 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.StreamingOutput;
 
+import fr.insee.pogues.exception.IllegalFlowControlException;
+import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.metadata.model.*;
+import fr.insee.pogues.transforms.PipeLine;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +28,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import fr.insee.pogues.metadata.model.ColecticaItem;
-import fr.insee.pogues.metadata.model.ColecticaItemRefList;
-import fr.insee.pogues.metadata.model.Unit;
 import fr.insee.pogues.metadata.service.MetadataService;
 import fr.insee.pogues.transforms.reuse.DDIToPoguesXMLCodeList;
 import fr.insee.pogues.transforms.visualize.PoguesXMLToPoguesJSON;
@@ -47,7 +50,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearerAuth")
 public class PoguesMetadata {
 
-	final static Logger logger = LogManager.getLogger(PoguesMetadata.class);
+	static final Logger logger = LogManager.getLogger(PoguesMetadata.class);
 
 	@Autowired
 	MetadataService metadataService;
@@ -141,6 +144,67 @@ public class PoguesMetadata {
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
+		}
+	}
+
+
+	@GetMapping("series")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(operationId= "getSeries", summary = "Get the list of series", description= "Get the list of series registered in gestion metadata API")
+	public ResponseEntity<Object> getSeries() throws Exception {
+		List<SerieOut> series;
+		try {
+			series = metadataService.getSeries();
+			return ResponseEntity.status(HttpStatus.OK).body(series);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+	}
+	
+
+	@GetMapping("series/{id}/operations")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(operationId= "getSeries", summary = "Get the list of operations for a specific serie", description= "Get the list of operations of a specific serie registered in gestion metadata API")
+	public ResponseEntity<Object> getOperationsBySerieId(@PathParam(value = "id") String id) throws Exception {
+		List<OperationOut> operations;
+		try {
+			operations = metadataService.getOperationsBySerieId(id);
+		} catch (IllegalFlowControlException.PoguesClientException e) {
+			if (e.getStatus() == 204) {
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).body(e.getMessage());
+			} else {
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+			}
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(operations);
+	}
+
+	@GetMapping("operations/{id}/data-collections")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(operationId= "getSeries", summary = "Get the list of data-collections for a specific operation", description= "Get the list of data collections of a specific operation registered in gestion metadata API")
+	public ResponseEntity<Object> getDataCollectionssByOperationId(@PathParam(value = "id") String id) throws Exception {
+		List<DataCollectionOut> dcs;
+		try {
+			dcs = metadataService.getDataCollectionsByOperationId(id);
+		} catch (PoguesException e) {
+			RestMessage message = e.toRestMessage();
+			return ResponseEntity.status(message.getStatus()).body(message);
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(dcs);
+	}
+
+	@GetMapping("context/collection/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(operationId= "getSeries", summary = "Get the statistical context for a specific data-collection", description= "Get the parents (serie and operation) for a specific data-collection")
+	public ResponseEntity<Object> getContextFromCollection(@PathParam(value="id") String id) throws Exception{
+		try {
+			Context context = metadataService.getContextFromDataCollection(id);
+			return ResponseEntity.status(HttpStatus.OK).body(context);
+		} catch (PoguesException e) {
+			RestMessage message = e.toRestMessage();
+			return ResponseEntity.status(message.getStatus()).body(message);
 		}
 	}
 
