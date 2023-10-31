@@ -3,36 +3,19 @@ name: Pogues Back Office Docker CI
 on: workflow_dispatch
 
 jobs:
+
   test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
       - name: Set up JDK 11
         uses: actions/setup-java@v1
         with:
           java-version: 11
-      - name: Checkout Lunatic-Model repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-          ref: master
-          repository: InseeFr/Lunatic-Model
-          path: Lunatic-Model
-      - name: Build Lunatic-Model with Maven
-        working-directory: ./Lunatic-Model
-        run: mvn clean generate-sources install -DskipTests
-      - name: Checkout Pogues-Model repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-          ref: main
-          repository: InseeFr/Pogues-Model
-          path: Pogues-Model
-      - name: Build with Maven Pogues-Model
-        working-directory: ./Pogues-Model
-        run: mvn clean generate-sources install -DskipTests
+
       - name: Test, package and analyze with maven & SonarCloud
         run: mvn verify sonar:sonar -Dsonar.projectKey=InseeFr_Pogues-Back-Office -Dsonar.organization=inseefr -Dsonar.host.url=https://sonarcloud.io
         env:
@@ -47,30 +30,6 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 11
-
-      - name: Checkout Lunatic-Model repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-          ref: master
-          repository: InseeFr/Lunatic-Model
-          path: Lunatic-Model
-
-      - name: Build Lunatic-Model with Maven
-        working-directory: ./Lunatic-Model
-        run: mvn clean generate-sources install -DskipTests
-
-      - name: Checkout Pogues-Model repo
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 1
-          ref: main
-          repository: InseeFr/Pogues-Model
-          path: Pogues-Model
-
-      - name: Build with Maven Pogues-Model
-        working-directory: ./Pogues-Model
-        run: mvn clean generate-sources install -DskipTests
 
       - name: Checkout Pogues-Back-Office repo
         uses: actions/checkout@v2
@@ -89,6 +48,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
       - name: Download build
         id: download
         uses: actions/download-artifact@v2
