@@ -13,7 +13,7 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>jar</packaging>
-	<version>4.0.4</version>
+	<version>4.3.0-SNAPSHOT</version>
 	<name>Pogues-BO</name>
 
 	<properties>
@@ -22,7 +22,7 @@
 		<final.asset.name>rmes-pogbo</final.asset.name>
 		
 		<json-simple.version>1.1.1</json-simple.version>
-		<pogues-model.version>1.0.3</pogues-model.version>
+		<pogues-model.version>1.0.4</pogues-model.version>
 		<fop.version>2.7</fop.version>
 		<springdoc-openapi-ui.version>1.6.6</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.7</jacoco.version>
@@ -31,10 +31,9 @@
 
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.language>java</sonar.language>
-        <sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
-		<argLine>-Xms256m -Xmx512m -ea -Dfile.encoding=UTF-8</argLine>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.language>java</sonar.language>
+		<argLine>-Xms256m -Xmx512m -XX:MaxPermSize=128m -ea -Dfile.encoding=UTF-8</argLine>
 	</properties>
 
 	<dependencies>
@@ -63,12 +62,12 @@
 
 
 		<dependency>
-		    <groupId>com.fasterxml.jackson.jaxrs</groupId>
-		    <artifactId>jackson-jaxrs-base</artifactId>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-base</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>com.fasterxml.jackson.jaxrs</groupId>
-		    <artifactId>jackson-jaxrs-json-provider</artifactId>
+			<groupId>com.fasterxml.jackson.jaxrs</groupId>
+			<artifactId>jackson-jaxrs-json-provider</artifactId>
 		</dependency>
 
 		<dependency>
@@ -108,7 +107,7 @@
 			<exclusions>
 				<exclusion>
 					<groupId>org.apache.commons</groupId>
-    				<artifactId>commons-lang3</artifactId>
+					<artifactId>commons-lang3</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -175,6 +174,11 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>org.eclipse.persistence.moxy</artifactId>
+			<version>2.6.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -182,38 +186,34 @@
 		<plugins>
 
 			 <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <version>${jacoco.version}</version>
-                <executions>
-                    <!-- Prepare the property pointing to the JaCoCo runtime agent which is
-                         passed as VM argument when the Maven Surefire plugin is executed. -->
-                    <execution>
-                        <id>pre-unit-test</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <configuration>
-                            <!-- Set the name of the property containing the settings for JaCoCo
-                                 runtime agent. -->
-                            <propertyName>surefireArgLine</propertyName>
-                            <append>true</append>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>post-unit-test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.sonarsource.scanner.maven</groupId>
-                <artifactId>sonar-maven-plugin</artifactId>
-                <version>3.7.0.1746</version>
-            </plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				 <executions>
+					 <execution>
+						 <id>prepare-agent</id>
+						 <goals>
+							 <goal>prepare-agent</goal>
+						 </goals>
+					 </execution>
+					 <execution>
+						 <id>report</id>
+						 <goals>
+							 <goal>report</goal>
+						 </goals>
+						 <configuration>
+							 <formats>
+								 <format>XML</format>
+							 </formats>
+						 </configuration>
+					 </execution>
+				 </executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.7.0.1746</version>
+			</plugin>
 
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -222,6 +222,5 @@
 		</plugins>
 
 	</build>
-
 
 </project>

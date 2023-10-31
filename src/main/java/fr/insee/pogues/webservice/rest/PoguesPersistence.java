@@ -1,30 +1,5 @@
 package fr.insee.pogues.webservice.rest;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.ws.rs.Consumes;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
 import fr.insee.pogues.config.auth.UserProvider;
 import fr.insee.pogues.config.auth.user.User;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
@@ -35,6 +10,29 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.*;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * WebService class for the Instrument Persistence
@@ -57,7 +55,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @SecurityRequirement(name = "bearerAuth")
 public class PoguesPersistence {
 
-    final static Logger logger = LogManager.getLogger(PoguesPersistence.class);
+	static final Logger logger = LogManager.getLogger(PoguesPersistence.class);
 
     @Autowired
 	private QuestionnairesService questionnaireService;
@@ -89,38 +87,8 @@ public class PoguesPersistence {
 	public ResponseEntity<Object> getQuestionnaire(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		try {
 			JSONObject result = questionnaireService.getQuestionnaireByID(id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
-	}
-	
-	@GetMapping("questionnaire/{id}/variables")
-    @Produces(MediaType.APPLICATION_JSON)
-	@Operation(
-			operationId  = "getQuestionnaireVariables",
-	        summary = "Get the variables of a questionnaire",
-            description = "Gets the variables with questionnaire id {id}",
-            responses = {
-        			@ApiResponse(content = @Content(mediaType = "application/json"))}
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "404", description = "Not found")
-    })
-	public ResponseEntity<Object> getQuestionnaireVariables(
-			@PathVariable(value = "id") String id
-	) throws Exception {
-		try {
-			String result = variablesService.getVariablesByQuestionnaire(id);
-			return ResponseEntity.status(HttpStatus.OK).body(result);
-		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
-		}
 	}
 	
     @GetMapping("questionnaire/json-lunatic/{id}")
@@ -238,9 +206,62 @@ public class PoguesPersistence {
 	) throws Exception {
 		try {
 			questionnaireService.deleteQuestionnaireByID(id);
-			User user=userProvider.getUser(auth);
+			User user = userProvider.getUser(auth);
 			logger.info("Questionnaire {} deleted by {}", id, user.getName());
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+		} catch (PoguesException e) {
+				logger.error(e.getMessage(), e);
+				return ResponseEntity.status(e.getStatus()).body(e.getDetails());
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@GetMapping("questionnaire/{id}/variables")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId  = "getQuestionnaireVariables",
+			summary = "Get the variables of a questionnaire, used for pogues frontend",
+			description = "Gets the variables with questionnaire id {id}",
+			responses = {
+					@ApiResponse(content = @Content(mediaType = "application/json"))}
+	)
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "404", description = "Not found")
+	})
+	public ResponseEntity<Object> getQuestionnaireVariables(
+			@PathVariable(value = "id") String id
+	) throws Exception {
+		try {
+			String result = variablesService.getVariablesByQuestionnaire(id);
+			return ResponseEntity.status(HttpStatus.OK).body(result);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@GetMapping("questionnaire/{id}/vars")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Operation(
+			operationId  = "getQuestionnaireVars",
+			summary = "Get the variables of a questionnaire",
+			description = "Gets the variables with questionnaire id {id}",
+			responses = {
+					@ApiResponse(content = @Content(mediaType = "application/json"))}
+	)
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "404", description = "Not found")
+	})
+	public ResponseEntity<JSONArray> getVariables(
+			@PathVariable(value = "id") String id
+	) throws Exception {
+		try {
+			JSONArray result = variablesService.getVariablesByQuestionnaireForPublicEnemy(id);
+			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;
@@ -309,13 +330,20 @@ public class PoguesPersistence {
 			@RequestBody JSONObject jsonContent
 	) throws Exception {
         try {
-			questionnaireService.updateQuestionnaire(id, jsonContent);
-			logger.info("Questionnaire {} updated", id);
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (Exception e) {
+			if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+				questionnaireService.updateQuestionnaire(id, jsonContent);
+				logger.info("Questionnaire {} updated", id);
+			} else {
+				throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
+			}
+        } catch (PoguesException e) {
 			logger.error(e.getMessage(), e);
+			return ResponseEntity.status(e.getStatus()).body(e.getDetails());
+        } catch (Exception e) {
+        	logger.error(e.getMessage(), e);
             throw e;
         }
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 	
 	@PutMapping("questionnaire/json-lunatic/{id}")
@@ -408,4 +436,10 @@ public class PoguesPersistence {
 		}
 	}
 
+	@ExceptionHandler(PoguesException.class)
+	public ResponseEntity<ApiError> handlePoguesException(PoguesException pe) {
+		logger.error(pe.getMessage(), pe);
+		ApiError apiErrorResponse = new ApiError(pe.getStatus(), pe.getMessage(), pe.getDetails());
+		return new ResponseEntity<>(apiErrorResponse, HttpStatus.valueOf(pe.getStatus()));
+	}
 }
