@@ -19,7 +19,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>11</java.version>
-		<final.asset.name>rmes-pogbo</final.asset.name>
+		<final.asset.name>pogues-bo</final.asset.name>
 		
 		<json-simple.version>1.1.1</json-simple.version>
 		<pogues-model.version>1.0.5</pogues-model.version>

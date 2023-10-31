@@ -81,8 +81,9 @@ jobs:
       - name: Upload war
         uses: actions/upload-artifact@v2
         with:
-          name: war
-          path: target/*.war
+          name: jar
+          path: target/*.jar
+
   docker:
     needs: build
     runs-on: ubuntu-latest
@@ -92,7 +93,7 @@ jobs:
         id: download
         uses: actions/download-artifact@v2
         with:
-          name: war
+          name: jar
           path: target/
       - name: Get current version
         id: version
