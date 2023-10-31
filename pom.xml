@@ -27,7 +27,7 @@
 		<springdoc-openapi-ui.version>1.6.6</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.7</jacoco.version>
 		<saxon.version>11.2</saxon.version>
-		<commons.io.version>2.11.0</commons.io.version>
+		<commons.io.version>2.15.0</commons.io.version>
 
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
