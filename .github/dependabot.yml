@@ -7,7 +7,9 @@
 version: 2
 updates:
   - package-ecosystem: "maven"
-    directory: "/" # Location of package manifests
+    directory: "/" # Location of package manifests (pom.xml)
     schedule:
       interval: "weekly"
     target-branch: "build/fresh-build" # temp config
+    # Temporary allow up to 12 open pull requests for maven dependencies (5 by default without this option)
+    open-pull-requests-limit: 12
