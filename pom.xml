@@ -28,6 +28,8 @@
 		<jacoco.version>0.8.11</jacoco.version>
 		<saxon.version>12.3</saxon.version>
 		<commons.io.version>2.15.0</commons.io.version>
+		<!-- Temp version due to security issues in version used in springdoc-openapi-ui: -->
+		<snakeyaml.version>2.2</snakeyaml.version>
 
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
