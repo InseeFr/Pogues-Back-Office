@@ -1,0 +1,20 @@
+
+# To get started with Dependabot version updates, you'll need to specify which
+# package ecosystems to update and where the package manifests are located.
+# Please see the documentation for all configuration options:
+# https://docs.github.com/code-security/dependabot/dependabot-version-updates
+
+version: 2
+updates:
+  - package-ecosystem: "maven"
+    directory: "/" # Location of package manifests (pom.xml)
+    schedule:
+      interval: "weekly"
+    target-branch: "build/fresh-build" # temp config
+    # Temporary allow up to 12 open pull requests for maven dependencies (5 by default without this option)
+    open-pull-requests-limit: 12
+    ignore:
+      - dependency-name: "org.eclipse.persistence:*"
+        update-types: ["version-update:semver-major"] # ignore new major versions of eclipse dependencies for now
+      - dependency-name: "org.springframework.boot:spring-boot-starter-parent"
+        update-types: ["version-update:semver-major"] # ignore spring-boot 3.+ for now
