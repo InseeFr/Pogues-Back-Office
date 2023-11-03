@@ -1,0 +1,337 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "l2j89x38",
+        "l2ssvdwm",
+        "l2su34dy",
+        "l2subqfk",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_SANTE_EU"
+  ],
+  "Name": "TCM_SANTE_EU",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_SANTGEN label",
+        "id": "lftith9c",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2sspd6p",
+        "Name": "T_SANTGEN",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_CHRON label",
+        "id": "lftiq5tg",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_CHRON",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_GALI label",
+        "id": "lftia97o",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2sujdf4",
+        "Name": "T_GALI",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:05:28 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lgdz4zf6",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_SANTGEN",
+        "id": "l2sspd6p",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Très bon\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Bon\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Assez bon\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Mauvais\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Très mauvais\"",
+            "Value": "5"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_OUI_NON",
+        "id": "l0v2k0fj",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Oui",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Non",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_GALI",
+        "id": "l2sujdf4",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Oui, fortement limité\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Oui, limité, mais pas fortement\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Non, pas limité du tout\"",
+            "Value": "3"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Etat de santé"
+      ],
+      "id": "l2j89x38",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "declarationType": "HELP",
+          "Text": "\"Nous allons maintenant parler de \" || (if ($PRENOM$ = $PRENOMREF$) then \"votre état de santé, \" else \"l'état de santé de \") || $PRENOM$ || \".\"",
+          "id": "lfky4n6j",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftith9c",
+              "id": "l2st4ss5",
+              "mandatory": false,
+              "CodeListReference": "l2sspd6p",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Comment est \" ||(\r\n    if ($PRENOM$=$PRENOMREF$) then \"votre état de santé\"\r\n    else \"l'état de santé de \" ||$PRENOM$)\r\n|| \" en général ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2ssvdwm",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_SANTGEN"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftiq5tg",
+              "id": "l2su8lzq",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$=$PRENOMREF$) then \"Avez-vous \"\r\n    else $PRENOM$ || \" a-t-\" ||$LIB_PR$ )\r\n|| \" une maladie ou un problème de santé qui soit chronique ou de caractère durable ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2su34dy",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Une maladie chronique est une maladie qui a duré ou peut durer pendant 6 mois au moins.\"",
+              "id": "l2stzl7a",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_CHRON"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftia97o",
+              "id": "l2suaj3g",
+              "mandatory": false,
+              "CodeListReference": "l2sujdf4",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$=$PRENOMREF$) then \"Êtes-vous\" else $PRENOM$ || \" est-\" ||$LIB_PR$ )\r\n|| \" limité, depuis au moins 6 mois, à cause d'un problème de santé, dans les activités que les gens font habituellement ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2subqfk",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_GALI"
+        }
+      ],
+      "Name": "TCM_SANTE"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

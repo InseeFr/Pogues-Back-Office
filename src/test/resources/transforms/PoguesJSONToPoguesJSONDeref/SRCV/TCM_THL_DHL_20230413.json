@@ -1,0 +1,816 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+    {
+      "Description": "Pas de date de naissance",
+      "Expression": "isnull($T_DATENAIS$)",
+      "id": "l129pyo0",
+      "IfTrue": "l11z2too-l11z2too"
+    },
+    {
+      "Description": "PRENOM est né en France",
+      "Expression": "$T_LNAIS$ = \"1\"",
+      "id": "l12a9n7c",
+      "IfTrue": "l120kmks-l120kmks"
+    },
+    {
+      "Description": "PRENOM est né à l'étranger",
+      "Expression": "$T_LNAIS$ = \"2\"",
+      "id": "l12a3m16",
+      "IfTrue": "l120lqns-l120lqns"
+    },
+    {
+      "Description": "PRENOM est de nationalité étrangère",
+      "Expression": "$T_NATION3$ = true",
+      "id": "l12a6ypi",
+      "IfTrue": "l121ftlg-l121ftlg"
+    }
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "lge14kin",
+        "l0v4b34m",
+        "l0v4oi1v",
+        "l11z2too",
+        "l11zznh4",
+        "l120kmks",
+        "l120lqns",
+        "l120zrhs",
+        "l121ftlg",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_THL_DHL"
+  ],
+  "Name": "TCM_THL_DHL",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_SEXE label",
+        "id": "lfthsyka",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v3x4ho",
+        "Name": "T_SEXE",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_DATENAIS label",
+        "id": "lfthns08",
+        "type": "CollectedVariableType",
+        "Name": "T_DATENAIS",
+        "Datatype": {
+          "Maximum": "2022-03-17",
+          "Minimum": "1900-01-01",
+          "Format": "YYYY-MM-DD",
+          "typeName": "DATE",
+          "type": "DateDatatypeType"
+        }
+      },
+      {
+        "Label": "T_TRAGE label",
+        "id": "lgdwu54w",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l11zdcia",
+        "Name": "T_TRAGE",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_LNAIS label",
+        "id": "lfthywce",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l12074mk",
+        "Name": "T_LNAIS",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_DEPNAIS label",
+        "id": "lfthm43j",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l120lql8",
+        "Name": "T_DEPNAIS",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_PAYSNAIS label",
+        "id": "lfthvw13",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l120pefc",
+        "Name": "T_PAYSNAIS",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "1 - \"Française de naissance ou par intégration\"",
+        "id": "lgdwxbba",
+        "type": "CollectedVariableType",
+        "Name": "T_NATION1",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "2 - \"Française par déclaration, naturalisation, option à votre majorité\"",
+        "id": "lgdwjspi",
+        "type": "CollectedVariableType",
+        "Name": "T_NATION2",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "3 - \"Etrangère\"",
+        "id": "lgdwstt9",
+        "type": "CollectedVariableType",
+        "Name": "T_NATION3",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "4 - \"Apatride (pas de nationalité)\"",
+        "id": "lgdx1hd3",
+        "type": "CollectedVariableType",
+        "Name": "T_NATION4",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "Nationalité étrangères (NATIONETR)",
+        "id": "l12154z6",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1216mzf",
+        "Name": "NATIONETR",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:08:49 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lge0hl8m",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_SEXE",
+        "id": "l0v3x4ho",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Homme",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Femme",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_TRAGE",
+        "id": "l11zdcia",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Moins de 14 ans\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"De 15 à 17 ans\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"De 18 à 25 ans\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"De 26 à 40 ans\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"De 41 à 60 ans\"",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Plus de 61 ans\"",
+            "Value": "6"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_LNAIS",
+        "id": "l12074mk",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"En France (Métropole, DOM et COM)\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"A l'étranger\"",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_DEPNAIS",
+        "id": "l120lql8",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Recherche sur liste des départements\"",
+            "Value": "1"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_PAYSNAIS",
+        "id": "l120pefc",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Recherche sur liste des pays",
+            "Value": "1"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_NATION",
+        "id": "l1214jho",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Française de naissance ou par intégration\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Française par déclaration, naturalisation, option à votre majorité\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Etrangère\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Apatride (pas de nationalité)\"",
+            "Value": "4"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_NATIONETR",
+        "id": "l1216mzf",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Recherche dans la liste des nationalités étrangères",
+            "Value": "1"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Description des habitants du logement"
+      ],
+      "id": "lge14kin",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "declarationType": "HELP",
+          "Text": "if ($PRENOM$ = $PRENOMREF$) then $PRENOM$ ||\", nous allons rapidement vous décrire.\"\r\nelse \"Nous allons décrire rapidement \" || $PRENOM$ || \".\"",
+          "id": "lge1dyx6",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthsyka",
+              "id": "l0v4bdmx",
+              "mandatory": false,
+              "CodeListReference": "l0v3x4ho",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Quel est \" || if ($PRENOM$ = $PRENOMREF$) then \"votre sexe ?\" else \"le sexe de \" || $PRENOM$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l0v4b34m",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_SEXE"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthns08",
+              "id": "l0v79tt6",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "2022-03-17",
+                "Minimum": "1900-01-01",
+                "Format": "YYYY-MM-DD",
+                "typeName": "DATE",
+                "type": "DateDatatypeType"
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Quelle est \" || if ($PRENOM$ = $PRENOMREF$) then \"votre date de naissance ?\" else \"la date de naissance de \" || $PRENOM$ || \" ?\""
+          ],
+          "id": "l0v4oi1v",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_DATENAIS"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lgdwu54w",
+              "id": "l12008hw",
+              "mandatory": false,
+              "CodeListReference": "l11zdcia",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [
+            {
+              "post_collect": false,
+              "Description": "Tranche d'âge non renseignée (répondant)",
+              "Expression": "isnull($TRAGE$) and ($PRENOM$ = $PRENOMREF$)",
+              "during_collect": false,
+              "criticity": "ERROR",
+              "FailMessage": "Votre réponse est importante pour le bon déroulement du questionnaire. La connaissance de votre âge permet de filtrer la suite du questionnaire et d'éviter de vous poser des questions qui ne vous concerneraient pas. Merci de renseigner votre âge.",
+              "id": "l3jxktnl"
+            },
+            {
+              "post_collect": false,
+              "Description": "Tranche d'âge non renseignée (autre personne)",
+              "Expression": "isnull($TRAGE$) and $PRENOM$ <> $PRENOMREF$",
+              "during_collect": false,
+              "criticity": "ERROR",
+              "FailMessage": "Cette réponse est importante pour le bon déroulement du questionnaire. La connaissance de l'âge permet de filtrer la suite du questionnaire et d'éviter de poser des questions hors de propos. Merci de renseigner l'âge.",
+              "id": "l3k06jli"
+            }
+          ],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Vous n'avez pas indiqué de date de naissance, pouvez-vous indiquer \" \r\n|| if ($PRENOM$ = $PRENOMREF$) then \" votre âge ?\" else \"l'âge de \" || $PRENOM$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l11z2too",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_TRAGE"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthywce",
+              "id": "l1206trk",
+              "mandatory": false,
+              "CodeListReference": "l12074mk",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "if ($PRENOM$ = $PRENOMREF$) then \"Où êtes-vous né\" || $LIB_E$ || \" ?\"  else \"Où est né\" || $LIB_E$ || \" \" || $PRENOM$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l11zznh4",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Prendre en compte les frontières actuelles.\"",
+              "id": "l120k8go",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_LNAIS"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthm43j",
+              "id": "l120pgms",
+              "mandatory": false,
+              "CodeListReference": "l120lql8",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "DROPDOWN",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Dans quel département \" || if ($PRENOM$ = $PRENOMREF$) then \"êtes-vous né\" || $LIB_E$ || \" ?\" \r\n                            else $PRENOM$ || \"est-\" || $LIB_PR$||$ \"né\" || $LIB_E$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l120kmks",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Saisir le numéro ou les premières lettres du département puis sélectionner le département de naissance dans la liste proposée.\"",
+              "id": "l120ef3t",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_DEPNAIS"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthvw13",
+              "id": "l120sqth",
+              "mandatory": false,
+              "CodeListReference": "l120pefc",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "DROPDOWN",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Dans quel pays \" || if($PRENOM$ = $PRENOMREF$) then \"êtes-vous né\" || $LIB_E$ || \" ?\" else $PRENOM$ || \"est-\" || $LIB_PR$||$ \"né\" || $LIB_E$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l120lqns",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Saisir les premières lettres du pays puis sélectionner le pays de naissance\"",
+              "id": "l1210yn3",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_PAYSNAIS"
+        },
+        {
+          "FlowControl": [],
+          "Label": [
+            "\"Quelle est \"  || if ($PRENOM$ = $PRENOMREF$) then \"votre nationalité ?\" \r\n                else \"la nationalité de \" || $PRENOM$ || \" ?\""
+          ],
+          "ResponseStructure": {
+            "Attribute": [],
+            "Mapping": [
+              {
+                "MappingSource": "lgdxa90c",
+                "MappingTarget": "1"
+              },
+              {
+                "MappingSource": "lgdxe74z",
+                "MappingTarget": "2"
+              },
+              {
+                "MappingSource": "lgdx7dx8",
+                "MappingTarget": "3"
+              },
+              {
+                "MappingSource": "lgdxew1i",
+                "MappingTarget": "4"
+              }
+            ],
+            "Dimension": [
+              {
+                "dimensionType": "PRIMARY",
+                "dynamic": "0",
+                "CodeListReference": "l1214jho"
+              },
+              {
+                "dimensionType": "MEASURE",
+                "dynamic": "0"
+              }
+            ]
+          },
+          "type": "QuestionType",
+          "Name": "T_NATION",
+          "Response": [
+            {
+              "CollectedVariableReference": "lgdwxbba",
+              "id": "lgdxa90c",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            },
+            {
+              "CollectedVariableReference": "lgdwjspi",
+              "id": "lgdxe74z",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            },
+            {
+              "CollectedVariableReference": "lgdwstt9",
+              "id": "lgdx7dx8",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            },
+            {
+              "CollectedVariableReference": "lgdx1hd3",
+              "id": "lgdxew1i",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "ClarificationQuestion": [],
+          "id": "l120zrhs",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "Plusieurs réponses possibles",
+              "id": "l121egbq",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "questionType": "MULTIPLE_CHOICE"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "l12154z6",
+              "id": "l121agku",
+              "mandatory": false,
+              "CodeListReference": "l1216mzf",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "DROPDOWN",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Quelle est \" || if ($PRENOM$ = $PRENOMREF$) then \"votre nationalité étrangère ?\" \r\n                else \"la nationalité étrangère de \" || $PRENOM$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l121ftlg",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "Entrez les premières lettres de la nationalité, et sélectionnez dans la liste la nationalité étrangère correspondante.",
+              "id": "l121hdzg",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_NATIONETR"
+        }
+      ],
+      "Name": "TCM_THL_DHABL"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}
