@@ -80,9 +80,6 @@ public class PoguesTransforms {
 	@Autowired
 	PoguesJSONToPoguesJSONDeref jsonToJsonDeref;
 
-	@Autowired
-	QuestionnairesService questionnairesService;
-
 	private static final String CONTENT_DISPOSITION = "Content-Disposition";
 
 	@PostMapping(path = "visualize/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -314,7 +311,7 @@ public class PoguesTransforms {
 					.map(ddiToFo::transform, params, questionnaireName)
 					.map(foToPdf::transform, params, questionnaireName).transform();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(),e);
 			throw new PoguesException(500, e.getMessage(), null);
 		}
 		File file = new File(filePath);
@@ -457,11 +454,10 @@ public class PoguesTransforms {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "500", description = "Error") })
 	@ResponseBody
-	public ResponseEntity<StreamingResponseBody> jsonRef2JsonDeref(@RequestBody String questJson) throws Exception {
-		String questionnaire = "jsonDeref";
+	public ResponseEntity<String> jsonRef2JsonDeref(@RequestBody String questJson) throws Exception {
 		try {
-			return transform(new ByteArrayInputStream(questJson.getBytes(StandardCharsets.UTF_8)), jsonToJsonDeref,
-					questionnaire, MediaType.APPLICATION_XML);
+			String result = jsonToJsonDeref.transform(questJson, Map.of("needDeref", true), null);
+			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw e;

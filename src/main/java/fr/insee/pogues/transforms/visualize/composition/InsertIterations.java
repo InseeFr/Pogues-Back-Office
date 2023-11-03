@@ -17,13 +17,15 @@ class InsertIterations implements CompositionStep {
     @Override
     public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire) {
         Questionnaire.Iterations refIterations = referencedQuestionnaire.getIterations();
-        if (refIterations != null) {
-            questionnaire.setIterations(new Questionnaire.Iterations());
-            questionnaire.getIterations().getIteration().addAll(refIterations.getIteration());
-            log.info("Iterations from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
-        } else {
+        if (refIterations == null) {
             log.info("No iterations in referenced questionnaire '{}'", referencedQuestionnaire.getId());
+            return;
         }
+        if (questionnaire.getIterations() == null)
+            questionnaire.setIterations(new Questionnaire.Iterations());
+        questionnaire.getIterations().getIteration().addAll(refIterations.getIteration());
+        log.info("Iterations from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
+
     }
 
 }

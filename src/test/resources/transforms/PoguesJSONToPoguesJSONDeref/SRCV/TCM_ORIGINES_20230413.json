@@ -1,0 +1,752 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+    {
+      "Description": "Père né à l'étranger",
+      "Expression": "$T_NAIS1P$ = \"2\"",
+      "id": "l2rksdw5",
+      "IfTrue": "l2rfj8k5-l2rfj8k5"
+    },
+    {
+      "Description": "Pas de mère dans le logement",
+      "Expression": "nvl($T_MER1E$, \"2\") = \"2\"",
+      "id": "l2rkddz6",
+      "IfTrue": "l2rff2bf-l2rfzkn0"
+    },
+    {
+      "Description": "Un seul ou aucun parent dans le logement",
+      "Expression": "nvl($T_NBPARL$, \"0\") <> \"2\"",
+      "id": "l2rm4atf",
+      "IfTrue": "l2rg3yn5-l2rfzxv4"
+    },
+    {
+      "Description": "Une mère et pas de père",
+      "Expression": "$T_NAIS1P$ = \"3\" and ($T_MER1E$ = \"1\"or cast($T_NAIS1M$, integer) < 3)",
+      "id": "l2rnqbcb",
+      "IfTrue": "l2rfmjn7-l2rfmjn7"
+    },
+    {
+      "Description": "PRENOM a une deuxième mère",
+      "Expression": "$T_DEUXM$ = \"1\"",
+      "id": "l2ro9poa",
+      "IfTrue": "l2rfkipz-l2rfzlqo"
+    },
+    {
+      "Description": "Deuxième mère née à l'étranger",
+      "Expression": "$T_NAIS2M$ = \"2\"",
+      "id": "l2ro14u1",
+      "IfTrue": "l2rfzlqo-l2rfzlqo"
+    },
+    {
+      "Description": "Un père mais pas de mère",
+      "Expression": "$T_NAIS1M$ = \"3\" and ($T_PER1E$ = \"1\"or cast($T_NAIS1P$, integer) < 3)",
+      "id": "l2ro9jwh",
+      "IfTrue": "l2rfsu7w-l2rfsu7w"
+    },
+    {
+      "Description": "PRENOM a un deuxème père",
+      "Expression": "$T_DEUXP$ = \"1\"",
+      "id": "l2roj7hh",
+      "IfTrue": "l2rmzqg6-l2rfzxv4"
+    },
+    {
+      "Description": "Deuxième père né à l'étranger",
+      "Expression": "$T_NAIS2P$ = \"2\"",
+      "id": "l2ro2uan",
+      "IfTrue": "l2rfzxv4-l2rfzxv4"
+    },
+    {
+      "Description": "Mère née à l'étranger",
+      "Expression": "$T_NAIS1M$ = \"2\"",
+      "id": "l2rr3thq",
+      "IfTrue": "l2rfzkn0-l2rfzkn0"
+    },
+    {
+      "Description": "Pas de père dans le logement",
+      "Expression": "nvl($T_PER1E$, \"2\") = \"2\"",
+      "id": "lfl0jeuk",
+      "IfTrue": "l2rg3yn5-l2rfj8k5"
+    }
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "l2j8dwml",
+        "l2rg3yn5",
+        "l2rfj8k5",
+        "l2rff2bf",
+        "l2rfzkn0",
+        "l2rfmjn7",
+        "l2rfkipz",
+        "l2rfzlqo",
+        "l2rfsu7w",
+        "l2rmzqg6",
+        "l2rfzxv4",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_ORIGINES"
+  ],
+  "Name": "TCM_OR",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_NAIS1P label",
+        "id": "lftiidtn",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2rezsrw",
+        "Name": "T_NAIS1P",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_PAYP label",
+        "id": "lftitout",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l120pefc",
+        "Name": "T_PAYP",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NAIS1M label",
+        "id": "lftiog6q",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2yq087h",
+        "Name": "T_NAIS1M",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_PAYM label",
+        "id": "lftiu5gj",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l120pefc",
+        "Name": "T_PAYM",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_DEUXM label",
+        "id": "lftin15r",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_DEUXM",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NAIS2M label",
+        "id": "lftighdw",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l12074mk",
+        "Name": "T_NAIS2M",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_PAY2M label",
+        "id": "lftiwjf4",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l120pefc",
+        "Name": "T_PAY2M",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_DEUXP label",
+        "id": "lftit52m",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_DEUXP",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NAIS2P label",
+        "id": "lftio528",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l12074mk",
+        "Name": "T_NAIS2P",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_PAY2P label",
+        "id": "lftiun7x",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l120pefc",
+        "Name": "T_PAY2P",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:03:19 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lgdy0lat",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_NAIS1P",
+        "id": "l2rezsrw",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"En France (Métropole, DROM et COM)\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"A l'étranger\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "if ($PRENOM$=$PRENOMREF$) then \"Vous n'avez pas de père (aucun homme ne vous a élevé\" ||$LIB_E$ || \").\"\r\nelse $PRENOM$ || \" n'a pas de père (aucun homme ne l'a élevé\" ||$LIB_E$ || \").\"",
+            "Value": "3"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_PAYSNAIS",
+        "id": "l120pefc",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Recherche sur liste des pays",
+            "Value": "1"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_NAIS1M",
+        "id": "l2yq087h",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"En France (Métropole, DROM et COM)\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"A l'étranger\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "if ($PRENOM$=$PRENOMREF$) then \"Vous n'avez pas de mère (aucune femme ne vous a élevé\" ||$LIB_E$ || \").\"\r\nelse $PRENOM$ || \" n'a pas de mère (aucune femme ne l'a élevé\" ||$LIB_E$ || \").\"",
+            "Value": "3"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_OUI_NON",
+        "id": "l0v2k0fj",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Oui",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Non",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_LNAIS",
+        "id": "l12074mk",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"En France (Métropole, DOM et COM)\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"A l'étranger\"",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Origines des parents"
+      ],
+      "id": "l2j8dwml",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "declarationType": "HELP",
+          "Text": "\"Nous allons maintenant parler du lieu de naissance \" || if ($PRENOM$ = $PRENOMREF$) then \"de vos parents.\" else \" des parents de \" || $PRENOM$ || \".\"",
+          "id": "lfl04d0r",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftiidtn",
+              "id": "l2rfz0oz",
+              "mandatory": false,
+              "CodeListReference": "l2rezsrw",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Où est né \" ||\r\n(if($PRENOM$=$PRENOMREF$) then \"votre père (ou l'homme qui vous a élevé\" ||$LIB_E$ || \")\"\r\nelse \"le père de \" ||$PRENOM$ || \" (ou l'homme qui l'a élevé\" ||$LIB_E$ || \")\") ||\r\n\" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rg3yn5",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_NAIS1P"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftitout",
+              "id": "l2rfoec6",
+              "mandatory": false,
+              "CodeListReference": "l120pefc",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "DROPDOWN",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Dans quel pays ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rfj8k5",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_PAYP"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftiog6q",
+              "id": "l2rfqsrl",
+              "mandatory": false,
+              "CodeListReference": "l2yq087h",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Où est née \" ||\r\n(if($PRENOM$=$PRENOMREF$) then \"votre mère (ou la femme qui vous a élevé\" ||$LIB_E$ || \")\"\r\nelse \"la mère de \" ||$PRENOM$ || \" (ou la femme qui l'a élevé\" ||$LIB_E$ || \")\") ||\r\n\" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rff2bf",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_NAIS1M"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftiu5gj",
+              "id": "l2rfo4a4",
+              "mandatory": false,
+              "CodeListReference": "l120pefc",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "DROPDOWN",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Dans quel pays ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rfzkn0",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_PAYM"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftin15r",
+              "id": "l2rfxlat",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$ = $PRENOMREF$) then \"Avez vous\"\r\nelse $PRENOM$ || \" a-t\" ||$LIB_PR$\r\n)||\" été élevé\" ||$LIB_E$ || \" par une deuxième mère ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rfmjn7",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_DEUXM"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftighdw",
+              "id": "l2rfyc4j",
+              "mandatory": false,
+              "CodeListReference": "l12074mk",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Où est née \" || (\r\n    if($PRENOM$=$PRENOMREF$) then \"votre deuxième mère ?\"\r\n    else \"la deuxième mère de \" || $PRENOM$ || \" ?\"\r\n)"
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rfkipz",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_NAIS2M"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftiwjf4",
+              "id": "l2rg0ve7",
+              "mandatory": false,
+              "CodeListReference": "l120pefc",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "DROPDOWN",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Dans quel pays ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rfzlqo",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_PAY2M"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftit52m",
+              "id": "l2rfoi8c",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$ = $PRENOMREF$) then \"Avez vous\"\r\nelse $PRENOM$ || \" a-t\" ||$LIB_PR$\r\n)||\" été élevé\" ||$LIB_E$ || \" par un deuxième père ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rfsu7w",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_DEUXP"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftio528",
+              "id": "l2rmvyaw",
+              "mandatory": false,
+              "CodeListReference": "l12074mk",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Où est né \" || (\r\n    if($PRENOM$=$PRENOMREF$) then \"votre deuxième père ?\"\r\n    else \"le deuxième père de \" ||$PRENOM$ || \" ?\")"
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rmzqg6",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_NAIS2P"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftiun7x",
+              "id": "l2rg4dx4",
+              "mandatory": false,
+              "CodeListReference": "l120pefc",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "DROPDOWN",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Dans quel pays ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rfzxv4",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_PAY2P"
+        }
+      ],
+      "Name": "TCM_ORIGINES"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

@@ -1,9 +1,11 @@
 package fr.insee.pogues.transforms;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -12,10 +14,11 @@ public class PipeLine {
 
 
     private String output;
-    private List<Runnable> transforms = new ArrayList<>();
+    private final List<Runnable> transforms = new ArrayList<>();
+    static final Logger logger = LogManager.getLogger(PipeLine.class);
 
     public PipeLine from(InputStream input) throws Exception {
-        output = IOUtils.toString(input, Charset.forName("UTF-8"));
+        output = IOUtils.toString(input, StandardCharsets.UTF_8);
         return this;
     }
 
@@ -29,9 +32,8 @@ public class PipeLine {
             try {
                 output = t.apply(output, params, surveyName);
             } catch (Exception e) {
-                throw new RuntimeException(
-                        String.format("Exception occured while executing mapping function: %s", e.getMessage())
-                );
+                logger.error(String.format("While applying transform to survey %s with params %s",surveyName, params));
+                throw new RuntimeException("Exception occured while executing mapping function ", e);
             }
         });
         return this;
@@ -40,11 +42,7 @@ public class PipeLine {
 
     public String transform() throws Exception {
         for (Runnable t : transforms) {
-            try {
-                t.run();
-            } catch (Exception e) {
-                throw e;
-            }
+            t.run();
         }
         return output;
     }

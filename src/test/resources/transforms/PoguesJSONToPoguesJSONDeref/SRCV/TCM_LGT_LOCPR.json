@@ -1,0 +1,476 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+    {
+      "Description": "Le ménage de PRENOM est propriétaire",
+      "Expression": "$T_STOC$ = \"1\"",
+      "id": "l1awew5k",
+      "IfTrue": "l1at6gox-l1at6gox"
+    },
+    {
+      "Description": "Le ménage de PRENOM est locataire",
+      "Expression": "$T_STOC$ = \"3\"",
+      "id": "l1awezrd",
+      "IfTrue": "l1at8nud-l1at8nud"
+    },
+    {
+      "Description": "Le ménage de PRENOM est locataire ou logé gratuitement",
+      "Expression": "$T_STOC$ = \"3\" Or $T_STOC$ = \"4\"",
+      "id": "l1awkguo",
+      "IfTrue": "l1atqd1u-l1atqd1u"
+    }
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "l1asf1w0",
+        "l1asqysn",
+        "l1at6gox",
+        "l1at8nud",
+        "l1atqd1u",
+        "l1atmtkj",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_LGT_LOCPR"
+  ],
+  "Name": "TCM_LGT_LOCPR",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_STOC label",
+        "id": "lfti056e",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1asjley",
+        "Name": "T_STOC",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_STOP label",
+        "id": "lfthvj57",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_STOP",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_STOL label",
+        "id": "lfti5749",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_STOL",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_LOGPROPRI label",
+        "id": "lfti4ir9",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1ata22l",
+        "Name": "T_LOGPROPRI",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_EMMENAGE label",
+        "id": "lftuv80x",
+        "type": "CollectedVariableType",
+        "Name": "T_EMMENAGE",
+        "Datatype": {
+          "Pattern": "AAAA",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "4"
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:07:28 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lge05we2",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_STOC",
+        "id": "l1asjley",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Propriétaire\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Usufruitier, y compris en viager\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Locataire ou sous-locataire\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Logé gratuitement, avec un paiement éventuel de charges\"",
+            "Value": "4"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_OUI_NON",
+        "id": "l0v2k0fj",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Oui",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Non",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_LOGPROPRI",
+        "id": "l1ata22l",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "L'employeur d'un membre du ménage dans le cadre d'un logement de fonction ?",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Un organisme HLM (ou assimilé, OPAC, offices, sociétés, fondations) ?",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "Une administration, un organisme de Sécurité Sociale, ou une association au titre de l'Action logement ?",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "Une banque, une assurance ou une autre société du secteur public ou du secteur privé ?",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "Un membre de la famille ?",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "Un autre particulier ?",
+            "Value": "6"
+          },
+          {
+            "Parent": "",
+            "Label": "Autre cas ?",
+            "Value": "7"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Propriété ou location du logement"
+      ],
+      "id": "l1asf1w0",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfti056e",
+              "id": "l1auyha2",
+              "mandatory": false,
+              "CodeListReference": "l1asjley",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "CHECKBOX",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Quel est le statut d’occupation de votre ménage dans le logement situé à l’adresse \" || $ADR$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l1asqysn",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_STOC"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthvj57",
+              "id": "l1av1y5s",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "CHECKBOX",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Votre ménage doit-il rembourser actuellement un ou plusieurs emprunts pour ce logement ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l1at6gox",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_STOP"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfti5749",
+              "id": "l1auyess",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Ce logement est-il un logement social ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l1at8nud",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_STOL"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfti4ir9",
+              "id": "l1av2w8v",
+              "mandatory": false,
+              "CodeListReference": "l1ata22l",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "CHECKBOX",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Pour votre ménage, le propriétaire du logement est ...\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l1atqd1u",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Qui est le propriétaire de ce logement ?\"",
+              "id": "l1ati3zd",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_LOGPROPRI"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftuv80x",
+              "id": "l1auvdqg",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "AAAA",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": "4"
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"En quelle année votre ménage est-arrivé dans le logement situé à l'adresse \" || $ADR$ || \" ?\"\r\n\r\n"
+          ],
+          "id": "l1atmtkj",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"En cas d'emménagements séparés des membres du ménage, choisir la date d'entrée du premier occupant. (AAAA)\"",
+              "id": "l1atq9rq",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"En cas de départ puis de retour dans le logement, choisir la date de la dernière arrivée (AAAA)\"",
+              "id": "l1atz7au",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CATI",
+                "CAPI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_EMMENAGE"
+        }
+      ],
+      "Name": "TCM_LGT_LPR"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}
