@@ -11,7 +11,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Set up JDK 11
@@ -19,7 +19,7 @@ jobs:
         with:
           java-version: 11
       - name: Checkout Lunatic-Model repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           ref: master
@@ -29,7 +29,7 @@ jobs:
         working-directory: ./Lunatic-Model
         run: mvn clean generate-sources install -DskipTests
       - name: Checkout Pogues-Model repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           ref: main

@@ -9,7 +9,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
       - name: Set up JDK 11
@@ -17,7 +17,7 @@ jobs:
         with:
           java-version: 11
       - name: Checkout Lunatic-Model repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           ref: master
@@ -27,7 +27,7 @@ jobs:
         working-directory: ./Lunatic-Model
         run: mvn clean generate-sources install -DskipTests
       - name: Checkout Pogues-Model repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           ref: main
@@ -52,7 +52,7 @@ jobs:
           java-version: 11
 
       - name: Checkout Lunatic-Model repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           ref: master
@@ -64,7 +64,7 @@ jobs:
         run: mvn clean generate-sources install -DskipTests
 
       - name: Checkout Pogues-Model repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           fetch-depth: 1
           ref: main
@@ -76,7 +76,7 @@ jobs:
         run: mvn clean generate-sources install -DskipTests
 
       - name: Checkout Pogues-Back-Office repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Build with Maven Pogues-Back-Office
         run: mvn clean package -DskipTests -B -V --file pom.xml
@@ -91,7 +91,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Download build
         id: download
         uses: actions/download-artifact@v2
