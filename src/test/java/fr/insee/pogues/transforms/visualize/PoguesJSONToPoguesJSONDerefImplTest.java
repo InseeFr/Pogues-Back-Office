@@ -402,8 +402,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
 
         // Then
         assertNotNull(outQuestionnaire);
-        Files.writeString(Path.of("src/test/resources/transforms/PoguesJSONToPoguesJSONDeref/SRCV/SRCV-out.json"),
-                PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+        assertNotEquals("", PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
     }
 
 }
