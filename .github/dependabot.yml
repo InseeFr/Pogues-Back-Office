@@ -25,3 +25,4 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    target-branch: "build/fresh-build" # temp config
