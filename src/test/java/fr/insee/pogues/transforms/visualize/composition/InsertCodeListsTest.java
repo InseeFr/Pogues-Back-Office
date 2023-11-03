@@ -38,17 +38,17 @@ class InsertCodeListsTest {
     }
 
     @Test
-    void insertCodeList_differentName() {
+    void insertCodeList_differentLabels() {
         //
         CodeList codeList = new CodeList();
         codeList.setId("codes1");
-        codeList.setName("CODE_LIST_A");
+        codeList.setLabel("CODE_LIST_A");
         questionnaire.setCodeLists(new CodeLists());
         questionnaire.getCodeLists().getCodeList().add(codeList);
         //
         CodeList codeListRef = new CodeList();
         codeListRef.setId("codes11");
-        codeListRef.setName("CODE_LIST_B");
+        codeListRef.setLabel("CODE_LIST_B");
         referenced1.setCodeLists(new CodeLists());
         referenced1.getCodeLists().getCodeList().add(codeListRef);
         //
@@ -61,17 +61,17 @@ class InsertCodeListsTest {
     }
 
     @Test
-    void insertCodeList_sameName() {
+    void insertCodeList_sameLabel() {
         //
         CodeList codeList = new CodeList();
         codeList.setId("codes1");
-        codeList.setName("CODE_LIST_A");
+        codeList.setLabel("CODE_LIST_A");
         questionnaire.setCodeLists(new CodeLists());
         questionnaire.getCodeLists().getCodeList().add(codeList);
         //
         CodeList codeListRef = new CodeList();
         codeListRef.setId("codes11");
-        codeListRef.setName("CODE_LIST_A");
+        codeListRef.setLabel("CODE_LIST_A");
         referenced1.setCodeLists(new CodeLists());
         referenced1.getCodeLists().getCodeList().add(codeListRef);
         //
@@ -81,7 +81,6 @@ class InsertCodeListsTest {
         assertNotNull(questionnaire.getCodeLists());
         assertFalse(questionnaire.getCodeLists().getCodeList().isEmpty());
         assertEquals(1, questionnaire.getCodeLists().getCodeList().size());
-
         assertEquals("codes1", questionnaire.getCodeLists().getCodeList().get(0).getId());
     }
 
