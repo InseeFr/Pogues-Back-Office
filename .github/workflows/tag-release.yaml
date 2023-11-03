@@ -1,4 +1,4 @@
-name: Pogues Back Office Tag Release CI
+name: Pogues Back Office release on tag
 
 on:
   push:
@@ -13,11 +13,13 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '17'
+
       - name: Test, package and analyze with maven & SonarCloud
         run: mvn verify sonar:sonar -Dsonar.projectKey=InseeFr_Pogues-Back-Office -Dsonar.organization=inseefr -Dsonar.host.url=https://sonarcloud.io
         env:
@@ -29,6 +31,7 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
+
       - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
@@ -41,39 +44,31 @@ jobs:
       - name: Upload war
         uses: actions/upload-artifact@v3
         with:
-          name: war
-          path: target/*.war
+          name: jar
+          path: target/*.jar
 
   build-release:
     runs-on: ubuntu-latest
     needs: build
     steps:
       - uses: actions/checkout@v4
+
       - name: Download build
         id: download
         uses: actions/download-artifact@v3
         with:
-          name: war
+          name: jar
           path: target/
 
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.ref }}
-          release_name: "Release ${{ github.ref }}"
-          draft: false
-          prerelease: false
+      # Todo: add automated changelog step (based conventional commit using requarks/changelog-action)
 
-      - name: Upload Release Asset
-        id: upload-release-asset
-        uses: actions/upload-release-asset@v1
+      - name: Create release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ github.ref_name }}
+          target_commitish: ${{ github.head_ref || github.ref }}
+          name: "v${{ needs.check-version.outputs.release-version }}"
+          #body: see todo
+          files: target/pogues-bo.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: target/rmes-pogbo.war
-          asset_name: rmes-pogbo.war
-          asset_content_type: application/java-archive
