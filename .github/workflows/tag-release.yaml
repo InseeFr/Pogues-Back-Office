@@ -94,7 +94,7 @@ jobs:
       - uses: actions/checkout@v2
       - name: Download build
         id: download
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: war
           path: target/
