@@ -39,7 +39,7 @@ jobs:
         run: mvn clean package -DskipTests -B -V --file pom.xml
 
       - name: Upload war
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: war
           path: target/*.war
@@ -51,7 +51,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Download build
         id: download
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: war
           path: target/
