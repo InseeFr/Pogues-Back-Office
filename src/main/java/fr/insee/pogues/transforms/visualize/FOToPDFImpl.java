@@ -1,22 +1,6 @@
 package fr.insee.pogues.transforms.visualize;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXResult;
-import javax.xml.transform.stream.StreamSource;
-
+import fr.insee.pogues.config.StaticResourcesForFOPConfig;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.fop.apps.Fop;
@@ -24,7 +8,19 @@ import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.xml.transform.Result;
+import javax.xml.transform.Source;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.sax.SAXResult;
+import javax.xml.transform.stream.StreamSource;
+import java.io.*;
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 @Service
 public class FOToPDFImpl implements FOToPDF {
@@ -34,6 +30,9 @@ public class FOToPDFImpl implements FOToPDF {
 	public static final String TEMP_FOLDER_PATH = System.getProperty("java.io.tmpdir") + "/eno";
 	
 	public static final String FINAL_FO_EXTENSION = "-final-out.fo";
+
+	@Autowired
+	private StaticResourcesForFOPConfig staticResourcesForFOPConfig;
 
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
@@ -74,10 +73,10 @@ public class FOToPDFImpl implements FOToPDF {
 
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
 
-		File conf = new File(FOToPDFImpl.class.getResource("/pdf/fop.xconf").toURI());
-		InputStream isXconf = new FileInputStream(conf);
-		URI imgFolderUri = FOToPDFImpl.class.getResource("/pdf/img/").toURI();
-		
+
+		InputStream isXconf = staticResourcesForFOPConfig.getFopXconf().getInputStream();
+		URI imgFolderUri = staticResourcesForFOPConfig.getImgFolderUri();
+
 		// Step 1: Construct a FopFactory by specifying a reference to the
 		// configuration file
 		// (reuse if you plan to render multiple documents!)
