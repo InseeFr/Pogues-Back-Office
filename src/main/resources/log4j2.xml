@@ -3,8 +3,8 @@
 	<appenders>
 
 		<RollingFile name="RollingFile"
-			fileName="D://logs/pogues-bo-local.log"
-			filePattern="D://logs/pogues-bo-local-%d{MM-dd-yyyy}-%i.log.gz"
+			fileName="${sys:LOG_PATH:-/var/log}/pogues-bo.log"
+			filePattern="${sys:LOG_PATH:-/var/log}/pogues-bo-%d{MM-dd-yyyy}-%i.log.gz"
 			ignoreExceptions="false">
 			<PatternLayout>
 				<Pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %level %logger{36} -
