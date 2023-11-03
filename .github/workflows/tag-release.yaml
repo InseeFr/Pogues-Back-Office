@@ -82,7 +82,7 @@ jobs:
         run: mvn clean package -DskipTests -B -V --file pom.xml
 
       - name: Upload war
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: war
           path: target/*.war
