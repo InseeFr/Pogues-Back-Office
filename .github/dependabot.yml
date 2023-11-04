@@ -18,3 +18,11 @@ updates:
         update-types: ["version-update:semver-major"] # ignore new major versions of eclipse dependencies for now
       - dependency-name: "org.springframework.boot:spring-boot-starter-parent"
         update-types: ["version-update:semver-major"] # ignore spring-boot 3.+ for now
+
+  - package-ecosystem: "github-actions"
+    # Workflow files stored in the
+    # default location of `.github/workflows`
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    target-branch: "build/fresh-build" # temp config
