@@ -10,7 +10,7 @@ updates:
     directory: "/" # Location of package manifests (pom.xml)
     schedule:
       interval: "weekly"
-    target-branch: "build/fresh-build" # temp config
+    target-branch: "develop" # temp config
     # Temporary allow up to 12 open pull requests for maven dependencies (5 by default without this option)
     open-pull-requests-limit: 12
     ignore:
@@ -25,4 +25,4 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
-    target-branch: "build/fresh-build" # temp config
+    target-branch: "develop" # temp config
