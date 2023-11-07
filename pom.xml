@@ -1,26 +1,26 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>2.7.17</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath/>
+		<!-- lookup parent from repository -->
 	</parent>
 
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>jar</packaging>
-	<version>4.3.0-SNAPSHOT</version>
+	<version>4.3.1-SNAPSHOT</version>
 	<name>Pogues-BO</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>17</java.version>
 		<final.asset.name>pogues-bo</final.asset.name>
-		
+
 		<json-simple.version>1.1.1</json-simple.version>
 		<pogues-model.version>1.0.5</pogues-model.version>
 		<fop.version>2.9</fop.version>
@@ -113,7 +113,7 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
- 		<dependency>
+		<dependency>
 			<groupId>com.googlecode.json-simple</groupId>
 			<artifactId>json-simple</artifactId>
 			<version>${json-simple.version}</version>
@@ -147,7 +147,7 @@
 			<artifactId>xmlunit-matchers</artifactId>
 			<scope>test</scope>
 		</dependency>
- 		<dependency>
+		<dependency>
 			<groupId>jakarta.servlet</groupId>
 			<artifactId>jakarta.servlet-api</artifactId>
 			<scope>provided</scope>
@@ -161,7 +161,7 @@
 			<artifactId>springdoc-openapi-ui</artifactId>
 			<version>${springdoc-openapi-ui.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
@@ -181,17 +181,17 @@
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
-			<version>2.7.13</version> <!-- 4.0.2 -->
+			<version>2.7.13</version>			<!-- 4.0.2 -->
 		</dependency>
 		<dependency>
-			<groupId>javax.xml.bind</groupId> <!-- jakarta.xml.bind -->
-			<artifactId>jaxb-api</artifactId> <!-- jakarta.xml.bind-api -->
-			<version>2.3.1</version> <!-- 4.0.1 -->
+			<groupId>javax.xml.bind</groupId>			<!-- jakarta.xml.bind -->
+			<artifactId>jaxb-api</artifactId>			<!-- jakarta.xml.bind-api -->
+			<version>2.3.1</version>			<!-- 4.0.1 -->
 		</dependency>
 		<dependency>
 			<groupId>org.glassfish</groupId>
-			<artifactId>javax.json</artifactId> <!-- jakarta.json -->
-			<version>1.1.4</version> <!-- 2.0.1 -->
+			<artifactId>javax.json</artifactId>			<!-- jakarta.json -->
+			<version>1.1.4</version>			<!-- 2.0.1 -->
 		</dependency>
 
 	</dependencies>
@@ -200,29 +200,29 @@
 		<finalName>${final.asset.name}</finalName>
 		<plugins>
 
-			 <plugin>
+			<plugin>
 				<groupId>org.jacoco</groupId>
 				<artifactId>jacoco-maven-plugin</artifactId>
 				<version>${jacoco.version}</version>
-				 <executions>
-					 <execution>
-						 <id>prepare-agent</id>
-						 <goals>
-							 <goal>prepare-agent</goal>
-						 </goals>
-					 </execution>
-					 <execution>
-						 <id>report</id>
-						 <goals>
-							 <goal>report</goal>
-						 </goals>
-						 <configuration>
-							 <formats>
-								 <format>XML</format>
-							 </formats>
-						 </configuration>
-					 </execution>
-				 </executions>
+				<executions>
+					<execution>
+						<id>prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>report</id>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<formats>
+								<format>XML</format>
+							</formats>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
