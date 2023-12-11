@@ -2,7 +2,9 @@ package fr.insee.pogues.transforms.visualize.composition;
 
 import fr.insee.pogues.exception.DeReferencingException;
 import fr.insee.pogues.exception.IllegalIterationException;
-import fr.insee.pogues.model.*;
+import fr.insee.pogues.model.ComponentType;
+import fr.insee.pogues.model.IterationType;
+import fr.insee.pogues.model.Questionnaire;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -112,9 +114,7 @@ class UpdateReferencedVariablesScope implements CompositionStep {
      * @param iterationId Identifier of the iteration that will be the scope of null-scope variables.
      */
     private static void updateVariablesScope(Questionnaire referencedQuestionnaire, String iterationId) {
-        referencedQuestionnaire.getVariables().getVariable().stream()
-                .filter(variableType -> variableType instanceof CalculatedVariableType
-                        || variableType instanceof ExternalVariableType)
+        referencedQuestionnaire.getVariables().getVariable()
                 .forEach(variableType -> {
                     if (variableType.getScope() == null) {
                         variableType.setScope(iterationId);
