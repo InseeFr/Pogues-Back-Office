@@ -2,9 +2,8 @@ package fr.insee.pogues.transforms.visualize.composition;
 
 import fr.insee.pogues.exception.DeReferencingException;
 import fr.insee.pogues.exception.IllegalIterationException;
-import fr.insee.pogues.model.ComponentType;
-import fr.insee.pogues.model.IterationType;
-import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.model.*;
+import fr.insee.pogues.utils.PoguesModelUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -92,7 +91,7 @@ class UpdateReferencedVariablesScope implements CompositionStep {
                 // If it is in iteration's scope, then update its variables
                 if (inScope) {
                     result = iterationType.getId();
-                    updateVariablesScope(referencedQuestionnaire, iterationType.getId());
+                    updateVariablesScope(referencedQuestionnaire, iterationType);
                 }
                 // We have found what we wanted for this iteration object, break
                 break;
@@ -106,20 +105,26 @@ class UpdateReferencedVariablesScope implements CompositionStep {
     }
 
     /**
-     * Update the scope of variables that have a null scope in given questionnaire with iteration id given
-     * (variables that have a non-null scope are unchanged, see model's documentation).
-     * Only calculated and external variables are updated
-     * (collected variables in Pogues' model should not have a scope, see model's documentation).
+     * Update the scope of variables that have a null scope in given questionnaire with iteration id given.
+     * Note: variables that have a non-null scope are unchanged, since "loops of loops" are prohibited:
+     * if a referenced questionnaire is in a loop in the referencing questionnaire, it is supposed that
+     * the referenced questionnaire doesn't define new "main"/"standalone" loops.
      * @param referencedQuestionnaire Questionnaire object.
-     * @param iterationId Identifier of the iteration that will be the scope of null-scope variables.
+     * @param iterationType Iteration that will define the scope of null-scope variables.
+     * @throws IllegalIterationException if the iteration object is not a DynamicIterationType.
      */
-    private static void updateVariablesScope(Questionnaire referencedQuestionnaire, String iterationId) {
-        referencedQuestionnaire.getVariables().getVariable()
-                .forEach(variableType -> {
-                    if (variableType.getScope() == null) {
-                        variableType.setScope(iterationId);
-                    }
-                });
+    private static void updateVariablesScope(Questionnaire referencedQuestionnaire, IterationType iterationType)
+            throws IllegalIterationException {
+        for (VariableType variableType : referencedQuestionnaire.getVariables().getVariable()) {
+            if (variableType.getScope() == null) {
+                // Rule: if it is a "main"/"standalone" loop, the scope is the loop id
+                if (! PoguesModelUtils.isLinkedLoop(iterationType))
+                    variableType.setScope(iterationType.getId());
+                // if it is a linked loop, the scope is the id of the corresponding "main" loop
+                else
+                    variableType.setScope(PoguesModelUtils.getLinkedLoopReference(iterationType));
+            }
+        }
     }
 
 }

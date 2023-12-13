@@ -7,7 +7,9 @@ import fr.insee.pogues.model.FlowControlType;
 import fr.insee.pogues.model.IterationType;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class PoguesModelUtilsTest {
 
@@ -38,6 +40,52 @@ class PoguesModelUtilsTest {
         iterationType.getMemberReference().add("seq2");
         iterationType.getMemberReference().add("seq3");
         assertThrows(IllegalIterationException.class, () -> PoguesModelUtils.getIterationBounds(iterationType));
+    }
+
+    static class FooIteration extends IterationType {}
+
+    @Test
+    void isLinkedLoop_wrongObject_shouldThrowException() {
+        // Given an unexpected new type of iteration
+        IterationType iterationType = new FooIteration();
+        // When + Then
+        assertThrows(IllegalIterationException.class, () ->
+                PoguesModelUtils.isLinkedLoop(iterationType));
+    }
+
+    @Test
+    void getLinkedLoopReference_wrongObject_shouldThrowException() {
+        // Given an unexpected new type of iteration
+        IterationType iterationType = new FooIteration();
+        // When + Then
+        assertThrows(IllegalIterationException.class, () ->
+                PoguesModelUtils.getLinkedLoopReference(iterationType));
+    }
+
+    @Test
+    void isLinkedLoop_unitTests() throws IllegalIterationException {
+        //
+        DynamicIterationType mainLoop = new DynamicIterationType();
+        mainLoop.setId("main-loop-id");
+        DynamicIterationType linkedLoop = new DynamicIterationType();
+        linkedLoop.setId("linked-loop-id");
+        linkedLoop.setIterableReference("main-loop-id");
+        //
+        assertFalse(PoguesModelUtils.isLinkedLoop(mainLoop));
+        assertTrue(PoguesModelUtils.isLinkedLoop(linkedLoop));
+    }
+
+    @Test
+    void getLinkedLoopReference_unitTests() throws IllegalIterationException {
+        //
+        DynamicIterationType mainLoop = new DynamicIterationType();
+        mainLoop.setId("main-loop-id");
+        DynamicIterationType linkedLoop = new DynamicIterationType();
+        linkedLoop.setId("linked-loop-id");
+        linkedLoop.setIterableReference("main-loop-id");
+        //
+        assertNull(PoguesModelUtils.getLinkedLoopReference(mainLoop));
+        assertEquals("main-loop-id", PoguesModelUtils.getLinkedLoopReference(linkedLoop));
     }
 
 }
