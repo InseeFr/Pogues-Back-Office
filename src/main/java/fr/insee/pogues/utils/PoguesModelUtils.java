@@ -76,4 +76,44 @@ public class PoguesModelUtils {
         return iterationType.getMemberReference();
     }
 
+    /**
+     * Returns true if the given iteration corresponds to a linked loop.
+     * @param iterationType A Pogues iteration (loop) object.
+     * @return True if the given iteration corresponds to a linked loop.
+     * @throws IllegalIterationException If the iteration object given is not a DynamicIterationType.
+     */
+    public static boolean isLinkedLoop(IterationType iterationType) throws IllegalIterationException {
+        checkIterationInstance(iterationType);
+        return ((DynamicIterationType) iterationType).getIterableReference() != null;
+    }
+
+    /**
+     * The iteration reference of the given iteration.
+     * If the iteration is a "main" loop, this is null.
+     * If it is a linked loop, this is the identifier of the corresponding "main" loop.
+     * @param iterationType A Pogues iteration (loop) object.
+     * @return The iteration reference of the given iteration.
+     * @throws IllegalIterationException If the iteration object given is not a DynamicIterationType.
+     */
+    public static String getLinkedLoopReference(IterationType iterationType) throws IllegalIterationException {
+        checkIterationInstance(iterationType);
+        return ((DynamicIterationType) iterationType).getIterableReference();
+    }
+
+    /**
+     * Safety check due to a flaw in Pogues-Model: abstract class IterationType has only one inheritor that is
+     * DynamicIterationType. Only the DynamicIterationType class has the "iteration reference" property...
+     * Therefore, an iteration object has to be cast to get this property.
+     * This method throws an exception if the cast fails, and explains why.
+     * @param iterationType A Pogues iteration object.
+     * @throws IllegalIterationException If the iteration object given is not a DynamicIterationType.
+     */
+    private static void checkIterationInstance(IterationType iterationType) throws IllegalIterationException {
+        if (! (iterationType instanceof DynamicIterationType)) // (
+            throw new IllegalIterationException(String.format(
+                    "Pogues iteration with id=%s and name=%s is not is of type %s. " +
+                            "Only DynamicIterationType is supported.",
+                    iterationType.getId(), iterationType.getName(), iterationType.getClass().getSimpleName()));
+    }
+
 }
