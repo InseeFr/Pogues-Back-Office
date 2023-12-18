@@ -211,7 +211,7 @@ public class PoguesTransforms {
 
 	@PostMapping(path = "visualize-stromae-v3/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
 	@Operation(summary = "Get visualization URI Stromae V3 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V3 from JSON serialized Pogues entity")
-	public ResponseEntity<StreamingResponseBody> visualizeStromaeV2FromBody(@RequestBody String request,
+	public ResponseEntity<StreamingResponseBody> visualizeStromaeV3FromBody(@RequestBody String request,
 			@PathVariable(value = "questionnaire") String questionnaireName,
 			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
 		PipeLine pipeline = new PipeLine();
