@@ -48,7 +48,8 @@ public class PoguesEnvironment {
 			entity.put("Metadata services", env.getProperty("fr.insee.pogues.api.remote.metadata.url"));
 			entity.put("Eno Webservice", env.getProperty("fr.insee.pogues.api.remote.eno.host"));
 			entity.put("Stromae", env.getProperty("fr.insee.pogues.api.remote.stromae.host"));
-			entity.put("Stromae v2", env.getProperty("fr.insee.pogues.api.remote.stromaev2.vis.url"));
+			entity.put("Stromae v2", env.getProperty("fr.insee.pogues.api.remote.stromaev2.vis.url"));			
+			entity.put("Stromae v3", env.getProperty("fr.insee.pogues.api.remote.stromaev3.vis.url"));
 			entity.put("Queen", env.getProperty("fr.insee.pogues.api.remote.queen.host"));
 			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
