@@ -78,6 +78,9 @@ public class PoguesTransforms {
 	LunaticJSONToUriStromaeV2 lunaticJSONToUriStromaeV2;
 
 	@Autowired
+	LunaticJSONToUriStromaeV3 lunaticJSONToUriStromaeV3;
+
+	@Autowired
 	PoguesJSONToPoguesJSONDeref jsonToJsonDeref;
 
 	@Autowired
@@ -196,6 +199,38 @@ public class PoguesTransforms {
 							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
 							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
 							.map(lunaticJSONToUriStromaeV2::transform, params, questionnaireName.toLowerCase())
+							.transform().getBytes());
+				} catch (Exception e) {
+					logger.error(e.getMessage());
+					throw new PoguesException(500, e.getMessage(), null);
+				}
+			};
+			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw e;
+		}
+	}
+
+	@PostMapping(path = "visualize-stromae-v3/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
+	@Operation(summary = "Get visualization URI Stromae V3 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V3 from JSON serialized Pogues entity")
+	public ResponseEntity<StreamingResponseBody> visualizeStromaeV2FromBody(@RequestBody String request,
+			@PathVariable(value = "questionnaire") String questionnaireName,
+			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+		PipeLine pipeline = new PipeLine();
+		Map<String, Object> params = new HashMap<>();
+		params.put("questionnaire", questionnaireName.toLowerCase());
+		params.put("needDeref", ref);
+		params.put("mode", "CAWI");
+		try {
+			StreamingResponseBody stream = output -> {
+				try {
+					output.write(pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+							.map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
+							.map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+							.map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+							.map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+							.map(lunaticJSONToUriStromaeV3::transform, params, questionnaireName.toLowerCase())
 							.transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
