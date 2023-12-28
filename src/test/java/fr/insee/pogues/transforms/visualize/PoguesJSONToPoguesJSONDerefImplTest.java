@@ -286,7 +286,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
 
         // Then
         assertNotNull(outQuestionnaire);
-        assertDoesNotThrow(() -> PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+        assertNotEquals("", PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
         // many things on out questionnaire's content could be tested here
         // (If you read this, and you're willing to, feel free :) )
     }
@@ -307,7 +307,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
 
         // Then
         assertNotNull(outQuestionnaire);
-        assertDoesNotThrow(() -> PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+        assertNotEquals("", PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
         // many things on out questionnaire's content could be tested here
         // (If you read this, and you're willing to, feel free :) )
     }
@@ -362,6 +362,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
 
         // Then
         assertNotNull(outQuestionnaire);
+        assertNotEquals("", PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
         assertDoesNotThrow(() -> PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
         //
         assertEquals(2, outQuestionnaire.getIterations().getIteration().size());
@@ -375,6 +376,33 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         assertTrue(loop.isPresent());
         assertTrue(linkedLoop.isPresent());
         assertEquals(loop.get().getId(), ((DynamicIterationType) linkedLoop.get()).getIterableReference());
+    }
+
+    @Test
+    void dereference_SRCV() throws Exception {
+        // Given
+        String folderName = "SRCV";
+        QuestionnairesService questionnairesService = mockQuestionnaireService(
+                folderName,
+                List.of("TCM_FAMILLE_20230413.json", "TCM_LGT_ARCHI_20230413.json", "TCM_LGT_LOCPR.json",
+                        "TCM_ORIGINES_20230413.json", "TCM_THL_CDM_20230413.json", "TCM_THL_DHL_20230413.json",
+                        "TCM_THL_FAM.json", "TCM_THL_LDV_20230413.json", "TCM_THL_PRENOMS.json",
+                        "TCM_THL_VECHORS.json", "TCM_ACT_PRINC.json", "TCM_F_FORM_20230413.json",
+                        "TCM_SANTE_EU_20230413.json", "TCM_SANTE_DET_20230413.json", "TCM_F_DIPL_DET_20230413.json"),
+                List.of("lgdy5off", "lge09s4g", "lge05we2",
+                        "lgdy0lat", "lge03sax", "lge0hl8m",
+                        "lge0svtt", "lge0pirs", "lgf69bqb",
+                        "lge0fnja", "lge01yp0", "lge02hwz",
+                        "lgdz4zf6", "lgdygcql", "lgdzfhfx"));
+        String testedInput = readQuestionnaire(folderName, "SRCV-20230418.json");
+
+        // When
+        PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
+        Questionnaire outQuestionnaire = deref.transformAsQuestionnaire(testedInput);
+
+        // Then
+        assertNotNull(outQuestionnaire);
+        assertNotEquals("", PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
     }
 
 }

@@ -1,0 +1,491 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+    {
+      "Description": "PRENOM est né en France",
+      "Expression": "$T_LNAIS$ = \"1\"",
+      "id": "l125uwz4",
+      "IfTrue": "l1265ml0-l1265ml0"
+    },
+    {
+      "Description": "PRENOM a déjà vécu au moins un an à l'étranger",
+      "Expression": "$T_VECUE$  = \"1\"",
+      "id": "l12a81jj",
+      "IfTrue": "l12b8hbj-l1uxyne3"
+    },
+    {
+      "Description": "PRENOM est né à l'étranger",
+      "Expression": "$T_LNAIS$ = \"2\"",
+      "id": "l12a3l04",
+      "IfTrue": "l127ghn9-l1283pqp"
+    },
+    {
+      "Description": "Pas de réponse sur l'année d'arrivée en France",
+      "Expression": "isnull($T_ANNARIV$)",
+      "id": "l12a1idg",
+      "IfTrue": "l1283pqp-l1283pqp"
+    },
+    {
+      "Description": "Date retour de période à l'étranger non renseignée",
+      "Expression": "isnull($T_DATERETOUR$)",
+      "id": "l1uxqx5b",
+      "IfTrue": "l1uxyne3-l1uxyne3"
+    }
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "kfxmfvwj",
+        "l1265ml0",
+        "l12b8hbj",
+        "l126og4z",
+        "l1uxyne3",
+        "l127ghn9",
+        "l1283pqp",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_THL_VECHORS"
+  ],
+  "Name": "TCM_THL_VECHORS",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_VECUE label",
+        "id": "lfty7ohx",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_VECUE",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "Date départ à l'étranger (DATEDEPART)",
+        "id": "lftu6mqk",
+        "type": "CollectedVariableType",
+        "Name": "T_DATEDEPART",
+        "Datatype": {
+          "Pattern": "MM/AAAA",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "7"
+        }
+      },
+      {
+        "Label": "T_DATERETOUR label",
+        "id": "lfr1vvzz",
+        "type": "CollectedVariableType",
+        "Name": "T_DATERETOUR",
+        "Datatype": {
+          "Pattern": "MM/AAAA",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "7"
+        }
+      },
+      {
+        "Label": "T_AGRETOUR label",
+        "id": "lfthvcuz",
+        "type": "CollectedVariableType",
+        "Name": "T_AGRETOUR",
+        "Datatype": {
+          "Maximum": "120",
+          "Minimum": "0",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      },
+      {
+        "Label": "T_ANNARIV label",
+        "id": "lfti36e4",
+        "type": "CollectedVariableType",
+        "Name": "T_ANNARIV",
+        "Datatype": {
+          "Pattern": "AAAA",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "4"
+        }
+      },
+      {
+        "Label": "T_AGARRIV label",
+        "id": "lfthv7ma",
+        "type": "CollectedVariableType",
+        "Name": "T_AGARRIV",
+        "Datatype": {
+          "Maximum": "120",
+          "Minimum": "0",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:08:36 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lge0fnja",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_OUI_NON",
+        "id": "l0v2k0fj",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Oui",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Non",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Période de vécu à l'étranger"
+      ],
+      "id": "kfxmfvwj",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfty7ohx",
+              "id": "l126xd8s",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$ = $PRENOMREF$) then \"Depuis votre naissance, avez-vous\" \r\nelse \"Depuis sa naissance, \" || $PRENOM$ || \" a-t-\" || $LIB_PR$ ) || \r\n\" vécu au moins un an sans interruption à l'étranger ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l1265ml0",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_VECUE"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftu6mqk",
+              "id": "l12b81fh",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "MM/AAAA",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": "7"
+              }
+            }
+          ],
+          "Control": [
+            {
+              "post_collect": false,
+              "Description": "Date de départ inférieure à la date de naissance",
+              "Expression": "cast($DATEDEPART$,integer) < cast($DATENAIS$, integer)",
+              "during_collect": false,
+              "criticity": "INFO",
+              "FailMessage": "La date de naissance est inférieure à la date de départ à l'étranger",
+              "id": "l3tz0k5z"
+            }
+          ],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Pouvez-vous indiquer la date de départ à l'étranger, au début de cette période à l'étranger ?\""
+          ],
+          "id": "l12b8hbj",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Indiquez le mois et l'année du départ (MM/AAAA)\"",
+              "id": "l12b4ifa",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_DATEDEPART"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfr1vvzz",
+              "id": "l12bdsg0",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "MM/AAAA",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": "7"
+              }
+            }
+          ],
+          "Control": [
+            {
+              "post_collect": false,
+              "Description": "Date de retour inférieure à date de départ",
+              "Expression": "cast($DATERETOUR$,integer) < cast($DATEDEPART$, integer)",
+              "during_collect": false,
+              "criticity": "INFO",
+              "FailMessage": "\"La date de retour est antérieure à la date de départ\"",
+              "id": "l3tz861i"
+            }
+          ],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Pouvez-vous indiquer la date du retour en France, à l'issue de cette période à l'étranger ?\""
+          ],
+          "id": "l126og4z",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Indiquez le mois et l'année du retour (MM/AAAA)\"",
+              "id": "l126o0z8",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_DATERETOUR"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthvcuz",
+              "id": "l1uyu39v",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "120",
+                "Minimum": "0",
+                "typeName": "NUMERIC",
+                "Unit": "",
+                "type": "NumericDatatypeType",
+                "Decimals": ""
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Vous n'avez pas indiqué de date de retour, quel âge \" || (if ($PRENOM$ = $PRENOMREF$) then \"aviez-vous à \" \r\nelse $PRENOM$ || \" avait-\"  || $LIB_PR$) || \" à \" || $LIB_SON$ || \" retour de cette période à l'étranger ?\""
+          ],
+          "id": "l1uxyne3",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_AGRETOUR"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfti36e4",
+              "id": "l127j0n8",
+              "mandatory": false,
+              "Datatype": {
+                "Pattern": "AAAA",
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": "4"
+              }
+            }
+          ],
+          "Control": [
+            {
+              "post_collect": false,
+              "Description": "Année arrivée en France inférieure à Année de naissance",
+              "Expression": "substr(cast($ANNARIV$,string,\"YYYY-MM-DD\"),1,4) < cast($ANNAIS$, integer)",
+              "during_collect": false,
+              "criticity": "INFO",
+              "FailMessage": "L'année d'arrivée en France est antérieure à l'année de naissance",
+              "id": "l3tzshpw"
+            }
+          ],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"En quelle année \" || (if ($PRENOM$ = $PRENOMREF$) then \"vous êtes-vous installé\" || $LIB_E$  else $PRENOM$ || \" s'est-\" || $LIB_PR$ || \" installé\" || $LIB_E$) || \" en France ?\"\r\n"
+          ],
+          "id": "l127ghn9",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"En cas de plusieurs installations en France, indiquer la plus récente (AAAA)\"",
+              "id": "l1271ndw",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_ANNARIV"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthv7ma",
+              "id": "l127sj20",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "120",
+                "Minimum": "0",
+                "typeName": "NUMERIC",
+                "Unit": "",
+                "type": "NumericDatatypeType",
+                "Decimals": ""
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"A quel âge \" || ( if ($PRENOM$ = $PRENOMREF$) then \"vous êtes-vous installé\" || $LIB_E$ else $PRENOM$ || \" s'est-\" || $LIB_PR$ || \" installé\" || $LIB_E$ ) || \" en France ?\""
+          ],
+          "id": "l1283pqp",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_AGARRIV"
+        }
+      ],
+      "Name": "TCM_THL_VECUHORS"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

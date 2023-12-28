@@ -80,9 +80,6 @@ public class PoguesTransforms {
 	@Autowired
 	PoguesJSONToPoguesJSONDeref jsonToJsonDeref;
 
-	@Autowired
-	QuestionnairesService questionnairesService;
-
 	private static final String CONTENT_DISPOSITION = "Content-Disposition";
 
 	@PostMapping(path = "visualize/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -314,7 +311,7 @@ public class PoguesTransforms {
 					.map(ddiToFo::transform, params, questionnaireName)
 					.map(foToPdf::transform, params, questionnaireName).transform();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error(e.getMessage(),e);
 			throw new PoguesException(500, e.getMessage(), null);
 		}
 		File file = new File(filePath);

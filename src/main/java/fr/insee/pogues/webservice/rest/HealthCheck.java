@@ -24,6 +24,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/healthcheck")
 @Tag(name="Health Check")
@@ -64,17 +66,18 @@ public class HealthCheck {
             @ApiResponse(responseCode = "209", description = "Warning"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public ResponseEntity<Object> getHealthcheck() throws Exception {
+    public ResponseEntity<Object> getHealthcheck() {
 		boolean haveError=false;
 		boolean haveWarning=false;
 		String stateResult="";
 		String errorMessage="Errors : \n";
-		logger.info("Begin healthCheck");
+		logger.debug("Begin healthCheck");
         try {
         	enoClient.getParameters();
         	stateResult = stateResult.concat(" - EnoWS : OK \n");	
         } catch (Exception e) {
         	haveWarning=true;
+			logger.error(e.getMessage());
         	errorMessage = errorMessage.concat("- Eno API doesn't return default parameters \n");
 			stateResult = stateResult.concat(" - EnoWS : KO \n");
         }
@@ -83,7 +86,7 @@ public class HealthCheck {
         	stateResult = stateResult.concat(" - DB PostgreSql : OK \n");	
         } catch (Exception e) {
         	haveError=true;
-        	logger.info(e.getMessage());
+        	logger.error(e.getMessage());
         	errorMessage = errorMessage.concat("- Couldn't connect to Pogues database \n");
 			stateResult = stateResult.concat(" - DB PostgreSql : KO \n");
         }
@@ -94,7 +97,7 @@ public class HealthCheck {
             stateResult = stateResult.concat(" - Stromae, DB Exist : OK \n");
         } catch (Exception e) {
         	haveWarning=true;
-        	logger.info(e.getMessage());
+        	logger.error(e.getMessage());
         	errorMessage = errorMessage.concat("- Couldn't connect to Stromae Exist database \n");
 			stateResult = stateResult.concat(" - Stromae, DB Exist : KO \n");
         }
@@ -103,7 +106,7 @@ public class HealthCheck {
             stateResult = stateResult.concat(" - Stromae, Orbeon : OK \n");
         } catch (Exception e) {
         	haveWarning=true;
-        	logger.info(e.getMessage());
+        	logger.error(e.getMessage());
         	errorMessage = errorMessage.concat("- Couldn't connect to orbeon \n");
 			stateResult = stateResult.concat(" - Stromae, Orbeon : KO \n");
         }
@@ -112,7 +115,7 @@ public class HealthCheck {
             stateResult = stateResult.concat(" - DDI-Access-Services : OK \n");
         } catch (Exception e) {
         	haveError=true;
-        	logger.info(e.getMessage());
+        	logger.error(e.getMessage());
         	errorMessage = errorMessage.concat("- DDI-Access-Services doesn't return environnement parameters \n");
 			stateResult = stateResult.concat(" - DDI-Access-Services : KO \n");
         }
@@ -121,27 +124,30 @@ public class HealthCheck {
             stateResult = stateResult.concat(" - Vizualisation Queen : OK \n");
         } catch (Exception e) {
         	haveWarning=true;
-        	logger.info(e.getMessage());
+        	logger.error(e.getMessage());
         	errorMessage = errorMessage.concat("- Can't reach index.html on queen application\n");
 			stateResult = stateResult.concat(" - Vizualisation Queen : KO \n");
         }
     	stateResult = stateResult.concat(" - Vizualisation Stromae V2 : to be implemented \n");
-		logger.info("HealthCheck complete");
-		logger.info(errorMessage);
-		logger.info(stateResult);
+		logger.debug("HealthCheck complete");
+		logger.debug(stateResult);
+
 		if (!haveError && !haveWarning) {
 			return ResponseEntity.status(HttpStatus.OK).body(stateResult);
 		} else if (haveWarning && !haveError) {
+			logger.warn(errorMessage);
 			return ResponseEntity.status(209).body(stateResult.concat(errorMessage));
 		} else {
+			logger.error(errorMessage);
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(stateResult.concat(errorMessage));
 		}
     }
 
-	private void getCall(String uri) throws Exception{
-		CloseableHttpClient httpClient = httpClientBuilder.build();
-		HttpGet get = new HttpGet(uri);
-        httpClient.execute(get);
+	private void getCall(String uri) throws IOException {
+		try(CloseableHttpClient httpClient = httpClientBuilder.build()){
+			HttpGet get = new HttpGet(uri);
+			httpClient.execute(get);
+		}
 	}
 
 }

@@ -1,0 +1,1981 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+    {
+      "Description": "PRENOM n'est pas \"en emploi\"",
+      "Expression": "nvl($T_SITUAEU$ , \"2\") <> \"1\"",
+      "id": "l1ux9xbw",
+      "IfTrue": "l1axg6y2-l1axg6y2"
+    },
+    {
+      "Description": "PRENOM a déjà travaillé par le passé ",
+      "Expression": "$T_ACTIVANTE$ = \"1\"",
+      "id": "l2j6pxks",
+      "IfTrue": "l1axn5kx-l1axn5kx"
+    },
+    {
+      "Description": "Personne en emploi",
+      "Expression": "$T_EMPLOI$ = \"1\"",
+      "id": "l2j78cpc",
+      "IfTrue": "l2j6l8xy-l2j6l8xy"
+    },
+    {
+      "Description": "Libellé profession non trouvé ",
+      "Expression": "$T_PCLCA$ = \"999\"",
+      "id": "l2j6x4zg",
+      "IfTrue": "l2j37ba4-l2j37ba4"
+    },
+    {
+      "Description": "PRENOM est salarié du public ou du privé",
+      "Expression": "$T_STCPUB$ = \"2\" or $T_STCPUB$ = \"3\"",
+      "id": "l2j73hgp",
+      "IfTrue": "l1uy49nh-l1w7wvih"
+    },
+    {
+      "Description": "PRENOM est salarié en entreprise",
+      "Expression": "$T_STCPUB$ = \"3\"",
+      "id": "l2j7fueo",
+      "IfTrue": "l1w579tb-l1w579tb"
+    },
+    {
+      "Description": "PRENOM est salarié du public",
+      "Expression": "$T_STCPUB$ = \"2\"",
+      "id": "l2j7mr3t",
+      "IfTrue": "l1w7wvih-l1w7wvih"
+    },
+    {
+      "Description": "",
+      "Expression": "$T_STCPUB$ <> \"4\"",
+      "id": "l2j79jjs",
+      "IfTrue": "l1w7xqie-l1wc3dr5"
+    },
+    {
+      "Description": "$PRENOM$ est salarié du secteur public ou privé",
+      "Expression": "$T_STCPUB$ = \"2\" or $T_STCPUB$ = \"3\"",
+      "id": "l2j7bmc7",
+      "IfTrue": "l1wcdojm-l1wcfol1"
+    },
+    {
+      "Description": "Il y a moins de 10 personnes dans l'établissement",
+      "Expression": "$T_NBSALETAB$  = \"1\"",
+      "id": "l2j78vyv",
+      "IfTrue": "l1wcfol1-l1wcfol1"
+    },
+    {
+      "Description": "PRENOM est à son compte ou aide familial",
+      "Expression": "$T_STCPUB$ = \"1\" or $T_STCPUB$ = \"5\"",
+      "id": "l2j7w566",
+      "IfTrue": "l1wde502-l1wd3z30"
+    },
+    {
+      "Description": "Il y a entre 2 et 10 personnes dans l'établissement",
+      "Expression": "$T_NBSAL$ = \"1\"",
+      "id": "l2j7tk2g",
+      "IfTrue": "l1wd3z30-l1wd3z30"
+    },
+    {
+      "Description": "PRENOM est salarié",
+      "Expression": "$T_STCPUB$ = \"2\" or $T_STCPUB$ = \"3\" or $T_STCPUB$ = \"4\"",
+      "id": "l2j7p11v",
+      "IfTrue": "l2hngtu9-l2it2sxv"
+    },
+    {
+      "Description": "PRENOM n'est pas en alternance",
+      "Expression": "$T_CONTAC$ <> \"4\"",
+      "id": "l2j7zb16",
+      "IfTrue": "l2it2sxv-l2it2sxv"
+    },
+    {
+      "Description": "Activité non trouvée",
+      "Expression": "$T_ACTIV$ = \"999\"",
+      "id": "l2rrmja3",
+      "IfTrue": "l1wcbosx-l1wc3dr5"
+    },
+    {
+      "Description": "PRENOM n'a pas du tout d'emploi",
+      "Expression": "$T_EMPLOI$ = \"2\"",
+      "id": "lgdxcbl5",
+      "IfTrue": "l1axqt6w-l1axn5kx"
+    }
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "l1ax3zmp",
+        "l1awvkop",
+        "l1axg6y2",
+        "l1axqt6w",
+        "l1axn5kx",
+        "l2j6l8xy",
+        "l1ax891g",
+        "l1axtzy5",
+        "l2j37ba4",
+        "l1ay3ugz",
+        "l1uy49nh",
+        "l1w579tb",
+        "l1w7wvih",
+        "l1w7xqie",
+        "l1wcbosx",
+        "l1wc3dr5",
+        "l1wcdojm",
+        "l1wcfol1",
+        "l1wde502",
+        "l1wd3z30",
+        "l2hngtu9",
+        "l2it2sxv",
+        "l2itiw5b",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_ACT_PRINC"
+  ],
+  "Name": "TCM_ACT_PRINC",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_SITUAEU label",
+        "id": "lfti75fy",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1ax6zmm",
+        "Name": "T_SITUAEU",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_TRAVAIL label",
+        "id": "lfti40wt",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_TRAVAIL",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_ACTIVANTE label",
+        "id": "lfthzjxg",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_ACTIVANTE",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_ACTIVANTEB label",
+        "id": "lfti0ja6",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_ACTIVANTEB",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NBEMP label",
+        "id": "lfthtjxw",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1axlp6q",
+        "Name": "T_NBEMP",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_PCLCA label",
+        "id": "lftiarlx",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1ay1mdj",
+        "Name": "T_PCLCA",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_PCLCACLAIR label",
+        "id": "lfthxx6q",
+        "type": "CollectedVariableType",
+        "Name": "T_PCLCACLAIR",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Label": "T_STCPUB label",
+        "id": "lfthw15y",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1ay1q2v",
+        "Name": "T_STCPUB",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_ENCADR label",
+        "id": "lfti2yll",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_ENCADR",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_QPRCR label",
+        "id": "lfthzxh5",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1w5j08x",
+        "Name": "T_QPRCR",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "Salarié public (QPRCU)",
+        "id": "l1w7rkgd",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1w7rcz3",
+        "Name": "QPRCU",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_ACTIV label",
+        "id": "lftic2vu",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1w7n0fr",
+        "Name": "T_ACTIV",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_ACTIVMULTI label",
+        "id": "lfti810l",
+        "type": "CollectedVariableType",
+        "Name": "T_ACTIVMULTI",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Label": "T_ACTILIST label",
+        "id": "lftil7nb",
+        "type": "CollectedVariableType",
+        "Name": "T_ACTILIST",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "Label": "T_NBSALETAB label",
+        "id": "lfti95gd",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1wc2pt4",
+        "Name": "T_NBSALETAB",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NBSALETABA label",
+        "id": "lfti7kn4",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1wcgcka",
+        "Name": "T_NBSALETABA",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NBSAL label",
+        "id": "lftiif5a",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1wcl5qf",
+        "Name": "T_NBSAL",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NBSALA label",
+        "id": "lfti6a6p",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l1wdjul6",
+        "Name": "T_NBSALA",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_CONTAC label",
+        "id": "lfti3r16",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2hnfr8p",
+        "Name": "T_CONTAC",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_TPP label",
+        "id": "lfti8lm2",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2it94ua",
+        "Name": "T_TPP",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_OPT_DATANT label",
+        "id": "lfti7afp",
+        "type": "CollectedVariableType",
+        "Name": "T_OPT_DATANT",
+        "Datatype": {
+          "Pattern": "AAAA",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": "4"
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:07:13 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lge01yp0",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_SITUAEU",
+        "id": "l1ax6zmm",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "En emploi",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Au chômage (inscrit ou non à Pôle emploi)",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Retraité\" ||$LIB_E$|| \" ou préretraité\" ||$LIB_E$",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "En incapacité de travailler en raison d'un handicap ou d'un problème de santé durable",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "En études",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "$LIB_HF$ || \" au foyer\"",
+            "Value": "6"
+          },
+          {
+            "Parent": "",
+            "Label": "Dans une autre situation",
+            "Value": "7"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_OUI_NON",
+        "id": "l0v2k0fj",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Oui",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Non",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_NBEMP",
+        "id": "l1axlp6q",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Un seul",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Deux ou plus",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_PCLCA",
+        "id": "l1ay1mdj",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Recherche sur liste des libellés de profession\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Je n'ai pas trouvé la profession dans la liste\"",
+            "Value": "999"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_STCPUB",
+        "id": "l1ay1q2v",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"A \" || $LIB_SON$ || \" compte (y compris gérant de société ou chef d'entreprise salarié)\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Salarié\"||$LIB_E$||\" de la fonction publique (Etat, territoriale ou hospitalière)\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Salarié\"||$LIB_E$||\" d'une entreprise (y compris d'une association ou de la Sécurité sociale)\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Salarié\"||$LIB_E$||\" d'un particulier\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "(if ($PRENOM$ = $PRENOMREF$) then \"Vous travaillez \" else $PRENOM$ || \" travaille \")\r\n|| \"sans être rémunéré\" || $LIB_E$ || \" avec un membre de \" ||$LIB_SA$ || \" famille.\"",
+            "Value": "5"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_QPRCR",
+        "id": "l1w5j08x",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Manoeuvre, ouvri\" ||$LIB_ERE$|| \" spécialisé\" ||$LIB_E$",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Ouvri\" ||$LIB_ERE$|| \" qualifié\" ||$LIB_E$|| \" technicien\" ||$LIB_NE$|| \" d'atelier\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Employé\" ||$LIB_E$|| \" de bureau, de commerce, de services\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Agent\" ||$LIB_E$|| \" de maîtrise (y compris administrative ou commerciale)\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Technicien\" ||$LIB_NE$",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Ingénieur\" ||$LIB_E$|| \", cadre d'entreprise\"",
+            "Value": "6"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_QPRCU",
+        "id": "l1w7rcz3",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Manoeuvre, ouvri\" ||$LIB_ERE$|| \" spécialisé\" ||$LIB_E$",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Ouvri\" ||$LIB_ERE$|| \" qualifié\" ||$LIB_E$",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Technicien\" ||$LIB_NE$",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Agent\" ||$LIB_E$|| \" de catégorie C de la fonction publique\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Agent\" ||$LIB_E$|| \" de catégorie B de la fonction publique\"",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Agent\" ||$LIB_E$|| \" de catégorie A de la fonction publique\"",
+            "Value": "6"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Dans une autre situation\"",
+            "Value": "7"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_ACTIV",
+        "id": "l1w7n0fr",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Recherche sur liste des activités ",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Je ne trouve pas l'activité de l'entreprise\"",
+            "Value": "999"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_NBSALETAB",
+        "id": "l1wc2pt4",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Moins de 10 personnes\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Entre 10 et 19 personnes\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Entre 20 et 49 personnes\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Entre 50 et 249 personnes\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"250 personnes ou plus\"",
+            "Value": "5"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_NBSALETABA",
+        "id": "l1wcgcka",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"1 personne\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"2 personnes\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"3 personnes\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"4 personnes\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"5 personnes\"",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"6 personnes\"",
+            "Value": "6"
+          },
+          {
+            "Parent": "",
+            "Label": "\"7 personnes\"",
+            "Value": "7"
+          },
+          {
+            "Parent": "",
+            "Label": "\"8 personnes\"",
+            "Value": "8"
+          },
+          {
+            "Parent": "",
+            "Label": "\"9 personnes\"",
+            "Value": "9"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_NBSAL",
+        "id": "l1wcl5qf",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "if ($T_STCPUB$ = \"1\") then (if ($PRENOM$ = $PRENOMREF$) then \"Vous travaillez seul\" \r\nelse $PRENOM$ || \" travaille seul\") \r\nelse \"Une seule personne\"\r\n",
+            "Value": "0"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Entre 2 et 10 personnes\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Entre 11 et 19 personnes\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Entre 20 et 49 personnes\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Entre 50 et 249 personnes\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"250 personnes et plus\"",
+            "Value": "5"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_NBSALA",
+        "id": "l1wdjul6",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"2 personnes\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"3 personnes\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"4 personnes\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"5 personnes\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"6 personnes\"",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"7 personnes\"",
+            "Value": "6"
+          },
+          {
+            "Parent": "",
+            "Label": "\"8 personnes\"",
+            "Value": "7"
+          },
+          {
+            "Parent": "",
+            "Label": "\"9 personnes\"",
+            "Value": "8"
+          },
+          {
+            "Parent": "",
+            "Label": "\"10 personnes\"",
+            "Value": "9"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_CONTAC",
+        "id": "l2hnfr8p",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"CDI ou fonctionnaire\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"CDD, intérim ou autre contrat de 3 mois ou plus\"",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "\"CDD, intérim ou autre contrat de moins de 3 mois\"",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Contrat en alternance (apprentissage, contrat de professionnalisation), stage\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Dans une autre situation\"",
+            "Value": "5"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_TPP",
+        "id": "l2it94ua",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"A temps complet ?\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"A temps partiel ?\"",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Activité professionnelle"
+      ],
+      "id": "l1ax3zmp",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "declarationType": "HELP",
+          "Text": "\"Nous allons maintenant décrire \" || (if ($PRENOM$ = $PRENOMREF$) then \"votre situation professionnelle, \" else \"la situation professionnelle de \") || $PRENOM$ || \".\"",
+          "id": "l1awtqrq",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfti75fy",
+              "id": "l1aypckh",
+              "mandatory": false,
+              "CodeListReference": "l1ax6zmm",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Actuellement, quelle est \" || if ($PRENOM$ = $PRENOMREF$) then \"votre situation principale ?\"\r\nelse \"la situation principale de \" || $PRENOM$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l1awvkop",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Si vous hésitez entre plusieurs situations, choisissez celle qui \"\r\n|| (if ($PRENOM$ = $PRENOMREF$) then \"vous décrit le mieux ou celle qui vous \"\r\n    else \"décrit le mieux \" || $PRENOM$ || \" ou celle qui lui \")\r\n|| \"prend le plus de temps.\"",
+              "id": "l1axcevr",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_SITUAEU"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfti40wt",
+              "id": "l1ayp4x5",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$ = $PRENOMREF$) then \"Avez-vous \" else $PRENOM$ || \" a-t-\" || $LIB_PR$) || \" cependant un emploi ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l1axg6y2",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Inclure : petit boulot, apprentissage, stage rémunéré, personne en congé maternité, en congé maladie ou en chômage partiel, personne travaillant sans être rémunéré(e) avec un membre de sa famille, élu(e).\"",
+              "id": "l1axc93h",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            },
+            {
+              "declarationType": "HELP",
+              "Text": "\"Exclure : bénévolat, service civique\"",
+              "id": "l1axit1c",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_TRAVAIL"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthzjxg",
+              "id": "l1ayg7g9",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$ = $PRENOMREF$) then \"Avez-vous \" else $PRENOM$ || \" a-t-\" || $LIB_PR$ )\r\n|| \" déjà travaillé par le passé, même pour un petit boulot, même s'il y a longtemps ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l1axqt6w",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_ACTIVANTE"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfti0ja6",
+              "id": "l1aynm3x",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "\"Cette expérience professionnelle s'est-elle uniquement limitée à des petits boulots ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l1axn5kx",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"On entend par petit boulot, un emploi de moins de 3 mois.\"",
+              "id": "l1ay4jh3",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_ACTIVANTEB"
+        },
+        {
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "genericName": "SUBMODULE",
+          "Label": [
+            "Activité principale"
+          ],
+          "id": "l2j6l8xy",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "$PRENOM$ || (if ($PRENOM$ = $PRENOMREF$) then \", vous êtes\" else \" est\" ) || \" donc en emploi, détaillons un peu plus \" || $LIB_SON$ || \" activité principale.\"",
+              "id": "lfkx5szu",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "SequenceType",
+          "Child": [
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfthtjxw",
+                  "id": "l1aydiur",
+                  "mandatory": false,
+                  "CodeListReference": "l1axlp6q",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "RADIO",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "(if ($PRENOM$ = $PRENOMREF$) then \"Combien avez-vous \" else \"Combien \" || $PRENOM$ || \" a-t-\" || $LIB_PR$)\r\n|| \" d'emplois ou d'activités professionnelles ?\""
+              ],
+              "ClarificationQuestion": [],
+              "id": "l1ax891g",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Par exemple : \" || (if ($PRENOM$ = $PRENOMREF$) then \"si vous êtes \" else \"si \" || $PRENOM$ || \" est \" )\r\n|| \"infirmi\" ||$LIB_ERE$ || \" libéral\" ||$LIB_E$ || \" ou salarié\" ||$LIB_E$ || \", répondre '2. Deux ou plus'.\"",
+                  "id": "l1ay5n6p",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                },
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Par exemple : \" || (if ($PRENOM$ = $PRENOMREF$) then \"si vous êtes \" else \"si \" || $PRENOM$ || \"est \" )\r\n|| $LIB_HF$ ||\" de ménage auprès de plusieurs familles, répondre : \"",
+                  "id": "l1axqkkb",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                },
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"- 'Deux ou plus' si \" || (if ($PRENOM$ = $PRENOMREF$) then \"vous êtes \" else  $PRENOM$ || \"est \" )\r\n|| \"directement employé\" ||$LIB_E$ ||\" par les familles.\"",
+                  "id": "l1axsnjt",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "PAPI",
+                    "CAWI"
+                  ]
+                },
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"- 'Un seul' si \" || (if ($PRENOM$ = $PRENOMREF$) then \"vous êtes \" else  $PRENOM$ || \" est \" )\r\n|| \"salarié\" ||$LIB_E$ ||\" d'une entreprise de services.\"",
+                  "id": "l1ay31ab",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "PAPI",
+                    "CAWI"
+                  ]
+                }
+              ],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_NBEMP"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lftiarlx",
+                  "id": "l1ayljf9",
+                  "mandatory": false,
+                  "CodeListReference": "l1ay1mdj",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "DROPDOWN",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Dans \"|| $LIB_SON$ ||\" emploi principal, quelle est \" ||\r\n(if ($PRENOM$ = $PRENOMREF$) then \"votre profession ?\"\r\nelse \"la profession de \" || $PRENOM$ || \" ?\")"
+              ],
+              "ClarificationQuestion": [],
+              "id": "l1axtzy5",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Saisir le libellé de profession recherché et le sélectionner dans la liste.\"",
+                  "id": "l1axw4uj",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                },
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Si le libellé n'est pas trouvé, taper '999'\"",
+                  "id": "l1ay187p",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                }
+              ],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_PCLCA"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfthxx6q",
+                  "id": "l2j35xk9",
+                  "mandatory": false,
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 249
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Vous n'avez pas trouvé le libellé de profession recherché dans la liste. Veuillez saisir le libellé de profession le plus précis et complet possible\""
+              ],
+              "id": "l2j37ba4",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "type": "QuestionType",
+              "questionType": "SIMPLE",
+              "Name": "T_PCLCACLAIR"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfthw15y",
+                  "id": "l1ayl2qm",
+                  "mandatory": false,
+                  "CodeListReference": "l1ay1q2v",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "RADIO",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Dans cet emploi, \" ||\r\n(if ($PRENOM$ = $PRENOMREF$) then \"vous êtes ...\"\r\nelse $PRENOM$ || \" est ...\")"
+              ],
+              "ClarificationQuestion": [],
+              "id": "l1ay3ugz",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_STCPUB"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfti2yll",
+                  "id": "l1uymz10",
+                  "mandatory": false,
+                  "CodeListReference": "l0v2k0fj",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "RADIO",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Dans cet emploi, \" || (if ($PRENOM$ = $PRENOMREF$) then \"vous arrive-t-il \"\r\nelse \"arrive-t-il à \" || $PRENOM$ ) || \r\n\" de superviser le travail d'autres salariés (hors apprentis, étudiant en alternance et stagiaires), qu'il s'agisse d'une tâche principale ou pas ?\""
+              ],
+              "ClarificationQuestion": [],
+              "id": "l1uy49nh",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Superviser des personnes, c'est par exemple :\"",
+                  "id": "l1uyd0or",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                },
+                {
+                  "declarationType": "HELP",
+                  "Text": " \"- être responsable de leur activité ;\"",
+                  "id": "l3a17bgz",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                },
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"- coordonner ou organiser l'activité d'autres salariés ;\"\r\n",
+                  "id": "l3a1edvw",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                },
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"- être chargé\" ||$LIB_E$ ||\" de leur montrer comment le travail doit être fait ;\"",
+                  "id": "l3a1gphw",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                },
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"- surveiller la qualité de leur travail ou le respect des délais.\"",
+                  "id": "l3a1k8ze",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "PAPI",
+                    "CAWI",
+                    "CATI",
+                    "CAPI"
+                  ]
+                }
+              ],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_ENCADR"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfthzxh5",
+                  "id": "l1w8bfa3",
+                  "mandatory": false,
+                  "CodeListReference": "l1w5j08x",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "RADIO",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Dans cet emploi, \" || (if ($PRENOM$ = $PRENOMREF$) then \"vous êtes ...\"\r\n                    else $PRENOM$ || \"est ...\")"
+              ],
+              "ClarificationQuestion": [],
+              "id": "l1w579tb",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_QPRCR"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "l1w7rkgd",
+                  "id": "l1w832nc",
+                  "mandatory": false,
+                  "CodeListReference": "l1w7rcz3",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "RADIO",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Dans cet emploi, \" || (if ($PRENOM$=$PRENOMREF$) then \"vous êtes ...\"  else $PRENOM$ || \" est ...\")"
+              ],
+              "ClarificationQuestion": [],
+              "id": "l1w7wvih",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_QPRCU"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lftic2vu",
+                  "id": "l1w7ymdz",
+                  "mandatory": false,
+                  "CodeListReference": "l1w7n0fr",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "DROPDOWN",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Quel est le principal secteur d'activité de l'établissement où \" ||\r\n(if ($PRENOM$ = $PRENOMREF$) then \"vous travaillez ?\"\r\nelse $PRENOM$ || \" travaille ?\")"
+              ],
+              "ClarificationQuestion": [],
+              "id": "l1w7xqie",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Par exemple : 'administration publique', 'enseignement', 'restauration', 'bâtiment', 'industrie alimentaire', 'action sociale' ...\"",
+                  "id": "l1w7soig",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                },
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Ne pas utiliser de sigle comme BTP\"",
+                  "id": "l1w7xm9n",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                }
+              ],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_ACTIV"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfti810l",
+                  "id": "l1wdop3b",
+                  "mandatory": false,
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 249
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Le libellé d'activité est reconnu. Pouvez-vous choisir, parmi ces propositions, celle qui correspond le mieux à cette activité ?\""
+              ],
+              "id": "l1wcbosx",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "type": "QuestionType",
+              "questionType": "SIMPLE",
+              "Name": "T_ACTIVMULTI"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lftil7nb",
+                  "id": "l1wdf34c",
+                  "mandatory": false,
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 249
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Pouvez-vous sélectionner une activité, dans la liste déroulante ?\""
+              ],
+              "id": "l1wc3dr5",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "type": "QuestionType",
+              "questionType": "SIMPLE",
+              "Name": "T_ACTILIST"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfti95gd",
+                  "id": "l1wdj4w4",
+                  "mandatory": false,
+                  "CodeListReference": "l1wc2pt4",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "RADIO",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Actuellement, en\" || if ($PRENOM$ = $PRENOMREF$) then \" vous comptant, combien de personnes travaillent dans l'établissement où vous travaillez ?\" \r\nelse \" comptant \" || $PRENOM$ || \", combien de personnes travaillent dans l'établissement où travaille \" || $PRENOM$ || \"?\""
+              ],
+              "ClarificationQuestion": [],
+              "id": "l1wcdojm",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Inclure : salariés, apprentis, stagiaires rémunérés, intérimaires, saisonniers.\"",
+                  "id": "l1wcjxm4",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                }
+              ],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_NBSALETAB"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfti7kn4",
+                  "id": "l1wdh1gg",
+                  "mandatory": false,
+                  "CodeListReference": "l1wcgcka",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "RADIO",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Plus précisément ...\""
+              ],
+              "ClarificationQuestion": [],
+              "id": "l1wcfol1",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Inclure : salariés, apprentis, stagiaires rémunérés, intérimaires, saisonniers.\"",
+                  "id": "l1wcgvvv",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                }
+              ],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_NBSALETABA"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lftiif5a",
+                  "id": "l1wdr571",
+                  "mandatory": false,
+                  "CodeListReference": "l1wcl5qf",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "CHECKBOX",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Actuellement, en\" || (if ($PRENOM$ = $PRENOMREF$) then \" vous comptant\" else \" en comptant \" || $PRENOM$ ) || \", combien de personnes travaillent dans l'entreprise ?\""
+              ],
+              "ClarificationQuestion": [],
+              "id": "l1wde502",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Inclure : salariés, apprentis, stagiaires rémunérés, intérimaires, saisonniers, personnes qui travaillent sans être rémunérées avec un membre de leur famille\"",
+                  "id": "l1wdjwaj",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                }
+              ],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_NBSAL"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfti6a6p",
+                  "id": "l1wdm9an",
+                  "mandatory": false,
+                  "CodeListReference": "l1wdjul6",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "RADIO",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Plus précisément ...\""
+              ],
+              "ClarificationQuestion": [],
+              "id": "l1wd3z30",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Inclure : salariés, apprentis, stagiaires rémunérés, intérimaires, saisonniers, personnes qui travaillent sans être rémunérées avec un membre de leur famille\"",
+                  "id": "l1wd71he",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                }
+              ],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_NBSALA"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfti3r16",
+                  "id": "l2ho0qne",
+                  "mandatory": false,
+                  "CodeListReference": "l2hnfr8p",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "RADIO",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "if ($PRENOM$=$PRENOMREF$) then  \"Vous êtes en ...\"\r\nelse $PRENOM$ || \" est en ...\""
+              ],
+              "ClarificationQuestion": [],
+              "id": "l2hngtu9",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_CONTAC"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfti8lm2",
+                  "id": "l2iton8o",
+                  "mandatory": false,
+                  "CodeListReference": "l2it94ua",
+                  "Datatype": {
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "visualizationHint": "RADIO",
+                    "type": "TextDatatypeType",
+                    "MaxLength": 1
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "if ($PRENOM$=$PRENOMREF$) then \"Vous travaillez ...\"\r\nelse $PRENOM$ || \" travaille ...\""
+              ],
+              "ClarificationQuestion": [],
+              "id": "l2it2sxv",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "type": "QuestionType",
+              "questionType": "SINGLE_CHOICE",
+              "Name": "T_TPP"
+            },
+            {
+              "Response": [
+                {
+                  "CollectedVariableReference": "lfti7afp",
+                  "id": "l2itkl61",
+                  "mandatory": false,
+                  "Datatype": {
+                    "Pattern": "AAAA",
+                    "typeName": "TEXT",
+                    "type": "TextDatatypeType",
+                    "MaxLength": "4"
+                  }
+                }
+              ],
+              "Control": [],
+              "depth": 3,
+              "FlowControl": [],
+              "Label": [
+                "\"Depuis quelle année \" || (if ($PRENOM$ = $PRENOMREF$) then \"travaillez-vous\" \r\nelse $PRENOM$ || \" travaille-t-\" || $LIB_PR$ ) || \" pour cette entreprise (ou cette association) ?\""
+              ],
+              "id": "l2itiw5b",
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Quel que soit le service ou l'administration, même si \" ||\r\n(if ($PRENOM$ = $PRENOMREF$) then \"vous avez changé\" else $PRENOM$ ||\" a changé\")||\r\n\" d'établissement au sein de la même entreprise, quel que soit \" $LIB_SON$ \" statut.\"",
+                  "id": "l2itnwin",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                },
+                {
+                  "declarationType": "HELP",
+                  "Text": "\"Ne pas compter les interruptions de moins de 3 mois\"",
+                  "id": "l2ituemu",
+                  "position": "AFTER_QUESTION_TEXT",
+                  "DeclarationMode": [
+                    "CAPI",
+                    "CATI",
+                    "CAWI",
+                    "PAPI"
+                  ]
+                }
+              ],
+              "type": "QuestionType",
+              "questionType": "SIMPLE",
+              "Name": "T_OPT_DATANT"
+            }
+          ],
+          "Name": "TCM_ACTI_PRINC"
+        }
+      ],
+      "Name": "TCM_ACT"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}

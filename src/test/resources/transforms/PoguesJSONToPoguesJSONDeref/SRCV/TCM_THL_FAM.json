@@ -1,0 +1,847 @@
+{
+  "owner": "DG75-L120",
+  "FlowControl": [
+    {
+      "Description": "Prénom est veuf, conjoint décédé",
+      "Expression": "$T_SITUCONJ4$ = true",
+      "id": "l13niid3",
+      "IfTrue": "l13dy5ql-l13dy5ql"
+    },
+    {
+      "Description": "PRENOM est majeur",
+      "Expression": "cast($T_TRAGE6$,integer) > 1",
+      "id": "l14whye4",
+      "IfTrue": "l2orx7xf-l13dy5ql"
+    },
+    {
+      "Description": "Plusieurs personnes dans le logement",
+      "Expression": "$T_NBHAB$ > 1",
+      "id": "l2q328dn",
+      "IfTrue": "l2orx7xf-l2orx7xf"
+    },
+    {
+      "Description": "Plusieurs personnes dans le logement",
+      "Expression": "$T_NBHAB$ > 1",
+      "id": "l2q35apg",
+      "IfTrue": "l2os6w01-l2os3ku5"
+    },
+    {
+      "Description": "Au moins un parent dans le logement",
+      "Expression": "$T_NBPARL$ <> \"0\"",
+      "id": "l2rf2lpk",
+      "IfTrue": "l2rezz2m-l2rfgcr2"
+    },
+    {
+      "Description": "Deux parents dans le logement",
+      "Expression": "$T_NBPARL$ = \"2\"",
+      "id": "l2rfgjc3",
+      "IfTrue": "l2rfgcr2-l2rfgcr2"
+    },
+    {
+      "Description": "Personne de plus de 15 ans",
+      "Expression": "cast($T_TRAGE6$, integer) > 1",
+      "id": "l3a05lpo",
+      "IfTrue": "l2os3ku5-l2os3ku5"
+    }
+  ],
+  "ComponentGroup": [
+    {
+      "MemberReference": [
+        "kfxmfvwj",
+        "l2orx7xf",
+        "l13dsgas",
+        "l13dy5ql",
+        "l2os6w01",
+        "l2rezz2m",
+        "l2rfgcr2",
+        "l2os3ku5",
+        "idendquest"
+      ],
+      "Label": [
+        "Components for page 1"
+      ],
+      "id": "kg2az5c9",
+      "Name": "PAGE_1"
+    }
+  ],
+  "agency": "fr.insee",
+  "genericName": "QUESTIONNAIRE",
+  "Label": [
+    "TCM_THL_FAM"
+  ],
+  "Name": "TCM_THL_FAM",
+  "Variables": {
+    "Variable": [
+      {
+        "Label": "T_CONJOINT label",
+        "id": "lfti35bd",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v2k0fj",
+        "Name": "T_CONJOINT",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "1 - \"Marié\" ||$LIB_E$",
+        "id": "lgdwju3p",
+        "type": "CollectedVariableType",
+        "Name": "T_SITUCONJ1",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "2 - \"Pacsé\" ||$LIB_E$",
+        "id": "lgdwp0g7",
+        "type": "CollectedVariableType",
+        "Name": "T_SITUCONJ2",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "3 - En concubinage ou union libre",
+        "id": "lgdx10a4",
+        "type": "CollectedVariableType",
+        "Name": "T_SITUCONJ3",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "4 - (if ($T_SEXE$ = \"1\") then \"Veuf\" else if isnull($T_SEXE$) then \"Veuf(ve)\" else \"Veuve\")|| \r\n\", conjoint(e) décédé(e)\"",
+        "id": "lgdwkuzh",
+        "type": "CollectedVariableType",
+        "Name": "T_SITUCONJ4",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "5 - \"Divorcé\" ||$LIB_E$",
+        "id": "lgdwmsce",
+        "type": "CollectedVariableType",
+        "Name": "T_SITUCONJ5",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "6 - \"Dépacsé\" ||$LIB_E$",
+        "id": "lgdx232e",
+        "type": "CollectedVariableType",
+        "Name": "T_SITUCONJ6",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "7 - \"Séparé\" ||$LIB_E$",
+        "id": "lgdwnfpn",
+        "type": "CollectedVariableType",
+        "Name": "T_SITUCONJ7",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "8 - Célibataire",
+        "id": "lgdwlk66",
+        "type": "CollectedVariableType",
+        "Name": "T_SITUCONJ8",
+        "Datatype": {
+          "typeName": "BOOLEAN",
+          "type": "BooleanDatatypeType"
+        }
+      },
+      {
+        "Label": "T_VEUF label",
+        "id": "lfti22hh",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l13e94a3",
+        "Name": "T_VEUF",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NBPARL label",
+        "id": "lfthmqdh",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l2os145t",
+        "Name": "T_NBPARL",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_SPAR1 label",
+        "id": "lftyseml",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v3x4ho",
+        "Name": "T_SPAR1",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_SPAR2 label",
+        "id": "lftyqkwd",
+        "type": "CollectedVariableType",
+        "CodeListReference": "l0v3x4ho",
+        "Name": "T_SPAR2",
+        "Datatype": {
+          "Pattern": "",
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        }
+      },
+      {
+        "Label": "T_NBENF label",
+        "id": "lfthuhme",
+        "type": "CollectedVariableType",
+        "Name": "T_NBENF",
+        "Datatype": {
+          "Maximum": "20",
+          "Minimum": "0",
+          "typeName": "NUMERIC",
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Decimals": ""
+        }
+      }
+    ]
+  },
+  "lastUpdatedDate": "Thu Apr 13 2023 17:08:22 GMT+0200 (heure d’été d’Europe centrale)",
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018",
+      "Name": "Enquête sectorielle annuelle 2018"
+    }
+  ],
+  "final": false,
+  "flowLogic": "FILTER",
+  "id": "lge0svtt",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "Label": "L_OUI_NON",
+        "id": "l0v2k0fj",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Oui",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Non",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_SITUCONJ",
+        "id": "l13e77ow",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Marié\" ||$LIB_E$",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Pacsé\" ||$LIB_E$",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "En concubinage ou union libre",
+            "Value": "3"
+          },
+          {
+            "Parent": "",
+            "Label": "(if ($T_SEXE$ = \"1\") then \"Veuf\" else if isnull($T_SEXE$) then \"Veuf(ve)\" else \"Veuve\")|| \r\n\", conjoint(e) décédé(e)\"",
+            "Value": "4"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Divorcé\" ||$LIB_E$",
+            "Value": "5"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Dépacsé\" ||$LIB_E$",
+            "Value": "6"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Séparé\" ||$LIB_E$",
+            "Value": "7"
+          },
+          {
+            "Parent": "",
+            "Label": "Célibataire",
+            "Value": "8"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_VEUF",
+        "id": "l13e94a3",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Marié\" || $LIB_E$ ",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Pacsé\" || $LIB_E$ ",
+            "Value": "2"
+          },
+          {
+            "Parent": "",
+            "Label": "Ni l'un ni l'autre",
+            "Value": "3"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_NBPARL",
+        "id": "l2os145t",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "\"Aucun parent dans le logement\"",
+            "Value": "0"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Un seul parent dans le logement\"",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "\"Deux parents dans le logement\"",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      },
+      {
+        "Label": "L_SEXE",
+        "id": "l0v3x4ho",
+        "Code": [
+          {
+            "Parent": "",
+            "Label": "Homme",
+            "Value": "1"
+          },
+          {
+            "Parent": "",
+            "Label": "Femme",
+            "Value": "2"
+          }
+        ],
+        "Name": ""
+      }
+    ]
+  },
+  "formulasLanguage": "VTL",
+  "Child": [
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "Liens familiaux"
+      ],
+      "id": "kfxmfvwj",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "declarationType": "INSTRUCTION",
+          "Text": "\"Nous allons maintenant décrire les liens familiaux entre les habitants du logement.\"",
+          "id": "lfjwkohf",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ]
+        }
+      ],
+      "type": "SequenceType",
+      "Child": [
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfti35bd",
+              "id": "l2os1huv",
+              "mandatory": false,
+              "CodeListReference": "l0v2k0fj",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$ = $PRENOMREF$) then \"Avez-vous\" else $PRENOM$ || \" a-t-\" || $LIB_PR$ ) || \" un ou une conjoint(e) dans le logement ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2orx7xf",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Question en attendant de pouvoir faire les liens 2 à 2\"",
+              "id": "l2orqwrn",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_CONJOINT"
+        },
+        {
+          "FlowControl": [],
+          "Label": [
+            "\"Quelle est \" || if ($PRENOM$ = $PRENOMREF$) then \"votre situation conjugale ?\"  else \"la situation conjugale de \" || $PRENOM$ || \" ?\""
+          ],
+          "ResponseStructure": {
+            "Attribute": [],
+            "Mapping": [
+              {
+                "MappingSource": "lgdx6hlq",
+                "MappingTarget": "1"
+              },
+              {
+                "MappingSource": "lgdx7nz7",
+                "MappingTarget": "2"
+              },
+              {
+                "MappingSource": "lgdx47a9",
+                "MappingTarget": "3"
+              },
+              {
+                "MappingSource": "lgdxh469",
+                "MappingTarget": "4"
+              },
+              {
+                "MappingSource": "lgdx9iyh",
+                "MappingTarget": "5"
+              },
+              {
+                "MappingSource": "lgdx25a4",
+                "MappingTarget": "6"
+              },
+              {
+                "MappingSource": "lgdx2604",
+                "MappingTarget": "7"
+              },
+              {
+                "MappingSource": "lgdwxaen",
+                "MappingTarget": "8"
+              }
+            ],
+            "Dimension": [
+              {
+                "dimensionType": "PRIMARY",
+                "dynamic": "0",
+                "CodeListReference": "l13e77ow"
+              },
+              {
+                "dimensionType": "MEASURE",
+                "dynamic": "0"
+              }
+            ]
+          },
+          "type": "QuestionType",
+          "Name": "T_SITUCONJ",
+          "Response": [
+            {
+              "CollectedVariableReference": "lgdwju3p",
+              "id": "lgdx6hlq",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            },
+            {
+              "CollectedVariableReference": "lgdwp0g7",
+              "id": "lgdx7nz7",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            },
+            {
+              "CollectedVariableReference": "lgdx10a4",
+              "id": "lgdx47a9",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            },
+            {
+              "CollectedVariableReference": "lgdwkuzh",
+              "id": "lgdxh469",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            },
+            {
+              "CollectedVariableReference": "lgdwmsce",
+              "id": "lgdx9iyh",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            },
+            {
+              "CollectedVariableReference": "lgdx232e",
+              "id": "lgdx25a4",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            },
+            {
+              "CollectedVariableReference": "lgdwnfpn",
+              "id": "lgdx2604",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            },
+            {
+              "CollectedVariableReference": "lgdwlk66",
+              "id": "lgdwxaen",
+              "Datatype": {
+                "typeName": "BOOLEAN",
+                "type": "BooleanDatatypeType"
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "ClarificationQuestion": [],
+          "id": "l13dsgas",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "questionType": "MULTIPLE_CHOICE"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfti22hh",
+              "id": "l13ek5gb",
+              "mandatory": false,
+              "CodeListReference": "l13e94a3",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "if ($PRENOM$ = $PRENOMREF$) then \"Avec votre conjoint, étiez-vous ...\" else \"Avec son(sa) conjoint(e), \" || $PRENOM$ || \" était ...\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l13dy5ql",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_VEUF"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthmqdh",
+              "id": "l2oum9uj",
+              "mandatory": false,
+              "CodeListReference": "l2os145t",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$ = $PRENOMREF$) then \"Combien avez-vous\" \r\nelse \"Combien \" || $PRENOM$ || \" a-t-\" || $LIB_PR$) || \" de parent(s) dans le logement situé à l'adresse ADR ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2os6w01",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Question en attendant de pouvoir faire les liens 2 à 2\"",
+              "id": "l2os929w",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_NBPARL"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftyseml",
+              "id": "l2rf1v6j",
+              "mandatory": false,
+              "CodeListReference": "l0v3x4ho",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "if ($PRENOM$ = $PRENOMREF$) then \"Quel est le sexe de votre parent ?\" else \r\n\"Quel est le sexe du parent de \" || $PRENOM$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rezz2m",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Variable en attendant les liens deux à deux\"",
+              "id": "l2rex38d",
+              "position": "BEFORE_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_SPAR1"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lftyqkwd",
+              "id": "l2rf6s8x",
+              "mandatory": false,
+              "CodeListReference": "l0v3x4ho",
+              "Datatype": {
+                "Pattern": "",
+                "typeName": "TEXT",
+                "visualizationHint": "RADIO",
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "if ($PRENOM$ = $PRENOMREF$) then \"Quel est le sexe de votre autre parent ?\"\r\nelse \"Quel est le sexe de l'autre parent de \" || $PRENOM$ || \" ?\""
+          ],
+          "ClarificationQuestion": [],
+          "id": "l2rfgcr2",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"En attendant les liens deux à deux\"",
+              "id": "l2rf6zlp",
+              "position": "BEFORE_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SINGLE_CHOICE",
+          "Name": "T_SPAR2"
+        },
+        {
+          "Response": [
+            {
+              "CollectedVariableReference": "lfthuhme",
+              "id": "l2osc4is",
+              "mandatory": false,
+              "Datatype": {
+                "Maximum": "20",
+                "Minimum": "0",
+                "typeName": "NUMERIC",
+                "Unit": "",
+                "type": "NumericDatatypeType",
+                "Decimals": ""
+              }
+            }
+          ],
+          "Control": [],
+          "depth": 2,
+          "FlowControl": [],
+          "Label": [
+            "(if ($PRENOM$ = $PRENOMREF$) then \"Combien avez-vous\" \r\nelse \"Combien \" || $PRENOM$ || \" a-t-\" || $LIB_PR$) || \" d'enfant(s) dans le logement situé à l'adresse ADR ?\""
+          ],
+          "id": "l2os3ku5",
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [
+            {
+              "declarationType": "HELP",
+              "Text": "\"Question en attendant de pouvoir faire les liens 2 à 2\"",
+              "id": "l2os59iv",
+              "position": "AFTER_QUESTION_TEXT",
+              "DeclarationMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ]
+            }
+          ],
+          "type": "QuestionType",
+          "questionType": "SIMPLE",
+          "Name": "T_NBENF"
+        }
+      ],
+      "Name": "TCM_THL_LIENS"
+    },
+    {
+      "Control": [],
+      "depth": 1,
+      "FlowControl": [],
+      "genericName": "MODULE",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "id": "idendquest",
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "type": "SequenceType",
+      "Child": [],
+      "Name": "QUESTIONNAIRE_END"
+    }
+  ]
+}
