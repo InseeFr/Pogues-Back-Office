@@ -203,8 +203,8 @@ public class PoguesTransforms {
 							.map(lunaticJSONToUriStromaeV2::transform, params, questionnaireName.toLowerCase())
 							.transform().getBytes());
 				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
+					logger.error(e.getCause().getMessage());
+					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
