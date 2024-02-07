@@ -1,9 +1,9 @@
 package fr.insee.pogues.webservice.rest;
 
-import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.Transformer;
 import fr.insee.pogues.transforms.visualize.*;
+import fr.insee.pogues.utils.suggester.SuggesterVisuTreatment;
 import fr.insee.pogues.webservice.model.CaptureEnum;
 import fr.insee.pogues.webservice.model.ColumnsEnum;
 import fr.insee.pogues.webservice.model.OrientationEnum;
@@ -125,6 +125,8 @@ public class PoguesTransforms {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		params.put("mode", "CATI");
+		params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
+
 		try {
 			StreamingResponseBody stream = output -> {
 				try {
@@ -155,6 +157,7 @@ public class PoguesTransforms {
 		Map<String, Object> params = new HashMap<>();
 		params.put("mode", "CAPI");
 		params.put("needDeref", ref);
+		params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
 		try {
 			StreamingResponseBody stream = output -> {
 				try {
@@ -187,6 +190,8 @@ public class PoguesTransforms {
 		params.put("questionnaire", questionnaireName.toLowerCase());
 		params.put("needDeref", ref);
 		params.put("mode", "CAWI");
+		params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
+
 		try {
 			StreamingResponseBody stream = output -> {
 				try {
@@ -219,6 +224,7 @@ public class PoguesTransforms {
 		params.put("questionnaire", questionnaireName.toLowerCase());
 		params.put("needDeref", ref);
 		params.put("mode", "CAWI");
+		params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
 		try {
 			StreamingResponseBody stream = output -> {
 				try {
@@ -511,6 +517,12 @@ public class PoguesTransforms {
 			}
 		};
 		return ResponseEntity.status(HttpStatus.OK).contentType(type).body(stream);
+	}
+
+	@ExceptionHandler(PoguesException.class)
+	public ResponseEntity<ApiError> handlePoguesException(PoguesException pe) {
+		ApiError apiErrorResponse = new ApiError(pe.getStatus(), pe.getMessage(), pe.getDetails());
+		return new ResponseEntity<>(apiErrorResponse, HttpStatus.valueOf(pe.getStatus()));
 	}
 
 }
