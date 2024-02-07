@@ -67,7 +67,7 @@ public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
 			logger.info("File "+file.getAbsolutePath()+" deleted : "+file.delete());
 			return questDDI;
 		} catch (Exception e) {
-			throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
+			throw e;
 		}
 	}
 

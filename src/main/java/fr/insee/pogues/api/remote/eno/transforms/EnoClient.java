@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
 
+import fr.insee.pogues.exception.EnoExcpetion;
 import org.apache.http.client.ClientProtocolException;
 
 public interface EnoClient {
@@ -24,13 +25,13 @@ public interface EnoClient {
 	
 	String getDDIToPDF (File fileInput) throws URISyntaxException, ClientProtocolException, IOException;
 	
-	String getDDIToFO(File fileInput) throws URISyntaxException, ClientProtocolException, IOException;
+	String getDDIToFO(File fileInput) throws URISyntaxException, ClientProtocolException, IOException, EnoExcpetion;
 	
-	String getDDITOLunaticXML(File fileInput) throws URISyntaxException, ClientProtocolException, IOException;
+	String getDDITOLunaticXML(File fileInput) throws URISyntaxException, ClientProtocolException, IOException, EnoExcpetion;
 	
-	String getDDITOLunaticJSON(File fileInput, Map<String, Object> params) throws URISyntaxException, ClientProtocolException, IOException;
+	String getDDITOLunaticJSON(File fileInput, Map<String, Object> params) throws URISyntaxException, ClientProtocolException, IOException, EnoExcpetion;
 	
-	String getDDITOXForms(File fileInput) throws URISyntaxException, ClientProtocolException, IOException;
+	String getDDITOXForms(File fileInput) throws URISyntaxException, ClientProtocolException, IOException, EnoExcpetion;
 	
 	void getParameters () throws Exception;
 

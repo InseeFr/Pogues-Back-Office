@@ -108,7 +108,7 @@ public class PoguesTransforms {
 							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
 					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
+					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
@@ -137,8 +137,8 @@ public class PoguesTransforms {
 							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform()
 							.getBytes());
 				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
+					logger.error(e.getCause().getMessage());
+					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
@@ -169,8 +169,8 @@ public class PoguesTransforms {
 							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform()
 							.getBytes());
 				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
+					logger.error(e.getCause().getMessage());
+					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
@@ -236,8 +236,8 @@ public class PoguesTransforms {
 							.map(lunaticJSONToUriStromaeV3::transform, params, questionnaireName.toLowerCase())
 							.transform().getBytes());
 				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
+					logger.error(e.getCause().getMessage());
+					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
@@ -263,8 +263,8 @@ public class PoguesTransforms {
 							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
 							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
+					logger.error(e.getCause().getMessage());
+					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
@@ -292,8 +292,8 @@ public class PoguesTransforms {
 									.map(poguesXMLToDDI::transform, params, questionnaireName)
 									.map(ddiToOdt::transform, params, questionnaireName).transform().getBytes());
 				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
+					logger.error(e.getCause().getMessage());
+					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 
@@ -322,8 +322,8 @@ public class PoguesTransforms {
 									.map(jsonToXML::transform, params, questionnaireName)
 									.map(poguesXMLToDDI::transform, params, questionnaireName).transform().getBytes());
 				} catch (Exception e) {
-					logger.error(e.getMessage());
-					throw new PoguesException(500, e.getMessage(), null);
+					logger.error(e.getCause().getMessage());
+					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 
@@ -352,8 +352,8 @@ public class PoguesTransforms {
 					.map(ddiToFo::transform, params, questionnaireName)
 					.map(foToPdf::transform, params, questionnaireName).transform();
 		} catch (Exception e) {
-			logger.error(e.getMessage(),e);
-			throw new PoguesException(500, e.getMessage(), null);
+			logger.error(e.getCause().getMessage());
+			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 		}
 		File file = new File(filePath);
 		InputStream inputStream = new FileInputStream(file);
@@ -398,8 +398,8 @@ public class PoguesTransforms {
 					.map(foToPdf::transform, params, questionnaireName)
 					.transform();
 		} catch (Exception e) {
-			logger.error(e.getMessage());
-			throw new PoguesException(500, e.getMessage(), null);
+			logger.error(e.getCause().getMessage());
+			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 		}
 
 		File file = new File(filePath);
@@ -465,8 +465,8 @@ public class PoguesTransforms {
 			return transform(new ByteArrayInputStream(questXML.getBytes(StandardCharsets.UTF_8)), xmlToJson,
 					questionnaire, MediaType.APPLICATION_JSON);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
+			logger.error(e.getCause().getMessage());
+			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 		}
 	}
 
@@ -484,8 +484,8 @@ public class PoguesTransforms {
 			params.put("questionnaire", questionnaire.toLowerCase());
 			return xformToUri.transform(questXforms, params, questionnaire);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
+			logger.error(e.getCause().getMessage());
+			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 		}
 	}
 
@@ -500,8 +500,8 @@ public class PoguesTransforms {
 			String result = jsonToJsonDeref.transform(questJson, Map.of("needDeref", true), null);
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
-			throw e;
+			logger.error(e.getCause().getMessage());
+			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 		}
 	}
 
@@ -512,8 +512,8 @@ public class PoguesTransforms {
 			try {
 				transformer.transform(request, output, null, questionnaire);
 			} catch (Exception e) {
-				e.printStackTrace();
-				throw new PoguesException(500, "Transformation error", e.getMessage());
+				logger.error(e.getCause().getMessage());
+				throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 			}
 		};
 		return ResponseEntity.status(HttpStatus.OK).contentType(type).body(stream);
