@@ -30,10 +30,10 @@ public class LunaticJSONToUriStromaeV2Impl implements LunaticJSONToUriStromaeV2{
 	@Value("${fr.insee.pogues.api.scheme}")
 	private String apiScheme;
 
-	@Value("${fr.insee.pogues.api.remote.stromaev3.vis.host}")
+	@Value("${fr.insee.pogues.api.remote.stromaev2.vis.host}")
 	private String orchestratorHost;
 
-	@Value("${fr.insee.pogues.api.remote.stromaev3.vis.path}")
+	@Value("${fr.insee.pogues.api.remote.stromaev2.vis.path}")
 	private String visualizePath;
 
 	@Value("${fr.insee.pogues.api.remote.stromaev2.vis.queryparams.questionnaire}")
