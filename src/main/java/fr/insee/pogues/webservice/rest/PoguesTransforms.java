@@ -519,10 +519,4 @@ public class PoguesTransforms {
 		return ResponseEntity.status(HttpStatus.OK).contentType(type).body(stream);
 	}
 
-	@ExceptionHandler(PoguesException.class)
-	public ResponseEntity<ApiError> handlePoguesException(PoguesException pe) {
-		ApiError apiErrorResponse = new ApiError(pe.getStatus(), pe.getMessage(), pe.getDetails());
-		return new ResponseEntity<>(apiErrorResponse, HttpStatus.valueOf(pe.getStatus()));
-	}
-
 }

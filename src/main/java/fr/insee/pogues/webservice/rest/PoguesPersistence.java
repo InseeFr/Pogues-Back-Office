@@ -435,11 +435,4 @@ public class PoguesPersistence {
 			throw e;
 		}
 	}
-
-	@ExceptionHandler(PoguesException.class)
-	public ResponseEntity<ApiError> handlePoguesException(PoguesException pe) {
-		logger.error(pe.getMessage(), pe);
-		ApiError apiErrorResponse = new ApiError(pe.getStatus(), pe.getMessage(), pe.getDetails());
-		return new ResponseEntity<>(apiErrorResponse, HttpStatus.valueOf(pe.getStatus()));
-	}
 }
