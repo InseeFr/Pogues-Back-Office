@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.Map;
 
-import fr.insee.pogues.exception.EnoExcpetion;
+import fr.insee.pogues.exception.EnoException;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpEntity;
@@ -44,11 +44,11 @@ public class EnoClientImpl implements EnoClient{
 	private static final String BASE_PATH = "/questionnaire/DEFAULT";
 	private static final String MODE = "CAWI";
 
-	private static String getFinalResponseFromResponse(HttpResponse httpResponse) throws EnoExcpetion, IOException {
+	private static String getFinalResponseFromResponse(HttpResponse httpResponse) throws EnoException, IOException {
 		HttpEntity entityResponse = httpResponse.getEntity();
 		String responseContent = EntityUtils.toString(entityResponse, FORMAT);
 		if(httpResponse.getStatusLine().getStatusCode() != 200){
-			throw new EnoExcpetion(responseContent, null);
+			throw new EnoException(responseContent, null);
 		}
 		return responseContent;
 	}
@@ -90,17 +90,17 @@ public class EnoClientImpl implements EnoClient{
 	};
 	
 	@Override
-	public String getDDIToFO(File fileInput) throws URISyntaxException, IOException, EnoExcpetion {
+	public String getDDIToFO(File fileInput) throws URISyntaxException, IOException, EnoException {
 		return getFinalResponseFromResponse(callEnoApi(fileInput, BASE_PATH+"/fo"));
 	}
 	
 	@Override
-	public String getDDITOLunaticXML(File fileInput) throws URISyntaxException, IOException, EnoExcpetion {
+	public String getDDITOLunaticXML(File fileInput) throws URISyntaxException, IOException, EnoException {
 		return getFinalResponseFromResponse(callEnoApi(fileInput, BASE_PATH+"/lunatic-xml"));
 	}
 	
 	@Override
-	public String getDDITOLunaticJSON(File fileInput, Map<String, Object> params) throws URISyntaxException, IOException, EnoExcpetion {
+	public String getDDITOLunaticJSON(File fileInput, Map<String, Object> params) throws URISyntaxException, IOException, EnoException {
 		String WSPath;
 
 		if (params.get("mode") != null) {
@@ -124,7 +124,7 @@ public class EnoClientImpl implements EnoClient{
 	}
 	
 	@Override
-	public String getDDITOXForms(File fileInput) throws URISyntaxException, IOException, EnoExcpetion {
+	public String getDDITOXForms(File fileInput) throws URISyntaxException, IOException, EnoException {
 		return getFinalResponseFromResponse(callEnoApi(fileInput, BASE_PATH+"/xforms"));
 	}
 	

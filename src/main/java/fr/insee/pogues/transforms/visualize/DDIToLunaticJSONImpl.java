@@ -54,11 +54,7 @@ public class DDIToLunaticJSONImpl implements DDIToLunaticJSON {
 	}
 
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
-		try {
-			return enoClient.getDDITOLunaticJSON(file, params);
-		} catch (Exception e) {
-			throw e;
-		}
+		return enoClient.getDDITOLunaticJSON(file, params);
 	}
 
 }

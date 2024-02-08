@@ -62,13 +62,9 @@ public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
 	}
 
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
-		try {
-			String questDDI = enoClient.getXMLPoguesToDDI(file);
-			logger.info("File "+file.getAbsolutePath()+" deleted : "+file.delete());
-			return questDDI;
-		} catch (Exception e) {
-			throw e;
-		}
+		String questDDI = enoClient.getXMLPoguesToDDI(file);
+		logger.info("File "+file.getAbsolutePath()+" deleted : "+file.delete());
+		return questDDI;
 	}
 
 }
