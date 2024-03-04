@@ -3,6 +3,7 @@ package fr.insee.pogues.transforms.visualize;
 import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.conversion.JSONSerializer;
 import fr.insee.pogues.conversion.XMLSerializer;
+import fr.insee.pogues.exception.NullReferenceException;
 import fr.insee.pogues.exception.PoguesDeserializationException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
@@ -76,15 +77,19 @@ class PoguesJSONToPoguesJSONDerefImplTest {
                 "transforms/PoguesJSONToPoguesJSONDeref/filter_and_loop/lct78jr8.json");
         assert url != null;
         String testedInput = Files.readString(Path.of(url.toURI()));
+        JSONParser jsonParser = new JSONParser();
         // Mock questionnaire service
-        QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
+        QuestionnairesServiceImpl questionnairesService = Mockito.mock(QuestionnairesServiceImpl.class);
         Mockito.when(questionnairesService.getQuestionnaireByID("l4i3m6qa")).thenReturn(null);
         Mockito.when(questionnairesService.getQuestionnaireByID("l6dnlrka")).thenReturn(null);
         Mockito.when(questionnairesService.getQuestionnaireByID("lct8pcsy")).thenReturn(null);
 
+        Mockito.when(questionnairesService.deReference((JSONObject) jsonParser.parse(testedInput))).thenCallRealMethod();
+        Mockito.when(questionnairesService.getQuestionnaireWithReferences((JSONObject) jsonParser.parse(testedInput))).thenCallRealMethod();
+
         //
         PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
-        assertThrows(PoguesDeserializationException.class, () -> deref.transformAsQuestionnaire(testedInput));
+        assertThrows(NullReferenceException.class, () -> deref.transformAsQuestionnaire(testedInput));
     }
 
     /**

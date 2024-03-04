@@ -143,7 +143,6 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonQuestionnaire);
 		List<String> references = JSONFunctions.getChildReferencesFromQuestionnaire(jsonQuestionnaire);
 		deReference(references, questionnaire);
-		logger.info("Sequences inserted");
 		return questionnaire;
 	}
 
