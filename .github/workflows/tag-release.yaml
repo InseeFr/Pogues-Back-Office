@@ -14,11 +14,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: Test, package and analyze with maven & SonarCloud
         run: mvn --no-transfer-progress verify sonar:sonar -Dsonar.projectKey=InseeFr_Pogues-Back-Office -Dsonar.organization=inseefr -Dsonar.host.url=https://sonarcloud.io
@@ -32,11 +32,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK 17
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
-          java-version: '17'
+          java-version: '21'
 
       - name: Build with Maven Pogues-Back-Office
         run: mvn clean package -DskipTests -B -V --file pom.xml
