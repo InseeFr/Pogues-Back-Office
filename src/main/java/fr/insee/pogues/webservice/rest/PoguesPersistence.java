@@ -4,14 +4,15 @@ import fr.insee.pogues.config.auth.UserProvider;
 import fr.insee.pogues.config.auth.user.User;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.VariablesService;
+import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDeref;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import java.util.ArrayList;
-import java.util.List;
+
+import java.util.*;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.Produces;
@@ -21,6 +22,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -85,9 +87,12 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "404", description = "Not found")
     })	
 	public ResponseEntity<Object> getQuestionnaire(
-			@PathVariable(value = "id") String id
+			@PathVariable(value = "id") String id,
+			@RequestParam(name = "references", defaultValue = "false") Boolean ref
 	) throws Exception {
-			JSONObject result = questionnaireService.getQuestionnaireByID(id);
+			JSONObject result = ref ?
+					questionnaireService.getQuestionnaireByIDWithReferences(id) :
+					questionnaireService.getQuestionnaireByID(id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
