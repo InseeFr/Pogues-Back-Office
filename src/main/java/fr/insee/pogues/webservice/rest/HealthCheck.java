@@ -48,7 +48,7 @@ public class HealthCheck {
 	@Value("${fr.insee.pogues.api.remote.stromae.orbeon.host}")
     String orbeonHost;
 	
-	@Value("${fr.insee.pogues.api.remote.queen.host}")
+	@Value("${fr.insee.pogues.api.remote.queen.vis.host}")
     String queenHost;
 	
 	@Value("${fr.insee.pogues.api.remote.stromae.host}")
