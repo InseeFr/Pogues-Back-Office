@@ -80,8 +80,7 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         // Parse Pogues json questionnaire
         JSONParser parser = new JSONParser();
         JSONObject jsonQuestionnaire = (JSONObject) parser.parse(input);
-        Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonQuestionnaire);
-        JSONObject questionnaireWithRef = questionnairesService.getQuestionnaireByIDWithReferences(questionnaire.getId());
+        JSONObject questionnaireWithRef = questionnairesService.getQuestionnaireWithReferences(jsonQuestionnaire);
         return PoguesDeserializer.questionnaireToJavaObject(questionnaireWithRef);
     }
 

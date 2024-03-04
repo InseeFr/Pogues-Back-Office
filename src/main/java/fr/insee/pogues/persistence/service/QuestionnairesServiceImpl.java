@@ -78,9 +78,12 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	@Override
 	public JSONObject getQuestionnaireByIDWithReferences(String id) throws Exception {
 		JSONObject jsonQuestionnaire = this.getQuestionnaireByID(id);
+		return getQuestionnaireWithReferences(jsonQuestionnaire);
+	}
 
+	@Override
+	public JSONObject getQuestionnaireWithReferences(JSONObject jsonQuestionnaire) throws Exception {
 		Questionnaire questionnaireWithReferences = this.deReference(jsonQuestionnaire);
-
 		JSONObject jsonQuestionnaireWithReferences = (JSONObject) new JSONParser().parse(
 				PoguesSerializer.questionnaireJavaToString(questionnaireWithReferences)
 		);

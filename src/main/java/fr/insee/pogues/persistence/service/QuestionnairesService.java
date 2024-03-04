@@ -40,6 +40,14 @@ public interface QuestionnairesService {
     JSONObject getQuestionnaireByIDWithReferences(String id) throws Exception;
 
     /**
+     *
+     * @param jsonQuestionnaire JSON representation of a questionnaire
+     *  @return JSON representation of the questionnaire with references
+     * @throws Exception
+     */
+    JSONObject getQuestionnaireWithReferences(JSONObject jsonQuestionnaire) throws Exception;
+
+    /**
     *
     * @param id Id of requested object
     * @return JSON Lunatic representation of a questionnaire
