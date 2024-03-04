@@ -75,6 +75,14 @@ public class PoguesPersistence {
 	private static final String BAD_REQUEST = "Bad Request";
     private static final String MESSAGE_INVALID_IDENTIFIER = "Identifier %s is invalid";
 
+	/**
+	 * @param id: the id of questionnaire
+	 * @param references (false by default): this param indicates if you want the complete questionnaire
+	 *           A questionnaire may be "contain" other questionnaires. These questionnaires appear as references.
+	 *           This end-point makes it possible to obtain the complete questionnaire, by replacing the references with the complete questionnaires.
+	 * @return the json representation of questionnaire (and potentially its references according to references param)
+	 * @throws Exception
+	 */
 	@GetMapping("questionnaire/{id}")
     @Produces(MediaType.APPLICATION_JSON)
 	@Operation(
@@ -88,9 +96,9 @@ public class PoguesPersistence {
     })	
 	public ResponseEntity<Object> getQuestionnaire(
 			@PathVariable(value = "id") String id,
-			@RequestParam(name = "references", defaultValue = "false") Boolean ref
+			@RequestParam(name = "references", defaultValue = "false") Boolean references
 	) throws Exception {
-			JSONObject result = ref ?
+			JSONObject result = references ?
 					questionnaireService.getQuestionnaireByIDWithReferences(id) :
 					questionnaireService.getQuestionnaireByID(id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);

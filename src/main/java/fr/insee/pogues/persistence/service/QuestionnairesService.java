@@ -32,17 +32,21 @@ public interface QuestionnairesService {
     JSONObject getQuestionnaireByID(String id) throws Exception;
 
     /**
-     *
+     * A questionnaire can "contain" other questionnaires. These questionnaires appear as references.
+     * This method makes it possible to obtain the complete questionnaire, by replacing the references with the complete questionnaires.
      * @param id Id of requested object
-     *  @return JSON representation of the questionnaire with references
+     *
+     * @return JSON representation of the questionnaire with references
      * @throws Exception
      */
     JSONObject getQuestionnaireByIDWithReferences(String id) throws Exception;
 
     /**
+     * A questionnaire can "contain" other questionnaires. These questionnaires appear as references.
+     * This method makes it possible to obtain the complete questionnaire, by replacing the references with the complete questionnaires.
      *
      * @param jsonQuestionnaire JSON representation of a questionnaire
-     *  @return JSON representation of the questionnaire with references
+     * @return JSON representation of the questionnaire with its references
      * @throws Exception
      */
     JSONObject getQuestionnaireWithReferences(JSONObject jsonQuestionnaire) throws Exception;
