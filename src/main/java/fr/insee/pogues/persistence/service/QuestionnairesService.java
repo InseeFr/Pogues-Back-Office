@@ -30,7 +30,15 @@ public interface QuestionnairesService {
      * @throws Exception
      */
     JSONObject getQuestionnaireByID(String id) throws Exception;
-    
+
+    /**
+     *
+     * @param id Id of requested object
+     *  @return JSON representation of the questionnaire with references
+     * @throws Exception
+     */
+    JSONObject getQuestionnaireByIDWithReferences(String id) throws Exception;
+
     /**
     *
     * @param id Id of requested object
