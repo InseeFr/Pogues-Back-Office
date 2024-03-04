@@ -1,8 +1,20 @@
 package fr.insee.pogues.persistence.service;
 
 import java.util.List;
+import java.util.Map;
 
+import fr.insee.pogues.exception.NullReferenceException;
+import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDeref;
+import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDerefImpl;
+import fr.insee.pogues.transforms.visualize.composition.QuestionnaireComposition;
+import fr.insee.pogues.utils.PoguesDeserializer;
+import fr.insee.pogues.utils.PoguesSerializer;
+import fr.insee.pogues.utils.json.JSONFunctions;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +22,6 @@ import fr.insee.pogues.persistence.query.EntityNotFoundException;
 import fr.insee.pogues.persistence.query.NonUniqueResultException;
 import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
 import fr.insee.pogues.webservice.rest.PoguesException;
-
 /**
  * Questionnaire Service to assume the persistence of Pogues UI in JSON
  *
@@ -21,8 +32,10 @@ import fr.insee.pogues.webservice.rest.PoguesException;
 @Service
 public class QuestionnairesServiceImpl implements QuestionnairesService {
 
+	static final Logger logger = LogManager.getLogger(QuestionnairesServiceImpl.class);
 	@Autowired
 	private QuestionnairesServiceQuery questionnaireServiceQuery;
+
 
 	public List<JSONObject> getQuestionnaireList() throws Exception {
 		List<JSONObject> questionnaires = questionnaireServiceQuery.getQuestionnaires();
@@ -61,7 +74,19 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 		return questionnaire;
 	}
-	
+
+	@Override
+	public JSONObject getQuestionnaireByIDWithReferences(String id) throws Exception {
+		JSONObject jsonQuestionnaire = this.getQuestionnaireByID(id);
+
+		Questionnaire questionnaireWithReferences = this.deReference(jsonQuestionnaire);
+
+		JSONObject jsonQuestionnaireWithReferences = (JSONObject) new JSONParser().parse(
+				PoguesSerializer.questionnaireJavaToString(questionnaireWithReferences)
+		);
+		return jsonQuestionnaireWithReferences;
+	}
+
 	public JSONObject getJsonLunaticByID(String id) throws Exception {
         JSONObject questionnaireLunatic = this.questionnaireServiceQuery.getJsonLunaticByID(id);
         if (null == questionnaireLunatic) {
@@ -108,5 +133,34 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	    } catch (EntityNotFoundException e) {
 	        throw new PoguesException(404, "Not found", e.getMessage());
 	    }
+	}
+
+	public Questionnaire deReference(JSONObject jsonQuestionnaire) throws Exception {
+
+		Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonQuestionnaire);
+		List<String> references = JSONFunctions.getChildReferencesFromQuestionnaire(jsonQuestionnaire);
+		deReference(references, questionnaire);
+		logger.info("Sequences inserted");
+		return questionnaire;
+	}
+
+	private void deReference(List<String> references, Questionnaire questionnaire) throws Exception {
+		for (String reference : references) {
+			JSONObject referencedJsonQuestionnaire = this.getQuestionnaireByID(reference);
+			if (referencedJsonQuestionnaire == null) {
+				throw new NullReferenceException(String.format(
+						"Null reference behind reference '%s' in questionnaire '%s'.",
+						reference, questionnaire.getId()));
+			} else {
+				Questionnaire referencedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(referencedJsonQuestionnaire);
+				// Coherence check
+				if (! reference.equals(referencedQuestionnaire.getId())) {
+					logger.warn("Reference '{}' found in questionnaire '{}' mismatch referenced questionnaire's id '{}'",
+							reference, questionnaire.getId(), referencedQuestionnaire.getId());
+				}
+				//
+				QuestionnaireComposition.insertReference(questionnaire, referencedQuestionnaire);
+			}
+		}
 	}
 }
