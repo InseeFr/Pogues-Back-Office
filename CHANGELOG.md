@@ -9,5 +9,3 @@
 - **[Features][Metadata]** : Retrieve units from metadata instead of mocked data.
 - **[Techs][Init]** : Possibility to put a flag to mask the referential codes lists UI in properties.
 - **[Techs]** : Upgrading dependencies.
-
-# v0.0.10-SNAPSHOT

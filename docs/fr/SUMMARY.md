@@ -9,7 +9,6 @@
  * [Docker](workflow/docker/README.md)
    * [Le répertoire docker](workflow/docker/docker-folders.md)
    * [Utilisation](workflow/docker/docker-usage.md)
- * [Travis](workflow/travis.md)
 * [Modèle de données](persistence/README.md)
 * [Contrôle d'accès](security/README.md)
  * [Authentification](security/authentication.md)
