@@ -13,7 +13,7 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>jar</packaging>
-	<version>4.4.1</version>
+	<version>4.4.1-SNAPSHOT</version>
 	<name>Pogues-BO</name>
 
 	<properties>
