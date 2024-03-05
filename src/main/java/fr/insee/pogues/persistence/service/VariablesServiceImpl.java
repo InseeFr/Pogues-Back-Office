@@ -33,19 +33,18 @@ public class VariablesServiceImpl implements VariablesService {
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	
-	@Autowired
-	private QuestionnairesServiceQuery questionnaireServiceQuery;
+
+	@Autowired QuestionnairesService questionnairesService;
 
 	public VariablesServiceImpl() {}
 
-	public VariablesServiceImpl(QuestionnairesServiceQuery questionnairesServiceQuery) {
-		this.questionnaireServiceQuery = questionnairesServiceQuery;
+	public VariablesServiceImpl(QuestionnairesService questionnairesService) {
+		this.questionnairesService = questionnairesService;
 	}
 
 	public JSONArray getVariablesByQuestionnaireForPublicEnemy(String id){
 		try {
-			JSONObject questionnaire = questionnaireServiceQuery.getQuestionnaireByID(id);
+			JSONObject questionnaire = questionnairesService.getQuestionnaireByIDWithReferences(id);
 			// We test the existence of the questionnaire in repository
 			if (questionnaire != null) {
 				JSONObject variables = (JSONObject) questionnaire.get("Variables");
@@ -61,7 +60,7 @@ public class VariablesServiceImpl implements VariablesService {
 		StreamSource json = null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
-			JSONObject questionnaire = questionnaireServiceQuery.getQuestionnaireByID(id);
+			JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
 			// We test the existence of the questionnaire in repository
 			if (questionnaire != null) {
 				logger.info("Deserializing questionnaire ");

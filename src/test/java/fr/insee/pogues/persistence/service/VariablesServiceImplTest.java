@@ -26,11 +26,11 @@ class VariablesServiceImplTest {
         String stringQuestionnaire = Files.readString(Path.of(url.toURI()));
         JSONObject jsonQuestionnaire = (JSONObject) new JSONParser().parse(stringQuestionnaire);
         // Mock questionnaire service
-        QuestionnairesServiceQuery questionnairesServiceQuery = Mockito.mock(QuestionnairesServiceQuery.class);
-        Mockito.when(questionnairesServiceQuery.getQuestionnaireByID("l4i3m6qa")).thenReturn(jsonQuestionnaire);
+        QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
+        Mockito.when(questionnairesService.getQuestionnaireByID("l4i3m6qa")).thenReturn(jsonQuestionnaire);
 
         // When
-        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesServiceQuery);
+        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
         String result = variablesService.getVariablesByQuestionnaire("l4i3m6qa");
 
         // Then
@@ -56,11 +56,11 @@ class VariablesServiceImplTest {
         String stringQuestionnaire = Files.readString(Path.of(url.toURI()));
         JSONObject jsonQuestionnaire = (JSONObject) new JSONParser().parse(stringQuestionnaire);
         // Mock questionnaire service
-        QuestionnairesServiceQuery questionnairesServiceQuery = Mockito.mock(QuestionnairesServiceQuery.class);
-        Mockito.when(questionnairesServiceQuery.getQuestionnaireByID("l4i3m6qa")).thenReturn(jsonQuestionnaire);
+        QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
+        Mockito.when(questionnairesService.getQuestionnaireByIDWithReferences("l4i3m6qa")).thenReturn(jsonQuestionnaire);
 
         // When
-        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesServiceQuery);
+        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
         JSONArray result = variablesService.getVariablesByQuestionnaireForPublicEnemy("l4i3m6qa");
 
         // Then
@@ -78,11 +78,11 @@ class VariablesServiceImplTest {
     @Test
     void getVariables_exceptionDuringQuestionnaireQuery_shouldReturnNull() throws Exception {
         // Given
-        QuestionnairesServiceQuery questionnairesServiceQuery = Mockito.mock(QuestionnairesServiceQuery.class);
-        Mockito.when(questionnairesServiceQuery.getQuestionnaireByID("foo-id")).thenThrow(new MockedException());
+        QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
+        Mockito.when(questionnairesService.getQuestionnaireByID("foo-id")).thenThrow(new MockedException());
 
         // When
-        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesServiceQuery);
+        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
         String result = variablesService.getVariablesByQuestionnaire("foo-id");
 
         // Then
@@ -92,11 +92,11 @@ class VariablesServiceImplTest {
     @Test
     void getVariablesForPublicEnemy_exceptionDuringQuestionnaireQuery_shouldReturnNull() throws Exception {
         // Given
-        QuestionnairesServiceQuery questionnairesServiceQuery = Mockito.mock(QuestionnairesServiceQuery.class);
-        Mockito.when(questionnairesServiceQuery.getQuestionnaireByID("foo-id")).thenThrow(new MockedException());
+        QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
+        Mockito.when(questionnairesService.getQuestionnaireByID("foo-id")).thenThrow(new MockedException());
 
         // When
-        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesServiceQuery);
+        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
         JSONArray result = variablesService.getVariablesByQuestionnaireForPublicEnemy("foo-id");
 
         // Then

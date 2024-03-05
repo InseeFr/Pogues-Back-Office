@@ -80,36 +80,9 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         // Parse Pogues json questionnaire
         JSONParser parser = new JSONParser();
         JSONObject jsonQuestionnaire = (JSONObject) parser.parse(input);
-        // Get referenced questionnaire identifiers
-        // TODO: The "childQuestionnaireRef" in the json should be supported by Pogues-Model
-        List<String> references = JSONFunctions.getChildReferencesFromQuestionnaire(jsonQuestionnaire);
-        // Deserialize json into questionnaire object
-        Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonQuestionnaire);
-        //
-        deReference(references, questionnaire);
-        logger.info("Sequences inserted");
-        //
-        return questionnaire;
+        JSONObject questionnaireWithRef = questionnairesService.getQuestionnaireWithReferences(jsonQuestionnaire);
+        return PoguesDeserializer.questionnaireToJavaObject(questionnaireWithRef);
     }
 
-    private void deReference(List<String> references, Questionnaire questionnaire) throws Exception {
-        for (String reference : references) {
-            JSONObject referencedJsonQuestionnaire = questionnairesService.getQuestionnaireByID(reference);
-            if (referencedJsonQuestionnaire == null) {
-                throw new NullReferenceException(String.format(
-                        "Null reference behind reference '%s' in questionnaire '%s'.",
-                        reference, questionnaire.getId()));
-            } else {
-                Questionnaire referencedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(referencedJsonQuestionnaire);
-                // Coherence check
-                if (! reference.equals(referencedQuestionnaire.getId())) {
-                    logger.warn("Reference '{}' found in questionnaire '{}' mismatch referenced questionnaire's id '{}'",
-                            reference, questionnaire.getId(), referencedQuestionnaire.getId());
-                }
-                //
-                QuestionnaireComposition.insertReference(questionnaire, referencedQuestionnaire);
-            }
-        }
-    }
 
 }
