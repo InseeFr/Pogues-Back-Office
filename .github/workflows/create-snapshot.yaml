@@ -1,0 +1,129 @@
+name: Pogues Back Office snapshot
+
+# This action is triggered when the 'deploy-snapshot' tag is put in a pull request.
+on:
+  pull_request:
+    types: [labeled]
+
+jobs:
+
+  remove-deploy-label:
+    if: ${{ contains(github.event.pull_request.labels.*.name, 'deploy-snapshot') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: 'deploy-snapshot'
+
+  check-version:
+    needs: remove-deploy-label
+    runs-on: ubuntu-latest
+    outputs:
+      snapshot-version: ${{ steps.version-step.outputs.version }}
+    steps:
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Checkout Pogues-Back-Office repo
+        uses: actions/checkout@v4
+
+      - name: Get Version
+        id: version-step
+        run: echo "version=$(mvn -f pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+
+      - name: Print Version
+        run: echo ${{ steps.version-step.outputs.version }}
+
+      - uses: mukunku/tag-exists-action@v1.5.0
+        name: Check tag existence
+        id: check-tag-exists
+        with:
+          tag: ${{ steps.version-step.outputs.version }}
+
+      - name: Tag verification
+        id: check-tag
+        run: |
+          if [[ "${{ steps.check-tag-exists.outputs.exists }}" == "true" ]]; then
+            echo "Nothing to tag/release, the tag ${{ steps.version-step.outputs.version }} already exists"
+            exit 1
+          fi
+
+          if ! [[ "${{ steps.version-step.outputs.version }}" =~ ^[0-9]+.[0-9]+.[0-9]+-SNAPSHOT$ ]]; then
+            echo "Nothing to tag/release, the tag ${{ steps.version-step.outputs.version }} is not in correct format X.Y.Z-SNAPSHOT"
+            exit 1
+          fi
+
+  build-sources:
+    needs: check-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - uses: actions/checkout@v4
+      - name: Build Pogues-Back-Office with Maven
+        run: mvn clean package -B -V --file pom.xml --no-transfer-progress
+
+      - name: Upload jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: jar
+          path: target/pogues-bo.jar
+
+  create-tag:
+    needs: [ check-version, build-sources ]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create tag
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ needs.check-version.outputs.snapshot-version }}',
+              sha: context.sha
+            })
+
+  publish-docker:
+    needs: [ check-version, create-tag ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download jar
+        id: download
+        uses: actions/download-artifact@v4
+        with:
+          name: jar
+          path: target/
+
+      - name: Publish to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: inseefr/pogues-back-office
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          default_branch: ${{ github.ref }}
+          tags: ${{ needs.check-version.outputs.snapshot-version }}
+
+  write-comment:
+    needs: [ check-version, publish-docker ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '👋 Version ${{ needs.check-version.outputs.snapshot-version }} deployed on docker hub'
+            })
