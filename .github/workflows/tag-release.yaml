@@ -60,14 +60,14 @@ jobs:
           name: jar
           path: target/
 
-      # Todo: add automated changelog step (based conventional commit using requarks/changelog-action)
-
+      - name: Get current version
+        id: version
+        run: echo "prop=$(mvn -f pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
       - name: Create release
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ github.ref_name }}
-          name: "v${{ needs.check-version.outputs.release-version }}"
-          #body: see todo
+          name: ${{ steps.version.outputs.prop }}
           files: target/pogues-bo.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
