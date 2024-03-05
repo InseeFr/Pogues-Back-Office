@@ -1,0 +1,148 @@
+name: Pogues Back Office release on tag
+
+on:
+  push:
+    branches:
+      - 'main'
+    paths-ignore: ['docs/**', 'Dockerfile', 'LICENSE', 'CHANGELOG.md', 'README.md']
+
+jobs:
+
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      release-version: ${{ steps.version-step.outputs.version }}
+    steps:
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Checkout Pogues-Back-Office repo
+        uses: actions/checkout@v4
+
+      - name: Get Version
+        id: version
+        run: echo "version=$(mvn -f pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+
+      - name: Print Version
+        run: echo ${{ steps.version-step.outputs.version }}
+
+      - uses: mukunku/tag-exists-action@v1.5.0
+        name: Check tag existence
+        id: check-tag-exists
+        with:
+          tag: ${{ steps.version-step.outputs.version }}
+
+      - name: Tag verification
+        id: check-tag
+        run: |
+          if [[ "${{ steps.check-tag-exists.outputs.exists }}" == "true" ]]; then
+            echo "Nothing to tag/release, the tag ${{ steps.version-step.outputs.version }} already exists"
+            exit 1
+          fi
+
+          if ! [[ "${{ steps.version-step.outputs.version }}" =~ ^[0-9]+.[0-9]+.[0-9]+$ ]]; then
+            echo "Nothing to tag/release, the tag ${{ steps.version-step.outputs.version }} is not in correct format X.Y.Z"
+            exit 1
+          fi
+
+  build-sources:
+    needs: check-version
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - uses: actions/checkout@v4
+      - name: Build Pogues-Back-Office with Maven
+        run: mvn clean package -B -V --file pom.xml --no-transfer-progress
+
+      - name: Upload jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: jar
+          path: target/*.jar
+
+  create-release:
+    needs: [ check-version, build-sources ]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Get previous release tag
+        id: previousTag
+        run: echo "previousTag=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$" | tail -1)" >> $GITHUB_OUTPUT
+
+      - name: Create tag
+        uses: rickstaa/action-create-tag@v1
+        with:
+          tag: ${{ needs.check-version.outputs.release-version }}
+
+      - name: Create release note
+        id: changelog
+        uses: requarks/changelog-action@v1
+        with:
+          fromTag: ${{ needs.check-version.outputs.release-version }}
+          toTag: ${{ steps.previousTag.outputs.previousTag}}
+          excludeTypes: docs,style,chore,other
+          token: ${{ secrets.GITHUB_TOKEN }}
+          writeToFile: true
+          changelogFilePath: 'CHANGELOG.md'
+
+      - name: Download jar
+        id: download
+        uses: actions/download-artifact@v4
+        with:
+          name: jar
+          path: target/
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ needs.check-version.outputs.release-version }}
+          target_commitish: ${{ github.head_ref || github.ref }}
+          name: ${{ needs.check-version.outputs.release-version }}
+          body: ${{steps.changelog.outputs.changes}}
+          files: ./target/pogues-bo.jar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit changelog file
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          branch: 'main'
+          commit_message: 'docs(changelog): ${{ needs.check-version.outputs.release-version }} update [skip ci]'
+          file_pattern: 'CHANGELOG.md'
+
+  publish-docker:
+    needs: [ check-version, create-release ]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download jar
+        id: download
+        uses: actions/download-artifact@v4
+        with:
+          name: jar
+          path: target/
+
+      - name: Publish to Docker Hub
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: inseefr/pogues-back-office
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          default_branch: ${{ github.ref }}
+          tags: "latest,${{ needs.check-version.outputs.release-version }}"
