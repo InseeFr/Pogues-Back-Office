@@ -1,5 +1,10 @@
 # Pogues-Back-Office Change Log
 
+## [4.4.3] - 2024-03-25
+### :bug: Bug Fixes
+- [`7dd1190`](https://github.com/InseeFr/Pogues-Back-Office/commit/7dd1190b5a370f415f6aee0c08318d46122db0a7) - **suggester**: update pogues-model *(PR [#228](https://github.com/InseeFr/Pogues-Back-Office/pull/228) by [@nsenave](https://github.com/nsenave))*
+
+
 ## [4.4.2] - 2024-03-05
 ### :sparkles: New Features
 - [`75a71f2`](https://github.com/InseeFr/Pogues-Back-Office/commit/75a71f20b9fd99a8dbe66497e6dc44def846082f) - simplify questionnaire with references for public-enemy *(PR [#226](https://github.com/InseeFr/Pogues-Back-Office/pull/226) by [@laurentC35](https://github.com/laurentC35))*
@@ -22,3 +27,4 @@
 
 [4.4.1]: https://github.com/InseeFr/Pogues-Back-Office/compare/4.4.0...4.4.1
 [4.4.2]: https://github.com/InseeFr/Pogues-Back-Office/compare/4.4.1...4.4.2
+[4.4.3]: https://github.com/InseeFr/Pogues-Back-Office/compare/4.4.2...4.4.3
