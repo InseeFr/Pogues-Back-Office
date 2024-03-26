@@ -1,6 +1,6 @@
 package fr.insee.pogues.search.repository;
 
-import fr.insee.pogues.config.RemoteMetadata;
+import fr.insee.pogues.configuration.RemoteMetadata;
 import fr.insee.pogues.search.model.DDIItem;
 import fr.insee.pogues.search.model.DataCollectionContext;
 import fr.insee.pogues.search.model.PoguesQuery;

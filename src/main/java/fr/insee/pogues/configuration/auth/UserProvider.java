@@ -1,6 +1,6 @@
-package fr.insee.pogues.config.auth;
+package fr.insee.pogues.configuration.auth;
 
-import fr.insee.pogues.config.auth.user.User;
+import fr.insee.pogues.configuration.auth.user.User;
 import org.springframework.security.core.Authentication;
 
 @FunctionalInterface

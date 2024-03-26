@@ -1,4 +1,4 @@
-package fr.insee.pogues.config.auth.user;
+package fr.insee.pogues.configuration.auth.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

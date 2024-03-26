@@ -1,4 +1,4 @@
-package fr.insee.pogues.config.auth.security.restrictions;
+package fr.insee.pogues.configuration.auth.security.restrictions;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -7,8 +7,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import fr.insee.pogues.config.auth.UserProvider;
-import fr.insee.pogues.config.auth.user.User;
+import fr.insee.pogues.configuration.auth.UserProvider;
+import fr.insee.pogues.configuration.auth.user.User;
 
 @Service
 public class StampsRestrictionsServiceImpl implements StampsRestrictionsService{

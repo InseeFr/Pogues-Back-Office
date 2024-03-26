@@ -1,6 +1,6 @@
 package fr.insee.pogues.transforms.visualize;
 
-import fr.insee.pogues.config.StaticResourcesForFOPConfig;
+import fr.insee.pogues.configuration.StaticResourcesForFOPConfig;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.fop.apps.Fop;

@@ -5,5 +5,5 @@ Connexion to the identity provider (an Open LDAP directory) is made in this clas
 
 ### SecurityContext.java
 
-[include](../../../src/main/java/fr/insee/pogues/config/SecurityContext.java)
+[include](../../../src/main/java/fr/insee/pogues/configuration/SecurityContext.java)
 

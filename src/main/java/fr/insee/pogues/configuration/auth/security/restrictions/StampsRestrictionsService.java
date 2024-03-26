@@ -1,6 +1,6 @@
-package fr.insee.pogues.config.auth.security.restrictions;
+package fr.insee.pogues.configuration.auth.security.restrictions;
 
-import fr.insee.pogues.config.auth.user.User;
+import fr.insee.pogues.configuration.auth.user.User;
 
 public interface StampsRestrictionsService {
 	

@@ -1,4 +1,4 @@
-package fr.insee.pogues.config;
+package fr.insee.pogues.configuration;
 
 import lombok.Getter;
 import lombok.NonNull;
@@ -20,10 +20,16 @@ import java.util.Objects;
 @Component
 public class StaticResourcesForFOPConfig {
 
-    final static Logger logger = LogManager.getLogger(StaticResourcesForFOPConfig.class);
+    final static Logger LOG = LogManager.getLogger(StaticResourcesForFOPConfig.class);
+
 
     @Value("${fr.insee.pogues.pdf.temp.dir}")
     private Path staticResourcesTempDir;
+
+    public StaticResourcesForFOPConfig(){
+        LOG.info("Init, copy assest to tempDir");
+        copyAssetResourcesToTempDir();
+    }
     private final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
     
     private URI imgFolderUri=null;
@@ -39,9 +45,9 @@ public class StaticResourcesForFOPConfig {
         return imgFolderUri;
     }
 
-    @PostConstruct
+
     public void copyAssetResourcesToTempDir() {
-        logger.info("Copying static files from "+resolver.getResource(ResourceLoader.CLASSPATH_URL_PREFIX+"/pdf/")+" to "+staticResourcesTempDir);
+        LOG.info("Copying static files from "+resolver.getResource(ResourceLoader.CLASSPATH_URL_PREFIX+"/pdf/")+" to "+staticResourcesTempDir);
 
         copyFromClasspath(ResourceLoader.CLASSPATH_URL_PREFIX+"/pdf/img/*", "img");
         copyFromClasspath(ResourceLoader.CLASSPATH_URL_PREFIX+"/pdf/fonts/*", "fonts");
@@ -49,7 +55,7 @@ public class StaticResourcesForFOPConfig {
     }
 
     private void copyFromClasspath(String locationPattern, String destinationDirectory){
-        logger.debug("Process "+locationPattern+ " to "+destinationDirectory);
+        LOG.debug("Process "+locationPattern+ " to "+destinationDirectory);
         Resource[] resources =null;
         try {
             resources = resolver.getResources(locationPattern);
@@ -58,7 +64,7 @@ public class StaticResourcesForFOPConfig {
         }
         var destination = staticResourcesTempDir.resolve(destinationDirectory);
         for (Resource resource : resources) {
-            logger.debug("Process "+resource);
+            LOG.debug("Process "+resource);
             try {
                 FileUtils.copyInputStreamToFile(resource.getInputStream(), destination.resolve(resource.getFilename()).toFile());
             } catch (IOException e) {

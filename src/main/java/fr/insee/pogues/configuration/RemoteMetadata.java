@@ -1,4 +1,4 @@
-package fr.insee.pogues.config;
+package fr.insee.pogues.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
