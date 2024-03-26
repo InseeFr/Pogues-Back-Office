@@ -5,5 +5,5 @@ Les informations de configuration d'annuaire sont récupérée dans le fichier p
 
 ### Le fichier SecurityContext.java
 
-[include](../../../src/main/java/fr/insee/pogues/config/SecurityContext.java)
+[include](../../../src/main/java/fr/insee/pogues/configuration/SecurityContext.java)
 
