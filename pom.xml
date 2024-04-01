@@ -27,7 +27,7 @@
 		<springdoc-openapi-ui.version>1.8.0</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.11</jacoco.version>
 		<saxon.version>12.4</saxon.version>
-		<commons.io.version>2.15.1</commons.io.version>
+		<commons.io.version>2.16.0</commons.io.version>
 		<!-- Temp version due to security issues in version used in springdoc-openapi-ui: -->
 		<snakeyaml.version>2.2</snakeyaml.version>
 
