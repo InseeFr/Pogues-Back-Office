@@ -38,6 +38,20 @@
 		<argLine>-Xms256m -Xmx512m -ea -Dfile.encoding=UTF-8</argLine>
 	</properties>
 
+	<repositories>
+		<!-- Maven central snapshot repository -->
+		<repository>
+			<id>oss.sonatype.org-snapshot</id>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+			<releases>
+				<enabled>false</enabled>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
 	<dependencies>
 
 		<dependency>
