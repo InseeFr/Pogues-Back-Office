@@ -225,6 +225,7 @@ public class PoguesTransforms {
 		params.put("needDeref", ref);
 		params.put("mode", "CAWI");
 		params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
+		params.put("dsfr", true);
 		try {
 			StreamingResponseBody stream = output -> {
 				try {
