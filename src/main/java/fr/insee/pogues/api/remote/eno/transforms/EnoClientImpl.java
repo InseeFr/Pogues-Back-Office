@@ -104,12 +104,11 @@ public class EnoClientImpl implements EnoClient{
 
 		String modePathParam = params.get("mode") != null ? params.get("mode").toString() : MODE;
 		String WSPath = BASE_PATH + "/lunatic-json/" + modePathParam;
-		if (Boolean.TRUE.equals(params.get("dsfr")))
-			WSPath += "?dsfr=true";
+		String dsfrParam = Boolean.TRUE.equals(params.get("dsfr")) ? "true" : "false";
 		logger.info("Url for DDI to Lunatic transformation: {}", WSPath);
 
 		URIBuilder uriBuilder = new URIBuilder();
-		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(WSPath);
+		uriBuilder.setScheme(enoScheme).setHost(enoHost).setPath(WSPath).addParameter("dsfr", dsfrParam);
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		HttpPost post = new HttpPost(uriBuilder.build());
 		logger.info("Calling Eno URL: {}", uriBuilder.build());
