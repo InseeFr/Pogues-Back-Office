@@ -33,7 +33,6 @@ public class PoguesEnvironment {
 	Environment env;
 
 	@GetMapping("")
-	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getEnvironment", summary = "Get pogues back office environment")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized"),

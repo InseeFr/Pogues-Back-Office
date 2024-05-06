@@ -17,7 +17,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import fr.insee.pogues.config.auth.security.restrictions.StampsRestrictionsService;
+import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
 import fr.insee.pogues.webservice.rest.PoguesException;
 
 /**

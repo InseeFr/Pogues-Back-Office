@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.7.18</version>
+		<version>3.2.4</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
@@ -22,12 +22,12 @@
 		<final.asset.name>pogues-bo</final.asset.name>
 
 		<json-simple.version>1.1.1</json-simple.version>
-		<pogues-model.version>1.3.4-SNAPSHOT</pogues-model.version>
+		<pogues-model.version>1.3.3</pogues-model.version>
 		<fop.version>2.9</fop.version>
 		<springdoc-openapi-ui.version>1.8.0</springdoc-openapi-ui.version>
-		<jacoco.version>0.8.12</jacoco.version>
+		<jacoco.version>0.8.11</jacoco.version>
 		<saxon.version>12.4</saxon.version>
-		<commons.io.version>2.16.0</commons.io.version>
+		<commons.io.version>2.15.1</commons.io.version>
 		<!-- Temp version due to security issues in version used in springdoc-openapi-ui: -->
 		<snakeyaml.version>2.2</snakeyaml.version>
 
@@ -37,20 +37,6 @@
 		<sonar.language>java</sonar.language>
 		<argLine>-Xms256m -Xmx512m -ea -Dfile.encoding=UTF-8</argLine>
 	</properties>
-
-	<repositories>
-		<!-- Maven central snapshot repository -->
-		<repository>
-			<id>oss.sonatype.org-snapshot</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-			<releases>
-				<enabled>false</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-		</repository>
-	</repositories>
 
 	<dependencies>
 
@@ -76,6 +62,11 @@
 			<artifactId>spring-boot-starter-jersey</artifactId>
 		</dependency>
 
+		<!-- Web-Client-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webflux</artifactId>
+		</dependency>
 
 		<dependency>
 			<groupId>com.fasterxml.jackson.jaxrs</groupId>
@@ -133,14 +124,6 @@
 			<version>${json-simple.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpclient</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.httpcomponents</groupId>
-			<artifactId>httpmime</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.xmlgraphics</groupId>
 			<artifactId>fop</artifactId>
 			<version>${fop.version}</version>
@@ -195,7 +178,7 @@
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>org.eclipse.persistence.moxy</artifactId>
-			<version>2.7.14</version>			<!-- 4.0.2 -->
+			<version>4.0.2</version>			<!-- 4.0.2 -->
 		</dependency>
 		<dependency>
 			<groupId>javax.xml.bind</groupId>			<!-- jakarta.xml.bind -->
