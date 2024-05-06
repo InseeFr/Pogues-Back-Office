@@ -23,26 +23,32 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public class EnoClientImpl implements EnoClient{
 	
 	private static final Logger logger = LogManager.getLogger(EnoClientImpl.class);
-	
-	@Value("${fr.insee.pogues.api.remote.eno.host}")
-    String enoHost;
-	
 	@Value("${fr.insee.pogues.api.remote.eno.scheme}")
 	String enoScheme;
+	@Value("${fr.insee.pogues.api.remote.eno.host}")
+    String enoHost;
 	
 	private static final String FORMAT = "UTF-8";
 	private static final String BASE_PATH = "/questionnaire/DEFAULT";
 	private static final String MODE = "CAWI";
+	@Autowired
+	private final WebClient webClient;
+
+	public EnoClientImpl(WebClient webClient) {
+		this.webClient = webClient;
+	}
 
 	private static String getFinalResponseFromResponse(HttpResponse httpResponse) throws EnoException, IOException {
 		HttpEntity entityResponse = httpResponse.getEntity();

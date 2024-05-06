@@ -23,15 +23,15 @@ public interface EnoClient {
 	
 	String getXMLPoguesToDDI (File fileInput) throws Exception;
 	
-	String getDDIToPDF (File fileInput) throws URISyntaxException, ClientProtocolException, IOException;
+	String getDDIToPDF (File fileInput) throws URISyntaxException, IOException;
 	
-	String getDDIToFO(File fileInput) throws URISyntaxException, ClientProtocolException, IOException, EnoException;
+	String getDDIToFO(File fileInput) throws URISyntaxException, IOException, EnoException;
 	
-	String getDDITOLunaticXML(File fileInput) throws URISyntaxException, ClientProtocolException, IOException, EnoException;
+	String getDDITOLunaticXML(File fileInput) throws URISyntaxException, IOException, EnoException;
 	
-	String getDDITOLunaticJSON(File fileInput, Map<String, Object> params) throws URISyntaxException, ClientProtocolException, IOException, EnoException;
+	String getDDITOLunaticJSON(File fileInput, Map<String, Object> params) throws URISyntaxException, IOException, EnoException;
 	
-	String getDDITOXForms(File fileInput) throws URISyntaxException, ClientProtocolException, IOException, EnoException;
+	String getDDITOXForms(File fileInput) throws URISyntaxException, IOException, EnoException;
 	
 	void getParameters () throws Exception;
 
