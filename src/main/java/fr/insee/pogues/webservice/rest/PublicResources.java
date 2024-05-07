@@ -1,14 +1,10 @@
 package fr.insee.pogues.webservice.rest;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.http.HttpStatus;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,30 +15,27 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api")
+@Slf4j
 @Tag(name = "Pogues Public Resources")
 public class PublicResources {
-	
-	static final Logger logger = LogManager.getLogger(PublicResources.class);
-	
-	@Value("${fr.insee.pogues.authentication}")
-    String authentificationType;
+
+	@Value("${feature.oidc.enabled}")
+    boolean oidcEnabled;
 	
 	@Value("${fr.insee.pogues.search.disable:false}")
 	boolean isSearchDisable;
 	
-	@GET
 	@GetMapping("/init")
-	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getInit", summary = "Initial properties")
-	public ResponseEntity<Object> getProperties() {
-		JSONObject props = new JSONObject();
+	public ResponseEntity<ObjectNode> getProperties() {
+		ObjectNode props = JsonNodeFactory.instance.objectNode();
 		try {
-			props.put("authType", authentificationType);
+			props.put("authType", oidcEnabled ? "OIDC" : "NONE");
 			props.put("isSearchDisable", isSearchDisable);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 		}
-		return ResponseEntity.status(HttpStatus.SC_OK).body(props.toString());
+		return ResponseEntity.status(HttpStatus.OK).body(props);
 	}
 
 }
