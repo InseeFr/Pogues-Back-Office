@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 import java.util.Map;
 
 import fr.insee.pogues.exception.EnoException;
-import org.apache.http.client.ClientProtocolException;
 
 public interface EnoClient {
 	/**
@@ -22,9 +21,7 @@ public interface EnoClient {
 	String getDDIToODT (File fileInput) throws Exception;
 	
 	String getXMLPoguesToDDI (File fileInput) throws Exception;
-	
-	String getDDIToPDF (File fileInput) throws URISyntaxException, IOException;
-	
+
 	String getDDIToFO(File fileInput) throws URISyntaxException, IOException, EnoException;
 	
 	String getDDITOLunaticXML(File fileInput) throws URISyntaxException, IOException, EnoException;
