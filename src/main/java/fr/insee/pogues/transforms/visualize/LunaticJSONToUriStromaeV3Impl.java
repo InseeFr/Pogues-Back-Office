@@ -21,28 +21,28 @@ public class LunaticJSONToUriStromaeV3Impl implements LunaticJSONToUriStromaeV3{
 	@Autowired
 	private QuestionnairesService questionnaireService;
 
-	@Value("${fr.insee.pogues.api.host}")
+	@Value("${application.host}")
 	private String apiHost;
 
-	@Value("${fr.insee.pogues.api.name}")
+	@Value("${application.name}")
 	private String apiName;
 
-	@Value("${fr.insee.pogues.api.scheme}")
+	@Value("${application.scheme}")
 	private String apiScheme;
 
-	@Value("${fr.insee.pogues.api.remote.stromaev3.vis.host}")
+	@Value("${application.stromaev3.vis.host}")
 	private String orchestratorHost;
 
-	@Value("${fr.insee.pogues.api.remote.stromaev3.vis.path}")
+	@Value("${application.stromaev3.vis.path}")
 	private String visualizePath;
 
-	@Value("${fr.insee.pogues.api.remote.stromaev3.vis.queryparams.questionnaire}")
+	@Value("${application.stromaev3.vis.queryparams.questionnaire}")
 	private String queryParamsQuestionnaire;
 
-	@Value("${fr.insee.pogues.api.remote.stromaev3.vis.queryparams.nomenclatures}")
+	@Value("${application.stromaev3.vis.queryparams.nomenclatures}")
 	private String queryParamsNomenclatures;
 
-	@Value("${fr.insee.pogues.api.remote.api.nomenclatures}")
+	@Value("${application.api.nomenclatures}")
 	private String apiNomenclatures;
 
 	@Override

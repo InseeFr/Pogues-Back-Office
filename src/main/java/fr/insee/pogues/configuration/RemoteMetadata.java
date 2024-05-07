@@ -2,21 +2,21 @@ package fr.insee.pogues.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
-@ConfigurationProperties("fr.insee.pogues.api.remote.metadata")
+@ConfigurationProperties("application.metadata")
 public class RemoteMetadata {
 
-    String url;
+    String ddiAs;
 
     String agency;
 
     String key;
 
-    public String getUrl() {
-        return url;
+    public String getDdiAs() {
+        return ddiAs;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setDdiAs(String ddiAs) {
+        this.ddiAs = ddiAs;
     }
 
     public String getAgency() {

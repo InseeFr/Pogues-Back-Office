@@ -1,17 +1,12 @@
 package fr.insee.pogues.webservice.rest;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,40 +18,49 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
+import org.springframework.web.util.UriComponentsBuilder;
+import reactor.core.publisher.Mono;
 
-import java.io.IOException;
+import java.net.URI;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
 @RequestMapping("/api/healthcheck")
 @Tag(name="Health Check")
+@Slf4j
 public class HealthCheck {
-	
-	private final static Logger logger = LogManager.getLogger(HealthCheck.class);
 
-	@Autowired
-	EnoClient enoClient;
+    @Autowired
+    EnoClient enoClient;
 
-	@Autowired
+    @Autowired
     private QuestionnairesServiceQuery questionnaireServiceQuery;
 
-	@Autowired
-    HttpClientBuilder httpClientBuilder;
-	
-	@Value("${fr.insee.pogues.api.remote.metadata.url}")
+    @Autowired
+    WebClient webClient;
+
+    @Value("${application.metadata.ddi-as}")
     String ddiAccessServicesUrl;
-	
-	@Value("${fr.insee.pogues.api.remote.stromae.orbeon.host}")
+
+    @Value("${application.stromae.orbeon.host}")
     String orbeonHost;
-	
-	@Value("${fr.insee.pogues.api.remote.queen.vis.host}")
+
+    @Value("${application.stromae.host}")
+    String stromaeDbHost;
+
+    @Value("${application.queen.vis.host}")
     String queenHost;
-	
-	@Value("${fr.insee.pogues.api.remote.stromae.host}")
-	String stromaeDbHost;
-	
-	@GET
-	@GetMapping("")
-    @Produces(MediaType.TEXT_PLAIN)
+
+    @Value("${application.stromaev2.vis.host}")
+    String stromaeV2Host;
+
+    @Value("${application.stromaev3.vis.host}")
+    String stromaeV3Host;
+
+    @GetMapping("")
     @Operation(
             summary = "Perform HealthCheck on Pogues environment",
             description = "This method will return the status of applications needed for Pogues"
@@ -66,88 +70,81 @@ public class HealthCheck {
             @ApiResponse(responseCode = "209", description = "Warning"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public ResponseEntity<Object> getHealthcheck() {
-		boolean haveError=false;
-		boolean haveWarning=false;
-		String stateResult="";
-		String errorMessage="Errors : \n";
-		logger.debug("Begin healthCheck");
-        try {
-        	enoClient.getParameters();
-        	stateResult = stateResult.concat(" - EnoWS : OK \n");	
-        } catch (Exception e) {
-        	haveWarning=true;
-			logger.error(e.getMessage());
-        	errorMessage = errorMessage.concat("- Eno API doesn't return default parameters \n");
-			stateResult = stateResult.concat(" - EnoWS : KO \n");
-        }
-        try {
-        	questionnaireServiceQuery.countQuestionnaires();
-        	stateResult = stateResult.concat(" - DB PostgreSql : OK \n");	
-        } catch (Exception e) {
-        	haveError=true;
-        	logger.error(e.getMessage());
-        	errorMessage = errorMessage.concat("- Couldn't connect to Pogues database \n");
-			stateResult = stateResult.concat(" - DB PostgreSql : KO \n");
-        }
-        try(CloseableHttpClient httpClient = httpClientBuilder.build()) {
-            HttpGet get = new HttpGet(String.format("%s/%s", stromaeDbHost, "exist/rest/db/properties.xml"));
-            get.setHeader("Content-type", "application/xml");
-            httpClient.execute(get);
-            stateResult = stateResult.concat(" - Stromae, DB Exist : OK \n");
-        } catch (Exception e) {
-        	haveWarning=true;
-        	logger.error(e.getMessage());
-        	errorMessage = errorMessage.concat("- Couldn't connect to Stromae Exist database \n");
-			stateResult = stateResult.concat(" - Stromae, DB Exist : KO \n");
-        }
-        try {
-            getCall(String.format("%s/%s", orbeonHost, "rmesstromae/fr/esa-dc-2018/simpsons/new?unite-enquete=123456789"));
-            stateResult = stateResult.concat(" - Stromae, Orbeon : OK \n");
-        } catch (Exception e) {
-        	haveWarning=true;
-        	logger.error(e.getMessage());
-        	errorMessage = errorMessage.concat("- Couldn't connect to orbeon \n");
-			stateResult = stateResult.concat(" - Stromae, Orbeon : KO \n");
-        }
-        try {
-            getCall(String.format("%s/%s", ddiAccessServicesUrl, "env"));
-            stateResult = stateResult.concat(" - DDI-Access-Services : OK \n");
-        } catch (Exception e) {
-        	haveError=true;
-        	logger.error(e.getMessage());
-        	errorMessage = errorMessage.concat("- DDI-Access-Services doesn't return environnement parameters \n");
-			stateResult = stateResult.concat(" - DDI-Access-Services : KO \n");
-        }
-    	try {
-            getCall(String.format("%s/%s", queenHost, "queen/index.html"));
-            stateResult = stateResult.concat(" - Vizualisation Queen : OK \n");
-        } catch (Exception e) {
-        	haveWarning=true;
-        	logger.error(e.getMessage());
-        	errorMessage = errorMessage.concat("- Can't reach index.html on queen application\n");
-			stateResult = stateResult.concat(" - Vizualisation Queen : KO \n");
-        }
-    	stateResult = stateResult.concat(" - Vizualisation Stromae V2 : to be implemented \n");
-		logger.debug("HealthCheck complete");
-		logger.debug(stateResult);
+    public ResponseEntity<ObjectNode> getHealthcheck() {
+        boolean haveError=false;
+        AtomicBoolean haveWarning= new AtomicBoolean(false);
+        log.debug("Begin healthCheck");
 
-		if (!haveError && !haveWarning) {
-			return ResponseEntity.status(HttpStatus.OK).body(stateResult);
-		} else if (haveWarning && !haveError) {
-			logger.warn(errorMessage);
-			return ResponseEntity.status(209).body(stateResult.concat(errorMessage));
-		} else {
-			logger.error(errorMessage);
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(stateResult.concat(errorMessage));
-		}
+        ObjectNode finalResponse = JsonNodeFactory.instance.objectNode();
+
+        try {
+            enoClient.getParameters();
+            finalResponse.put("Eno","OK");
+        } catch (Exception e) {
+            haveWarning.set(true);
+            log.error(e.getMessage());
+            finalResponse.put("Eno","KO, Eno API doesn't return default parameters");
+        }
+        try {
+            questionnaireServiceQuery.countQuestionnaires();
+            finalResponse.put("DB PostgreSql","OK");
+        } catch (Exception e) {
+            haveError=true;
+            log.error(e.getMessage());
+            finalResponse.put("DB PostgreSql","KO");
+        }
+
+        URI uriExist = UriComponentsBuilder.fromHttpUrl(stromaeDbHost).path("/exist/apps/dashboard/index.html").build().toUri();
+        URI uriOrbeon = UriComponentsBuilder.fromHttpUrl(orbeonHost)
+                .path("/rmesstromae/fr/esa-dc-2018/simpsons/new")
+                .queryParam("unite-enquete","123456789")
+                .build().toUri();
+        URI uriQueen = UriComponentsBuilder.fromHttpUrl(queenHost).path("/index.html").build().toUri();
+        // URI uriDDIAS = UriComponentsBuilder.fromHttpUrl(ddiAccessServicesUrl).path("/env").build().toUri();
+        URI uriStromaeV2 = UriComponentsBuilder.fromHttpUrl(stromaeV2Host).path("/index.html").build().toUri();
+        URI uriStromaeV3 = UriComponentsBuilder.fromHttpUrl(stromaeV3Host).path("/index.html").build().toUri();
+
+        Map<String, URI> externalServices = new HashMap<>();
+        externalServices.put("Exist", uriExist);
+        externalServices.put("Orbeon", uriOrbeon);
+        externalServices.put("Queen", uriQueen);
+        // externalServices.put("DDI - AS", uriDDIAS);
+        externalServices.put("Stromae - V2", uriStromaeV2);
+        externalServices.put("Stromae - V3", uriStromaeV3);
+
+        externalServices.forEach((name, uri) -> {
+            log.info("Check"+name+": "+uri);
+            if(checkExternalService(uri)) finalResponse.put(name,"OK");
+            else{
+                haveWarning.set(true);
+                finalResponse.put(name,"KO");
+            }
+        }
+        );
+        log.debug("HealthCheck complete");
+
+        if (!haveError && !haveWarning.get()) {
+            return ResponseEntity.status(HttpStatus.OK).body(finalResponse);
+        } else if (haveWarning.get() && !haveError) {
+            return ResponseEntity.status(209).body(finalResponse);
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(finalResponse);
+        }
     }
 
-	private void getCall(String uri) throws IOException {
-		try(CloseableHttpClient httpClient = httpClientBuilder.build()){
-			HttpGet get = new HttpGet(uri);
-			httpClient.execute(get);
-		}
-	}
+    private boolean checkExternalService(URI externalServiceUri) {
+        try {
+            webClient.get().uri(externalServiceUri).retrieve()
+                     .bodyToMono(String.class)
+                    .block();
+            return true;
+        } catch (WebClientResponseException e) {
+            log.error(String.format("%s for %s", e.getStatusCode(), externalServiceUri));
+            return false;
+        } catch (Exception e){
+            log.info("Error inconnue");
+            return false;
+        }
+    }
 
 }

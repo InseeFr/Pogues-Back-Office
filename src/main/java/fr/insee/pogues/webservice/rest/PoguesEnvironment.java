@@ -32,16 +32,16 @@ public class PoguesEnvironment {
 	public ResponseEntity<Object> getEnvironment() throws Exception {
 		try {
 			JSONObject entity = new JSONObject();
-			entity.put("Swagger Host", env.getProperty("fr.insee.pogues.api.host"));
-			entity.put("Swagger Name", env.getProperty("fr.insee.pogues.api.name"));
-			entity.put("Swagger Scheme", env.getProperty("fr.insee.pogues.api.scheme"));
+			entity.put("Swagger Host", env.getProperty("application.host"));
+			entity.put("Swagger Name", env.getProperty("application.name"));
+			entity.put("Swagger Scheme", env.getProperty("application.scheme"));
 			entity.put("Database", env.getProperty("fr.insee.pogues.persistence.database.host"));
-			entity.put("Metadata services", env.getProperty("fr.insee.pogues.api.remote.metadata.url"));
-			entity.put("Eno Webservice", env.getProperty("fr.insee.pogues.api.remote.eno.host"));
-			entity.put("Stromae", env.getProperty("fr.insee.pogues.api.remote.stromae.host"));
-			entity.put("Stromae v2", env.getProperty("fr.insee.pogues.api.remote.stromaev2.vis.host"));			
-			entity.put("Stromae v3", env.getProperty("fr.insee.pogues.api.remote.stromaev3.vis.host"));
-			entity.put("Queen", env.getProperty("fr.insee.pogues.api.remote.queen.vis.host"));
+			entity.put("Metadata services", env.getProperty("application.metadata.ddi-as"));
+			entity.put("Eno Webservice", env.getProperty("application.eno.host"));
+			entity.put("Stromae", env.getProperty("application.stromae.host"));
+			entity.put("Stromae v2", env.getProperty("application.stromaev2.vis.host"));			
+			entity.put("Stromae v3", env.getProperty("application.stromaev3.vis.host"));
+			entity.put("Queen", env.getProperty("application.queen.vis.host"));
 			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

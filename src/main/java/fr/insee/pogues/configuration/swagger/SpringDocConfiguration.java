@@ -5,6 +5,8 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.info.BuildProperties;
@@ -20,11 +22,13 @@ import java.util.Arrays;
 @ConditionalOnProperty(value="feature.swagger.enabled", havingValue = "true")
 public class SpringDocConfiguration {
 
-    @Value("${fr.insee.pogues.model.version}")
+    private static final Logger log = LoggerFactory.getLogger(SpringDocConfiguration.class);
+    @Value("${application.pogues-model.version}")
     private String poguesModelVersion;
     @Bean
     @ConditionalOnProperty(name = "feature.oidc.enabled", havingValue = "false")
     protected OpenAPI noAuthOpenAPI(BuildProperties buildProperties) {
+        log.info("Let's go for swagger !");
         return generateOpenAPI(buildProperties);
     }
 

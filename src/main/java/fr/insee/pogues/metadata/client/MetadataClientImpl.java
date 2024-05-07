@@ -32,12 +32,12 @@ public class MetadataClientImpl implements MetadataClient {
 	}
 
 	public ColecticaItem getItem(String id) throws Exception {
-        String url = String.format("%s/meta-data/item/%s", remoteMetadata.getUrl(), id);
+        String url = String.format("%s/meta-data/item/%s", remoteMetadata.getDdiAs(), id);
         return restTemplate.getForObject(url, ColecticaItem.class);
     }
 
     public List<ColecticaItem> getItems(ColecticaItemRefList query) throws Exception {
-        String url = String.format("%s/meta-data/items", remoteMetadata.getUrl());
+        String url = String.format("%s/meta-data/items", remoteMetadata.getDdiAs());
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         headers.add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         HttpEntity<ColecticaItemRefList> request = new HttpEntity<>(query, headers);
@@ -47,7 +47,7 @@ public class MetadataClientImpl implements MetadataClient {
     }
 
     public ColecticaItemRefList getChildrenRef(String id) throws Exception {
-        String url = String.format("%s/meta-data/item/%s/refs", remoteMetadata.getUrl(), id);
+        String url = String.format("%s/meta-data/item/%s/refs", remoteMetadata.getDdiAs(), id);
         System.out.println(url);
         ResponseEntity<ColecticaItemRefList>  response;
         response = restTemplate
@@ -56,7 +56,7 @@ public class MetadataClientImpl implements MetadataClient {
     }
 
     public String getDDIDocument(String id) throws Exception {
-        String url = String.format("%s/meta-data/item/%s/ddi", remoteMetadata.getUrl(), id);
+        String url = String.format("%s/meta-data/item/%s/ddi", remoteMetadata.getDdiAs(), id);
         ResponseEntity<String>  response;
         response = restTemplate
                 .exchange(url, HttpMethod.GET, null, String.class);
@@ -64,14 +64,14 @@ public class MetadataClientImpl implements MetadataClient {
     }
     
 	public List<Unit> getUnits() throws Exception {
-		String url = String.format("%s/meta-data/units", remoteMetadata.getUrl());
+		String url = String.format("%s/meta-data/units", remoteMetadata.getDdiAs());
 		ResponseEntity<Unit[]> response = restTemplate.exchange(url, HttpMethod.GET, null, Unit[].class);
 		return Arrays.asList(response.getBody());
 	}
 
 	@Override
 	public String getCodeList(String id) throws Exception {
-		String url = String.format("%s/meta-data/codeList/%s/ddi", remoteMetadata.getUrl(), id);
+		String url = String.format("%s/meta-data/codeList/%s/ddi", remoteMetadata.getDdiAs(), id);
 		ResponseEntity<String> response;
 		response = restTemplate.exchange(url, HttpMethod.GET, null, String.class);
 		return response.getBody();

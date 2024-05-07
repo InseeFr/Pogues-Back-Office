@@ -6,25 +6,20 @@ import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.apache.commons.io.IOUtils;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
 import fr.insee.pogues.conversion.XMLToJSONTranslator;
-import fr.insee.pogues.utils.json.JSONFunctions;
 
 @Service
 public class PoguesXMLToPoguesJSONImpl implements PoguesXMLToPoguesJSON {
 
     private XMLToJSONTranslator translator = new XMLToJSONTranslator(true);
-
-    @PostConstruct
-    public void onInit() {
-        System.setProperty("javax.xml.bind.JAXBContextFactory", "org.eclipse.persistence.jaxb.JAXBContextFactory");
-    }
+//
+//    @PostConstruct
+//    public void onInit() {
+//        System.setProperty("javax.xml.bind.JAXBContextFactory", "org.eclipse.persistence.jaxb.JAXBContextFactory");
+//    }
 
     public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
         if (null == input) {

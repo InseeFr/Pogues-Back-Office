@@ -2,33 +2,34 @@ package fr.insee.pogues.configuration;
 
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
-import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
 import java.util.Objects;
 
-@Component
+@Configuration
+@Slf4j
 public class StaticResourcesForFOPConfig {
 
-    final static Logger LOG = LogManager.getLogger(StaticResourcesForFOPConfig.class);
-
-
-    @Value("${fr.insee.pogues.pdf.temp.dir}")
+    @Value("${application.pdf-temp-dir}")
     private Path staticResourcesTempDir;
 
+    @Value("${feature.oidc.enabled}") boolean oidcEnabled;
+
     public StaticResourcesForFOPConfig(){
-        LOG.info("Init, copy assest to tempDir");
-        copyAssetResourcesToTempDir();
+        log.info("test 1");
+    }
+
+    public StaticResourcesForFOPConfig(Path staticResourcesTempDir, boolean oidcEnabled){
+        log.info("test 2");
     }
     private final PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
     
@@ -47,7 +48,7 @@ public class StaticResourcesForFOPConfig {
 
 
     public void copyAssetResourcesToTempDir() {
-        LOG.info("Copying static files from "+resolver.getResource(ResourceLoader.CLASSPATH_URL_PREFIX+"/pdf/")+" to "+staticResourcesTempDir);
+        log.info("Copying static files from "+resolver.getResource(ResourceLoader.CLASSPATH_URL_PREFIX+"/pdf/")+" to "+staticResourcesTempDir);
 
         copyFromClasspath(ResourceLoader.CLASSPATH_URL_PREFIX+"/pdf/img/*", "img");
         copyFromClasspath(ResourceLoader.CLASSPATH_URL_PREFIX+"/pdf/fonts/*", "fonts");
@@ -55,7 +56,7 @@ public class StaticResourcesForFOPConfig {
     }
 
     private void copyFromClasspath(String locationPattern, String destinationDirectory){
-        LOG.debug("Process "+locationPattern+ " to "+destinationDirectory);
+        log.debug("Process "+locationPattern+ " to "+destinationDirectory);
         Resource[] resources =null;
         try {
             resources = resolver.getResources(locationPattern);
@@ -64,7 +65,7 @@ public class StaticResourcesForFOPConfig {
         }
         var destination = staticResourcesTempDir.resolve(destinationDirectory);
         for (Resource resource : resources) {
-            LOG.debug("Process "+resource);
+            log.debug("Process "+resource);
             try {
                 FileUtils.copyInputStreamToFile(resource.getInputStream(), destination.resolve(resource.getFilename()).toFile());
             } catch (IOException e) {

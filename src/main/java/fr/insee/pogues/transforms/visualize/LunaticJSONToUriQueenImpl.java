@@ -21,26 +21,26 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 	@Autowired
 	private QuestionnairesService questionnaireService;
 
-	@Value("${fr.insee.pogues.api.host}")
+	@Value("${application.host}")
 	private String apiHost;
 	
-	@Value("${fr.insee.pogues.api.name}")
+	@Value("${application.name}")
 	private String apiName;
 	
-	@Value("${fr.insee.pogues.api.scheme}")
+	@Value("${application.scheme}")
 	private String apiScheme;
-	@Value("${fr.insee.pogues.api.remote.queen.vis.host}")
+	@Value("${application.queen.vis.host}")
 	private String orchestratorHost;
 
-	@Value("${fr.insee.pogues.api.remote.queen.vis.path}")
+	@Value("${application.queen.vis.path}")
 	private String visualizePath;
-	@Value("${fr.insee.pogues.api.remote.queen.vis.queryparams.questionnaire}")
+	@Value("${application.queen.vis.queryparams.questionnaire}")
 	private String queryParamsQuestionnaire;
 
-	@Value("${fr.insee.pogues.api.remote.queen.vis.queryparams.nomenclatures}")
+	@Value("${application.queen.vis.queryparams.nomenclatures}")
 	private String queryParamsNomenclatures;
 
-	@Value("${fr.insee.pogues.api.remote.api.nomenclatures}")
+	@Value("${application.api.nomenclatures}")
 	private String apiNomenclatures;
 
 	@Override

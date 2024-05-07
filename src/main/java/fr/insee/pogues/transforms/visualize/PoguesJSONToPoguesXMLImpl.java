@@ -7,7 +7,6 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -18,11 +17,6 @@ import java.util.Map;
 public class PoguesJSONToPoguesXMLImpl implements PoguesJSONToPoguesXML {
 
 	private JSONToXMLTranslator translator = new JSONToXMLTranslator(true);
-
-	@PostConstruct
-	public void onInit() {
-		System.setProperty("javax.xml.bind.JAXBContextFactory", "org.eclipse.persistence.jaxb.JAXBContextFactory");
-	}
 
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
 			throws Exception {
