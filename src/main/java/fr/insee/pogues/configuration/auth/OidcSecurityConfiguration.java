@@ -45,12 +45,6 @@ public class OidcSecurityConfiguration {
      * @throws Exception exception
      */
 
-    @Value("${jwt.stamp-claim}")
-    private String stampClaim;
-
-    @Value("${jwt.username-claim}")
-    private String nameClaim;
-
     @Bean
     @Order(2)
     protected SecurityFilterChain filterChain(HttpSecurity http,
@@ -99,10 +93,12 @@ public class OidcSecurityConfiguration {
     }
 
     @Bean
-    public UserProvider getUserProvider() {
+    public UserProvider getUserProvider(OidcProperties oidcProperties) {
         return auth -> {
             final Jwt jwt = (Jwt) auth.getPrincipal();
-            return new User(jwt.getClaimAsString(stampClaim), jwt.getClaimAsString(nameClaim));
+            return new User(
+                    jwt.getClaimAsString(oidcProperties.stampClaim()),
+                    jwt.getClaimAsString(oidcProperties.usernameClaim()));
         };
     }
 
