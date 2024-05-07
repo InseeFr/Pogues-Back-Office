@@ -1,15 +1,11 @@
 package fr.insee.pogues.transforms.visualize;
 
-import fr.insee.pogues.exception.NullReferenceException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
-import fr.insee.pogues.transforms.visualize.composition.QuestionnaireComposition;
-import fr.insee.pogues.utils.json.JSONFunctions;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +14,11 @@ import org.springframework.stereotype.Service;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDeref{
-
-    static final Logger logger = LogManager.getLogger(PoguesJSONToPoguesJSONDerefImpl.class);
 
     private static final String NULL_INPUT_MESSAGE = "Null input";
     private static final String NULL_OUTPUT_MESSAGE = "Null output";
@@ -66,7 +60,7 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         // TODO: This parameter could be replaced by logical check in back-office
         // (when Pogues-Model supports "childQuestionnaireRef")
         if (!(boolean) params.get("needDeref")) {
-            logger.info("No de-referencing needed");
+            log.info("No de-referencing needed");
             return input;
         }
         Questionnaire questionnaire = transformAsQuestionnaire(input);

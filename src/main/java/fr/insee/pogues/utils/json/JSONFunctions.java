@@ -1,7 +1,6 @@
 package fr.insee.pogues.utils.json;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -21,12 +20,9 @@ import java.util.stream.IntStream;
  * @author I6VWID
  *
  */
+@Slf4j
 public class JSONFunctions {
 
-	final static Logger logger = LogManager.getLogger(JSONFunctions.class);
-	
-	
-	
 	public static JSONObject renameQuestionnairePlural(JSONObject questionnaire) throws ParseException{
 		questionnaire = renameKey(questionnaire, "children", "Child");
 		questionnaire = renameKey(questionnaire, "controls", "Control");
@@ -92,7 +88,7 @@ public class JSONFunctions {
 				mapResult.put(id,questionnaireString);
 			}
 		} catch (ParseException e) {
-			logger.error("JSON malformed, parsing Exception");
+			log.error("JSON malformed, parsing Exception");
 			e.printStackTrace();
 		}		
 		
@@ -111,7 +107,7 @@ public class JSONFunctions {
 			jsonResults = (JSONObject) parser.parse(questionnaireJSON);
 			return (String) jsonResults.get("id");
 		} catch (ParseException e) {
-			logger.error("JSON malformed, parsing Exception");
+			log.error("JSON malformed, parsing Exception");
 			e.printStackTrace();
 		}
 		return null;
@@ -132,7 +128,7 @@ public class JSONFunctions {
 				result.add((String) js.get("id"));
 			}
 		} catch (ParseException e) {
-			logger.error("JSON malformed, parsing Exception");
+			log.error("JSON malformed, parsing Exception");
 			e.printStackTrace();
 		}
 		

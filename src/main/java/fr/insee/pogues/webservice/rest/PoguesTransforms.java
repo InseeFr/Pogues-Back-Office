@@ -13,8 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
@@ -39,10 +38,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/transform")
 @Tag(name = "Pogues Transforms")
-@SecurityRequirement(name = "bearerAuth")
+@Slf4j
 public class PoguesTransforms {
-
-	static final Logger logger = LogManager.getLogger(PoguesTransforms.class);
 
 	@Autowired
 	PoguesJSONToPoguesXML jsonToXML;
@@ -107,13 +104,13 @@ public class PoguesTransforms {
 							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
 							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
-					logger.error(e.getMessage());
+					log.error(e.getMessage());
 					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -137,13 +134,13 @@ public class PoguesTransforms {
 							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform()
 							.getBytes());
 				} catch (Exception e) {
-					logger.error(e.getCause().getMessage());
+					log.error(e.getCause().getMessage());
 					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -169,13 +166,13 @@ public class PoguesTransforms {
 							.map(lunaticJSONToUriQueen::transform, params, questionnaireName.toLowerCase()).transform()
 							.getBytes());
 				} catch (Exception e) {
-					logger.error(e.getCause().getMessage());
+					log.error(e.getCause().getMessage());
 					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -203,13 +200,13 @@ public class PoguesTransforms {
 							.map(lunaticJSONToUriStromaeV2::transform, params, questionnaireName.toLowerCase())
 							.transform().getBytes());
 				} catch (Exception e) {
-					logger.error(e.getCause().getMessage());
+					log.error(e.getCause().getMessage());
 					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -236,13 +233,13 @@ public class PoguesTransforms {
 							.map(lunaticJSONToUriStromaeV3::transform, params, questionnaireName.toLowerCase())
 							.transform().getBytes());
 				} catch (Exception e) {
-					logger.error(e.getCause().getMessage());
+					log.error(e.getCause().getMessage());
 					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -263,13 +260,13 @@ public class PoguesTransforms {
 							.map(ddiToXForm::transform, params, questionnaire.toLowerCase())
 							.map(xformToUri::transform, params, questionnaire.toLowerCase()).transform().getBytes());
 				} catch (Exception e) {
-					logger.error(e.getCause().getMessage());
+					log.error(e.getCause().getMessage());
 					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(stream);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -292,7 +289,7 @@ public class PoguesTransforms {
 									.map(poguesXMLToDDI::transform, params, questionnaireName)
 									.map(ddiToOdt::transform, params, questionnaireName).transform().getBytes());
 				} catch (Exception e) {
-					logger.error(e.getCause().getMessage());
+					log.error(e.getCause().getMessage());
 					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
@@ -300,7 +297,7 @@ public class PoguesTransforms {
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
 					.header(CONTENT_DISPOSITION, "attachment; filename=form.fodt").body(stream);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -322,7 +319,7 @@ public class PoguesTransforms {
 									.map(jsonToXML::transform, params, questionnaireName)
 									.map(poguesXMLToDDI::transform, params, questionnaireName).transform().getBytes());
 				} catch (Exception e) {
-					logger.error(e.getCause().getMessage());
+					log.error(e.getCause().getMessage());
 					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 				}
 			};
@@ -330,7 +327,7 @@ public class PoguesTransforms {
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
 					.header(CONTENT_DISPOSITION, "attachment; filename=form.xml").body(stream);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -352,7 +349,7 @@ public class PoguesTransforms {
 					.map(ddiToFo::transform, params, questionnaireName)
 					.map(foToPdf::transform, params, questionnaireName).transform();
 		} catch (Exception e) {
-			logger.error(e.getCause().getMessage());
+			log.error(e.getCause().getMessage());
 			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 		}
 		File file = new File(filePath);
@@ -398,7 +395,7 @@ public class PoguesTransforms {
 					.map(foToPdf::transform, params, questionnaireName)
 					.transform();
 		} catch (Exception e) {
-			logger.error(e.getCause().getMessage());
+			log.error(e.getCause().getMessage());
 			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 		}
 
@@ -424,7 +421,7 @@ public class PoguesTransforms {
 					.transform();
 			;
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 
@@ -448,7 +445,7 @@ public class PoguesTransforms {
 			return transform(new ByteArrayInputStream(questJson.getBytes(StandardCharsets.UTF_8)), jsonToXML,
 					questionnaire, MediaType.APPLICATION_XML);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 	}
@@ -465,7 +462,7 @@ public class PoguesTransforms {
 			return transform(new ByteArrayInputStream(questXML.getBytes(StandardCharsets.UTF_8)), xmlToJson,
 					questionnaire, MediaType.APPLICATION_JSON);
 		} catch (Exception e) {
-			logger.error(e.getCause().getMessage());
+			log.error(e.getCause().getMessage());
 			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 		}
 	}
@@ -484,7 +481,7 @@ public class PoguesTransforms {
 			params.put("questionnaire", questionnaire.toLowerCase());
 			return xformToUri.transform(questXforms, params, questionnaire);
 		} catch (Exception e) {
-			logger.error(e.getCause().getMessage());
+			log.error(e.getCause().getMessage());
 			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 		}
 	}
@@ -500,7 +497,7 @@ public class PoguesTransforms {
 			String result = jsonToJsonDeref.transform(questJson, Map.of("needDeref", true), null);
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result);
 		} catch (Exception e) {
-			logger.error(e.getCause().getMessage());
+			log.error(e.getCause().getMessage());
 			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 		}
 	}
@@ -512,7 +509,7 @@ public class PoguesTransforms {
 			try {
 				transformer.transform(request, output, null, questionnaire);
 			} catch (Exception e) {
-				logger.error(e.getCause().getMessage());
+				log.error(e.getCause().getMessage());
 				throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
 			}
 		};

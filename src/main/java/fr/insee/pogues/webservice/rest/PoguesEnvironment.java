@@ -1,11 +1,5 @@
 package fr.insee.pogues.webservice.rest;
-
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -24,10 +18,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 @RestController
 @RequestMapping("/api/env")
 @Tag(name = "Pogues Environment")
-@SecurityRequirement(name = "bearerAuth")
+@Slf4j
 public class PoguesEnvironment {
-
-	private final static Logger logger = LogManager.getLogger(PoguesEnvironment.class);
 
 	@Autowired
 	Environment env;
@@ -52,7 +44,7 @@ public class PoguesEnvironment {
 			entity.put("Queen", env.getProperty("fr.insee.pogues.api.remote.queen.vis.host"));
 			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 

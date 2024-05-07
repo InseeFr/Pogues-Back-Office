@@ -12,8 +12,6 @@ import javax.xml.transform.stream.StreamSource;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.json.simple.JSONArray;
@@ -28,9 +26,7 @@ import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
 @Service
 @Slf4j
 public class VariablesServiceImpl implements VariablesService {
-	
-	private static final Logger logger = LogManager.getLogger(VariablesServiceImpl.class);
-	
+
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
@@ -63,7 +59,7 @@ public class VariablesServiceImpl implements VariablesService {
 			JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
 			// We test the existence of the questionnaire in repository
 			if (questionnaire != null) {
-				logger.info("Deserializing questionnaire ");
+				log.info("Deserializing questionnaire ");
 				JAXBContext context = JAXBContext.newInstance(Questionnaire.class);
 				Unmarshaller unmarshaller = context.createUnmarshaller();
 				unmarshaller.setProperty(UnmarshallerProperties.MEDIA_TYPE, "application/json");
@@ -71,8 +67,8 @@ public class VariablesServiceImpl implements VariablesService {
 				try(InputStream inQuestionnaire = new ByteArrayInputStream(questionnaire.toString().getBytes())){
 					json = new StreamSource(inQuestionnaire);
 					Questionnaire questionnaireJava = unmarshaller.unmarshal(json, Questionnaire.class).getValue();
-					logger.info("Questionnaire " + questionnaireJava.getId() + " successfully deserialized");
-					logger.info("Serializing variables for questionnaire {}", questionnaireJava.getId());
+					log.info("Questionnaire " + questionnaireJava.getId() + " successfully deserialized");
+					log.info("Serializing variables for questionnaire {}", questionnaireJava.getId());
 					JAXBContext context2 = JAXBContext.newInstance(Questionnaire.Variables.class);
 					Marshaller marshaller = context2.createMarshaller();
 					marshaller.setProperty(MarshallerProperties.MEDIA_TYPE, "application/json");

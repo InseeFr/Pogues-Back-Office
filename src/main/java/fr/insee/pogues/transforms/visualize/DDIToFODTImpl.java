@@ -6,25 +6,24 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
 
 @Service
+@Slf4j
 public class DDIToFODTImpl implements DDIToFODT {
 	
 	@Autowired
 	private EnoClient enoClient;
 
-	final static Logger logger = LogManager.getLogger(DDIToFODTImpl.class);
 	
     @Override
     public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
-    	logger.debug("Eno transformation");
+    	log.debug("Eno transformation");
     	if (null == input) {
             throw new NullPointerException("Null input");
         }
@@ -32,7 +31,7 @@ public class DDIToFODTImpl implements DDIToFODT {
             throw new NullPointerException("Null output");
         }
         String odt = transform(input, params,surveyName);
-        logger.debug("Eno transformation finished");
+        log.debug("Eno transformation finished");
         output.write(odt.getBytes(StandardCharsets.UTF_8));
     }
 

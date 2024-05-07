@@ -1,13 +1,12 @@
 package fr.insee.pogues.transforms.visualize;
 
 import fr.insee.pogues.configuration.StaticResourcesForFOPConfig;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.MimeConstants;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,10 +22,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class FOToPDFImpl implements FOToPDF {
 
-	final static Logger logger = LogManager.getLogger(FOToPDFImpl.class);
-	
 	public static final String TEMP_FOLDER_PATH = System.getProperty("java.io.tmpdir") + "/eno";
 	
 	public static final String FINAL_FO_EXTENSION = "-final-out.fo";
@@ -37,7 +35,7 @@ public class FOToPDFImpl implements FOToPDF {
 	@Override
 	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
 			throws Exception {
-		logger.debug("Eno transformation");
+		log.debug("Eno transformation");
 		if (null == input) {
 			throw new NullPointerException("Null input");
 		}
@@ -45,7 +43,7 @@ public class FOToPDFImpl implements FOToPDF {
 			throw new NullPointerException("Null output");
 		}
 		String odt = transform(input, params, surveyName);
-		logger.debug("Eno transformation finished");
+		log.debug("Eno transformation finished");
 		output.write(odt.getBytes(StandardCharsets.UTF_8));
 	}
 
@@ -85,9 +83,9 @@ public class FOToPDFImpl implements FOToPDF {
 		File dirTemp = new File(TEMP_FOLDER_PATH);
 		if (!dirTemp.exists()) {
 			if (dirTemp.mkdir()) {
-				logger.debug("Create eno temp directory");
+				log.debug("Create eno temp directory");
 			} else {
-				logger.debug("Fail to create temp directory");
+				log.debug("Fail to create temp directory");
 			}
 		}		
 		String outFilePath = TEMP_FOLDER_PATH + "/form" + FINAL_FO_EXTENSION;
@@ -119,7 +117,7 @@ public class FOToPDFImpl implements FOToPDF {
 		// Clean-up
 		out.close();
 
-		logger.info("PDF output file : " + outFilePDF.getAbsolutePath());
+		log.info("PDF output file : " + outFilePDF.getAbsolutePath());
 
 		return outFilePDF.getAbsolutePath();
 

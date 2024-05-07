@@ -1,7 +1,6 @@
 package fr.insee.pogues.configuration.auth.security.restrictions;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -11,10 +10,9 @@ import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 
 @Service
+@Slf4j
 public class StampsRestrictionsServiceImpl implements StampsRestrictionsService{
-	
-	static final Logger logger = LogManager.getLogger(StampsRestrictionsServiceImpl.class);
-	
+
 	@Autowired
 	UserProvider userProvider;
 	
@@ -22,14 +20,14 @@ public class StampsRestrictionsServiceImpl implements StampsRestrictionsService{
 	public User getUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User currentUser = userProvider.getUser(authentication);
-		logger.info("Current user has stamp {}", currentUser.getStamp());
+		log.info("Current user has stamp {}", currentUser.getStamp());
 		return currentUser;
 	}
 	
 	@Override
 	public boolean isQuestionnaireOwner(String stamp) {
 		User user = getUser();
-		logger.info("Check if user is the questionnaire's owner");
+		log.info("Check if user is the questionnaire's owner");
 		return user.getStamp().equals(stamp);
 	}
 }

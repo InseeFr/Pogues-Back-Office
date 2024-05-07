@@ -5,9 +5,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -28,16 +27,16 @@ import fr.insee.pogues.webservice.rest.PoguesException;
  *
  */
 @Service
+@Slf4j
 public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesServiceQuery {
-	
-	static final Logger logger = LogManager.getLogger(QuestionnairesServiceQueryPostgresqlImpl.class);
 
-	@Value("${fr.insee.pogues.stamp.restricted}")
+
+	@Value("${application.stamp.restricted}")
 	String stampRestricted; 
 	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	
+
 	@Autowired
 	protected StampsRestrictionsService stampsRestrictionsService;
 		
@@ -96,7 +95,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		JSONObject questionnaire= getQuestionnaireByID(id);
 		//Check rights
 		if (!isUserAuthorized(questionnaire, "Delete")) {
-			logger.info("User not authorized to delete questionnaire {}",id);
+			log.info("User not authorized to delete questionnaire {}",id);
 			throw new PoguesException(403, FORBIDDEN, "Only the owner of the questionnaire can delete it");
 		}
 		String qString = "DELETE FROM pogues where id=?";
@@ -214,7 +213,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	public void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception {
 		//Check rights
 		if (!isUserAuthorized(questionnaire, "Update")) {
-			logger.info("User not authorized to modify questionnaire {}", id);
+			log.info("User not authorized to modify questionnaire {}", id);
 			throw new PoguesException(403, FORBIDDEN, "Only the owner of the questionnaire can modify it");
 		}
 		//If permitted, do the update
@@ -280,9 +279,9 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		String stamp = questionnaire.get("owner").toString();
 		if (isStampRestricted(stamp) && !stampsRestrictionsService.isQuestionnaireOwner(stamp)) {
 			isAuthorized=false;
-			logger.info("{} questionnaire authorized",action);
+			log.info("{} questionnaire authorized",action);
 		}
-		logger.info("{} questionnaire forbidden",action);
+		log.info("{} questionnaire forbidden",action);
 		return isAuthorized;
 	}
 

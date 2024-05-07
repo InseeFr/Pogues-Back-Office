@@ -11,8 +11,7 @@ import fr.insee.pogues.transforms.visualize.composition.QuestionnaireComposition
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.json.JSONFunctions;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +29,9 @@ import fr.insee.pogues.webservice.rest.PoguesException;
  *      PoguesPersistenceQuestionnaireList.java
  */
 @Service
+@Slf4j
 public class QuestionnairesServiceImpl implements QuestionnairesService {
 
-	static final Logger logger = LogManager.getLogger(QuestionnairesServiceImpl.class);
 	@Autowired
 	private QuestionnairesServiceQuery questionnaireServiceQuery;
 
@@ -157,7 +156,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 				Questionnaire referencedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(referencedJsonQuestionnaire);
 				// Coherence check
 				if (! reference.equals(referencedQuestionnaire.getId())) {
-					logger.warn("Reference '{}' found in questionnaire '{}' mismatch referenced questionnaire's id '{}'",
+					log.warn("Reference '{}' found in questionnaire '{}' mismatch referenced questionnaire's id '{}'",
 							reference, questionnaire.getId(), referencedQuestionnaire.getId());
 				}
 				//

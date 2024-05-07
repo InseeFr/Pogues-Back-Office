@@ -6,9 +6,8 @@ import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +18,9 @@ import fr.insee.pogues.webservice.rest.PoguesMetadata;
  * Created by I6VWID 25/01/19.
  */
 @Service
+@Slf4j
 public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
-	
-	final static Logger logger = LogManager.getLogger(PoguesXMLToDDIImpl.class);
-	
+
 	@Autowired
 	EnoClient enoClient;
 
@@ -63,7 +61,7 @@ public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
 
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
 		String questDDI = enoClient.getXMLPoguesToDDI(file);
-		logger.info("File "+file.getAbsolutePath()+" deleted : "+file.delete());
+		log.info("File "+file.getAbsolutePath()+" deleted : "+file.delete());
 		return questDDI;
 	}
 

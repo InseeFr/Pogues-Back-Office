@@ -2,8 +2,7 @@ package fr.insee.pogues.metadata.service;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +12,11 @@ import fr.insee.pogues.metadata.model.Unit;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
 
 @Service
+@Slf4j
 public class MetadataServiceImpl implements MetadataService {
-
-    private static final Logger logger = LogManager.getLogger(MetadataServiceImpl.class);
 
     @Autowired
     MetadataRepository metadataRepository;
-
-	
 	
     @Override
     public ColecticaItem getItem(String id) throws Exception {
