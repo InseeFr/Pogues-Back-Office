@@ -1,20 +1,24 @@
 package fr.insee.pogues.webservice.rest;
 
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.ext.ExceptionMapper;
-import javax.ws.rs.ext.Provider;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
 
 /**
  * Created by acordier on 04/07/17.
  */
-@Provider
-public class PoguesExceptionMapper implements ExceptionMapper<PoguesException> {
-    public Response toResponse(PoguesException ex) {
+@Slf4j
+@RestControllerAdvice
+public class PoguesExceptionMapper {
+
+    @ExceptionHandler({PoguesException.class})
+    public ResponseEntity<RestMessage> handleServiceException(
+            PoguesException ex) {
         RestMessage message = ex.toRestMessage();
-        return Response.status(message.getStatus())
-                .entity(message)
-                .type(MediaType.APPLICATION_JSON)
-                .build();
+
+        return new ResponseEntity<>(message, HttpStatusCode.valueOf(message.getStatus()));
     }
 }
