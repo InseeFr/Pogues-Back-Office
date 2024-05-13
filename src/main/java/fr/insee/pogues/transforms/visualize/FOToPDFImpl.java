@@ -4,9 +4,7 @@ import fr.insee.pogues.configuration.StaticResourcesForFOPConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.fop.apps.Fop;
-import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.MimeConstants;
+import org.apache.fop.apps.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -72,13 +70,17 @@ public class FOToPDFImpl implements FOToPDF {
 	private String transform(File file, Map<String, Object> params, String surveyName) throws Exception {
 
 
-		InputStream isXconf = staticResourcesForFOPConfig.getFopXconf().getInputStream();
+		org.apache.fop.configuration.Configuration fopConf = staticResourcesForFOPConfig.getFopConfiguration();
 		URI imgFolderUri = staticResourcesForFOPConfig.getImgFolderUri();
 
 		// Step 1: Construct a FopFactory by specifying a reference to the
 		// configuration file
 		// (reuse if you plan to render multiple documents!)
-		FopFactory fopFactory = FopFactory.newInstance(imgFolderUri, isXconf);
+
+		FopFactoryBuilder builder = new FopFactoryBuilder(imgFolderUri).setConfiguration(fopConf);
+		builder.setBaseURI(imgFolderUri);
+		FopFactory fopFactory = builder.build();
+
 		
 		File dirTemp = new File(TEMP_FOLDER_PATH);
 		if (!dirTemp.exists()) {
@@ -95,7 +97,6 @@ public class FOToPDFImpl implements FOToPDF {
 		// Note: Using BufferedOutputStream for performance reasons
 		// (helpful with FileOutputStreams).
 		OutputStream out = new BufferedOutputStream(new FileOutputStream(outFilePDF));
-
 		// Step 3: Construct fop with desired output format
 		Fop fop = fopFactory.newFop(MimeConstants.MIME_PDF, out);
 
@@ -107,6 +108,7 @@ public class FOToPDFImpl implements FOToPDF {
 		// Step 5: Setup input and output for XSLT transformation
 		// Setup input stream
 		Source src = new StreamSource(file);
+		log.info("Input "+file.getAbsolutePath());
 		// Resulting SAX events (the generated FO) must be piped through
 		// to FOP
 		Result res = new SAXResult(fop.getDefaultHandler());
