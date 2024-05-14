@@ -1,23 +1,22 @@
 package fr.insee.pogues.persistence.query;
 
-import java.sql.SQLException;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
-
+import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
+import fr.insee.pogues.webservice.rest.PoguesException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import java.sql.SQLException;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Questionnaire Service Query for the Postgresql implementation to assume the

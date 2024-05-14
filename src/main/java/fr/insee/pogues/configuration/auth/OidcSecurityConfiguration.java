@@ -5,7 +5,6 @@ import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.configuration.properties.OidcProperties;
 import fr.insee.pogues.configuration.properties.RoleProperties;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

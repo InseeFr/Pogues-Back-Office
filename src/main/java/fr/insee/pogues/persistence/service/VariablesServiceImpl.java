@@ -1,17 +1,7 @@
 package fr.insee.pogues.persistence.service;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-import javax.xml.transform.stream.StreamSource;
-
+import fr.insee.pogues.model.Questionnaire;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.eclipse.persistence.jaxb.MarshallerProperties;
 import org.eclipse.persistence.jaxb.UnmarshallerProperties;
 import org.json.simple.JSONArray;
@@ -20,8 +10,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
-import fr.insee.pogues.model.Questionnaire;
-import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 
 @Service
 @Slf4j
@@ -52,7 +49,7 @@ public class VariablesServiceImpl implements VariablesService {
 		return null;
 	}
 
-	public String getVariablesByQuestionnaire(String id){
+	public String getVariablesByQuestionnaire(String id) throws IOException {
 		StreamSource json = null;
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
@@ -84,7 +81,7 @@ public class VariablesServiceImpl implements VariablesService {
 		} catch (Exception e) {
 			log.error("Exception occurred when trying to get variables from questionnaire with id={}", id, e);
 		} finally {
-			IOUtils.closeQuietly(baos);
+			baos.close();
 		}
 		return null;
 	}

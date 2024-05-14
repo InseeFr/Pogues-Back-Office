@@ -1,26 +1,21 @@
 package fr.insee.pogues.api.remote.eno.transforms;
 
-import java.io.File;
-import java.net.URI;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-
 import fr.insee.pogues.exception.EnoException;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
+
+import java.net.URI;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 @Service
 @Slf4j

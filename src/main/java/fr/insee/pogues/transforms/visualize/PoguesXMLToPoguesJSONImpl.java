@@ -1,16 +1,11 @@
 package fr.insee.pogues.transforms.visualize;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
-
-import org.apache.commons.io.IOUtils;
+import fr.insee.pogues.conversion.XMLToJSONTranslator;
 import org.springframework.stereotype.Service;
 
-import fr.insee.pogues.conversion.XMLToJSONTranslator;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.util.Map;
 
 import static fr.insee.pogues.transforms.visualize.ModelMapper.inputStream2String;
 import static fr.insee.pogues.transforms.visualize.ModelMapper.string2BOAS;

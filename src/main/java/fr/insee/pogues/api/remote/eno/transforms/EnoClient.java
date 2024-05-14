@@ -1,11 +1,10 @@
 package fr.insee.pogues.api.remote.eno.transforms;
 
-import java.io.File;
+import fr.insee.pogues.exception.EnoException;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.Map;
-
-import fr.insee.pogues.exception.EnoException;
 
 public interface EnoClient {
 	/**

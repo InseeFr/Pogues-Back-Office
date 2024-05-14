@@ -1,17 +1,16 @@
 package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.transforms.PipeLine;
-import fr.insee.pogues.transforms.visualize.*;
-import fr.insee.pogues.transforms.visualize.eno.*;
+import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDeref;
+import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
+import fr.insee.pogues.transforms.visualize.eno.DDIToLunaticJSON;
+import fr.insee.pogues.transforms.visualize.eno.DDIToXForms;
+import fr.insee.pogues.transforms.visualize.eno.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriQueen;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV3;
 import fr.insee.pogues.transforms.visualize.uri.XFormsToURIStromaeV1;
 import fr.insee.pogues.utils.suggester.SuggesterVisuTreatment;
-import fr.insee.pogues.webservice.model.CaptureEnum;
-import fr.insee.pogues.webservice.model.ColumnsEnum;
-import fr.insee.pogues.webservice.model.OrientationEnum;
-import fr.insee.pogues.webservice.model.StudyUnitEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -23,11 +22,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;

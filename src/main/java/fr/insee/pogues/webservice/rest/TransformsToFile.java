@@ -1,9 +1,10 @@
 package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.transforms.PipeLine;
-import fr.insee.pogues.transforms.visualize.ModelTransformer;
 import fr.insee.pogues.transforms.visualize.*;
-import fr.insee.pogues.transforms.visualize.eno.*;
+import fr.insee.pogues.transforms.visualize.eno.DDIToFO;
+import fr.insee.pogues.transforms.visualize.eno.DDIToFODT;
+import fr.insee.pogues.transforms.visualize.eno.PoguesXMLToDDI;
 import fr.insee.pogues.webservice.model.CaptureEnum;
 import fr.insee.pogues.webservice.model.ColumnsEnum;
 import fr.insee.pogues.webservice.model.OrientationEnum;
@@ -21,7 +22,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;

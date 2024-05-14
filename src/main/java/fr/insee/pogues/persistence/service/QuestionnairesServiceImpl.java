@@ -1,26 +1,22 @@
 package fr.insee.pogues.persistence.service;
 
-import java.util.List;
-import java.util.Map;
-
 import fr.insee.pogues.exception.NullReferenceException;
 import fr.insee.pogues.model.Questionnaire;
-import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDeref;
-import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDerefImpl;
+import fr.insee.pogues.persistence.query.EntityNotFoundException;
+import fr.insee.pogues.persistence.query.NonUniqueResultException;
+import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
 import fr.insee.pogues.transforms.visualize.composition.QuestionnaireComposition;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.json.JSONFunctions;
+import fr.insee.pogues.webservice.rest.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import fr.insee.pogues.persistence.query.EntityNotFoundException;
-import fr.insee.pogues.persistence.query.NonUniqueResultException;
-import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import java.util.List;
 /**
  * Questionnaire Service to assume the persistence of Pogues UI in JSON
  *
