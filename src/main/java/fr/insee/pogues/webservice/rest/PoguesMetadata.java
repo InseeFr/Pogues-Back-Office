@@ -14,8 +14,6 @@ import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.model.Unit;
 import fr.insee.pogues.metadata.service.MetadataService;
-import fr.insee.pogues.transforms.reuse.DDIToPoguesXMLCodeList;
-import fr.insee.pogues.transforms.visualize.PoguesXMLToPoguesJSON;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,12 +37,6 @@ public class PoguesMetadata {
 	@Autowired
 	MetadataService metadataService;
 
-	@Autowired
-	DDIToPoguesXMLCodeList ddiToXML;
-
-	@Autowired
-	PoguesXMLToPoguesJSON xmlToJSON;
-	
 	@GetMapping("item/{id}")
 	@Operation(operationId = "getItem", summary = "Gets the item with id {id}", description = "Get an item from Colectica Repository, given it's {id}", responses = {
 			@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = ColecticaItem.class))) })
