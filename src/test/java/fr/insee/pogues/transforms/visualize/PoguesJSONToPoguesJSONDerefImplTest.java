@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static fr.insee.pogues.transforms.visualize.ModelMapper.string2InputStream;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -43,13 +44,11 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl();
         //
         assertThrows(NullPointerException.class, () ->
-                deref.transform(null, fooOutputStream, fooParams, fooSurveyName));
-        assertThrows(NullPointerException.class, () ->
-                deref.transform(fooInputStream, null, fooParams, fooSurveyName));
+                deref.transform(null, fooParams, fooSurveyName));
         assertThrows(NullPointerException.class, () ->
                 deref.transform((InputStream) null, fooParams, fooSurveyName));
         assertThrows(NullPointerException.class, () ->
-                deref.transform((String) null, fooParams, fooSurveyName));
+                deref.transform((InputStream) null, fooParams, fooSurveyName));
         assertThrows(NullPointerException.class, () ->
                 deref.transformAsQuestionnaire(null));
     }
@@ -63,7 +62,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         //
         PoguesJSONToPoguesJSONDeref deref = new PoguesJSONToPoguesJSONDerefImpl();
         //
-        assertEquals(mocked, deref.transform(mocked, fooParams, fooSurveyName));
+        assertEquals(mocked, new String(deref.transform(string2InputStream(mocked), fooParams, fooSurveyName).toByteArray()));
     }
 
     /**
@@ -205,8 +204,8 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         Files.writeString(testFolder.resolve("out/result.xml"), resXml);
         //
         PoguesJSONToPoguesXMLImpl poguesJSONToPoguesXML = new PoguesJSONToPoguesXMLImpl();
-        String resXmlFromJson = poguesJSONToPoguesXML.transform(new ByteArrayInputStream(resJson.getBytes()), null, null);
-        Files.writeString(testFolder.resolve("out/result_from_json.xml"), resXmlFromJson);
+        ByteArrayOutputStream resXmlFromJson = poguesJSONToPoguesXML.transform(new ByteArrayInputStream(resJson.getBytes()), null, null);
+        Files.write(testFolder.resolve("out/result_from_json.xml"), resXmlFromJson.toByteArray());
         //
         JSONDeserializer jsonDeserializer = new JSONDeserializer();
         Questionnaire questionnaireFromJson = jsonDeserializer.deserialize(
