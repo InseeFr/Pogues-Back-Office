@@ -2,6 +2,7 @@ package fr.insee.pogues.api.remote.eno.transforms;
 
 import java.io.File;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 import fr.insee.pogues.exception.EnoException;
@@ -9,6 +10,7 @@ import fr.insee.pogues.webservice.rest.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -40,29 +42,29 @@ public class EnoClientImpl implements EnoClient{
     }
 
     @Override
-    public String getDDI32ToDDI33 (File fileInput) throws EnoException, PoguesException {
-        return callEnoApi(fileInput, "/questionnaire/ddi32-2-ddi33");
+    public String getDDI32ToDDI33 (String inputAsString) throws EnoException, PoguesException {
+        return callEnoApi(inputAsString, "/questionnaire/ddi32-2-ddi33");
     };
 
 
     @Override
-    public String getXMLPoguesToDDI (File fileInput) throws EnoException, PoguesException {
-        return callEnoApi(fileInput, "/questionnaire/poguesxml-2-ddi");
+    public String getXMLPoguesToDDI (String inputAsString) throws EnoException, PoguesException {
+        return callEnoApi(inputAsString, "/questionnaire/poguesxml-2-ddi");
     };
 
 
     @Override
-    public String getDDIToFO(File fileInput) throws EnoException, PoguesException {
-        return callEnoApi(fileInput, BASE_PATH+"/fo");
+    public String getDDIToFO(String inputAsString) throws EnoException, PoguesException {
+        return callEnoApi(inputAsString, BASE_PATH+"/fo");
     }
 
     @Override
-    public String getDDITOLunaticXML(File fileInput) throws EnoException, PoguesException {
-        return callEnoApi(fileInput, BASE_PATH+"/lunatic-xml");
+    public String getDDITOLunaticXML(String inputAsString) throws EnoException, PoguesException {
+        return callEnoApi(inputAsString, BASE_PATH+"/lunatic-xml");
     }
 
     @Override
-    public String getDDITOLunaticJSON(File fileInput, Map<String, Object> params) throws EnoException, PoguesException {
+    public String getDDITOLunaticJSON(String inputAsString, Map<String, Object> params) throws EnoException, PoguesException {
         String WSPath;
 
         if (params.get("mode") != null) {
@@ -71,17 +73,17 @@ public class EnoClientImpl implements EnoClient{
         } else {
             WSPath = BASE_PATH+"/lunatic-json/"+MODE;
         }
-        return callEnoApi(fileInput, WSPath);
+        return callEnoApi(inputAsString, WSPath);
     }
 
     @Override
-    public String getDDITOXForms(File fileInput) throws EnoException, PoguesException {
-        return callEnoApi(fileInput, BASE_PATH+"/xforms");
+    public String getDDITOXForms(String inputAsString) throws EnoException, PoguesException {
+        return callEnoApi(inputAsString, BASE_PATH+"/xforms");
     }
 
     @Override
-    public String getDDIToODT (File fileInput) throws EnoException, PoguesException {
-        return callEnoApi(fileInput, BASE_PATH+"/fodt");
+    public String getDDIToODT (String inputAsString) throws EnoException, PoguesException {
+        return callEnoApi(inputAsString, BASE_PATH+"/fodt");
     };
 
 
@@ -100,14 +102,18 @@ public class EnoClientImpl implements EnoClient{
         log.debug(xmlParams);
     };
 
-    private String callEnoApi(File fileInput, String WSPath) throws EnoException, PoguesException {
+    private String callEnoApi(String inputAsString, String WSPath) throws EnoException, PoguesException {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(String.format("%s://%s", enoScheme, enoHost))
                 .path(WSPath)
                 .build().toUri();
 
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
-        builder.part("in", new FileSystemResource(fileInput));
+        builder.part("in",
+                new ByteArrayResourceWithFileName(
+                        "form.xml",
+                        inputAsString.getBytes(StandardCharsets.UTF_8))
+        );
 
         try {
             return webClient.post()
@@ -119,6 +125,7 @@ public class EnoClientImpl implements EnoClient{
                     .bodyToMono(String.class)
                     .block();
         } catch (WebClientResponseException e) {
+            log.error(e.getMessage());
             throw new EnoException(e.getResponseBodyAsString(), null);
         } catch (Exception e){
             throw new PoguesException(500, "Unknow error during generation", "");
