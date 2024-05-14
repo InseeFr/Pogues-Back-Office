@@ -11,10 +11,13 @@ import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+
+import static fr.insee.pogues.transforms.visualize.ModelMapper.*;
 
 @Service
 @Slf4j
@@ -33,27 +36,7 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
     }
 
     @Override
-    public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
-        if (null == input) {
-            throw new NullPointerException(NULL_INPUT_MESSAGE);
-        }
-        if (null == output) {
-            throw new NullPointerException(NULL_OUTPUT_MESSAGE);
-        }
-        String jsonDeref = transform(input, params, surveyName);
-        output.write(jsonDeref.getBytes(StandardCharsets.UTF_8));
-    }
-
-    @Override
-    public String transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
-        if (null == input) {
-            throw new NullPointerException(NULL_INPUT_MESSAGE);
-        }
-        return transform(IOUtils.toString(input, StandardCharsets.UTF_8), params, surveyName);
-    }
-
-    @Override
-    public String transform(String input, Map<String, Object> params, String surveyName) throws Exception {
+    public ByteArrayOutputStream transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
         if (null == input) {
             throw new NullPointerException(NULL_INPUT_MESSAGE);
         }
@@ -61,10 +44,11 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         // (when Pogues-Model supports "childQuestionnaireRef")
         if (!(boolean) params.get("needDeref")) {
             log.info("No de-referencing needed");
-            return input;
+            return input2Output(input);
         }
-        Questionnaire questionnaire = transformAsQuestionnaire(input);
-        return PoguesSerializer.questionnaireJavaToString(questionnaire);
+        Questionnaire questionnaire = transformAsQuestionnaire(inputStream2String(input));
+        String questionnaireAsString = PoguesSerializer.questionnaireJavaToString(questionnaire);
+        return string2BOAS(questionnaireAsString);
     }
 
     public Questionnaire transformAsQuestionnaire(String input) throws Exception {

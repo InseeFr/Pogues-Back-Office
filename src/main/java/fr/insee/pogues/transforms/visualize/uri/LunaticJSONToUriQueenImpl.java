@@ -1,4 +1,4 @@
-package fr.insee.pogues.transforms.visualize;
+package fr.insee.pogues.transforms.visualize.uri;
 
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuTreatment;
@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -44,21 +46,9 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 	private String apiNomenclatures;
 
 	@Override
-	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
-			throws Exception {
-		throw new RuntimeException("Not Implemented");
-		
-	}
-
-	@Override
-	public String transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
-		throw new RuntimeException("Not Implemented");
-	}
-
-	@Override
-	public String transform(String input, Map<String, Object> params, String surveyName) throws Exception {
+	public URI transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
 		JSONParser parser = new JSONParser();
-		JSONObject jsonContent = (JSONObject) parser.parse(input);
+		JSONObject jsonContent = (JSONObject) parser.parse(new String(input.readAllBytes(), StandardCharsets.UTF_8));
 		String id  = (String) jsonContent.get("id");
 		try {
 			questionnaireService.createJsonLunatic(jsonContent);
@@ -72,7 +62,7 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 		String jsonStringNomenclaturesForVisu = SuggesterVisuTreatment.createJsonNomenclaturesForVisu(nomenclatureIds, apiNomenclatures).toJSONString();
 		String urlGetJsonLunatic = String.format("%s://%s%s/api/persistence/questionnaire/json-lunatic/%s", apiScheme, apiHost, apiName, id);
 
-		return String.format(
+		return URI.create(String.format(
 				"%s%s?%s=%s&%s=%s",
 				orchestratorHost,
 				visualizePath,
@@ -80,7 +70,7 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 				URLEncoder.encode(urlGetJsonLunatic, "UTF-8"),
 				queryParamsNomenclatures,
 				URLEncoder.encode(jsonStringNomenclaturesForVisu, "UTF-8")
-		);
+		));
 	}
 
 }

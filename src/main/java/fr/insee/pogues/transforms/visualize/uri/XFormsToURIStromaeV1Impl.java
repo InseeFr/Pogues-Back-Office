@@ -1,4 +1,4 @@
-package fr.insee.pogues.transforms.visualize;
+package fr.insee.pogues.transforms.visualize.uri;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,7 +11,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URI;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
 @Service
@@ -30,18 +29,8 @@ public class XFormsToURIStromaeV1Impl implements XFormsToURIStromaeV1 {
     private String serviceUriVisualizationPath;
 
     @Override
-    public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public String transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
-        throw new RuntimeException("Not implemented");
-    }
-
-    @Override
-    public String transform(String input, Map<String, Object> params, String surveyName) throws Exception {
-    	try {
+    public URI transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
+        try {
             URI uri = UriComponentsBuilder
                     .fromHttpUrl(serviceUriHost)
                     .path(serviceUriVisualizationPath)
@@ -49,13 +38,13 @@ public class XFormsToURIStromaeV1Impl implements XFormsToURIStromaeV1 {
             ResponseEntity<String> response = webClient.post()
                     .uri(uri)
                     .contentType(MediaType.APPLICATION_XML)
-                    .bodyValue(input)
+                    .bodyValue(input.readAllBytes())
                     .retrieve()
                     .toEntity(String.class)
                     .block();
 
             if(response.getStatusCode().is2xxSuccessful() && response.hasBody()){
-                return String.format("%s/%s%s",serviceUriOrbeonHost,"rmesstromae", response.getBody());
+                return URI.create(String.format("%s/%s%s",serviceUriOrbeonHost,"rmesstromae", response.getBody()));
             }
             throw new Exception(String.format("%s:%s", getClass().getName(), response.getStatusCode()));
         } catch (Exception e) {

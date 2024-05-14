@@ -7,38 +7,34 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
+import static fr.insee.pogues.transforms.visualize.ModelMapper.inputStream2String;
+import static fr.insee.pogues.transforms.visualize.ModelMapper.string2BOAS;
+
 @Service
 public class PoguesJSONToPoguesXMLImpl implements PoguesJSONToPoguesXML {
 
 	private JSONToXMLTranslator translator = new JSONToXMLTranslator(true);
 
-	public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName)
-			throws Exception {
+
+	@Override
+	public ByteArrayOutputStream transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
 		if (null == input) {
 			throw new NullPointerException("Null input");
 		}
-		if (null == output) {
-			throw new NullPointerException("Null output");
-		}
-		byte[] out = transform(input, params, surveyName).getBytes(Charset.forName("UTF-8"));
-		output.write(out, 0, out.length);
-	}
-
-	public String transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
-		if (null == input) {
-			throw new NullPointerException("Null input");
-		}
-		return transform(IOUtils.toString(input, StandardCharsets.UTF_8.name()), params, surveyName);
+		String inputAsString = inputStream2String(input);
+		String outputAsString = transform(inputAsString);
+		return string2BOAS(outputAsString);
 
 	}
 
-	public String transform(String input, Map<String, Object> params, String surveyName) throws Exception {
+	private String transform(String input) throws Exception {
 		if (null == input) {
 			throw new NullPointerException("Null input");
 		}
