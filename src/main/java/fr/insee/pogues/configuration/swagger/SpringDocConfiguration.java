@@ -62,9 +62,10 @@ public class SpringDocConfiguration {
         return new OpenAPI().info(
                 new Info()
                         .title(buildProperties.getName())
-                        .description(
-                                "Rest Endpoints and services used by Pogues"
-                                        + "<h3>Pogues-Model version : " +poguesModelVersion + "</h3>")
+                        .description(String.format("""
+                                        <h2>Rest Endpoints and services used by Pogues</h2>
+                                        <div><b>Pogues-Model version : </b><i>%s</i></div>
+                                        """,poguesModelVersion))
                         .version(buildProperties.getVersion())
         );
     }

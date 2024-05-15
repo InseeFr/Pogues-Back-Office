@@ -23,6 +23,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.header.writers.ReferrerPolicyHeaderWriter;
 import org.springframework.security.web.header.writers.XXssProtectionHeaderWriter;
 
+import java.net.URI;
 import java.util.Collection;
 
 /**
@@ -74,8 +75,10 @@ public class OidcSecurityConfiguration {
     @Order(1)
     protected SecurityFilterChain filterPublicUrlsChain(HttpSecurity http, ApplicationProperties applicationProperties,
                                                         OidcProperties oidcProperties) throws Exception {
+        URI authServerUrl = URI.create(oidcProperties.authServerUrl());
+        String authServerHost = String.format("%s://%s",authServerUrl.getScheme(),authServerUrl.getHost());
         String authorizedConnectionHost = oidcProperties.enabled() ?
-                " " + oidcProperties.authServerHost() : "";
+                " " + authServerHost : "";
         return publicSecurityFilterChainConfiguration.buildSecurityPublicFilterChain(http, applicationProperties.publicUrls(), authorizedConnectionHost);
     }
 
