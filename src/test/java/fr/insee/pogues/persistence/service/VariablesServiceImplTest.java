@@ -1,8 +1,7 @@
 package fr.insee.pogues.persistence.service;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -11,6 +10,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static org.junit.jupiter.api.Assertions.*;
 
 class VariablesServiceImplTest {
@@ -23,15 +23,15 @@ class VariablesServiceImplTest {
                 "persistence/VariablesService/l4i3m6qa.json");
         assert url != null;
         String stringQuestionnaire = Files.readString(Path.of(url.toURI()));
-        JSONObject jsonQuestionnaire = (JSONObject) new JSONParser().parse(stringQuestionnaire);
+        JsonNode jsonQuestionnaire = jsonStringtoJsonNode(stringQuestionnaire);
         // Mock questionnaire service
         QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
         Mockito.when(questionnairesService.getQuestionnaireByID("l4i3m6qa")).thenReturn(jsonQuestionnaire);
 
         // When
         VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
-        JSONObject resultAsJson = variablesService.getVariablesByQuestionnaire("l4i3m6qa");
-        String result = resultAsJson.toJSONString();
+        JsonNode resultAsJson = variablesService.getVariablesByQuestionnaire("l4i3m6qa");
+        String result = resultAsJson.toString();
 
         // Then
         // (quick and dirty tests, the implementation could be refactored to make it more easily testable)
@@ -54,14 +54,14 @@ class VariablesServiceImplTest {
                 "persistence/VariablesService/l4i3m6qa.json");
         assert url != null;
         String stringQuestionnaire = Files.readString(Path.of(url.toURI()));
-        JSONObject jsonQuestionnaire = (JSONObject) new JSONParser().parse(stringQuestionnaire);
+        JsonNode jsonQuestionnaire = jsonStringtoJsonNode(stringQuestionnaire);
         // Mock questionnaire service
         QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
         Mockito.when(questionnairesService.getQuestionnaireByIDWithReferences("l4i3m6qa")).thenReturn(jsonQuestionnaire);
 
         // When
         VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
-        JSONArray result = variablesService.getVariablesByQuestionnaireForPublicEnemy("l4i3m6qa");
+        ArrayNode result = variablesService.getVariablesByQuestionnaireForPublicEnemy("l4i3m6qa");
 
         // Then
         assertNotNull(result);
@@ -83,7 +83,7 @@ class VariablesServiceImplTest {
 
         // When
         VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
-        JSONObject result = variablesService.getVariablesByQuestionnaire("foo-id");
+        JsonNode result = variablesService.getVariablesByQuestionnaire("foo-id");
 
         // Then
         assertNull(result);
@@ -97,7 +97,7 @@ class VariablesServiceImplTest {
 
         // When
         VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
-        JSONArray result = variablesService.getVariablesByQuestionnaireForPublicEnemy("foo-id");
+        ArrayNode result = variablesService.getVariablesByQuestionnaireForPublicEnemy("foo-id");
 
         // Then
         assertNull(result);

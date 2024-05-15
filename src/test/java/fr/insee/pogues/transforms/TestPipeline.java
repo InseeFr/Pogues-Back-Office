@@ -11,7 +11,7 @@ import java.util.Map;
 
 import static fr.insee.pogues.transforms.visualize.ModelMapper.inputStream2String;
 import static fr.insee.pogues.transforms.visualize.ModelMapper.string2BOAS;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TestPipeline {

@@ -1,8 +1,8 @@
 package fr.insee.pogues.persistence.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +16,13 @@ public class VariablesServiceImpl implements VariablesService {
 		this.questionnairesService = questionnairesService;
 	}
 
-	public JSONArray getVariablesByQuestionnaireForPublicEnemy(String id) {
+	public ArrayNode getVariablesByQuestionnaireForPublicEnemy(String id) {
 		try {
-			JSONObject questionnaire = questionnairesService.getQuestionnaireByIDWithReferences(id);
+			JsonNode questionnaire = questionnairesService.getQuestionnaireByIDWithReferences(id);
 			// We test the existence of the questionnaire in repository
 			if (questionnaire != null) {
-				JSONObject variables = (JSONObject) questionnaire.get("Variables");
-				return (JSONArray) variables.get("Variable");
+				JsonNode variables = questionnaire.get("Variables");
+				return (ArrayNode) variables.get("Variable");
 			}
 		} catch (Exception e) {
 			log.error("Exception occurred when trying to get variables from questionnaire with id={}", id, e);
@@ -30,13 +30,12 @@ public class VariablesServiceImpl implements VariablesService {
 		return null;
 	}
 
-	public JSONObject getVariablesByQuestionnaire(String id) {
+	public JsonNode getVariablesByQuestionnaire(String id) {
 		try {
-			JSONObject questionnaire = questionnairesService.getQuestionnaireByID(id);
+			JsonNode questionnaire = questionnairesService.getQuestionnaireByID(id);
 			// We test the existence of the questionnaire in repository
 			if (questionnaire != null) {
-				JSONObject variables = (JSONObject) questionnaire.get("Variables");
-				return variables;
+				return questionnaire.get("Variables");
 			}
 		} catch (Exception e) {
 			log.error("Exception occurred when trying to get variables from questionnaire with id={}", id, e);

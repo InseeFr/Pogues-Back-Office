@@ -1,9 +1,9 @@
 package fr.insee.pogues.utils;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.model.Questionnaire;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
 
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
@@ -22,9 +22,9 @@ public class PoguesDeserializer {
      * @param jsonQuestionnaire Json object representing a Pogues questionnaire.
      * @return Corresponding Pogues-Model questionnaire object.
      */
-    public static Questionnaire questionnaireToJavaObject(JSONObject jsonQuestionnaire)
+    public static Questionnaire questionnaireToJavaObject(JsonNode jsonQuestionnaire)
             throws  JAXBException {
-        InputStream questionnaireAsIS = new ByteArrayInputStream(jsonQuestionnaire.toJSONString().getBytes(StandardCharsets.UTF_8));
+        InputStream questionnaireAsIS = new ByteArrayInputStream(jsonQuestionnaire.toString().getBytes(StandardCharsets.UTF_8));
         return jsonDeserializer.deserialize(questionnaireAsIS);
     }
 

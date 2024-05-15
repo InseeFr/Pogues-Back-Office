@@ -1,11 +1,12 @@
 package fr.insee.pogues.webservice.rest;
 
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class PoguesEnvironment {
 			@ApiResponse(responseCode = "404", description = "Not found") })
 	public ResponseEntity<Object> getEnvironment() throws Exception {
 		try {
-			JSONObject entity = new JSONObject();
+			ObjectNode entity = JsonNodeFactory.instance.objectNode();
 			entity.put("Swagger Host", env.getProperty("application.host"));
 			entity.put("Swagger Name", env.getProperty("application.name"));
 			entity.put("Swagger Scheme", env.getProperty("application.scheme"));

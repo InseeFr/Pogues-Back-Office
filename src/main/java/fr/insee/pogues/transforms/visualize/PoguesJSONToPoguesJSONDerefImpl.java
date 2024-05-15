@@ -1,12 +1,11 @@
 package fr.insee.pogues.transforms.visualize;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +14,7 @@ import java.io.InputStream;
 import java.util.Map;
 
 import static fr.insee.pogues.transforms.visualize.ModelMapper.*;
+import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
 @Service
 @Slf4j
@@ -51,10 +51,8 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
         if (null == input) {
             throw new NullPointerException(NULL_INPUT_MESSAGE);
         }
-        // Parse Pogues json questionnaire
-        JSONParser parser = new JSONParser();
-        JSONObject jsonQuestionnaire = (JSONObject) parser.parse(input);
-        JSONObject questionnaireWithRef = questionnairesService.getQuestionnaireWithReferences(jsonQuestionnaire);
+        JsonNode jsonQuestionnaire = jsonStringtoJsonNode(input);
+        JsonNode questionnaireWithRef = questionnairesService.getQuestionnaireWithReferences(jsonQuestionnaire);
         return PoguesDeserializer.questionnaireToJavaObject(questionnaireWithRef);
     }
 

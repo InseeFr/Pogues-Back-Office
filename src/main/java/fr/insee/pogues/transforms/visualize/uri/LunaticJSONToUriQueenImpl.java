@@ -1,10 +1,9 @@
 package fr.insee.pogues.transforms.visualize.uri;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuTreatment;
 import fr.insee.pogues.webservice.rest.PoguesException;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -15,6 +14,8 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+
+import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
 @Service
 public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
@@ -46,9 +47,8 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 
 	@Override
 	public URI transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
-		JSONParser parser = new JSONParser();
-		JSONObject jsonContent = (JSONObject) parser.parse(new String(input.readAllBytes(), StandardCharsets.UTF_8));
-		String id  = (String) jsonContent.get("id");
+		JsonNode jsonContent = jsonStringtoJsonNode(new String(input.readAllBytes(), StandardCharsets.UTF_8));
+		String id  = jsonContent.get("id").asText();
 		try {
 			questionnaireService.createJsonLunatic(jsonContent);
 		} catch (PoguesException e) {
@@ -58,7 +58,7 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
         }
 
 		List<String> nomenclatureIds = (List<String>) params.get("nomenclatureIds");
-		String jsonStringNomenclaturesForVisu = SuggesterVisuTreatment.createJsonNomenclaturesForVisu(nomenclatureIds, apiNomenclatures).toJSONString();
+		String jsonStringNomenclaturesForVisu = SuggesterVisuTreatment.createJsonNomenclaturesForVisu(nomenclatureIds, apiNomenclatures).toString();
 		String urlGetJsonLunatic = String.format("%s://%s%s/api/persistence/questionnaire/json-lunatic/%s", apiScheme, apiHost, apiName, id);
 
 		return URI.create(String.format(

@@ -1,13 +1,16 @@
 package fr.insee.pogues.utils.suggester;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.utils.PoguesDeserializer;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 
 import javax.xml.bind.JAXBException;
 import java.util.List;
+
+import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
 /**
  * Class with static method.
@@ -25,8 +28,8 @@ public class SuggesterVisuTreatment {
      * @return The expected jsonObject
      * @example_return :{ "id_1": "${apiUrl}/api/nomenclature/${id_1}", "id_2": "${apiUrl}/api/nomenclature/${id_2}"}
      */
-    public static JSONObject createJsonNomenclaturesForVisu(List<String> nomenclaturesIds, String apiUrl){
-        JSONObject finalNomenclatures = new JSONObject();
+    public static JsonNode createJsonNomenclaturesForVisu(List<String> nomenclaturesIds, String apiUrl){
+        ObjectNode finalNomenclatures = JsonNodeFactory.instance.objectNode();
         nomenclaturesIds.forEach(
                 id -> {
                     finalNomenclatures.put(id,String.format("%s/api/nomenclature/%s", apiUrl, id));
@@ -39,10 +42,9 @@ public class SuggesterVisuTreatment {
      * Retrieve from jsonString representation of Questionnaire (poguesModel), the list of nomenclature's id
      * @param jsonQuestionnairePoguesModel
      * @return List of nomenclatureIds inside questionnaire
-     * @throws ParseException
      */
-    public static List<String> getNomenclatureIdsFromQuestionnaire(String jsonQuestionnairePoguesModel) throws ParseException, JAXBException {
-        Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject((JSONObject) new JSONParser().parse(jsonQuestionnairePoguesModel));
+    public static List<String> getNomenclatureIdsFromQuestionnaire(String jsonQuestionnairePoguesModel) throws JAXBException, JsonProcessingException {
+        Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonStringtoJsonNode(jsonQuestionnairePoguesModel));
         return getNomenclatureIdsFromQuestionnaire(questionnaire);
     }
 

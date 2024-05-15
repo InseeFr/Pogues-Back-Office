@@ -1,9 +1,7 @@
 package fr.insee.pogues.transforms.visualize;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.conversion.JSONToXMLTranslator;
-import fr.insee.pogues.utils.json.JSONFunctions;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Service;
 
 import java.io.ByteArrayOutputStream;
@@ -12,6 +10,8 @@ import java.util.Map;
 
 import static fr.insee.pogues.transforms.visualize.ModelMapper.inputStream2String;
 import static fr.insee.pogues.transforms.visualize.ModelMapper.string2BOAS;
+import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+import static fr.insee.pogues.utils.json.JSONFunctions.renameQuestionnairePlural;
 
 @Service
 public class PoguesJSONToPoguesXMLImpl implements PoguesJSONToPoguesXML {
@@ -35,10 +35,9 @@ public class PoguesJSONToPoguesXMLImpl implements PoguesJSONToPoguesXML {
 			throw new NullPointerException("Null input");
 		}
 		try {
-			JSONParser parser = new JSONParser();
-			JSONObject questionnaire = (JSONObject) parser.parse(input);
-			questionnaire = JSONFunctions.renameQuestionnairePlural(questionnaire);
-			return translator.translate(questionnaire.toJSONString());
+			JsonNode questionnaire = jsonStringtoJsonNode(input);
+			questionnaire = renameQuestionnairePlural(questionnaire);
+			return translator.translate(questionnaire.toString());
 		} catch (Exception e) {
 			throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
 		}

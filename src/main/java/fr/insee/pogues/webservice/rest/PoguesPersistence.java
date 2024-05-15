@@ -1,5 +1,7 @@
 package fr.insee.pogues.webservice.rest;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
@@ -10,8 +12,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -81,7 +81,7 @@ public class PoguesPersistence {
 			@PathVariable(value = "id") String id,
 			@RequestParam(name = "references", defaultValue = "false") Boolean references
 	) throws Exception {
-			JSONObject result = references ?
+		JsonNode result = references ?
 					questionnaireService.getQuestionnaireByIDWithReferences(id) :
 					questionnaireService.getQuestionnaireByID(id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
@@ -101,7 +101,7 @@ public class PoguesPersistence {
 			@PathVariable(value = "id") String id
 	) throws Exception {
 		try {
-			JSONObject result = questionnaireService.getJsonLunaticByID(id);
+			JsonNode result = questionnaireService.getJsonLunaticByID(id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -124,7 +124,7 @@ public class PoguesPersistence {
             @RequestParam("owner") String owner
     ) throws Exception {
         try {
-			List<JSONObject> questionnaires = new ArrayList<>();
+			List<JsonNode> questionnaires = new ArrayList<>();
             if(null != owner){
                 questionnaires.addAll(questionnaireService.getQuestionnairesByOwner(owner));
             }
@@ -149,7 +149,7 @@ public class PoguesPersistence {
             @RequestParam("owner") String owner
 	) throws Exception {
 		try {
-			List<JSONObject> questionnairesMetadata = new ArrayList<>();
+			List<JsonNode> questionnairesMetadata = new ArrayList<>();
             if(null != owner){
                 questionnairesMetadata.addAll(questionnaireService.getQuestionnairesMetadata(owner));
             }
@@ -173,7 +173,7 @@ public class PoguesPersistence {
     })
 	public ResponseEntity<Object> getQuestionnaireStamps() throws Exception {
 		try {
-			List<JSONObject> questionnairesStamps = new ArrayList<>();
+			List<JsonNode> questionnairesStamps = new ArrayList<>();
 			questionnairesStamps.addAll(questionnaireService.getQuestionnairesStamps());
             return ResponseEntity.status(HttpStatus.OK).body(questionnairesStamps);
         } catch (Exception e) {
@@ -222,11 +222,11 @@ public class PoguesPersistence {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "404", description = "Not found")
 	})
-	public ResponseEntity<JSONObject> getQuestionnaireVariables(
+	public ResponseEntity<JsonNode> getQuestionnaireVariables(
 			@PathVariable(value = "id") String id
 	) throws Exception {
 		try {
-			JSONObject result = variablesService.getVariablesByQuestionnaire(id);
+			JsonNode result = variablesService.getVariablesByQuestionnaire(id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -246,11 +246,11 @@ public class PoguesPersistence {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "404", description = "Not found")
 	})
-	public ResponseEntity<JSONArray> getVariables(
+	public ResponseEntity<ArrayNode> getVariables(
 			@PathVariable(value = "id") String id
 	) throws Exception {
 		try {
-			JSONArray result = variablesService.getVariablesByQuestionnaireForPublicEnemy(id);
+			ArrayNode result = variablesService.getVariablesByQuestionnaireForPublicEnemy(id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
@@ -294,7 +294,7 @@ public class PoguesPersistence {
     })
 	public ResponseEntity<Object> getQuestionnaireList() throws Exception {
 		try {
-			List<JSONObject> questionnaires = questionnaireService.getQuestionnaireList();
+			List<JsonNode> questionnaires = questionnaireService.getQuestionnaireList();
 			return ResponseEntity.status(HttpStatus.OK).body(questionnaires);
 		} catch(Exception e) {
 			log.error(e.getMessage(), e);
@@ -314,7 +314,7 @@ public class PoguesPersistence {
     })
 	public ResponseEntity<Object> updateQuestionnaire(
 			@PathVariable(value = "id") String id,
-			@RequestBody JSONObject jsonContent
+			@RequestBody JsonNode jsonContent
 	) throws Exception {
         try {
 			if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
@@ -345,7 +345,7 @@ public class PoguesPersistence {
     })
 	public ResponseEntity<Object> updateJsonLunatic(
 			@PathVariable(value = "id") String id,
-			@RequestBody JSONObject jsonLunatic
+			@RequestBody JsonNode jsonLunatic
 	) throws Exception {
         try {
 			questionnaireService.updateJsonLunatic(id, jsonLunatic);
@@ -368,11 +368,11 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "400", description = "Entity already exists")
     })
 	public ResponseEntity<Object> createQuestionnaire(
-			@RequestBody JSONObject jsonContent
+			@RequestBody JsonNode jsonContent
 	) throws Exception {
         try {
         	questionnaireService.createQuestionnaire(jsonContent);
-			String id = (String) jsonContent.get("id");
+			String id = jsonContent.get("id").asText();
 			if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
 				String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
 				String apiName = env.getProperty("application.name");
@@ -399,11 +399,11 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "400", description = "Entity already exists")
     })
 	public ResponseEntity<Object> createJsonLunatic(
-			@RequestBody JSONObject jsonContent
+			@RequestBody JsonNode jsonContent
 	) throws Exception {
         try {
 			questionnaireService.createJsonLunatic(jsonContent);
-			String id = (String) jsonContent.get("id");
+			String id = jsonContent.get("id").asText();
 			if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
 				String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
 				String apiName = env.getProperty("application.name");
