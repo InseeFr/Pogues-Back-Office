@@ -1,9 +1,7 @@
 package fr.insee.pogues.transforms;
 
-import static fr.insee.pogues.transforms.visualize.ModelMapper.inputStream2String;
-import static fr.insee.pogues.transforms.visualize.ModelMapper.string2BOAS;
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import fr.insee.pogues.webservice.rest.PoguesException;
+import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -11,9 +9,10 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import org.junit.jupiter.api.Test;
-
-import fr.insee.pogues.webservice.rest.PoguesException;
+import static fr.insee.pogues.transforms.visualize.ModelMapper.inputStream2String;
+import static fr.insee.pogues.transforms.visualize.ModelMapper.string2BOAS;
+import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class TestPipeline {
 

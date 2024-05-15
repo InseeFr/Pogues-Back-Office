@@ -1,21 +1,16 @@
 package fr.insee.pogues.transforms.visualize;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Map;
-
+import fr.insee.pogues.transforms.XMLDiff;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.xmlunit.XMLUnitException;
 import org.xmlunit.diff.Diff;
 
-import fr.insee.pogues.transforms.XMLDiff;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 class PoguesJSONToPoguesXMLImplTest {
 
@@ -26,9 +21,7 @@ class PoguesJSONToPoguesXMLImplTest {
 	
 
 	@BeforeEach
-	public void beforeEach() {
-		System.setProperty("javax.xml.bind.context.factory", "org.eclipse.persistence.jaxb.JAXBContextFactory");
-		paramsNull = null;
+	public void beforeEach() {paramsNull = null;
 		surveyNull = null;
 	}
 

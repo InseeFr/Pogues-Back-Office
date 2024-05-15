@@ -4,7 +4,6 @@ import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.conversion.JSONSerializer;
 import fr.insee.pogues.conversion.XMLSerializer;
 import fr.insee.pogues.exception.NullReferenceException;
-import fr.insee.pogues.exception.PoguesDeserializationException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;

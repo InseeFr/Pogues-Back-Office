@@ -1,6 +1,5 @@
 package fr.insee.pogues.persistence.service;
 
-import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -31,7 +30,8 @@ class VariablesServiceImplTest {
 
         // When
         VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
-        String result = variablesService.getVariablesByQuestionnaire("l4i3m6qa");
+        JSONObject resultAsJson = variablesService.getVariablesByQuestionnaire("l4i3m6qa");
+        String result = resultAsJson.toJSONString();
 
         // Then
         // (quick and dirty tests, the implementation could be refactored to make it more easily testable)
@@ -83,7 +83,7 @@ class VariablesServiceImplTest {
 
         // When
         VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
-        String result = variablesService.getVariablesByQuestionnaire("foo-id");
+        JSONObject result = variablesService.getVariablesByQuestionnaire("foo-id");
 
         // Then
         assertNull(result);
