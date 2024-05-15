@@ -28,7 +28,6 @@ public class SpringDocConfiguration {
     @Bean
     @ConditionalOnProperty(name = "feature.oidc.enabled", havingValue = "false")
     protected OpenAPI noAuthOpenAPI(BuildProperties buildProperties) {
-        log.info("Let's go for swagger !");
         return generateOpenAPI(buildProperties);
     }
 
