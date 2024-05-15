@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -68,7 +69,7 @@ public class HealthCheck {
             @ApiResponse(responseCode = "209", description = "Warning"),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public ResponseEntity<ObjectNode> getHealthcheck() {
+    public ResponseEntity<ObjectNode> getHealthcheck(@RequestParam(name = "legacy", defaultValue = "false") boolean legacy) {
         boolean haveError=false;
         AtomicBoolean haveWarning= new AtomicBoolean(false);
         log.debug("Begin healthCheck");
@@ -103,8 +104,11 @@ public class HealthCheck {
         URI uriStromaeV3 = UriComponentsBuilder.fromHttpUrl(stromaeV3Host).path("/index.html").build().toUri();
 
         Map<String, URI> externalServices = new HashMap<>();
-        externalServices.put("Exist", uriExist);
-        externalServices.put("Orbeon", uriOrbeon);
+
+        if(legacy){
+            externalServices.put("Exist", uriExist);
+            externalServices.put("Orbeon", uriOrbeon);
+        }
         externalServices.put("Queen", uriQueen);
         // externalServices.put("DDI - AS", uriDDIAS);
         externalServices.put("Stromae - V2", uriStromaeV2);
@@ -132,15 +136,16 @@ public class HealthCheck {
 
     private boolean checkExternalService(URI externalServiceUri) {
         try {
-            webClient.get().uri(externalServiceUri).retrieve()
-                     .bodyToMono(String.class)
+            webClient.get().uri(externalServiceUri)
+                    .retrieve()
+                    .bodyToMono(String.class)
                     .block();
             return true;
         } catch (WebClientResponseException e) {
             log.error(String.format("%s for %s", e.getStatusCode(), externalServiceUri));
             return false;
         } catch (Exception e){
-            log.info("Error inconnue");
+            log.error(e.getMessage());
             return false;
         }
     }
