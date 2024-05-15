@@ -21,7 +21,6 @@ import static fr.insee.pogues.transforms.visualize.ModelMapper.*;
 public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDeref{
 
     private static final String NULL_INPUT_MESSAGE = "Null input";
-    private static final String NULL_OUTPUT_MESSAGE = "Null output";
 
     @Autowired
     QuestionnairesService questionnairesService;

@@ -1,12 +1,12 @@
 package fr.insee.pogues.utils.suggester;
 
-import fr.insee.pogues.exception.PoguesDeserializationException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.xml.bind.JAXBException;
 import java.util.List;
 
 /**
@@ -40,9 +40,8 @@ public class SuggesterVisuTreatment {
      * @param jsonQuestionnairePoguesModel
      * @return List of nomenclatureIds inside questionnaire
      * @throws ParseException
-     * @throws PoguesDeserializationException
      */
-    public static List<String> getNomenclatureIdsFromQuestionnaire(String jsonQuestionnairePoguesModel) throws ParseException, PoguesDeserializationException {
+    public static List<String> getNomenclatureIdsFromQuestionnaire(String jsonQuestionnairePoguesModel) throws ParseException, JAXBException {
         Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject((JSONObject) new JSONParser().parse(jsonQuestionnairePoguesModel));
         return getNomenclatureIdsFromQuestionnaire(questionnaire);
     }
