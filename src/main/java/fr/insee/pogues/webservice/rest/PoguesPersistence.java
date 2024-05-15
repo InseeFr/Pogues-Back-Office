@@ -222,11 +222,11 @@ public class PoguesPersistence {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "404", description = "Not found")
 	})
-	public ResponseEntity<Object> getQuestionnaireVariables(
+	public ResponseEntity<JSONObject> getQuestionnaireVariables(
 			@PathVariable(value = "id") String id
 	) throws Exception {
 		try {
-			String result = variablesService.getVariablesByQuestionnaire(id);
+			JSONObject result = variablesService.getVariablesByQuestionnaire(id);
 			return ResponseEntity.status(HttpStatus.OK).body(result);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
