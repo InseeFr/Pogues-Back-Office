@@ -1,5 +1,6 @@
 package fr.insee.pogues.webservice.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/env")
-@Tag(name = "Pogues Environment")
+@Tag(name = "1. Public Resources")
 @Slf4j
 public class PoguesEnvironment {
 
@@ -29,19 +30,31 @@ public class PoguesEnvironment {
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
-	public ResponseEntity<Object> getEnvironment() throws Exception {
+	public ResponseEntity<ObjectNode> getEnvironment() throws Exception {
 		try {
 			ObjectNode entity = JsonNodeFactory.instance.objectNode();
-			entity.put("Swagger Host", env.getProperty("application.host"));
-			entity.put("Swagger Name", env.getProperty("application.name"));
-			entity.put("Swagger Scheme", env.getProperty("application.scheme"));
-			entity.put("Database", env.getProperty("fr.insee.pogues.persistence.database.host"));
-			entity.put("Metadata services", env.getProperty("application.metadata.ddi-as"));
+
 			entity.put("Eno Webservice", env.getProperty("application.eno.host"));
-			entity.put("Stromae", env.getProperty("application.stromae.host"));
-			entity.put("Stromae v2", env.getProperty("application.stromaev2.vis.host"));			
-			entity.put("Stromae v3", env.getProperty("application.stromaev3.vis.host"));
-			entity.put("Queen", env.getProperty("application.queen.vis.host"));
+
+			ObjectNode visu = JsonNodeFactory.instance.objectNode();
+			visu.put("Stromae v1", env.getProperty("application.stromae.orbeon.host"));
+			visu.put("Exist DB", env.getProperty("application.stromae.host"));
+			visu.put("Stromae v2", env.getProperty("application.stromaev2.vis.host"));
+			visu.put("Stromae v3", env.getProperty("application.stromaev3.vis.host"));
+			visu.put("Queen", env.getProperty("application.queen.vis.host"));
+			visu.put("API Questionnaire", env.getProperty("application.api.nomenclatures"));
+			entity.put("Visualization",visu);
+
+			ObjectNode external = JsonNodeFactory.instance.objectNode();
+			external.put("Metadata services - DDI.AS",env.getProperty("application.metadata.ddi-as"));
+			external.put("Metadata services - Magma",env.getProperty("application.metadata.magma"));
+			entity.put("External Services",external);
+
+			ObjectNode auth = JsonNodeFactory.instance.objectNode();
+			auth.put("enabled",env.getProperty("feature.oidc.enabled"));
+			auth.put("server",env.getProperty("feature.oidc.auth-server-url"));
+			auth.put("realm",env.getProperty("feature.oidc.realm"));
+			entity.put("Authentication", auth);
 			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

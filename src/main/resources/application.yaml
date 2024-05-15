@@ -12,6 +12,7 @@ application:
     - /v3/api-docs/**
     - /api/healthcheck
     - /api/init
+    - /api/env
   roles:
     admin: 'admin'
     designer: 'designer'

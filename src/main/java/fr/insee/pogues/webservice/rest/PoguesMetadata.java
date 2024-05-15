@@ -28,13 +28,14 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/meta-data")
-@Tag(name = "Pogues MetaData API")
+@Tag(name = "3. Search to MetaData repository")
 @Slf4j
 public class PoguesMetadata {
 
 	@Autowired
 	MetadataService metadataService;
 
+	@Deprecated
 	@GetMapping("item/{id}")
 	@Operation(operationId = "getItem", summary = "Gets the item with id {id}", description = "Get an item from Colectica Repository, given it's {id}", responses = {
 			@ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = ColecticaItem.class))) })
@@ -48,6 +49,7 @@ public class PoguesMetadata {
 		}
 	}
 
+	@Deprecated
 	@GetMapping("item/{id}/refs/")
 	@Operation(operationId = "getChildrenRef", summary = "Get the children refs with parent id {id}", description = "This will give a list of object containing a reference id, version and agency. Note that you will"
 			+ "need to map response objects keys to be able to use it for querying items "
@@ -76,6 +78,7 @@ public class PoguesMetadata {
 		return ResponseEntity.status(HttpStatus.OK).body(units);
 	}
 
+	@Deprecated
 	@PostMapping("items")
 	@Operation(
 			operationId = "getItems",
@@ -95,6 +98,7 @@ public class PoguesMetadata {
 		}
 	}
 
+	@Deprecated
 	@GetMapping("item/{id}/ddi")
 	@Operation(operationId = "getFullDDI", summary = "Get DDI document", description = "Gets a full DDI document from Colectica repository reference {id}"
 	/* ,response = String.class */)

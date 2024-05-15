@@ -22,13 +22,14 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/search")
-@Tag(name = "Pogues Search")
+@Tag(name = "3. Search to MetaData repository")
 @Slf4j
 public class PoguesSearch {
 
     @Autowired
     SearchService searchService;
 
+    @Deprecated
     @PostMapping("")
     @Operation(
             summary = "Search Item",

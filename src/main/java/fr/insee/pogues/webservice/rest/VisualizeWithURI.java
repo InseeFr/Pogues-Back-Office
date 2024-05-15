@@ -35,9 +35,9 @@ import static fr.insee.pogues.transforms.visualize.ModelMapper.string2InputStrea
 
 @RestController
 @RequestMapping("/api/transform")
-@Tag(name = "Pogues Transforms to URI (Redirection)")
+@Tag(name = "5. Visualization with URI")
 @Slf4j
-public class TransformsToURI {
+public class VisualizeWithURI {
 
     @Autowired
     PoguesJSONToPoguesXML jsonToXML;

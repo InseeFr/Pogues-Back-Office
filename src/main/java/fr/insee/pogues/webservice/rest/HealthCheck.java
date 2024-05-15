@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 @RestController
 @RequestMapping("/api/healthcheck")
-@Tag(name="Health Check")
+@Tag(name="1. Public Resources")
 @Slf4j
 public class HealthCheck {
 

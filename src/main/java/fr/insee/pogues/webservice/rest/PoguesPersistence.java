@@ -39,7 +39,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/persistence")
-@Tag(name = "Pogues Persistence")
+@Tag(name = "2. Persistence")
 @Slf4j
 public class PoguesPersistence {
 

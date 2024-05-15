@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 @Slf4j
-@Tag(name = "Pogues Public Resources")
+@Tag(name = "1. Public Resources")
 public class PublicResources {
 
 	@Value("${feature.oidc.enabled}")
