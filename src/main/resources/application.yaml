@@ -5,7 +5,7 @@ server:
 application:
   host: localhost:${server.port}
   name: ''
-  scheme: http    
+  scheme: http
   public-urls:
     - /actuator/**
     - /swagger-ui/**
