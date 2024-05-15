@@ -21,8 +21,6 @@ import java.util.Map;
 @Slf4j
 public class EnoClientImpl implements EnoClient{
 
-    @Value("${application.eno.scheme}")
-    String enoScheme;
     @Value("${application.eno.host}")
     String enoHost;
 
@@ -85,7 +83,7 @@ public class EnoClientImpl implements EnoClient{
     @Override
     public void getParameters () throws Exception{
         URI uri = UriComponentsBuilder
-                .fromHttpUrl(String.format("%s://%s", enoScheme, enoHost))
+                .fromHttpUrl(enoHost)
                 .path("/parameters/xml/all")
                 .build().toUri();
 
@@ -99,7 +97,7 @@ public class EnoClientImpl implements EnoClient{
 
     private String callEnoApi(String inputAsString, String WSPath) throws EnoException, PoguesException {
         URI uri = UriComponentsBuilder
-                .fromHttpUrl(String.format("%s://%s", enoScheme, enoHost))
+                .fromHttpUrl(enoHost)
                 .path(WSPath)
                 .build().toUri();
 
