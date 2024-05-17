@@ -1,16 +1,14 @@
 package fr.insee.pogues.transforms.visualize;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.conversion.JSONSerializer;
 import fr.insee.pogues.conversion.XMLSerializer;
 import fr.insee.pogues.exception.NullReferenceException;
-import fr.insee.pogues.exception.PoguesDeserializationException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
 import fr.insee.pogues.utils.PoguesSerializer;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
@@ -25,6 +23,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static fr.insee.pogues.transforms.visualize.ModelMapper.string2InputStream;
+import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -43,13 +43,11 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl();
         //
         assertThrows(NullPointerException.class, () ->
-                deref.transform(null, fooOutputStream, fooParams, fooSurveyName));
-        assertThrows(NullPointerException.class, () ->
-                deref.transform(fooInputStream, null, fooParams, fooSurveyName));
+                deref.transform(null, fooParams, fooSurveyName));
         assertThrows(NullPointerException.class, () ->
                 deref.transform((InputStream) null, fooParams, fooSurveyName));
         assertThrows(NullPointerException.class, () ->
-                deref.transform((String) null, fooParams, fooSurveyName));
+                deref.transform((InputStream) null, fooParams, fooSurveyName));
         assertThrows(NullPointerException.class, () ->
                 deref.transformAsQuestionnaire(null));
     }
@@ -63,7 +61,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         //
         PoguesJSONToPoguesJSONDeref deref = new PoguesJSONToPoguesJSONDerefImpl();
         //
-        assertEquals(mocked, deref.transform(mocked, fooParams, fooSurveyName));
+        assertEquals(mocked, new String(deref.transform(string2InputStream(mocked), fooParams, fooSurveyName).toByteArray()));
     }
 
     /**
@@ -77,15 +75,14 @@ class PoguesJSONToPoguesJSONDerefImplTest {
                 "transforms/PoguesJSONToPoguesJSONDeref/filter_and_loop/lct78jr8.json");
         assert url != null;
         String testedInput = Files.readString(Path.of(url.toURI()));
-        JSONParser jsonParser = new JSONParser();
         // Mock questionnaire service
         QuestionnairesServiceImpl questionnairesService = Mockito.mock(QuestionnairesServiceImpl.class);
         Mockito.when(questionnairesService.getQuestionnaireByID("l4i3m6qa")).thenReturn(null);
         Mockito.when(questionnairesService.getQuestionnaireByID("l6dnlrka")).thenReturn(null);
         Mockito.when(questionnairesService.getQuestionnaireByID("lct8pcsy")).thenReturn(null);
 
-        Mockito.when(questionnairesService.deReference((JSONObject) jsonParser.parse(testedInput))).thenCallRealMethod();
-        Mockito.when(questionnairesService.getQuestionnaireWithReferences((JSONObject) jsonParser.parse(testedInput))).thenCallRealMethod();
+        Mockito.when(questionnairesService.deReference(jsonStringtoJsonNode(testedInput))).thenCallRealMethod();
+        Mockito.when(questionnairesService.getQuestionnaireWithReferences(jsonStringtoJsonNode(testedInput))).thenCallRealMethod();
 
         //
         PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnairesService);
@@ -110,10 +107,9 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         assert url1 != null;
         assert url2 != null;
         assert url3 != null;
-        JSONParser jsonParser = new JSONParser();
-        JSONObject jsonQuestionnaire1 = (JSONObject) jsonParser.parse(Files.readString(Path.of(url1.toURI())));
-        JSONObject jsonQuestionnaire2 = (JSONObject) jsonParser.parse(Files.readString(Path.of(url2.toURI())));
-        JSONObject jsonQuestionnaire3 = (JSONObject) jsonParser.parse(Files.readString(Path.of(url3.toURI())));
+        JsonNode jsonQuestionnaire1 = jsonStringtoJsonNode(Files.readString(Path.of(url1.toURI())));
+        JsonNode jsonQuestionnaire2 = jsonStringtoJsonNode(Files.readString(Path.of(url2.toURI())));
+        JsonNode jsonQuestionnaire3 = jsonStringtoJsonNode(Files.readString(Path.of(url3.toURI())));
         // Mock questionnaire service
         QuestionnairesServiceImpl questionnairesService = Mockito.mock(QuestionnairesServiceImpl.class);
         Mockito.when(questionnairesService.getQuestionnaireByID("l4i3m6qa")).thenReturn(jsonQuestionnaire1);
@@ -124,8 +120,8 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         assert url != null;
         String testedInput = Files.readString(Path.of(url.toURI()));
 
-        Mockito.when(questionnairesService.deReference((JSONObject) jsonParser.parse(testedInput))).thenCallRealMethod();
-        Mockito.when(questionnairesService.getQuestionnaireWithReferences((JSONObject) jsonParser.parse(testedInput))).thenCallRealMethod();
+        Mockito.when(questionnairesService.deReference(jsonStringtoJsonNode(testedInput))).thenCallRealMethod();
+        Mockito.when(questionnairesService.getQuestionnaireWithReferences(jsonStringtoJsonNode(testedInput))).thenCallRealMethod();
 
         // When
         // Apply de-referencing service
@@ -171,9 +167,8 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         URL url2 = classLoader.getResource(testRelativePath+"/referenced2.json");
         assert url1 != null;
         assert url2 != null;
-        JSONParser jsonParser = new JSONParser();
-        JSONObject jsonQuestionnaire1 = (JSONObject) jsonParser.parse(Files.readString(Path.of(url1.toURI())));
-        JSONObject jsonQuestionnaire2 = (JSONObject) jsonParser.parse(Files.readString(Path.of(url2.toURI())));
+        JsonNode jsonQuestionnaire1 = jsonStringtoJsonNode(Files.readString(Path.of(url1.toURI())));
+        JsonNode jsonQuestionnaire2 = jsonStringtoJsonNode(Files.readString(Path.of(url2.toURI())));
         // Mock questionnaire service
         QuestionnairesServiceImpl questionnairesService = Mockito.mock(QuestionnairesServiceImpl.class);
         Mockito.when(questionnairesService.getQuestionnaireByID("le2v7xet")).thenReturn(jsonQuestionnaire1);
@@ -183,8 +178,8 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         assert url != null;
         String testedInput = Files.readString(Path.of(url.toURI()));
 
-        Mockito.when(questionnairesService.deReference((JSONObject) jsonParser.parse(testedInput))).thenCallRealMethod();
-        Mockito.when(questionnairesService.getQuestionnaireWithReferences((JSONObject) jsonParser.parse(testedInput))).thenCallRealMethod();
+        Mockito.when(questionnairesService.deReference(jsonStringtoJsonNode(testedInput))).thenCallRealMethod();
+        Mockito.when(questionnairesService.getQuestionnaireWithReferences(jsonStringtoJsonNode(testedInput))).thenCallRealMethod();
 
         // When
         // Apply de-referencing service
@@ -205,8 +200,8 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         Files.writeString(testFolder.resolve("out/result.xml"), resXml);
         //
         PoguesJSONToPoguesXMLImpl poguesJSONToPoguesXML = new PoguesJSONToPoguesXMLImpl();
-        String resXmlFromJson = poguesJSONToPoguesXML.transform(new ByteArrayInputStream(resJson.getBytes()), null, null);
-        Files.writeString(testFolder.resolve("out/result_from_json.xml"), resXmlFromJson);
+        ByteArrayOutputStream resXmlFromJson = poguesJSONToPoguesXML.transform(new ByteArrayInputStream(resJson.getBytes()), null, null);
+        Files.write(testFolder.resolve("out/result_from_json.xml"), resXmlFromJson.toByteArray());
         //
         JSONDeserializer jsonDeserializer = new JSONDeserializer();
         Questionnaire questionnaireFromJson = jsonDeserializer.deserialize(
@@ -223,8 +218,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         ClassLoader classLoader = this.getClass().getClassLoader();
         URL referencedUrl = classLoader.getResource(testRelativePath+"/l4i3m6qa_referenced.json");
         assert referencedUrl != null;
-        JSONParser jsonParser = new JSONParser();
-        JSONObject referencedJson = (JSONObject) jsonParser.parse(Files.readString(Path.of(referencedUrl.toURI())));
+        JsonNode referencedJson = jsonStringtoJsonNode(Files.readString(Path.of(referencedUrl.toURI())));
         // Mock questionnaire service
         QuestionnairesServiceImpl questionnairesService = Mockito.mock(QuestionnairesServiceImpl.class);
         Mockito.when(questionnairesService.getQuestionnaireByID("l4i3m6qa")).thenReturn(referencedJson);
@@ -232,8 +226,8 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         URL referenceUrl = classLoader.getResource(testRelativePath+"/leybnsd0_reference.json");
         assert referenceUrl != null;
         String testedInput = Files.readString(Path.of(referenceUrl.toURI()));
-        Mockito.when(questionnairesService.deReference((JSONObject) jsonParser.parse(testedInput))).thenCallRealMethod();
-        Mockito.when(questionnairesService.getQuestionnaireWithReferences((JSONObject) jsonParser.parse(testedInput))).thenCallRealMethod();
+        Mockito.when(questionnairesService.deReference(jsonStringtoJsonNode(testedInput))).thenCallRealMethod();
+        Mockito.when(questionnairesService.getQuestionnaireWithReferences(jsonStringtoJsonNode(testedInput))).thenCallRealMethod();
 
         // When
         // Apply de-referencing service
@@ -267,7 +261,6 @@ class PoguesJSONToPoguesJSONDerefImplTest {
             List<String> referencedFileNames,
             List<String> referenceIds,
             String input) throws Exception {
-        JSONParser jsonParser = new JSONParser();
         QuestionnairesServiceImpl questionnairesService = Mockito.mock(QuestionnairesServiceImpl.class);
 
         String testRelativePath = TEST_FOLDER+folderName;
@@ -275,12 +268,12 @@ class PoguesJSONToPoguesJSONDerefImplTest {
             // Load test questionnaire into json objects
             URL url = classLoader.getResource(testRelativePath+"/"+referencedFileNames.get(i));
             assert url != null;
-            JSONObject jsonQuestionnaire1 = (JSONObject) jsonParser.parse(Files.readString(Path.of(url.toURI())));
+            JsonNode jsonQuestionnaire1 = jsonStringtoJsonNode(Files.readString(Path.of(url.toURI())));
             // Mock questionnaire service
             Mockito.when(questionnairesService.getQuestionnaireByID(referenceIds.get(i))).thenReturn(jsonQuestionnaire1);
         }
-        Mockito.when(questionnairesService.deReference((JSONObject) jsonParser.parse(input))).thenCallRealMethod();
-        Mockito.when(questionnairesService.getQuestionnaireWithReferences((JSONObject) jsonParser.parse(input))).thenCallRealMethod();
+        Mockito.when(questionnairesService.deReference(jsonStringtoJsonNode(input))).thenCallRealMethod();
+        Mockito.when(questionnairesService.getQuestionnaireWithReferences(jsonStringtoJsonNode(input))).thenCallRealMethod();
         return questionnairesService;
     }
 
