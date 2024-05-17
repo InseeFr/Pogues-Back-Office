@@ -1,6 +1,6 @@
 package fr.insee.pogues.persistence.service;
 
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 
@@ -9,11 +9,11 @@ import java.util.List;
  */
 public interface QuestionnairesService {
 
-    List<JSONObject> getQuestionnaireList() throws Exception;
+    List<JsonNode> getQuestionnaireList() throws Exception;
     
-    List<JSONObject> getQuestionnairesMetadata(String owner) throws Exception;
+    List<JsonNode> getQuestionnairesMetadata(String owner) throws Exception;
     
-    List<JSONObject> getQuestionnairesStamps() throws Exception;
+    List<JsonNode> getQuestionnairesStamps() throws Exception;
 
     /**
      *
@@ -21,7 +21,7 @@ public interface QuestionnairesService {
      * @return A collection of questionnaire objects mapped to their id
      * @throws Exception
      */
-    List<JSONObject> getQuestionnairesByOwner(String id)throws Exception;
+    List<JsonNode> getQuestionnairesByOwner(String id)throws Exception;
 
     /**
      *
@@ -29,7 +29,7 @@ public interface QuestionnairesService {
      * @return JSON representation of the questionnaire
      * @throws Exception
      */
-    JSONObject getQuestionnaireByID(String id) throws Exception;
+    JsonNode getQuestionnaireByID(String id) throws Exception;
 
     /**
      * A questionnaire can "contain" other questionnaires. These questionnaires appear as references.
@@ -39,7 +39,7 @@ public interface QuestionnairesService {
      * @return JSON representation of the questionnaire with references
      * @throws Exception
      */
-    JSONObject getQuestionnaireByIDWithReferences(String id) throws Exception;
+    JsonNode getQuestionnaireByIDWithReferences(String id) throws Exception;
 
     /**
      * A questionnaire can "contain" other questionnaires. These questionnaires appear as references.
@@ -49,7 +49,7 @@ public interface QuestionnairesService {
      * @return JSON representation of the questionnaire with its references
      * @throws Exception
      */
-    JSONObject getQuestionnaireWithReferences(JSONObject jsonQuestionnaire) throws Exception;
+    JsonNode getQuestionnaireWithReferences(JsonNode jsonQuestionnaire) throws Exception;
 
     /**
     *
@@ -57,7 +57,7 @@ public interface QuestionnairesService {
     * @return JSON Lunatic representation of a questionnaire
     * @throws Exception
     */
-    JSONObject getJsonLunaticByID(String id) throws Exception;
+    JsonNode getJsonLunaticByID(String id) throws Exception;
 
     /**
      *
@@ -78,14 +78,14 @@ public interface QuestionnairesService {
      * @param questionnaire JSON representation of a questionnaire
      * @throws Exception
      */
-    void createQuestionnaire(JSONObject questionnaire) throws Exception;
+    void createQuestionnaire(JsonNode questionnaire) throws Exception;
     
     /**
      * Save the JSON Lunatic representation of a questionnaire
      * @param questionnaireLunatic JSON Lunatic representation of a questionnaire
      * @throws Exception
      */
-    void createJsonLunatic(JSONObject questionnaireLunatic) throws Exception;
+    void createJsonLunatic(JsonNode questionnaireLunatic) throws Exception;
 
     /**
      * Update a questionnaire object
@@ -93,7 +93,7 @@ public interface QuestionnairesService {
      * @param id id of the questionnaire
      * @throws Exception
      */
-    void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception;
+    void updateQuestionnaire(String id, JsonNode questionnaire) throws Exception;
     
     /**
 	 * Update a questionnaire object
@@ -101,5 +101,5 @@ public interface QuestionnairesService {
 	 * @param id id of the questionnaire
 	 * @throws Exception
 	 */
-	void updateJsonLunatic(String id, JSONObject questionnaireLunatic) throws Exception;
+	void updateJsonLunatic(String id, JsonNode questionnaireLunatic) throws Exception;
 }

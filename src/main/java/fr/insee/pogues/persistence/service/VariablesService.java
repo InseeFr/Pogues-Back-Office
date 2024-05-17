@@ -1,7 +1,9 @@
 package fr.insee.pogues.persistence.service;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
+
+import java.io.IOException;
 
 public interface VariablesService {
 
@@ -10,13 +12,13 @@ public interface VariablesService {
 	 * @param id questionnaire id
 	 * @return variables as json string with caveats from pogues-model (like format for datedatatype, ...)
 	 */
-	String getVariablesByQuestionnaire(String id);
+	JsonNode getVariablesByQuestionnaire(String id) throws IOException;
 
 	/**
 	 * Used for public enemy, delivers
 	 * @param id
 	 * @return variables as json directly from DB
 	 */
-	JSONArray getVariablesByQuestionnaireForPublicEnemy(String id);
+	ArrayNode getVariablesByQuestionnaireForPublicEnemy(String id);
 
 }

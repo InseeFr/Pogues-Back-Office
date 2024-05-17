@@ -1,11 +1,8 @@
 package fr.insee.pogues.search.repository;
 
-import fr.insee.pogues.search.repository.PoguesItemRepository;
-import fr.insee.pogues.search.repository.PoguesItemRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 
 import static org.mockito.Mockito.spy;
 import static org.mockito.MockitoAnnotations.initMocks;

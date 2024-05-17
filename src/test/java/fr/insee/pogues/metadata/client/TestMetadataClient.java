@@ -1,7 +1,5 @@
 package fr.insee.pogues.metadata.client;
 
-import fr.insee.pogues.metadata.client.MetadataClient;
-import fr.insee.pogues.metadata.client.MetadataClientImpl;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
