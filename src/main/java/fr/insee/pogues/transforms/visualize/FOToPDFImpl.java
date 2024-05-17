@@ -1,10 +1,9 @@
 package fr.insee.pogues.transforms.visualize;
 
-import fr.insee.pogues.configuration.StaticResourcesForFOPConfig;
+import fr.insee.pogues.configuration.FOPConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.fop.apps.Fop;
 import org.apache.fop.apps.FopFactory;
-import org.apache.fop.apps.FopFactoryBuilder;
 import org.apache.fop.apps.MimeConstants;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,26 +16,18 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.stream.StreamSource;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.net.URI;
 import java.util.Map;
 
 @Service
 @Slf4j
 public class FOToPDFImpl implements FOToPDF {
 	@Autowired
-	private StaticResourcesForFOPConfig staticResourcesForFOPConfig;
-
+	private FOPConfiguration fopConfiguration;
 
 	@Override
 	public ByteArrayOutputStream transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
-		org.apache.fop.configuration.Configuration fopConf = staticResourcesForFOPConfig.getFopConfiguration();
-		URI imgFolderUri = staticResourcesForFOPConfig.getImgFolderUri();
-		// Step 1: Construct a FopFactory by specifying a reference to the
-		// configuration file
-		// (reuse if you plan to render multiple documents!)
-		FopFactoryBuilder builder = new FopFactoryBuilder(imgFolderUri).setConfiguration(fopConf);
-		builder.setBaseURI(imgFolderUri);
-		FopFactory fopFactory = builder.build();
+
+		FopFactory fopFactory = fopConfiguration.getFopFactory();
 		// Step 2: Set up output stream.
 		// Note: Using BufferedOutputStream for performance reasons
 		// (helpful with FileOutputStreams).
