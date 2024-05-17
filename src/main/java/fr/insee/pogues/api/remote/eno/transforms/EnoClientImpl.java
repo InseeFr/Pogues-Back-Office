@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.client.MultipartBodyBuilder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -15,6 +17,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -58,15 +61,11 @@ public class EnoClientImpl implements EnoClient{
 
     @Override
     public String getDDITOLunaticJSON(String inputAsString, Map<String, Object> params) throws EnoException, PoguesException {
-        String WSPath;
-
-        if (params.get("mode") != null) {
-            WSPath = BASE_PATH+"/lunatic-json/"+params.get("mode").toString();
-            log.info("Url for DDI to Lunatic transformation : "+WSPath);
-        } else {
-            WSPath = BASE_PATH+"/lunatic-json/"+MODE;
-        }
-        return callEnoApi(inputAsString, WSPath);
+        MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
+        String modePathParam = params.get("mode") != null ? params.get("mode").toString() : MODE;
+        String WSPath = BASE_PATH + "/lunatic-json/" + modePathParam;
+        queryParams.add("dsfr", Boolean.TRUE.equals(params.get("dsfr")) ? "true" : "false");
+        return callEnoApiWithParams(inputAsString, WSPath, queryParams);
     }
 
     @Override
@@ -96,10 +95,18 @@ public class EnoClientImpl implements EnoClient{
     };
 
     private String callEnoApi(String inputAsString, String WSPath) throws EnoException, PoguesException {
+        MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
+        return callEnoApiWithParams(inputAsString, WSPath, queryParams);
+    }
+
+    private String callEnoApiWithParams(String inputAsString, String WSPath, MultiValueMap<String,String> params) throws EnoException, PoguesException {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(enoHost)
                 .path(WSPath)
+                .queryParams(params)
                 .build().toUri();
+
+        log.info("Call Eno with URI : {}", uri);
 
         MultipartBodyBuilder builder = new MultipartBodyBuilder();
         builder.part("in",

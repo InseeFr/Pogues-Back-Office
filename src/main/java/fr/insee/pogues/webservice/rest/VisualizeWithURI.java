@@ -209,6 +209,7 @@ public class VisualizeWithURI {
         params.put("needDeref", ref);
         params.put("mode", "CAWI");
         params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
+        params.put("dsfr", true);
         try {
             URI uri;
             try {
