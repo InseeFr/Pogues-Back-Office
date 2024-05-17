@@ -7,8 +7,6 @@ import fr.insee.pogues.model.FlowControlType;
 import fr.insee.pogues.model.IterationType;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class PoguesModelUtilsTest {

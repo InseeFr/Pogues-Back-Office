@@ -2,8 +2,8 @@ package fr.insee.pogues.metadata.model;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 /**
  * {
@@ -63,10 +63,10 @@ public class ColecticaItem {
     public String itemFormat;
 
     @JsonProperty("VersionRationale")
-    public JSONObject versionRationale;
+    public JsonNode versionRationale;
 
     @JsonProperty("Notes")
-    public JSONArray notes;
+    public ArrayNode notes;
 
     /////////
 
@@ -159,19 +159,19 @@ public class ColecticaItem {
         this.itemFormat = itemFormat;
     }
 
-    public JSONObject getVersionRationale() {
+    public JsonNode getVersionRationale() {
         return versionRationale;
     }
 
-    public void setVersionRationale(JSONObject versionRationale) {
+    public void setVersionRationale(JsonNode versionRationale) {
         this.versionRationale = versionRationale;
     }
 
-    public JSONArray getNotes() {
+    public ArrayNode getNotes() {
         return notes;
     }
 
-    public void setNotes(JSONArray notes) {
+    public void setNotes(ArrayNode notes) {
         this.notes = notes;
     }
 }

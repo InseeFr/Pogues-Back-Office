@@ -1,26 +1,25 @@
 package fr.insee.pogues.persistence;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doAnswer;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
-
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import fr.insee.pogues.persistence.query.NonUniqueResultException;
+import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
+import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
+import fr.insee.pogues.webservice.rest.PoguesException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import fr.insee.pogues.persistence.query.NonUniqueResultException;
-import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
-import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TestQuestionnaireService {
@@ -34,7 +33,7 @@ class TestQuestionnaireService {
     @Test
     void emptyListThrowsException() throws Exception {
         when(questionnairesServiceQuery.getQuestionnaires())
-                .thenReturn(new ArrayList<JSONObject>());
+                .thenReturn(new ArrayList<>());
         Throwable exception = assertThrows(PoguesException.class,()->questionnairesService.getQuestionnaireList());
         assertEquals("Not found",exception.getMessage());
 
@@ -72,12 +71,12 @@ class TestQuestionnaireService {
 
     @Test
     void getQuestionnaireById() throws Exception {
-        JSONObject q1 = new JSONObject();
+        ObjectNode q1 = JsonNodeFactory.instance.objectNode();
         q1.put("id", "foo");
         when(questionnairesServiceQuery.getQuestionnaireByID("foo")).thenReturn(q1);
-        JSONObject q2 = questionnairesService.getQuestionnaireByID("foo");
+        JsonNode q2 = questionnairesService.getQuestionnaireByID("foo");
         assertEquals(q1, q2);
-        assertEquals("foo", q2.get("id"));
+        assertEquals("foo", q2.get("id").asText());
 
     }
 
@@ -86,12 +85,12 @@ class TestQuestionnaireService {
     void listReturnsNormally() throws Exception {
         try {
             when(questionnairesServiceQuery.getQuestionnaires())
-                    .thenReturn(new ArrayList<JSONObject>() {
+                    .thenReturn(new ArrayList<>() {
                         {
-                            add(new JSONObject());
+                            add(JsonNodeFactory.instance.objectNode());
                         }
                     });
-            List<JSONObject> qList = questionnairesService.getQuestionnaireList();
+            List<JsonNode> qList = questionnairesService.getQuestionnaireList();
             assertEquals(1, qList.size());
         } catch (Exception e) {
             throw e;

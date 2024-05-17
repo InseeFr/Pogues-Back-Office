@@ -1,31 +1,32 @@
 package fr.insee.pogues.metadata.mock;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import fr.insee.pogues.metadata.model.ColecticaItem;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
+import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+
 public class ColecticaMocks {
 
-    private static final JSONObject db = createDb();
+    private static final JsonNode db = createDb();
 
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    public static JSONObject createDb() {
+    public static JsonNode createDb() {
         try {
-            String filePath = ColecticaMocks.class
+            URL filePath = ColecticaMocks.class
                     .getClassLoader()
-                    .getResource("colectica.json")
-                    .getPath();
-            JSONParser parser = new JSONParser();
-            JSONObject db = (JSONObject)
-                    parser.parse(new FileReader(filePath));
+                    .getResource("colectica.json");
+            JsonNode db = jsonStringtoJsonNode(Files.readString(Path.of(filePath.toURI())));
             return db;
         } catch (Exception e) {
             return null;
@@ -33,9 +34,9 @@ public class ColecticaMocks {
     }
 
     public static List<ColecticaItem> getItems() throws IOException {
-        JSONArray items = (JSONArray) db.get("items");
+        ArrayNode items = (ArrayNode) db.get("items");
         return Arrays.asList(
-                mapper.readValue(items.toJSONString(), ColecticaItem[].class)
+                mapper.readValue(items.toString(), ColecticaItem[].class)
         );
     }
 }
