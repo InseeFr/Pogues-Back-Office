@@ -1,6 +1,6 @@
 package fr.insee.pogues.configuration;
 
-import fr.insee.pogues.utils.ClasspathResourceResolver;
+import fr.insee.pogues.utils.pdf.ClasspathResourceResolver;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.fop.apps.FopFactory;
 import org.apache.fop.apps.FopFactoryBuilder;
