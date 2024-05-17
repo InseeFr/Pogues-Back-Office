@@ -5,6 +5,7 @@ import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
+import fr.insee.pogues.utils.suggester.SuggesterVisuTreatment;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,6 +44,8 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
             return input2Output(input);
         }
         Questionnaire questionnaire = transformAsQuestionnaire(inputStream2String(input));
+        // Update nomenclatureIds with ids from references
+        params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(questionnaire));
         String questionnaireAsString = PoguesSerializer.questionnaireJavaToString(questionnaire);
         return string2BOAS(questionnaireAsString);
     }
