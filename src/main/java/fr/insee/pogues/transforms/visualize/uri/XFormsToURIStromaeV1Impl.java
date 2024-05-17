@@ -1,5 +1,6 @@
 package fr.insee.pogues.transforms.visualize.uri;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -13,6 +14,7 @@ import java.net.URI;
 import java.util.Map;
 
 @Service
+@Slf4j
 public class XFormsToURIStromaeV1Impl implements XFormsToURIStromaeV1 {
     
     @Autowired
@@ -32,8 +34,11 @@ public class XFormsToURIStromaeV1Impl implements XFormsToURIStromaeV1 {
         try {
             URI uri = UriComponentsBuilder
                     .fromHttpUrl(serviceUriHost)
-                    .path(serviceUriVisualizationPath)
-                    .path("dataCollection").path("questionnaire").build().toUri();
+                    .pathSegment(serviceUriVisualizationPath)
+                    .pathSegment((String) params.get("dataCollection"))
+                    .pathSegment((String) params.get("questionnaire")).build().toUri();
+
+            log.debug("Calling Exist-Db with URI "+uri);
             ResponseEntity<String> response = webClient.post()
                     .uri(uri)
                     .contentType(MediaType.APPLICATION_XML)
