@@ -17,6 +17,7 @@ application:
     - /api/healthcheck
     - /api/init
     - /api/env
+    - /api/persistence/questionnaire/json-lunatic/**
   roles:
     admin: 'admin'
     designer: 'designer'
