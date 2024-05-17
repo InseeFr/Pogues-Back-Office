@@ -1,5 +1,6 @@
 package fr.insee.pogues.webservice.rest;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDeref;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
@@ -23,6 +24,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.URI;
@@ -105,21 +107,22 @@ public class VisualizeWithURI {
     @PostMapping(path = "visualize-queen-telephone/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI CATI Queen from JSON serialized Pogues entity", description = "Get visualization URI CATI Queen from JSON serialized Pogues entity")
     public ResponseEntity<String> visualizeCatiQueenFromBody(@RequestBody String request,
-                                                          @PathVariable(value = "questionnaire") String questionnaireName) throws Exception {
+                                                             @PathVariable(value = "questionnaire") String questionnaireName,
+                                                             @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
         params.put("mode", "CATI");
+        params.put("needDeref", ref);
         params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
-
         try {
             URI uri;
             try {
                 ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+                        .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                         .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
                         .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
                         .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
                         .transform();
-
                 uri = lunaticJSONToUriQueen.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
             } catch (Exception e) {
                 log.error(e.getCause().getMessage());
@@ -186,7 +189,6 @@ public class VisualizeWithURI {
                         .transform();
 
                 uri = lunaticJSONToUriStromaeV2.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
-                log.info("uri computed :"+uri);
             } catch (Exception e) {
                 log.error(e.getCause().getMessage());
                 throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
