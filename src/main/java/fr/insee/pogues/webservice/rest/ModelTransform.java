@@ -29,7 +29,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import static fr.insee.pogues.transforms.visualize.ModelMapper.string2InputStream;
+import static fr.insee.pogues.utils.IOStreamsUtils.string2InputStream;
 
 /**
  * Main WebService class of the PoguesBOOrchestrator

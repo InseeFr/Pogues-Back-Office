@@ -30,8 +30,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
-import static fr.insee.pogues.transforms.visualize.ModelMapper.output2Input;
-import static fr.insee.pogues.transforms.visualize.ModelMapper.string2InputStream;
+import static fr.insee.pogues.utils.IOStreamsUtils.output2Input;
+import static fr.insee.pogues.utils.IOStreamsUtils.string2InputStream;
 
 @RestController
 @RequestMapping("/api/transform")

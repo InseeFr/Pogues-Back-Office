@@ -14,7 +14,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Map;
 
-import static fr.insee.pogues.transforms.visualize.ModelMapper.*;
+import static fr.insee.pogues.utils.IOStreamsUtils.*;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
 @Service

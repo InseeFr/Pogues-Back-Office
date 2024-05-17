@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static fr.insee.pogues.transforms.visualize.ModelMapper.output2Input;
+import static fr.insee.pogues.utils.IOStreamsUtils.output2Input;
 
 @Slf4j
 public class PipeLine {

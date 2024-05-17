@@ -1,4 +1,4 @@
-package fr.insee.pogues.transforms.visualize;
+package fr.insee.pogues.utils;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 
-public class ModelMapper {
+public class IOStreamsUtils {
 
     public static String inputStream2String(InputStream inputStream) throws IOException {
         return new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);

@@ -9,8 +9,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import static fr.insee.pogues.transforms.visualize.ModelMapper.inputStream2String;
-import static fr.insee.pogues.transforms.visualize.ModelMapper.string2BOAS;
+import static fr.insee.pogues.utils.IOStreamsUtils.inputStream2String;
+import static fr.insee.pogues.utils.IOStreamsUtils.string2BOAS;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

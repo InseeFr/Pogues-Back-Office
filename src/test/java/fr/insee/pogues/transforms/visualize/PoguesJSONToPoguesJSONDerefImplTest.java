@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import static fr.insee.pogues.transforms.visualize.ModelMapper.string2InputStream;
+import static fr.insee.pogues.utils.IOStreamsUtils.string2InputStream;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static org.junit.jupiter.api.Assertions.*;
 
