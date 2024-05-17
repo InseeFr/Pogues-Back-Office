@@ -1,6 +1,5 @@
 package fr.insee.pogues.webservice.rest;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDeref;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
@@ -24,7 +23,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.net.URI;

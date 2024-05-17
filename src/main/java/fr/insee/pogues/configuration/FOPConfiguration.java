@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ResourceLoader;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 
 @Configuration
