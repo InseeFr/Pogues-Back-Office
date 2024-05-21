@@ -1,6 +1,6 @@
 package fr.insee.pogues.metadata;
 
-import fr.insee.pogues.metadata.client.MetadataClient;
+import fr.insee.pogues.metadata.client.DDIASClient;
 import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.repository.MetadataRepositoryImpl;
@@ -18,7 +18,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class TestMetadataRepository {
 
     @Mock
-    MetadataClient metadataClient;
+    DDIASClient DDIASClient;
 
     @InjectMocks
     MetadataRepository metadataRepository;
@@ -33,7 +33,7 @@ class TestMetadataRepository {
     void findByIdTest() throws Exception {
         ColecticaItem expected = new ColecticaItem();
         expected.setIdentifier("foo");
-        when(metadataClient.getItem(expected.getIdentifier())).thenReturn(expected);
+        when(DDIASClient.getItem(expected.getIdentifier())).thenReturn(expected);
         ColecticaItem actual = metadataRepository.findById(expected.getIdentifier());
         assertEquals(expected.getIdentifier(), actual.getIdentifier());
     }
