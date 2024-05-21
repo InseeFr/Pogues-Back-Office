@@ -9,4 +9,5 @@ public interface MagmaClient {
 
     List<Serie> getSeries() throws Exception;
     List<Operation> getOperationsByIdSerie(String idSerie) throws Exception;
+    Operation getOperationByIdOperation(String idOperation) throws Exception;
 }

@@ -16,4 +16,9 @@ public class MagmaClientImpl implements MagmaClient {
     public List<Operation> getOperationsByIdSerie(String id) throws Exception {
         return List.of();
     }
+
+    @Override
+    public Operation getOperationByIdOperation(String idOperation) throws Exception {
+        return null;
+    }
 }
