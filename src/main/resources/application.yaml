@@ -85,6 +85,9 @@ application:
     # For Series & operations
     magma:
 
+  external-secure-urls:
+    - ${application.metadata.ddi-as}
+    - ${application.metadata.magma}
 
 springdoc:
   swagger-ui:

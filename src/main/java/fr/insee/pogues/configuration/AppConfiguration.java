@@ -1,5 +1,6 @@
 package fr.insee.pogues.configuration;
 
+import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.configuration.rest.AuthenticationHelper;
 import fr.insee.pogues.configuration.rest.WebClientTokenInterceptor;
 import lombok.extern.slf4j.Slf4j;
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.reactive.function.client.ExchangeFilterFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Configuration
@@ -24,7 +26,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class AppConfiguration {
 
     @Autowired
-    private AuthenticationHelper authenticationHelper;
+    private ExchangeFilterFunction webClientTokenInterceptor;
 
     @Bean
     public WebClient webClient(
@@ -33,7 +35,7 @@ public class AppConfiguration {
         builder
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
-        if(oidcEnabled)  builder.filter(new WebClientTokenInterceptor(authenticationHelper));
+        if(oidcEnabled)  builder.filter(webClientTokenInterceptor);
         return builder.build();
     }
 
