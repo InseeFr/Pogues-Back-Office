@@ -80,26 +80,16 @@ public class VisualizeWithURI {
         params.put("dataCollection", dataCollection.toLowerCase());
         params.put("questionnaire", questionnaire.toLowerCase());
         params.put("needDeref", ref);
-        try {
-            URI uri;
-            try {
-                ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-                        .map(jsonToJsonDeref::transform, params, questionnaire.toLowerCase())
-                        .map(jsonToXML::transform, params, questionnaire.toLowerCase())
-                        .map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
-                        .map(ddiToXForm::transform, params, questionnaire.toLowerCase())
-                        .transform();
+        URI uri;
+        ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+                .map(jsonToJsonDeref::transform, params, questionnaire.toLowerCase())
+                .map(jsonToXML::transform, params, questionnaire.toLowerCase())
+                .map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
+                .map(ddiToXForm::transform, params, questionnaire.toLowerCase())
+                .transform();
 
-                uri = xformToUri.transform(output2Input(outputStream), params, questionnaire.toLowerCase());
-            } catch (Exception e) {
-                log.error(e.getMessage());
-                throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-            }
-            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw e;
-        }
+        uri = xformToUri.transform(output2Input(outputStream), params, questionnaire.toLowerCase());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
     }
 
     @PostMapping(path = "visualize-queen-telephone/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -112,25 +102,15 @@ public class VisualizeWithURI {
         params.put("mode", "CATI");
         params.put("needDeref", ref);
         params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
-        try {
-            URI uri;
-            try {
-                ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-                        .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-                        .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
-                        .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
-                        .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
-                        .transform();
-                uri = lunaticJSONToUriQueen.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
-            } catch (Exception e) {
-                log.error(e.getCause().getMessage());
-                throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-            }
-            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw e;
-        }
+        URI uri;
+        ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+                .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
+                .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+                .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+                .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+                .transform();
+        uri = lunaticJSONToUriQueen.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
     }
 
     @PostMapping(path = "visualize-queen/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -143,25 +123,15 @@ public class VisualizeWithURI {
         params.put("mode", "CAPI");
         params.put("needDeref", ref);
         params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
-        try {
-            URI uri;
-            try {
-                ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-                        .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-                        .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
-                        .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
-                        .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
-                        .transform();
-                uri = lunaticJSONToUriQueen.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
-            } catch (Exception e) {
-                log.error(e.getCause().getMessage());
-                throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-            }
-            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw e;
-        }
+        URI uri;
+        ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+                .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
+                .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+                .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+                .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+                .transform();
+        uri = lunaticJSONToUriQueen.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
     }
 
     @PostMapping(path = "visualize-stromae-v2/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -176,26 +146,16 @@ public class VisualizeWithURI {
         params.put("mode", "CAWI");
         params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
 
-        try {
-            URI uri;
-            try {
-                ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-                        .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-                        .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
-                        .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
-                        .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
-                        .transform();
+        URI uri;
+        ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+                .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
+                .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+                .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+                .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+                .transform();
 
-                uri = lunaticJSONToUriStromaeV2.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
-            } catch (Exception e) {
-                log.error(e.getCause().getMessage());
-                throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-            }
-            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw e;
-        }
+        uri = lunaticJSONToUriStromaeV2.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
     }
 
     @PostMapping(path = "visualize-stromae-v3/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -210,25 +170,16 @@ public class VisualizeWithURI {
         params.put("mode", "CAWI");
         params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
         params.put("dsfr", true);
-        try {
-            URI uri;
-            try {
-                ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-                        .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-                        .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
-                        .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
-                        .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
-                        .transform();
-                uri = lunaticJSONToUriStromaeV3.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
-            } catch (Exception e) {
-                log.error(e.getCause().getMessage());
-                throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-            }
-            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw e;
-        }
+        URI uri;
+        ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream("{}".getBytes(StandardCharsets.UTF_8)))
+                .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
+                .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
+                .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
+                .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+                .transform();
+        uri = lunaticJSONToUriStromaeV3.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
+
     }
 
     @PostMapping(path = "visualize-from-ddi/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -240,22 +191,13 @@ public class VisualizeWithURI {
         Map<String, Object> params = new HashMap<>();
         params.put("dataCollection", dataCollection.toLowerCase());
         params.put("questionnaire", questionnaire.toLowerCase());
-        try {
-            URI uri;
-            try {
-                ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-                        .map(ddiToXForm::transform, params, questionnaire.toLowerCase())
-                        .transform();
-                uri = xformToUri.transform(output2Input(outputStream), params, questionnaire.toLowerCase());
-            } catch (Exception e) {
-                log.error(e.getCause().getMessage());
-                throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-            }
-            return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
-        } catch (Exception e) {
-            log.error(e.getMessage(), e);
-            throw e;
-        }
+        URI uri;
+        ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+                .map(ddiToXForm::transform, params, questionnaire.toLowerCase())
+                .transform();
+        uri = xformToUri.transform(output2Input(outputStream), params, questionnaire.toLowerCase());
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
+
     }
 
     @PostMapping(path = "xform2uri/{dataCollection}/{questionnaire}", produces = MediaType.TEXT_PLAIN_VALUE)
@@ -266,14 +208,10 @@ public class VisualizeWithURI {
     public String xForm2URI(@RequestBody String questXforms,
                          @PathVariable(value = "dataCollection") String dataCollection,
                          @PathVariable(value = "questionnaire") String questionnaire) throws Exception {
-        try {
-            Map<String, Object> params = new HashMap<>();
-            params.put("dataCollection", dataCollection.toLowerCase());
-            params.put("questionnaire", questionnaire.toLowerCase());
-            return xformToUri.transform(string2InputStream(questXforms), params, questionnaire).toString();
-        } catch (Exception e) {
-            log.error(e.getCause().getMessage());
-            throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("dataCollection", dataCollection.toLowerCase());
+        params.put("questionnaire", questionnaire.toLowerCase());
+        return xformToUri.transform(string2InputStream(questXforms), params, questionnaire).toString();
     }
 }

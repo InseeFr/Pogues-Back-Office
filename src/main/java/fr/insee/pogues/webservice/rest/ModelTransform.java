@@ -113,8 +113,7 @@ public class ModelTransform {
 									.map(jsonToXML::transform, params, questionnaireName)
 									.map(poguesXMLToDDI::transform, params, questionnaireName).transform().toByteArray());
 				} catch (Exception e) {
-					log.error(e.getCause().getMessage());
-					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
+					throw new RuntimeException(e);
 				}
 			};
 
@@ -129,32 +128,27 @@ public class ModelTransform {
 	@PostMapping(path = "visualize-pdf", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization PDF questionnaire from JSON serialized Pogues entity")
 	public ResponseEntity<StreamingResponseBody> visualizePDFFromBody(@RequestBody String request,
-			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+			@RequestParam(name = "references", defaultValue = "false") Boolean ref) {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		params.put("needDeref", ref);
 		String questionnaireName = "pdf";
 
-		try {
-			StreamingResponseBody stream = output -> {
-				try {
-					output.write(pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-					.map(jsonToJsonDeref::transform, params, questionnaireName)
-					.map(jsonToXML::transform, params, questionnaireName)
-					.map(poguesXMLToDDI::transform, params, questionnaireName)
-					.map(ddiToFo::transform, params, questionnaireName)
-					.map(foToPdf::transform, params, questionnaireName).transform().toByteArray());
-				} catch (Exception e) {
-					log.error(e.getCause().getMessage());
-					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-				}
-			};
-			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_PDF)
-					.header(CONTENT_DISPOSITION, "attachment; filename=form.pdf").body(stream);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		StreamingResponseBody stream = output -> {
+            try {
+                output.write(pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+                        .map(jsonToJsonDeref::transform, params, questionnaireName)
+                        .map(jsonToXML::transform, params, questionnaireName)
+                        .map(poguesXMLToDDI::transform, params, questionnaireName)
+                        .map(ddiToFo::transform, params, questionnaireName)
+                        .map(foToPdf::transform, params, questionnaireName).transform().toByteArray());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
+
+		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_PDF)
+				.header(CONTENT_DISPOSITION, "attachment; filename=form.pdf").body(stream);
 
 	}
 
@@ -185,27 +179,19 @@ public class ModelTransform {
 		}
 		String questionnaireName = "pdf";
 
-		try {
-			StreamingResponseBody stream = output -> {
-				try {
-					output.write(pipeline.from(new ByteArrayInputStream(questDDI.getBytes(StandardCharsets.UTF_8)))
-							.map(ddiToFo::transform, params, questionnaireName)
-							.map(foToPdf::transform, params, questionnaireName)
-							.transform().toByteArray());
-				} catch (Exception e) {
-					log.error(e.getCause().getMessage());
-					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-				}
-			};
-			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
-					.header(CONTENT_DISPOSITION, "attachment; filename=\"form.pdf\"")
-					.body(stream);
-
-		} catch (Exception e) {
-			log.error(e.getCause().getMessage());
-			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-		}
-
+		StreamingResponseBody stream = output -> {
+            try {
+                output.write(pipeline.from(new ByteArrayInputStream(questDDI.getBytes(StandardCharsets.UTF_8)))
+                        .map(ddiToFo::transform, params, questionnaireName)
+                        .map(foToPdf::transform, params, questionnaireName)
+                        .transform().toByteArray());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
+		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
+				.header(CONTENT_DISPOSITION, "attachment; filename=\"form.pdf\"")
+				.body(stream);
 	}
 
 	@PostMapping(path = "fo2pdf", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -216,24 +202,19 @@ public class ModelTransform {
 
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
-		try {
-			StreamingResponseBody stream = output -> {
-				try {
-					output.write(pipeline.from(new ByteArrayInputStream(questFO.getBytes(StandardCharsets.UTF_8)))
-							.map(foToPdf::transform, params, questionnaireName)
-							.transform().toByteArray());
-				} catch (Exception e) {
-					log.error(e.getCause().getMessage());
-					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-				}
-			};
-			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
-					.header(CONTENT_DISPOSITION, "attachment; filename=\"form.pdf\"")
-					.body(stream);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		StreamingResponseBody stream = output -> {
+
+            try {
+                output.write(pipeline.from(new ByteArrayInputStream(questFO.getBytes(StandardCharsets.UTF_8)))
+                        .map(foToPdf::transform, params, questionnaireName)
+                        .transform().toByteArray());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
+		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
+				.header(CONTENT_DISPOSITION, "attachment; filename=\"form.pdf\"")
+				.body(stream);
 	}
 
 	@PostMapping(path = "json2xml", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_XML_VALUE)
@@ -244,13 +225,8 @@ public class ModelTransform {
 	})
 	public ResponseEntity<StreamingResponseBody> json2XML(@RequestBody String questJson) throws Exception {
 		String questionnaire = "xforms";
-		try {
-			return transform(new ByteArrayInputStream(questJson.getBytes(StandardCharsets.UTF_8)), jsonToXML,
-					questionnaire, MediaType.APPLICATION_XML);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		return transform(new ByteArrayInputStream(questJson.getBytes(StandardCharsets.UTF_8)), jsonToXML,
+				questionnaire, MediaType.APPLICATION_XML);
 	}
 
 	@PostMapping(path = "xml2json", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -261,13 +237,8 @@ public class ModelTransform {
 	@ResponseBody
 	public ResponseEntity<StreamingResponseBody> xml2Json(@RequestBody String questXML) throws Exception {
 		String questionnaire = "xforms";
-		try {
-			return transform(new ByteArrayInputStream(questXML.getBytes(StandardCharsets.UTF_8)), xmlToJson,
-					questionnaire, MediaType.APPLICATION_JSON);
-		} catch (Exception e) {
-			log.error(e.getCause().getMessage());
-			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-		}
+		return transform(new ByteArrayInputStream(questXML.getBytes(StandardCharsets.UTF_8)), xmlToJson,
+				questionnaire, MediaType.APPLICATION_JSON);
 	}
 
 	@PostMapping(path = "json/dereferenced", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -277,25 +248,19 @@ public class ModelTransform {
 			@ApiResponse(responseCode = "500", description = "Error") })
 	@ResponseBody
 	public ResponseEntity<String> jsonRef2JsonDeref(@RequestBody String questJson) throws Exception {
-		try {
-			ByteArrayOutputStream result = jsonToJsonDeref.transform(string2InputStream(questJson), Map.of("needDeref", true), null);
-			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result.toString(StandardCharsets.UTF_8));
-		} catch (Exception e) {
-			log.error(e.getCause().getMessage());
-			throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-		}
+		ByteArrayOutputStream result = jsonToJsonDeref.transform(string2InputStream(questJson), Map.of("needDeref", true), null);
+		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result.toString(StandardCharsets.UTF_8));
 	}
 
 	private ResponseEntity<StreamingResponseBody> transform(InputStream request, ModelTransformer transformer,
 			String questionnaire, MediaType type) {
 		StreamingResponseBody stream = output -> {
-			try {
-				output.write(transformer.transform(request, null, questionnaire).toByteArray());
-			} catch (Exception e) {
-				log.error(e.getCause().getMessage());
-				throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-			}
-		};
+            try {
+                output.write(transformer.transform(request, null, questionnaire).toByteArray());
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        };
 		return ResponseEntity.status(HttpStatus.OK).contentType(type).body(stream);
 	}
 
