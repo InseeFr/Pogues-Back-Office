@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
+import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.VariablesService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -13,7 +14,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -43,14 +43,14 @@ import java.util.List;
 @Slf4j
 public class PoguesPersistence {
 
+	@Autowired
+	private ApplicationProperties applicationProperties;
+
     @Autowired
 	private QuestionnairesService questionnaireService;
     
     @Autowired
 	private VariablesService variablesService;
-    
-    @Autowired
-    private Environment env;
 
 	@Autowired
 	private UserProvider userProvider;
@@ -100,13 +100,8 @@ public class PoguesPersistence {
 	public ResponseEntity<Object> getJsonLunatic(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		try {
-			JsonNode result = questionnaireService.getJsonLunaticByID(id);
-			return ResponseEntity.status(HttpStatus.OK).body(result);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		JsonNode result = questionnaireService.getJsonLunaticByID(id);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 
 	}
 
@@ -123,18 +118,13 @@ public class PoguesPersistence {
     public ResponseEntity<Object> searchQuestionnaires(
             @RequestParam("owner") String owner
     ) throws Exception {
-        try {
-			List<JsonNode> questionnaires = new ArrayList<>();
-            if(null != owner){
-                questionnaires.addAll(questionnaireService.getQuestionnairesByOwner(owner));
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(questionnaires);
-        } catch (Exception e) {
-			log.error(e.getMessage(), e);
-            throw e;
-        }
+		List<JsonNode> questionnaires = new ArrayList<>();
+		if(null != owner){
+			questionnaires.addAll(questionnaireService.getQuestionnairesByOwner(owner));
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(questionnaires);
     }
-    
+
 	@GetMapping("questionnaires/search/meta")
 	@Operation(
 			operationId = "searchQuestionnairesMetadata",
@@ -148,16 +138,12 @@ public class PoguesPersistence {
 	public ResponseEntity<Object> getQuestionnairesMetadata(
             @RequestParam("owner") String owner
 	) throws Exception {
-		try {
-			List<JsonNode> questionnairesMetadata = new ArrayList<>();
-            if(null != owner){
-                questionnairesMetadata.addAll(questionnaireService.getQuestionnairesMetadata(owner));
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(questionnairesMetadata);
-        } catch (Exception e) {
-			log.error(e.getMessage(), e);
-            throw e;
-        }
+		List<JsonNode> questionnairesMetadata = new ArrayList<>();
+		if(null != owner){
+			questionnairesMetadata.addAll(questionnaireService.getQuestionnairesMetadata(owner));
+		}
+		return ResponseEntity.status(HttpStatus.OK).body(questionnairesMetadata);
+
 	}
 	
 	@GetMapping("questionnaires/stamps")
@@ -172,14 +158,9 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
 	public ResponseEntity<Object> getQuestionnaireStamps() throws Exception {
-		try {
-			List<JsonNode> questionnairesStamps = new ArrayList<>();
-			questionnairesStamps.addAll(questionnaireService.getQuestionnairesStamps());
-            return ResponseEntity.status(HttpStatus.OK).body(questionnairesStamps);
-        } catch (Exception e) {
-			log.error(e.getMessage(), e);
-            throw e;
-        }
+		List<JsonNode> questionnairesStamps = new ArrayList<>();
+		questionnairesStamps.addAll(questionnaireService.getQuestionnairesStamps());
+		return ResponseEntity.status(HttpStatus.OK).body(questionnairesStamps);
 	}
 	
 
@@ -196,18 +177,10 @@ public class PoguesPersistence {
 	public ResponseEntity<Object> deleteQuestionnaire(Authentication auth,
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		try {
-			questionnaireService.deleteQuestionnaireByID(id);
-			User user = userProvider.getUser(auth);
-			log.info("Questionnaire {} deleted by {}", id, user.getName());
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		} catch (PoguesException e) {
-				log.error(e.getMessage(), e);
-				return ResponseEntity.status(e.getStatus()).body(e.getDetails());
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		questionnaireService.deleteQuestionnaireByID(id);
+		User user = userProvider.getUser(auth);
+		log.info("Questionnaire {} deleted by {}", id, user.getName());
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 	@GetMapping("questionnaire/{id}/variables")
@@ -225,13 +198,8 @@ public class PoguesPersistence {
 	public ResponseEntity<JsonNode> getQuestionnaireVariables(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		try {
-			JsonNode result = variablesService.getVariablesByQuestionnaire(id);
-			return ResponseEntity.status(HttpStatus.OK).body(result);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		JsonNode result = variablesService.getVariablesByQuestionnaire(id);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
 	@GetMapping("questionnaire/{id}/vars")
@@ -249,13 +217,8 @@ public class PoguesPersistence {
 	public ResponseEntity<ArrayNode> getVariables(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		try {
-			ArrayNode result = variablesService.getVariablesByQuestionnaireForPublicEnemy(id);
-			return ResponseEntity.status(HttpStatus.OK).body(result);
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		ArrayNode result = variablesService.getVariablesByQuestionnaireForPublicEnemy(id);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
 	@DeleteMapping("questionnaire/json-lunatic/{id}")
@@ -272,14 +235,9 @@ public class PoguesPersistence {
 	public ResponseEntity<Object> deleteJsonLunatic(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		try {
-			questionnaireService.deleteJsonLunaticByID(id);
-			log.info("Questionnaire {} deleted", id);
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		questionnaireService.deleteJsonLunaticByID(id);
+		log.info("Questionnaire {} deleted", id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 	@GetMapping("questionnaires")
@@ -293,13 +251,8 @@ public class PoguesPersistence {
             @ApiResponse(responseCode = "404", description = "Not found")
     })
 	public ResponseEntity<Object> getQuestionnaireList() throws Exception {
-		try {
-			List<JsonNode> questionnaires = questionnaireService.getQuestionnaireList();
-			return ResponseEntity.status(HttpStatus.OK).body(questionnaires);
-		} catch(Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		List<JsonNode> questionnaires = questionnaireService.getQuestionnaireList();
+		return ResponseEntity.status(HttpStatus.OK).body(questionnaires);
 	}
 	
 	@PutMapping("questionnaire/{id}")
@@ -316,20 +269,12 @@ public class PoguesPersistence {
 			@PathVariable(value = "id") String id,
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
-        try {
-			if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
-				questionnaireService.updateQuestionnaire(id, jsonContent);
-				log.info("Questionnaire {} updated", id);
-			} else {
-				throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
-			}
-        } catch (PoguesException e) {
-			log.error(e.getMessage(), e);
-			return ResponseEntity.status(e.getStatus()).body(e.getDetails());
-        } catch (Exception e) {
-        	log.error(e.getMessage(), e);
-            throw e;
-        }
+		if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+			questionnaireService.updateQuestionnaire(id, jsonContent);
+			log.info("Questionnaire {} updated", id);
+		} else {
+			throw new PoguesException(400, BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
+		}
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 	
@@ -347,14 +292,9 @@ public class PoguesPersistence {
 			@PathVariable(value = "id") String id,
 			@RequestBody JsonNode jsonLunatic
 	) throws Exception {
-        try {
-			questionnaireService.updateJsonLunatic(id, jsonLunatic);
-			log.info("Json Lunatic of questionnaire {} updated", id);
-			return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        } catch (Exception e) {
-        	log.error(e.getMessage(), e);
-            throw e;
-        }
+		questionnaireService.updateJsonLunatic(id, jsonLunatic);
+		log.info("Json Lunatic of questionnaire {} updated", id);
+		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
 	@PostMapping("questionnaires")
@@ -370,22 +310,18 @@ public class PoguesPersistence {
 	public ResponseEntity<Object> createQuestionnaire(
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
-        try {
-        	questionnaireService.createQuestionnaire(jsonContent);
-			String id = jsonContent.get("id").asText();
-			if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
-				String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
-				String apiName = env.getProperty("application.name");
-				String uriQuestionnaire = String.format("http://%s%s/api/persistence/questionnaire/%s",dbHost,apiName,id);
-				log.debug("New questionnaire created , uri : {}",uriQuestionnaire);
-				return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriQuestionnaire).build();
-    		} else {
-    			throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
-    		}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
-		}
+		questionnaireService.createQuestionnaire(jsonContent);
+		String id = jsonContent.get("id").asText();
+		if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+			String uriQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/%s",
+					applicationProperties.scheme(),
+					applicationProperties.host(),
+					id);
+			log.debug("New questionnaire created , uri : {}",uriQuestionnaire);
+			return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriQuestionnaire).build();
+    	} else {
+    		throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
+    	}
 	}
 	
 	@PostMapping("questionnaires/json-lunatic")
@@ -401,21 +337,17 @@ public class PoguesPersistence {
 	public ResponseEntity<Object> createJsonLunatic(
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
-        try {
-			questionnaireService.createJsonLunatic(jsonContent);
-			String id = jsonContent.get("id").asText();
-			if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
-				String dbHost = env.getProperty("fr.insee.pogues.persistence.database.host");
-				String apiName = env.getProperty("application.name");
-				String uriJsonLunaticQuestionnaire = String.format("http://%s%s/api/persistence/questionnaire/json-lunatic/%s",dbHost,apiName,id);
-				log.debug("New Json Lunatic created , uri : {}", uriJsonLunaticQuestionnaire);
-				return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriJsonLunaticQuestionnaire).build();
-			} else {
-				throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
-			}
-		} catch (Exception e) {
-			log.error(e.getMessage(), e);
-			throw e;
+		questionnaireService.createJsonLunatic(jsonContent);
+		String id = jsonContent.get("id").asText();
+		if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+			String uriJsonLunaticQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/json-lunatic/%s",
+					applicationProperties.scheme(),
+					applicationProperties.host(),
+					id);
+			log.debug("New Json Lunatic created , uri : {}", uriJsonLunaticQuestionnaire);
+			return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriJsonLunaticQuestionnaire).build();
+		} else {
+			throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
 		}
 	}
 }
