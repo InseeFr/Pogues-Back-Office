@@ -3,7 +3,6 @@ package fr.insee.pogues.metadata.service;
 import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.model.ColecticaItemRefList;
 import fr.insee.pogues.metadata.model.Unit;
-import fr.insee.pogues.model.CodeList;
 
 import java.util.List;
 

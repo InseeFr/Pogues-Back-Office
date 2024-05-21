@@ -1,16 +1,15 @@
 package fr.insee.pogues.search.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.MultiValueMap;
-
 import fr.insee.pogues.search.model.DDIItem;
 import fr.insee.pogues.search.model.DataCollectionContext;
 import fr.insee.pogues.search.model.PoguesQuery;
 import fr.insee.pogues.search.model.ResponseSearchItem;
 import fr.insee.pogues.search.repository.PoguesItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.MultiValueMap;
+
+import java.util.List;
 
 
 @Service
