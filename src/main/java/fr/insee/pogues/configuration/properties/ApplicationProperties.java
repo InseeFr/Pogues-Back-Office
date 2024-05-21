@@ -12,6 +12,7 @@ import java.util.Objects;
 @ConfigurationProperties(prefix = "application")
 public record ApplicationProperties(
         String host,
+        String scheme,
         String title,
         String description,
         String[] publicUrls,
