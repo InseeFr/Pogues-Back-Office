@@ -9,25 +9,25 @@
   <!-- Default page-height and page-width, in case
        value is specified as auto -->
   <default-page-settings height="11in" width="8.26in"/>
-  
-  <font-base>../fonts</font-base>
-  
+
+  <use-cache>false</use-cache>
+
   <renderers>
     <renderer mime="application/pdf">
       <fonts>
-        <font kerning="yes" embed-url="LiberationSans-Regular.ttf">
+        <font kerning="yes" embed-url="classpath:/pdf/fonts/LiberationSans-Regular.ttf" embedding-mode="subset">
           <font-triplet name="Liberation Sans" style="normal" weight="normal"/>
         </font>
-        <font kerning="yes" embed-url="LiberationSans-Bold.ttf">
+        <font kerning="yes" embed-url="classpath:/pdf/fonts/LiberationSans-Bold.ttf" embedding-mode="subset">
           <font-triplet name="Liberation Sans" style="normal" weight="bold"/>
         </font>
-        <font kerning="yes" embed-url="LiberationSans-Italic.ttf">
+        <font kerning="yes" embed-url="classpath:/pdf/fonts/LiberationSans-Italic.ttf" embedding-mode="subset">
           <font-triplet name="Liberation Sans" style="italic" weight="normal"/>
         </font>
-        <font kerning="yes" embed-url="LiberationSans-BoldItalic.ttf">
+        <font kerning="yes" embed-url="classpath:/pdf/fonts/LiberationSans-BoldItalic.ttf" embedding-mode="subset">
           <font-triplet name="Liberation Sans" style="italic" weight="bold"/>
         </font>
-        <font kerning="yes" embed-url="LucidaConsole.ttf">
+        <font kerning="yes" embed-url="classpath:/pdf/fonts/LucidaConsole.ttf" embedding-mode="subset">
           <font-triplet name="Lucida Console" style="normal" weight="normal"/>
         </font>
       </fonts>

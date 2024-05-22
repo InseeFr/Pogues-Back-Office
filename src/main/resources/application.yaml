@@ -1,0 +1,150 @@
+# Swagger
+server:
+  port: 8080
+
+logging:
+  level:
+    root: INFO
+
+application:
+  host: localhost:${server.port}
+  name: ''
+  scheme: http
+  public-urls:
+    - /actuator/**
+    - /swagger-ui/**
+    - /v3/api-docs/**
+    - /api/healthcheck
+    - /api/init
+    - /api/env
+    - /api/persistence/questionnaire/json-lunatic/**
+  roles:
+    admin: 'admin'
+    designer: 'designer'
+  # Stamp protected: only members of this stamp can be affect questionnaire of there stamp
+  stamp:
+    restricted: ''
+  corsOrigins: '*'
+
+  pogues-model:
+    version: @pogues-model.version@
+
+  # StromaeV1 database (eXist) for visu
+  # See source code: https://github.com/InseeFr/Stromae-db
+  stromae:
+    host:
+    # Path in exist collection
+    vis:
+      path:
+    # StromaeV1, front-end for vis
+    # See source code: https://github.com/InseeFr/Stromae/tree/main
+    orbeon:
+      host:
+
+  # Visu for interviewer mode
+  # See source code: https://github.com/InseeFr/Drama-Queen
+  queen:
+    vis:
+      host:
+      path: /queen/visualize
+      query-params:
+        questionnaire: questionnaire
+        nomenclatures: nomenclature
+
+  # See source code for v2: https://github.com/InseeFr/Stromae/tree/v2-master
+  stromaev2:
+    vis:
+      host:
+      path: /visualize
+      query-params:
+        questionnaire: questionnaire
+        nomenclatures: nomenclature
+
+  stromaev3:
+    vis:
+      host:
+      path: /visualize
+      query-params:
+        questionnaire: questionnaire
+        nomenclatures: nomenclature
+
+  # Eno: questionnaire generator
+  # See source code: https://github.com/InseeFr/Eno
+  eno:
+    host:
+
+    # Nomenclatures API: actually, nomenclatures used in suggester are stored in PostegreSQL DB (not the pogues one), served by a API
+    # See source code: https://github.com/InseeFr/Queen-Back-Office
+  api:
+    nomenclatures:
+
+  metadata:
+    # For codeList, nomenclature and units (it's a codeList)
+    # See source code: https://github.com/InseeFr/DDI-Access-Services
+    ddi-as:
+    # For Series & operations
+    magma:
+
+  external-secure-urls:
+    - ${application.metadata.ddi-as}
+    - ${application.metadata.magma}
+
+springdoc:
+  swagger-ui:
+    oauth:
+      client-id: ${feature.oidc.client-id}
+    path: /
+    syntax-highlight:
+      activated: false
+    tagsSorter: alpha
+    doc-expansion: none
+
+spring:
+  application:
+    name: Pogues-Back-Office
+  # DB
+  datasource:
+    url: jdbc:postgresql://localhost:53941/pogues
+    username: pogues
+    password: pogues
+    table: pogues
+    hikari.maximumPoolSize: 5
+  banner:
+    location: banner.txt
+  # Uploads
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  jpa:
+    open-in-view: false
+  codec:
+    max-in-memory-size: 10000KB
+  # to make springfox work
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+    async:
+      # Put time out on async requests to 5 minutes (default 30s is too few for visualization of BIG questionnaires)
+      request-timeout: 300000
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: ${feature.oidc.auth-server-url}/realms/${feature.oidc.realm}
+
+
+feature:
+  oidc:
+    enabled: false
+    auth-server-url: https://auth-server.host/auth
+    client-id: my-client-id
+    realm: my-client-id
+    principal-attribute: id-claim
+    role-claim: 'role-claim' # can be a json Path like 'deep.value.to.roles'
+    stamp-claim: stamp
+    username-claim: name
+  swagger:
+    enabled: true
+
+################################

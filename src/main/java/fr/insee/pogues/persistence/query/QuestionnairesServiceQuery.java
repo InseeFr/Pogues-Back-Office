@@ -1,6 +1,6 @@
 package fr.insee.pogues.persistence.query;
 
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.util.List;
 
@@ -12,29 +12,29 @@ import java.util.List;
 
 public interface QuestionnairesServiceQuery {
 
-    List<JSONObject> getQuestionnaires() throws Exception;
+    List<JsonNode> getQuestionnaires() throws Exception;
 
-    JSONObject getQuestionnaireByID(String id) throws Exception;
-    
-    JSONObject getJsonLunaticByID(String id) throws Exception;
+    JsonNode getQuestionnaireByID(String id) throws Exception;
+
+    JsonNode getJsonLunaticByID(String id) throws Exception;
 
     void deleteQuestionnaireByID(String id) throws Exception;
     
     void deleteJsonLunaticByID(String id) throws Exception;
 
-    List<JSONObject> getQuestionnairesByOwner(String owner) throws Exception;
+    List<JsonNode> getQuestionnairesByOwner(String owner) throws Exception;
 
-    void createQuestionnaire(JSONObject questionnaire) throws Exception;
+    void createQuestionnaire(JsonNode questionnaire) throws Exception;
     
-    void createJsonLunatic(JSONObject questionnaireLunatic) throws Exception;
+    void createJsonLunatic(JsonNode questionnaireLunatic) throws Exception;
 
-    void updateQuestionnaire(String id, JSONObject questionnaire) throws Exception;
+    void updateQuestionnaire(String id, JsonNode questionnaire) throws Exception;
     
-    void updateJsonLunatic(String id, JSONObject questionnaireLunatic) throws Exception;
+    void updateJsonLunatic(String id, JsonNode questionnaireLunatic) throws Exception;
 
-    List<JSONObject> getMetaQuestionnaire(String owner) throws Exception;
+    List<JsonNode> getMetaQuestionnaire(String owner) throws Exception;
 
-    List<JSONObject> getStamps() throws Exception;
+    List<JsonNode> getStamps() throws Exception;
     
     String countQuestionnaires() throws Exception;
 }

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:transform version="2.0" xmlns="http://xml.insee.fr/schema/applis/pogues"
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xhtml="http://www.w3.org/1999/xhtml"
-    xmlns:r="ddi:reusable:3_2" xmlns:l="ddi:logicalproduct:3_2"
-    exclude-result-prefixes="xsl xhtml r l">
+               xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+               xmlns:r="ddi:reusable:3_2" xmlns:l="ddi:logicalproduct:3_2"
+               exclude-result-prefixes="xsl xhtml r l">
 
     <xsl:output method="xml" indent="yes" encoding="UTF-8"/>
 
