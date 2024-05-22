@@ -1,8 +1,8 @@
 package fr.insee.pogues.search.model;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import java.util.List;
 
 @JsonIgnoreProperties({ "children" })
 public class ResponseItem {
