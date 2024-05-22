@@ -1,8 +1,5 @@
 package fr.insee.pogues.configuration;
 
-import fr.insee.pogues.configuration.properties.ApplicationProperties;
-import fr.insee.pogues.configuration.rest.AuthenticationHelper;
-import fr.insee.pogues.configuration.rest.WebClientTokenInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

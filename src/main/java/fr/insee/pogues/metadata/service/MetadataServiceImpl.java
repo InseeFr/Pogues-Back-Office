@@ -3,8 +3,8 @@ package fr.insee.pogues.metadata.service;
 import fr.insee.pogues.metadata.model.ddias.Unit;
 import fr.insee.pogues.metadata.model.magma.Operation;
 import fr.insee.pogues.metadata.model.magma.Serie;
-import fr.insee.pogues.metadata.model.pogues.Collection;
-import fr.insee.pogues.metadata.model.pogues.CollectionContext;
+import fr.insee.pogues.metadata.model.pogues.DataCollection;
+import fr.insee.pogues.metadata.model.pogues.DataCollectionContext;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,29 +23,29 @@ public class MetadataServiceImpl implements MetadataService {
 
     @Override
     public List<Unit> getUnits() throws Exception {
-        return List.of();
+        return metadataRepository.getUnits();
     }
 
     @Override
     public List<Serie> getSeries() throws Exception {
-        return List.of();
+        return metadataRepository.getSeries();
     }
 
     @Override
     public List<Operation> getOperationsByIdSerie(String idSerie) throws Exception {
-        return List.of();
+        return metadataRepository.getOperationsByIdSerie(idSerie);
     }
 
     @Override
-    public List<Collection> getColletionsByIdOperation(String idOperation) throws Exception {
-        Operation operation = metadataRepository.getOperationByIdOperation(idOperation);
+    public List<DataCollection> getColletionsByIdOperation(String idOperation) throws Exception {
+        Operation operation = metadataRepository.getOperationById(idOperation);
         return createCollectionsFromOperation(operation);
     }
 
     @Override
-    public CollectionContext getCollectionContextFromIdCollection(String idCollection) throws Exception {
+    public DataCollectionContext getCollectionContextFromIdCollection(String idCollection) throws Exception {
         String idOperation = idCollectionToIdOperation(idCollection);
-        Operation operation = metadataRepository.getOperationByIdOperation(idOperation);
-        return createCollectionContext(idCollection, operation);
+        Operation operation = metadataRepository.getOperationById(idOperation);
+        return createDataCollectionContext(idCollection, operation);
     }
 }

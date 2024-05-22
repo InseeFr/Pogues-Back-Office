@@ -18,7 +18,7 @@ public class MagmaClientImpl implements MagmaClient {
     }
 
     @Override
-    public Operation getOperationByIdOperation(String idOperation) throws Exception {
+    public Operation getOperationById(String idOperation) throws Exception {
         return null;
     }
 }

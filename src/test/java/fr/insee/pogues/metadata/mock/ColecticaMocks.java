@@ -3,7 +3,6 @@ package fr.insee.pogues.metadata.mock;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import fr.insee.pogues.metadata.model.ColecticaItem;
 
 import java.io.IOException;
 import java.net.URL;

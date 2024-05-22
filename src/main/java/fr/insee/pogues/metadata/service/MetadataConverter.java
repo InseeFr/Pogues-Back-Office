@@ -2,11 +2,14 @@ package fr.insee.pogues.metadata.service;
 
 import fr.insee.pogues.metadata.model.magma.FrequenceType;
 import fr.insee.pogues.metadata.model.magma.Operation;
-import fr.insee.pogues.metadata.model.pogues.Collection;
-import fr.insee.pogues.metadata.model.pogues.CollectionContext;
+import fr.insee.pogues.metadata.model.pogues.DataCollection;
+import fr.insee.pogues.metadata.model.pogues.DataCollectionContext;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 @Service
@@ -17,12 +20,12 @@ public class MetadataConverter {
 
     static Calendar calendar = Calendar.getInstance(Locale.FRANCE);
 
-    public static List<Collection> createCollectionsFromOperation(Operation operation){
+    public static List<DataCollection> createCollectionsFromOperation(Operation operation){
         FrequenceType frequenceType = operation.getSerie().getFrequence().getId();
-        List<Collection> collections = new ArrayList<>();
+        List<DataCollection> dataCollections = new ArrayList<>();
         switch (frequenceType){
             case U,P,A3,T,A,C -> {
-                Collection collection = new Collection(
+                DataCollection dataCollection = new DataCollection(
                         createIdOperationToIdCollection(operation.getId()),
                         operation.getLabel().get(0).getContenu(),
                         operation.getId(),
@@ -32,13 +35,13 @@ public class MetadataConverter {
                         createIdOperationToIdCollection(operation.getId()),
                         null,
                         DATA_COLLECTION_TYPE);
-                collections.add(collection);
+                dataCollections.add(dataCollection);
             }
             case M -> {
-                collections.addAll(
+                dataCollections.addAll(
                         Stream.iterate(Calendar.JANUARY, m -> m+1)
                         .limit(Calendar.UNDECIMBER)
-                        .map(m ->  new Collection(
+                        .map(m ->  new DataCollection(
                                 createIdOperationToIdCollection(operation.getId(), m.toString()),
                                 operation.getLabel().get(0).getContenu() + calendar.getDisplayNames(m,Calendar.LONG,Locale.FRANCE),
                                 operation.getId(),
@@ -51,10 +54,10 @@ public class MetadataConverter {
                         ).toList());
             }
             case Q -> {
-                collections.addAll(
+                dataCollections.addAll(
                         Stream.iterate(0, q -> q+1)
                         .limit(4)
-                        .map(q ->  new Collection(
+                        .map(q ->  new DataCollection(
                                 createIdOperationToIdCollection(operation.getId(), q.toString()),
                                 operation.getLabel().get(0).getContenu() + "trimestre "+q.toString(),
                                 operation.getId(),
@@ -69,11 +72,11 @@ public class MetadataConverter {
         }
 
 
-        return collections;
+        return dataCollections;
     };
 
-    public static CollectionContext createCollectionContext(String idCollection, Operation operation){
-        return new CollectionContext(
+    public static DataCollectionContext createDataCollectionContext(String idCollection, Operation operation){
+        return new DataCollectionContext(
                 idCollection,
                 operation.getSerie().getId(),
                 operation.getId()

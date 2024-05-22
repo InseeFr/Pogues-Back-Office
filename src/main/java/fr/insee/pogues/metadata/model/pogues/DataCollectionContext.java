@@ -8,7 +8,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class CollectionContext {
+public class DataCollectionContext {
     String dataCollectionId;
     String serieId;
     String operationId;

@@ -1,7 +1,6 @@
 package fr.insee.pogues.metadata;
 
 import fr.insee.pogues.metadata.client.DDIASClient;
-import fr.insee.pogues.metadata.model.ColecticaItem;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.repository.MetadataRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;

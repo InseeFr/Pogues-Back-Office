@@ -1,6 +1,6 @@
 package fr.insee.pogues.metadata.client;
 
-import fr.insee.pogues.metadata.model.Unit;
+import fr.insee.pogues.metadata.model.ddias.Unit;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

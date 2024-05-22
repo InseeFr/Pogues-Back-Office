@@ -2,7 +2,7 @@ package fr.insee.pogues.metadata.repository;
 
 import fr.insee.pogues.metadata.client.DDIASClient;
 import fr.insee.pogues.metadata.client.MagmaClient;
-import fr.insee.pogues.metadata.model.Unit;
+import fr.insee.pogues.metadata.model.ddias.Unit;
 import fr.insee.pogues.metadata.model.magma.Operation;
 import fr.insee.pogues.metadata.model.magma.Serie;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,15 +13,21 @@ import java.util.List;
 @Service
 public class MetadataRepositoryImpl implements MetadataRepository {
 
+	/**
+	 * DDIAS (DDI Access Service) Client is used of units & codeLists (suggester)
+	 */
 	@Autowired
-    DDIASClient DDIASClient;
+    DDIASClient ddiasClient;
 
+	/**
+	 * Magma Client is used of operations & series
+	 */
 	@Autowired
 	MagmaClient magmaClient;
 
 	@Override
 	public List<Unit> getUnits() throws Exception {
-		return DDIASClient.getUnits();
+		return ddiasClient.getUnits();
 	}
 
 	@Override
@@ -35,7 +41,7 @@ public class MetadataRepositoryImpl implements MetadataRepository {
 	}
 
 	@Override
-	public Operation getOperationByIdOperation(String idOperation) throws Exception {
-		return magmaClient.getOperationByIdOperation(idOperation);
+	public Operation getOperationById(String idOperation) throws Exception {
+		return magmaClient.getOperationById(idOperation);
 	}
 }

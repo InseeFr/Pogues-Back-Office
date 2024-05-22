@@ -12,7 +12,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Collection {
+public class DataCollection {
     private String id;
     private String label;
     private String parent;

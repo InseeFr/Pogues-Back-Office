@@ -20,25 +20,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/meta-data")
+@RequestMapping("/api")
 @Tag(name = "3. Search to MetaData repository")
 @Slf4j
 public class MetadataController {
 
-
     @Autowired
     MetadataService metadataService;
 
-    @GetMapping("units")
+    @GetMapping("meta-data/units")
     @Operation(operationId = "getUnits", summary = "Get units measure", description = "This will give a list of objects containing the uri and the label for all units", responses = {
             @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = Unit.class))) })
     public ResponseEntity<List<Unit>> getUnits() throws Exception {
-        List<Unit> units = new ArrayList<>();
-        try {
-            units = metadataService.getUnits();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+        List<Unit> units = metadataService.getUnits();
         return ResponseEntity.status(HttpStatus.OK).body(units);
     }
 }
