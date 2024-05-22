@@ -1,13 +1,12 @@
 package fr.insee.pogues.search.service;
 
-import java.util.List;
-
-import org.springframework.util.MultiValueMap;
-
 import fr.insee.pogues.search.model.DDIItem;
 import fr.insee.pogues.search.model.DataCollectionContext;
 import fr.insee.pogues.search.model.PoguesQuery;
 import fr.insee.pogues.search.model.ResponseSearchItem;
+import org.springframework.util.MultiValueMap;
+
+import java.util.List;
 
 
 public interface SearchService {

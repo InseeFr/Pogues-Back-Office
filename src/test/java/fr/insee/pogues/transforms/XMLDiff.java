@@ -1,5 +1,6 @@
 package fr.insee.pogues.transforms;
 
+import fr.insee.pogues.transforms.visualize.ModelTransformer;
 import org.xmlunit.builder.DiffBuilder;
 import org.xmlunit.builder.Input;
 import org.xmlunit.diff.Diff;
@@ -14,9 +15,9 @@ import java.io.OutputStream;
  */
 public class XMLDiff {
 
-    private Transformer transformer;
+    private ModelTransformer transformer;
 
-    public XMLDiff(Transformer transformer) {
+    public XMLDiff(ModelTransformer transformer) {
         this.transformer = transformer;
     }
     
@@ -26,8 +27,7 @@ public class XMLDiff {
         OutputStream output = null;
         try {
             expected = XMLDiff.class.getClassLoader().getResourceAsStream(expectedFilePath);
-            output = new ByteArrayOutputStream();
-            transformer.transform(input, output,null, "test");
+            output = transformer.transform(input, null, "test");
             return DiffBuilder
                     .compare(Input.fromStream(expected))
                     .withTest(new String(((ByteArrayOutputStream) output).toByteArray(), "UTF-8"))

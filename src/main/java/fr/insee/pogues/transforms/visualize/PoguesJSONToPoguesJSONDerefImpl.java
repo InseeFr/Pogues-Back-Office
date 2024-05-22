@@ -1,33 +1,27 @@
 package fr.insee.pogues.transforms.visualize;
 
-import fr.insee.pogues.exception.NullReferenceException;
+import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
-import fr.insee.pogues.transforms.visualize.composition.QuestionnaireComposition;
-import fr.insee.pogues.utils.json.JSONFunctions;
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
+import fr.insee.pogues.utils.suggester.SuggesterVisuTreatment;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
 import java.util.Map;
 
+import static fr.insee.pogues.utils.IOStreamsUtils.*;
+import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+
 @Service
+@Slf4j
 public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDeref{
 
-    static final Logger logger = LogManager.getLogger(PoguesJSONToPoguesJSONDerefImpl.class);
-
     private static final String NULL_INPUT_MESSAGE = "Null input";
-    private static final String NULL_OUTPUT_MESSAGE = "Null output";
 
     @Autowired
     QuestionnairesService questionnairesService;
@@ -39,48 +33,29 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
     }
 
     @Override
-    public void transform(InputStream input, OutputStream output, Map<String, Object> params, String surveyName) throws Exception {
-        if (null == input) {
-            throw new NullPointerException(NULL_INPUT_MESSAGE);
-        }
-        if (null == output) {
-            throw new NullPointerException(NULL_OUTPUT_MESSAGE);
-        }
-        String jsonDeref = transform(input, params, surveyName);
-        output.write(jsonDeref.getBytes(StandardCharsets.UTF_8));
-    }
-
-    @Override
-    public String transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
-        if (null == input) {
-            throw new NullPointerException(NULL_INPUT_MESSAGE);
-        }
-        return transform(IOUtils.toString(input, StandardCharsets.UTF_8), params, surveyName);
-    }
-
-    @Override
-    public String transform(String input, Map<String, Object> params, String surveyName) throws Exception {
+    public ByteArrayOutputStream transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
         if (null == input) {
             throw new NullPointerException(NULL_INPUT_MESSAGE);
         }
         // TODO: This parameter could be replaced by logical check in back-office
         // (when Pogues-Model supports "childQuestionnaireRef")
         if (!(boolean) params.get("needDeref")) {
-            logger.info("No de-referencing needed");
-            return input;
+            log.info("No de-referencing needed");
+            return input2Output(input);
         }
-        Questionnaire questionnaire = transformAsQuestionnaire(input);
-        return PoguesSerializer.questionnaireJavaToString(questionnaire);
+        Questionnaire questionnaire = transformAsQuestionnaire(inputStream2String(input));
+        // Update nomenclatureIds with ids from references
+        params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(questionnaire));
+        String questionnaireAsString = PoguesSerializer.questionnaireJavaToString(questionnaire);
+        return string2BOAS(questionnaireAsString);
     }
 
     public Questionnaire transformAsQuestionnaire(String input) throws Exception {
         if (null == input) {
             throw new NullPointerException(NULL_INPUT_MESSAGE);
         }
-        // Parse Pogues json questionnaire
-        JSONParser parser = new JSONParser();
-        JSONObject jsonQuestionnaire = (JSONObject) parser.parse(input);
-        JSONObject questionnaireWithRef = questionnairesService.getQuestionnaireWithReferences(jsonQuestionnaire);
+        JsonNode jsonQuestionnaire = jsonStringtoJsonNode(input);
+        JsonNode questionnaireWithRef = questionnairesService.getQuestionnaireWithReferences(jsonQuestionnaire);
         return PoguesDeserializer.questionnaireToJavaObject(questionnaireWithRef);
     }
 
