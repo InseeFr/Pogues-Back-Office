@@ -1,12 +1,12 @@
 package fr.insee.pogues.webservice.rest;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.json.simple.JSONObject;
+import com.fasterxml.jackson.databind.node.JsonNodeFactory;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -15,45 +15,48 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
-
 @RestController
 @RequestMapping("/api/env")
-@Tag(name = "Pogues Environment")
-@SecurityRequirement(name = "bearerAuth")
+@Tag(name = "1. Public Resources")
+@Slf4j
 public class PoguesEnvironment {
-
-	private final static Logger logger = LogManager.getLogger(PoguesEnvironment.class);
 
 	@Autowired
 	Environment env;
 
 	@GetMapping("")
-	@Produces(MediaType.APPLICATION_JSON)
 	@Operation(operationId = "getEnvironment", summary = "Get pogues back office environment")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "401", description = "Unauthorized"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
-	public ResponseEntity<Object> getEnvironment() throws Exception {
+	public ResponseEntity<ObjectNode> getEnvironment() throws Exception {
 		try {
-			JSONObject entity = new JSONObject();
-			entity.put("Swagger Host", env.getProperty("fr.insee.pogues.api.host"));
-			entity.put("Swagger Name", env.getProperty("fr.insee.pogues.api.name"));
-			entity.put("Swagger Scheme", env.getProperty("fr.insee.pogues.api.scheme"));
-			entity.put("Database", env.getProperty("fr.insee.pogues.persistence.database.host"));
-			entity.put("Metadata services", env.getProperty("fr.insee.pogues.api.remote.metadata.url"));
-			entity.put("Eno Webservice", env.getProperty("fr.insee.pogues.api.remote.eno.host"));
-			entity.put("Stromae", env.getProperty("fr.insee.pogues.api.remote.stromae.host"));
-			entity.put("Stromae v2", env.getProperty("fr.insee.pogues.api.remote.stromaev2.vis.host"));			
-			entity.put("Stromae v3", env.getProperty("fr.insee.pogues.api.remote.stromaev3.vis.host"));
-			entity.put("Queen", env.getProperty("fr.insee.pogues.api.remote.queen.vis.host"));
+			ObjectNode entity = JsonNodeFactory.instance.objectNode();
+
+			entity.put("Eno Webservice", env.getProperty("application.eno.host"));
+
+			ObjectNode visu = JsonNodeFactory.instance.objectNode();
+			visu.put("Stromae v1", env.getProperty("application.stromae.orbeon.host"));
+			visu.put("Exist DB", env.getProperty("application.stromae.host"));
+			visu.put("Stromae v2", env.getProperty("application.stromaev2.vis.host"));
+			visu.put("Stromae v3", env.getProperty("application.stromaev3.vis.host"));
+			visu.put("Queen", env.getProperty("application.queen.vis.host"));
+			visu.put("API Questionnaire", env.getProperty("application.api.nomenclatures"));
+			entity.put("Visualization",visu);
+
+			ObjectNode external = JsonNodeFactory.instance.objectNode();
+			external.put("Metadata services - DDI.AS",env.getProperty("application.metadata.ddi-as"));
+			external.put("Metadata services - Magma",env.getProperty("application.metadata.magma"));
+			entity.put("External Services",external);
+
+			ObjectNode auth = JsonNodeFactory.instance.objectNode();
+			auth.put("enabled",env.getProperty("feature.oidc.enabled"));
+			auth.put("server",env.getProperty("feature.oidc.auth-server-url"));
+			auth.put("realm",env.getProperty("feature.oidc.realm"));
+			entity.put("Authentication", auth);
 			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
-			logger.error(e.getMessage(), e);
+			log.error(e.getMessage(), e);
 			throw e;
 		}
 

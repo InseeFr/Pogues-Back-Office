@@ -1,5 +1,3 @@
 package fr.insee.pogues.transforms.visualize;
 
-import fr.insee.pogues.transforms.Transformer;
-
-public interface PoguesJSONToPoguesXML extends Transformer { }
+public interface PoguesJSONToPoguesXML extends ModelTransformer { }

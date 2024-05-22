@@ -1,38 +1,36 @@
 package fr.insee.pogues.transforms;
 
-import org.apache.commons.io.IOUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import static fr.insee.pogues.utils.IOStreamsUtils.output2Input;
+
+@Slf4j
 public class PipeLine {
 
-
-    private String output;
+    private ByteArrayOutputStream output;
     private final List<Runnable> transforms = new ArrayList<>();
-    static final Logger logger = LogManager.getLogger(PipeLine.class);
 
     public PipeLine from(InputStream input) throws Exception {
-        output = IOUtils.toString(input, StandardCharsets.UTF_8);
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byteArrayOutputStream.write(input.readAllBytes());
+        input.close();
+        output = byteArrayOutputStream;
         return this;
     }
 
-    public PipeLine from(String input) {
-        this.output = input;
-        return this;
-    }
-
-    public PipeLine map(Transform<String, String> t, Map<String, Object> params, String surveyName) throws Exception {
+    public PipeLine map(Transform<InputStream, ByteArrayOutputStream> t, Map<String, Object> params, String surveyName) throws Exception {
         transforms.add(() -> {
             try {
-                output = t.apply(output, params, surveyName);
+                InputStream input = output2Input(output);
+                output = t.apply(input, params, surveyName);
             } catch (Exception e) {
-                logger.error(String.format("While applying transform to survey %s with params %s",surveyName, params));
+                log.error(String.format("While applying transform to survey %s with params %s",surveyName, params));
                 throw new RuntimeException("Exception occured while executing mapping function ", e);
             }
         });
@@ -40,7 +38,7 @@ public class PipeLine {
     }
 
 
-    public String transform() throws Exception {
+    public ByteArrayOutputStream transform() throws Exception {
         for (Runnable t : transforms) {
             t.run();
         }
