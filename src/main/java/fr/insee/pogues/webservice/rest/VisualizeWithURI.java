@@ -103,7 +103,7 @@ public class VisualizeWithURI {
         params.put("needDeref", ref);
         params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
         URI uri;
-        ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+        ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
                 .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
@@ -147,7 +147,7 @@ public class VisualizeWithURI {
         params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
 
         URI uri;
-        ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+        ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
                 .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
@@ -171,7 +171,7 @@ public class VisualizeWithURI {
         params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
         params.put("dsfr", true);
         URI uri;
-        ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream("{}".getBytes(StandardCharsets.UTF_8)))
+        ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
                 .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
@@ -192,7 +192,7 @@ public class VisualizeWithURI {
         params.put("dataCollection", dataCollection.toLowerCase());
         params.put("questionnaire", questionnaire.toLowerCase());
         URI uri;
-        ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+        ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
                 .map(ddiToXForm::transform, params, questionnaire.toLowerCase())
                 .transform();
         uri = xformToUri.transform(output2Input(outputStream), params, questionnaire.toLowerCase());
