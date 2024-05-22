@@ -3,11 +3,11 @@ name: Pogues Back Office release
 on:
   push:
     branches:
-      - 'main'
-    paths-ignore: ['docs/**', 'Dockerfile', 'LICENSE', 'CHANGELOG.md', 'README.md']
+      - "main"
+    paths-ignore:
+      ["docs/**", "Dockerfile", "LICENSE", "CHANGELOG.md", "README.md"]
 
 jobs:
-
   check-version:
     runs-on: ubuntu-latest
     outputs:
@@ -16,8 +16,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          distribution: "temurin"
+          java-version: "21"
 
       - name: Checkout Pogues-Back-Office repo
         uses: actions/checkout@v4
@@ -55,8 +55,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          distribution: "temurin"
+          java-version: "21"
 
       - uses: actions/checkout@v4
       - name: Build Pogues-Back-Office with Maven
@@ -69,7 +69,7 @@ jobs:
           path: target/pogues-bo.jar
 
   create-release:
-    needs: [ check-version, build-sources ]
+    needs: [check-version, build-sources]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -98,7 +98,7 @@ jobs:
           excludeTypes: docs,style,chore,other
           token: ${{ secrets.GITHUB_TOKEN }}
           writeToFile: true
-          changelogFilePath: 'CHANGELOG.md'
+          changelogFilePath: "CHANGELOG.md"
 
       - name: Download jar
         id: download
@@ -118,15 +118,15 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit changelog file
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          branch: 'main'
-          commit_message: 'docs(changelog): ${{ needs.check-version.outputs.release-version }} update [skip ci]'
-          file_pattern: 'CHANGELOG.md'
+      # - name: Commit changelog file
+      #   uses: stefanzweifel/git-auto-commit-action@v5
+      #   with:
+      #     branch: 'main'
+      #     commit_message: 'docs(changelog): ${{ needs.check-version.outputs.release-version }} update [skip ci]'
+      #     file_pattern: 'CHANGELOG.md'
 
   publish-docker:
-    needs: [ check-version, create-release ]
+    needs: [check-version, create-release]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
