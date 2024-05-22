@@ -77,7 +77,7 @@ public class ModelTransform {
 			StreamingResponseBody stream = output -> {
 				try {
 					output.write(
-							pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+							pipeline.from(string2InputStream(request))
 									.map(jsonToJsonDeref::transform, params, questionnaireName)
 									.map(jsonToXML::transform, params, questionnaireName)
 									.map(poguesXMLToDDI::transform, params, questionnaireName)
@@ -108,7 +108,7 @@ public class ModelTransform {
 			StreamingResponseBody stream = output -> {
 				try {
 					output.write(
-							pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+							pipeline.from(string2InputStream(request))
 									.map(jsonToJsonDeref::transform, params, questionnaireName)
 									.map(jsonToXML::transform, params, questionnaireName)
 									.map(poguesXMLToDDI::transform, params, questionnaireName).transform().toByteArray());
@@ -136,7 +136,7 @@ public class ModelTransform {
 
 		StreamingResponseBody stream = output -> {
             try {
-                output.write(pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+                output.write(pipeline.from(string2InputStream(request))
                         .map(jsonToJsonDeref::transform, params, questionnaireName)
                         .map(jsonToXML::transform, params, questionnaireName)
                         .map(poguesXMLToDDI::transform, params, questionnaireName)
@@ -181,7 +181,7 @@ public class ModelTransform {
 
 		StreamingResponseBody stream = output -> {
             try {
-                output.write(pipeline.from(new ByteArrayInputStream(questDDI.getBytes(StandardCharsets.UTF_8)))
+                output.write(pipeline.from(string2InputStream(questDDI))
                         .map(ddiToFo::transform, params, questionnaireName)
                         .map(foToPdf::transform, params, questionnaireName)
                         .transform().toByteArray());
@@ -205,7 +205,7 @@ public class ModelTransform {
 		StreamingResponseBody stream = output -> {
 
             try {
-                output.write(pipeline.from(new ByteArrayInputStream(questFO.getBytes(StandardCharsets.UTF_8)))
+                output.write(pipeline.from(string2InputStream(questFO))
                         .map(foToPdf::transform, params, questionnaireName)
                         .transform().toByteArray());
             } catch (Exception e) {
@@ -225,7 +225,7 @@ public class ModelTransform {
 	})
 	public ResponseEntity<StreamingResponseBody> json2XML(@RequestBody String questJson) throws Exception {
 		String questionnaire = "xforms";
-		return transform(new ByteArrayInputStream(questJson.getBytes(StandardCharsets.UTF_8)), jsonToXML,
+		return transform(string2InputStream(questJson), jsonToXML,
 				questionnaire, MediaType.APPLICATION_XML);
 	}
 
@@ -248,7 +248,9 @@ public class ModelTransform {
 			@ApiResponse(responseCode = "500", description = "Error") })
 	@ResponseBody
 	public ResponseEntity<String> jsonRef2JsonDeref(@RequestBody String questJson) throws Exception {
-		ByteArrayOutputStream result = jsonToJsonDeref.transform(string2InputStream(questJson), Map.of("needDeref", true), null);
+		Map<String, Object> params = new HashMap<>();
+		params.put("needDeref", true);
+		ByteArrayOutputStream result = jsonToJsonDeref.transform(string2InputStream(questJson), params, null);
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(result.toString(StandardCharsets.UTF_8));
 	}
 
