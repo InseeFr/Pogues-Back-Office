@@ -22,7 +22,7 @@
 		<final.asset.name>pogues-bo</final.asset.name>
 		<pogues-model.version>1.3.7</pogues-model.version>
 		<fop.version>2.9</fop.version>
-		<springdoc-openapi-ui.version>2.0.4</springdoc-openapi-ui.version>
+		<springdoc-openapi-ui.version>2.5.0</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.12</jacoco.version>
 		<saxon.version>12.4</saxon.version>
 
