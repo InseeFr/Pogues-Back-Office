@@ -1,10 +1,13 @@
 package fr.insee.pogues.metadata.repository;
 
-import fr.insee.pogues.metadata.client.MetadataClient;
-import fr.insee.pogues.metadata.model.ColecticaItem;
-import fr.insee.pogues.metadata.model.ColecticaItemRefList;
-import fr.insee.pogues.metadata.model.Unit;
+import fr.insee.pogues.configuration.cache.CacheName;
+import fr.insee.pogues.metadata.client.DDIASClient;
+import fr.insee.pogues.metadata.client.MagmaClient;
+import fr.insee.pogues.metadata.model.ddias.Unit;
+import fr.insee.pogues.metadata.model.magma.Operation;
+import fr.insee.pogues.metadata.model.magma.Serie;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,36 +15,45 @@ import java.util.List;
 @Service
 public class MetadataRepositoryImpl implements MetadataRepository {
 
+	/**
+	 * DDIAS (DDI Access Service) Client is used of units & codeLists (suggester)
+	 */
 	@Autowired
-	MetadataClient metadataClient;
+    DDIASClient ddiasClient;
+
+	/**
+	 * Magma Client is used of operations & series
+	 */
+	@Autowired
+	MagmaClient magmaClient;
 
 	@Override
-	public ColecticaItem findById(String id) throws Exception {
-		return metadataClient.getItem(id);
-	}
-
-	@Override
-	public ColecticaItemRefList getChildrenRef(String id) throws Exception {
-		return metadataClient.getChildrenRef(id);
-	}
-
-	@Override
-	public List<ColecticaItem> getItems(ColecticaItemRefList refs) throws Exception {
-		return metadataClient.getItems(refs);
-	}
-
-	@Override
+	@Cacheable(CacheName.UNITS)
 	public List<Unit> getUnits() throws Exception {
-		return metadataClient.getUnits();
+		return ddiasClient.getUnits();
 	}
 
 	@Override
-	public String getDDIDocument(String id) throws Exception {
-		return metadataClient.getDDIDocument(id);
+	@Cacheable(CacheName.SERIES)
+	public List<Serie> getSeries() throws Exception {
+		return magmaClient.getSeries();
 	}
 
 	@Override
-	public String getCodeList(String id) throws Exception {
-		return metadataClient.getCodeList(id);
+	@Cacheable(CacheName.SERIE)
+	public Serie getSerieById(String id) throws Exception {
+		return magmaClient.getSerieById(id);
+	}
+
+	@Override
+	@Cacheable(CacheName.OPERATIONS)
+	public List<Operation> getOperationsByIdSerie(String idSerie) throws Exception {
+		return magmaClient.getOperationsByIdSerie(idSerie);
+	}
+
+	@Override
+	@Cacheable(CacheName.OPERATION)
+	public Operation getOperationById(String idOperation) throws Exception {
+		return magmaClient.getOperationById(idOperation);
 	}
 }

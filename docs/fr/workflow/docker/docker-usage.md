@@ -90,7 +90,7 @@ L'API Colectica contourne un certain nombre de principes des architectures REST 
 
 #### Réécriture d'URL
 
-Pour prendre l'exemple de la resources /items, cette resource est définie par json-server à partir de la clef items définie dans le fichier db.json et de la collection associée.
+Pour prendre l'exemple de la resources /items, cette resource est définie par json-server à partir de la clef items définie dans le fichier db.json et de la dataCollection associée.
 
 Pour faire correspondre cette url de resource à l'URL appelée en production on éditera le fichier routes.json de la manière suivante:
 

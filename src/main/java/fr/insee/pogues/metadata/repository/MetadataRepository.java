@@ -1,22 +1,15 @@
 package fr.insee.pogues.metadata.repository;
 
-import fr.insee.pogues.metadata.model.ColecticaItem;
-import fr.insee.pogues.metadata.model.ColecticaItemRefList;
-import fr.insee.pogues.metadata.model.Unit;
+import fr.insee.pogues.metadata.model.ddias.Unit;
+import fr.insee.pogues.metadata.model.magma.Operation;
+import fr.insee.pogues.metadata.model.magma.Serie;
 
 import java.util.List;
 
 public interface MetadataRepository {
-
-	ColecticaItem findById(String id) throws Exception;
-
-	ColecticaItemRefList getChildrenRef(String id) throws Exception;
-
-	List<ColecticaItem> getItems(ColecticaItemRefList refs) throws Exception;
-
 	List<Unit> getUnits() throws Exception;
-
-	String getDDIDocument(String id) throws Exception;
-
-	String getCodeList(String id) throws Exception;
+	List<Serie> getSeries() throws Exception;
+	Serie getSerieById(String id) throws Exception;
+	List<Operation> getOperationsByIdSerie(String idSerie) throws Exception;
+	Operation getOperationById(String idOperation) throws Exception;
 }

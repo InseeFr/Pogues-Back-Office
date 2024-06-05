@@ -1,7 +1,8 @@
 package fr.insee.pogues.search;
 
-import fr.insee.pogues.search.repository.PoguesItemRepository;
-import fr.insee.pogues.search.service.SearchServiceImpl;
+import fr.insee.pogues.metadata.repository.MetadataRepository;
+import fr.insee.pogues.metadata.service.MetadataService;
+import fr.insee.pogues.metadata.service.MetadataServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -12,13 +13,13 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class TestSearchService {
 
     @Mock
-    PoguesItemRepository repository;
+    MetadataRepository repository;
     @InjectMocks
-    SearchServiceImpl service;
+    MetadataService service;
 
     @BeforeEach
     public void setUp() {
-        service = spy(new SearchServiceImpl()); // <- class under test
+        service = spy(new MetadataServiceImpl()); // <- class under test
         initMocks(this);
     }
 
