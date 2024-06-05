@@ -41,7 +41,7 @@ public class MetadataController {
 
     @GetMapping("search/series")
     @Operation(operationId = "getSeries", summary = "Get all series", description = "This will give a list of series via magma", responses = {
-            @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = Serie.class))) })
+            @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = DataCollection.class))) })
     public ResponseEntity<List<DataCollection>> getSeries() throws Exception {
         List<DataCollection> series = metadataService.getSeries();
         return ResponseEntity.status(HttpStatus.OK).body(series);
@@ -49,7 +49,7 @@ public class MetadataController {
 
     @GetMapping("search/series/{id}/operations")
     @Operation(operationId = "getOperationsBySerie", summary = "Get operations by serie id", description = "This will give a list of operations according to serie id via magma", responses = {
-            @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = Serie.class))) })
+            @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = DataCollection.class))) })
     public ResponseEntity<List<DataCollection>> getOperationsBySerie(@PathVariable(value = "id") String id) throws Exception {
         List<DataCollection> operations = metadataService.getOperationsByIdSerie(id);
         return ResponseEntity.status(HttpStatus.OK).body(operations);
@@ -65,7 +65,7 @@ public class MetadataController {
 
     @GetMapping("search/context/collection/{id}")
     @Operation(operationId = "getCollectionContextFromIdCollection", summary = "Get dataCollection context by data-collection id", description = "This will give a the context of data-collection according its id", responses = {
-            @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = DataCollectionContext.class))) })
+            @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(implementation = DataCollectionContext.class))) })
     public ResponseEntity<DataCollectionContext> getCollectionContextFromIdCollection(@PathVariable(value = "id") String id) throws Exception {
         DataCollectionContext dataCollectionContext = metadataService.getCollectionContextFromIdCollection(id);
         return ResponseEntity.status(HttpStatus.OK).body(dataCollectionContext);
