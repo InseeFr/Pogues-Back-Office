@@ -9,6 +9,7 @@ import java.util.List;
 public interface MetadataRepository {
 	List<Unit> getUnits() throws Exception;
 	List<Serie> getSeries() throws Exception;
+	Serie getSerieById(String id) throws Exception;
 	List<Operation> getOperationsByIdSerie(String idSerie) throws Exception;
 	Operation getOperationById(String idOperation) throws Exception;
 }
