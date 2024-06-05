@@ -1,12 +1,16 @@
 package fr.insee.pogues.metadata;
 
 import fr.insee.pogues.metadata.client.DDIASClient;
+import fr.insee.pogues.metadata.model.ddias.Unit;
+import fr.insee.pogues.metadata.model.pogues.DataCollection;
 import fr.insee.pogues.metadata.repository.MetadataRepository;
 import fr.insee.pogues.metadata.repository.MetadataRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.spy;
@@ -30,10 +34,9 @@ class TestMetadataRepository {
 
     @Test
     void findByIdTest() throws Exception {
-        ColecticaItem expected = new ColecticaItem();
-        expected.setIdentifier("foo");
-        when(DDIASClient.getItem(expected.getIdentifier())).thenReturn(expected);
-        ColecticaItem actual = metadataRepository.findById(expected.getIdentifier());
-        assertEquals(expected.getIdentifier(), actual.getIdentifier());
+        List<Unit> expectedUnits = List.of(new Unit("fake-uri", "fake-label"));
+        when(DDIASClient.getUnits()).thenReturn(expectedUnits);
+        List<Unit> actualUnits = metadataRepository.getUnits();
+        assertEquals(expectedUnits, actualUnits);
     }
 }
