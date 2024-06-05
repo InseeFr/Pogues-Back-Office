@@ -6,9 +6,17 @@ public enum FrequenceType {
     A3("Triennial"),
     M("Monthly"),
     A("Annual"),
+    B("Daily - business week"),
+    D("Daily"),
+    H("Hourly"),
+    I("Biennial"),
+    N("Minutely"),
+    L("Sub-annual"),
+    S("Half-yearly, semester"),
     Q("Quarterly"),
     T("Bimonthly"),
-    C("Continuous");
+    C("Continuous"),
+    W("Weekly");
 
     public final String label;
 
