@@ -1,6 +1,7 @@
 package fr.insee.pogues.metadata.service;
 
 import fr.insee.pogues.metadata.model.ddias.Unit;
+import fr.insee.pogues.metadata.model.magma.Frequence;
 import fr.insee.pogues.metadata.model.magma.Operation;
 import fr.insee.pogues.metadata.model.magma.Serie;
 import fr.insee.pogues.metadata.model.pogues.DataCollection;
@@ -27,19 +28,23 @@ public class MetadataServiceImpl implements MetadataService {
     }
 
     @Override
-    public List<Serie> getSeries() throws Exception {
-        return metadataRepository.getSeries();
+    public List<DataCollection> getSeries() throws Exception {
+        List<Serie> series = metadataRepository.getSeries();
+        return createDataCollectionsFromSeries(series);
     }
 
     @Override
-    public List<Operation> getOperationsByIdSerie(String idSerie) throws Exception {
-        return metadataRepository.getOperationsByIdSerie(idSerie);
+    public List<DataCollection> getOperationsByIdSerie(String idSerie) throws Exception {
+        List<Operation> operations = metadataRepository.getOperationsByIdSerie(idSerie);
+        return createDataCollectionsFromOperations(operations);
     }
 
     @Override
     public List<DataCollection> getColletionsByIdOperation(String idOperation) throws Exception {
         Operation operation = metadataRepository.getOperationById(idOperation);
-        return createCollectionsFromOperation(operation);
+        Serie serie = metadataRepository.getSerieById(operation.getSerie().getId());
+        Frequence frequence = serie.getFrequence();
+        return createCollectionsFromOperation(operation, frequence);
     }
 
     @Override

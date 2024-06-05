@@ -36,6 +36,11 @@ public class MetadataRepositoryImpl implements MetadataRepository {
 	}
 
 	@Override
+	public Serie getSerieById(String id) throws Exception {
+		return magmaClient.getSerieById(id);
+	}
+
+	@Override
 	public List<Operation> getOperationsByIdSerie(String idSerie) throws Exception {
 		return magmaClient.getOperationsByIdSerie(idSerie);
 	}
