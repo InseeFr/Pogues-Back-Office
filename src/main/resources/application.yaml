@@ -146,5 +146,10 @@ feature:
     username-claim: name
   swagger:
     enabled: true
+  cache:
+    enabled: true
+    retention-time-in-days:
+      ddi-as: 30 # in days
+      magma: 7 # in days
 
 ################################

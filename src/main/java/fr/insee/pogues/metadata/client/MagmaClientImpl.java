@@ -57,14 +57,11 @@ public class MagmaClientImpl implements MagmaClient {
 
     @Override
     public Serie getSerieById(String id) throws Exception {
-        URI cleanedUri = UriComponentsBuilder
+        URI uri = UriComponentsBuilder
                 .fromHttpUrl(magmaHost)
                 .path(OPERATIONS_SERIE_PATH)
                 .pathSegment(id)
                 .build().toUri();
-        String uriString = cleanedUri.toString();
-        uriString = uriString + "/";
-        URI uri = UriComponentsBuilder.fromUriString(uriString).build().toUri();
         log.info("Call Magma with URI : {}", uri);
         try {
             Serie serie = webClient.get()
@@ -89,7 +86,6 @@ public class MagmaClientImpl implements MagmaClient {
                 .path(OPERATIONS_SERIE_PATH)
                 .pathSegment(id)
                 .pathSegment(OPERATIONS_PATH)
-                .queryParam("survey",true)
                 .build().toUri();
         log.info("Call Magma with URI : {}", uri);
         try {
