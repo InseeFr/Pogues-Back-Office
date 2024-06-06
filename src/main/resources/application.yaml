@@ -144,6 +144,7 @@ feature:
     role-claim: 'role-claim' # can be a json Path like 'deep.value.to.roles'
     stamp-claim: stamp
     username-claim: name
+    token-helper:
   swagger:
     enabled: true
   cache:
