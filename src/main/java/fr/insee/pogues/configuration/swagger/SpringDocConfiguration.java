@@ -22,6 +22,9 @@ import java.util.Arrays;
 @ConditionalOnProperty(value="feature.swagger.enabled", havingValue = "true")
 public class SpringDocConfiguration {
 
+    public static final String OAUTH2SCHEME = "oAuth2";
+    public static final String BEARERSCHEME = "bearerAuth";
+
     private static final Logger log = LoggerFactory.getLogger(SpringDocConfiguration.class);
     @Value("${application.pogues-model.version}")
     private String poguesModelVersion;
@@ -35,17 +38,30 @@ public class SpringDocConfiguration {
     @ConditionalOnProperty(name = "feature.oidc.enabled", havingValue = "true")
     protected OpenAPI oidcOpenAPI(OidcProperties oidcProperties, BuildProperties buildProperties) {
         String authUrl = oidcProperties.authServerUrl() + "/realms/" + oidcProperties.realm() + "/protocol/openid-connect";
-        String securitySchemeName = "oauth2";
 
         return generateOpenAPI(buildProperties)
-                .addSecurityItem(new SecurityRequirement().addList(securitySchemeName, Arrays.asList("read", "write")))
+                .addSecurityItem(new SecurityRequirement().addList(OAUTH2SCHEME, Arrays.asList("read", "write")))
+                .addSecurityItem(new SecurityRequirement().addList(BEARERSCHEME, Arrays.asList("read", "write")))
                 .components(
                         new Components()
-                                .addSecuritySchemes(securitySchemeName,
+                                .addSecuritySchemes(OAUTH2SCHEME,
                                         new SecurityScheme()
-                                                .name(securitySchemeName)
+                                                .name(OAUTH2SCHEME)
                                                 .type(SecurityScheme.Type.OAUTH2)
                                                 .flows(getFlows(authUrl))
+
+                                )
+                                .addSecuritySchemes(BEARERSCHEME,
+                                        new SecurityScheme()
+                                                .name(BEARERSCHEME)
+                                                .type(SecurityScheme.Type.HTTP)
+                                                .scheme("bearer")
+                                                .bearerFormat("JWT")
+                                                .description(
+                                                        String.format("You have to retrieve JWT token with oidc server, copy & paste here its value %s",
+                                                                oidcProperties.tokenHelper() != null && !oidcProperties.tokenHelper().isEmpty()
+                                                                        ? ": --> [Retrieve token here]("+oidcProperties.tokenHelper()+")"
+                                                                        : ""))
                                 )
                 );
 
