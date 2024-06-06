@@ -12,5 +12,6 @@ public record OidcProperties(
         String roleClaim,
         String clientId,
         String stampClaim,
-        String usernameClaim) {
+        String usernameClaim,
+        String tokenHelper) {
 }
