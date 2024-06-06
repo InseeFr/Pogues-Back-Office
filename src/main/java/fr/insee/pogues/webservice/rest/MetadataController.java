@@ -7,6 +7,7 @@ import fr.insee.pogues.metadata.model.pogues.DataCollection;
 import fr.insee.pogues.metadata.model.pogues.DataCollectionContext;
 import fr.insee.pogues.metadata.service.MetadataService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,7 +34,7 @@ public class MetadataController {
 
     @GetMapping("meta-data/units")
     @Operation(operationId = "getUnits", summary = "Get units measure", description = "This will give a list of objects containing the uri and the label for all units", responses = {
-            @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = Unit.class))) })
+            @ApiResponse(content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = Unit.class)))) })
     public ResponseEntity<List<Unit>> getUnits() throws Exception {
         List<Unit> units = metadataService.getUnits();
         return ResponseEntity.status(HttpStatus.OK).body(units);
@@ -41,7 +42,7 @@ public class MetadataController {
 
     @GetMapping("search/series")
     @Operation(operationId = "getSeries", summary = "Get all series", description = "This will give a list of series via magma", responses = {
-            @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = DataCollection.class))) })
+            @ApiResponse(content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = DataCollection.class)))) })
     public ResponseEntity<List<DataCollection>> getSeries() throws Exception {
         List<DataCollection> series = metadataService.getSeries();
         return ResponseEntity.status(HttpStatus.OK).body(series);
@@ -49,7 +50,7 @@ public class MetadataController {
 
     @GetMapping("search/series/{id}/operations")
     @Operation(operationId = "getOperationsBySerie", summary = "Get operations by serie id", description = "This will give a list of operations according to serie id via magma", responses = {
-            @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = DataCollection.class))) })
+            @ApiResponse(content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = DataCollection.class)))) })
     public ResponseEntity<List<DataCollection>> getOperationsBySerie(@PathVariable(value = "id") String id) throws Exception {
         List<DataCollection> operations = metadataService.getOperationsByIdSerie(id);
         return ResponseEntity.status(HttpStatus.OK).body(operations);
@@ -57,7 +58,7 @@ public class MetadataController {
 
     @GetMapping("search/operations/{id}/collections")
     @Operation(operationId = "getCollectionsByOperation", summary = "Get dataCollection by serie collection", description = "This will give a list of data-collections according to operation id via magma", responses = {
-            @ApiResponse(content = @Content(mediaType = "application/json", schema = @Schema(type = "List", implementation = DataCollection.class))) })
+            @ApiResponse(content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = DataCollection.class)))) })
     public ResponseEntity<List<DataCollection>> getDataCollectionByOperation(@PathVariable(value = "id") String id) throws Exception {
         List<DataCollection> operations = metadataService.getColletionsByIdOperation(id);
         return ResponseEntity.status(HttpStatus.OK).body(operations);
