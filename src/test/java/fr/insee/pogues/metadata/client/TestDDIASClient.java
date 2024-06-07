@@ -9,17 +9,17 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class TestMetadataClient {
+class TestDDIASClient {
 
     @Mock
     HttpClientBuilder clientFactory;
 
     @InjectMocks
-    MetadataClient metadataClient;
+    DDIASClient DDIASClient;
 
     @BeforeEach
     public void beforeEach(){
-        metadataClient = spy(new MetadataClientImpl());
+        DDIASClient = spy(new DDIASClientImpl());
         initMocks(this);
     }
 
