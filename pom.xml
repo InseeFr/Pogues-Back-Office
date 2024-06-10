@@ -25,6 +25,7 @@
 		<springdoc-openapi-ui.version>2.0.4</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.12</jacoco.version>
 		<saxon.version>12.4</saxon.version>
+		<liquibase.version>4.28.0</liquibase.version>
 
 		<caffeine.version>3.1.8</caffeine.version>
 
@@ -98,6 +99,11 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.liquibase</groupId>
+			<artifactId>liquibase-core</artifactId>
+			<version>${liquibase.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>fr.insee.pogues</groupId>
@@ -222,6 +228,22 @@
 						</configuration>
 					</execution>
 				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.liquibase</groupId>
+				<artifactId>liquibase-maven-plugin</artifactId>
+				<version>${liquibase.version}</version>
+				<configuration>
+					<changeLogFile>src/main/resources/db/master.xml</changeLogFile>
+					<defaultSchemaName>public</defaultSchemaName>
+					<driver>org.postgresql.Driver</driver>
+					<url>jdbc:postgresql://localhost:5432/queen</url>
+					<username></username>
+					<password></password>
+					<contexts>test,dev,prod</contexts>
+					<verbose>true</verbose>
+					<logging>debug</logging>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
