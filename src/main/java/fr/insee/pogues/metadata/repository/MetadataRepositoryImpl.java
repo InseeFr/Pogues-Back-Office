@@ -7,12 +7,17 @@ import fr.insee.pogues.metadata.model.ddias.Unit;
 import fr.insee.pogues.metadata.model.magma.Operation;
 import fr.insee.pogues.metadata.model.magma.Serie;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
+@ConditionalOnProperty(
+		value = "feature.mock.metadata",
+		havingValue = "false"
+)
 public class MetadataRepositoryImpl implements MetadataRepository {
 
 	/**

@@ -152,5 +152,7 @@ feature:
     retention-time-in-days:
       ddi-as: 30 # in days
       magma: 7 # in days
+  mock:
+    metadata: false
 
 ################################
