@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <changeSet author="admin (generated)" id="1718009836020-1">
+        <createTable tableName="ddi_group" ifNotExists="true">
+            <column name="id" type="VARCHAR">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="ddi_group_pkey"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1718009836020-2">
+        <createTable tableName="ddi_item" ifNotExists="true">
+            <column name="label" type="VARCHAR"/>
+            <column name="parent" type="VARCHAR"/>
+            <column name="id" type="VARCHAR">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_id"/>
+            </column>
+            <column name="groupid" type="VARCHAR"/>
+            <column name="subgroupid" type="VARCHAR"/>
+            <column name="studyunitid" type="VARCHAR"/>
+            <column name="datacollectionid" type="VARCHAR"/>
+            <column name="resourcepackageid" type="VARCHAR"/>
+            <column name="type" type="VARCHAR"/>
+            <column name="name" type="VARCHAR"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1718009836020-3">
+        <createTable tableName="pogues" ifNotExists="true">
+            <column name="id" type="TEXT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pogues_pkey"/>
+            </column>
+            <column name="data" type="JSONB"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1718009836020-4">
+        <createTable tableName="visu_lunatic" ifNotExists="true">
+            <column name="id" type="TEXT"/>
+            <column name="data_lunatic" type="JSONB"/>
+        </createTable>
+    </changeSet>
+</databaseChangeLog>
