@@ -21,6 +21,9 @@ public class CacheConfig {
     @Value("${feature.cache.retention-time-in-days.magma}")
     private long magmaCacheRetentionTime;
 
+    @Value("${feature.cache.retention-time-in-days.pogues.stamps}")
+    private long poguesStampsCacheRetentionTime;
+
     @Bean
     protected CaffeineCache unitsCacheCache() {
         return new CaffeineCache(CacheName.UNITS,
@@ -61,6 +64,15 @@ public class CacheConfig {
                 Caffeine.newBuilder()
                         .maximumSize(10000)
                         .expireAfterWrite(magmaCacheRetentionTime, TimeUnit.DAYS)
+                        .build());
+    }
+
+    @Bean
+    protected CaffeineCache stampsCache() {
+        return new CaffeineCache(CacheName.STAMPS,
+                Caffeine.newBuilder()
+                        .maximumSize(10000)
+                        .expireAfterWrite(poguesStampsCacheRetentionTime, TimeUnit.DAYS)
                         .build());
     }
 

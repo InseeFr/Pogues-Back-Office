@@ -103,6 +103,11 @@ spring:
   application:
     name: Pogues-Back-Office
   # DB
+  liquibase:
+    enabled: true
+    contexts: prod
+    defaultSchema: public
+    change-log: classpath:db/master.xml
   datasource:
     url: jdbc:postgresql://localhost:53941/pogues
     username: pogues
@@ -152,5 +157,7 @@ feature:
     retention-time-in-days:
       ddi-as: 30 # in days
       magma: 7 # in days
+      pogues:
+        stamps: 1 # in days
 
 ################################
