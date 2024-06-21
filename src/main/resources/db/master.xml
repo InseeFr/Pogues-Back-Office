@@ -10,4 +10,5 @@
     </changeSet>
     <!-- Init database -->
     <include file="changelog/000_init.xml" relativeToChangelogFile="true"/>
+    <include file="changelog/100_index_pogues.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
