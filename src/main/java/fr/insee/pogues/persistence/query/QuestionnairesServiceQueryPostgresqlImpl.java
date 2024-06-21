@@ -3,11 +3,13 @@ package fr.insee.pogues.persistence.query;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
+import fr.insee.pogues.configuration.cache.CacheName;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -139,29 +141,35 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 	 * @return metadata of a questionnaire : id, lastUpdatedDate, label, final, DataCollection and TargetMode
 	 */
 	public List<JsonNode> getMetaQuestionnaire(String owner) throws Exception {
-		String qString =
-				"SELECT CONCAT('{" +
-						"\"id\": ', data -> 'id',', " +
-						"\"Name\": ', data -> 'Name',', " +
-						"\"lastUpdatedDate\": ', data -> 'lastUpdatedDate',', " +
-						"\"Label\": ', data -> 'Label',', " +
-						"\"final\": ', data -> 'final',', " +
-						"\"DataCollection\": ', data -> 'DataCollection',', " +
-						"\"TargetMode\": ', data -> 'TargetMode',', " +
-						"\"flowLogic\": ', data -> 'flowLogic',', " +
-						"\"formulasLanguage\": ', data -> 'formulasLanguage','}') " +
-						"FROM pogues WHERE data ->> 'owner' = ? " +
-						"AND data -> 'Name' IS NOT NULL " +
-						"AND data -> 'TargetMode' IS NOT NULL " +
-						"AND data -> 'flowLogic' IS NOT NULL " +
-						"AND data -> 'formulasLanguage' IS NOT NULL"
-				;
+		String qString ="""
+				SELECT
+					jsonb_build_object(
+						'id', (data::jsonb)['id'],
+						'Name', (data::jsonb)['Name'],
+						'lastUpdatedDate', (data::jsonb)['lastUpdatedDate'],
+						'Label', (data::jsonb)['Label'],
+						'final', (data::jsonb)['final'],
+						'DataCollection', (data::jsonb)['DataCollection'],
+						'TargetMode', (data::jsonb)['TargetMode'],
+						'flowLogic', (data::jsonb)['flowLogic'],
+						'formulasLanguage', (data::jsonb)['formulasLanguage'])
+				FROM pogues WHERE (data ->> 'owner') = ? 
+					AND (data::jsonb)['Name'] IS NOT NULL
+					AND (data::jsonb)['TargetMode'] IS NOT NULL
+					AND (data::jsonb)['flowLogic'] IS NOT NULL
+					AND (data::jsonb)['formulasLanguage'] IS NOT NULL""";
 		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class, owner);
 		return pgToJSON(data);
 	}
 
+	@Cacheable(CacheName.STAMPS)
 	public List<JsonNode> getStamps() throws Exception {
-		String qString = "SELECT DISTINCT CONCAT('{\"id\": ',data -> 'owner',', \"label\": ',data -> 'owner','}')  FROM pogues WHERE data -> 'owner' IS NOT NULL";
+		String qString = """
+				SELECT jsonb_build_object('id', owner, 'label', owner) FROM
+					(SELECT DISTINCT
+						data ->> 'owner' as owner
+					FROM pogues WHERE (data ->> 'owner') IS NOT NULL);
+				""";
 		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class);
 		return pgToJSON(data);
 	}
