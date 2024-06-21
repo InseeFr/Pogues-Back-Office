@@ -168,7 +168,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 				SELECT jsonb_build_object('id', owner, 'label', owner) FROM
 					(SELECT DISTINCT
 						data ->> 'owner' as owner
-					FROM pogues WHERE (data ->> 'owner') IS NOT NULL);
+					FROM pogues WHERE (data ->> 'owner') IS NOT NULL) as owner_table;
 				""";
 		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class);
 		return pgToJSON(data);
