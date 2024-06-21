@@ -3,11 +3,13 @@ package fr.insee.pogues.persistence.query;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
+import fr.insee.pogues.configuration.cache.CacheName;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -160,6 +162,7 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		return pgToJSON(data);
 	}
 
+	@Cacheable(CacheName.STAMPS)
 	public List<JsonNode> getStamps() throws Exception {
 		String qString = """
 				SELECT jsonb_build_object('id', owner, 'label', owner) FROM
