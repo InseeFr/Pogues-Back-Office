@@ -2,7 +2,7 @@ package fr.insee.pogues.transforms.visualize.uri;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.utils.suggester.SuggesterVisuTreatment;
+import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +23,9 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 	@Autowired
 	private QuestionnairesService questionnaireService;
 
+	@Autowired
+	private SuggesterVisuService suggesterVisuService;
+
 	@Value("${application.host}")
 	private String apiHost;
 	
@@ -42,9 +45,6 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 	@Value("${application.queen.vis.queryparams.nomenclatures}")
 	private String queryParamsNomenclatures;
 
-	@Value("${application.api.nomenclatures}")
-	private String apiNomenclatures;
-
 	@Override
 	public URI transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
 		JsonNode jsonContent = jsonStringtoJsonNode(new String(input.readAllBytes(), StandardCharsets.UTF_8));
@@ -58,7 +58,7 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
         }
 
 		List<String> nomenclatureIds = (List<String>) params.get("nomenclatureIds");
-		String jsonStringNomenclaturesForVisu = SuggesterVisuTreatment.createJsonNomenclaturesForVisu(nomenclatureIds, apiNomenclatures).toString();
+		String jsonStringNomenclaturesForVisu = suggesterVisuService.createJsonNomenclaturesForVisu(nomenclatureIds).toString();
 		String urlGetJsonLunatic = String.format("%s://%s%s/api/persistence/questionnaire/json-lunatic/%s", apiScheme, apiHost, apiName, id);
 
 		return URI.create(String.format(
