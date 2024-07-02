@@ -7,6 +7,7 @@ import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.VariablesService;
+import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -51,6 +52,9 @@ public class PoguesPersistence {
     
     @Autowired
 	private VariablesService variablesService;
+
+	@Autowired
+	private SuggesterVisuService suggesterVisuService;
 
 	@Autowired
 	private UserProvider userProvider;
@@ -349,5 +353,26 @@ public class PoguesPersistence {
 		} else {
 			throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
 		}
+	}
+
+	@GetMapping("questionnaire/{id}/nomenclatures")
+	@Operation(
+			operationId  = "getNomenclaturesUrls",
+			summary = "Get object representation of id:url for suggester of a questionnaire",
+			description = "Gets the suggesters with questionnaire id {id}",
+			responses = {
+					@ApiResponse(content = @Content(mediaType = "application/json"))}
+	)
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "404", description = "Not found")
+	})
+	public ResponseEntity<JsonNode> getNomenclaturesUrls(
+			@PathVariable(value = "id") String id
+	) throws Exception {
+		JsonNode jsonPoguesQuestionnaire = questionnaireService.getQuestionnaireByIDWithReferences(id);
+		List<String> nomenclaturesIds = suggesterVisuService.getNomenclatureIdsFromQuestionnaire(String.valueOf(jsonPoguesQuestionnaire));
+		JsonNode nomenclaturesUrls = suggesterVisuService.createJsonNomenclaturesForVisu(nomenclaturesIds);
+		return ResponseEntity.status(HttpStatus.OK).body(nomenclaturesUrls);
 	}
 }

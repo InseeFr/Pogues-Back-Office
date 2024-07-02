@@ -10,7 +10,7 @@ import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriQueen;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV3;
 import fr.insee.pogues.transforms.visualize.uri.XFormsToURIStromaeV1;
-import fr.insee.pogues.utils.suggester.SuggesterVisuTreatment;
+import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -66,6 +66,9 @@ public class VisualizeWithURI {
     @Autowired
     PoguesJSONToPoguesJSONDeref jsonToJsonDeref;
 
+    @Autowired
+    SuggesterVisuService suggesterVisuService;
+
     private static final String CONTENT_DISPOSITION = HttpHeaders.CONTENT_DISPOSITION;
 
     @PostMapping(path = "visualize/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -101,7 +104,7 @@ public class VisualizeWithURI {
         Map<String, Object> params = new HashMap<>();
         params.put("mode", "CATI");
         params.put("needDeref", ref);
-        params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
+        params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
@@ -122,7 +125,7 @@ public class VisualizeWithURI {
         Map<String, Object> params = new HashMap<>();
         params.put("mode", "CAPI");
         params.put("needDeref", ref);
-        params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
+        params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
@@ -144,7 +147,7 @@ public class VisualizeWithURI {
         params.put("questionnaire", questionnaireName.toLowerCase());
         params.put("needDeref", ref);
         params.put("mode", "CAWI");
-        params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
+        params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
 
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
@@ -168,7 +171,7 @@ public class VisualizeWithURI {
         params.put("questionnaire", questionnaireName.toLowerCase());
         params.put("needDeref", ref);
         params.put("mode", "CAWI");
-        params.put("nomenclatureIds", SuggesterVisuTreatment.getNomenclatureIdsFromQuestionnaire(request));
+        params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
         params.put("dsfr", true);
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
