@@ -159,5 +159,7 @@ feature:
       magma: 7 # in days
       pogues:
         stamps: 1 # in days
+  webclient:
+    timeout: 120 # in seconds
 
 ################################
