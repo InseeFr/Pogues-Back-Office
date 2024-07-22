@@ -3,7 +3,7 @@ package fr.insee.pogues.webservice.rest;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
-import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
+import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,7 +36,7 @@ public class HealthCheck {
     EnoClient enoClient;
 
     @Autowired
-    private QuestionnairesServiceQuery questionnaireServiceQuery;
+    private QuestionnaireRepository questionnaireServiceQuery;
 
     @Autowired
     WebClient webClient;

@@ -1,4 +1,4 @@
-package fr.insee.pogues.persistence.query;
+package fr.insee.pogues.persistence.impl;
 
 /**
  * Created by acordier on 04/07/17.

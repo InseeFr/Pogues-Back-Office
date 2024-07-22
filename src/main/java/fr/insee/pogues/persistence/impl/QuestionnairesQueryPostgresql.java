@@ -1,9 +1,10 @@
-package fr.insee.pogues.persistence.query;
+package fr.insee.pogues.persistence.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
 import fr.insee.pogues.configuration.cache.CacheName;
+import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PGobject;
@@ -30,7 +31,7 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
  */
 @Service
 @Slf4j
-public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesServiceQuery {
+public class QuestionnairesQueryPostgresql implements QuestionnaireRepository {
 
 
 	@Value("${application.stamp.restricted}")

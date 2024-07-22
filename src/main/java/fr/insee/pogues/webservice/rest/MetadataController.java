@@ -2,7 +2,6 @@ package fr.insee.pogues.webservice.rest;
 
 
 import fr.insee.pogues.metadata.model.ddias.Unit;
-import fr.insee.pogues.metadata.model.magma.Serie;
 import fr.insee.pogues.metadata.model.pogues.DataCollection;
 import fr.insee.pogues.metadata.model.pogues.DataCollectionContext;
 import fr.insee.pogues.metadata.service.MetadataService;
