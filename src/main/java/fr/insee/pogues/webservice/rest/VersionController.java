@@ -8,6 +8,7 @@ import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.domain.entity.db.Version;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.VariablesService;
+import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * WebService class for the Instrument Persistence
@@ -45,6 +47,9 @@ import java.util.List;
 @Slf4j
 public class VersionController {
 
+    @Autowired
+    private VersionService versionService;
+
 
     @GetMapping("questionnaire/{poguesId}/versions")
     @Operation(
@@ -58,8 +63,8 @@ public class VersionController {
     })
     public List<Version> getVersionsByQuestionnaireId(
             @PathVariable(value = "poguesId") String poguesId,
-            @RequestParam(name = "withData", required = false, defaultValue = "false")  Boolean withData) {
-        return List.of();
+            @RequestParam(name = "withData", required = false, defaultValue = "false")  Boolean withData) throws Exception {
+        return versionService.getVersionsByQuestionnaireId(poguesId, withData);
     }
 
     @GetMapping("questionnaire/{poguesId}/version/last")
@@ -78,11 +83,23 @@ public class VersionController {
         return null;
     }
 
-    public JsonNode getVersionDataByVersionId(String versionId){
-        return null;
+    @PostMapping("questionnaire/restore")
+    @Operation(
+            operationId  = "getVersionByVersionId",
+            summary = "Get version by its id",
+            description = "Get version by its id, with or without data"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+    public Version restoreVersionByVersion(
+            @PathVariable(value = "versionId") UUID versionId,
+            @RequestParam(name = "withData", required = false, defaultValue = "false") Boolean withData) throws Exception {
+        return versionService.getVersionByVersionId(versionId, withData);
     }
 
-    @GetMapping("versions/{versionId}/version/last")
+    @GetMapping("version/{versionId}")
     @Operation(
             operationId  = "getVersionByVersionId",
             summary = "Get version by its id",
@@ -93,9 +110,9 @@ public class VersionController {
             @ApiResponse(responseCode = "404", description = "Not found")
     })
     public Version getVersionByVersionId(
-            @PathVariable(value = "versionId") String versionId,
-            @RequestParam(name = "withData", required = false, defaultValue = "false") Boolean withData){
-        return null;
+            @PathVariable(value = "versionId") UUID versionId,
+            @RequestParam(name = "withData", required = false, defaultValue = "false") Boolean withData) throws Exception {
+        return versionService.getVersionByVersionId(versionId, withData);
     }
 
     public void deleteVersionsByQuestionnaireId(String poguesId){

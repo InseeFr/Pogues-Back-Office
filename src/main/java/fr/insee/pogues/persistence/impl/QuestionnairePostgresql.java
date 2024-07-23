@@ -31,7 +31,7 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
  */
 @Service
 @Slf4j
-public class QuestionnairesQueryPostgresql implements QuestionnaireRepository {
+public class QuestionnairePostgresql implements QuestionnaireRepository {
 
 
 	@Value("${application.stamp.restricted}")
@@ -287,9 +287,8 @@ public class QuestionnairesQueryPostgresql implements QuestionnaireRepository {
 		String stamp = questionnaire.get("owner").asText();
 		if (isStampRestricted(stamp) && !stampsRestrictionsService.isQuestionnaireOwner(stamp)) {
 			isAuthorized=false;
-			log.info("{} questionnaire authorized",action);
 		}
-		log.info("{} questionnaire forbidden",action);
+		log.info("{} questionnaire {}",action, isAuthorized ? "authorized": "forbidden");
 		return isAuthorized;
 	}
 
