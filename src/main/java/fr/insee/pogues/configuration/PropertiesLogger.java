@@ -1,12 +1,12 @@
 package fr.insee.pogues.configuration;
 
-import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
-import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -18,15 +18,28 @@ import java.util.Set;
  * Display props in logs
  *
  */
+@Component
 @Slf4j
-public class PropertiesLogger implements ApplicationListener<ApplicationEnvironmentPreparedEvent> {
+public class PropertiesLogger {
 
     private static final Set<String> hiddenWords = Set.of("password", "pwd", "jeton", "token", "secret");
 
-    @Override
-    public void onApplicationEvent(@NonNull ApplicationEnvironmentPreparedEvent event) {
-        Environment environment = event.getEnvironment();
+    @EventListener
+    public void handleContextRefreshed(ContextRefreshedEvent event) {
+        log.info("===============================================================================================");
+        log.info("                                       Java memory                                             ");
+        log.info("===============================================================================================");
+        Runtime runtime = Runtime.getRuntime();
+        final long maxMemory = runtime.maxMemory();
+        final long allocatedMemory = runtime.totalMemory();
+        final long freeMemory = runtime.freeMemory();
+        final long mb = 1024 * 1024;
+        log.info("Free memory: {} MB", (freeMemory / mb));
+        log.info("Allocated memory: {} MB", (allocatedMemory / mb));
+        log.info("Max memory: {} MB", (maxMemory / mb));
+        log.info("Total free memory: {} MB",((freeMemory + (maxMemory - allocatedMemory)) / mb));
 
+        Environment environment = event.getApplicationContext().getEnvironment();
         log.info("===============================================================================================");
         log.info("                                        Properties                                             ");
         log.info("===============================================================================================");
@@ -45,7 +58,6 @@ public class PropertiesLogger implements ApplicationListener<ApplicationEnvironm
                 .filter(Objects::nonNull)
                 .forEach(key -> log.info(key + " = " + resolveValueWithSecretAttribute(key, environment)));
         log.info("============================================================================");
-
     }
 
     private static Object resolveValueWithSecretAttribute(String key, Environment environment) {
@@ -55,5 +67,4 @@ public class PropertiesLogger implements ApplicationListener<ApplicationEnvironm
         return environment.getProperty(key);
 
     }
-
 }
