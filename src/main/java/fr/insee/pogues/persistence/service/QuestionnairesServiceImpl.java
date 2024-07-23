@@ -33,6 +33,9 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	@Autowired
 	private QuestionnaireRepository questionnaireRepository;
 
+	@Autowired
+	private VersionService versionService;
+
 	public List<JsonNode> getQuestionnaireList() throws Exception {
 		List<JsonNode> questionnaires = questionnaireRepository.getQuestionnaires();
 		if (questionnaires.isEmpty()) {
@@ -92,6 +95,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 
 	public void deleteQuestionnaireByID(String id) throws Exception {
 		questionnaireRepository.deleteQuestionnaireByID(id);
+		versionService.deleteVersionsByQuestionnaireId(id);
 	}
 	
 	public void deleteJsonLunaticByID(String id) throws Exception {
@@ -100,7 +104,9 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 
 	public void createQuestionnaire(JsonNode questionnaire) throws Exception {
 		try {
+			String poguesId = questionnaire.get("id").asText();
 			this.questionnaireRepository.createQuestionnaire(questionnaire);
+			this.versionService.createVersionOfQuestionnaire(poguesId, questionnaire);
 		} catch (NonUniqueResultException e) {
 			throw new PoguesException(409, "Conflict", e.getMessage());
 		}
@@ -117,6 +123,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	public void updateQuestionnaire(String id, JsonNode questionnaire) throws Exception {
 		try {
 			this.questionnaireRepository.updateQuestionnaire(id, questionnaire);
+			this.versionService.createVersionOfQuestionnaire(id, questionnaire);
 		} catch (EntityNotFoundException e) {
 			throw new PoguesException(404, "Not found", e.getMessage());
 		}
