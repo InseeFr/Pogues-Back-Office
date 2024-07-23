@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="admin (generated)" id="1721311711661-1">
+        <createTable tableName="pogues_version" ifNotExists="true">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" primaryKeyName="pogues_version_pkey"/>
+            </column>
+            <column name="data" type="JSONB"/>
+            <column name="timestamp" type="TIMESTAMP"/>
+            <column name="day" type="DATE"/>
+            <column name="pogues_id" type="TEXT"/>
+        </createTable>
+        <addForeignKeyConstraint  baseColumnNames="pogues_id"
+                                  baseTableName="pogues_version"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_pogues_pogues_version"
+                                  deferrable="true"
+                                  initiallyDeferred="true"
+                                  onUpdate="RESTRICT"
+                                  referencedColumnNames="id"
+                                  referencedTableName="pogues"
+                                  referencedTableSchemaName="public"
+                                  validate="true"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1721311711661-2">
+        <!-- Create new version according to last known update -->
+        <!-- We have create regexp to match JavaScript Date : "Mon Jul 22 2024 11:12:16 GMT+0200 (heure d’été d’Europe centrale)" -->
+        <sql dbms="postgresql" splitStatements="false">
+            create or replace function get_mouth_int(month_str TEXT)
+            returns text
+            language plpgsql
+            as
+            $$
+            declare
+                month_result text;
+            begin
+                select (case
+                    when month_str = 'Jan' then '01'
+                    when month_str = 'Feb' then '02'
+                    when month_str = 'Mar' then '03'
+                    when month_str = 'Apr' then '04'
+                    when month_str = 'May' then '05'
+                    when month_str = 'Jun' then '06'
+                    when month_str = 'Jul' then '07'
+                    when month_str = 'Aug' then '08'
+                    when month_str = 'Sep' then '09'
+                    when month_str = 'Oct' then '10'
+                    when month_str = 'Nov' then '11'
+                    when month_str = 'Dec' then '12'
+                end) INTO month_result;
+                return month_result;
+            end;
+            $$
+        </sql>
+        <sql dbms="postgresql">
+            insert into pogues_version (id, pogues_id, data, "timestamp", "day")
+                select
+                    gen_random_uuid(),
+                    R.pogues_id,
+                    R.data,
+                    (R.r_match[3] || '-' || get_mouth_int(R.r_match[1]) || '-' || R.r_match[2] || ' ' || R.r_match[4] || R.r_match[5])::timestamp,
+                    (R.r_match[3] || '-' || get_mouth_int(R.r_match[1]) || '-' || R.r_match[2] || ' ' || R.r_match[4] || R.r_match[5])::date
+                from (
+                    SELECT
+                        p.id as pogues_id,
+                        p.data as data,
+                        regexp_matches(p.data ->> 'lastUpdatedDate', '^\w+\s(\w+)\s(\d{2})\s(\d{4})\s(\d{2}:\d{2}:\d{2})\sGMT([\+\-]\d{2})') as r_match
+                    from pogues p) as R;
+        </sql>
+    </changeSet>
+    <!-- create index to have better perf on DELETE request -->
+    <changeSet author="admin (generated)" id="1721311711661-3">
+        <sql dbms="postgresql" endDelimiter=";">
+            CREATE INDEX IF NOT EXISTS idx_pogues_version_pogues_id_day_timestamp ON pogues_version (id, pogues_id, day, timestamp);
+        </sql>
+        <sql dbms="postgresql" endDelimiter=";">
+            CREATE INDEX IF NOT EXISTS idx_pogues_version_pogues_id_day_timestamp_desc ON pogues_version (id, pogues_id, day, timestamp DESC);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
