@@ -4,12 +4,12 @@
                    xmlns:pro="http://www.liquibase.org/xml/ns/pro"
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
-    <changeSet author="admin (generated)" id="1718968240791-1" onValidationFail="MARK_RAN">
+    <changeSet author="admin (generated)" id="1718968240791-1" onValidationFail="MARK_RAN" failOnError="false">
         <sql dbms="postgresql" endDelimiter=";">
             CREATE INDEX IF NOT EXISTS idx_pogues_owner ON pogues ((data ->> 'owner'));
         </sql>
     </changeSet>
-    <changeSet author="admin (generated)" id="1718968240791-2" onValidationFail="MARK_RAN">
+    <changeSet author="admin (generated)" id="1718968240791-2" onValidationFail="MARK_RAN" failOnError="false">
         <sql dbms="postgresql" endDelimiter=";">
             CREATE INDEX IF NOT EXISTS idx_pogues_multi_owner ON pogues ((data ->> 'owner'), (data -> 'Name'), (data -> 'TargetMode'), (data -> 'flowLogic'), (data -> 'formulasLanguage'));
         </sql>
