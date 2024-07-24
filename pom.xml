@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.1</version>
+		<version>3.3.2</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
@@ -24,7 +24,7 @@
 		<fop.version>2.9</fop.version>
 		<springdoc-openapi-ui.version>2.6.0</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.12</jacoco.version>
-		<saxon.version>12.4</saxon.version>
+		<saxon.version>12.5</saxon.version>
 		<liquibase.version>4.28.0</liquibase.version>
 
 		<caffeine.version>3.1.8</caffeine.version>
