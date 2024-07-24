@@ -31,12 +31,7 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
  */
 @Service
 @Slf4j
-<<<<<<<< HEAD:src/main/java/fr/insee/pogues/persistence/impl/QuestionnairePostgresql.java
 public class QuestionnairePostgresql implements QuestionnaireRepository {
-========
-public class QuestionnairesQueryPostgresql implements QuestionnaireRepository {
->>>>>>>> 7e68258 (ref: rename and move classes to different packages):src/main/java/fr/insee/pogues/persistence/impl/QuestionnairesQueryPostgresql.java
-
 
 	@Value("${application.stamp.restricted}")
 	String stampRestricted; 
