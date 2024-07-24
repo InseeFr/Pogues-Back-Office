@@ -24,9 +24,8 @@ import java.util.Set;
  * Display props in logs
  *
  */
-@Component
 @Slf4j
-public class PropertiesLogger {
+public class PropertiesLogger implements ApplicationListener<ApplicationEnvironmentPreparedEvent> {
 
     private static final Set<String> hiddenWords = Set.of("password", "pwd", "jeton", "token", "secret");
 
