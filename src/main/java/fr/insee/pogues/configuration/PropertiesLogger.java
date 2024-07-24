@@ -31,10 +31,11 @@ public class PropertiesLogger implements ApplicationListener<ApplicationEnvironm
 
     @EventListener
     public void onApplicationEvent(ApplicationEnvironmentPreparedEvent  event) {
-        log.info("                 Logging environment variables started                      ");
+        log.info("                 Logging environment variables started");
         log.info("============================================================================");
-        log.info("                              Java memory                                   ");
+        log.info("                                Hardware");
         log.info("============================================================================");
+        log.info("    ---->    Java memory");
         Runtime runtime = Runtime.getRuntime();
         final long mb = 1024 * 1024;
         final long maxMemoryInMb = runtime.maxMemory() / mb;
@@ -55,8 +56,10 @@ public class PropertiesLogger implements ApplicationListener<ApplicationEnvironm
                 freeMemoryInMb + (maxMemoryInMb - allocatedMemoryInMb));
         log.info("| Max available memory for JVM   | {} MB |", maxMemoryInMb);
         log.info("+--------------------------------+-----{}+", "-".repeat(maxStrLength));
+        log.info("    ---->    CPU");
+        log.info(" Available CPUs : {}", runtime.availableProcessors());
         log.info("============================================================================");
-        log.info("                               Properties                                   ");
+        log.info("                               Properties");
         log.info("============================================================================");
         Environment environment = event.getEnvironment();
 
