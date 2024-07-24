@@ -15,3 +15,4 @@ WebContent/*.css
 WebContent/*.map
 WebContent/*.js
 /bin/
+src/main/resources/local.application.yaml

@@ -2,7 +2,6 @@ package fr.insee.pogues.webservice.rest;
 
 
 import fr.insee.pogues.metadata.model.ddias.Unit;
-import fr.insee.pogues.metadata.model.magma.Serie;
 import fr.insee.pogues.metadata.model.pogues.DataCollection;
 import fr.insee.pogues.metadata.model.pogues.DataCollectionContext;
 import fr.insee.pogues.metadata.service.MetadataService;
@@ -25,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Tag(name = "3. Search to MetaData repository")
+@Tag(name = "4. Search to MetaData repository")
 @Slf4j
 public class MetadataController {
 
