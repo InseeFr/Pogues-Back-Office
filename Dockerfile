@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21.0.3_9-jre
+FROM eclipse-temurin:21.0.4_7-jre
 
 ENV PATH_TO_JAR=/application/pogues-bo.jar
 WORKDIR application
@@ -11,5 +11,4 @@ ENV JAVA_TOOL_OPTIONS_DEFAULT \
 
 ENTRYPOINT [ "/bin/sh", "-c", \
     "export JAVA_TOOL_OPTIONS=\"$JAVA_TOOL_OPTIONS_DEFAULT $JAVA_TOOL_OPTIONS\"; \
-    echo \"Jvm OPTS $JAVA_TOOL_OPTIONS\"; \
     exec java -jar $PATH_TO_JAR" ]
