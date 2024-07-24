@@ -1,6 +1,8 @@
 package fr.insee.pogues;
 
+import fr.insee.pogues.configuration.PropertiesLogger;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -16,13 +18,12 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @Slf4j
 public class Pogues extends SpringBootServletInitializer {
 
-	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-		return application.sources(Pogues.class);
+	public static SpringApplicationBuilder configureApplicationBuilder(SpringApplicationBuilder springApplicationBuilder){
+		return springApplicationBuilder.sources(Pogues.class).listeners(new PropertiesLogger());
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(Pogues.class, args);
+		configureApplicationBuilder(new SpringApplicationBuilder()).build().run(args);
 	}
 
 	@EventListener

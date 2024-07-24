@@ -1,7 +1,13 @@
 package fr.insee.pogues.configuration;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.context.event.ApplicationEnvironmentPreparedEvent;
+import org.springframework.boot.context.event.ApplicationPreparedEvent;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.boot.context.event.ApplicationStartingEvent;
+import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.context.event.ContextStartedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.core.env.AbstractEnvironment;
 import org.springframework.core.env.EnumerablePropertySource;
@@ -18,31 +24,41 @@ import java.util.Set;
  * Display props in logs
  *
  */
-@Component
 @Slf4j
-public class PropertiesLogger {
+public class PropertiesLogger implements ApplicationListener<ApplicationEnvironmentPreparedEvent> {
 
     private static final Set<String> hiddenWords = Set.of("password", "pwd", "jeton", "token", "secret");
 
     @EventListener
-    public void handleContextRefreshed(ContextRefreshedEvent event) {
-        log.info("===============================================================================================");
-        log.info("                                       Java memory                                             ");
-        log.info("===============================================================================================");
+    public void onApplicationEvent(ApplicationEnvironmentPreparedEvent  event) {
+        log.info("                 Logging environment variables started                      ");
+        log.info("============================================================================");
+        log.info("                              Java memory                                   ");
+        log.info("============================================================================");
         Runtime runtime = Runtime.getRuntime();
-        final long maxMemory = runtime.maxMemory();
-        final long allocatedMemory = runtime.totalMemory();
-        final long freeMemory = runtime.freeMemory();
         final long mb = 1024 * 1024;
-        log.info("Free memory: {} MB", (freeMemory / mb));
-        log.info("Allocated memory: {} MB", (allocatedMemory / mb));
-        log.info("Max memory: {} MB", (maxMemory / mb));
-        log.info("Total free memory: {} MB",((freeMemory + (maxMemory - allocatedMemory)) / mb));
-
-        Environment environment = event.getApplicationContext().getEnvironment();
-        log.info("===============================================================================================");
-        log.info("                                        Properties                                             ");
-        log.info("===============================================================================================");
+        final long maxMemoryInMb = runtime.maxMemory() / mb;
+        final long allocatedMemoryInMb = runtime.totalMemory() / mb;
+        final long freeMemoryInMb = runtime.freeMemory() / mb;
+        int maxStrLength = String.valueOf(maxMemoryInMb).length();
+        log.info("+--------------------------------+-----{}+", "-".repeat(maxStrLength));
+        log.info("| Type of memory                 | Size{}|", " ".repeat(maxStrLength));
+        log.info("|--------------------------------|-----{}|", "-".repeat(maxStrLength));
+        log.info("| Current Free memory            | {}{} MB |",
+                " ".repeat(maxStrLength-String.valueOf(freeMemoryInMb).length()),
+                freeMemoryInMb);
+        log.info("| Current Allocated memory       | {}{} MB |",
+                " ".repeat(maxStrLength-String.valueOf(allocatedMemoryInMb).length()),
+                allocatedMemoryInMb);
+        log.info("| Current total Free memory      | {}{} MB |",
+                " ".repeat(maxStrLength-String.valueOf(freeMemoryInMb + (maxMemoryInMb - allocatedMemoryInMb)).length()),
+                freeMemoryInMb + (maxMemoryInMb - allocatedMemoryInMb));
+        log.info("| Max available memory for JVM   | {} MB |", maxMemoryInMb);
+        log.info("+--------------------------------+-----{}+", "-".repeat(maxStrLength));
+        log.info("============================================================================");
+        log.info("                               Properties                                   ");
+        log.info("============================================================================");
+        Environment environment = event.getEnvironment();
 
         ((AbstractEnvironment) environment).getPropertySources().stream()
                 .map(propertySource -> {
@@ -58,6 +74,7 @@ public class PropertiesLogger {
                 .filter(Objects::nonNull)
                 .forEach(key -> log.info(key + " = " + resolveValueWithSecretAttribute(key, environment)));
         log.info("============================================================================");
+        log.info("                  Logging environment variables ended                       ");
     }
 
     private static Object resolveValueWithSecretAttribute(String key, Environment environment) {
