@@ -81,6 +81,7 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 		jsonData.setType("jsonb");
 		jsonData.setValue(version.getData().toString());
 		jdbcTemplate.update(qString,
+				// insert request
 				version.getId(), jsonData, version.getTimestamp(), version.getDay(), version.getPoguesId(),
 				// Delete request: we keep last ${maxCurrentVersions} for the current day
 				version.getPoguesId(), version.getDay(), maxCurrentVersions,
