@@ -1,6 +1,5 @@
 package fr.insee.pogues.persistence.impl;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.domain.entity.db.Version;
 import fr.insee.pogues.persistence.repository.QuestionnaireVersionRepository;
 import lombok.extern.slf4j.Slf4j;

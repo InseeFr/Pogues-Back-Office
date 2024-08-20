@@ -1,46 +1,19 @@
 package fr.insee.pogues.webservice.rest;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import fr.insee.pogues.configuration.auth.UserProvider;
-import fr.insee.pogues.configuration.auth.user.User;
-import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.domain.entity.db.Version;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.persistence.service.VariablesService;
 import fr.insee.pogues.persistence.service.VersionService;
-import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-/**
- * WebService class for the Instrument Persistence
- * 
- * See the swagger documentation for this service :
- * http://inseefr.github.io/Pogues/en/remote-apis/swagger.html
- * 
- * @author I6VWID
- * 
- *         schemes: - http
- * 
- *         consumes: - application/json
- * 
- *         produces: - application/json
- *
- */
+
 @RestController
 @RequestMapping("/api/persistence")
 @Tag(name = "3. Version of questionnaire Controller")

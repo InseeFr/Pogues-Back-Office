@@ -1,6 +1,5 @@
 package fr.insee.pogues.persistence.repository;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.domain.entity.db.Version;
 
 import java.util.List;
