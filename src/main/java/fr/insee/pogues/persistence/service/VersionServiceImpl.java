@@ -29,13 +29,14 @@ public class VersionServiceImpl implements VersionService {
     }
 
     @Override
-    public Version getLastVersionByQuestionnaireId(String poguesId) throws Exception {
-        return null;
+    public Version getLastVersionByQuestionnaireId(String poguesId, boolean withData) throws Exception {
+        return questionnaireVersionRepository.getLastVersionByQuestionnaireId(poguesId, withData);
     }
 
     @Override
-    public JsonNode getVersionDataByVersionId(String versionId) throws Exception {
-        return null;
+    public JsonNode getVersionDataByVersionId(UUID versionId) throws Exception {
+        Version version = this.getVersionByVersionId(versionId, true);
+        return version.getData();
     }
 
     @Override
@@ -57,7 +58,7 @@ public class VersionServiceImpl implements VersionService {
 
     @Override
     public void deleteVersionsByQuestionnaireId(String poguesId) throws Exception {
-
+        questionnaireVersionRepository.deleteVersionsByQuestionnaireId(poguesId);
     }
 
     @Override

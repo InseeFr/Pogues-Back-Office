@@ -37,13 +37,12 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 	}
 
 	@Override
-	public Version getLastVersionByQuestionnaireId(String poguesId) throws Exception {
-		return null;
-	}
-
-	@Override
-	public JsonNode getVersionDataByVersionId(String versionId) throws Exception {
-		return null;
+	public Version getLastVersionByQuestionnaireId(String poguesId, boolean withData) throws Exception {
+		String columns = withData ? " id, timestamp, pogues_id, day, data " : " id, timestamp, pogues_id, day ";
+		String qString =
+				"SELECT" + columns +
+						"FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC LIMIT 1;";
+		return jdbcTemplate.queryForObject(qString,  new VersionRowMapper(withData), poguesId);
 	}
 
 	@Override

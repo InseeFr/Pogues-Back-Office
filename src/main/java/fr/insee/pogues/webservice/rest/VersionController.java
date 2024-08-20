@@ -50,7 +50,6 @@ public class VersionController {
     @Autowired
     private VersionService versionService;
 
-
     @GetMapping("questionnaire/{poguesId}/versions")
     @Operation(
             operationId  = "getVersionsByQuestionnaireId",
@@ -79,24 +78,23 @@ public class VersionController {
     })
     public Version getLastVersionByQuestionnaireId(
             @PathVariable(value = "poguesId") String poguesId,
-            @RequestParam(name = "withData", required = false, defaultValue = "false") Boolean withData){
-        return null;
+            @RequestParam(name = "withData", required = false, defaultValue = "false") Boolean withData) throws Exception {
+        return versionService.getLastVersionByQuestionnaireId(poguesId, withData);
     }
 
     @PostMapping("questionnaire/restore")
     @Operation(
-            operationId  = "getVersionByVersionId",
-            summary = "Get version by its id",
-            description = "Get version by its id, with or without data"
+            operationId  = "restoreVersionByVersion",
+            summary = "Restore an old version according to its id",
+            description = "Restore an old version according to its id"
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
-    public Version restoreVersionByVersion(
-            @PathVariable(value = "versionId") UUID versionId,
-            @RequestParam(name = "withData", required = false, defaultValue = "false") Boolean withData) throws Exception {
-        return versionService.getVersionByVersionId(versionId, withData);
+    public void restoreVersionByVersionId(
+            @PathVariable(value = "versionId") UUID versionId) throws Exception {
+        versionService.restoreVersion(versionId);
     }
 
     @GetMapping("version/{versionId}")
@@ -114,7 +112,17 @@ public class VersionController {
             @RequestParam(name = "withData", required = false, defaultValue = "false") Boolean withData) throws Exception {
         return versionService.getVersionByVersionId(versionId, withData);
     }
-
-    public void deleteVersionsByQuestionnaireId(String poguesId){
+    @DeleteMapping("questionnaire/{poguesId}/versions")
+    @Operation(
+            operationId  = "deleteVersionsByQuestionnaireId",
+            summary = "Delete versions by pogues_id",
+            description = "Delete all versions according to pogues_id"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success"),
+            @ApiResponse(responseCode = "404", description = "Not found")
+    })
+    public void deleteVersionsByQuestionnaireId(String poguesId) throws Exception {
+        versionService.deleteVersionsByQuestionnaireId(poguesId);
     }
 }

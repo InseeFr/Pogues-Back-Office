@@ -10,9 +10,7 @@ public interface QuestionnaireVersionRepository {
 
     List<Version> getVersionsByQuestionnaireId(String poguesId, boolean withData) throws Exception;
 
-    Version getLastVersionByQuestionnaireId(String poguesId) throws Exception;
-
-    JsonNode getVersionDataByVersionId(String versionId) throws Exception;
+    Version getLastVersionByQuestionnaireId(String poguesId, boolean withData) throws Exception;
 
     Version getVersionByVersionId(UUID versionId, boolean withData) throws Exception;
 
