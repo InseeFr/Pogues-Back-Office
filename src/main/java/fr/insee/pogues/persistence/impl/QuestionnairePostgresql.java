@@ -1,9 +1,10 @@
-package fr.insee.pogues.persistence.query;
+package fr.insee.pogues.persistence.impl;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
 import fr.insee.pogues.configuration.cache.CacheName;
+import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PGobject;
@@ -30,8 +31,7 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
  */
 @Service
 @Slf4j
-public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesServiceQuery {
-
+public class QuestionnairePostgresql implements QuestionnaireRepository {
 
 	@Value("${application.stamp.restricted}")
 	String stampRestricted; 
@@ -286,9 +286,8 @@ public class QuestionnairesServiceQueryPostgresqlImpl implements QuestionnairesS
 		String stamp = questionnaire.get("owner").asText();
 		if (isStampRestricted(stamp) && !stampsRestrictionsService.isQuestionnaireOwner(stamp)) {
 			isAuthorized=false;
-			log.info("{} questionnaire authorized",action);
 		}
-		log.info("{} questionnaire forbidden",action);
+		log.info("{} questionnaire {}",action, isAuthorized ? "authorized": "forbidden");
 		return isAuthorized;
 	}
 

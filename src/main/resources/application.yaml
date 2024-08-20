@@ -152,6 +152,10 @@ feature:
     token-helper:
   swagger:
     enabled: true
+  database:
+    # During an edition day, we keep the last 10 versions
+    maxCurrentVersions: 10
+
   cache:
     enabled: true
     retention-time-in-days:

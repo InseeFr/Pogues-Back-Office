@@ -1,4 +1,4 @@
-package fr.insee.pogues.persistence.query;
+package fr.insee.pogues.persistence.repository;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -10,7 +10,7 @@ import java.util.List;
  * @author I6VWID
  */
 
-public interface QuestionnairesServiceQuery {
+public interface QuestionnaireRepository {
 
     List<JsonNode> getQuestionnaires() throws Exception;
 
