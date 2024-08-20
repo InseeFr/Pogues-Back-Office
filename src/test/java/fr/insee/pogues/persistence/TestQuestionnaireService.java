@@ -33,7 +33,7 @@ class TestQuestionnaireService {
     @InjectMocks
     QuestionnairesServiceImpl questionnairesService;
 
-    @InjectMocks
+    @Mock
     VersionServiceImpl versionService;
 
     @Test
