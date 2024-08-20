@@ -3,9 +3,12 @@ package fr.insee.pogues.persistence;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import fr.insee.pogues.persistence.query.NonUniqueResultException;
-import fr.insee.pogues.persistence.query.QuestionnairesServiceQuery;
+import fr.insee.pogues.persistence.impl.NonUniqueResultException;
+import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
+import fr.insee.pogues.persistence.repository.QuestionnaireVersionRepository;
 import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
+import fr.insee.pogues.persistence.service.VersionService;
+import fr.insee.pogues.persistence.service.VersionServiceImpl;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,10 +28,13 @@ import static org.mockito.Mockito.*;
 class TestQuestionnaireService {
 
     @Mock
-    QuestionnairesServiceQuery questionnairesServiceQuery;
+    QuestionnaireRepository questionnairesServiceQuery;
 
     @InjectMocks
     QuestionnairesServiceImpl questionnairesService;
+
+    @Mock
+    VersionServiceImpl versionService;
 
     @Test
     void emptyListThrowsException() throws Exception {
@@ -110,6 +116,7 @@ class TestQuestionnaireService {
     @Test
     void deleteQuestionnaireById() throws Exception {
         doAnswer(invocationOnMock -> null).when(questionnairesServiceQuery).deleteQuestionnaireByID("foo");
+        doAnswer(invocationOnMock -> null).when(versionService).deleteVersionsByQuestionnaireId("foo");
         questionnairesService.deleteQuestionnaireByID("foo");
     }
 }
