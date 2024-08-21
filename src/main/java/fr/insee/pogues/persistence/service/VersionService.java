@@ -16,7 +16,7 @@ public interface VersionService {
 
     Version getVersionByVersionId(UUID versionId, boolean withData) throws Exception;
 
-    void createVersionOfQuestionnaire(String poguesId, JsonNode data) throws Exception;
+    void createVersionOfQuestionnaire(String poguesId, JsonNode data, String author) throws Exception;
 
     void deleteVersionsByQuestionnaireId(String poguesId) throws Exception;
 

@@ -25,4 +25,5 @@ public class Version {
     private Timestamp timestamp;
     private Date day;
     private JsonNode data;
+    private String author;
 }

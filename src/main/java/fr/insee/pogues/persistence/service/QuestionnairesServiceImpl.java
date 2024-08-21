@@ -1,6 +1,7 @@
 package fr.insee.pogues.persistence.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
 import fr.insee.pogues.exception.NullReferenceException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.impl.EntityNotFoundException;
@@ -35,6 +36,9 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 
 	@Autowired
 	private VersionService versionService;
+
+	@Autowired
+	protected StampsRestrictionsService stampsRestrictionsService;
 
 	public List<JsonNode> getQuestionnaireList() throws Exception {
 		List<JsonNode> questionnaires = questionnaireRepository.getQuestionnaires();
@@ -106,7 +110,8 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		try {
 			String poguesId = questionnaire.get("id").asText();
 			this.questionnaireRepository.createQuestionnaire(questionnaire);
-			this.versionService.createVersionOfQuestionnaire(poguesId, questionnaire);
+			String author = stampsRestrictionsService.getUser().getUserId();
+			this.versionService.createVersionOfQuestionnaire(poguesId, questionnaire, author);
 		} catch (NonUniqueResultException e) {
 			throw new PoguesException(409, "Conflict", e.getMessage());
 		}
@@ -123,7 +128,8 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	public void updateQuestionnaire(String id, JsonNode questionnaire) throws Exception {
 		try {
 			this.questionnaireRepository.updateQuestionnaire(id, questionnaire);
-			this.versionService.createVersionOfQuestionnaire(id, questionnaire);
+			String author = stampsRestrictionsService.getUser().getUserId();
+			this.versionService.createVersionOfQuestionnaire(id, questionnaire, author);
 		} catch (EntityNotFoundException e) {
 			throw new PoguesException(404, "Not found", e.getMessage());
 		}

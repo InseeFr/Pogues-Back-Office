@@ -19,7 +19,7 @@ public class StampsRestrictionsServiceImpl implements StampsRestrictionsService{
 	public User getUser() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		User currentUser = userProvider.getUser(authentication);
-		log.info("Current user has stamp {}", currentUser.getStamp());
+		log.info("Current user ({}), has stamp {}", currentUser.getUserId(), currentUser.getStamp());
 		return currentUser;
 	}
 	

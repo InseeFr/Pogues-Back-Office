@@ -100,7 +100,8 @@ public class OidcSecurityConfiguration {
             final Jwt jwt = (Jwt) auth.getPrincipal();
             return new User(
                     jwt.getClaimAsString(oidcProperties.stampClaim()),
-                    jwt.getClaimAsString(oidcProperties.usernameClaim()));
+                    jwt.getClaimAsString(oidcProperties.usernameClaim()),
+                    jwt.getClaimAsString(oidcProperties.principalAttribute()));
         };
     }
 
