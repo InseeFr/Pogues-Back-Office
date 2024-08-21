@@ -82,4 +82,27 @@
             CREATE INDEX IF NOT EXISTS idx_pogues_version_pogues_id_day_timestamp_desc ON pogues_version (id, pogues_id, day, timestamp DESC);
         </sql>
     </changeSet>
+    <changeSet author="admin (generated)" id="1724250100197-4">
+        <dropForeignKeyConstraint baseTableName="pogues_version" constraintName="fk_pogues_pogues_version"/>
+        <addForeignKeyConstraint baseColumnNames="pogues_id"
+                                 baseTableName="pogues_version"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_pogues_pogues_version"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onUpdate="CASCADE"
+                                 onDelete="SET NULL"
+                                 referencedColumnNames="id"
+                                 referencedTableName="pogues"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="admin (generated)" id="1724250100197-5">
+        <addColumn tableName="pogues_version">
+            <column name="author" type="VARCHAR" />
+        </addColumn>
+        <update tableName="pogues_version">
+            <column name="author" valueComputed="data ->> 'owner'" computed="true"/>
+        </update>
+    </changeSet>
 </databaseChangeLog>
