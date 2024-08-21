@@ -10,8 +10,10 @@ public class User {
     private final String stamp;
     @Getter
     private final String name;
+    @Getter
+    private final String userId;
 
     public User(){
-        this("default", "Guest");
+        this("default", "Guest", "guest");
     }
 }
