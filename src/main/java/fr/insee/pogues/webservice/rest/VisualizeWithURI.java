@@ -5,6 +5,7 @@ import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDeref;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
 import fr.insee.pogues.transforms.visualize.eno.DDIToLunaticJSON;
 import fr.insee.pogues.transforms.visualize.eno.DDIToXForms;
+import fr.insee.pogues.transforms.visualize.eno.PoguesJSONToLunaticJSON;
 import fr.insee.pogues.transforms.visualize.eno.PoguesXMLToDDI;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriQueen;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV2;
@@ -52,7 +53,7 @@ public class VisualizeWithURI {
     XFormsToURIStromaeV1 xformToUri;
 
     @Autowired
-    DDIToLunaticJSON ddiToLunaticJSON;
+    PoguesJSONToLunaticJSON poguesJSONToLunaticJSON;
 
     @Autowired
     LunaticJSONToUriQueen lunaticJSONToUriQueen;
@@ -68,8 +69,6 @@ public class VisualizeWithURI {
 
     @Autowired
     SuggesterVisuService suggesterVisuService;
-
-    private static final String CONTENT_DISPOSITION = HttpHeaders.CONTENT_DISPOSITION;
 
     @PostMapping(path = "visualize/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI from JSON serialized Pogues entity", description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
@@ -108,9 +107,7 @@ public class VisualizeWithURI {
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-                .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
-                .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
-                .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+                .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
                 .transform();
         uri = lunaticJSONToUriQueen.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
@@ -129,9 +126,7 @@ public class VisualizeWithURI {
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-                .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
-                .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
-                .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+                .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
                 .transform();
         uri = lunaticJSONToUriQueen.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
@@ -152,9 +147,7 @@ public class VisualizeWithURI {
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-                .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
-                .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
-                .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+                .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
                 .transform();
 
         uri = lunaticJSONToUriStromaeV2.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
@@ -176,9 +169,7 @@ public class VisualizeWithURI {
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-                .map(jsonToXML::transform, params, questionnaireName.toLowerCase())
-                .map(poguesXMLToDDI::transform, params, questionnaireName.toLowerCase())
-                .map(ddiToLunaticJSON::transform, params, questionnaireName.toLowerCase())
+                .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
                 .transform();
         uri = lunaticJSONToUriStromaeV3.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
