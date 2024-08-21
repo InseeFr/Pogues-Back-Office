@@ -25,6 +25,7 @@ public class VersionRowMapper implements RowMapper<Version> {
         version.setPoguesId(rs.getString("pogues_id"));
         version.setDay(rs.getDate("day"));
         version.setTimestamp(rs.getTimestamp("timestamp"));
+        version.setAuthor(rs.getString("author"));
         if(withData){
             try {
                 version.setData(JSONFunctions.jsonStringtoJsonNode(rs.getString("data")));

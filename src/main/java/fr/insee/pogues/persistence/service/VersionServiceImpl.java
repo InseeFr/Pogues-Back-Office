@@ -45,14 +45,15 @@ public class VersionServiceImpl implements VersionService {
     }
 
     @Override
-    public void createVersionOfQuestionnaire(String poguesId, JsonNode data) throws Exception {
+    public void createVersionOfQuestionnaire(String poguesId, JsonNode data, String author) throws Exception {
         Instant now  = Instant.now();
         Version versionToStore = new Version(
                 UUID.randomUUID(),
                 poguesId,
                 Timestamp.from(now),
                 new Date(now.toEpochMilli()),
-                data);
+                data,
+                author);
         questionnaireVersionRepository.createVersion(versionToStore);
     }
 
@@ -68,6 +69,6 @@ public class VersionServiceImpl implements VersionService {
         // (2) Update questionnaire in pogues table
         questionnaireRepository.updateQuestionnaire(version.getPoguesId(), version.getData());
         // (3) Create new version
-        this.createVersionOfQuestionnaire(version.getPoguesId(), version.getData());
+        this.createVersionOfQuestionnaire(version.getPoguesId(), version.getData(), version.getAuthor());
     }
 }

@@ -26,38 +26,42 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 	private static final String NOT_FOUND="Not found";
 	private static final String FORBIDDEN="Forbidden";
 
+
+	private static String COLUMNS_WITHOUT_DATA = "id, timestamp, pogues_id, day, author";
+	private static String COLUMNS_WITH_DATA = COLUMNS_WITHOUT_DATA + ", data";
+
 	@Override
 	public List<Version> getVersionsByQuestionnaireId(String poguesId, boolean withData) throws Exception {
-		String columns = withData ? " id, timestamp, pogues_id, day, data " : " id, timestamp, pogues_id, day ";
+		String columns = withData ? COLUMNS_WITH_DATA : COLUMNS_WITHOUT_DATA;
 		String qString =
-				"SELECT" + columns +
-						"FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC;";
+				"SELECT " + columns +
+						" FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC;";
 		return jdbcTemplate.query(qString,  new VersionRowMapper(withData), poguesId);
 	}
 
 	@Override
 	public Version getLastVersionByQuestionnaireId(String poguesId, boolean withData) throws Exception {
-		String columns = withData ? " id, timestamp, pogues_id, day, data " : " id, timestamp, pogues_id, day ";
+		String columns = withData ? COLUMNS_WITH_DATA : COLUMNS_WITHOUT_DATA;
 		String qString =
-				"SELECT" + columns +
-						"FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC LIMIT 1;";
+				"SELECT " + columns +
+						" FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC LIMIT 1;";
 		return jdbcTemplate.queryForObject(qString,  new VersionRowMapper(withData), poguesId);
 	}
 
 	@Override
 	public Version getVersionByVersionId(UUID versionId, boolean withData) throws Exception {
-		String columns = withData ? " id, timestamp, pogues_id, day, data " : " id, timestamp, pogues_id, day ";
+		String columns = withData ? COLUMNS_WITH_DATA : COLUMNS_WITHOUT_DATA;
 		String qString =
-				"SELECT" + columns +
-				"FROM pogues_version pv WHERE pv.id = ?;";
+				"SELECT " + columns +
+				" FROM pogues_version pv WHERE pv.id = ?;";
 		return jdbcTemplate.queryForObject(qString, new VersionRowMapper(withData), versionId);
 	}
 
 	@Override
 	public void createVersion(Version version) throws Exception {
 		String qString = """
-				INSERT INTO pogues_version (id, data, "timestamp", "day", pogues_id) 
-				VALUES (?, ?, ?, ?, ?);
+				INSERT INTO pogues_version (id, data, "timestamp", "day", pogues_id, author) 
+				VALUES (?, ?, ?, ?, ?, ?);
 				
 				DELETE from pogues_version pv WHERE pv.id IN
 				(SELECT pv.id FROM pogues_version pv
@@ -80,7 +84,7 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 		jsonData.setValue(version.getData().toString());
 		jdbcTemplate.update(qString,
 				// insert request
-				version.getId(), jsonData, version.getTimestamp(), version.getDay(), version.getPoguesId(),
+				version.getId(), jsonData, version.getTimestamp(), version.getDay(), version.getPoguesId(), version.getAuthor(),
 				// Delete request: we keep last ${maxCurrentVersions} for the current day
 				version.getPoguesId(), version.getDay(), maxCurrentVersions,
 				// Delete request: we keep only the last version for each edited day
