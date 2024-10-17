@@ -11,6 +11,7 @@ import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV3;
 import fr.insee.pogues.transforms.visualize.uri.XFormsToURIStromaeV1;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
+import fr.insee.pogues.webservice.model.StudyUnitEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -165,7 +166,8 @@ public class VisualizeWithURI {
     @Operation(summary = "Get visualization URI Stromae V3 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V3 from JSON serialized Pogues entity")
     public ResponseEntity<String> visualizeStromaeV3FromBody(@RequestBody String request,
                                                           @PathVariable(value = "questionnaire") String questionnaireName,
-                                                          @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+                                                          @RequestParam(name = "references", defaultValue = "false") Boolean ref, @RequestParam(defaultValue = "DEFAULT") StudyUnitEnum context) throws Exception {
+
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
         params.put("questionnaire", questionnaireName.toLowerCase());
@@ -173,6 +175,7 @@ public class VisualizeWithURI {
         params.put("mode", "CAWI");
         params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
         params.put("dsfr", true);
+        params.put("context", context);
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
