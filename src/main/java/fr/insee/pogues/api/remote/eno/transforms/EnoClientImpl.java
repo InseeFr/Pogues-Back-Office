@@ -1,6 +1,7 @@
 package fr.insee.pogues.api.remote.eno.transforms;
 
 import fr.insee.pogues.exception.EnoException;
+import fr.insee.pogues.webservice.model.StudyUnitEnum;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +63,21 @@ public class EnoClientImpl implements EnoClient{
     public String getDDITOLunaticJSON(String inputAsString, Map<String, Object> params) throws EnoException, PoguesException {
         MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
         String modePathParam = params.get("mode") != null ? params.get("mode").toString() : MODE;
-        String WSPath = BASE_PATH + "/lunatic-json/" + modePathParam;
+        StudyUnitEnum contextRequestParam = getContextParam(params); // Extraction de cette logique dans une méthode séparée
+        String WSPath = buildWSPath(contextRequestParam, modePathParam); // Extraction de la construction du chemin
+
         queryParams.add("dsfr", Boolean.TRUE.equals(params.get("dsfr")) ? "true" : "false");
         return callEnoApiWithParams(inputAsString, WSPath, queryParams);
+    }
+
+    // Méthode pour récupérer le contexte
+    public StudyUnitEnum getContextParam(Map<String, Object> params) {
+        return (StudyUnitEnum) params.getOrDefault("context", StudyUnitEnum.DEFAULT);
+    }
+
+    // Méthode pour construire le WSPath
+    public String buildWSPath(StudyUnitEnum context, String mode) {
+        return "questionnaire/" + context + "/lunatic-json/" + mode;
     }
 
     @Override
