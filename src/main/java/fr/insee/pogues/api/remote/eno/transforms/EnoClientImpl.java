@@ -34,7 +34,6 @@ public class EnoClientImpl implements EnoClient{
     private static final String DEFAULT_CONTEXT = "DEFAULT";
     private static final String BASE_PATH = "/questionnaire/" + DEFAULT_CONTEXT;
     private static final String DSFR_QUERY_PARAM = "dsfr";
-
     private static final String MODE = "CAWI";
 
     public EnoClientImpl(WebClient webClient) {
@@ -111,7 +110,6 @@ public class EnoClientImpl implements EnoClient{
     public String getDDIToODT (String inputAsString) throws EnoException, PoguesException {
         return callEnoApi(inputAsString, BASE_PATH+"/fodt");
     }
-
 
     @Override
     public void getParameters () {
