@@ -17,7 +17,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -45,12 +47,10 @@ public class EnoClientImpl implements EnoClient{
         return callEnoApi(inputAsString, "/questionnaire/ddi32-2-ddi33");
     }
 
-
     @Override
     public String getXMLPoguesToDDI (String inputAsString) throws EnoException, PoguesException {
         return callEnoApi(inputAsString, "/questionnaire/poguesxml-2-ddi");
     }
-
 
     @Override
     public String getDDIToFO(String inputAsString) throws EnoException, PoguesException {
