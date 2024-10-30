@@ -15,7 +15,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
@@ -29,7 +31,11 @@ public class EnoClientImpl implements EnoClient{
     @Autowired
     private WebClient webClient;
 
-    private static final String BASE_PATH = "/questionnaire/DEFAULT";
+    private static String DEFAULT_CONTEXT = "DEFAULT";
+
+    private static final String DSFR_QUERY_PARAM = "dsfr";
+
+    private static final String BASE_PATH = "/questionnaire/" + DEFAULT_CONTEXT;
     private static final String MODE = "CAWI";
 
     public EnoClientImpl(WebClient webClient) {
@@ -63,13 +69,26 @@ public class EnoClientImpl implements EnoClient{
         MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
         String modePathParam = params.get("mode") != null ? params.get("mode").toString() : MODE;
         String WSPath = BASE_PATH + "/lunatic-json/" + modePathParam;
-        queryParams.add("dsfr", Boolean.TRUE.equals(params.get("dsfr")) ? "true" : "false");
+        queryParams.add(DSFR_QUERY_PARAM, Boolean.TRUE.equals(params.get("dsfr")) ? "true" : "false");
         return callEnoApiWithParams(inputAsString, WSPath, queryParams);
     }
 
     @Override
     public String getDDITOXForms(String inputAsString) throws EnoException, PoguesException {
         return callEnoApi(inputAsString, BASE_PATH+"/xforms");
+    }
+
+    @Override
+    public String getJSONPoguesToLunaticJson(String inputAsString, Map<String, Object> params) throws URISyntaxException, IOException, EnoException {
+        log.info("getJSONPoguesToLunaticJson - started");
+        MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
+        String modePathParam = params.get("mode") != null ? params.get("mode").toString() : MODE;
+        String WSPath = String.format("/questionnaire/pogues-2-lunatic/%s/%s",
+                DEFAULT_CONTEXT,
+                modePathParam);
+        log.info("WSPath : {} ",WSPath);
+        queryParams.add(DSFR_QUERY_PARAM, Boolean.TRUE.equals(params.get("dsfr")) ? "true" : "false");
+        return callEnoApiWithParams(inputAsString, WSPath, queryParams);
     }
 
     @Override
