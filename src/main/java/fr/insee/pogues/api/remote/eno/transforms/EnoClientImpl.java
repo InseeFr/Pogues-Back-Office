@@ -17,6 +17,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
@@ -102,6 +103,19 @@ public class EnoClientImpl implements EnoClient{
     @Override
     public String getDDITOXForms(String inputAsString) throws EnoException, PoguesException {
         return callEnoApi(inputAsString, BASE_PATH+"/xforms");
+    }
+
+    @Override
+    public String getJSONPoguesToLunaticJson(String inputAsString, Map<String, Object> params) throws IOException, EnoException {
+        log.info("getJSONPoguesToLunaticJson - started");
+        MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
+        String modePathParam = params.get("mode") != null ? params.get("mode").toString() : MODE;
+        String wsPath = String.format("/questionnaire/pogues-2-lunatic/%s/%s",
+                DEFAULT_CONTEXT,
+                modePathParam);
+        log.info("WSPath : {} ",wsPath);
+        queryParams.add(DSFR_QUERY_PARAM, Boolean.TRUE.equals(params.get("dsfr")) ? "true" : "false");
+        return callEnoApiWithParams(inputAsString, wsPath, queryParams);
     }
 
     @Override

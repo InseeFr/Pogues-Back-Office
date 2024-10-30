@@ -28,6 +28,8 @@ public interface EnoClient {
 	String getDDITOLunaticJSON(String inputAsString, Map<String, Object> params) throws URISyntaxException, IOException, EnoException;
 	
 	String getDDITOXForms(String inputAsString) throws URISyntaxException, IOException, EnoException;
+
+	String getJSONPoguesToLunaticJson(String inputAsString, Map<String, Object> params) throws URISyntaxException, IOException, EnoException;
 	
 	void getParameters () throws Exception;
 
