@@ -33,6 +33,7 @@ public class EnoClientImpl implements EnoClient{
 
     private static final String DEFAULT_CONTEXT = "DEFAULT";
     private static final String BASE_PATH = "/questionnaire/" + DEFAULT_CONTEXT;
+    private static final String DSFR_QUERY_PARAM = "dsfr";
 
     private static final String MODE = "CAWI";
 
@@ -64,12 +65,13 @@ public class EnoClientImpl implements EnoClient{
 
     @Override
     public String getDDITOLunaticJSON(String inputAsString, Map<String, Object> params) throws EnoException, PoguesException {
-        MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
+        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         String modePathParam = params.get("mode") != null ? params.get("mode").toString() : MODE;
-        StudyUnitEnum contextRequestParam = getContextParam(params); // Extraction de cette logique dans une méthode séparée
-        String wsPath = buildWSPath(contextRequestParam, modePathParam); // Extraction de la construction du chemin
 
-        queryParams.add("dsfr", Boolean.TRUE.equals(params.get("dsfr")) ? "true" : "false");
+        StudyUnitEnum contextRequestParam = getContextParam(params);
+        String wsPath = buildWSPath(contextRequestParam, modePathParam);
+
+        queryParams.add(DSFR_QUERY_PARAM, Boolean.TRUE.equals(params.get("dsfr")) ? "true" : "false");
         return callEnoApiWithParams(inputAsString, wsPath, queryParams);
     }
 
