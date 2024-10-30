@@ -31,7 +31,9 @@ public class EnoClientImpl implements EnoClient{
     @Autowired
     private final WebClient webClient;
 
-    private static final String BASE_PATH = "/questionnaire/DEFAULT";
+    private static final String DEFAULT_CONTEXT = "DEFAULT";
+    private static final String BASE_PATH = "/questionnaire/" + DEFAULT_CONTEXT;
+
     private static final String MODE = "CAWI";
 
     public EnoClientImpl(WebClient webClient) {
