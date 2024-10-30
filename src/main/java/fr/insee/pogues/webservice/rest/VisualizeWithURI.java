@@ -12,13 +12,13 @@ import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV3;
 import fr.insee.pogues.transforms.visualize.uri.XFormsToURIStromaeV1;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
+import fr.insee.pogues.webservice.model.StudyUnitEnum;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -73,10 +73,11 @@ public class VisualizeWithURI {
     @PostMapping(path = "visualize/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI from JSON serialized Pogues entity", description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "JSON representation of the Pogues Model")
-    public ResponseEntity<String> visualizeFromBody(@RequestBody String request,
-                                                 @PathVariable(value = "dataCollection") String dataCollection,
-                                                 @PathVariable(value = "questionnaire") String questionnaire,
-                                                 @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+    public ResponseEntity<String> visualizeFromBody(
+            @RequestBody String request,
+            @PathVariable(value = "dataCollection") String dataCollection,
+            @PathVariable(value = "questionnaire") String questionnaire,
+            @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
         params.put("dataCollection", dataCollection.toLowerCase());
@@ -96,9 +97,10 @@ public class VisualizeWithURI {
 
     @PostMapping(path = "visualize-queen-telephone/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI CATI Queen from JSON serialized Pogues entity", description = "Get visualization URI CATI Queen from JSON serialized Pogues entity")
-    public ResponseEntity<String> visualizeCatiQueenFromBody(@RequestBody String request,
-                                                             @PathVariable(value = "questionnaire") String questionnaireName,
-                                                             @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+    public ResponseEntity<String> visualizeCatiQueenFromBody(
+            @RequestBody String request,
+            @PathVariable(value = "questionnaire") String questionnaireName,
+            @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
         params.put("mode", "CATI");
@@ -115,9 +117,10 @@ public class VisualizeWithURI {
 
     @PostMapping(path = "visualize-queen/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI CAPI Queen from JSON serialized Pogues entity", description = "Get visualization URI CAPI Queen from JSON serialized Pogues entity")
-    public ResponseEntity<String> visualizeQueenFromBody(@RequestBody String request,
-                                                      @PathVariable(value = "questionnaire") String questionnaireName,
-                                                      @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+    public ResponseEntity<String> visualizeQueenFromBody(
+            @RequestBody String request,
+            @PathVariable(value = "questionnaire") String questionnaireName,
+            @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
         params.put("mode", "CAPI");
@@ -134,9 +137,10 @@ public class VisualizeWithURI {
 
     @PostMapping(path = "visualize-stromae-v2/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI Stromae V2 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V2 from JSON serialized Pogues entity")
-    public ResponseEntity<String> visualizeStromaeV2FromBody(@RequestBody String request,
-                                                             @PathVariable(value = "questionnaire") String questionnaireName,
-                                                             @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+    public ResponseEntity<String> visualizeStromaeV2FromBody(
+            @RequestBody String request,
+            @PathVariable(value = "questionnaire") String questionnaireName,
+            @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
         params.put("questionnaire", questionnaireName.toLowerCase());
@@ -156,9 +160,12 @@ public class VisualizeWithURI {
 
     @PostMapping(path = "visualize-stromae-v3/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI Stromae V3 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V3 from JSON serialized Pogues entity")
-    public ResponseEntity<String> visualizeStromaeV3FromBody(@RequestBody String request,
-                                                          @PathVariable(value = "questionnaire") String questionnaireName,
-                                                          @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+    public ResponseEntity<String> visualizeStromaeV3FromBody(
+            @RequestBody String request,
+            @PathVariable(value = "questionnaire") String questionnaireName,
+            @RequestParam(name = "references", defaultValue = "false") Boolean ref,
+            @RequestParam(defaultValue = "DEFAULT") StudyUnitEnum context) throws Exception {
+
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
         params.put("questionnaire", questionnaireName.toLowerCase());
@@ -166,6 +173,7 @@ public class VisualizeWithURI {
         params.put("mode", "CAWI");
         params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
         params.put("dsfr", true);
+        params.put("context", context);
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
@@ -178,9 +186,10 @@ public class VisualizeWithURI {
 
     @PostMapping(path = "visualize-from-ddi/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI from DDI questionnaire", description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
-    public ResponseEntity<String> visualizeFromDDIBody(@RequestBody String request,
-                                                    @PathVariable(value = "dataCollection") String dataCollection,
-                                                    @PathVariable(value = "questionnaire") String questionnaire) throws Exception {
+    public ResponseEntity<String> visualizeFromDDIBody(
+            @RequestBody String request,
+            @PathVariable(value = "dataCollection") String dataCollection,
+            @PathVariable(value = "questionnaire") String questionnaire) throws Exception {
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
         params.put("dataCollection", dataCollection.toLowerCase());
@@ -199,9 +208,10 @@ public class VisualizeWithURI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "Error") })
-    public String xForm2URI(@RequestBody String questXforms,
-                         @PathVariable(value = "dataCollection") String dataCollection,
-                         @PathVariable(value = "questionnaire") String questionnaire) throws Exception {
+    public String xForm2URI(
+            @RequestBody String questXforms,
+            @PathVariable(value = "dataCollection") String dataCollection,
+            @PathVariable(value = "questionnaire") String questionnaire) throws Exception {
 
         Map<String, Object> params = new HashMap<>();
         params.put("dataCollection", dataCollection.toLowerCase());
