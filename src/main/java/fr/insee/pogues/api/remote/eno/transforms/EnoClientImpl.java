@@ -3,6 +3,7 @@ package fr.insee.pogues.api.remote.eno.transforms;
 import fr.insee.pogues.exception.EnoException;
 import fr.insee.pogues.webservice.model.StudyUnitEnum;
 import fr.insee.pogues.webservice.rest.PoguesException;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +29,7 @@ public class EnoClientImpl implements EnoClient{
     String enoHost;
 
     @Autowired
-    private WebClient webClient;
+    private final WebClient webClient;
 
     private static final String BASE_PATH = "/questionnaire/DEFAULT";
     private static final String MODE = "CAWI";
@@ -40,13 +41,13 @@ public class EnoClientImpl implements EnoClient{
     @Override
     public String getDDI32ToDDI33 (String inputAsString) throws EnoException, PoguesException {
         return callEnoApi(inputAsString, "/questionnaire/ddi32-2-ddi33");
-    };
+    }
 
 
     @Override
     public String getXMLPoguesToDDI (String inputAsString) throws EnoException, PoguesException {
         return callEnoApi(inputAsString, "/questionnaire/poguesxml-2-ddi");
-    };
+    }
 
 
     @Override
@@ -64,19 +65,36 @@ public class EnoClientImpl implements EnoClient{
         MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
         String modePathParam = params.get("mode") != null ? params.get("mode").toString() : MODE;
         StudyUnitEnum contextRequestParam = getContextParam(params); // Extraction de cette logique dans une méthode séparée
-        String WSPath = buildWSPath(contextRequestParam, modePathParam); // Extraction de la construction du chemin
+        String wsPath = buildWSPath(contextRequestParam, modePathParam); // Extraction de la construction du chemin
 
         queryParams.add("dsfr", Boolean.TRUE.equals(params.get("dsfr")) ? "true" : "false");
-        return callEnoApiWithParams(inputAsString, WSPath, queryParams);
+        return callEnoApiWithParams(inputAsString, wsPath, queryParams);
     }
 
-    // Méthode pour récupérer le contexte
-    public StudyUnitEnum getContextParam(Map<String, Object> params) {
-        return (StudyUnitEnum) params.getOrDefault("context", StudyUnitEnum.DEFAULT);
+    /**
+     * Retrieves the context parameter from the provided map of parameters.
+     * This method attempts to fetch the "context" parameter from the specified map
+     * and casts it to a {@code StudyUnitEnum}. If the parameter is not present or is {@code null},
+     * it returns a default value {@code StudyUnitEnum.DEFAULT}.
+     * @param params a map of parameters where the "context" key may be present,
+     *               associated with a {@code StudyUnitEnum} value.
+     * @return the {@code StudyUnitEnum} value associated with the "context" key,
+     *         or {@code StudyUnitEnum.DEFAULT} if not found or {@code null}.
+     */
+    static StudyUnitEnum getContextParam(Map<String, Object> params) {
+        StudyUnitEnum context = (StudyUnitEnum) params.get("context");
+        return (context != null) ? context : StudyUnitEnum.DEFAULT;
     }
 
-    // Méthode pour construire le WSPath
-    public String buildWSPath(StudyUnitEnum context, String mode) {
+    /**
+     * Constructs the WSPath for the questionnaire based on the context and mode.
+     *
+     * @param context The context of type {@link StudyUnitEnum} used in the path. Cannot be null.
+     * @param mode The specified mode for the path. Cannot be null.
+     * @return The WSPath as a string, structured as "questionnaire/{context}/lunatic-json/{mode}".
+     * @throws NullPointerException if {@code context} or {@code mode} is null.
+     */
+    static String buildWSPath(@NonNull StudyUnitEnum context, @NonNull String mode) {
         return "questionnaire/" + context + "/lunatic-json/" + mode;
     }
 
@@ -88,11 +106,11 @@ public class EnoClientImpl implements EnoClient{
     @Override
     public String getDDIToODT (String inputAsString) throws EnoException, PoguesException {
         return callEnoApi(inputAsString, BASE_PATH+"/fodt");
-    };
+    }
 
 
     @Override
-    public void getParameters () throws Exception{
+    public void getParameters () {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(enoHost)
                 .path("/parameters/xml/all")
@@ -104,17 +122,17 @@ public class EnoClientImpl implements EnoClient{
                 .retrieve().bodyToMono(String.class).block();
 
         log.debug(xmlParams);
-    };
-
-    private String callEnoApi(String inputAsString, String WSPath) throws EnoException, PoguesException {
-        MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
-        return callEnoApiWithParams(inputAsString, WSPath, queryParams);
     }
 
-    private String callEnoApiWithParams(String inputAsString, String WSPath, MultiValueMap<String,String> params) throws EnoException, PoguesException {
+    private String callEnoApi(String inputAsString, String wsPath) throws EnoException, PoguesException {
+        MultiValueMap<String,String> queryParams = new LinkedMultiValueMap<>();
+        return callEnoApiWithParams(inputAsString, wsPath, queryParams);
+    }
+
+    private String callEnoApiWithParams(String inputAsString, String wsPath, MultiValueMap<String,String> params) throws EnoException, PoguesException {
         URI uri = UriComponentsBuilder
                 .fromHttpUrl(enoHost)
-                .path(WSPath)
+                .path(wsPath)
                 .queryParams(params)
                 .build().toUri();
 

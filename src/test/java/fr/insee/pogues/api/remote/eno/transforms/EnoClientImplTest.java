@@ -2,55 +2,73 @@ package fr.insee.pogues.api.remote.eno.transforms;
 
 import fr.insee.pogues.webservice.model.StudyUnitEnum;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
-import org.mockito.Mockito;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class EnoClientImplTest {
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class EnoClientImplTest {
     @Test
-    void testWSPathWhenContextIsMissing() {
-        // Mock de WebClient
-        WebClient webClient = Mockito.mock(WebClient.class);
+    void testWSPathWhenContextIsDefault() {
 
-        // Création de l'instance d'EnoClientImpl avec WebClient mocké
-        EnoClientImpl client = new EnoClientImpl(webClient);
+        // Call the method
+        String wsPath = EnoClientImpl.buildWSPath(StudyUnitEnum.DEFAULT, "CAWI");
 
-        // Paramètres d'entrée
-        Map<String, Object> params = new HashMap<>();
-        params.put("mode", "CAWI"); // Mode explicite
-
-        // Appel de la méthode
-        String wsPath = client.buildWSPath(client.getContextParam(params), "CAWI");
-
-        // Vérification que le contexte par défaut est utilisé
+        // Check that the default context is being used
         assertEquals("questionnaire/DEFAULT/lunatic-json/CAWI", wsPath);
     }
 
     @ParameterizedTest
-    @EnumSource(StudyUnitEnum.class) // Test avec toutes les valeurs de StudyUnitEnum
+    @EnumSource(StudyUnitEnum.class) // Test with all values of StudyUnitEnum
     void testWSPathWithDifferentContexts(StudyUnitEnum context) {
-        // Mock de WebClient
-        WebClient webClient = Mockito.mock(WebClient.class);
 
-        // Création de l'instance d'EnoClientImpl avec WebClient mocké
-        EnoClientImpl client = new EnoClientImpl(webClient);
+        // Call the method
+        String wsPath = EnoClientImpl.buildWSPath(context, "CAWI");
 
-        // Paramètres d'entrée
-        Map<String, Object> params = new HashMap<>();
-        params.put("mode", "CAWI"); // Mode explicite
-        params.put("context", context); // Contexte à tester
-
-        // Appel de la méthode
-        String wsPath = client.buildWSPath(client.getContextParam(params), "CAWI");
-
-        // Vérification que le contexte correct est utilisé
+        // Check that the correct context is being used
         assertEquals("questionnaire/" + context + "/lunatic-json/CAWI", wsPath);
+    }
+
+    @Test
+    void testGetContextParam_withContextKey() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("context", StudyUnitEnum.BUSINESS);
+
+        StudyUnitEnum result =  EnoClientImpl.getContextParam(params);
+
+        assertEquals(StudyUnitEnum.BUSINESS, result);
+    }
+
+    @Test
+    void testGetContextParam_withoutContextKey() {
+        Map<String, Object> params = new HashMap<>();
+
+        StudyUnitEnum result = EnoClientImpl.getContextParam(params);
+
+        assertEquals(StudyUnitEnum.DEFAULT, result);
+    }
+
+    @Test
+    void testGetContextParam_withIncorrectContextKey() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("notAContext","notAValue");
+
+        StudyUnitEnum result = EnoClientImpl.getContextParam(params);
+
+        assertEquals(StudyUnitEnum.DEFAULT, result);
+    }
+
+    @Test
+    void testGetContextParam_withNullKey() {
+        Map<String, Object> params = new HashMap<>();
+        params.put("context", null);
+
+        StudyUnitEnum result =  EnoClientImpl.getContextParam(params);
+
+        assertEquals(StudyUnitEnum.DEFAULT, result);
     }
 
 }
