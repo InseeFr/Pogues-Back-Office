@@ -25,6 +25,6 @@ public class DDIToXFormsImpl implements DDIToXForms {
     }
 
     private String transform(String inputAsString) throws Exception {
-        return enoClient.getDDITOXForms(inputAsString);
+        return enoClient.getDDIToXForms(inputAsString);
     }
 }

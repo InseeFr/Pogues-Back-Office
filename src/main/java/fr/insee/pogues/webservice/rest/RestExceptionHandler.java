@@ -13,9 +13,9 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = { PoguesException.class })
-    public ResponseEntity<RestMessage> handlePoguesException(PoguesException pe) {
-        log.error(pe.getMessage(), pe);
-        RestMessage message = pe.toRestMessage();
+    public ResponseEntity<RestMessage> handlePoguesException(PoguesException poguesException) {
+        log.error(poguesException.getMessage(), poguesException);
+        RestMessage message = poguesException.toRestMessage();
         return new ResponseEntity<>(message, HttpStatusCode.valueOf(message.getStatus()));
     }
     @ExceptionHandler(value = { Exception.class })

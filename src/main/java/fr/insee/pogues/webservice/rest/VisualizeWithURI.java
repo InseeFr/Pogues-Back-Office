@@ -3,7 +3,6 @@ package fr.insee.pogues.webservice.rest;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDeref;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
-import fr.insee.pogues.transforms.visualize.eno.DDIToLunaticJSON;
 import fr.insee.pogues.transforms.visualize.eno.DDIToXForms;
 import fr.insee.pogues.transforms.visualize.eno.PoguesJSONToLunaticJSON;
 import fr.insee.pogues.transforms.visualize.eno.PoguesXMLToDDI;
@@ -12,13 +11,13 @@ import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV3;
 import fr.insee.pogues.transforms.visualize.uri.XFormsToURIStromaeV1;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
-import fr.insee.pogues.webservice.model.StudyUnitEnum;
+import fr.insee.pogues.webservice.model.EnoContext;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -37,37 +36,19 @@ import static fr.insee.pogues.utils.IOStreamsUtils.string2InputStream;
 @RestController
 @RequestMapping("/api/transform")
 @Tag(name = "6. Visualization with URI")
+@AllArgsConstructor
 @Slf4j
 public class VisualizeWithURI {
 
-    @Autowired
     PoguesJSONToPoguesXML jsonToXML;
-
-    @Autowired
     PoguesXMLToDDI poguesXMLToDDI;
-
-    @Autowired
     DDIToXForms ddiToXForm;
-
-    @Autowired
     XFormsToURIStromaeV1 xformToUri;
-
-    @Autowired
     PoguesJSONToLunaticJSON poguesJSONToLunaticJSON;
-
-    @Autowired
     LunaticJSONToUriQueen lunaticJSONToUriQueen;
-
-    @Autowired
     LunaticJSONToUriStromaeV2 lunaticJSONToUriStromaeV2;
-
-    @Autowired
     LunaticJSONToUriStromaeV3 lunaticJSONToUriStromaeV3;
-
-    @Autowired
     PoguesJSONToPoguesJSONDeref jsonToJsonDeref;
-
-    @Autowired
     SuggesterVisuService suggesterVisuService;
 
     @PostMapping(path = "visualize/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -164,7 +145,7 @@ public class VisualizeWithURI {
             @RequestBody String request,
             @PathVariable(value = "questionnaire") String questionnaireName,
             @RequestParam(name = "references", defaultValue = "false") Boolean ref,
-            @RequestParam(defaultValue = "DEFAULT") StudyUnitEnum context) throws Exception {
+            @RequestParam(defaultValue = "DEFAULT") EnoContext context) throws Exception {
 
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
