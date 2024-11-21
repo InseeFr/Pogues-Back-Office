@@ -3,7 +3,7 @@ package fr.insee.pogues.api.remote.eno.transforms;
 import fr.insee.pogues.exception.EnoException;
 import fr.insee.pogues.webservice.model.EnoContext;
 import fr.insee.pogues.webservice.rest.PoguesException;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -25,7 +25,7 @@ import java.util.Map;
  * Implementation of EnoClient using http.
  */
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Slf4j
 public class EnoHttpClient implements EnoClient {
 
