@@ -1,0 +1,136 @@
+{
+	"owner": "ENO-INTEGRATION-TESTS",
+	"final": false,
+	"id": "lmyoceix",
+	"Label": [
+		"Eno - Simple questionnaire"
+	],
+	"Name": "ENOSIMPLE",
+	"lastUpdatedDate": "Tue Nov 19 2024 14:26:13 GMT+0100 (heure normale d’Europe centrale)",
+	"DataCollection": [
+		{
+			"id": "TCM",
+			"uri": "http://ddi:fr.insee:DataCollection.TCM"
+		}
+	],
+	"genericName": "QUESTIONNAIRE",
+	"ComponentGroup": [
+		{
+			"id": "lmynyac5",
+			"Name": "PAGE_1",
+			"Label": [
+				"Components for page 1"
+			],
+			"MemberReference": [
+				"lmynuv39",
+				"lmyo3e0y",
+				"idendquest"
+			]
+		}
+	],
+	"agency": "fr.insee",
+	"TargetMode": [
+		"CAPI",
+		"CATI",
+		"PAPI",
+		"CAWI"
+	],
+	"flowLogic": "FILTER",
+	"formulasLanguage": "VTL",
+	"childQuestionnaireRef": [],
+	"Child": [
+		{
+			"id": "lmynuv39",
+			"depth": 1,
+			"Name": "S1",
+			"Label": [
+				"\"Unique sequence\""
+			],
+			"Declaration": [],
+			"Control": [],
+			"FlowControl": [],
+			"TargetMode": [
+				"CAPI",
+				"CATI",
+				"PAPI",
+				"CAWI"
+			],
+			"type": "SequenceType",
+			"genericName": "MODULE",
+			"Child": [
+				{
+					"id": "lmyo3e0y",
+					"depth": 2,
+					"Name": "Q1",
+					"Label": [
+						"\"Unique question\""
+					],
+					"Declaration": [],
+					"Control": [],
+					"FlowControl": [],
+					"TargetMode": [
+						"CAPI",
+						"CATI",
+						"PAPI",
+						"CAWI"
+					],
+					"type": "QuestionType",
+					"questionType": "SIMPLE",
+					"Response": [
+						{
+							"id": "lmynvhl8",
+							"Datatype": {
+								"typeName": "TEXT",
+								"type": "TextDatatypeType",
+								"MaxLength": 249,
+								"Pattern": ""
+							},
+							"CollectedVariableReference": "lmyo22nw",
+							"mandatory": false
+						}
+					]
+				}
+			]
+		},
+		{
+			"id": "idendquest",
+			"depth": 1,
+			"Name": "QUESTIONNAIRE_END",
+			"Label": [
+				"QUESTIONNAIRE_END"
+			],
+			"Declaration": [],
+			"genericName": "MODULE",
+			"Control": [],
+			"FlowControl": [],
+			"type": "SequenceType",
+			"Child": [],
+			"TargetMode": [
+				"CAPI",
+				"CATI",
+				"PAPI",
+				"CAWI"
+			]
+		}
+	],
+	"CodeLists": {
+		"CodeList": []
+	},
+	"Variables": {
+		"Variable": [
+			{
+				"id": "lmyo22nw",
+				"Name": "Q1",
+				"Label": "Q1 label",
+				"type": "CollectedVariableType",
+				"Datatype": {
+					"typeName": "TEXT",
+					"type": "TextDatatypeType",
+					"MaxLength": 249,
+					"Pattern": ""
+				}
+			}
+		]
+	},
+	"FlowControl": []
+}

@@ -30,6 +30,6 @@ public class PoguesXMLToDDIImpl implements PoguesXMLToDDI {
 	}
 
 	private String transform(String inputAsString) throws Exception {
-		return enoClient.getXMLPoguesToDDI(inputAsString);
+		return enoClient.getPoguesXmlToDDI(inputAsString);
 	}
 }
