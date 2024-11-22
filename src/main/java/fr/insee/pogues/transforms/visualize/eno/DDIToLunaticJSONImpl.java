@@ -25,7 +25,7 @@ public class DDIToLunaticJSONImpl implements DDIToLunaticJSON {
 	}
 
 	private String transform(String inputAsString, Map<String, Object> params) throws Exception {
-		return enoClient.getDDITOLunaticJSON(inputAsString, params);
+		return enoClient.getDDIToLunaticJSON(inputAsString, params);
 	}
 
 }
