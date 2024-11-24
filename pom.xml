@@ -13,7 +13,7 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>jar</packaging>
-	<version>4.9.3</version>
+	<version>4.9.4</version>
 	<name>Pogues-Back-Office</name>
 
 	<properties>
@@ -22,7 +22,7 @@
 		<final.asset.name>pogues-bo</final.asset.name>
 		<pogues-model.version>1.4.0</pogues-model.version>
 		<fop.version>2.10</fop.version>
-		<springdoc-openapi-ui.version>2.6.0</springdoc-openapi-ui.version>
+		<springdoc-openapi-ui.version>2.7.0</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.12</jacoco.version>
 		<saxon.version>12.5</saxon.version>
 		<liquibase.version>4.30.0</liquibase.version>
