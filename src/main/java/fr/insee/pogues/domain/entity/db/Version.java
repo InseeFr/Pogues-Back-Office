@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 
@@ -22,7 +22,7 @@ public class Version {
 
     private UUID id;
     private String poguesId;
-    private Timestamp timestamp;
+    private ZonedDateTime timestamp;
     private Date day;
     private JsonNode data;
     private String author;

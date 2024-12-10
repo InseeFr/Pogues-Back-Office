@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+import static fr.insee.pogues.utils.DateUtils.convertZonedDateTimeToTimestamp;
+
 @Service
 @Slf4j
 public class VersionPostgresql implements QuestionnaireVersionRepository {
@@ -84,7 +86,7 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 		jsonData.setValue(version.getData().toString());
 		jdbcTemplate.update(qString,
 				// insert request
-				version.getId(), jsonData, version.getTimestamp(), version.getDay(), version.getPoguesId(), version.getAuthor(),
+				version.getId(), jsonData, convertZonedDateTimeToTimestamp(version.getTimestamp()), version.getDay(), version.getPoguesId(), version.getAuthor(),
 				// Delete request: we keep last ${maxCurrentVersions} for the current day
 				version.getPoguesId(), version.getDay(), maxCurrentVersions,
 				// Delete request: we keep only the last version for each edited day

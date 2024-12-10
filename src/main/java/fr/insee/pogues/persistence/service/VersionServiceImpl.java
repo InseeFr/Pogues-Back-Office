@@ -8,10 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
 @Service
 public class VersionServiceImpl implements VersionService {
@@ -50,7 +52,7 @@ public class VersionServiceImpl implements VersionService {
         Version versionToStore = new Version(
                 UUID.randomUUID(),
                 poguesId,
-                Timestamp.from(now),
+                ZonedDateTime.now(),
                 new Date(now.toEpochMilli()),
                 data,
                 author);
