@@ -146,7 +146,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	public Questionnaire deReference(JsonNode jsonQuestionnaire) throws Exception {
 
 		Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonQuestionnaire);
-		List<String> references = JSONFunctions.getChildReferencesFromQuestionnaire(jsonQuestionnaire);
+		List<String> references = questionnaire.getChildQuestionnaireRef();
 		deReference(references, questionnaire);
 		return questionnaire;
 	}
