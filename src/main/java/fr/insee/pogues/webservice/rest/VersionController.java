@@ -55,7 +55,7 @@ public class VersionController {
         return versionService.getLastVersionByQuestionnaireId(poguesId, withData);
     }
 
-    @PostMapping("questionnaire/restore")
+    @PostMapping("questionnaire/restore/{versionId}")
     @Operation(
             operationId  = "restoreVersionByVersion",
             summary = "Restore an old version according to its id",
