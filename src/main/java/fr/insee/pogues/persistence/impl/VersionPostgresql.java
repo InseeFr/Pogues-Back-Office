@@ -2,10 +2,13 @@ package fr.insee.pogues.persistence.impl;
 
 import fr.insee.pogues.domain.entity.db.Version;
 import fr.insee.pogues.persistence.repository.QuestionnaireVersionRepository;
+import fr.insee.pogues.webservice.rest.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -38,7 +41,12 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 		String qString =
 				"SELECT " + columns +
 						" FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC;";
-		return jdbcTemplate.query(qString,  new VersionRowMapper(withData), poguesId);
+
+		List<Version> versions = jdbcTemplate.query(qString,  new VersionRowMapper(withData), poguesId);
+		if(versions.isEmpty()){
+			throw new PoguesException(404, "Not found", "No version for poguesId "+ poguesId);
+		}
+		return versions;
 	}
 
 	@Override
@@ -47,7 +55,11 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 		String qString =
 				"SELECT " + columns +
 						" FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC LIMIT 1;";
-		return jdbcTemplate.queryForObject(qString,  new VersionRowMapper(withData), poguesId);
+		try {
+			return jdbcTemplate.queryForObject(qString,  new VersionRowMapper(withData), poguesId);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PoguesException(404, "Not found", "No version for poguesId "+ poguesId);
+		}
 	}
 
 	@Override
@@ -56,7 +68,11 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 		String qString =
 				"SELECT " + columns +
 				" FROM pogues_version pv WHERE pv.id = ?;";
-		return jdbcTemplate.queryForObject(qString, new VersionRowMapper(withData), versionId);
+		try {
+			return jdbcTemplate.queryForObject(qString, new VersionRowMapper(withData), versionId);
+		} catch (EmptyResultDataAccessException e) {
+			throw new PoguesException(404, "Not found", "No version with id "+ versionId);
+		}
 	}
 
 	@Override
@@ -97,6 +113,7 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 	@Override
 	public void deleteVersionsByQuestionnaireId(String poguesId) throws Exception {
 		String qString = "DELETE from pogues_version pv WHERE pv.pogues_id = ?;";
-		jdbcTemplate.update(qString, poguesId);
+		int nbVersionsDeleted = jdbcTemplate.update(qString, poguesId);
+		if(nbVersionsDeleted == 0) throw new PoguesException(404, "Not found", "No version to delete for poguesId "+ poguesId);
 	}
 }
