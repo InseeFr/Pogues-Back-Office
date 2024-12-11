@@ -204,7 +204,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         Files.write(testFolder.resolve("out/result_from_json.xml"), resXmlFromJson.toByteArray());
         //
         JSONDeserializer jsonDeserializer = new JSONDeserializer();
-        Questionnaire questionnaireFromJson = jsonDeserializer.deserializeFile(
+        Questionnaire questionnaireFromJson = jsonDeserializer.deserialize(
                 testFolder.resolve("out/result.json").toAbsolutePath().toString());
         String resXmlFromObjectFromJson = xmlSerializer.serialize(questionnaireFromJson);
         Files.writeString(testFolder.resolve("out/result_from_object_from_json.xml"), resXmlFromObjectFromJson);
