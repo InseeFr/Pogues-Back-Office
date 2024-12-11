@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-  <Questionnaire xmlns="http://xml.insee.fr/schema/applis/pogues" id="l13ob2fa" genericName="QUESTIONNAIRE" agency="fr.insee" final="false" flowLogic="REDIRECTION" formulasLanguage="VTL">
+  <Questionnaire xmlns="http://xml.insee.fr/schema/applis/pogues" id="l13ob2fa" genericName="QUESTIONNAIRE" agency="fr.insee" final="false" flowLogic="REDIRECTION" formulasLanguage="VTL" lastUpdatedDate="Wed Mar 23 2022 16:19:53 GMT+0100 (heure normale d’Europe centrale)" owner="DR59-SNDI">
     <Name>SIMPL</Name>
     <Label>Questionnaire simple</Label>
     <TargetMode>CAPI</TargetMode>
