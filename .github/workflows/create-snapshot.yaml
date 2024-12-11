@@ -107,7 +107,7 @@ jobs:
 
       - uses: actions/checkout@v4
       - name: Build Pogues-Back-Office with Maven
-        run: mvn clean package -B -V --file pom.xml --no-transfer-progress
+        run: mvn package -B -V --file pom.xml --no-transfer-progress
 
       - name: Upload jar
         uses: actions/upload-artifact@v4
