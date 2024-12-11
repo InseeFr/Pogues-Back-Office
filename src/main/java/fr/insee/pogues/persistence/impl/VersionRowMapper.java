@@ -10,6 +10,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.UUID;
 
+import static fr.insee.pogues.utils.DateUtils.convertTimestampToZonedDateTime;
+
 @Slf4j
 public class VersionRowMapper implements RowMapper<Version> {
     private boolean withData;
@@ -24,7 +26,7 @@ public class VersionRowMapper implements RowMapper<Version> {
         version.setId(UUID.fromString(rs.getString("id")));
         version.setPoguesId(rs.getString("pogues_id"));
         version.setDay(rs.getDate("day"));
-        version.setTimestamp(rs.getTimestamp("timestamp"));
+        version.setTimestamp(convertTimestampToZonedDateTime(rs.getTimestamp("timestamp")));
         version.setAuthor(rs.getString("author"));
         if(withData){
             try {

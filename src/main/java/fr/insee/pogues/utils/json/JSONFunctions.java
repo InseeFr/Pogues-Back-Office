@@ -47,16 +47,4 @@ public class JSONFunctions {
 		inputNode.remove(key);
 		return inputNode;
 	}
-
-	public static List<String> getChildReferencesFromQuestionnaire(JsonNode questionnaire) {
-		ArrayNode references = (ArrayNode) questionnaire.get("childQuestionnaireRef");
-		return IntStream.range(0, references.size())
-				.mapToObj(references::get)
-				.map(JsonNode::asText)
-				.collect(Collectors.toList());
-	}
-	
-	
-	
-	
 }
