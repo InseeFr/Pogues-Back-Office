@@ -94,16 +94,17 @@ jobs:
           distribution: 'temurin'
           java-version: '21'
 
-      - name: Get Pogues-Model Version
-        id: get-version
-        run: echo "version=$(mvn help:evaluate -Dexpression='pogues-model.version' -q -DforceStdout)" >> $GITHUB_OUTPUT
-      
-      - name: Check Pogues-Model lib tag ${{ steps.get-version.outputs.version }} existence
-        id: check-tag-exists
-        uses: mukunku/tag-exists-action@v1.6.0
+      - name: Checkout Pogues-Model lib repo
+        uses: actions/checkout@v4
         with:
-          repo: InseeFr/Pogues-Model
-          tag: ${{ steps.get-version.outputs.version }}
+          fetch-depth: 1
+          ref: ${{ needs.pogues-model.outputs.version }}
+          repository: InseeFr/Pogues-Model
+          path: Pogues-Model
+
+      - name: Build Pogues-Model lib
+        working-directory: ./Pogues-Model
+        run: mvn install --no-transfer-progress -DskipTests=true -Dmaven.javadoc.skip=true
 
       - uses: actions/checkout@v4
       - name: Build Pogues-Back-Office with Maven
