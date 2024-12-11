@@ -8,7 +8,36 @@ on:
       ["docs/**", "Dockerfile", "LICENSE", "CHANGELOG.md", "README.md"]
 
 jobs:
+
+  pogues-model:
+    name: Check Pogues-Model lib version exists
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get Pogues-Model Version
+        id: get-version
+        run: echo "version=$(mvn help:evaluate -Dexpression='pogues-model.version' -q -DforceStdout)" >> $GITHUB_OUTPUT
+      
+      - name: Check Pogues-Model lib tag ${{ steps.get-version.outputs.version }} existence
+        id: check-tag-exists
+        uses: mukunku/tag-exists-action@v1.6.0
+        with:
+          repo: InseeFr/Pogues-Model
+          tag: ${{ steps.get-version.outputs.version }}
+
+      - name: Pogues-Model lib tag verification
+        id: check-tag
+        run: |
+          if [[ "${{ steps.check-tag-exists.outputs.exists }}" == "false" ]]; then
+            echo "The tag v${{ steps.get-version.outputs.version }} doesn't exist in Eno lib repo."
+            exit 1
+          fi
+
   check-version:
+    needs: pogues-model
     runs-on: ubuntu-latest
     outputs:
       release-version: ${{ steps.version-step.outputs.version }}
@@ -49,7 +78,7 @@ jobs:
           fi
 
   build-sources:
-    needs: check-version
+    needs: [pogues-model, check-version]
     runs-on: ubuntu-latest
     steps:
       - name: Set up JDK
@@ -58,9 +87,21 @@ jobs:
           distribution: "temurin"
           java-version: "21"
 
+      - name: Checkout Pogues-Model lib repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ needs.pogues-model.outputs.version }}
+          repository: InseeFr/Pogues-Model
+          path: Pogues-Model
+
+      - name: Build Pogues-Model lib
+        working-directory: ./Pogues-Model
+        run: mvn install --no-transfer-progress -DskipTests=true -Dmaven.javadoc.skip=true
+
       - uses: actions/checkout@v4
       - name: Build Pogues-Back-Office with Maven
-        run: mvn clean package -B -V --file pom.xml --no-transfer-progress
+        run: mvn package -B -V --file pom.xml --no-transfer-progress
 
       - name: Upload jar
         uses: actions/upload-artifact@v4
