@@ -2,16 +2,22 @@ package fr.insee.pogues.persistence.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.domain.entity.db.Version;
+import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
 import fr.insee.pogues.persistence.repository.QuestionnaireVersionRepository;
+import fr.insee.pogues.utils.DateUtils;
+import fr.insee.pogues.utils.PoguesDeserializer;
+import fr.insee.pogues.utils.PoguesSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
 @Service
 public class VersionServiceImpl implements VersionService {
@@ -50,7 +56,7 @@ public class VersionServiceImpl implements VersionService {
         Version versionToStore = new Version(
                 UUID.randomUUID(),
                 poguesId,
-                Timestamp.from(now),
+                ZonedDateTime.now(),
                 new Date(now.toEpochMilli()),
                 data,
                 author);
@@ -66,9 +72,13 @@ public class VersionServiceImpl implements VersionService {
     public void restoreVersion(UUID versionId) throws Exception {
         // (1) Retrieve desired version
         Version version = questionnaireVersionRepository.getVersionByVersionId(versionId, true);
-        // (2) Update questionnaire in pogues table
-        questionnaireRepository.updateQuestionnaire(version.getPoguesId(), version.getData());
-        // (3) Create new version
-        this.createVersionOfQuestionnaire(version.getPoguesId(), version.getData(), version.getAuthor());
+        // (2) Update lastUpdatedDate in Pogues-Model
+        Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(version.getData());
+        questionnaire.setLastUpdatedDate(DateUtils.getIsoDateFromInstant(Instant.now()));
+        JsonNode newQuestionnaire = jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaire));
+        // (3) Update questionnaire in pogues table
+        questionnaireRepository.updateQuestionnaire(version.getPoguesId(), newQuestionnaire);
+        // (4) Create new version
+        this.createVersionOfQuestionnaire(version.getPoguesId(), newQuestionnaire, version.getAuthor());
     }
 }
