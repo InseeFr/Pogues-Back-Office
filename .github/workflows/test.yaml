@@ -41,22 +41,17 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up JDK
-        uses: actions/setup-java@v4
+      - name: Checkout Pogues-Model lib repo
+        uses: actions/checkout@v4
         with:
-          distribution: 'temurin'
-          java-version: '21'
+          fetch-depth: 1
+          ref: ${{ needs.pogues-model.outputs.version }}
+          repository: InseeFr/Pogues-Model
+          path: Pogues-Model
 
-      - name: Get Pogues-Model Version
-        id: get-version
-        run: echo "version=$(mvn help:evaluate -Dexpression='pogues-model.version' -q -DforceStdout)" >> $GITHUB_OUTPUT
-      
-      - name: Check Pogues-Model lib tag ${{ steps.get-version.outputs.version }} existence
-        id: check-tag-exists
-        uses: mukunku/tag-exists-action@v1.6.0
-        with:
-          repo: InseeFr/Pogues-Model
-          tag: ${{ steps.get-version.outputs.version }}
+      - name: Build Pogues-Model lib
+        working-directory: ./Pogues-Model
+        run: mvn install --no-transfer-progress -DskipTests=true -Dmaven.javadoc.skip=true
 
       - name: Run tests with Maven
         run: mvn clean test --no-transfer-progress
