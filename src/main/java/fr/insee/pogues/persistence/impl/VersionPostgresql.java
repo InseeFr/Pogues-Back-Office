@@ -116,4 +116,14 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 		int nbVersionsDeleted = jdbcTemplate.update(qString, poguesId);
 		if(nbVersionsDeleted == 0) throw new PoguesException(404, "Not found", "No version to delete for poguesId "+ poguesId);
 	}
+
+	@Override
+	public void deleteAllVersionsByQuestionnaireIdExceptLast(String poguesId) throws Exception {
+		String qString = """				
+				DELETE from pogues_version pv WHERE pv.id IN 
+				(SELECT pv.id FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY pv."timestamp" desc offset 1 );
+				""";
+		int nbVersionsDeleted = jdbcTemplate.update(qString, poguesId);
+		if(nbVersionsDeleted == 0) throw new PoguesException(404, "Not found", "No version to delete for poguesId "+ poguesId);
+	}
 }

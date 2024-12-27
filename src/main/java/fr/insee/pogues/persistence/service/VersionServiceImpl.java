@@ -69,6 +69,11 @@ public class VersionServiceImpl implements VersionService {
     }
 
     @Override
+    public void deleteAllVersionsByQuestionnaireIdExceptLast(String poguesId) throws Exception {
+        questionnaireVersionRepository.deleteAllVersionsByQuestionnaireIdExceptLast(poguesId);
+    }
+
+    @Override
     public void restoreVersion(UUID versionId) throws Exception {
         // (1) Retrieve desired version
         Version version = questionnaireVersionRepository.getVersionByVersionId(versionId, true);
