@@ -20,5 +20,7 @@ public interface VersionService {
 
     void deleteVersionsByQuestionnaireId(String poguesId) throws Exception;
 
+    void deleteAllVersionsByQuestionnaireIdExceptLast(String poguesId) throws Exception;
+
     void restoreVersion(UUID versionId) throws Exception;
 }

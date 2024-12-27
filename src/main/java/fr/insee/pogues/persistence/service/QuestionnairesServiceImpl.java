@@ -98,8 +98,8 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
     }
 
 	public void deleteQuestionnaireByID(String id) throws Exception {
+		versionService.deleteAllVersionsByQuestionnaireIdExceptLast(id);
 		questionnaireRepository.deleteQuestionnaireByID(id);
-		versionService.deleteVersionsByQuestionnaireId(id);
 	}
 	
 	public void deleteJsonLunaticByID(String id) throws Exception {
