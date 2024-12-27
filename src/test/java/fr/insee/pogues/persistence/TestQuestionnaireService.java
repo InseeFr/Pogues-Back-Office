@@ -116,7 +116,7 @@ class TestQuestionnaireService {
     @Test
     void deleteQuestionnaireById() throws Exception {
         doAnswer(invocationOnMock -> null).when(questionnairesServiceQuery).deleteQuestionnaireByID("foo");
-        doAnswer(invocationOnMock -> null).when(versionService).deleteVersionsByQuestionnaireId("foo");
+        doAnswer(invocationOnMock -> null).when(versionService).deleteAllVersionsByQuestionnaireIdExceptLast("foo");
         questionnairesService.deleteQuestionnaireByID("foo");
     }
 }
