@@ -60,7 +60,7 @@ public class QuestionnaireController {
 	private UserProvider userProvider;
 
 	private static final String IDQUESTIONNAIRE_PATTERN="[a-zA-Z0-9]*";
-	private static final String BAD_REQUEST = "Bad Request";
+	public static final String BAD_REQUEST = "Bad Request";
     private static final String MESSAGE_INVALID_IDENTIFIER = "Identifier %s is invalid";
 
 	/**
@@ -314,9 +314,9 @@ public class QuestionnaireController {
 	public ResponseEntity<Object> createQuestionnaire(
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
-		questionnaireService.createQuestionnaire(jsonContent);
 		String id = jsonContent.get("id").asText();
 		if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+			questionnaireService.createQuestionnaire(jsonContent);
 			String uriQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/%s",
 					applicationProperties.scheme(),
 					applicationProperties.host(),
@@ -341,9 +341,9 @@ public class QuestionnaireController {
 	public ResponseEntity<Object> createJsonLunatic(
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
-		questionnaireService.createJsonLunatic(jsonContent);
 		String id = jsonContent.get("id").asText();
 		if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+			questionnaireService.createJsonLunatic(jsonContent);
 			String uriJsonLunaticQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/json-lunatic/%s",
 					applicationProperties.scheme(),
 					applicationProperties.host(),
