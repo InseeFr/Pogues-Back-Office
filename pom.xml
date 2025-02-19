@@ -13,7 +13,7 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>jar</packaging>
-	<version>4.11.0</version>
+	<version>4.11.1-SNAPSHOT</version>
 	<name>Pogues-Back-Office</name>
 
 	<properties>
@@ -68,8 +68,21 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-webflux</artifactId>
+			<!-- TODO: remove when spring-boot-starter-parent upgrade this dependency with CVE -->
+			<exclusions>
+				<exclusion>
+					<groupId>io.netty</groupId>
+					<artifactId>netty-handler</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
-
+		<!-- TODO: remove when spring-boot-starter-parent upgrade this dependency with CVE -->
+		<dependency>
+			<groupId>io.netty</groupId>
+			<artifactId>netty-handler</artifactId>
+			<version>4.1.118.Final</version>
+		</dependency>
+		
 		<!-- Cache -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
