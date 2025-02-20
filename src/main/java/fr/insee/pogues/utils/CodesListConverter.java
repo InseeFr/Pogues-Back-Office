@@ -6,6 +6,7 @@ import fr.insee.pogues.webservice.model.dtd.codeList.Code;
 import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class CodesListConverter {
@@ -36,12 +37,11 @@ public class CodesListConverter {
         CodeList codeList = new CodeList();
         codeList.setId(codesListDtd.getId());
         codeList.setLabel(codesListDtd.getLabel());
-        List<CodeType> codeTypes = new ArrayList<>();
-        codesListDtd.getCodes().stream().forEach(code ->
-            codeTypes.addAll(convertFromCodeListDTDToCodeTypeWithParent(code, noParent))
-        );
+        List<CodeType> codeTypes = codesListDtd.getCodes().stream()
+                .map(code -> convertFromCodeListDTDToCodeTypeWithParent(code, noParent))
+                .flatMap(Collection::stream).toList();
         codeList.getCode().addAll(codeTypes);
-        return  codeList;
+        return codeList;
     }
 
 

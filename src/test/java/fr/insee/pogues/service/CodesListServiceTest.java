@@ -22,20 +22,20 @@ import static fr.insee.pogues.utils.ModelCreatorUtils.initFakeCodeLists;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class QuestionnaireServiceTest {
+public class CodesListServiceTest {
 
 
-    QuestionnaireService questionnaireService;
+    CodesListService codesListService;
 
     @BeforeEach
     void initQuestionnaireService(){
-        questionnaireService = new QuestionnaireService();
+        codesListService = new CodesListService();
     }
 
     @Test
     void addCodeListDTDToExistingCodeLists(){
         List<CodeList> existingCodeLists = initFakeCodeLists(8);
-        questionnaireService.addCodeListDTD(existingCodeLists, new CodesList("h-f","Homme-Femme", List.of(
+        codesListService.addCodeListDTD(existingCodeLists, new CodesList("h-f","Homme-Femme", List.of(
                 new Code("F","Femme",null),
                 new Code("H","Homme",null)
         )));
@@ -46,7 +46,7 @@ public class QuestionnaireServiceTest {
     @Test
     void removeCodeListDTDToExistingCodeListsWithId() throws PoguesException {
         List<fr.insee.pogues.model.CodeList> existingCodeLists = initFakeCodeLists(10);
-        questionnaireService.removeCodeListDTD(existingCodeLists, "code-list-4");
+        codesListService.removeCodeListDTD(existingCodeLists, "code-list-4");
         assertEquals(9, existingCodeLists.size());
         assertFalse(existingCodeLists.stream().anyMatch(codeList -> codeList.getId() == "code-list-4"));
     }
@@ -54,7 +54,7 @@ public class QuestionnaireServiceTest {
     @Test
     void findQuestionIdWithCodesList() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/withCodesLists.json");
-        List<String> questionIds = questionnaireService.getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7c68dlm");
+        List<String> questionIds = codesListService.getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7c68dlm");
         assertTrue(questionIds.contains("m7c61ohr"));
     }
 
@@ -64,7 +64,7 @@ public class QuestionnaireServiceTest {
         String codesListToDelete = "m7c68dlm";
         PoguesException exception = assertThrows(
                 PoguesException.class,
-                () -> questionnaireService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
+                () -> codesListService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
         );
         assertEquals(400, exception.getStatus());
         assertTrue(exception.getDetails().contains("m7c61ohr"));
@@ -76,7 +76,7 @@ public class QuestionnaireServiceTest {
         String codesListToDelete = "m7d5nan9";
         PoguesException exception = assertThrows(
                 PoguesException.class,
-                () -> questionnaireService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
+                () -> codesListService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
         );
         assertEquals(400, exception.getStatus());
         assertTrue(exception.getDetails().contains("m7d5vs4h"));
@@ -86,7 +86,7 @@ public class QuestionnaireServiceTest {
     void addCodeList() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/withoutCodesList.json");
         assertEquals(0, questionnaire.getCodeLists().getCodeList().size());
-        questionnaireService.updateOrAddCodeListToQuestionnaire(
+        codesListService.updateOrAddCodeListToQuestionnaire(
                 questionnaire,
                 "test-1",
                 new CodesList("test-1","My super CodeList", List.of(
@@ -101,7 +101,7 @@ public class QuestionnaireServiceTest {
     @Test
     void findQuestionIdWithCodesListInTable() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/table.json");
-        List<String> questionIds = questionnaireService.getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7c68dlm");
+        List<String> questionIds = codesListService.getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7c68dlm");
         assertTrue(questionIds.contains("m7c61ohr"));
         assertTrue(questionIds.contains("m7d6ws56"));
     }
@@ -110,7 +110,7 @@ public class QuestionnaireServiceTest {
     @Test
     void findQuestionIdWithCodesListInMultipleChoiceQuestion() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/multiple.json");
-        List<String> questionIds = questionnaireService.getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7d794ks");
+        List<String> questionIds = codesListService.getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7d794ks");
         assertTrue(questionIds.contains("m7d749wl"));
     }
 
@@ -122,7 +122,7 @@ public class QuestionnaireServiceTest {
 
         assertEquals(4,codeLists.size());
         assertEquals(3,initialCodeList.getCode().size());
-        questionnaireService.updateOrAddCodeListToQuestionnaire(questionnaire, "m7d794ks",
+        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, "m7d794ks",
                 new CodesList("id","label",List.of(
                         new Code("1","New York",null),
                         new Code("2","Los Angeles",null),

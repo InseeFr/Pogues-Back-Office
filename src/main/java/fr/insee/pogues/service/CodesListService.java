@@ -21,7 +21,7 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
 @Service
 @Slf4j
-public class QuestionnaireService {
+public class CodesListService {
 
     @Autowired
     QuestionnairesService questionnairesService;
@@ -85,6 +85,7 @@ public class QuestionnaireService {
                 codeList -> Objects.equals(idCodesList, codeList.getId()),
                 codesListDtdToUpdate,
                 codesList -> convertFromCodeListDTDtoCodeListModel(codesListDtdToUpdate));
+        // TODO: update variables according to newCodeList needed
         return false;
     }
 

@@ -1,7 +1,7 @@
 package fr.insee.pogues.webservice.rest;
 
 
-import fr.insee.pogues.service.QuestionnaireService;
+import fr.insee.pogues.service.CodesListService;
 import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "3. CodesList Controller")
 public class CodesListController {
 
+    private CodesListService codesListService;
+
     @Autowired
-    QuestionnaireService questionnaireService;
-
-
+    public CodesListController(CodesListService codesListService){
+        this.codesListService = codesListService;
+    }
     /**
      *
      * @param questionnaireId (id of questionnaire)
@@ -42,7 +44,7 @@ public class CodesListController {
     public ResponseEntity<Object> deleteCodesListInQuestionnaire(
             @PathVariable(value = "questionnaireId") String questionnaireId,
             @PathVariable(value = "codesListId") String codesListId) throws Exception {
-        questionnaireService.deleteCodeListOfQuestionnaireWithId(questionnaireId, codesListId);
+        codesListService.deleteCodeListOfQuestionnaireWithId(questionnaireId, codesListId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -61,7 +63,7 @@ public class CodesListController {
             @PathVariable(value = "questionnaireId") String questionnaireId,
             @PathVariable(value = "codesListId") String codesListId,
             @RequestBody CodesList codesList) throws Exception {
-        boolean created = questionnaireService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
+        boolean created = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
         return ResponseEntity.status(created ? HttpStatus.CREATED : HttpStatus.NO_CONTENT).build();
     }
 }
