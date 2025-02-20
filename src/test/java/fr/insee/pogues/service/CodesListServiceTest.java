@@ -2,12 +2,15 @@ package fr.insee.pogues.service;
 
 import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.webservice.model.dtd.codeList.Code;
 import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
@@ -21,15 +24,20 @@ import java.util.Objects;
 import static fr.insee.pogues.utils.ModelCreatorUtils.initFakeCodeLists;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 public class CodesListServiceTest {
 
+    @Mock
+    QuestionnairesService questionnairesService;
 
-    CodesListService codesListService;
+    @InjectMocks
+    private CodesListService codesListService;
 
     @BeforeEach
     void initQuestionnaireService(){
-        codesListService = new CodesListService();
+        codesListService = new CodesListService(questionnairesService);
+        initMocks(this);
     }
 
     @Test
