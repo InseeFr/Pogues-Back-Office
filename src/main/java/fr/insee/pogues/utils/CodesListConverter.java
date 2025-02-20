@@ -12,32 +12,33 @@ public class CodesListConverter {
 
     private CodesListConverter() {}
 
-    private static List<CodeType> convertFromCodeListDTDToCodeTypeWithParent(Code code){
+    private static List<CodeType> convertFromCodeListDTDToCodeTypeWithParent(Code code, String parent){
         List<CodeType> codeTypes = new ArrayList<>();
         CodeType codeType = new CodeType();
         codeType.setValue(code.getValue());
         codeType.setLabel(code.getLabel());
+        codeType.setParent(parent);
         codeTypes.add(codeType);
         if(code.getCodes() != null){
-            List<CodeType> subCodeTypes = code.getCodes().stream().map(subCode -> {
+            code.getCodes().stream().forEach(subCode -> {
                 CodeType subCodeType = new CodeType();
                 subCodeType.setValue(subCode.getValue());
                 subCodeType.setLabel(subCode.getLabel());
                 subCodeType.setParent(code.getValue());
-                return subCodeType;
-            }).toList();
-            codeTypes.addAll(subCodeTypes);
+                codeTypes.addAll(convertFromCodeListDTDToCodeTypeWithParent(subCode, code.getValue()));
+            });
         }
         return codeTypes;
     }
 
     public static CodeList convertFromCodeListDTDtoCodeListModel(CodesList codesListDtd){
+        String noParent= "";
         CodeList codeList = new CodeList();
         codeList.setId(codesListDtd.getId());
         codeList.setLabel(codesListDtd.getLabel());
         List<CodeType> codeTypes = new ArrayList<>();
         codesListDtd.getCodes().stream().forEach(code ->
-            codeTypes.addAll(convertFromCodeListDTDToCodeTypeWithParent(code))
+            codeTypes.addAll(convertFromCodeListDTDToCodeTypeWithParent(code, noParent))
         );
         codeList.getCode().addAll(codeTypes);
         return  codeList;

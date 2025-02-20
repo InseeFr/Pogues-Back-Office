@@ -46,6 +46,8 @@ public class ModelConverterTest {
         assertEquals("H1", codeType5th.getValue());
         assertEquals("Homme 1", codeType5th.getLabel());
         assertEquals("H", codeType5th.getParent());
+        CodeType codeType4th = codeListPoguesModel.getCode().get(4);
+        assertEquals("", codeType4th.getParent());
     }
 
 
