@@ -1,0 +1,224 @@
+{
+  "id": "lw6534qt",
+  "Name": "QUESTSIMPL",
+  "Child": [
+    {
+      "id": "lw65iawq",
+      "Name": "SQUENCE1",
+      "type": "SequenceType",
+      "Child": [
+        {
+          "id": "lw6574kk",
+          "Name": "INPUT",
+          "type": "QuestionType",
+          "Label": [
+            "\"De quoi va me parler [Nicolas](/queen/synchronize) ?\""
+          ],
+          "depth": 2,
+          "Control": [],
+          "Response": [
+            {
+              "id": "lw6581ep",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": "1000"
+              },
+              "mandatory": false,
+              "CollectedVariableReference": "lyyez3nv"
+            }
+          ],
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "FlowControl": [],
+          "questionType": "SIMPLE"
+        },
+        {
+          "id": "lzsidpmd",
+          "Name": "SOUSSEQSAN",
+          "type": "SequenceType",
+          "Child": [
+            {
+              "id": "lzsiead8",
+              "Name": "QUELGE",
+              "type": "QuestionType",
+              "Label": [
+                "\"Quel âge ?\""
+              ],
+              "depth": 3,
+              "Control": [],
+              "Response": [
+                {
+                  "id": "lzsieodd",
+                  "Datatype": {
+                    "Unit": "",
+                    "type": "NumericDatatypeType",
+                    "Maximum": "100",
+                    "Minimum": "0",
+                    "Decimals": "",
+                    "typeName": "NUMERIC"
+                  },
+                  "mandatory": false,
+                  "CollectedVariableReference": "lzsi9zm2"
+                }
+              ],
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "FlowControl": [],
+              "questionType": "SIMPLE"
+            }
+          ],
+          "Label": [
+            "\"Sous seq sans déclartion\""
+          ],
+          "depth": 2,
+          "Control": [],
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "FlowControl": [],
+          "genericName": "SUBMODULE"
+        }
+      ],
+      "Label": [
+        "\"Prédiction  \""
+      ],
+      "depth": 1,
+      "Control": [],
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "id": "lw65geez",
+          "Text": "\"Une déclaration de séquence\"",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "declarationType": "HELP"
+        }
+      ],
+      "FlowControl": [],
+      "genericName": "MODULE"
+    },
+    {
+      "id": "idendquest",
+      "Name": "QUESTIONNAIRE_END",
+      "type": "SequenceType",
+      "Child": [],
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "depth": 1,
+      "Control": [],
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "FlowControl": [],
+      "genericName": "MODULE"
+    }
+  ],
+  "Label": [
+    "Questionnaire simple"
+  ],
+  "final": false,
+  "owner": "DR59-SNDI59",
+  "agency": "fr.insee",
+  "CodeLists": {
+    "CodeList": []
+  },
+  "Variables": {
+    "Variable": [
+      {
+        "id": "lyyez3nv",
+        "Name": "INPUT",
+        "type": "CollectedVariableType",
+        "Label": "INPUT label",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": "1000"
+        }
+      },
+      {
+        "id": "lzsi9zm2",
+        "Name": "QUELGE",
+        "type": "CollectedVariableType",
+        "Label": "QUELGE label",
+        "Datatype": {
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Maximum": "100",
+          "Minimum": "0",
+          "Decimals": "",
+          "typeName": "NUMERIC"
+        }
+      }
+    ]
+  },
+  "flowLogic": "FILTER",
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "FlowControl": [],
+  "genericName": "QUESTIONNAIRE",
+  "ComponentGroup": [
+    {
+      "id": "lw656s9l",
+      "Name": "PAGE_1",
+      "Label": [
+        "Components for page 1"
+      ],
+      "MemberReference": [
+        "lw65iawq",
+        "lw6574kk",
+        "lzsidpmd",
+        "lzsiead8",
+        "idendquest"
+      ]
+    }
+  ],
+  "DataCollection": [
+    {
+      "id": "esa-dc-2018",
+      "uri": "http://ddi:fr.insee:DataCollection.esa-dc-2018"
+    },
+    {
+      "id": "s1268-dc",
+      "uri": "http://ddi:fr.insee:DataCollection.s1268-dc"
+    }
+  ],
+  "lastUpdatedDate": "Tue Oct 29 2024 10:36:11 GMT+0100 (heure normale d’Europe centrale)",
+  "formulasLanguage": "VTL",
+  "childQuestionnaireRef": []
+}
