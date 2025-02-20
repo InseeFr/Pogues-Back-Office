@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -66,7 +67,6 @@ public class CodesListService {
                 jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaire)));
     }
 
-
     /**
      *
      * @param existingCodeLists
@@ -90,11 +90,9 @@ public class CodesListService {
     }
 
     List<String> getListOfQuestionIdWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
-        List<String> questionIds = new ArrayList<>();
-        questionnaire.getChild().forEach(componentType ->
-                questionIds.addAll(getListOfQuestionIdWhereCodesListIsUsed(componentType, codesListId))
-        );
-        return questionIds;
+        return questionnaire.getChild().stream()
+                .map(componentType -> getListOfQuestionIdWhereCodesListIsUsed(componentType, codesListId))
+                .flatMap(Collection::stream).toList();
     }
 
     List<String> getListOfQuestionIdWhereCodesListIsUsed(ComponentType poguesComponent, String codesListId){
