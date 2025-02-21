@@ -97,14 +97,14 @@ public class CodesListService {
                 .toList();
     }
 
-    List<ComponentType> getListOfQuestionWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
+    List<QuestionType> getListOfQuestionWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
         return questionnaire.getChild().stream()
                 .map(componentType -> getListOfQuestionWhereCodesListIsUsed(componentType, codesListId))
                 .flatMap(Collection::stream).toList();
     }
 
-    List<ComponentType> getListOfQuestionWhereCodesListIsUsed(ComponentType poguesComponent, String codesListId){
-        List<ComponentType> questions = new ArrayList<>();
+    List<QuestionType> getListOfQuestionWhereCodesListIsUsed(ComponentType poguesComponent, String codesListId){
+        List<QuestionType> questions = new ArrayList<>();
         if(poguesComponent.getClass().equals(SequenceType.class)){
             ((SequenceType) poguesComponent).getChild().stream().forEach(childComponent -> {
                 questions.addAll(getListOfQuestionWhereCodesListIsUsed(childComponent, codesListId));
@@ -113,11 +113,11 @@ public class CodesListService {
         if(poguesComponent.getClass().equals(QuestionType.class)){
             QuestionTypeEnum questionType = ((QuestionType) poguesComponent).getQuestionType();
             ((QuestionType) poguesComponent).getResponse().forEach(responseType -> {
-                if(codesListId.equals(responseType.getCodeListReference())) questions.add(poguesComponent);
+                if(codesListId.equals(responseType.getCodeListReference())) questions.add((QuestionType) poguesComponent);
             });
             if(questionType.equals(QuestionTypeEnum.TABLE) || questionType.equals(QuestionTypeEnum.MULTIPLE_CHOICE)){
                 ((QuestionType) poguesComponent).getResponseStructure().getDimension().forEach(dimensionType -> {
-                    if(codesListId.equals(dimensionType.getCodeListReference())) questions.add(poguesComponent);
+                    if(codesListId.equals(dimensionType.getCodeListReference())) questions.add((QuestionType) poguesComponent);
                 });
             }
         }
