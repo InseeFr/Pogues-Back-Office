@@ -2,7 +2,7 @@ package fr.insee.pogues.transforms.visualize.composition;
 
 import fr.insee.pogues.exception.DeReferencingException;
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.utils.PoguesModelUtils;
+import fr.insee.pogues.utils.model.PoguesModelUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
