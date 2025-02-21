@@ -36,6 +36,7 @@ public class CodesListService {
     public boolean updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireWithId(questionnaireId);
         boolean created = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
+        if(!created) variableService.updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList);
         updateQuestionnaireInDataBase(questionnaire);
         return created;
     }
