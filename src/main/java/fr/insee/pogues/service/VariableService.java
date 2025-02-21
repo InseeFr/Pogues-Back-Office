@@ -1,94 +1,43 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.utils.PoguesDeserializer;
-import fr.insee.pogues.utils.PoguesSerializer;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.IntStream;
 
-import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionWhereCodesListIsUsed;
+import static fr.insee.pogues.utils.model.question.MultipleChoice.updateMultipleChoiceQuestionAccordingToCodeList;
+import static fr.insee.pogues.utils.model.question.Table.updateTableQuestionAccordingToCodeList;
+import static fr.insee.pogues.utils.model.Variables.*;
 
 @Service
 public class VariableService {
 
-    private QuestionnairesService questionnairesService;
-
-    private CodesListService codesListService;
-
-    @Autowired
-    public VariableService(QuestionnairesService questionnairesService, CodesListService codesListService){
-        this.questionnairesService = questionnairesService;
-        this.codesListService = codesListService;
-    }
-
     public void updateQuestionAndVariablesAccordingToCodesList(Questionnaire questionnaire, String updatedCodeListId){
+        // Retrieve updatedCodeList in questionnaire
         CodeList codeList = questionnaire.getCodeLists().getCodeList().stream().filter(cL -> updatedCodeListId.equals(cL.getId())).findFirst().get();
-        // handleOnly MULTIPLE_CHOICE question for now
-        List<ComponentType> questionsToModify = codesListService
-                .getListOfQuestionWhereCodesListIsUsed(questionnaire, updatedCodeListId).stream()
-                .filter(componentType -> ((QuestionType) componentType).getQuestionType().equals(QuestionTypeEnum.MULTIPLE_CHOICE)).toList();
-        // retrieve collected variables of multipleQuestion
-        List<String> oldVariables = questionsToModify.stream()
-                .map(componentType ->  getVariableOfMultipleQuestion((QuestionType) componentType))
+        // Just retrieve MULTIPLE_CHOICE and TABLE questions
+        List<QuestionType> questionsToModify = getListOfQuestionWhereCodesListIsUsed(questionnaire, updatedCodeListId).stream()
+                .filter(questionType -> {
+                    QuestionTypeEnum questionTypeEnum = questionType.getQuestionType();
+                    return QuestionTypeEnum.MULTIPLE_CHOICE.equals(questionTypeEnum) || QuestionTypeEnum.TABLE.equals(questionTypeEnum);
+                })
+                .toList();
+        // modify Multiple and Table question and get there new Variables
+        List<VariableType> variables = questionsToModify.stream()
+                .map(questionType -> {
+                    QuestionTypeEnum questionTypeEnum = questionType.getQuestionType();
+                    if(QuestionTypeEnum.MULTIPLE_CHOICE.equals(questionTypeEnum)) return updateMultipleChoiceQuestionAccordingToCodeList(questionType, codeList);
+                    return updateTableQuestionAccordingToCodeList(questionType, codeList, questionnaire.getCodeLists().getCodeList());
+                })
                 .flatMap(Collection::stream)
                 .toList();
-        // remove old variables
-        questionnaire.getVariables().getVariable().removeIf(variable -> oldVariables.contains(variable.getId()));
-
-        // generate response first with CollectedVariableReference id generated
-        List<ResponseType> responses;
-
-
-        // generate new variable according to codeList
-        List<VariableType> newVariables = questionsToModify.stream()
-                .map(componentType -> computeNewVariableAccordingToCodeListMultipleChoice(codeList, componentType.getName()))
-                .flatMap(Collection::stream)
-                .toList();
-
-        // add new variables
-        questionnaire.getVariables().getVariable().addAll(newVariables);
-
-    }
-
-    private List<String> getVariableOfMultipleQuestion(QuestionType multipleQuestion){
-        if(!multipleQuestion.getQuestionType().equals(QuestionTypeEnum.MULTIPLE_CHOICE)) return List.of();
-        return multipleQuestion.getResponse().stream()
-                .map(responseType -> responseType.getCollectedVariableReference())
-                .toList();
-    }
-
-    private VariableType buildBooleanVariableFromCode(CodeType codeType, String name){
-        CollectedVariableType collectedVariableType = new CollectedVariableType();
-        collectedVariableType.setId(UUID.randomUUID().toString());
-        collectedVariableType.setName(name);
-        collectedVariableType.setLabel(String.format("%s - %s",codeType.getValue(), codeType.getLabel()));
-        DatatypeType booleanType = new BooleanDatatypeType();
-        booleanType.setTypeName(DatatypeTypeEnum.BOOLEAN);
-        collectedVariableType.setDatatype(booleanType);
-        return collectedVariableType;
-    }
-
-    public List<VariableType> computeNewVariableAccordingToCodeListMultipleChoice(CodeList codeList, String questionName){
-        return IntStream.range(0, codeList.getCode().size())
-                .mapToObj(index -> buildBooleanVariableFromCode(codeList.getCode().get(index), String.format("%s%d",questionName,index+1)))
-                .toList();
-    }
-
-
-    private Questionnaire retrieveQuestionnaireWithId(String id) throws Exception {
-        return PoguesDeserializer.questionnaireToJavaObject(questionnairesService.getQuestionnaireByID(id));
-    }
-
-    private void updateQuestionnaireInDataBase(Questionnaire questionnaire) throws Exception {
-        questionnairesService.updateQuestionnaire(
-                questionnaire.getId(),
-                jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaire)));
+        // add new variables to questionnaire
+        questionnaire.getVariables().getVariable().addAll(variables);
+        // Delete variables that are not referenced in response
+        List<String> neededCollectedVariables = getNeededCollectedVariablesInQuestionnaire(questionnaire);
+        questionnaire.getVariables().getVariable().removeIf(variableType -> !neededCollectedVariables.contains(variableType.getId()));
     }
 
 }
