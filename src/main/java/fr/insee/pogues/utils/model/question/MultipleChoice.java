@@ -32,7 +32,7 @@ public class MultipleChoice {
         questionType.getResponse().addAll(newResponses);
         // step 2
         List<MappingType> newMappings = IntStream.range(0, newResponses.size())
-                .mapToObj(index -> createNewMapping(newResponses.get(index).getId(), String.valueOf(index)))
+                .mapToObj(index -> createNewMapping(newResponses.get(index).getId(), String.valueOf(index + 1)))
                 .toList();
         // no need to update dimension attribute (codeListRef is the same)
         questionType.getResponseStructure().getMapping().clear();

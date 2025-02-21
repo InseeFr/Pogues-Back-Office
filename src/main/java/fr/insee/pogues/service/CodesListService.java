@@ -31,21 +31,22 @@ public class CodesListService {
     private QuestionnairesService questionnairesService;
 
     @Autowired
-    public CodesListService(QuestionnairesService questionnairesServic){
+    public CodesListService(QuestionnairesService questionnairesService){
         this.questionnairesService = questionnairesService;
     }
 
     public boolean updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireWithId(questionnaireId);
         boolean created = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
-        if(!created) updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList);
         updateQuestionnaireInDataBase(questionnaire);
         return created;
     }
 
     public boolean updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesList codesList) throws Exception {
         List<fr.insee.pogues.model.CodeList> codesLists = questionnaire.getCodeLists().getCodeList();
-        return updateOrAddCodeListDTD(codesLists, idCodesList, codesList);
+        boolean created = updateOrAddCodeListDTD(codesLists, idCodesList, codesList);
+        if(!created) updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList);
+        return created;
     }
 
     public void deleteCodeListOfQuestionnaireWithId(String questionnaireId, String codesListId) throws Exception {

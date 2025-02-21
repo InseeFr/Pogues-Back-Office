@@ -10,6 +10,9 @@ public class Common {
         return UUID.randomUUID().toString();
     }
 
+    public static String MAPPING_TARGET_FORMAT = "%d %d";
+    public static String COLLECTED_LABEL_FORMAT = "%s -%s";
+
     public static MappingType createNewMapping(String mappingSource, String mappingTarget){
         MappingType mapping = new MappingType();
         mapping.setMappingSource(mappingSource);
