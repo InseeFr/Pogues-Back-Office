@@ -4,16 +4,18 @@ import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesDeserializer;
+import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.webservice.model.dtd.codeList.Code;
 import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
 import fr.insee.pogues.webservice.rest.PoguesException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import javax.xml.bind.JAXBException;
-import java.io.IOException;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
@@ -124,7 +126,7 @@ public class CodesListServiceTest {
     }
 
     @Test
-    void updateExistingCodeList() throws Exception {
+    void updateExistingCodeListInMultipleQuestion() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/multiple.json");
         List<CodeList> codeLists = questionnaire.getCodeLists().getCodeList();
         CodeList initialCodeList = codeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), "m7d794ks")).findFirst().get();
@@ -144,6 +146,66 @@ public class CodesListServiceTest {
         CodeList codeListUpdated = updatedCodeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), "m7d794ks")).findFirst().get();
         assertEquals(4, updatedCodeLists.size());
         assertEquals(6, codeListUpdated.getCode().size());
+
+        String questionnaireasString = PoguesSerializer.questionnaireJavaToString(questionnaire);
+        File tmpFile = File.createTempFile("pogues-model-", ".json");
+        FileWriter writer = new FileWriter(tmpFile);
+        writer.write(questionnaireasString);
+        writer.close();
+        System.out.println(tmpFile.getAbsolutePath());
+
+    }
+
+    @Test
+    void updateExistingCodeListInTableQuestion() throws Exception {
+        Questionnaire questionnaire = loadQuestionnaireFromResources("service/table.json");
+        String codesListIdToUpdate = "m7c68dlm";
+        List<CodeList> codeLists = questionnaire.getCodeLists().getCodeList();
+        CodeList initialCodeList = codeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), codesListIdToUpdate)).findFirst().get();
+
+        assertEquals(3,codeLists.size());
+        assertEquals(2,initialCodeList.getCode().size());
+        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
+                new CodesList("id","non-binaire",List.of(
+                        new Code("1","Homme",null),
+                        new Code("2","Femmes",null),
+                        new Code("3","Non-binaire",null),
+                        new Code("4","Agenre ",null),
+                        new Code("5","Cisgenre ",null)
+                )));
+        List<CodeList> updatedCodeLists = questionnaire.getCodeLists().getCodeList();
+        CodeList codeListUpdated = updatedCodeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), codesListIdToUpdate)).findFirst().get();
+        assertEquals(3, updatedCodeLists.size());
+        assertEquals(5, codeListUpdated.getCode().size());
+
+        String questionnaireasString = PoguesSerializer.questionnaireJavaToString(questionnaire);
+        File tmpFile = File.createTempFile("pogues-model-", ".json");
+        FileWriter writer = new FileWriter(tmpFile);
+        writer.write(questionnaireasString);
+        writer.close();
+        System.out.println(tmpFile.getAbsolutePath());
+
+    }
+
+    @Test
+    @DisplayName("Should success")
+    void updateExistingCodeListInTableQuestionComplexe() throws Exception {
+        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String codesListIdToUpdate = "m7d6wcx1";
+        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
+                new CodesList("id","sauce",List.of(
+                        new Code("1","Mayonnaise",null),
+                        new Code("2","Ketchup",null),
+                        new Code("3","Moutarde",null),
+                        new Code("4","Andalouse ",null),
+                        new Code("5","Poivre ",null)
+                )));
+        String questionnaireasString = PoguesSerializer.questionnaireJavaToString(questionnaire);
+        File tmpFile = File.createTempFile("pogues-model-", ".json");
+        FileWriter writer = new FileWriter(tmpFile);
+        writer.write(questionnaireasString);
+        writer.close();
+        System.out.println(tmpFile.getAbsolutePath());
     }
 
     private Questionnaire loadQuestionnaireFromResources(String uriResources) throws URISyntaxException, IOException, JAXBException {
