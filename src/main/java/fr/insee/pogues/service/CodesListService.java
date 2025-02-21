@@ -20,23 +20,25 @@ import java.util.function.Predicate;
 import static fr.insee.pogues.utils.CodesListConverter.*;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionIdWhereCodesListIsUsed;
+import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionWhereCodesListIsUsed;
+import static fr.insee.pogues.utils.model.Variables.getNeededCollectedVariablesInQuestionnaire;
+import static fr.insee.pogues.utils.model.question.MultipleChoice.updateMultipleChoiceQuestionAccordingToCodeList;
+import static fr.insee.pogues.utils.model.question.Table.updateTableQuestionAccordingToCodeList;
 
 @Service
 @Slf4j
 public class CodesListService {
     private QuestionnairesService questionnairesService;
-    private VariableService variableService;
 
     @Autowired
-    public CodesListService(QuestionnairesService questionnairesService, VariableService variableService){
+    public CodesListService(QuestionnairesService questionnairesServic){
         this.questionnairesService = questionnairesService;
-        this.variableService = variableService;
     }
 
     public boolean updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireWithId(questionnaireId);
         boolean created = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
-        if(!created) variableService.updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList);
+        if(!created) updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList);
         updateQuestionnaireInDataBase(questionnaire);
         return created;
     }
@@ -96,8 +98,6 @@ public class CodesListService {
     }
 
 
-
-
     void addCodeListDTD(List<CodeList> existingCodeLists, CodesList codesListDtdToAdd){
         existingCodeLists.add(convertFromCodeListDTDtoCodeListModel(codesListDtdToAdd));
     }
@@ -105,6 +105,32 @@ public class CodesListService {
     void removeCodeListDTD(List<CodeList> existingCodeLists, String id) throws PoguesException {
         boolean deleted = existingCodeLists.removeIf(codeList -> id.equals(codeList.getId()));
         if(!deleted) throw new PoguesException(404,"Not found", String.format("CodesList with id %s doesn't exist in questionnaire", id));
+    }
+
+    void updateQuestionAndVariablesAccordingToCodesList(Questionnaire questionnaire, String updatedCodeListId){
+        // Retrieve updatedCodeList in questionnaire
+        CodeList codeList = questionnaire.getCodeLists().getCodeList().stream().filter(cL -> updatedCodeListId.equals(cL.getId())).findFirst().get();
+        // Just retrieve MULTIPLE_CHOICE and TABLE questions
+        List<QuestionType> questionsToModify = getListOfQuestionWhereCodesListIsUsed(questionnaire, updatedCodeListId).stream()
+                .filter(questionType -> {
+                    QuestionTypeEnum questionTypeEnum = questionType.getQuestionType();
+                    return QuestionTypeEnum.MULTIPLE_CHOICE.equals(questionTypeEnum) || QuestionTypeEnum.TABLE.equals(questionTypeEnum);
+                })
+                .toList();
+        // modify Multiple and Table question and get there new Variables
+        List<VariableType> variables = questionsToModify.stream()
+                .map(questionType -> {
+                    QuestionTypeEnum questionTypeEnum = questionType.getQuestionType();
+                    if(QuestionTypeEnum.MULTIPLE_CHOICE.equals(questionTypeEnum)) return updateMultipleChoiceQuestionAccordingToCodeList(questionType, codeList);
+                    return updateTableQuestionAccordingToCodeList(questionType, codeList, questionnaire.getCodeLists().getCodeList());
+                })
+                .flatMap(Collection::stream)
+                .toList();
+        // add new variables to questionnaire
+        questionnaire.getVariables().getVariable().addAll(variables);
+        // Delete variables that are not referenced in response
+        List<String> neededCollectedVariables = getNeededCollectedVariablesInQuestionnaire(questionnaire);
+        questionnaire.getVariables().getVariable().removeIf(variableType -> !neededCollectedVariables.contains(variableType.getId()));
     }
 
     private <T,G> void replaceElementInListAccordingCondition(List<T> elements, Predicate<T> conditionFunction, G newElement, Function<G,T> factory){

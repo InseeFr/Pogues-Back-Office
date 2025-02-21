@@ -34,12 +34,10 @@ public class CodesListServiceTest {
 
     @InjectMocks
     private CodesListService codesListService;
-    @InjectMocks
-    private VariableService variableService;
 
     @BeforeEach
     void initQuestionnaireService(){
-        codesListService = new CodesListService(questionnairesService, variableService);
+        codesListService = new CodesListService(questionnairesService);
         initMocks(this);
     }
 

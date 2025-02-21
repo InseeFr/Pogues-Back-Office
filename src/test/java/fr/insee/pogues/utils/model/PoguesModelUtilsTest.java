@@ -1,11 +1,10 @@
-package fr.insee.pogues.utils;
+package fr.insee.pogues.utils.model;
 
 import fr.insee.pogues.exception.IllegalFlowControlException;
 import fr.insee.pogues.exception.IllegalIterationException;
 import fr.insee.pogues.model.DynamicIterationType;
 import fr.insee.pogues.model.FlowControlType;
 import fr.insee.pogues.model.IterationType;
-import fr.insee.pogues.utils.model.PoguesModelUtils;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
