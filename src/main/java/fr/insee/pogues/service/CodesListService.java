@@ -19,15 +19,18 @@ import java.util.function.Predicate;
 
 import static fr.insee.pogues.utils.CodesListConverter.*;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionIdWhereCodesListIsUsed;
 
 @Service
 @Slf4j
 public class CodesListService {
     private QuestionnairesService questionnairesService;
+    private VariableService variableService;
 
     @Autowired
-    public CodesListService(QuestionnairesService questionnairesService){
+    public CodesListService(QuestionnairesService questionnairesService, VariableService variableService){
         this.questionnairesService = questionnairesService;
+        this.variableService = variableService;
     }
 
     public boolean updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
@@ -91,38 +94,7 @@ public class CodesListService {
         return false;
     }
 
-    List<String> getListOfQuestionIdWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
-        return getListOfQuestionWhereCodesListIsUsed(questionnaire, codesListId).stream()
-                .map(componentType -> componentType.getId())
-                .toList();
-    }
 
-    List<QuestionType> getListOfQuestionWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
-        return questionnaire.getChild().stream()
-                .map(componentType -> getListOfQuestionWhereCodesListIsUsed(componentType, codesListId))
-                .flatMap(Collection::stream).toList();
-    }
-
-    List<QuestionType> getListOfQuestionWhereCodesListIsUsed(ComponentType poguesComponent, String codesListId){
-        List<QuestionType> questions = new ArrayList<>();
-        if(poguesComponent.getClass().equals(SequenceType.class)){
-            ((SequenceType) poguesComponent).getChild().stream().forEach(childComponent -> {
-                questions.addAll(getListOfQuestionWhereCodesListIsUsed(childComponent, codesListId));
-            });
-        }
-        if(poguesComponent.getClass().equals(QuestionType.class)){
-            QuestionTypeEnum questionType = ((QuestionType) poguesComponent).getQuestionType();
-            ((QuestionType) poguesComponent).getResponse().forEach(responseType -> {
-                if(codesListId.equals(responseType.getCodeListReference())) questions.add((QuestionType) poguesComponent);
-            });
-            if(questionType.equals(QuestionTypeEnum.TABLE) || questionType.equals(QuestionTypeEnum.MULTIPLE_CHOICE)){
-                ((QuestionType) poguesComponent).getResponseStructure().getDimension().forEach(dimensionType -> {
-                    if(codesListId.equals(dimensionType.getCodeListReference())) questions.add((QuestionType) poguesComponent);
-                });
-            }
-        }
-        return questions;
-    }
 
 
     void addCodeListDTD(List<CodeList> existingCodeLists, CodesList codesListDtdToAdd){

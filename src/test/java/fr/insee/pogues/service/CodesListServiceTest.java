@@ -23,6 +23,7 @@ import java.util.Objects;
 
 import static fr.insee.pogues.utils.ModelCreatorUtils.initFakeCodeLists;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionIdWhereCodesListIsUsed;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -33,10 +34,12 @@ public class CodesListServiceTest {
 
     @InjectMocks
     private CodesListService codesListService;
+    @InjectMocks
+    private VariableService variableService;
 
     @BeforeEach
     void initQuestionnaireService(){
-        codesListService = new CodesListService(questionnairesService);
+        codesListService = new CodesListService(questionnairesService, variableService);
         initMocks(this);
     }
 
@@ -62,7 +65,7 @@ public class CodesListServiceTest {
     @Test
     void findQuestionIdWithCodesList() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/withCodesLists.json");
-        List<String> questionIds = codesListService.getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7c68dlm");
+        List<String> questionIds = getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7c68dlm");
         assertTrue(questionIds.contains("m7c61ohr"));
     }
 
@@ -109,7 +112,7 @@ public class CodesListServiceTest {
     @Test
     void findQuestionIdWithCodesListInTable() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/table.json");
-        List<String> questionIds = codesListService.getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7c68dlm");
+        List<String> questionIds = getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7c68dlm");
         assertTrue(questionIds.contains("m7c61ohr"));
         assertTrue(questionIds.contains("m7d6ws56"));
     }
@@ -118,7 +121,7 @@ public class CodesListServiceTest {
     @Test
     void findQuestionIdWithCodesListInMultipleChoiceQuestion() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/multiple.json");
-        List<String> questionIds = codesListService.getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7d794ks");
+        List<String> questionIds = getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7d794ks");
         assertTrue(questionIds.contains("m7d749wl"));
     }
 
