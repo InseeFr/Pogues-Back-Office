@@ -1,7 +1,6 @@
 package fr.insee.pogues.service;
 
-import fr.insee.pogues.model.CodeList;
-import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
@@ -20,6 +19,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 
@@ -208,9 +208,44 @@ public class CodesListServiceTest {
         System.out.println(tmpFile.getAbsolutePath());
     }
 
+    @Test
+    @DisplayName("Should remove clarifiaction Question after update list")
+    void shouldRemoveClarificationQuestion() throws Exception {
+        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String codesListIdToUpdate = "m7c6apvz";
+        String questionIdWithClarificationQuestion = "m7c69g2e";
+        QuestionType question = findQuestionWithId(questionnaire, questionIdWithClarificationQuestion);
+        assertEquals(1, question.getClarificationQuestion().size());
+        assertEquals(1, question.getFlowControl().size());
+        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
+                new CodesList("id","sauce",List.of(
+                        new Code("1","Mayonnaise",null),
+                        new Code("2","Ketchup",null),
+                        new Code("3","Moutarde",null),
+                        new Code("4","Andalouse ",null),
+                        new Code("5","Poivre ",null)
+                )));
+        assertEquals(0, question.getClarificationQuestion().size());
+        assertEquals(0, question.getFlowControl().size());
+
+    }
+
     private Questionnaire loadQuestionnaireFromResources(String uriResources) throws URISyntaxException, IOException, JAXBException {
         URL url = this.getClass().getClassLoader().getResource(uriResources);
         String stringQuestionnaire = Files.readString(Path.of(url.toURI()));
         return PoguesDeserializer.questionnaireToJavaObject(jsonStringtoJsonNode(stringQuestionnaire));
+    }
+
+    private QuestionType findQuestionWithId(Questionnaire questionnaire, String questionId){
+       List<ComponentType> allComponents = questionnaire.getChild().stream()
+               .map(c -> {
+                   if(c.getClass().equals(SequenceType.class)){
+                       return ((SequenceType) c).getChild();
+                   }
+                   return List.of(c);
+               })
+               .flatMap(Collection::stream)
+               .toList();
+       return (QuestionType) allComponents.stream().filter(c->questionId.equals(c.getId())).findFirst().get();
     }
 }

@@ -1,8 +1,6 @@
 package fr.insee.pogues.utils.model.question;
 
-import fr.insee.pogues.model.CodeType;
-import fr.insee.pogues.model.MappingType;
-import fr.insee.pogues.model.ResponseType;
+import fr.insee.pogues.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,5 +42,10 @@ public class Common {
             }
         }
         return mappings;
+    }
+
+    public static void removeClarificationQuestion(QuestionType question){
+        question.getClarificationQuestion().clear();
+        question.getFlowControl().removeIf(flowControl -> FlowControlTypeEnum.CLARIFICATION.equals(flowControl.getFlowControlType()));
     }
 }

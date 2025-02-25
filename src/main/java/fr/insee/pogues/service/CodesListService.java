@@ -22,6 +22,7 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionIdWhereCodesListIsUsed;
 import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionWhereCodesListIsUsed;
 import static fr.insee.pogues.utils.model.Variables.getNeededCollectedVariablesInQuestionnaire;
+import static fr.insee.pogues.utils.model.question.Common.removeClarificationQuestion;
 import static fr.insee.pogues.utils.model.question.MultipleChoice.updateMultipleChoiceQuestionAccordingToCodeList;
 import static fr.insee.pogues.utils.model.question.Table.updateTableQuestionAccordingToCodeList;
 
@@ -112,14 +113,16 @@ public class CodesListService {
         // Retrieve updatedCodeList in questionnaire
         CodeList codeList = questionnaire.getCodeLists().getCodeList().stream().filter(cL -> updatedCodeListId.equals(cL.getId())).findFirst().get();
         // Just retrieve MULTIPLE_CHOICE and TABLE questions
-        List<QuestionType> questionsToModify = getListOfQuestionWhereCodesListIsUsed(questionnaire, updatedCodeListId).stream()
+        List<QuestionType> questionsToModify = getListOfQuestionWhereCodesListIsUsed(questionnaire, updatedCodeListId);
+        // Clear Clarification question for concerned question
+        questionsToModify.forEach(question -> removeClarificationQuestion(question));
+        // modify Multiple and Table question and get there new Variables
+        List<QuestionType> multipleAndTableQuestion = questionsToModify.stream()
                 .filter(questionType -> {
                     QuestionTypeEnum questionTypeEnum = questionType.getQuestionType();
-                    return QuestionTypeEnum.MULTIPLE_CHOICE.equals(questionTypeEnum) || QuestionTypeEnum.TABLE.equals(questionTypeEnum);
-                })
+                    return QuestionTypeEnum.MULTIPLE_CHOICE.equals(questionTypeEnum) || QuestionTypeEnum.TABLE.equals(questionTypeEnum);})
                 .toList();
-        // modify Multiple and Table question and get there new Variables
-        List<VariableType> variables = questionsToModify.stream()
+        List<VariableType> variables = multipleAndTableQuestion.stream()
                 .map(questionType -> {
                     QuestionTypeEnum questionTypeEnum = questionType.getQuestionType();
                     if(QuestionTypeEnum.MULTIPLE_CHOICE.equals(questionTypeEnum)) return updateMultipleChoiceQuestionAccordingToCodeList(questionType, codeList);
