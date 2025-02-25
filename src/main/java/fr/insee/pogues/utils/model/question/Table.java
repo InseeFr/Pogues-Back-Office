@@ -1,7 +1,6 @@
 package fr.insee.pogues.utils.model.question;
 
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.webservice.rest.PoguesException;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -113,13 +112,14 @@ public class Table {
             questionType.getResponse().clear();
             questionType.getResponse().addAll(newResponses);
             // step 2 (mapping)
-            List<MappingType> newMappings = buildMappingsAccordingWithTowAxisAndResponses(primaryCodeListWithoutChild, secondaryCodeListWithoutChild, newResponses);
+            List<MappingType> newMappings = buildMappingsBasedOnTwoDimensions(primaryCodeListWithoutChild, secondaryCodeListWithoutChild, newResponses);
             questionType.getResponseStructure().getMapping().clear();
             questionType.getResponseStructure().getMapping().addAll(newMappings);
             // step 3 (variable)
-            List<VariableType> newVariables = buildVariablesAccordingWithTwoAxisAndResponses(
+            List<VariableType> newVariables = buildVariablesBasedOnTwoDimensions(
                     primaryCodeListWithoutChild, secondaryCodeListWithoutChild,
-                    newResponses, questionType.getName());
+                    newResponses, questionType.getName(),
+                    secondaryCode -> secondaryCode.getLabel());
             return newVariables;
         }
         // Here only PRIMARY dimension and MEASURE
@@ -133,7 +133,7 @@ public class Table {
         questionType.getResponse().clear();
         questionType.getResponse().addAll(newResponses);
         // step 2
-        List<MappingType> newMappings = buildMappingsAccordingToOneAxeAndResponses(primaryCodeListWithoutChild, responsesPattern, newResponses);
+        List<MappingType> newMappings = buildMappingsBasedOnTwoDimensions(primaryCodeListWithoutChild, responsesPattern, newResponses);
         questionType.getResponseStructure().getMapping().clear();
         questionType.getResponseStructure().getMapping().addAll(newMappings);
 
@@ -141,9 +141,9 @@ public class Table {
                 .filter(dimensionType -> DimensionTypeEnum.MEASURE.equals(dimensionType.getDimensionType()))
                 .toList();
         // step 3
-        List<VariableType> newVariables = buildVariablesAccordingWithOneAxeAndResponses(
-                primaryCodeListWithoutChild,
-                measureDimensions, newResponses, questionType.getName());
+        List<VariableType> newVariables = buildVariablesBasedOnTwoDimensions(
+                primaryCodeListWithoutChild, measureDimensions, newResponses,
+                questionType.getName(), measureDimension -> measureDimension.getLabel());
         return newVariables;
     }
 }

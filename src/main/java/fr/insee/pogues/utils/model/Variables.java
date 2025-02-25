@@ -5,7 +5,7 @@ import fr.insee.pogues.model.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.IntStream;
+import java.util.function.Function;
 
 
 public class Variables {
@@ -41,7 +41,7 @@ public class Variables {
                 .flatMap(Collection::stream).toList();
     }
 
-    public static List<String> getNeededCollectedVariablesInQuestionnaire(ComponentType poguesComponent){
+    private static List<String> getNeededCollectedVariablesInQuestionnaire(ComponentType poguesComponent){
         List<String> variablesIds = new ArrayList<>();
         if(poguesComponent.getClass().equals(SequenceType.class)){
             ((SequenceType) poguesComponent).getChild().stream().forEach(childComponent -> {
@@ -57,33 +57,23 @@ public class Variables {
         return variablesIds;
     }
 
-    public static List<VariableType> buildVariablesAccordingWithTwoAxisAndResponses(List<CodeType> primaryCodes, List<CodeType> secondaryCodes, List<ResponseType> responses, String questionName){
-        return IntStream.range(0, primaryCodes.size())
-                .mapToObj(codeListIndex -> IntStream.range(0, secondaryCodes.size())
-                        .mapToObj(indexSecondary -> buildCollectedVariableFromDataType(
-                                responses.get(codeListIndex + indexSecondary).getDatatype(),
-                                responses.get(codeListIndex + indexSecondary).getCollectedVariableReference(),
-                                String.format(VARIABLE_FORMAT_TWO_AXIS, questionName, codeListIndex+1, indexSecondary+1),
+    public static <A> List<VariableType> buildVariablesBasedOnTwoDimensions(List<CodeType> codesList, List<A> secondList, List<ResponseType> responses, String questionName, Function<A,String> labelFactory){
+        int responseIndex=0;
+        List<VariableType> variables = new ArrayList<>();
+        for(int primaryIndex=0; primaryIndex < codesList.size(); primaryIndex++){
+            for(int secondaryIndex=0; secondaryIndex < secondList.size(); secondaryIndex++){
+                variables.add(
+                        buildCollectedVariableFromDataType(
+                                responses.get(responseIndex).getDatatype(),
+                                responses.get(responseIndex).getCollectedVariableReference(),
+                                String.format(VARIABLE_FORMAT_TWO_AXIS, questionName, primaryIndex+1, secondaryIndex+1),
                                 String.format(COLLECTED_LABEL_FORMAT,
-                                        primaryCodes.get(codeListIndex).getLabel(),
-                                        secondaryCodes.get(indexSecondary).getLabel())))
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
-    }
-
-    public static List<VariableType> buildVariablesAccordingWithOneAxeAndResponses(List<CodeType> primaryCodes, List<DimensionType> measures, List<ResponseType> responses, String questionName) {
-       return IntStream.range(0, primaryCodes.size())
-                .mapToObj(codeListIndex -> IntStream.range(0, measures.size())
-                        .mapToObj(responsePatternIndex -> buildCollectedVariableFromDataType(
-                                responses.get(responsePatternIndex+codeListIndex).getDatatype(),
-                                responses.get(responsePatternIndex+codeListIndex).getCollectedVariableReference(),
-                                String.format(VARIABLE_FORMAT_TWO_AXIS, questionName, codeListIndex+1, responsePatternIndex+1),
-                                String.format(COLLECTED_LABEL_FORMAT,
-                                        primaryCodes.get(codeListIndex).getLabel(),
-                                        measures.get(responsePatternIndex).getLabel())))
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
+                                        codesList.get(primaryIndex).getLabel(),
+                                        labelFactory.apply(secondList.get(secondaryIndex))))
+                );
+                responseIndex++;
+            }
+        }
+        return variables;
     }
 }

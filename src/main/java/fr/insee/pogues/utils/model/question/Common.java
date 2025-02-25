@@ -4,7 +4,7 @@ import fr.insee.pogues.model.CodeType;
 import fr.insee.pogues.model.MappingType;
 import fr.insee.pogues.model.ResponseType;
 
-import java.util.Collection;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
@@ -24,17 +24,6 @@ public class Common {
         return mapping;
     }
 
-    public static List<MappingType> buildMappingsAccordingWithTowAxisAndResponses(List<CodeType> primaryCodes, List<CodeType> secondaryCodes, List<ResponseType> responses){
-        return IntStream.range(0, primaryCodes.size())
-                .mapToObj(index -> IntStream.range(0, secondaryCodes.size())
-                        .mapToObj(indexSecondary -> createNewMapping(
-                                responses.get(index + indexSecondary).getId(),
-                                String.format(MAPPING_TARGET_FORMAT, index+1, indexSecondary+1)))
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
-    }
-
     public static List<MappingType> buildSimpleMappingForMultipleChoiceQuestion(List<ResponseType> responses){
         return IntStream.range(0, responses.size())
                 .mapToObj(index -> createNewMapping(
@@ -43,13 +32,17 @@ public class Common {
                 .toList();
     }
 
-    public static List<MappingType> buildMappingsAccordingToOneAxeAndResponses(List<CodeType> primaryCodes, List<ResponseType> responsesPattern, List<ResponseType> responses){
-        return IntStream.range(0, primaryCodes.size())
-                .mapToObj(index -> IntStream.range(0, responsesPattern.size())
-                        .mapToObj(codeListIndex -> createNewMapping(
-                                responses.get(index+codeListIndex).getId(),
-                                String.format(MAPPING_TARGET_FORMAT,index+1, codeListIndex+1))).toList())
-                .flatMap(Collection::stream)
-                .toList();
+    public static <A,B> List<MappingType> buildMappingsBasedOnTwoDimensions(List<A> firstList, List<B> secondList, List<ResponseType> responses){
+        int responseIndex=0;
+        List<MappingType> mappings = new ArrayList<>();
+        for(int primaryIndex=0; primaryIndex < firstList.size(); primaryIndex++){
+            for(int patternIndex=0; patternIndex < secondList.size(); patternIndex++){
+                mappings.add(createNewMapping(
+                        responses.get(responseIndex).getId(),
+                        String.format(MAPPING_TARGET_FORMAT,primaryIndex+1, patternIndex+1)));
+                responseIndex++;
+            }
+        }
+        return mappings;
     }
 }
