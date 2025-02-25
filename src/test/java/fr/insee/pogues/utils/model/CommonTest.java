@@ -34,7 +34,7 @@ public class CommonTest {
     }
 
     @Test
-    void testBuildMappingsAccordingToAxisAndResponses(){
+    void testBuildMappingsWithSecondaryAxis(){
         List<ResponseType> responses = List.of(
                 createResponse(DatatypeTypeEnum.TEXT),
                 createResponse(DatatypeTypeEnum.TEXT),
@@ -43,7 +43,7 @@ public class CommonTest {
                 createResponse(DatatypeTypeEnum.TEXT),
                 createResponse(DatatypeTypeEnum.TEXT)
         );
-        List<MappingType> mappings = buildMappingsAccordingWithTowAxisAndResponses(
+        List<MappingType> mappings = buildMappingsBasedOnTwoDimensions(
                 primaryCodes, secondaryCodes, responses
         );
         assertEquals(primaryCodes.size()*secondaryCodes.size(),
@@ -76,7 +76,7 @@ public class CommonTest {
     }
 
     @Test
-    void testBuildMappingsAccordingToOneAxeAndResponses(){
+    void testBuildMappingsAccordingToOneAndTwoMeasures(){
         List<ResponseType> responsesPattern = List.of(
                 createResponse(DatatypeTypeEnum.NUMERIC),
                 createResponse(DatatypeTypeEnum.TEXT));
@@ -88,13 +88,13 @@ public class CommonTest {
                 createResponse(DatatypeTypeEnum.TEXT),
                 createResponse(DatatypeTypeEnum.TEXT)
         );
-        List<MappingType> mappings = buildMappingsAccordingToOneAxeAndResponses(primaryCodes, responsesPattern, responses);
+        List<MappingType> mappings = buildMappingsBasedOnTwoDimensions(primaryCodes, responsesPattern, responses);
         assertEquals(6, mappings.size());
-        assertTrue(mappings.stream()
-                .anyMatch(m-> responses.getFirst().getId()
-                        .equals(m.getMappingSource()))
-        );
         assertEquals("1 1", mappings.getFirst().getMappingTarget());
         assertEquals("3 2", mappings.getLast().getMappingTarget());
+        // Test if each responses id are mapped
+        responses.forEach(response -> {
+            assertTrue(mappings.stream().anyMatch(m->response.getId().equals(m.getMappingSource())));
+        });
     }
 }

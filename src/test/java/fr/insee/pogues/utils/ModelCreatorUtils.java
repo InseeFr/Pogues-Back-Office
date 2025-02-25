@@ -19,6 +19,13 @@ public class ModelCreatorUtils {
         return response;
     }
 
+    public static DimensionType createSimpleMeasureDimension(String label){
+        DimensionType measure = new DimensionType();
+        measure.setDimensionType(DimensionTypeEnum.MEASURE);
+        measure.setLabel(label);
+        return measure;
+    }
+
     public static CodeType initFakeCodeType(String value, String label, String parent){
         CodeType codeType = new CodeType();
         codeType.setValue(value);
