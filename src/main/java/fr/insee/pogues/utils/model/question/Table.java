@@ -1,6 +1,8 @@
 package fr.insee.pogues.utils.model.question;
 
+import com.google.errorprone.annotations.Var;
 import fr.insee.pogues.model.*;
+import fr.insee.pogues.utils.model.Variables;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -66,7 +68,10 @@ public class Table {
     private static boolean isDimensionHasPrimaryAndSecondary(List<DimensionType> dimensions){
         return dimensions.stream().anyMatch(dimension -> isDimensionSecondary(dimension));
     }
-
+    private static boolean isDimensionPrimaryAndBasedOnCodeListUpdated(List<DimensionType> dimensions, String updatedCodeListId){
+        return dimensions.stream().anyMatch(dimension -> isDimensionPrimary(dimension)
+                && updatedCodeListId.equals(dimension.getCodeListReference()));
+    }
     private static boolean isDimensionPrimary(DimensionType dimension){
         return DimensionTypeEnum.PRIMARY.equals(dimension.getDimensionType());
     }
@@ -85,11 +90,14 @@ public class Table {
         // 3: create Variables with id created in step 1
         // 4: return list all new Variables
 
+        List<VariableType> earlyReturnedValue = List.of();
+        if(!questionType.getQuestionType().equals(QuestionTypeEnum.TABLE)) return earlyReturnedValue;
+
         List<DimensionType> dimensionsOfTable = questionType.getResponseStructure().getDimension();
         // Test if responses has to be re-compute (codeList use as PRIMARY or SECONDARY dimension)
-        if (!questionType.getQuestionType().equals(QuestionTypeEnum.TABLE) &&
-                isDimensionBasedOnCodeListId(dimensionsOfTable, updatedCodeList.getId()))
-            return List.of();
+        if (!isDimensionBasedOnCodeListId(dimensionsOfTable, updatedCodeList.getId())) return earlyReturnedValue;
+
+
         // Step 1
         List<ResponseType> responsesPattern = new ArrayList<>();
         questionType.getResponse().forEach(responseType -> {
@@ -123,8 +131,11 @@ public class Table {
             return newVariables;
         }
         // Here only PRIMARY dimension and MEASURE
-        // re-create response according to updatedCodeList
-        List<CodeType> primaryCodeListWithoutChild = getOnlyCodesWithoutChild(updatedCodeList);
+        // re-create response according to updatedCodeList only updatedCodeList is used as primaryDimension
+        if(!isDimensionPrimaryAndBasedOnCodeListUpdated(dimensionsOfTable, updatedCodeList.getId())) return earlyReturnedValue;
+        String primaryCodeListId = dimensionsOfTable.stream().filter(dimension -> isDimensionPrimary(dimension)).findFirst().get().getCodeListReference();
+        CodeList primaryCodeList = getCodeListWithRef(primaryCodeListId, updatedCodeList, codeListInQuestionnaire);
+        List<CodeType> primaryCodeListWithoutChild = getOnlyCodesWithoutChild(primaryCodeList);
         List<ResponseType> newResponses = primaryCodeListWithoutChild.stream()
                 .map(codeType -> responsesPattern.stream().map(responsePattern -> createNewResponseFrom(responsePattern)).toList())
                 .flatMap(Collection::stream)
