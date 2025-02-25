@@ -1,0 +1,907 @@
+{
+  "id": "m7c5siu3",
+  "Name": "LCLISTDECO",
+  "Child": [
+    {
+      "id": "m7c64mrn",
+      "Name": "S1",
+      "type": "SequenceType",
+      "Child": [
+        {
+          "id": "m7c61ohr",
+          "Name": "QUESTION",
+          "type": "QuestionType",
+          "Label": ["\"Femme ou Homme ?\""],
+          "depth": 2,
+          "Control": [],
+          "Response": [
+            {
+              "id": "m7c5z7zf",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 1,
+                "visualizationHint": "RADIO"
+              },
+              "mandatory": false,
+              "CodeListReference": "m7c68dlm",
+              "CollectedVariableReference": "m7kde02t"
+            }
+          ],
+          "TargetMode": ["CAWI"],
+          "Declaration": [],
+          "FlowControl": [],
+          "questionType": "SINGLE_CHOICE",
+          "ClarificationQuestion": []
+        },
+        {
+          "id": "m7c69g2e",
+          "Name": "OUINONOUPE",
+          "type": "QuestionType",
+          "Label": ["\"Oui, non ou peut-être ?\""],
+          "depth": 2,
+          "Control": [],
+          "Response": [
+            {
+              "id": "m7c5vkkl",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 1,
+                "visualizationHint": "RADIO"
+              },
+              "mandatory": false,
+              "CodeListReference": "m7c6apvz",
+              "CollectedVariableReference": "m7kd9faq"
+            }
+          ],
+          "TargetMode": ["CAWI"],
+          "Declaration": [],
+          "FlowControl": [
+            {
+              "id": "m7kda72y",
+              "IfTrue": "m7kdj8cz",
+              "Expression": "$OUINONOUPE$ = '4'",
+              "Description": "$OUINONOUPE$ = '4' : OUINONOUPE4CL",
+              "flowControlType": "CLARIFICATION"
+            }
+          ],
+          "questionType": "SINGLE_CHOICE",
+          "ClarificationQuestion": [
+            {
+              "id": "m7kdj8cz",
+              "Name": "OUINONOUPE4CL",
+              "Label": "\"Préciser :\"",
+              "Response": [
+                {
+                  "id": "m7kd4pjn",
+                  "Datatype": {
+                    "type": "TextDatatypeType",
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "MaxLength": 249
+                  },
+                  "mandatory": false,
+                  "CollectedVariableReference": "m7kd2myq"
+                }
+              ],
+              "TargetMode": ["CAWI"],
+              "questionType": "SIMPLE"
+            }
+          ]
+        },
+        {
+          "id": "m7d6ws56",
+          "Name": "TAB",
+          "type": "QuestionType",
+          "Label": ["\"Codes List dans un tableau ?\""],
+          "depth": 2,
+          "Control": [],
+          "Response": [
+            {
+              "id": "m7em5m0r",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 1,
+                "visualizationHint": "RADIO"
+              },
+              "CodeListReference": "m7d6wcx1",
+              "CollectedVariableReference": "m7em79ue"
+            },
+            {
+              "id": "m7em892l",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 1,
+                "visualizationHint": "RADIO"
+              },
+              "CodeListReference": "m7d6wcx1",
+              "CollectedVariableReference": "m7elvb7d"
+            },
+            {
+              "id": "m7emkxt6",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 1,
+                "visualizationHint": "RADIO"
+              },
+              "CodeListReference": "m7d6wcx1",
+              "CollectedVariableReference": "m7em5k57"
+            },
+            {
+              "id": "m7emfakj",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 1,
+                "visualizationHint": "RADIO"
+              },
+              "CodeListReference": "m7d6wcx1",
+              "CollectedVariableReference": "m7em36pl"
+            },
+            {
+              "id": "m7ema1xc",
+              "Datatype": {
+                "Unit": "http://id.insee.fr/unit/kg",
+                "type": "NumericDatatypeType",
+                "Maximum": 100,
+                "Minimum": 0,
+                "typeName": "NUMERIC"
+              },
+              "CollectedVariableReference": "m7em42me"
+            },
+            {
+              "id": "m7em86wb",
+              "Datatype": {
+                "Unit": "http://id.insee.fr/unit/kg",
+                "type": "NumericDatatypeType",
+                "Maximum": 100,
+                "Minimum": 0,
+                "typeName": "NUMERIC"
+              },
+              "CollectedVariableReference": "m7em0dsm"
+            },
+            {
+              "id": "m7eme52b",
+              "Datatype": {
+                "Unit": "http://id.insee.fr/unit/kg",
+                "type": "NumericDatatypeType",
+                "Maximum": 100,
+                "Minimum": 0,
+                "typeName": "NUMERIC"
+              },
+              "CollectedVariableReference": "m7em8u00"
+            },
+            {
+              "id": "m7emabjs",
+              "Datatype": {
+                "Unit": "http://id.insee.fr/unit/kg",
+                "type": "NumericDatatypeType",
+                "Maximum": 100,
+                "Minimum": 0,
+                "typeName": "NUMERIC"
+              },
+              "CollectedVariableReference": "m7elv9n5"
+            }
+          ],
+          "TargetMode": ["CAWI"],
+          "Declaration": [],
+          "FlowControl": [],
+          "questionType": "TABLE",
+          "ResponseStructure": {
+            "Mapping": [
+              { "MappingSource": "m7em5m0r", "MappingTarget": "1 1" },
+              { "MappingSource": "m7em892l", "MappingTarget": "2 1" },
+              { "MappingSource": "m7emkxt6", "MappingTarget": "3 1" },
+              { "MappingSource": "m7emfakj", "MappingTarget": "4 1" },
+              { "MappingSource": "m7ema1xc", "MappingTarget": "1 2" },
+              { "MappingSource": "m7em86wb", "MappingTarget": "2 2" },
+              { "MappingSource": "m7eme52b", "MappingTarget": "3 2" },
+              { "MappingSource": "m7emabjs", "MappingTarget": "4 2" }
+            ],
+            "Attribute": [],
+            "Dimension": [
+              {
+                "dynamic": "NON_DYNAMIC",
+                "dimensionType": "PRIMARY",
+                "CodeListReference": "m7c68dlm"
+              },
+              { "Label": "\"Ketchup ou mayo ?\"", "dimensionType": "MEASURE" },
+              { "Label": "\"Combien ?\"", "dimensionType": "MEASURE" }
+            ]
+          },
+          "ClarificationQuestion": []
+        },
+        {
+          "id": "m7etcawl",
+          "Name": "TAB_SECONDARY",
+          "type": "QuestionType",
+          "Label": [
+            "\"Codes List dans un tableau avec dimension secondaire ?\""
+          ],
+          "depth": 2,
+          "Control": [],
+          "Response": [
+            {
+              "id": "m7etdnwe",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 249
+              },
+              "CollectedVariableReference": "m7et897v"
+            },
+            {
+              "id": "m7esuy2n",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 249
+              },
+              "CollectedVariableReference": "m7etaocr"
+            },
+            {
+              "id": "m7et5gky",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 249
+              },
+              "CollectedVariableReference": "m7etb7le"
+            },
+            {
+              "id": "m7et3409",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 249
+              },
+              "CollectedVariableReference": "m7et9hfp"
+            },
+            {
+              "id": "m7etdv29",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 249
+              },
+              "CollectedVariableReference": "m7etbsfn"
+            },
+            {
+              "id": "m7et2nzz",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 249
+              },
+              "CollectedVariableReference": "m7et1d2r"
+            },
+            {
+              "id": "m7et72c5",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 249
+              },
+              "CollectedVariableReference": "m7etdfzc"
+            },
+            {
+              "id": "m7estvce",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 249
+              },
+              "CollectedVariableReference": "m7esxgmc"
+            }
+          ],
+          "TargetMode": ["CAWI"],
+          "Declaration": [],
+          "FlowControl": [],
+          "questionType": "TABLE",
+          "ResponseStructure": {
+            "Mapping": [
+              { "MappingSource": "m7etdnwe", "MappingTarget": "1 1" },
+              { "MappingSource": "m7esuy2n", "MappingTarget": "2 1" },
+              { "MappingSource": "m7et5gky", "MappingTarget": "3 1" },
+              { "MappingSource": "m7et3409", "MappingTarget": "4 1" },
+              { "MappingSource": "m7etdv29", "MappingTarget": "1 2" },
+              { "MappingSource": "m7et2nzz", "MappingTarget": "2 2" },
+              { "MappingSource": "m7et72c5", "MappingTarget": "3 2" },
+              { "MappingSource": "m7estvce", "MappingTarget": "4 2" }
+            ],
+            "Attribute": [],
+            "Dimension": [
+              {
+                "dynamic": "NON_DYNAMIC",
+                "dimensionType": "PRIMARY",
+                "CodeListReference": "m7c68dlm"
+              },
+              { "dimensionType": "SECONDARY", "CodeListReference": "m7d6wcx1" },
+              { "Label": "\"Cadeau ?\"", "dimensionType": "MEASURE" }
+            ]
+          },
+          "ClarificationQuestion": []
+        },
+        {
+          "id": "m7d749wl",
+          "Name": "CHOIXMULTI",
+          "type": "QuestionType",
+          "Label": ["\"Choix Multiple\""],
+          "depth": 2,
+          "Control": [],
+          "Response": [
+            {
+              "id": "m7kdhrlc",
+              "Datatype": {
+                "type": "BooleanDatatypeType",
+                "typeName": "BOOLEAN"
+              },
+              "CollectedVariableReference": "m7kcybtk"
+            },
+            {
+              "id": "m7kd33qj",
+              "Datatype": {
+                "type": "BooleanDatatypeType",
+                "typeName": "BOOLEAN"
+              },
+              "CollectedVariableReference": "m7kd14ko"
+            },
+            {
+              "id": "m7kd4lq9",
+              "Datatype": {
+                "type": "BooleanDatatypeType",
+                "typeName": "BOOLEAN"
+              },
+              "CollectedVariableReference": "m7kci3yl"
+            },
+            {
+              "id": "m7kdf1qt",
+              "Datatype": {
+                "type": "BooleanDatatypeType",
+                "typeName": "BOOLEAN"
+              },
+              "CollectedVariableReference": "m7kczsgu"
+            },
+            {
+              "id": "m7kdmbwl",
+              "Datatype": {
+                "type": "BooleanDatatypeType",
+                "typeName": "BOOLEAN"
+              },
+              "CollectedVariableReference": "m7kd1hd2"
+            },
+            {
+              "id": "m7kdhxqz",
+              "Datatype": {
+                "type": "BooleanDatatypeType",
+                "typeName": "BOOLEAN"
+              },
+              "CollectedVariableReference": "m7kcrw5d"
+            }
+          ],
+          "TargetMode": ["CAWI"],
+          "Declaration": [],
+          "FlowControl": [
+            {
+              "id": "m7kdk6ql",
+              "IfTrue": "m7kdasgv",
+              "Expression": "$CHOIXMULTI6$ = '1'",
+              "Description": "$CHOIXMULTI6$ = '1' : CHOIXMULTIACL",
+              "flowControlType": "CLARIFICATION"
+            }
+          ],
+          "questionType": "MULTIPLE_CHOICE",
+          "ResponseStructure": {
+            "Mapping": [
+              { "MappingSource": "m7kdhrlc", "MappingTarget": "1" },
+              { "MappingSource": "m7kd33qj", "MappingTarget": "2" },
+              { "MappingSource": "m7kd4lq9", "MappingTarget": "3" },
+              { "MappingSource": "m7kdf1qt", "MappingTarget": "4" },
+              { "MappingSource": "m7kdmbwl", "MappingTarget": "5" },
+              { "MappingSource": "m7kdhxqz", "MappingTarget": "6" }
+            ],
+            "Attribute": [],
+            "Dimension": [
+              {
+                "dynamic": "NON_DYNAMIC",
+                "dimensionType": "PRIMARY",
+                "CodeListReference": "m7d794ks"
+              },
+              { "dimensionType": "MEASURE" }
+            ]
+          },
+          "ClarificationQuestion": [
+            {
+              "id": "m7kdasgv",
+              "Name": "CHOIXMULTIACL",
+              "Label": "\"Préciser :\"",
+              "Response": [
+                {
+                  "id": "m7kd8v5m",
+                  "Datatype": {
+                    "type": "TextDatatypeType",
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "MaxLength": 249
+                  },
+                  "mandatory": false,
+                  "CollectedVariableReference": "m7kcqmbh"
+                }
+              ],
+              "TargetMode": ["CAWI"],
+              "questionType": "SIMPLE"
+            }
+          ]
+        },
+        {
+          "id": "m7k9qgkh",
+          "Name": "TABLEAUDYN",
+          "type": "QuestionType",
+          "Label": ["\"Tableau dynamique\""],
+          "depth": 2,
+          "Control": [],
+          "Response": [
+            {
+              "id": "m7k9u64i",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 249
+              },
+              "CollectedVariableReference": "m7k9s6rf"
+            }
+          ],
+          "TargetMode": ["CAWI"],
+          "Declaration": [],
+          "FlowControl": [],
+          "questionType": "TABLE",
+          "ResponseStructure": {
+            "Mapping": [
+              { "MappingSource": "m7k9u64i", "MappingTarget": "1 1" }
+            ],
+            "Attribute": [],
+            "Dimension": [
+              {
+                "dynamic": "DYNAMIC_LENGTH",
+                "MaxLines": "5",
+                "MinLines": "1",
+                "dimensionType": "PRIMARY"
+              },
+              { "Label": "\"Prenom\"", "dimensionType": "MEASURE" }
+            ]
+          },
+          "ClarificationQuestion": []
+        }
+      ],
+      "Label": ["\"S1\""],
+      "depth": 1,
+      "Control": [],
+      "TargetMode": ["CAWI"],
+      "Declaration": [],
+      "FlowControl": [],
+      "genericName": "MODULE"
+    },
+    {
+      "id": "idendquest",
+      "Name": "QUESTIONNAIRE_END",
+      "type": "SequenceType",
+      "Child": [],
+      "Label": ["QUESTIONNAIRE_END"],
+      "depth": 1,
+      "Control": [],
+      "TargetMode": ["CAWI"],
+      "Declaration": [],
+      "FlowControl": [],
+      "genericName": "MODULE"
+    }
+  ],
+  "Label": ["[LC]: List de codes"],
+  "final": false,
+  "owner": "DR59-SNDI59",
+  "agency": "fr.insee",
+  "CodeLists": {
+    "CodeList": [
+      {
+        "id": "m7c68dlm",
+        "Code": [
+          { "Label": "\"Humain\"", "Value": "H", "Parent": "" },
+          { "Label": "\"Humain, Féminin\"", "Value": "H-F", "Parent": "H" },
+          { "Label": "\"Humain, masculin\"", "Value": "H-H", "Parent": "H" },
+          { "Label": "\"Martien\"", "Value": "M", "Parent": "" },
+          { "Label": "\"Martienne, Féminin\"", "Value": "M-F", "Parent": "M" },
+          { "Label": "\"Martien, masculin\"", "Value": "M-H", "Parent": "M" }
+        ],
+        "Label": "h-f"
+      },
+      {
+        "id": "m7c6apvz",
+        "Code": [
+          { "Label": "\"Oui\"", "Value": "1", "Parent": "" },
+          { "Label": "\"Peut-être\"", "Value": "3", "Parent": "" },
+          { "Label": "\"Autre\"", "Value": "4", "Parent": "" }
+        ],
+        "Label": "o-n-pe"
+      },
+      {
+        "id": "m7d6wcx1",
+        "Code": [
+          { "Label": "\"Ketchup\"", "Value": "k", "Parent": "" },
+          { "Label": "\"Moutarde\"", "Value": "M", "Parent": "" }
+        ],
+        "Label": "k-m"
+      },
+      {
+        "id": "m7d794ks",
+        "Code": [
+          { "Label": "\"Lille\"", "Value": "L", "Parent": "" },
+          { "Label": "\"Paris\"", "Value": "P", "Parent": "" },
+          { "Label": "\"Rennes\"", "Value": "R", "Parent": "" },
+          { "Label": "\"Brest\"", "Value": "B", "Parent": "" },
+          { "Label": "\"Strasbourg\"", "Value": "S", "Parent": "" },
+          { "Label": "\"Autre\"", "Value": "A", "Parent": "" }
+        ],
+        "Label": "ville"
+      },
+      {
+        "id": "m7j5xe5t",
+        "Code": [{ "Label": "ab", "Value": "ab", "Parent": "" }],
+        "Label": "a"
+      }
+    ]
+  },
+  "Variables": {
+    "Variable": [
+      {
+        "id": "m7kde02t",
+        "Name": "QUESTION",
+        "type": "CollectedVariableType",
+        "Label": "QUESTION label",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 1
+        },
+        "CodeListReference": "m7c68dlm"
+      },
+      {
+        "id": "m7kd9faq",
+        "Name": "OUINONOUPE",
+        "type": "CollectedVariableType",
+        "Label": "OUINONOUPE label",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 1
+        },
+        "CodeListReference": "m7c6apvz"
+      },
+      {
+        "id": "m7kd2myq",
+        "Name": "OUINONOUPE4CL",
+        "type": "CollectedVariableType",
+        "Label": "OUINONOUPE4CL label",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m7em79ue",
+        "Name": "TAB11",
+        "type": "CollectedVariableType",
+        "Label": "Humain, Féminin-Ketchup ou mayo ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 1
+        },
+        "CodeListReference": "m7d6wcx1"
+      },
+      {
+        "id": "m7elvb7d",
+        "Name": "TAB21",
+        "type": "CollectedVariableType",
+        "Label": "Humain, masculin-Ketchup ou mayo ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 1
+        },
+        "CodeListReference": "m7d6wcx1"
+      },
+      {
+        "id": "m7em5k57",
+        "Name": "TAB31",
+        "type": "CollectedVariableType",
+        "Label": "Martienne, Féminin-Ketchup ou mayo ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 1
+        },
+        "CodeListReference": "m7d6wcx1"
+      },
+      {
+        "id": "m7em36pl",
+        "Name": "TAB41",
+        "type": "CollectedVariableType",
+        "Label": "Martien, masculin-Ketchup ou mayo ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 1
+        },
+        "CodeListReference": "m7d6wcx1"
+      },
+      {
+        "id": "m7em42me",
+        "Name": "TAB12",
+        "type": "CollectedVariableType",
+        "Label": "Humain, Féminin-Combien ?",
+        "Datatype": {
+          "Unit": "http://id.insee.fr/unit/kg",
+          "type": "NumericDatatypeType",
+          "Maximum": 100,
+          "Minimum": 0,
+          "typeName": "NUMERIC"
+        }
+      },
+      {
+        "id": "m7em0dsm",
+        "Name": "TAB22",
+        "type": "CollectedVariableType",
+        "Label": "Humain, masculin-Combien ?",
+        "Datatype": {
+          "Unit": "http://id.insee.fr/unit/kg",
+          "type": "NumericDatatypeType",
+          "Maximum": 100,
+          "Minimum": 0,
+          "typeName": "NUMERIC"
+        }
+      },
+      {
+        "id": "m7em8u00",
+        "Name": "TAB32",
+        "type": "CollectedVariableType",
+        "Label": "Martienne, Féminin-Combien ?",
+        "Datatype": {
+          "Unit": "http://id.insee.fr/unit/kg",
+          "type": "NumericDatatypeType",
+          "Maximum": 100,
+          "Minimum": 0,
+          "typeName": "NUMERIC"
+        }
+      },
+      {
+        "id": "m7elv9n5",
+        "Name": "TAB42",
+        "type": "CollectedVariableType",
+        "Label": "Martien, masculin-Combien ?",
+        "Datatype": {
+          "Unit": "http://id.insee.fr/unit/kg",
+          "type": "NumericDatatypeType",
+          "Maximum": 100,
+          "Minimum": 0,
+          "typeName": "NUMERIC"
+        }
+      },
+      {
+        "id": "m7et897v",
+        "Name": "TAB_SECONDARY11",
+        "type": "CollectedVariableType",
+        "Label": "Humain, Féminin-Ketchup-Cadeau ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m7etaocr",
+        "Name": "TAB_SECONDARY21",
+        "type": "CollectedVariableType",
+        "Label": "Humain, masculin-Ketchup-Cadeau ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m7etb7le",
+        "Name": "TAB_SECONDARY31",
+        "type": "CollectedVariableType",
+        "Label": "Martienne, Féminin-Ketchup-Cadeau ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m7et9hfp",
+        "Name": "TAB_SECONDARY41",
+        "type": "CollectedVariableType",
+        "Label": "Martien, masculin-Ketchup-Cadeau ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m7etbsfn",
+        "Name": "TAB_SECONDARY12",
+        "type": "CollectedVariableType",
+        "Label": "Humain, Féminin-Moutarde-Cadeau ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m7et1d2r",
+        "Name": "TAB_SECONDARY22",
+        "type": "CollectedVariableType",
+        "Label": "Humain, masculin-Moutarde-Cadeau ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m7etdfzc",
+        "Name": "TAB_SECONDARY32",
+        "type": "CollectedVariableType",
+        "Label": "Martienne, Féminin-Moutarde-Cadeau ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m7esxgmc",
+        "Name": "TAB_SECONDARY42",
+        "type": "CollectedVariableType",
+        "Label": "Martien, masculin-Moutarde-Cadeau ?",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m7kcybtk",
+        "Name": "CHOIXMULTI1",
+        "type": "CollectedVariableType",
+        "Label": "L - \"Lille\"",
+        "Datatype": { "type": "BooleanDatatypeType", "typeName": "BOOLEAN" }
+      },
+      {
+        "id": "m7kd14ko",
+        "Name": "CHOIXMULTI2",
+        "type": "CollectedVariableType",
+        "Label": "P - \"Paris\"",
+        "Datatype": { "type": "BooleanDatatypeType", "typeName": "BOOLEAN" }
+      },
+      {
+        "id": "m7kci3yl",
+        "Name": "CHOIXMULTI3",
+        "type": "CollectedVariableType",
+        "Label": "R - \"Rennes\"",
+        "Datatype": { "type": "BooleanDatatypeType", "typeName": "BOOLEAN" }
+      },
+      {
+        "id": "m7kczsgu",
+        "Name": "CHOIXMULTI4",
+        "type": "CollectedVariableType",
+        "Label": "B - \"Brest\"",
+        "Datatype": { "type": "BooleanDatatypeType", "typeName": "BOOLEAN" }
+      },
+      {
+        "id": "m7kd1hd2",
+        "Name": "CHOIXMULTI5",
+        "type": "CollectedVariableType",
+        "Label": "S - \"Strasbourg\"",
+        "Datatype": { "type": "BooleanDatatypeType", "typeName": "BOOLEAN" }
+      },
+      {
+        "id": "m7kcrw5d",
+        "Name": "CHOIXMULTI6",
+        "type": "CollectedVariableType",
+        "Label": "A - \"Autre\"",
+        "Datatype": { "type": "BooleanDatatypeType", "typeName": "BOOLEAN" }
+      },
+      {
+        "id": "m7kcqmbh",
+        "Name": "CHOIXMULTIACL",
+        "type": "CollectedVariableType",
+        "Label": "CHOIXMULTIACL label",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m7k9s6rf",
+        "Name": "TABLEAUDYN1",
+        "type": "CollectedVariableType",
+        "Label": "Prenom",
+        "Scope": "m7k9qgkh",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      }
+    ]
+  },
+  "flowLogic": "FILTER",
+  "TargetMode": ["CAWI"],
+  "FlowControl": [],
+  "genericName": "QUESTIONNAIRE",
+  "ComponentGroup": [
+    {
+      "id": "m7c7efhr",
+      "Name": "PAGE_1",
+      "Label": ["Components for page 1"],
+      "MemberReference": [
+        "m7c64mrn",
+        "m7c61ohr",
+        "m7c69g2e",
+        "m7d6ws56",
+        "m7etcawl",
+        "m7d749wl",
+        "m7k9qgkh",
+        "idendquest"
+      ]
+    }
+  ],
+  "DataCollection": [
+    { "id": "s2106-dc", "uri": "http://ddi:fr.insee:DataCollection.s2106-dc" }
+  ],
+  "lastUpdatedDate": "Tue Feb 25 2025 11:44:57 GMT+0100 (heure normale d’Europe centrale)",
+  "formulasLanguage": "VTL",
+  "childQuestionnaireRef": []
+}
