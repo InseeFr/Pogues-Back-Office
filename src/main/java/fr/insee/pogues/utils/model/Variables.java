@@ -57,11 +57,11 @@ public class Variables {
         return variablesIds;
     }
 
-    public static List<VariableType> buildVariablesAccordingWithTwoAxisAndResponses(List<CodeType> primaryCodes, List<CodeType> secondaryCodes, ResponseType responsePattern, List<ResponseType> responses, String questionName){
+    public static List<VariableType> buildVariablesAccordingWithTwoAxisAndResponses(List<CodeType> primaryCodes, List<CodeType> secondaryCodes, List<ResponseType> responses, String questionName){
         return IntStream.range(0, primaryCodes.size())
                 .mapToObj(codeListIndex -> IntStream.range(0, secondaryCodes.size())
                         .mapToObj(indexSecondary -> buildCollectedVariableFromDataType(
-                                responsePattern.getDatatype(),
+                                responses.get(codeListIndex + indexSecondary).getDatatype(),
                                 responses.get(codeListIndex + indexSecondary).getCollectedVariableReference(),
                                 String.format(VARIABLE_FORMAT_TWO_AXIS, questionName, codeListIndex+1, indexSecondary+1),
                                 String.format(COLLECTED_LABEL_FORMAT,
@@ -72,9 +72,9 @@ public class Variables {
                 .toList();
     }
 
-    public static List<VariableType> buildVariablesAccordingWithOneAxeAndResponses(List<CodeType> primaryCodes, List<ResponseType> responsesPattern, List<ResponseType> responses, String questionName, List<DimensionType> measures) {
+    public static List<VariableType> buildVariablesAccordingWithOneAxeAndResponses(List<CodeType> primaryCodes, List<DimensionType> measures, List<ResponseType> responses, String questionName) {
        return IntStream.range(0, primaryCodes.size())
-                .mapToObj(codeListIndex -> IntStream.range(0, responsesPattern.size())
+                .mapToObj(codeListIndex -> IntStream.range(0, measures.size())
                         .mapToObj(responsePatternIndex -> buildCollectedVariableFromDataType(
                                 responses.get(responsePatternIndex+codeListIndex).getDatatype(),
                                 responses.get(responsePatternIndex+codeListIndex).getCollectedVariableReference(),

@@ -119,7 +119,7 @@ public class Table {
             // step 3 (variable)
             List<VariableType> newVariables = buildVariablesAccordingWithTwoAxisAndResponses(
                     primaryCodeListWithoutChild, secondaryCodeListWithoutChild,
-                    responsePattern, newResponses, questionType.getName());
+                    newResponses, questionType.getName());
             return newVariables;
         }
         // Here only PRIMARY dimension and MEASURE
@@ -143,7 +143,7 @@ public class Table {
         // step 3
         List<VariableType> newVariables = buildVariablesAccordingWithOneAxeAndResponses(
                 primaryCodeListWithoutChild,
-                responsesPattern, newResponses, questionType.getName(), measureDimensions);
+                measureDimensions, newResponses, questionType.getName());
         return newVariables;
     }
 }
