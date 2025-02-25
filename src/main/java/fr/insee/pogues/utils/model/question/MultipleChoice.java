@@ -5,9 +5,9 @@ import fr.insee.pogues.model.*;
 import java.util.List;
 import java.util.stream.IntStream;
 
+import static fr.insee.pogues.utils.model.CodesList.getOnlyCodesWithoutChild;
 import static fr.insee.pogues.utils.model.Variables.buildBooleanVariableFromCode;
-import static fr.insee.pogues.utils.model.question.Common.createNewMapping;
-import static fr.insee.pogues.utils.model.question.Common.getNewUniqueId;
+import static fr.insee.pogues.utils.model.question.Common.*;
 
 public class MultipleChoice {
 
@@ -16,10 +16,11 @@ public class MultipleChoice {
         // 2: update "Mapping" inside "ResponseStructure" with id of response
         // 3: create Variables with id created in step 1
         // 4: return list all new Variables
-
         if(!questionType.getQuestionType().equals(QuestionTypeEnum.MULTIPLE_CHOICE)) return List.of();
+
         // Step 1
-        List<ResponseType> newResponses = updatedCodeList.getCode().stream().map(codeType -> {
+        List<CodeType> codesWithoutChild = getOnlyCodesWithoutChild(updatedCodeList);
+        List<ResponseType> newResponses = codesWithoutChild.stream().map(codeType -> {
             ResponseType responseType = new ResponseType();
             DatatypeType booleanType = new BooleanDatatypeType();
             booleanType.setTypeName(DatatypeTypeEnum.BOOLEAN);
@@ -31,18 +32,19 @@ public class MultipleChoice {
         questionType.getResponse().clear();
         questionType.getResponse().addAll(newResponses);
         // step 2
-        List<MappingType> newMappings = IntStream.range(0, newResponses.size())
-                .mapToObj(index -> createNewMapping(newResponses.get(index).getId(), String.valueOf(index + 1)))
-                .toList();
+        List<MappingType> newMappings = buildSimpleMappingForMultipleChoiceQuestion(newResponses);
         // no need to update dimension attribute (codeListRef is the same)
         questionType.getResponseStructure().getMapping().clear();
         questionType.getResponseStructure().getMapping().addAll(newMappings);
         // step 3
         List<VariableType> variables = IntStream.range(0, newResponses.size())
                 .mapToObj(index -> buildBooleanVariableFromCode(
-                        updatedCodeList.getCode().get(index),
+                        codesWithoutChild.get(index),
                         newResponses.get(index).getCollectedVariableReference(),
-                        String.format("%s_%d",questionType.getName(),index)))
+                        String.format("%s_%s_%s_%d",
+                                questionType.getName(),
+                                codesWithoutChild.get(index).getLabel(),
+                                "BOOLEAN",index+1)))
                 .toList();
         // step 4
         return variables;

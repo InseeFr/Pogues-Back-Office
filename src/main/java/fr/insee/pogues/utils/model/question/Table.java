@@ -1,19 +1,17 @@
 package fr.insee.pogues.utils.model.question;
 
 import fr.insee.pogues.model.*;
+import fr.insee.pogues.webservice.rest.PoguesException;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.UUID;
-import java.util.stream.IntStream;
 
-import static fr.insee.pogues.utils.model.Variables.buildCollectedVariableFromDataType;
+import static fr.insee.pogues.utils.model.CodesList.getOnlyCodesWithoutChild;
+import static fr.insee.pogues.utils.model.Variables.*;
 import static fr.insee.pogues.utils.model.question.Common.*;
 
 public class Table {
-
-
 
     private static ResponseType cloneResponse(ResponseType response){
         ResponseType clone = new ResponseType();
@@ -52,14 +50,35 @@ public class Table {
                 datatypeType1.isAllowArbitraryResponse() == datatypeType2.isAllowArbitraryResponse();
     };
 
-    private static boolean isDimensionBasedOnCodeListId(DimensionType dimension, String updatedCodeListId){
-        return (DimensionTypeEnum.PRIMARY.equals(dimension.getDimensionType()) && updatedCodeListId.equals(dimension.getCodeListReference()));
+    private static boolean isDimensionBasedOnCodeListId(List<DimensionType> dimensions, String updatedCodeListId){
+        return dimensions.stream().anyMatch(dimension -> (isDimensionPrimary(dimension) || isDimensionSecondary(dimension))
+                && updatedCodeListId.equals(dimension.getCodeListReference()));
     }
 
-    private static boolean isDimensionBasedOnCodeListSecondaryId(DimensionType dimension, String updatedCodeListId){
-        return DimensionTypeEnum.SECONDARY.equals(dimension.getDimensionType()) && updatedCodeListId.equals(dimension.getCodeListReference());
+    private static List<ResponseType> buildResponseAccordingWithTwoAxis(List<CodeType> primaryCodes, List<CodeType> secondaryCodes, ResponseType responsePattern){
+        return primaryCodes.stream()
+                .map(primaryCode -> secondaryCodes.stream()
+                        .map(secondaryCode -> createNewResponseFrom(responsePattern))
+                        .toList())
+                .flatMap(Collection::stream)
+                .toList();
     }
 
+    private static boolean isDimensionHasPrimaryAndSecondary(List<DimensionType> dimensions){
+        return dimensions.stream().anyMatch(dimension -> isDimensionSecondary(dimension));
+    }
+
+    private static boolean isDimensionPrimary(DimensionType dimension){
+        return DimensionTypeEnum.PRIMARY.equals(dimension.getDimensionType());
+    }
+    private static boolean isDimensionSecondary(DimensionType dimension){
+        return DimensionTypeEnum.SECONDARY.equals(dimension.getDimensionType());
+    }
+
+    private static CodeList getCodeListWithRef(String codeListRef, CodeList updatedCodeList, List<CodeList> codeListInQuestionnaire){
+        if(updatedCodeList.getId().equals(codeListRef)) return updatedCodeList;
+        return codeListInQuestionnaire.stream().filter(codeList -> codeList.getId().equals(codeListRef)).findFirst().get();
+    }
 
     public static List<VariableType> updateTableQuestionAccordingToCodeList(QuestionType questionType, CodeList updatedCodeList, List<CodeList> codeListInQuestionnaire) {
         // 1: retrieve existing DataType for response to re-create Response with new collectedVariableReference according to codeList
@@ -67,79 +86,54 @@ public class Table {
         // 3: create Variables with id created in step 1
         // 4: return list all new Variables
 
+        List<DimensionType> dimensionsOfTable = questionType.getResponseStructure().getDimension();
         // Test if responses has to be re-compute (codeList use as PRIMARY or SECONDARY dimension)
         if (!questionType.getQuestionType().equals(QuestionTypeEnum.TABLE) &&
-                questionType.getResponseStructure()
-                        .getDimension().stream()
-                        .anyMatch(dimension -> isDimensionBasedOnCodeListId(dimension, updatedCodeList.getId())))
+                isDimensionBasedOnCodeListId(dimensionsOfTable, updatedCodeList.getId()))
             return List.of();
-
-
         // Step 1
         List<ResponseType> responsesPattern = new ArrayList<>();
         questionType.getResponse().forEach(responseType -> {
             if (responsesPattern.stream().noneMatch(r -> isResponseDataTypeEquals(r, responseType)))
                 responsesPattern.add(cloneResponse(responseType));
         });
-        if (questionType.getResponseStructure().getDimension().stream().anyMatch(dimension -> isDimensionBasedOnCodeListSecondaryId(dimension, updatedCodeList.getId()))) {
+        if (isDimensionHasPrimaryAndSecondary(dimensionsOfTable)) {
             // in this case responsesPattern has only one element
             ResponseType responsePattern = responsesPattern.getFirst();
             // we have to duplicate the response n x m (n: size of PRIMARY dimension, m: size of SECONDARY dimension)
-            String otherCodeListIdDimension = questionType.getResponseStructure().getDimension().stream()
-                    .filter(dimension -> !updatedCodeList.getId().equals(dimension.getCodeListReference()))
-                    .findFirst()
-                    .get()
-                    .getCodeListReference();
-            CodeList otherCodeListDimension = codeListInQuestionnaire.stream().filter(codeList -> otherCodeListIdDimension.equals(codeList.getId())).findFirst().get();
+            String primaryCodeListId = dimensionsOfTable.stream().filter(dimension -> isDimensionPrimary(dimension)).findFirst().get().getCodeListReference();
+            String secondaryCodeListId = dimensionsOfTable.stream().filter(dimension -> isDimensionSecondary(dimension)).findFirst().get().getCodeListReference();
+            CodeList primaryCodeList = getCodeListWithRef(primaryCodeListId, updatedCodeList, codeListInQuestionnaire);
+            CodeList secondaryCodeList = getCodeListWithRef(secondaryCodeListId, updatedCodeList, codeListInQuestionnaire);
+
+            List<CodeType> primaryCodeListWithoutChild = getOnlyCodesWithoutChild(primaryCodeList);
+            List<CodeType> secondaryCodeListWithoutChild = getOnlyCodesWithoutChild(secondaryCodeList);
             // re-create response according to the two codeList
-            List<ResponseType> newResponses = updatedCodeList.getCode().stream()
-                    .map(codeType -> otherCodeListDimension.getCode().stream().map(codeType1 -> createNewResponseFrom(responsePattern)).toList())
-                    .flatMap(Collection::stream)
-                    .toList();
+            List<ResponseType> newResponses = buildResponseAccordingWithTwoAxis(primaryCodeListWithoutChild, secondaryCodeListWithoutChild, responsePattern);
             questionType.getResponse().clear();
             questionType.getResponse().addAll(newResponses);
             // step 2 (mapping)
-            List<MappingType> newMappings = IntStream.range(0, updatedCodeList.getCode().size())
-                    .mapToObj(index -> IntStream.range(0, otherCodeListDimension.getCode().size())
-                            .mapToObj(indexSecondary -> createNewMapping(
-                                    newResponses.get(index + indexSecondary).getId(),
-                                    String.format(MAPPING_TARGET_FORMAT, index+1, indexSecondary+1)))
-                            .toList())
-                    .flatMap(Collection::stream)
-                    .toList();
+            List<MappingType> newMappings = buildMappingsAccordingWithTowAxisAndResponses(primaryCodeListWithoutChild, secondaryCodeListWithoutChild, newResponses);
             questionType.getResponseStructure().getMapping().clear();
             questionType.getResponseStructure().getMapping().addAll(newMappings);
             // step 3 (variable)
-            List<VariableType> newVariables = IntStream.range(0, updatedCodeList.getCode().size())
-                    .mapToObj(index -> IntStream.range(0, otherCodeListDimension.getCode().size())
-                            .mapToObj(indexSecondary -> buildCollectedVariableFromDataType(
-                                    responsePattern.getDatatype(),
-                                    newResponses.get(index + indexSecondary).getCollectedVariableReference(),
-                                    String.format("%s%d%d", questionType.getName(), index+1, indexSecondary+1),
-                                    String.format(COLLECTED_LABEL_FORMAT,
-                                            updatedCodeList.getCode().get(index).getLabel(),
-                                    otherCodeListDimension.getCode().get(indexSecondary).getLabel())))
-                            .toList())
-                    .flatMap(Collection::stream)
-                    .toList();
+            List<VariableType> newVariables = buildVariablesAccordingWithTwoAxisAndResponses(
+                    primaryCodeListWithoutChild, secondaryCodeListWithoutChild,
+                    responsePattern, newResponses, questionType.getName());
             return newVariables;
         }
+        // Here only PRIMARY dimension and MEASURE
         // re-create response according to updatedCodeList
-        List<ResponseType> newResponses = responsesPattern.stream()
-                .map(responsePattern -> updatedCodeList.getCode().stream().map(codeType -> createNewResponseFrom(responsePattern)).toList())
+        List<CodeType> primaryCodeListWithoutChild = getOnlyCodesWithoutChild(updatedCodeList);
+        List<ResponseType> newResponses = primaryCodeListWithoutChild.stream()
+                .map(codeType -> responsesPattern.stream().map(responsePattern -> createNewResponseFrom(responsePattern)).toList())
                 .flatMap(Collection::stream)
                 .toList();
 
         questionType.getResponse().clear();
         questionType.getResponse().addAll(newResponses);
         // step 2
-        List<MappingType> newMappings = IntStream.range(0, responsesPattern.size())
-                .mapToObj(index -> IntStream.range(0, updatedCodeList.getCode().size())
-                        .mapToObj(codeListIndex -> createNewMapping(
-                                newResponses.get(index+codeListIndex).getId(),
-                                String.format(MAPPING_TARGET_FORMAT,index+1, codeListIndex+1))).toList())
-                .flatMap(Collection::stream)
-                .toList();
+        List<MappingType> newMappings = buildMappingsAccordingToOneAxeAndResponses(primaryCodeListWithoutChild, responsesPattern, newResponses);
         questionType.getResponseStructure().getMapping().clear();
         questionType.getResponseStructure().getMapping().addAll(newMappings);
 
@@ -147,18 +141,9 @@ public class Table {
                 .filter(dimensionType -> DimensionTypeEnum.MEASURE.equals(dimensionType.getDimensionType()))
                 .toList();
         // step 3
-        List<VariableType> newVariables = IntStream.range(0, responsesPattern.size())
-                .mapToObj(index -> IntStream.range(0, updatedCodeList.getCode().size())
-                        .mapToObj(codeListIndex -> buildCollectedVariableFromDataType(
-                                newResponses.get(index+codeListIndex).getDatatype(),
-                                newResponses.get(index+codeListIndex).getCollectedVariableReference(),
-                                String.format("%s%d%d", questionType.getName(), index+1, codeListIndex+1),
-                                String.format(
-                                        COLLECTED_LABEL_FORMAT,updatedCodeList.getCode().get(codeListIndex).getLabel(),
-                                        measureDimensions.get(index).getLabel())))
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
+        List<VariableType> newVariables = buildVariablesAccordingWithOneAxeAndResponses(
+                primaryCodeListWithoutChild,
+                responsesPattern, newResponses, questionType.getName(), measureDimensions);
         return newVariables;
     }
 }

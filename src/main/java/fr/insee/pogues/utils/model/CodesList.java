@@ -40,4 +40,15 @@ public class CodesList {
         }
         return questions;
     }
+
+    public static List<CodeType> getOnlyCodesWithoutChild(CodeList codeList){
+        // Retrieve parent Value in List
+        List<String> parentValue = codeList.getCode().stream()
+                .filter(code -> code.getParent() != null && !code.getParent().isEmpty())
+                .map(code -> code.getParent())
+                .distinct()
+                .toList();
+        // Keep codes that are not parent
+        return codeList.getCode().stream().filter(code -> !parentValue.contains(code.getValue())).toList();
+    }
 }

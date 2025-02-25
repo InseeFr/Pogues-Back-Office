@@ -42,7 +42,7 @@ public class CodesListService {
         return created;
     }
 
-    public boolean updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesList codesList) throws Exception {
+    public boolean updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesList codesList) {
         List<fr.insee.pogues.model.CodeList> codesLists = questionnaire.getCodeLists().getCodeList();
         boolean created = updateOrAddCodeListDTD(codesLists, idCodesList, codesList);
         if(!created) updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList);
