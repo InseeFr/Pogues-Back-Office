@@ -1,12 +1,23 @@
 package fr.insee.pogues.utils;
 
-import fr.insee.pogues.model.CodeType;
+import fr.insee.pogues.model.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static fr.insee.pogues.utils.model.question.Common.getNewUniqueId;
+
 public class ModelCreatorUtils {
 
+    public static ResponseType createResponse(DatatypeTypeEnum datatype){
+        ResponseType response = new ResponseType();
+        response.setId(getNewUniqueId());
+        response.setCollectedVariableReference(getNewUniqueId());
+        DatatypeType datatypeType = new DateDatatypeType();
+        datatypeType.setTypeName(datatype);
+        response.setDatatype(datatypeType);
+        return response;
+    }
 
     public static CodeType initFakeCodeType(String value, String label, String parent){
         CodeType codeType = new CodeType();
