@@ -77,4 +77,17 @@ public class VariablesTest {
             assertTrue(variables.stream().anyMatch(v->response.getCollectedVariableReference().equals(v.getId())));
         });
     }
+
+    @Test
+    void getCleanedName(){
+        String dirtyName_0 = "Hello - world";
+        String cleanedName_O = Variables.getCleanedName(dirtyName_0);
+        assertEquals("HELLOWORLD",cleanedName_O);
+        String dirtyName_1 = "Hello - \"world\"";
+        String cleanedName_1 = Variables.getCleanedName(dirtyName_1);
+        assertEquals("HELLOWORLD",cleanedName_1);
+        String dirtyName_2 = "^^Hello - worldéà'         34 \t";
+        String cleanedName_2 = Variables.getCleanedName(dirtyName_2);
+        assertEquals("HELLOWORLD34",cleanedName_2);
+    }
 }

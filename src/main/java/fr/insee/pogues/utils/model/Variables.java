@@ -15,10 +15,16 @@ public class Variables {
     // ${PRIMARY_CODE_LABEL}_${SECONDARY|CODE_LABEL}
     public static final String COLLECTED_LABEL_FORMAT = "%s - %s";
 
+    public static String getCleanedName(String dirtyName){
+        return dirtyName
+                .toUpperCase()
+                .replaceAll("[^A-Z0-9a-z_]","");
+    }
+
     public static VariableType buildBooleanVariableFromCode(CodeType codeType, String variableId, String name){
         CollectedVariableType collectedVariableType = new CollectedVariableType();
         collectedVariableType.setId(variableId);
-        collectedVariableType.setName(name);
+        collectedVariableType.setName(getCleanedName(name));
         collectedVariableType.setLabel(String.format("%s - %s",codeType.getValue(), codeType.getLabel()));
         DatatypeType booleanType = new BooleanDatatypeType();
         booleanType.setTypeName(DatatypeTypeEnum.BOOLEAN);
@@ -30,7 +36,7 @@ public class Variables {
         CollectedVariableType collectedVariableType = new CollectedVariableType();
         collectedVariableType.setDatatype(datatype);
         collectedVariableType.setId(variableId);
-        collectedVariableType.setName(name);
+        collectedVariableType.setName(getCleanedName(name));
         collectedVariableType.setLabel(label);
         return collectedVariableType;
     }
