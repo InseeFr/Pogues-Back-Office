@@ -50,15 +50,27 @@ public class Variables {
     private static List<String> getNeededCollectedVariablesInQuestionnaire(ComponentType poguesComponent){
         List<String> variablesIds = new ArrayList<>();
         if(poguesComponent.getClass().equals(SequenceType.class)){
-            ((SequenceType) poguesComponent).getChild().stream().forEach(childComponent -> {
-                variablesIds.addAll(getNeededCollectedVariablesInQuestionnaire(childComponent));
-            });
+            ((SequenceType) poguesComponent).getChild().stream().forEach(childComponent ->
+                variablesIds.addAll(getNeededCollectedVariablesInQuestionnaire(childComponent))
+            );
         }
         if(poguesComponent.getClass().equals(QuestionType.class)){
-            ((QuestionType) poguesComponent).getResponse().forEach(responseType -> {
+            QuestionType question = (QuestionType) poguesComponent;
+            // Retrieve collected variable in Responses
+            question.getResponse().forEach(responseType -> {
                 String collectedVariable = responseType.getCollectedVariableReference();
                 if(collectedVariable != null) variablesIds.add(collectedVariable);
             });
+            // Retrieve collected variable in ClarificationQuestion
+            if(!question.getClarificationQuestion().isEmpty()){
+                question.getClarificationQuestion().forEach(clarificationQuestion ->
+                        variablesIds.addAll(getNeededCollectedVariablesInQuestionnaire(clarificationQuestion))
+                );
+            }
+            // Retrieve collected variable in ArbitraryResponse
+            if(question.getArbitraryResponse() != null){
+                variablesIds.add(question.getArbitraryResponse().getCollectedVariableReference());
+            }
         }
         return variablesIds;
     }
