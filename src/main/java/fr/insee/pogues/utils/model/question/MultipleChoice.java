@@ -41,10 +41,9 @@ public class MultipleChoice {
                 .mapToObj(index -> buildBooleanVariableFromCode(
                         codesWithoutChild.get(index),
                         newResponses.get(index).getCollectedVariableReference(),
-                        String.format("%s_%s_%s_%d",
+                        String.format("%s_%s",
                                 questionType.getName(),
-                                codesWithoutChild.get(index).getLabel(),
-                                "BOOLEAN",index+1)))
+                                codesWithoutChild.get(index).getValue())))
                 .toList();
         // step 4
         return variables;
