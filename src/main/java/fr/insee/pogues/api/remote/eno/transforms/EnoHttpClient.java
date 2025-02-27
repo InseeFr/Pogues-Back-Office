@@ -2,7 +2,7 @@ package fr.insee.pogues.api.remote.eno.transforms;
 
 import fr.insee.pogues.exception.EnoException;
 import fr.insee.pogues.webservice.model.EnoContext;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import fr.insee.pogues.exception.PoguesException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -96,7 +96,7 @@ public class EnoHttpClient implements EnoClient {
     }
 
     @Override
-    public String getPoguesJsonToLunaticJson(String inputAsString, Map<String, Object> params) throws IOException, EnoException {
+    public String getPoguesJsonToLunaticJson(String inputAsString, Map<String, Object> params) throws EnoException, PoguesException {
         log.info("getJSONPoguesToLunaticJson - started");
 
         EnoContext context = getContextParam(params);

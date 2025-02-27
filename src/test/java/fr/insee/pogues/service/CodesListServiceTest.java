@@ -1,12 +1,13 @@
 package fr.insee.pogues.service;
 
+import fr.insee.pogues.exception.CodesListException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.webservice.model.dtd.codeList.Code;
 import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import fr.insee.pogues.exception.PoguesException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -55,7 +56,7 @@ public class CodesListServiceTest {
     }
 
     @Test
-    void removeCodeListDTDToExistingCodeListsWithId() throws PoguesException {
+    void removeCodeListDTDToExistingCodeListsWithId() throws CodesListException {
         List<fr.insee.pogues.model.CodeList> existingCodeLists = initFakeCodeLists(10);
         codesListService.removeCodeListDTD(existingCodeLists, "code-list-4");
         assertEquals(9, existingCodeLists.size());

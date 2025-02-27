@@ -68,25 +68,24 @@ public class ModelTransform {
 	@PostMapping(path = "visualize-spec", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization spec from JSON serialized Pogues entity", hidden = true)
 	public ResponseEntity<StreamingResponseBody> visualizeSpecFromBody(@RequestBody String request,
-			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+			@RequestParam(name = "references", defaultValue = "false") Boolean ref) {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		params.put("needDeref", ref);
 		String questionnaireName = "spec";
 		try {
 			StreamingResponseBody stream = output -> {
-				try {
-					output.write(
-							pipeline.from(string2InputStream(request))
-									.map(jsonToJsonDeref::transform, params, questionnaireName)
-									.map(jsonToXML::transform, params, questionnaireName)
-									.map(poguesXMLToDDI::transform, params, questionnaireName)
-									.map(ddiToOdt::transform, params, questionnaireName).transform().toByteArray());
-				} catch (Exception e) {
-					log.error(e.getCause().getMessage());
-					throw new PoguesException(500, e.getCause().getClass().getSimpleName(), e.getCause().getMessage());
-				}
-			};
+                try {
+                    output.write(
+                            pipeline.from(string2InputStream(request))
+                                    .map(jsonToJsonDeref::transform, params, questionnaireName)
+                                    .map(jsonToXML::transform, params, questionnaireName)
+                                    .map(poguesXMLToDDI::transform, params, questionnaireName)
+                                    .map(ddiToOdt::transform, params, questionnaireName).transform().toByteArray());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            };
 
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
 					.header(CONTENT_DISPOSITION, "attachment; filename=form.fodt").body(stream);
@@ -106,16 +105,17 @@ public class ModelTransform {
 		String questionnaireName = "ddi";
 		try {
 			StreamingResponseBody stream = output -> {
-				try {
-					output.write(
-							pipeline.from(string2InputStream(request))
-									.map(jsonToJsonDeref::transform, params, questionnaireName)
-									.map(jsonToXML::transform, params, questionnaireName)
-									.map(poguesXMLToDDI::transform, params, questionnaireName).transform().toByteArray());
-				} catch (Exception e) {
-					throw new RuntimeException(e);
-				}
-			};
+                try {
+                    output.write(
+                            pipeline.from(string2InputStream(request))
+                                    .map(jsonToJsonDeref::transform, params, questionnaireName)
+                                    .map(jsonToXML::transform, params, questionnaireName)
+                                    .map(poguesXMLToDDI::transform, params, questionnaireName).transform().toByteArray());
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+
+            };
 
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
 					.header(CONTENT_DISPOSITION, "attachment; filename=form.xml").body(stream);

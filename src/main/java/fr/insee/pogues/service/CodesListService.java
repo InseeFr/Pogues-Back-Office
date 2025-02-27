@@ -1,16 +1,16 @@
 package fr.insee.pogues.service;
 
+import fr.insee.pogues.exception.CodesListException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import fr.insee.pogues.exception.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -59,9 +59,7 @@ public class CodesListService {
     public void deleteCodeListOfQuestionnaire(Questionnaire questionnaire, String codesListId) throws Exception {
         List<String> questionIds = getListOfQuestionIdWhereCodesListIsUsed(questionnaire, codesListId);
         if(!questionIds.isEmpty()){
-            throw new PoguesException(400,"The codesList is required", String.format(
-                    "CodesList with id %s is required for following questions %s", codesListId, questionIds
-            ));
+            throw new CodesListException(400, String.format("CodesList with id %s is required.", codesListId), "", questionIds);
 
         }
         List<fr.insee.pogues.model.CodeList> codesLists = questionnaire.getCodeLists().getCodeList();
@@ -104,9 +102,9 @@ public class CodesListService {
         existingCodeLists.add(convertFromCodeListDTDtoCodeListModel(codesListDtdToAdd));
     }
 
-    void removeCodeListDTD(List<CodeList> existingCodeLists, String id) throws PoguesException {
+    void removeCodeListDTD(List<CodeList> existingCodeLists, String id) throws CodesListException {
         boolean deleted = existingCodeLists.removeIf(codeList -> id.equals(codeList.getId()));
-        if(!deleted) throw new PoguesException(404,"Not found", String.format("CodesList with id %s doesn't exist in questionnaire", id));
+        if(!deleted) throw new CodesListException(404, "Not found", String.format("CodesList with id %s doesn't exist in questionnaire", id),null);
     }
 
     void updateQuestionAndVariablesAccordingToCodesList(Questionnaire questionnaire, String updatedCodeListId){
