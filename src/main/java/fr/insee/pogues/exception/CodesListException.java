@@ -2,9 +2,11 @@ package fr.insee.pogues.exception;
 
 import fr.insee.pogues.webservice.error.ApiMessage;
 import fr.insee.pogues.webservice.error.CodesListMessage;
+import lombok.Getter;
 
 import java.util.List;
 
+@Getter
 public class CodesListException extends PoguesException {
 
     private List<String> questionIds;

@@ -74,24 +74,24 @@ public class CodesListServiceTest {
     void tryToRemoveExistingCodesList() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/withCodesLists.json");
         String codesListToDelete = "m7c68dlm";
-        PoguesException exception = assertThrows(
-                PoguesException.class,
+        CodesListException exception = assertThrows(
+                CodesListException.class,
                 () -> codesListService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
         );
         assertEquals(400, exception.getStatus());
-        assertTrue(exception.getDetails().contains("m7c61ohr"));
+        assertTrue(exception.getQuestionIds().contains("m7c61ohr"));
     }
 
     @Test
     void tryToRemoveExistingCodesListInLoop() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/loop_roudabout.json");
         String codesListToDelete = "m7d5nan9";
-        PoguesException exception = assertThrows(
-                PoguesException.class,
+        CodesListException exception = assertThrows(
+                CodesListException.class,
                 () -> codesListService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
         );
         assertEquals(400, exception.getStatus());
-        assertTrue(exception.getDetails().contains("m7d5vs4h"));
+        assertTrue(exception.getQuestionIds().contains("m7d5vs4h"));
     }
 
     @Test
