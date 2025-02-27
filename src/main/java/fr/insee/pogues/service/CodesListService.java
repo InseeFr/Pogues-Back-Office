@@ -36,18 +36,33 @@ public class CodesListService {
         this.questionnairesService = questionnairesService;
     }
 
-    public boolean updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
+    /**
+     *
+     * @param questionnaireId
+     * @param idCodesList
+     * @param codesList
+     * @return the list of question's id updated (or null if created)
+     * @throws Exception
+     */
+    public List<String> updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireWithId(questionnaireId);
-        boolean created = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
+        List<String> updatedQuestionIds = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
         updateQuestionnaireInDataBase(questionnaire);
-        return created;
+        return updatedQuestionIds;
     }
-
-    public boolean updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesList codesList) {
+    /**
+     *
+     * @param questionnaire
+     * @param idCodesList
+     * @param codesList
+     * @return the list of question's id updated (or null if created)
+     * @throws Exception
+     */
+    public List<String> updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesList codesList) {
         List<fr.insee.pogues.model.CodeList> codesLists = questionnaire.getCodeLists().getCodeList();
         boolean created = updateOrAddCodeListDTD(codesLists, idCodesList, codesList);
-        if(!created) updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList);
-        return created;
+        if(!created)  return updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList);
+        return null;
     }
 
     public void deleteCodeListOfQuestionnaireWithId(String questionnaireId, String codesListId) throws Exception {
@@ -107,7 +122,7 @@ public class CodesListService {
         if(!deleted) throw new CodesListException(404, "Not found", String.format("CodesList with id %s doesn't exist in questionnaire", id),null);
     }
 
-    void updateQuestionAndVariablesAccordingToCodesList(Questionnaire questionnaire, String updatedCodeListId){
+    List<String> updateQuestionAndVariablesAccordingToCodesList(Questionnaire questionnaire, String updatedCodeListId){
         // Retrieve updatedCodeList in questionnaire
         CodeList codeList = questionnaire.getCodeLists().getCodeList().stream().filter(cL -> updatedCodeListId.equals(cL.getId())).findFirst().get();
         // Just retrieve MULTIPLE_CHOICE and TABLE questions
@@ -133,6 +148,7 @@ public class CodesListService {
         // Delete variables that are not referenced in response
         List<String> neededCollectedVariables = getNeededCollectedVariablesInQuestionnaire(questionnaire);
         questionnaire.getVariables().getVariable().removeIf(variableType -> !neededCollectedVariables.contains(variableType.getId()));
+        return questionsToModify.stream().map(question -> question.getId()).toList();
     }
 
     private <T,G> void replaceElementInListAccordingCondition(List<T> elements, Predicate<T> conditionFunction, G newElement, Function<G,T> factory){

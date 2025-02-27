@@ -15,6 +15,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/persistence")
 @Tag(name = "3. CodesList Controller")
@@ -62,14 +64,14 @@ public class CodesListController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201 ", description = "Success - Created"),
-            @ApiResponse(responseCode = "204", description = "Success - Edited"),
+            @ApiResponse(responseCode = "200", description = "Success - Edited, return list of questionIds updated"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
     public ResponseEntity<Object> updateOrAddCodesListInQuestionnaire(
             @PathVariable(value = "questionnaireId") String questionnaireId,
             @PathVariable(value = "codesListId") String codesListId,
             @RequestBody CodesList codesList) throws Exception {
-        boolean created = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
-        return ResponseEntity.status(created ? HttpStatus.CREATED : HttpStatus.NO_CONTENT).build();
+        List<String> updatedQuestionIds = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
+        return ResponseEntity.status(updatedQuestionIds == null ? HttpStatus.CREATED : HttpStatus.OK).body(updatedQuestionIds);
     }
 }
