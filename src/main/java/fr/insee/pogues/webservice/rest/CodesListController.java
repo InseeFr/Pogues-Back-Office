@@ -2,8 +2,11 @@ package fr.insee.pogues.webservice.rest;
 
 
 import fr.insee.pogues.service.CodesListService;
+import fr.insee.pogues.webservice.error.CodesListMessage;
 import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -38,7 +41,10 @@ public class CodesListController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Success - Deleted"),
-            @ApiResponse(responseCode = "400", description = "The codesList is required"),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "The codesList is required",
+                    content = { @Content( mediaType = "application/json", schema = @Schema(implementation = CodesListMessage.class)) }),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
     public ResponseEntity<Object> deleteCodesListInQuestionnaire(
