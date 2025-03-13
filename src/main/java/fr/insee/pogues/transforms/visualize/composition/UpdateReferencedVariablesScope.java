@@ -6,12 +6,12 @@ import fr.insee.pogues.model.ComponentType;
 import fr.insee.pogues.model.IterationType;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.model.VariableType;
-import fr.insee.pogues.utils.PoguesModelUtils;
+import fr.insee.pogues.utils.model.PoguesModelUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import static fr.insee.pogues.utils.PoguesModelUtils.getIterationBounds;
+import static fr.insee.pogues.utils.model.PoguesModelUtils.getIterationBounds;
 
 /**
  * Implementation of CompositionStep to update variable scopes when de-referencing a questionnaire.

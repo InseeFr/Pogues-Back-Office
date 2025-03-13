@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
 import fr.insee.pogues.configuration.cache.CacheName;
 import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import fr.insee.pogues.exception.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;

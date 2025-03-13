@@ -1,4 +1,4 @@
-package fr.insee.pogues.utils;
+package fr.insee.pogues.utils.model;
 
 import fr.insee.pogues.exception.IllegalFlowControlException;
 import fr.insee.pogues.exception.IllegalIterationException;

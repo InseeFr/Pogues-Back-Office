@@ -2,12 +2,11 @@ package fr.insee.pogues.persistence.impl;
 
 import fr.insee.pogues.domain.entity.db.Version;
 import fr.insee.pogues.persistence.repository.QuestionnaireVersionRepository;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import fr.insee.pogues.exception.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;

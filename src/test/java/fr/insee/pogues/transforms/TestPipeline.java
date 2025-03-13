@@ -1,6 +1,6 @@
 package fr.insee.pogues.transforms;
 
-import fr.insee.pogues.webservice.rest.PoguesException;
+import fr.insee.pogues.exception.PoguesException;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayInputStream;

@@ -1,14 +1,10 @@
 package fr.insee.pogues.controllers;
 
-import com.fasterxml.jackson.core.JsonFactory;
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
-import fr.insee.pogues.metadata.repository.MetadataRepositoryImpl;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.webservice.rest.QuestionnaireController;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
