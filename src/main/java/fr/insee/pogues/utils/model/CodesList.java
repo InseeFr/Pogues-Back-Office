@@ -20,6 +20,12 @@ public class CodesList {
                 .toList();
     }
 
+    public static List<String> getListOfQuestionNameWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
+        return getListOfQuestionWhereCodesListIsUsed(questionnaire, codesListId).stream()
+                .map(componentType -> componentType.getName())
+                .toList();
+    }
+
     public static List<QuestionType> getListOfQuestionWhereCodesListIsUsed(ComponentType poguesComponent, String codesListId){
         List<QuestionType> questions = new ArrayList<>();
         if(poguesComponent.getClass().equals(SequenceType.class)){
