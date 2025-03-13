@@ -44,6 +44,33 @@ public class CodesListConverter {
         return codeList;
     }
 
+    public static CodeType createCodeType(String parent, String id, String label){
+        CodeType codeType = new CodeType();
+        codeType.setParent(parent);
+        codeType.setValue(id);
+        codeType.setLabel(label);
+        return codeType;
+    }
+
+    private static List<Code> getSubCodesByParentCodeValue(List<CodeType> codeTypes, String parentCodeValue){
+        List<Code> subCodes = codeTypes.stream()
+                .filter(codeType -> parentCodeValue.equals(codeType.getParent()))
+                .map(codeType -> new Code(codeType.getValue(), codeType.getLabel(), getSubCodesByParentCodeValue(codeTypes, codeType.getValue())))
+                .toList();
+        return subCodes.isEmpty() ? null : subCodes;
+    }
+
+    private static List<Code> getRootCodesFromCodeList(List<CodeType> codeTypes){
+        return codeTypes.stream()
+                .filter(codeType -> codeType.getParent() == null || codeType.getParent().isEmpty())
+                .map(codeType -> new Code(codeType.getValue(), codeType.getLabel(), getSubCodesByParentCodeValue(codeTypes, codeType.getValue())))
+                .toList();
+    }
+
+    public static CodesList convertFromCodeListModelToCodeListDTD(CodeList codeList){
+        return new CodesList(codeList.getId(), codeList.getLabel(), getRootCodesFromCodeList(codeList.getCode()));
+    }
+
 
 
 

@@ -3,10 +3,11 @@ package fr.insee.pogues.service;
 import fr.insee.pogues.exception.CodesListException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.utils.CodesListConverter;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
-import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.webservice.model.dtd.codeList.ExtendedCodesList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +20,7 @@ import java.util.function.Predicate;
 
 import static fr.insee.pogues.utils.CodesListConverter.*;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
-import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionIdWhereCodesListIsUsed;
-import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionWhereCodesListIsUsed;
+import static fr.insee.pogues.utils.model.CodesList.*;
 import static fr.insee.pogues.utils.model.Variables.getNeededCollectedVariablesInQuestionnaire;
 import static fr.insee.pogues.utils.model.question.Common.removeClarificationQuestion;
 import static fr.insee.pogues.utils.model.question.MultipleChoice.updateMultipleChoiceQuestionAccordingToCodeList;
@@ -161,4 +161,15 @@ public class CodesListService {
         }
     }
 
+    public List<ExtendedCodesList> getCodesListsDTD(Questionnaire questionnaire) throws Exception {
+        return questionnaire.getCodeLists().getCodeList().stream()
+                .map(CodesListConverter::convertFromCodeListModelToCodeListDTD)
+                .map(codesList -> new ExtendedCodesList(codesList, getListOfQuestionNameWhereCodesListIsUsed(questionnaire, codesList.getId())))
+                .toList();
+    }
+
+    public List<ExtendedCodesList> getCodesListsDTDWithId(String questionnaireId) throws Exception {
+        Questionnaire questionnaire = retrieveQuestionnaireWithId(questionnaireId);
+        return getCodesListsDTD(questionnaire);
+    }
 }

@@ -2,9 +2,12 @@ package fr.insee.pogues.webservice.rest;
 
 
 import fr.insee.pogues.service.CodesListService;
+import fr.insee.pogues.webservice.error.ApiMessage;
 import fr.insee.pogues.webservice.error.CodesListMessage;
 import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
+import fr.insee.pogues.webservice.model.dtd.codeList.ExtendedCodesList;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -73,5 +76,30 @@ public class CodesListController {
             @RequestBody CodesList codesList) throws Exception {
         List<String> updatedQuestionIds = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
         return ResponseEntity.status(updatedQuestionIds == null ? HttpStatus.CREATED : HttpStatus.OK).body(updatedQuestionIds);
+    }
+
+    @GetMapping("questionnaire/{questionnaireId}/codes-lists")
+    @Operation(
+            operationId  = "getCodesListsInQuestionnaire",
+            summary = "Get codes lists in questionnaire",
+            description = "Get all codes lists for questionnaire of id"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200 ",
+                    description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",array = @ArraySchema(
+                                            schema = @Schema(implementation = ExtendedCodesList.class)))}),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiMessage.class)) })
+    })
+    public ResponseEntity<List<ExtendedCodesList>> getCodesListsInQuestionnaire(
+            @PathVariable(value = "questionnaireId") String questionnaireId) throws Exception {
+        List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTDWithId(questionnaireId);
+        return ResponseEntity.status(HttpStatus.OK).body(codesLists);
     }
 }
