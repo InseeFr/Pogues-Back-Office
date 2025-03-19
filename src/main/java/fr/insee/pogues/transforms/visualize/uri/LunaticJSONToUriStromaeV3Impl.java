@@ -3,7 +3,7 @@ package fr.insee.pogues.transforms.visualize.uri;
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import fr.insee.pogues.exception.PoguesException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
