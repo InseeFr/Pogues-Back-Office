@@ -11,7 +11,8 @@ import java.util.List;
 
 import static fr.insee.pogues.utils.ModelCreatorUtils.createResponse;
 import static fr.insee.pogues.utils.ModelCreatorUtils.initFakeCodeType;
-import static fr.insee.pogues.utils.model.question.Common.*;
+import static fr.insee.pogues.utils.model.question.Common.buildMappingsBasedOnTwoDimensions;
+import static fr.insee.pogues.utils.model.question.Common.buildSimpleMappingForMultipleChoiceQuestion;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

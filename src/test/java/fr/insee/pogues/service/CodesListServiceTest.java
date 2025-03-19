@@ -1,9 +1,10 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.exception.CodesListException;
-import fr.insee.pogues.model.*;
+import fr.insee.pogues.model.CodeList;
+import fr.insee.pogues.model.QuestionType;
+import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.webservice.model.dtd.codeList.Code;
 import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
@@ -14,18 +15,14 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
-import javax.xml.bind.JAXBException;
-import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Collection;
+import java.io.File;
+import java.io.FileWriter;
 import java.util.List;
 import java.util.Objects;
 
 import static fr.insee.pogues.utils.ModelCreatorUtils.initFakeCodeLists;
-import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+import static fr.insee.pogues.utils.Utils.findQuestionWithId;
+import static fr.insee.pogues.utils.Utils.loadQuestionnaireFromResources;
 import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionIdWhereCodesListIsUsed;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -239,24 +236,5 @@ public class CodesListServiceTest {
         List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTD(questionnaire);
         assertEquals(5, codesLists.size());
         assertThat(codesLists.get(0).getRelatedQuestionsId()).containsExactly("QUESTION", "TAB", "TAB_SECONDARY");
-    }
-
-    private Questionnaire loadQuestionnaireFromResources(String uriResources) throws URISyntaxException, IOException, JAXBException {
-        URL url = this.getClass().getClassLoader().getResource(uriResources);
-        String stringQuestionnaire = Files.readString(Path.of(url.toURI()));
-        return PoguesDeserializer.questionnaireToJavaObject(jsonStringtoJsonNode(stringQuestionnaire));
-    }
-
-    private QuestionType findQuestionWithId(Questionnaire questionnaire, String questionId){
-       List<ComponentType> allComponents = questionnaire.getChild().stream()
-               .map(c -> {
-                   if(c.getClass().equals(SequenceType.class)){
-                       return ((SequenceType) c).getChild();
-                   }
-                   return List.of(c);
-               })
-               .flatMap(Collection::stream)
-               .toList();
-       return (QuestionType) allComponents.stream().filter(c->questionId.equals(c.getId())).findFirst().get();
     }
 }
