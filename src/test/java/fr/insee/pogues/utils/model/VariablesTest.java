@@ -51,11 +51,6 @@ class VariablesTest {
     }
 
     @Test
-    void testBuildSimpleVariablesForMultipleChoiceQuestion(){
-        // TODO
-    }
-
-    @Test
     void testBuildVariablesAccordingToOneAndTwoMeasures(){
         List<DimensionType> measures = List.of(
                 createSimpleMeasureDimension("Name ?"),
