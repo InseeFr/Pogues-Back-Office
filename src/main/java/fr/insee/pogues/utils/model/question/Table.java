@@ -128,8 +128,6 @@ public class Table {
                 .flatMap(Collection::stream)
                 .toList();
 
-        System.out.println("New responses size:"+newResponses.size());
-
         questionType.getResponse().clear();
         questionType.getResponse().addAll(newResponses);
         // step 2
