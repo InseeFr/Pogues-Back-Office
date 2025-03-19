@@ -7,7 +7,7 @@ import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.webservice.model.dtd.codeList.Code;
 import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
-import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.webservice.model.dtd.codeList.ExtendedCodesList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +27,7 @@ import java.util.Objects;
 import static fr.insee.pogues.utils.ModelCreatorUtils.initFakeCodeLists;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionIdWhereCodesListIsUsed;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -190,7 +191,7 @@ public class CodesListServiceTest {
 
     @Test
     @DisplayName("Should success")
-    void updateExistingCodeListInTableQuestionComplexe() throws Exception {
+    void updateExistingCodeListInTableQuestionComplex() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
         String codesListIdToUpdate = "m7d6wcx1";
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
@@ -210,7 +211,7 @@ public class CodesListServiceTest {
     }
 
     @Test
-    @DisplayName("Should remove clarifiaction Question after update list")
+    @DisplayName("Should remove clarification Question after update list")
     void shouldRemoveClarificationQuestion() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
         String codesListIdToUpdate = "m7c6apvz";
@@ -229,6 +230,15 @@ public class CodesListServiceTest {
         assertEquals(0, question.getClarificationQuestion().size());
         assertEquals(0, question.getFlowControl().size());
 
+    }
+
+    @Test
+    @DisplayName("Should get right CodeListDTD from questionnaire")
+    void shouldGetRightCodesListsFromQuestionnaire() throws Exception {
+        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTD(questionnaire);
+        assertEquals(5, codesLists.size());
+        assertThat(codesLists.get(0).getRelatedQuestionsId()).containsExactly("QUESTION", "TAB", "TAB_SECONDARY");
     }
 
     private Questionnaire loadQuestionnaireFromResources(String uriResources) throws URISyntaxException, IOException, JAXBException {
