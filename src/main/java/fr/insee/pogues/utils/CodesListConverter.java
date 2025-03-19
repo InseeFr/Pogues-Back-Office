@@ -2,8 +2,8 @@ package fr.insee.pogues.utils;
 
 
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.webservice.model.dtd.codeList.Code;
-import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
+import fr.insee.pogues.webservice.model.dtd.codelists.Code;
+import fr.insee.pogues.webservice.model.dtd.codelists.CodesList;
 
 import java.util.ArrayList;
 import java.util.Collection;

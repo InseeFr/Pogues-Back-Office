@@ -1,4 +1,4 @@
-package fr.insee.pogues.webservice.model.dtd.codeList;
+package fr.insee.pogues.webservice.model.dtd.codelists;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

@@ -14,15 +14,19 @@ public class Variables {
         throw new IllegalStateException("Utility class");
     }
 
-    // ${QUESTION_NAME}_${PRIMARY_INDEX}_${SECONDARY|MEASURE_INDEX}
+    /**
+     * This format is filled like that ${QUESTION_NAME}_${PRIMARY_INDEX}_${SECONDARY|MEASURE_INDEX}
+     */
     public static final String VARIABLE_FORMAT_TWO_AXIS = "%s_%d_%d";
-    // ${PRIMARY_CODE_LABEL}_${SECONDARY|CODE_LABEL}
+    /**
+     * This format is filled like that ${PRIMARY_CODE_LABEL}_${SECONDARY|CODE_LABEL}
+     */
     public static final String COLLECTED_LABEL_FORMAT = "%s - %s";
 
     public static String getCleanedName(String dirtyName){
         return dirtyName
                 .toUpperCase()
-                .replaceAll("[^A-Z0-9a-z_]","");
+                .replaceAll("\\W","");
     }
 
     public static VariableType buildBooleanVariableFromCode(CodeType codeType, String variableId, String name){

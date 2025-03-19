@@ -6,8 +6,8 @@ import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.CodesListConverter;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
-import fr.insee.pogues.webservice.model.dtd.codeList.CodesList;
-import fr.insee.pogues.webservice.model.dtd.codeList.ExtendedCodesList;
+import fr.insee.pogues.webservice.model.dtd.codelists.CodesList;
+import fr.insee.pogues.webservice.model.dtd.codelists.ExtendedCodesList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -71,7 +71,7 @@ public class CodesListService {
         updateQuestionnaireInDataBase(questionnaire);
     }
 
-    public void deleteCodeListOfQuestionnaire(Questionnaire questionnaire, String codesListId) throws Exception {
+    public void deleteCodeListOfQuestionnaire(Questionnaire questionnaire, String codesListId) throws CodesListException {
         List<String> questionIds = getListOfQuestionIdWhereCodesListIsUsed(questionnaire, codesListId);
         if(!questionIds.isEmpty()){
             throw new CodesListException(400, String.format("CodesList with id %s is required.", codesListId), "", questionIds);
@@ -161,7 +161,7 @@ public class CodesListService {
         }
     }
 
-    public List<ExtendedCodesList> getCodesListsDTD(Questionnaire questionnaire) throws Exception {
+    public List<ExtendedCodesList> getCodesListsDTD(Questionnaire questionnaire) {
         return questionnaire.getCodeLists().getCodeList().stream()
                 .map(CodesListConverter::convertFromCodeListModelToCodeListDTD)
                 .map(codesList -> new ExtendedCodesList(codesList, getListOfQuestionNameWhereCodesListIsUsed(questionnaire, codesList.getId())))

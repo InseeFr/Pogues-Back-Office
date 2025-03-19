@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 public class CodesListException extends PoguesException {
 
-    private List<String> questionIds;
+    private final List<String> questionIds;
 
     public CodesListException(int status, String message, String details, List<String> questionIds) {
        super(status, message, details);
