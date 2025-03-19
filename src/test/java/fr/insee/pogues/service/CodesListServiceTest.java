@@ -28,7 +28,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-public class CodesListServiceTest {
+class CodesListServiceTest {
 
     @Mock
     QuestionnairesService questionnairesService;

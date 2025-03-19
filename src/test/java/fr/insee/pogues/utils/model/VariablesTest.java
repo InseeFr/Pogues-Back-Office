@@ -11,7 +11,7 @@ import static fr.insee.pogues.utils.model.Variables.buildVariablesBasedOnTwoDime
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class VariablesTest {
+class VariablesTest {
 
     private List<CodeType> primaryCodes;
     private List<CodeType> secondaryCodes;
@@ -80,14 +80,14 @@ public class VariablesTest {
 
     @Test
     void getCleanedName(){
-        String dirtyName_0 = "Hello - world";
-        String cleanedName_O = Variables.getCleanedName(dirtyName_0);
-        assertEquals("HELLOWORLD",cleanedName_O);
-        String dirtyName_1 = "Hello - \"world\"";
-        String cleanedName_1 = Variables.getCleanedName(dirtyName_1);
-        assertEquals("HELLOWORLD",cleanedName_1);
-        String dirtyName_2 = "^^Hello - worldéà'         34 \t";
-        String cleanedName_2 = Variables.getCleanedName(dirtyName_2);
-        assertEquals("HELLOWORLD34",cleanedName_2);
+        String dirtyName0 = "Hello - world";
+        String cleanedNameO = Variables.getCleanedName(dirtyName0);
+        assertEquals("HELLOWORLD",cleanedNameO);
+        String dirtyName1 = "Hello - \"world\"";
+        String cleanedName1 = Variables.getCleanedName(dirtyName1);
+        assertEquals("HELLOWORLD",cleanedName1);
+        String dirtyName2 = "^^Hello - worldéà'         34 \t";
+        String cleanedName2 = Variables.getCleanedName(dirtyName2);
+        assertEquals("HELLOWORLD34",cleanedName2);
     }
 }

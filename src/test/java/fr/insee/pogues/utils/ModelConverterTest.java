@@ -11,7 +11,7 @@ import java.util.List;
 import static fr.insee.pogues.utils.CodesListConverter.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ModelConverterTest {
+class ModelConverterTest {
 
     @Test
     void testConversionSimpleCodeListToPoguesModel(){
@@ -55,7 +55,7 @@ public class ModelConverterTest {
     void testConversionPoguesModelCodeListToSimpleCodeList(){
         CodeList poguesModelCodeList = new CodeList();
         poguesModelCodeList.setId("h-f");
-        poguesModelCodeList.setLabel("Homme-Femme");;
+        poguesModelCodeList.setLabel("Homme-Femme");
         CodeType codeTypeF = createCodeType("","F","Femme");
         CodeType codeTypeH = createCodeType("","H","Homme");
         poguesModelCodeList.getCode().addAll(List.of(codeTypeF,codeTypeH));
@@ -69,7 +69,7 @@ public class ModelConverterTest {
     void testConversionHierarchicalPoguesModelCodeListToSimpleCodeList(){
         CodeList poguesModelCodeList = new CodeList();
         poguesModelCodeList.setId("h-f");
-        poguesModelCodeList.setLabel("Homme-Femme");;
+        poguesModelCodeList.setLabel("Homme-Femme");
         CodeType codeTypeF = createCodeType("","F","Femme");
         CodeType codeTypeF1 = createCodeType("F","F1","Femme 1");
         CodeType codeTypeF2 = createCodeType("F","F2","Femme 2");

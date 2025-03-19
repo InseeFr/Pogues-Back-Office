@@ -10,6 +10,10 @@ import java.util.function.Function;
 
 public class Variables {
 
+    private Variables(){
+        throw new IllegalStateException("Utility class");
+    }
+
     // ${QUESTION_NAME}_${PRIMARY_INDEX}_${SECONDARY|MEASURE_INDEX}
     public static final String VARIABLE_FORMAT_TWO_AXIS = "%s_%d_%d";
     // ${PRIMARY_CODE_LABEL}_${SECONDARY|CODE_LABEL}
@@ -25,7 +29,7 @@ public class Variables {
         CollectedVariableType collectedVariableType = new CollectedVariableType();
         collectedVariableType.setId(variableId);
         collectedVariableType.setName(getCleanedName(name));
-        collectedVariableType.setLabel(String.format("%s - %s",codeType.getValue(), codeType.getLabel()));
+        collectedVariableType.setLabel(String.format(COLLECTED_LABEL_FORMAT, codeType.getValue(), codeType.getLabel()));
         DatatypeType booleanType = new BooleanDatatypeType();
         booleanType.setTypeName(DatatypeTypeEnum.BOOLEAN);
         collectedVariableType.setDatatype(booleanType);

@@ -10,7 +10,7 @@ import static fr.insee.pogues.utils.ModelCreatorUtils.initFakeCodeType;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CodesListTest {
+class CodesListTest {
 
     @Test
     void testGetOnlyCodesWithoutChild() {

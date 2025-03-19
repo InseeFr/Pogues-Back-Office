@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 public class CodesListMessage extends ApiMessage {
 
-    private List<String> questionsIds;
+    private final List<String> questionsIds;
 
     public CodesListMessage(int status, String message, String details, List<String> questionsIds) {
         super(status, message, details);

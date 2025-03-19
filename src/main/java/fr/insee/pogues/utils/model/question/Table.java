@@ -11,6 +11,10 @@ import static fr.insee.pogues.utils.model.question.Common.*;
 public class Table {
 
 
+    private Table(){
+        throw new IllegalStateException("Utility class");
+    }
+
     private static boolean isDimensionBasedOnCodeListId(List<DimensionType> dimensions, String updatedCodeListId){
         return dimensions.stream().anyMatch(dimension -> (isDimensionPrimary(dimension) || isDimensionSecondary(dimension))
                 && updatedCodeListId.equals(dimension.getCodeListReference()));

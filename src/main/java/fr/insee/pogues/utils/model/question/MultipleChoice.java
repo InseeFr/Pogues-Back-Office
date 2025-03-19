@@ -11,6 +11,10 @@ import static fr.insee.pogues.utils.model.question.Common.*;
 
 public class MultipleChoice {
 
+    private MultipleChoice(){
+        throw new IllegalStateException("Utility class");
+    }
+
     public static List<VariableType> updateMultipleChoiceQuestionAccordingToCodeList(QuestionType questionType, CodeList updatedCodeList){
         // 1: re-create Response with new collectedVariableReference
         // 2: update "Mapping" inside "ResponseStructure" with id of response
@@ -36,8 +40,8 @@ public class MultipleChoice {
         // no need to update dimension attribute (codeListRef is the same)
         questionType.getResponseStructure().getMapping().clear();
         questionType.getResponseStructure().getMapping().addAll(newMappings);
-        // step 3
-        List<VariableType> variables = IntStream.range(0, newResponses.size())
+        // step 3 & 4
+        return IntStream.range(0, newResponses.size())
                 .mapToObj(index -> buildBooleanVariableFromCode(
                         codesWithoutChild.get(index),
                         newResponses.get(index).getCollectedVariableReference(),
@@ -45,7 +49,5 @@ public class MultipleChoice {
                                 questionType.getName(),
                                 codesWithoutChild.get(index).getValue())))
                 .toList();
-        // step 4
-        return variables;
     }
 }

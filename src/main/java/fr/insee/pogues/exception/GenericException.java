@@ -6,9 +6,9 @@ import lombok.Getter;
 @Getter
 public abstract class GenericException extends Exception {
 
-    private String details;
+    private final String details;
 
-    public GenericException(String message, String details){
+    protected GenericException(String message, String details){
         super(message);
         this.details = details;
     }

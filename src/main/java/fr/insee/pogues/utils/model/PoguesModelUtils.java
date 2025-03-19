@@ -27,7 +27,7 @@ public class PoguesModelUtils {
     public static List<ComponentType> getSequences(Questionnaire questionnaire) {
         return questionnaire.getChild().stream()
                 .filter(componentType -> !FAKE_LAST_ELEMENT_ID.equals(componentType.getId()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     /**

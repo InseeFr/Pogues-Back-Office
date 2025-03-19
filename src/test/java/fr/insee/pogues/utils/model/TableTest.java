@@ -13,7 +13,7 @@ import static fr.insee.pogues.utils.Utils.findQuestionWithId;
 import static fr.insee.pogues.utils.Utils.loadQuestionnaireFromResources;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TableTest {
+class TableTest {
 
     @Test
     void testGetUniqueResponseType() throws JAXBException, URISyntaxException, IOException {
@@ -21,22 +21,14 @@ public class TableTest {
         QuestionType table = findQuestionWithId(questionnaire, "m7d6ws56");
 
         List<ResponseType> uniqueResponseType = Table.getUniqueResponseType(table);
-        assertEquals(2, uniqueResponseType.size());
-        assertEquals(DatatypeTypeEnum.TEXT, uniqueResponseType.get(0).getDatatype().getTypeName());
-        assertEquals(VisualizationHintEnum.RADIO, uniqueResponseType.get(0).getDatatype().getVisualizationHint());
-        assertEquals(DatatypeTypeEnum.NUMERIC, uniqueResponseType.get(1).getDatatype().getTypeName());
-    }
-
-    @Test
-    void testConsistencyUniqueResponseWithDimensions() throws JAXBException, URISyntaxException, IOException {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        QuestionType table = findQuestionWithId(questionnaire, "m7d6ws56");
-
-        List<ResponseType> uniqueResponseType = Table.getUniqueResponseType(table);
         List<DimensionType> measureDimensions = table.getResponseStructure().getDimension().stream()
                 .filter(dimensionType -> DimensionTypeEnum.MEASURE.equals(dimensionType.getDimensionType()))
                 .toList();
+        assertEquals(2, uniqueResponseType.size());
         assertEquals(measureDimensions.size(), uniqueResponseType.size());
+        assertEquals(DatatypeTypeEnum.TEXT, uniqueResponseType.get(0).getDatatype().getTypeName());
+        assertEquals(VisualizationHintEnum.RADIO, uniqueResponseType.get(0).getDatatype().getVisualizationHint());
+        assertEquals(DatatypeTypeEnum.NUMERIC, uniqueResponseType.get(1).getDatatype().getTypeName());
     }
 
 
@@ -45,25 +37,15 @@ public class TableTest {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/tableWithSameDataTypeFor2Measures.json");
         QuestionType table = findQuestionWithId(questionnaire, "m8fv4po6");
 
-        List<ResponseType> uniqueResponseType = Table.getUniqueResponseType(table);
+        List<ResponseType> uniqueResponseType = Table.getUniqueResponseType(table);List<DimensionType> measureDimensions = table.getResponseStructure().getDimension().stream()
+                .filter(dimensionType -> DimensionTypeEnum.MEASURE.equals(dimensionType.getDimensionType()))
+                .toList();
         assertEquals(3, uniqueResponseType.size());
+        assertEquals(measureDimensions.size(), uniqueResponseType.size());
         assertEquals(DatatypeTypeEnum.TEXT, uniqueResponseType.get(0).getDatatype().getTypeName());
         assertEquals(VisualizationHintEnum.RADIO, uniqueResponseType.get(0).getDatatype().getVisualizationHint());
         assertEquals(DatatypeTypeEnum.NUMERIC, uniqueResponseType.get(1).getDatatype().getTypeName());
         assertEquals(DatatypeTypeEnum.TEXT, uniqueResponseType.get(2).getDatatype().getTypeName());
         assertEquals(VisualizationHintEnum.RADIO, uniqueResponseType.get(2).getDatatype().getVisualizationHint());
-    }
-
-
-    @Test
-    void testConsistencyUniqueResponseWithDimensionsWhenSeveralResponseTypeAreEquals() throws JAXBException, URISyntaxException, IOException {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        QuestionType table = findQuestionWithId(questionnaire, "m7d6ws56");
-
-        List<ResponseType> uniqueResponseType = Table.getUniqueResponseType(table);
-        List<DimensionType> measureDimensions = table.getResponseStructure().getDimension().stream()
-                .filter(dimensionType -> DimensionTypeEnum.MEASURE.equals(dimensionType.getDimensionType()))
-                .toList();
-        assertEquals(measureDimensions.size(), uniqueResponseType.size());
     }
 }

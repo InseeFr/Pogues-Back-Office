@@ -8,6 +8,10 @@ import java.util.List;
 
 public class CodesList {
 
+    private CodesList() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static List<QuestionType> getListOfQuestionWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
         return questionnaire.getChild().stream()
                 .map(componentType -> getListOfQuestionWhereCodesListIsUsed(componentType, codesListId))

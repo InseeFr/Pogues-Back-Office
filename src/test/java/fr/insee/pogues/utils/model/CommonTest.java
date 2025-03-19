@@ -16,7 +16,7 @@ import static fr.insee.pogues.utils.model.question.Common.buildSimpleMappingForM
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CommonTest {
+class CommonTest {
 
     private List<CodeType> primaryCodes;
     private List<CodeType> secondaryCodes;

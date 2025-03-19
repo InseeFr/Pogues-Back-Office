@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 public class PoguesException extends GenericException {
 
-    private int status;
-    private String details;
+    private final int status;
+    private final String details;
 
     /**
      *

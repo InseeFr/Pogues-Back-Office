@@ -16,6 +16,10 @@ public class Common {
     public static final String MAPPING_TARGET_TWO_DIMENSIONS_FORMAT = "%d %d";
     public static final String MAPPING_TARGET_MULTIPLE_CHOICE_QUESTION_FORMAT = "%d";
 
+    private Common(){
+        throw new IllegalStateException("Utility class");
+    }
+
 
     public static ResponseType cloneResponse(ResponseType response){
         ResponseType clone = new ResponseType();
