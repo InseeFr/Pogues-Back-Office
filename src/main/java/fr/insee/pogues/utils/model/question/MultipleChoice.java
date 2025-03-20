@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.IntStream;
 
 import static fr.insee.pogues.utils.model.CodesList.getOnlyCodesWithoutChild;
+import static fr.insee.pogues.utils.model.Variables.VARIABLE_FORMAT_MULTIPLE_CHOICE;
 import static fr.insee.pogues.utils.model.Variables.buildBooleanVariableFromCode;
 import static fr.insee.pogues.utils.model.question.Common.*;
 
@@ -45,9 +46,9 @@ public class MultipleChoice {
                 .mapToObj(index -> buildBooleanVariableFromCode(
                         codesWithoutChild.get(index),
                         newResponses.get(index).getCollectedVariableReference(),
-                        String.format("%s_%s",
+                        String.format(VARIABLE_FORMAT_MULTIPLE_CHOICE,
                                 questionType.getName(),
-                                codesWithoutChild.get(index).getValue())))
+                                index+1)))
                 .toList();
     }
 }

@@ -15,9 +15,13 @@ public class Variables {
     }
 
     /**
-     * This format is filled like that ${QUESTION_NAME}_${PRIMARY_INDEX}_${SECONDARY|MEASURE_INDEX}
+     * This format is filled like that ${QUESTION_NAME}${PRIMARY_INDEX}${SECONDARY|MEASURE_INDEX}
      */
-    public static final String VARIABLE_FORMAT_TWO_AXIS = "%s_%d_%d";
+    public static final String VARIABLE_FORMAT_TWO_AXIS = "%s%d%d";
+    /**
+     * This format is filled like that ${QUESTION_NAME}${INDEX}
+     */
+    public static final String VARIABLE_FORMAT_MULTIPLE_CHOICE = "%s%d";
     /**
      * This format is filled like that ${PRIMARY_CODE_LABEL}_${SECONDARY|CODE_LABEL}
      */
