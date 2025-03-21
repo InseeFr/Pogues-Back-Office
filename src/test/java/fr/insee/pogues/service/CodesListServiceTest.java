@@ -77,7 +77,7 @@ class CodesListServiceTest {
                 () -> codesListService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
         );
         assertEquals(400, exception.getStatus());
-        assertTrue(exception.getRelatedQuestionNames().contains("m7c61ohr"));
+        assertTrue(exception.getRelatedQuestionNames().contains("QUESTION"));
     }
 
     @Test
@@ -89,7 +89,7 @@ class CodesListServiceTest {
                 () -> codesListService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
         );
         assertEquals(400, exception.getStatus());
-        assertTrue(exception.getRelatedQuestionNames().contains("m7d5vs4h"));
+        assertTrue(exception.getRelatedQuestionNames().contains("CODESLISTD"));
     }
 
     @Test
