@@ -77,7 +77,7 @@ class CodesListServiceTest {
                 () -> codesListService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
         );
         assertEquals(400, exception.getStatus());
-        assertTrue(exception.getQuestionIds().contains("m7c61ohr"));
+        assertTrue(exception.getRelatedQuestionNames().contains("m7c61ohr"));
     }
 
     @Test
@@ -89,7 +89,7 @@ class CodesListServiceTest {
                 () -> codesListService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
         );
         assertEquals(400, exception.getStatus());
-        assertTrue(exception.getQuestionIds().contains("m7d5vs4h"));
+        assertTrue(exception.getRelatedQuestionNames().contains("m7d5vs4h"));
     }
 
     @Test
@@ -235,6 +235,6 @@ class CodesListServiceTest {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
         List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTD(questionnaire);
         assertEquals(5, codesLists.size());
-        assertThat(codesLists.get(0).getRelatedQuestionsId()).containsExactly("QUESTION", "TAB", "TAB_SECONDARY");
+        assertThat(codesLists.get(0).getRelatedQuestionNames()).containsExactly("QUESTION", "TAB", "TAB_SECONDARY");
     }
 }

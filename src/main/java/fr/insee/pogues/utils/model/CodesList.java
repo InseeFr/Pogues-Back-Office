@@ -21,12 +21,14 @@ public class CodesList {
     public static List<String> getListOfQuestionIdWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
         return getListOfQuestionWhereCodesListIsUsed(questionnaire, codesListId).stream()
                 .map(componentType -> componentType.getId())
+                .distinct()
                 .toList();
     }
 
     public static List<String> getListOfQuestionNameWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
         return getListOfQuestionWhereCodesListIsUsed(questionnaire, codesListId).stream()
                 .map(componentType -> componentType.getName())
+                .distinct()
                 .toList();
     }
 

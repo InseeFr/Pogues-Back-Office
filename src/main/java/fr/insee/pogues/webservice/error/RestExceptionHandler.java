@@ -1,7 +1,6 @@
 package fr.insee.pogues.webservice.error;
 
 import fr.insee.pogues.exception.GenericException;
-import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.webservice.rest.ApiError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

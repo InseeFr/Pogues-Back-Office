@@ -23,6 +23,6 @@ public class PoguesException extends GenericException {
 
     @Override
     public ApiMessage toApiMessage(){
-        return new ApiMessage(this.status, this.getMessage(), this.details);
+        return new ApiMessage(this.status, this.getMessage(), this.details, null);
     }
 }

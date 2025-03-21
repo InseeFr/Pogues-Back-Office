@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -15,10 +14,10 @@ import java.util.List;
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExtendedCodesList extends CodesList {
-    private List<String> relatedQuestionsId;
+    private List<String> relatedQuestionNames;
 
-    public ExtendedCodesList(CodesList codesList, List<String> relatedQuestionsId){
+    public ExtendedCodesList(CodesList codesList, List<String> relatedQuestionNames){
         super(codesList.getId(), codesList.getLabel(), codesList.getCodes());
-        this.relatedQuestionsId = relatedQuestionsId;
+        this.relatedQuestionNames = relatedQuestionNames;
     }
 }

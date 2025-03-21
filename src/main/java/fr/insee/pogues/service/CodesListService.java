@@ -6,6 +6,7 @@ import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.CodesListConverter;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
+import fr.insee.pogues.webservice.error.ErrorCode;
 import fr.insee.pogues.webservice.model.dtd.codelists.CodesList;
 import fr.insee.pogues.webservice.model.dtd.codelists.ExtendedCodesList;
 import lombok.extern.slf4j.Slf4j;
@@ -72,9 +73,9 @@ public class CodesListService {
     }
 
     public void deleteCodeListOfQuestionnaire(Questionnaire questionnaire, String codesListId) throws CodesListException {
-        List<String> questionIds = getListOfQuestionIdWhereCodesListIsUsed(questionnaire, codesListId);
-        if(!questionIds.isEmpty()){
-            throw new CodesListException(400, String.format("CodesList with id %s is required.", codesListId), "", questionIds);
+        List<String> questionsName = getListOfQuestionNameWhereCodesListIsUsed(questionnaire, codesListId);
+        if(!questionsName.isEmpty()){
+            throw new CodesListException(400, ErrorCode.CODE_LIST_RELATED_QUESTIONS_NAME, String.format("CodesList with id %s is required.", codesListId), null, questionsName);
 
         }
         List<fr.insee.pogues.model.CodeList> codesLists = questionnaire.getCodeLists().getCodeList();
@@ -119,7 +120,7 @@ public class CodesListService {
 
     void removeCodeListDTD(List<CodeList> existingCodeLists, String id) throws CodesListException {
         boolean deleted = existingCodeLists.removeIf(codeList -> id.equals(codeList.getId()));
-        if(!deleted) throw new CodesListException(404, "Not found", String.format("CodesList with id %s doesn't exist in questionnaire", id),null);
+        if(!deleted) throw new CodesListException(404, ErrorCode.CODE_LIST_NOT_FOUND, "Not found", String.format("CodesList with id %s doesn't exist in questionnaire", id),null);
     }
 
     List<String> updateQuestionAndVariablesAccordingToCodesList(Questionnaire questionnaire, String updatedCodeListId){

@@ -14,6 +14,6 @@ public abstract class GenericException extends Exception {
     }
 
     public ApiMessage toApiMessage() {
-        return new ApiMessage(500, this.getMessage(), details);
+        return new ApiMessage(500, this.getMessage(), details, null);
     }
 }
