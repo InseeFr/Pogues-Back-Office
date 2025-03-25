@@ -38,7 +38,7 @@ class InsertSequences implements CompositionStep {
             questionnaire.getChild().add(indexOfModification, referencedQuestionnaire.getChild().get(refSequences.size()-1-i));
         }
         //
-        log.info("Sequences from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
+        log.debug("Sequences from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
     }
 
 }

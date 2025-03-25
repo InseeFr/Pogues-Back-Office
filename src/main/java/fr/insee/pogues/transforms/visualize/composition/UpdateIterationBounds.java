@@ -33,7 +33,7 @@ class UpdateIterationBounds implements CompositionStep {
                 for (IterationType iterationType : questionnaire.getIterations().getIteration()) {
                     updateIterationBounds(referencedQuestionnaire, iterationType);
                 }
-                log.info("Iterations' bounds updated in '{}' when de-referencing '{}'",
+                log.debug("Iterations' bounds updated in '{}' when de-referencing '{}'",
                         questionnaire.getId(), referencedQuestionnaire.getId());
             } catch (IllegalIterationException e) {
                 String message = String.format(

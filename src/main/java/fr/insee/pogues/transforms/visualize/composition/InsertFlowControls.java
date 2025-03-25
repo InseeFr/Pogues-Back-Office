@@ -17,7 +17,7 @@ class InsertFlowControls implements CompositionStep {
     @Override
     public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire) {
         questionnaire.getFlowControl().addAll(referencedQuestionnaire.getFlowControl());
-        log.info("FlowControl from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
+        log.debug("FlowControl from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
     }
 
 }
