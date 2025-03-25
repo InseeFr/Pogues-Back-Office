@@ -17,7 +17,7 @@ class InsertVariables implements CompositionStep {
     @Override
     public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire) {
         questionnaire.getVariables().getVariable().addAll(referencedQuestionnaire.getVariables().getVariable());
-        log.info("Variables from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
+        log.debug("Variables from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
     }
 
 }

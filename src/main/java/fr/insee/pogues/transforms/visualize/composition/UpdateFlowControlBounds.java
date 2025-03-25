@@ -32,7 +32,7 @@ class UpdateFlowControlBounds implements CompositionStep {
             for (FlowControlType flowControlType : questionnaire.getFlowControl()) {
                 updateFlowControlBounds(referencedQuestionnaire, flowControlType);
             }
-            log.info("Flow controls' bounds updated in '{}' when de-referencing '{}'",
+            log.debug("Flow controls' bounds updated in '{}' when de-referencing '{}'",
                     questionnaire.getId(), referencedQuestionnaire.getId());
         } catch (IllegalFlowControlException e) {
             String message = String.format(

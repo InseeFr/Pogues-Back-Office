@@ -32,7 +32,7 @@ class InsertCodeLists implements CompositionStep {
         //
         CodeLists refCodeLists = referencedQuestionnaire.getCodeLists();
         if (refCodeLists == null) {
-            log.info("No code lists in referenced questionnaire '{}'", referencedQuestionnaire.getId());
+            log.debug("No code lists in referenced questionnaire '{}'", referencedQuestionnaire.getId());
             return;
         }
         //
@@ -43,7 +43,7 @@ class InsertCodeLists implements CompositionStep {
         //
         refCodeLists.getCodeList().forEach(codeList -> {
             if (codeListLabels.contains(codeList.getLabel())) {
-                log.info("Code list with label '{}' is already in host questionnaire '{}', " +
+                log.debug("Code list with label '{}' is already in host questionnaire '{}', " +
                                 "so it has not been inserted from reference '{}'",
                         codeList.getLabel(), questionnaire.getId(), referencedQuestionnaire.getId());
                 return;
@@ -51,7 +51,7 @@ class InsertCodeLists implements CompositionStep {
             questionnaire.getCodeLists().getCodeList().add(codeList);
 
         });
-        log.info("Code lists from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
+        log.debug("Code lists from '{}' inserted in '{}'", referencedQuestionnaire.getId(), questionnaire.getId());
     }
 
     private void hostCodeLists() {
