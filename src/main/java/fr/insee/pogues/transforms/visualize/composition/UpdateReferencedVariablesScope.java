@@ -56,7 +56,7 @@ class UpdateReferencedVariablesScope implements CompositionStep {
         for (IterationType iterationType : questionnaire.getIterations().getIteration()) {
             String scope = updateReferenceIfInBounds(questionnaire, referencedQuestionnaire, iterationType);
             if (scope != null) {
-                log.info("Scope of root variables from referenced questionnaire '{}' set to iteration scope '{}'",
+                log.debug("Scope of root variables from referenced questionnaire '{}' set to iteration scope '{}'",
                         referencedQuestionnaire.getId(), scope);
                 break;
             }

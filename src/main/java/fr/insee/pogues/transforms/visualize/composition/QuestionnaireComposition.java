@@ -33,7 +33,7 @@ public class QuestionnaireComposition {
          * @return A DeReferencingPipeline instance.
          */
         static DeReferencingPipeline start(Questionnaire questionnaire, Questionnaire referencedQuestionnaire) {
-            log.info("Starting de-referencing of questionnaire '{}' in questionnaire '{}'",
+            log.debug("Starting de-referencing of questionnaire '{}' in questionnaire '{}'",
                     referencedQuestionnaire.getId(), questionnaire.getId());
             return new DeReferencingPipeline(questionnaire, referencedQuestionnaire);
         }
@@ -68,7 +68,7 @@ public class QuestionnaireComposition {
                 .then(new UpdateIterationBounds())
                 .then(new InsertIterations());
         //
-        log.info("Finished de-referencing of questionnaire '{}' in questionnaire '{}'",
+        log.debug("Finished de-referencing of questionnaire '{}' in questionnaire '{}'",
                 referencedQuestionnaire.getId(), questionnaire.getId());
     }
 

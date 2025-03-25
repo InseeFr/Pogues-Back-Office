@@ -15,8 +15,6 @@
         <Response id="l13pwlwc" mandatory="false">
           <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
             <MaxLength>249</MaxLength>
-            <Pattern>
-            </Pattern>
           </Datatype>
           <CollectedVariableReference>l13ovgro</CollectedVariableReference>
         </Response>
@@ -28,8 +26,6 @@
           <CodeListReference>l13ol6zz</CodeListReference>
           <Datatype typeName="TEXT" visualizationHint="CHECKBOX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
             <MaxLength>1</MaxLength>
-            <Pattern>
-            </Pattern>
           </Datatype>
           <CollectedVariableReference>l13oej2k</CollectedVariableReference>
         </Response>
@@ -43,16 +39,12 @@
           <Response id="l13prfm5">
             <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
               <MaxLength>249</MaxLength>
-              <Pattern>
-              </Pattern>
             </Datatype>
             <CollectedVariableReference>l13orhp8</CollectedVariableReference>
           </Response>
           <Response id="l13psuji">
             <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
               <MaxLength>249</MaxLength>
-              <Pattern>
-              </Pattern>
             </Datatype>
             <CollectedVariableReference>l13ou5o8</CollectedVariableReference>
           </Response>
@@ -154,8 +146,6 @@
       <Variable id="l13ovgro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
         <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
           <MaxLength>249</MaxLength>
-          <Pattern>
-          </Pattern>
         </Datatype>
         <Name>QUEST1</Name>
         <Label>QUEST1 label</Label>
@@ -164,8 +154,6 @@
         <CodeListReference>l13ol6zz</CodeListReference>
         <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
           <MaxLength>1</MaxLength>
-          <Pattern>
-          </Pattern>
         </Datatype>
         <Name>QUESTION2</Name>
         <Label>QUESTION2 label</Label>
@@ -173,8 +161,6 @@
       <Variable id="l13orhp8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
         <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
           <MaxLength>249</MaxLength>
-          <Pattern>
-          </Pattern>
         </Datatype>
         <Name>QUESTION311</Name>
         <Label>Oui-Libellé de l'information mesurée</Label>
@@ -182,8 +168,6 @@
       <Variable id="l13ou5o8" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CollectedVariableType">
         <Datatype typeName="TEXT" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="TextDatatypeType">
           <MaxLength>249</MaxLength>
-          <Pattern>
-          </Pattern>
         </Datatype>
         <Name>QUESTION321</Name>
         <Label>Non-Libellé de l'information mesurée</Label>
