@@ -3,7 +3,6 @@ package fr.insee.pogues.utils.model.question;
 import fr.insee.pogues.model.*;
 
 import java.util.List;
-import java.util.Map;
 import java.util.stream.IntStream;
 
 import static fr.insee.pogues.utils.model.CodesList.getOnlyCodesWithoutChild;
