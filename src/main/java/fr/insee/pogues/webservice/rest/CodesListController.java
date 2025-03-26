@@ -75,8 +75,8 @@ public class CodesListController {
             @PathVariable(value = "questionnaireId") String questionnaireId,
             @PathVariable(value = "codesListId") String codesListId,
             @RequestBody CodesList codesList) throws Exception {
-        Optional<List<String>> updatedQuestionIds = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
-        return ResponseEntity.status(updatedQuestionIds.isEmpty() ? HttpStatus.CREATED : HttpStatus.OK).body(updatedQuestionIds.orElse(null));
+        List<String> updatedQuestionIds = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
+        return ResponseEntity.status(updatedQuestionIds == null ? HttpStatus.CREATED : HttpStatus.OK).body(updatedQuestionIds);
     }
 
     @GetMapping("questionnaire/{questionnaireId}/codes-lists")

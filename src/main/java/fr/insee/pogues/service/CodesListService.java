@@ -45,9 +45,9 @@ public class CodesListService {
      * @return the list of question's id updated (or null if created)
      * @throws Exception
      */
-    public Optional<List<String>> updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
+    public List<String> updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireWithId(questionnaireId);
-        Optional<List<String>> updatedQuestionIds = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
+        List<String> updatedQuestionIds = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
         updateQuestionnaireInDataBase(questionnaire);
         return updatedQuestionIds;
     }
@@ -59,12 +59,12 @@ public class CodesListService {
      * @return the list of question's id updated (or null if created)
      * @throws Exception
      */
-    public Optional<List<String>> updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesList codesList) {
+    public List<String> updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesList codesList) {
         List<fr.insee.pogues.model.CodeList> codesLists = questionnaire.getCodeLists().getCodeList();
         boolean created = updateOrAddCodeListDTD(codesLists, idCodesList, codesList);
         return !created
-                ? Optional.of(updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList))
-                : Optional.empty();
+                ? updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList)
+                : null;
     }
 
     public void deleteCodeListOfQuestionnaireWithId(String questionnaireId, String codesListId) throws Exception {
