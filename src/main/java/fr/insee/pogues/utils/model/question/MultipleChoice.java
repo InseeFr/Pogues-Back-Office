@@ -3,17 +3,23 @@ package fr.insee.pogues.utils.model.question;
 import fr.insee.pogues.model.*;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import static fr.insee.pogues.utils.model.CodesList.getOnlyCodesWithoutChild;
-import static fr.insee.pogues.utils.model.Variables.VARIABLE_FORMAT_MULTIPLE_CHOICE;
-import static fr.insee.pogues.utils.model.Variables.buildBooleanVariableFromCode;
+import static fr.insee.pogues.utils.model.Variables.*;
 import static fr.insee.pogues.utils.model.question.Common.*;
 
 public class MultipleChoice {
 
     private MultipleChoice(){
         throw new IllegalStateException("Utility class");
+    }
+
+    private static ResponseType getResponseType(QuestionType multipleChoiceQuestion){
+        if(!multipleChoiceQuestion.getQuestionType().equals(QuestionTypeEnum.MULTIPLE_CHOICE)) throw new IllegalArgumentException("Arg for this function must be a MultipleChoice component.");
+        // in cas of MULTIPLE_CHOICE QUESTION, all responseType are identical (base on codeList (always the same for all codes, or based on BOOLEAN)
+        return Common.cloneResponse(multipleChoiceQuestion.getResponse().getFirst());
     }
 
     public static List<VariableType> updateMultipleChoiceQuestionAccordingToCodeList(QuestionType questionType, CodeList updatedCodeList){
@@ -25,15 +31,8 @@ public class MultipleChoice {
 
         // Step 1
         List<CodeType> codesWithoutChild = getOnlyCodesWithoutChild(updatedCodeList);
-        List<ResponseType> newResponses = codesWithoutChild.stream().map(codeType -> {
-            ResponseType responseType = new ResponseType();
-            DatatypeType booleanType = new BooleanDatatypeType();
-            booleanType.setTypeName(DatatypeTypeEnum.BOOLEAN);
-            responseType.setDatatype(booleanType);
-            responseType.setId(getNewUniqueId());
-            responseType.setCollectedVariableReference(getNewUniqueId());
-            return responseType;
-        }).toList();
+        ResponseType responsePattern = getResponseType(questionType);
+        List<ResponseType> newResponses = codesWithoutChild.stream().map(code -> createNewResponseFrom(responsePattern)).toList();
         questionType.getResponse().clear();
         questionType.getResponse().addAll(newResponses);
         // step 2
@@ -43,12 +42,12 @@ public class MultipleChoice {
         questionType.getResponseStructure().getMapping().addAll(newMappings);
         // step 3 & 4
         return IntStream.range(0, newResponses.size())
-                .mapToObj(index -> buildBooleanVariableFromCode(
-                        codesWithoutChild.get(index),
+                .mapToObj(index -> buildCollectedVariableFromDataType(
+                        newResponses.get(index).getDatatype(),
                         newResponses.get(index).getCollectedVariableReference(),
-                        String.format(VARIABLE_FORMAT_MULTIPLE_CHOICE,
-                                questionType.getName(),
-                                index+1)))
+                        String.format(VARIABLE_FORMAT_MULTIPLE_CHOICE, questionType.getName(), index+1),
+                        String.format(COLLECTED_LABEL_FORMAT, codesWithoutChild.get(index).getValue(), codesWithoutChild.get(index).getLabel()),
+                        newResponses.get(index).getCodeListReference()))
                 .toList();
     }
 }

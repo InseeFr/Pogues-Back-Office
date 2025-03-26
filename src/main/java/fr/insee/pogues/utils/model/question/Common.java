@@ -24,9 +24,9 @@ public class Common {
     public static ResponseType cloneResponse(ResponseType response){
         ResponseType clone = new ResponseType();
         clone.setId(response.getId());
+        clone.setCollectedVariableReference(response.getCollectedVariableReference());
         clone.setCodeListReference(response.getCodeListReference());
         clone.setDatatype(response.getDatatype());
-        clone.setCollectedVariableReference(response.getCollectedVariableReference());
         clone.setSimple(response.isSimple());
         clone.setMandatory(response.isMandatory());
         return clone;

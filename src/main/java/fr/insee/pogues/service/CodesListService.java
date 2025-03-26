@@ -6,6 +6,7 @@ import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.CodesListConverter;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
+import fr.insee.pogues.utils.model.question.Common;
 import fr.insee.pogues.webservice.error.ErrorCode;
 import fr.insee.pogues.webservice.model.dtd.codelists.CodesList;
 import fr.insee.pogues.webservice.model.dtd.codelists.ExtendedCodesList;
@@ -130,7 +131,7 @@ public class CodesListService {
         // Just retrieve MULTIPLE_CHOICE and TABLE questions
         List<QuestionType> questionsToModify = getListOfQuestionWhereCodesListIsUsed(questionnaire, updatedCodeListId);
         // Clear Clarification question for concerned question
-        questionsToModify.forEach(question -> removeClarificationQuestion(question));
+        questionsToModify.forEach(Common::removeClarificationQuestion);
         // modify Multiple and Table question and get there new Variables
         List<QuestionType> multipleAndTableQuestion = questionsToModify.stream()
                 .filter(questionType -> {
@@ -150,7 +151,7 @@ public class CodesListService {
         // Delete variables that are not referenced in response
         List<String> neededCollectedVariables = getNeededCollectedVariablesInQuestionnaire(questionnaire);
         questionnaire.getVariables().getVariable().removeIf(variableType -> !neededCollectedVariables.contains(variableType.getId()));
-        return questionsToModify.stream().map(question -> question.getId()).toList();
+        return questionsToModify.stream().map(ComponentType::getId).toList();
     }
 
     private <T,G> void replaceElementInListAccordingCondition(List<T> elements, Predicate<T> conditionFunction, G newElement, Function<G,T> factory){

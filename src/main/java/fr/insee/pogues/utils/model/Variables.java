@@ -33,29 +33,19 @@ public class Variables {
                 .replaceAll("\\W","");
     }
 
-    public static VariableType buildBooleanVariableFromCode(CodeType codeType, String variableId, String name){
-        CollectedVariableType collectedVariableType = new CollectedVariableType();
-        collectedVariableType.setId(variableId);
-        collectedVariableType.setName(getCleanedName(name));
-        collectedVariableType.setLabel(String.format(COLLECTED_LABEL_FORMAT, codeType.getValue(), codeType.getLabel()));
-        DatatypeType booleanType = new BooleanDatatypeType();
-        booleanType.setTypeName(DatatypeTypeEnum.BOOLEAN);
-        collectedVariableType.setDatatype(booleanType);
-        return collectedVariableType;
-    }
-
-    public static VariableType buildCollectedVariableFromDataType(DatatypeType datatype, String variableId, String name, String label){
+    public static VariableType buildCollectedVariableFromDataType(DatatypeType datatype, String variableId, String name, String label, String codeListRef){
         CollectedVariableType collectedVariableType = new CollectedVariableType();
         collectedVariableType.setDatatype(datatype);
         collectedVariableType.setId(variableId);
         collectedVariableType.setName(getCleanedName(name));
         collectedVariableType.setLabel(label);
+        collectedVariableType.setCodeListReference(codeListRef);
         return collectedVariableType;
     }
 
     public static List<String> getNeededCollectedVariablesInQuestionnaire(Questionnaire questionnaire){
         return questionnaire.getChild().stream()
-                .map(componentType -> getNeededCollectedVariablesInQuestionnaire(componentType))
+                .map(Variables::getNeededCollectedVariablesInQuestionnaire)
                 .flatMap(Collection::stream).toList();
     }
 
@@ -99,7 +89,8 @@ public class Variables {
                                 String.format(VARIABLE_FORMAT_TWO_AXIS, questionName, primaryIndex+1, secondaryIndex+1),
                                 String.format(COLLECTED_LABEL_FORMAT,
                                         codesList.get(primaryIndex).getLabel(),
-                                        labelFactory.apply(secondList.get(secondaryIndex))))
+                                        labelFactory.apply(secondList.get(secondaryIndex))),
+                                responses.get(responseIndex).getCodeListReference())
                 );
                 responseIndex++;
             }
