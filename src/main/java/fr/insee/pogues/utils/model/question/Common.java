@@ -21,6 +21,15 @@ public class Common {
     }
 
 
+    public static boolean isDimensionPrimary(DimensionType dimension){
+        return DimensionTypeEnum.PRIMARY.equals(dimension.getDimensionType());
+    }
+
+    public static boolean isDimensionPrimaryAndBasedOnCodeListUpdated(List<DimensionType> dimensions, String updatedCodeListId){
+        return dimensions.stream().anyMatch(dimension -> isDimensionPrimary(dimension)
+                && updatedCodeListId.equals(dimension.getCodeListReference()));
+    }
+
     public static ResponseType cloneResponse(ResponseType response){
         ResponseType clone = new ResponseType();
         clone.setId(response.getId());

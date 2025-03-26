@@ -53,6 +53,11 @@ public class CodesList {
         return questions;
     }
 
+    public static CodeList getCodeListWithRef(String codeListRef, CodeList updatedCodeList, List<CodeList> codeListInQuestionnaire){
+        if(updatedCodeList.getId().equals(codeListRef)) return updatedCodeList;
+        return codeListInQuestionnaire.stream().filter(codeList -> codeList.getId().equals(codeListRef)).findFirst().get();
+    }
+
     public static List<CodeType> getOnlyCodesWithoutChild(CodeList codeList){
         // Retrieve parent Value in List
         List<String> parentValue = codeList.getCode().stream()

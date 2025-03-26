@@ -141,7 +141,7 @@ public class CodesListService {
         List<VariableType> variables = multipleAndTableQuestion.stream()
                 .map(questionType -> {
                     QuestionTypeEnum questionTypeEnum = questionType.getQuestionType();
-                    if(QuestionTypeEnum.MULTIPLE_CHOICE.equals(questionTypeEnum)) return updateMultipleChoiceQuestionAccordingToCodeList(questionType, codeList);
+                    if(QuestionTypeEnum.MULTIPLE_CHOICE.equals(questionTypeEnum)) return updateMultipleChoiceQuestionAccordingToCodeList(questionType, codeList, questionnaire.getCodeLists().getCodeList());
                     return updateTableQuestionAccordingToCodeList(questionType, codeList, questionnaire.getCodeLists().getCodeList());
                 })
                 .flatMap(Collection::stream)

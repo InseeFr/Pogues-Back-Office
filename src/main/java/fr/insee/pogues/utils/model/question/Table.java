@@ -4,6 +4,7 @@ import fr.insee.pogues.model.*;
 
 import java.util.*;
 
+import static fr.insee.pogues.utils.model.CodesList.getCodeListWithRef;
 import static fr.insee.pogues.utils.model.CodesList.getOnlyCodesWithoutChild;
 import static fr.insee.pogues.utils.model.Variables.*;
 import static fr.insee.pogues.utils.model.question.Common.*;
@@ -32,20 +33,9 @@ public class Table {
     private static boolean isDimensionHasPrimaryAndSecondary(List<DimensionType> dimensions){
         return dimensions.stream().anyMatch(Table::isDimensionSecondary);
     }
-    private static boolean isDimensionPrimaryAndBasedOnCodeListUpdated(List<DimensionType> dimensions, String updatedCodeListId){
-        return dimensions.stream().anyMatch(dimension -> isDimensionPrimary(dimension)
-                && updatedCodeListId.equals(dimension.getCodeListReference()));
-    }
-    private static boolean isDimensionPrimary(DimensionType dimension){
-        return DimensionTypeEnum.PRIMARY.equals(dimension.getDimensionType());
-    }
+
     private static boolean isDimensionSecondary(DimensionType dimension){
         return DimensionTypeEnum.SECONDARY.equals(dimension.getDimensionType());
-    }
-
-    private static CodeList getCodeListWithRef(String codeListRef, CodeList updatedCodeList, List<CodeList> codeListInQuestionnaire){
-        if(updatedCodeList.getId().equals(codeListRef)) return updatedCodeList;
-        return codeListInQuestionnaire.stream().filter(codeList -> codeList.getId().equals(codeListRef)).findFirst().get();
     }
 
     public static List<ResponseType> getUniqueResponseType(QuestionType table){
@@ -90,7 +80,7 @@ public class Table {
             // in this case responsesPattern has only one element
             ResponseType responsePattern = responsesPattern.getFirst();
             // we have to duplicate the response n x m (n: size of PRIMARY dimension, m: size of SECONDARY dimension)
-            String primaryCodeListId = dimensionsOfTable.stream().filter(Table::isDimensionPrimary).findFirst().get().getCodeListReference();
+            String primaryCodeListId = dimensionsOfTable.stream().filter(Common::isDimensionPrimary).findFirst().get().getCodeListReference();
             String secondaryCodeListId = dimensionsOfTable.stream().filter(Table::isDimensionSecondary).findFirst().get().getCodeListReference();
             CodeList primaryCodeList = getCodeListWithRef(primaryCodeListId, updatedCodeList, codeListInQuestionnaire);
             CodeList secondaryCodeList = getCodeListWithRef(secondaryCodeListId, updatedCodeList, codeListInQuestionnaire);
@@ -124,7 +114,7 @@ public class Table {
         if(!isDimensionPrimaryAndBasedOnCodeListUpdated(dimensionsOfTable, updatedCodeList.getId())) return earlyReturnedValue;
 
         // HERE Primary dimension has been updated, we have to build new responses/variables according to existing MEASURE
-        String primaryCodeListId = dimensionsOfTable.stream().filter(Table::isDimensionPrimary).findFirst().get().getCodeListReference();
+        String primaryCodeListId = dimensionsOfTable.stream().filter(Common::isDimensionPrimary).findFirst().get().getCodeListReference();
         CodeList primaryCodeList = getCodeListWithRef(primaryCodeListId, updatedCodeList, codeListInQuestionnaire);
         List<CodeType> primaryCodeListWithoutChild = getOnlyCodesWithoutChild(primaryCodeList);
         List<ResponseType> newResponses = primaryCodeListWithoutChild.stream()
