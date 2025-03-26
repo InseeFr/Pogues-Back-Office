@@ -21,7 +21,7 @@ public class CodesListConverter {
         codeType.setParent(parent);
         codeTypes.add(codeType);
         if(code.getCodes() != null){
-            code.getCodes().stream().forEach(subCode -> {
+            code.getCodes().forEach(subCode -> {
                 CodeType subCodeType = new CodeType();
                 subCodeType.setValue(subCode.getValue());
                 subCodeType.setLabel(subCode.getLabel());

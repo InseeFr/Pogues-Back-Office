@@ -20,14 +20,14 @@ public class CodesList {
 
     public static List<String> getListOfQuestionIdWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
         return getListOfQuestionWhereCodesListIsUsed(questionnaire, codesListId).stream()
-                .map(componentType -> componentType.getId())
+                .map(ComponentType::getId)
                 .distinct()
                 .toList();
     }
 
     public static List<String> getListOfQuestionNameWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
         return getListOfQuestionWhereCodesListIsUsed(questionnaire, codesListId).stream()
-                .map(componentType -> componentType.getName())
+                .map(ComponentType::getName)
                 .distinct()
                 .toList();
     }
@@ -35,7 +35,7 @@ public class CodesList {
     public static List<QuestionType> getListOfQuestionWhereCodesListIsUsed(ComponentType poguesComponent, String codesListId){
         List<QuestionType> questions = new ArrayList<>();
         if(poguesComponent.getClass().equals(SequenceType.class)){
-            ((SequenceType) poguesComponent).getChild().stream().forEach(childComponent -> {
+            ((SequenceType) poguesComponent).getChild().forEach(childComponent -> {
                 questions.addAll(getListOfQuestionWhereCodesListIsUsed(childComponent, codesListId));
             });
         }
@@ -57,7 +57,7 @@ public class CodesList {
         // Retrieve parent Value in List
         List<String> parentValue = codeList.getCode().stream()
                 .filter(code -> code.getParent() != null && !code.getParent().isEmpty())
-                .map(code -> code.getParent())
+                .map(CodeType::getParent)
                 .distinct()
                 .toList();
         // Keep codes that are not parent

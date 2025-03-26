@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -30,9 +31,8 @@ import static fr.insee.pogues.utils.model.question.Table.updateTableQuestionAcco
 @Service
 @Slf4j
 public class CodesListService {
-    private QuestionnairesService questionnairesService;
+    private final QuestionnairesService questionnairesService;
 
-    @Autowired
     public CodesListService(QuestionnairesService questionnairesService){
         this.questionnairesService = questionnairesService;
     }
@@ -45,9 +45,9 @@ public class CodesListService {
      * @return the list of question's id updated (or null if created)
      * @throws Exception
      */
-    public List<String> updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
+    public Optional<List<String>> updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireWithId(questionnaireId);
-        List<String> updatedQuestionIds = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
+        Optional<List<String>> updatedQuestionIds = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
         updateQuestionnaireInDataBase(questionnaire);
         return updatedQuestionIds;
     }
@@ -59,11 +59,12 @@ public class CodesListService {
      * @return the list of question's id updated (or null if created)
      * @throws Exception
      */
-    public List<String> updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesList codesList) {
+    public Optional<List<String>> updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesList codesList) {
         List<fr.insee.pogues.model.CodeList> codesLists = questionnaire.getCodeLists().getCodeList();
         boolean created = updateOrAddCodeListDTD(codesLists, idCodesList, codesList);
-        if(!created)  return updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList);
-        return null;
+        return !created
+                ? Optional.of(updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList))
+                : Optional.empty();
     }
 
     public void deleteCodeListOfQuestionnaireWithId(String questionnaireId, String codesListId) throws Exception {

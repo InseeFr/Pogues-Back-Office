@@ -19,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/persistence")
@@ -74,8 +75,8 @@ public class CodesListController {
             @PathVariable(value = "questionnaireId") String questionnaireId,
             @PathVariable(value = "codesListId") String codesListId,
             @RequestBody CodesList codesList) throws Exception {
-        List<String> updatedQuestionIds = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
-        return ResponseEntity.status(updatedQuestionIds == null ? HttpStatus.CREATED : HttpStatus.OK).body(updatedQuestionIds);
+        Optional<List<String>> updatedQuestionIds = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
+        return ResponseEntity.status(updatedQuestionIds.isEmpty() ? HttpStatus.CREATED : HttpStatus.OK).body(updatedQuestionIds.orElse(null));
     }
 
     @GetMapping("questionnaire/{questionnaireId}/codes-lists")
