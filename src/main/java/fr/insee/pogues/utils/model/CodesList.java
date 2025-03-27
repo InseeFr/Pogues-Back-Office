@@ -1,6 +1,7 @@
 package fr.insee.pogues.utils.model;
 
 import fr.insee.pogues.model.*;
+import org.eclipse.persistence.jpa.jpql.parser.SubExpression;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,7 +16,8 @@ public class CodesList {
     public static List<QuestionType> getListOfQuestionWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
         return questionnaire.getChild().stream()
                 .map(componentType -> getListOfQuestionWhereCodesListIsUsed(componentType, codesListId))
-                .flatMap(Collection::stream).toList();
+                .flatMap(Collection::stream)
+                .toList();
     }
 
     public static List<String> getListOfQuestionIdWhereCodesListIsUsed(Questionnaire questionnaire, String codesListId){
@@ -34,12 +36,12 @@ public class CodesList {
 
     public static List<QuestionType> getListOfQuestionWhereCodesListIsUsed(ComponentType poguesComponent, String codesListId){
         List<QuestionType> questions = new ArrayList<>();
-        if(poguesComponent.getClass().equals(SequenceType.class)){
+        if(poguesComponent instanceof SequenceType){
             ((SequenceType) poguesComponent).getChild().forEach(childComponent -> {
                 questions.addAll(getListOfQuestionWhereCodesListIsUsed(childComponent, codesListId));
             });
         }
-        if(poguesComponent.getClass().equals(QuestionType.class)){
+        if(poguesComponent instanceof QuestionType){
             QuestionTypeEnum questionType = ((QuestionType) poguesComponent).getQuestionType();
             ((QuestionType) poguesComponent).getResponse().forEach(responseType -> {
                 if(codesListId.equals(responseType.getCodeListReference())) questions.add((QuestionType) poguesComponent);
@@ -66,6 +68,12 @@ public class CodesList {
                 .distinct()
                 .toList();
         // Keep codes that are not parent
-        return codeList.getCode().stream().filter(code -> !parentValue.contains(code.getValue())).toList();
+        return codeList.getCode().stream()
+                .filter(code -> !parentValue.contains(code.getValue()))
+                .toList();
+    }
+
+    public static boolean isNomenclatureCodeList(CodeList codeList){
+        return codeList.getSuggesterParameters() != null;
     }
 }

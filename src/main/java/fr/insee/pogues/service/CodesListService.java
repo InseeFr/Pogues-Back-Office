@@ -166,6 +166,7 @@ public class CodesListService {
 
     public List<ExtendedCodesList> getCodesListsDTD(Questionnaire questionnaire) {
         return questionnaire.getCodeLists().getCodeList().stream()
+                .filter(codeList -> !isNomenclatureCodeList(codeList))
                 .map(CodesListConverter::convertFromCodeListModelToCodeListDTD)
                 .map(codesList -> new ExtendedCodesList(codesList, getListOfQuestionNameWhereCodesListIsUsed(questionnaire, codesList.getId())))
                 .toList();
