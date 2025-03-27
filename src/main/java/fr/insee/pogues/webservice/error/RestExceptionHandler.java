@@ -1,5 +1,7 @@
-package fr.insee.pogues.webservice.rest;
+package fr.insee.pogues.webservice.error;
 
+import fr.insee.pogues.exception.GenericException;
+import fr.insee.pogues.webservice.rest.ApiError;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -12,10 +14,10 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @Slf4j
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(value = { PoguesException.class })
-    public ResponseEntity<RestMessage> handlePoguesException(PoguesException poguesException) {
-        log.error(poguesException.getMessage(), poguesException);
-        RestMessage message = poguesException.toRestMessage();
+    @ExceptionHandler(value = { GenericException.class, })
+    public ResponseEntity<ApiMessage> handleGenericException(GenericException exception) {
+        log.error(exception.getMessage(), exception);
+        ApiMessage message = exception.toApiMessage();
         return new ResponseEntity<>(message, HttpStatusCode.valueOf(message.getStatus()));
     }
     @ExceptionHandler(value = { Exception.class })
