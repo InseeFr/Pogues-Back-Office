@@ -208,7 +208,7 @@ class CodesListServiceTest {
     }
 
     @Test
-    @DisplayName("Should remove clarification Question after update list")
+    @DisplayName("Should remove clarification Question after update code list")
     void shouldRemoveClarificationQuestion() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
         String codesListIdToUpdate = "m7c6apvz";
@@ -226,6 +226,30 @@ class CodesListServiceTest {
                 )));
         assertEquals(0, question.getClarificationQuestion().size());
         assertEquals(0, question.getFlowControl().size());
+
+    }
+
+    @Test
+    @DisplayName("Should not remove CALCULATED and EXTERNAL variables after update code list")
+    void shouldNotRemoveCalculatedAndExternalVariables() throws Exception {
+        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String codesListIdToUpdate = "m7c6apvz";
+        String externalVariableID = "m8rd4mu4";
+        String calculatedVariableID = "m8rcy1df";
+        String questionId = "m7c69g2e";
+        QuestionType question = findQuestionWithId(questionnaire, questionId);
+        assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> externalVariableID.equals(variable.getId())));
+        assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> calculatedVariableID.equals(variable.getId())));
+        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
+                new CodesList("id","sauce",List.of(
+                        new Code("1","Mayonnaise",null),
+                        new Code("2","Ketchup",null),
+                        new Code("3","Moutarde",null),
+                        new Code("4","Andalouse ",null),
+                        new Code("5","Poivre ",null)
+                )));
+        assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> externalVariableID.equals(variable.getId())));
+        assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> calculatedVariableID.equals(variable.getId())));
 
     }
 

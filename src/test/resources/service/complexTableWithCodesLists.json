@@ -874,6 +874,29 @@
           "typeName": "TEXT",
           "MaxLength": 249
         }
+      },
+      {
+        "id": "m8rd4mu4",
+        "Name": "TEST_EXT",
+        "Label": "TEST",
+        "type": "ExternalVariableType",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m8rcy1df",
+        "Label": "TEST",
+        "Name": "TEST_CALC",
+        "Formula": "nvl($CHOIXMULTIT6$, \"\")",
+        "type": "CalculatedVariableType",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        }
       }
     ]
   },
