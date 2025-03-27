@@ -1,7 +1,6 @@
 package fr.insee.pogues.utils.model;
 
 import fr.insee.pogues.model.*;
-import org.eclipse.persistence.jpa.jpql.parser.SubExpression;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -36,18 +35,16 @@ public class CodesList {
 
     public static List<QuestionType> getListOfQuestionWhereCodesListIsUsed(ComponentType poguesComponent, String codesListId){
         List<QuestionType> questions = new ArrayList<>();
-        if(poguesComponent instanceof SequenceType){
-            ((SequenceType) poguesComponent).getChild().forEach(childComponent -> {
-                questions.addAll(getListOfQuestionWhereCodesListIsUsed(childComponent, codesListId));
-            });
+        if(poguesComponent instanceof SequenceType poguesSequence){
+            poguesSequence.getChild().forEach(childComponent -> questions.addAll(getListOfQuestionWhereCodesListIsUsed(childComponent, codesListId)));
         }
-        if(poguesComponent instanceof QuestionType){
-            QuestionTypeEnum questionType = ((QuestionType) poguesComponent).getQuestionType();
-            ((QuestionType) poguesComponent).getResponse().forEach(responseType -> {
+        if(poguesComponent instanceof QuestionType poguesQuestion){
+            QuestionTypeEnum questionType = poguesQuestion.getQuestionType();
+            poguesQuestion.getResponse().forEach(responseType -> {
                 if(codesListId.equals(responseType.getCodeListReference())) questions.add((QuestionType) poguesComponent);
             });
             if(questionType.equals(QuestionTypeEnum.TABLE) || questionType.equals(QuestionTypeEnum.MULTIPLE_CHOICE)){
-                ((QuestionType) poguesComponent).getResponseStructure().getDimension().forEach(dimensionType -> {
+                poguesQuestion.getResponseStructure().getDimension().forEach(dimensionType -> {
                     if(codesListId.equals(dimensionType.getCodeListReference())) questions.add((QuestionType) poguesComponent);
                 });
             }
