@@ -148,9 +148,11 @@ public class CodesListService {
                 .toList();
         // add new variables to questionnaire
         questionnaire.getVariables().getVariable().addAll(variables);
-        // Delete variables that are not referenced in response
+        // Delete only collected variables that are not referenced in response
         List<String> neededCollectedVariables = getNeededCollectedVariablesInQuestionnaire(questionnaire);
-        questionnaire.getVariables().getVariable().removeIf(variableType -> !neededCollectedVariables.contains(variableType.getId()));
+        questionnaire.getVariables().getVariable()
+                .removeIf(variableType -> variableType instanceof CollectedVariableType
+                        && !neededCollectedVariables.contains(variableType.getId()));
         return questionsToModify.stream().map(ComponentType::getId).toList();
     }
 
