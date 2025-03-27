@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import static fr.insee.pogues.utils.PoguesModelUtils.getFlowControlBounds;
-import static fr.insee.pogues.utils.PoguesModelUtils.getSequences;
+import static fr.insee.pogues.utils.model.PoguesModelUtils.getFlowControlBounds;
+import static fr.insee.pogues.utils.model.PoguesModelUtils.getSequences;
 
 /**
  * Implementation of CompositionStep to update FlowControl (filters) objects when de-referencing a questionnaire.

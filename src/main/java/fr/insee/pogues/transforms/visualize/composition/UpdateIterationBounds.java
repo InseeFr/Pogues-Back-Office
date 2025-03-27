@@ -9,8 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
-import static fr.insee.pogues.utils.PoguesModelUtils.getIterationBounds;
-import static fr.insee.pogues.utils.PoguesModelUtils.getSequences;
+import static fr.insee.pogues.utils.model.PoguesModelUtils.getIterationBounds;
+import static fr.insee.pogues.utils.model.PoguesModelUtils.getSequences;
 
 /**
  * Implementation of CompositionStep to update Iteration (loops) objects when de-referencing a questionnaire.

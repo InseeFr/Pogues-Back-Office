@@ -1,0 +1,267 @@
+{
+  "id": "m8fv04q2",
+  "Name": "TAB",
+  "Child": [
+    {
+      "id": "m8fus9vq",
+      "Name": "S1",
+      "type": "SequenceType",
+      "Child": [
+        {
+          "id": "m8fv4po6",
+          "Name": "TABLEAU",
+          "type": "QuestionType",
+          "Label": ["\"Tableau\""],
+          "depth": 2,
+          "Control": [],
+          "Response": [
+            {
+              "id": "m8fx6rzk",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 1,
+                "visualizationHint": "RADIO"
+              },
+              "CodeListReference": "m8fv72hj",
+              "CollectedVariableReference": "m8fx3k6u"
+            },
+            {
+              "id": "m8fxht9t",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 1,
+                "visualizationHint": "RADIO"
+              },
+              "CodeListReference": "m8fv72hj",
+              "CollectedVariableReference": "m8fx5ojo"
+            },
+            {
+              "id": "m8fxnbw3",
+              "Datatype": {
+                "Unit": "http://id.insee.fr/unit/an",
+                "type": "NumericDatatypeType",
+                "Maximum": "100",
+                "Minimum": "0",
+                "Decimals": "",
+                "typeName": "NUMERIC"
+              },
+              "CollectedVariableReference": "m8fx5au9"
+            },
+            {
+              "id": "m8fxfb62",
+              "Datatype": {
+                "Unit": "http://id.insee.fr/unit/an",
+                "type": "NumericDatatypeType",
+                "Maximum": "100",
+                "Minimum": "0",
+                "Decimals": "",
+                "typeName": "NUMERIC"
+              },
+              "CollectedVariableReference": "m8fxcp91"
+            },
+            {
+              "id": "m8fximd2",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 1,
+                "visualizationHint": "RADIO"
+              },
+              "CodeListReference": "m8fv72hj",
+              "CollectedVariableReference": "m8fx5zhk"
+            },
+            {
+              "id": "m8fx72k6",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 1,
+                "visualizationHint": "RADIO"
+              },
+              "CodeListReference": "m8fv72hj",
+              "CollectedVariableReference": "m8fx3dsj"
+            }
+          ],
+          "TargetMode": ["CAWI"],
+          "Declaration": [],
+          "FlowControl": [],
+          "questionType": "TABLE",
+          "ResponseStructure": {
+            "Mapping": [
+              { "MappingSource": "m8fx6rzk", "MappingTarget": "1 1" },
+              { "MappingSource": "m8fxht9t", "MappingTarget": "2 1" },
+              { "MappingSource": "m8fxnbw3", "MappingTarget": "1 2" },
+              { "MappingSource": "m8fxfb62", "MappingTarget": "2 2" },
+              { "MappingSource": "m8fximd2", "MappingTarget": "1 3" },
+              { "MappingSource": "m8fx72k6", "MappingTarget": "2 3" }
+            ],
+            "Attribute": [],
+            "Dimension": [
+              {
+                "dynamic": "NON_DYNAMIC",
+                "dimensionType": "PRIMARY",
+                "CodeListReference": "m8futasu"
+              },
+              { "Label": "\"Premier oui/non\"", "dimensionType": "MEASURE" },
+              { "Label": "\"Age\"", "dimensionType": "MEASURE" },
+              { "Label": "\"Oui /NON\"", "dimensionType": "MEASURE" }
+            ]
+          },
+          "ClarificationQuestion": []
+        }
+      ],
+      "Label": ["s1"],
+      "depth": 1,
+      "Control": [],
+      "TargetMode": ["CAWI"],
+      "Declaration": [],
+      "FlowControl": [],
+      "genericName": "MODULE"
+    },
+    {
+      "id": "idendquest",
+      "Name": "QUESTIONNAIRE_END",
+      "type": "SequenceType",
+      "Child": [],
+      "Label": ["QUESTIONNAIRE_END"],
+      "depth": 1,
+      "Control": [],
+      "TargetMode": ["CAWI"],
+      "Declaration": [],
+      "FlowControl": [],
+      "genericName": "MODULE"
+    }
+  ],
+  "Label": ["tablean non collectée"],
+  "final": false,
+  "owner": "DR59-SNDI59",
+  "agency": "fr.insee",
+  "CodeLists": {
+    "CodeList": [
+      {
+        "id": "m8futasu",
+        "Code": [
+          { "Label": "\"Homme\"", "Value": "h", "Parent": "" },
+          { "Label": "\"Femme\"", "Value": "f", "Parent": "" }
+        ],
+        "Label": "hoomme-femme"
+      },
+      {
+        "id": "m8fv72hj",
+        "Code": [
+          { "Label": "\"Oui\"", "Value": "1", "Parent": "" },
+          { "Label": "\"Non\"", "Value": "2", "Parent": "" }
+        ],
+        "Label": "ouinon"
+      }
+    ]
+  },
+  "Variables": {
+    "Variable": [
+      {
+        "id": "m8fx3k6u",
+        "Name": "TABLEAU11",
+        "type": "CollectedVariableType",
+        "Label": "Homme-Premier oui/non",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 1
+        },
+        "CodeListReference": "m8fv72hj"
+      },
+      {
+        "id": "m8fx5ojo",
+        "Name": "TABLEAU21",
+        "type": "CollectedVariableType",
+        "Label": "Femme-Premier oui/non",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 1
+        },
+        "CodeListReference": "m8fv72hj"
+      },
+      {
+        "id": "m8fx5au9",
+        "Name": "TABLEAU12",
+        "type": "CollectedVariableType",
+        "Label": "Homme-Age",
+        "Datatype": {
+          "Unit": "http://id.insee.fr/unit/an",
+          "type": "NumericDatatypeType",
+          "Maximum": "100",
+          "Minimum": "0",
+          "Decimals": "",
+          "typeName": "NUMERIC"
+        }
+      },
+      {
+        "id": "m8fxcp91",
+        "Name": "TABLEAU22",
+        "type": "CollectedVariableType",
+        "Label": "Femme-Age",
+        "Datatype": {
+          "Unit": "http://id.insee.fr/unit/an",
+          "type": "NumericDatatypeType",
+          "Maximum": "100",
+          "Minimum": "0",
+          "Decimals": "",
+          "typeName": "NUMERIC"
+        }
+      },
+      {
+        "id": "m8fx5zhk",
+        "Name": "TABLEAU13",
+        "type": "CollectedVariableType",
+        "Label": "Homme-Oui /NON",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 1
+        },
+        "CodeListReference": "m8fv72hj"
+      },
+      {
+        "id": "m8fx3dsj",
+        "Name": "TABLEAU23",
+        "type": "CollectedVariableType",
+        "Label": "Femme-Oui /NON",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 1
+        },
+        "CodeListReference": "m8fv72hj"
+      }
+    ]
+  },
+  "flowLogic": "FILTER",
+  "TargetMode": ["CAWI"],
+  "FlowControl": [],
+  "genericName": "QUESTIONNAIRE",
+  "ComponentGroup": [
+    {
+      "id": "m8fv6e6a",
+      "Name": "PAGE_1",
+      "Label": ["Components for page 1"],
+      "MemberReference": ["m8fus9vq", "m8fv4po6", "idendquest"]
+    }
+  ],
+  "DataCollection": [
+    { "id": "s2193-dc", "uri": "http://ddi:fr.insee:DataCollection.s2193-dc" }
+  ],
+  "lastUpdatedDate": "Wed Mar 19 2025 13:46:42 GMT+0100 (heure normale d’Europe centrale)",
+  "formulasLanguage": "VTL",
+  "childQuestionnaireRef": []
+}

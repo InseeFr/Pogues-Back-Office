@@ -8,6 +8,7 @@ import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.VariablesService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
+import fr.insee.pogues.exception.PoguesException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

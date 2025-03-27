@@ -1,7 +1,7 @@
 package fr.insee.pogues.metadata.client;
 
 import fr.insee.pogues.metadata.model.ddias.Unit;
-import fr.insee.pogues.webservice.rest.PoguesException;
+import fr.insee.pogues.exception.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
