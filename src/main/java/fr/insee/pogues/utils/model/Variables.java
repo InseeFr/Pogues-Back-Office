@@ -77,19 +77,26 @@ public class Variables {
         return variablesIds;
     }
 
-    public static <A> List<VariableType> buildVariablesBasedOnTwoDimensions(List<CodeType> codesList, List<A> secondList, List<ResponseType> responses, String questionName, Function<A,String> labelFactory){
+    public static <A,B> List<VariableType> buildVariablesBasedOnTwoDimensions(
+            List<A> firstList,
+            List<B> secondList,
+            List<ResponseType> responses,
+            String questionName,
+            Function<A,String> firstListLabelFactory,
+            Function<B,String> secondListLabelFactory){
         int responseIndex=0;
         List<VariableType> variables = new ArrayList<>();
-        for(int primaryIndex=0; primaryIndex < codesList.size(); primaryIndex++){
+        for(int primaryIndex=0; primaryIndex < firstList.size(); primaryIndex++){
             for(int secondaryIndex=0; secondaryIndex < secondList.size(); secondaryIndex++){
                 variables.add(
                         buildCollectedVariableFromDataType(
                                 responses.get(responseIndex).getDatatype(),
                                 responses.get(responseIndex).getCollectedVariableReference(),
-                                String.format(VARIABLE_FORMAT_TWO_AXIS, questionName, primaryIndex+1, secondaryIndex+1),
+                                // we have to put first the secondIndex, then primaryIndex
+                                String.format(VARIABLE_FORMAT_TWO_AXIS, questionName, secondaryIndex+1, primaryIndex+1),
                                 String.format(COLLECTED_LABEL_FORMAT,
-                                        codesList.get(primaryIndex).getLabel(),
-                                        labelFactory.apply(secondList.get(secondaryIndex))),
+                                        secondListLabelFactory.apply(secondList.get(secondaryIndex)),
+                                        firstListLabelFactory.apply(firstList.get(primaryIndex))),
                                 responses.get(responseIndex).getCodeListReference())
                 );
                 responseIndex++;

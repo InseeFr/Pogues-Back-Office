@@ -71,10 +71,11 @@ public class Common {
         int responseIndex=0;
         List<MappingType> mappings = new ArrayList<>();
         for(int primaryIndex=0; primaryIndex < firstList.size(); primaryIndex++){
-            for(int patternIndex=0; patternIndex < secondList.size(); patternIndex++){
+            for(int secondIndex=0; secondIndex < secondList.size(); secondIndex++){
                 mappings.add(createNewMapping(
                         responses.get(responseIndex).getId(),
-                        String.format(MAPPING_TARGET_TWO_DIMENSIONS_FORMAT,primaryIndex+1, patternIndex+1)));
+                        // we have to put first the secondIndex, then primaryIndex
+                        String.format(MAPPING_TARGET_TWO_DIMENSIONS_FORMAT, secondIndex+1, primaryIndex+1)));
                 responseIndex++;
             }
         }

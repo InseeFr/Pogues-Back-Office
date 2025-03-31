@@ -21,15 +21,6 @@ public class Table {
                 && updatedCodeListId.equals(dimension.getCodeListReference()));
     }
 
-    private static List<ResponseType> buildResponseAccordingWithTwoAxis(List<CodeType> primaryCodes, List<CodeType> secondaryCodes, ResponseType responsePattern){
-        return primaryCodes.stream()
-                .map(primaryCode -> secondaryCodes.stream()
-                        .map(secondaryCode -> createNewResponseFrom(responsePattern))
-                        .toList())
-                .flatMap(Collection::stream)
-                .toList();
-    }
-
     private static boolean isDimensionHasPrimaryAndSecondary(List<DimensionType> dimensions){
         return dimensions.stream().anyMatch(Table::isDimensionSecondary);
     }
@@ -71,8 +62,6 @@ public class Table {
         List<DimensionType> dimensionsOfTable = questionType.getResponseStructure().getDimension();
         // Test if responses has to be re-compute (codeList use as PRIMARY or SECONDARY dimension)
         if (!isDimensionBasedOnCodeListId(dimensionsOfTable, updatedCodeList.getId())) return earlyReturnedValue;
-
-
         // Step 1
         List<ResponseType> responsesPattern = getUniqueResponseType(questionType);
 
@@ -88,16 +77,18 @@ public class Table {
             List<CodeType> primaryCodeListWithoutChild = getOnlyCodesWithoutChild(primaryCodeList);
             List<CodeType> secondaryCodeListWithoutChild = getOnlyCodesWithoutChild(secondaryCodeList);
             // re-create response according to the two codeList
-            List<ResponseType> newResponses = buildResponseAccordingWithTwoAxis(
-                    primaryCodeListWithoutChild,
-                    secondaryCodeListWithoutChild,
-                    responsePattern);
+            // build response column by column (for each code of secondList, create n response where n is length of primaryCodeList)
+            List<ResponseType> newResponses = secondaryCodeListWithoutChild.stream()
+                    .map(responseType -> primaryCodeListWithoutChild.stream().map(code -> createNewResponseFrom(responsePattern)).toList())
+                    .flatMap(Collection::stream)
+                    .toList();
+
             questionType.getResponse().clear();
             questionType.getResponse().addAll(newResponses);
             // step 2 (mapping)
             List<MappingType> newMappings = buildMappingsBasedOnTwoDimensions(
-                    primaryCodeListWithoutChild,
                     secondaryCodeListWithoutChild,
+                    primaryCodeListWithoutChild,
                     newResponses);
             questionType.getResponseStructure().getMapping().clear();
             questionType.getResponseStructure().getMapping().addAll(newMappings);
@@ -105,9 +96,9 @@ public class Table {
             questionType.getResponseStructure().getAttribute().clear();
             // step 3 (variable)
             return buildVariablesBasedOnTwoDimensions(
-                    primaryCodeListWithoutChild, secondaryCodeListWithoutChild,
+                    secondaryCodeListWithoutChild, primaryCodeListWithoutChild,
                     newResponses, questionType.getName(),
-                    CodeType::getLabel);
+                    CodeType::getLabel, CodeType::getLabel);
         }
         // Here only PRIMARY dimension and MEASURE
         // re-create response according to updatedCodeList only updatedCodeList is used as primaryDimension
@@ -117,15 +108,17 @@ public class Table {
         String primaryCodeListId = dimensionsOfTable.stream().filter(Common::isDimensionPrimary).findFirst().get().getCodeListReference();
         CodeList primaryCodeList = getCodeListWithRef(primaryCodeListId, updatedCodeList, codeListInQuestionnaire);
         List<CodeType> primaryCodeListWithoutChild = getOnlyCodesWithoutChild(primaryCodeList);
-        List<ResponseType> newResponses = primaryCodeListWithoutChild.stream()
-                .map(codeType -> responsesPattern.stream().map(Common::createNewResponseFrom).toList())
+
+        // build response column by column (for each responsePattern, create n response where n is length of primaryCodeList)
+        List<ResponseType> newResponses = responsesPattern.stream()
+                .map(responseType -> primaryCodeListWithoutChild.stream().map(code -> createNewResponseFrom(responseType)).toList())
                 .flatMap(Collection::stream)
                 .toList();
 
         questionType.getResponse().clear();
         questionType.getResponse().addAll(newResponses);
         // step 2
-        List<MappingType> newMappings = buildMappingsBasedOnTwoDimensions(primaryCodeListWithoutChild, responsesPattern, newResponses);
+        List<MappingType> newMappings = buildMappingsBasedOnTwoDimensions(responsesPattern, primaryCodeListWithoutChild, newResponses);
 
         questionType.getResponseStructure().getMapping().clear();
         questionType.getResponseStructure().getMapping().addAll(newMappings);
@@ -138,7 +131,8 @@ public class Table {
         // step 3
         // in this step, responsesPattern and measureDimensions have the same size :
         return buildVariablesBasedOnTwoDimensions(
-                primaryCodeListWithoutChild, measureDimensions, newResponses,
-                questionType.getName(), DimensionType::getLabel);
+                measureDimensions, primaryCodeListWithoutChild,
+                newResponses, questionType.getName(),
+                DimensionType::getLabel, CodeType::getLabel);
     }
 }
