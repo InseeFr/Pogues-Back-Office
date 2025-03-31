@@ -10,8 +10,9 @@ import fr.insee.pogues.webservice.model.dtd.codelists.ExtendedCodesList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -26,12 +27,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
+@ExtendWith(MockitoExtension.class)
 class CodesListServiceTest {
 
     @Mock
     QuestionnairesService questionnairesService;
 
-    @InjectMocks
     private CodesListService codesListService;
 
     @BeforeEach
@@ -47,7 +48,7 @@ class CodesListServiceTest {
                 new Code("F","Femme",null),
                 new Code("H","Homme",null)
         )));
-        assertEquals(9, existingCodeLists.size());
+        assertThat(existingCodeLists).hasSize(9);
         assertEquals("h-f", existingCodeLists.get(8).getId());
     }
 
@@ -56,7 +57,7 @@ class CodesListServiceTest {
         List<fr.insee.pogues.model.CodeList> existingCodeLists = initFakeCodeLists(10);
         codesListService.removeCodeListDTD(existingCodeLists, "code-list-4");
         assertEquals(9, existingCodeLists.size());
-        assertFalse(existingCodeLists.stream().anyMatch(codeList -> codeList.getId() == "code-list-4"));
+        assertFalse(existingCodeLists.stream().anyMatch(codeList -> Objects.equals(codeList.getId(), "code-list-4")));
     }
 
     @Test
@@ -93,7 +94,7 @@ class CodesListServiceTest {
     @Test
     void addCodeList() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/withoutCodesList.json");
-        assertEquals(0, questionnaire.getCodeLists().getCodeList().size());
+        assertThat(questionnaire.getCodeLists().getCodeList()).isEmpty();
         codesListService.updateOrAddCodeListToQuestionnaire(
                 questionnaire,
                 "test-1",
@@ -103,7 +104,7 @@ class CodesListServiceTest {
                         new Code("03","label 3",null)
                 ))
         );
-        assertEquals(1, questionnaire.getCodeLists().getCodeList().size());
+        assertThat(questionnaire.getCodeLists().getCodeList()).hasSize(1);
     }
 
     @Test
@@ -128,8 +129,8 @@ class CodesListServiceTest {
         List<CodeList> codeLists = questionnaire.getCodeLists().getCodeList();
         CodeList initialCodeList = codeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), "m7d794ks")).findFirst().get();
 
-        assertEquals(4,codeLists.size());
-        assertEquals(3,initialCodeList.getCode().size());
+        assertThat(codeLists).hasSize(4);
+        assertThat(initialCodeList.getCode()).hasSize(3);
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, "m7d794ks",
                 new CodesList("id","label",List.of(
                         new Code("1","New York",null),
@@ -141,8 +142,8 @@ class CodesListServiceTest {
                 )));
         List<CodeList> updatedCodeLists = questionnaire.getCodeLists().getCodeList();
         CodeList codeListUpdated = updatedCodeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), "m7d794ks")).findFirst().get();
-        assertEquals(4, updatedCodeLists.size());
-        assertEquals(6, codeListUpdated.getCode().size());
+        assertThat(updatedCodeLists).hasSize(4);
+        assertThat(codeListUpdated.getCode()).hasSize(6);
 
         String questionnaireasString = PoguesSerializer.questionnaireJavaToString(questionnaire);
         File tmpFile = File.createTempFile("pogues-model-", ".json");
@@ -197,7 +198,7 @@ class CodesListServiceTest {
                         new Code("H","Homme",null)
                 )));
         List<ResponseType> responsesAfter = findQuestionWithId(questionnaire, questionTableId).getResponse();
-        assertEquals(2*3, responsesAfter.size());
+        assertThat(responsesAfter).hasSize(2*3);
         assertEquals(VisualizationHintEnum.RADIO, responsesAfter.get(0).getDatatype().getVisualizationHint());
         assertEquals(VisualizationHintEnum.RADIO, responsesAfter.get(1).getDatatype().getVisualizationHint());
         assertEquals(DatatypeTypeEnum.NUMERIC, responsesAfter.get(2).getDatatype().getTypeName());
@@ -213,8 +214,8 @@ class CodesListServiceTest {
         String codesListIdToUpdate = "m7c6apvz";
         String questionIdWithClarificationQuestion = "m8hd7kt3";
         QuestionType question = findQuestionWithId(questionnaire, questionIdWithClarificationQuestion);
-        assertEquals(1, question.getClarificationQuestion().size());
-        assertEquals(1, question.getFlowControl().size());
+        assertThat(question.getClarificationQuestion()).hasSize(1);
+        assertThat(question.getFlowControl()).hasSize(1);
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
                 new CodesList("id","sauce",List.of(
                         new Code("1","Mayonnaise",null),
@@ -223,8 +224,8 @@ class CodesListServiceTest {
                         new Code("4","Andalouse ",null),
                         new Code("5","Poivre ",null)
                 )));
-        assertEquals(0, question.getClarificationQuestion().size());
-        assertEquals(0, question.getFlowControl().size());
+        assertThat(question.getClarificationQuestion()).isEmpty();
+        assertThat(question.getFlowControl()).isEmpty();
 
     }
 
@@ -235,8 +236,9 @@ class CodesListServiceTest {
         String codesListIdToUpdate = "m7c6apvz";
         String externalVariableID = "m8rd4mu4";
         String calculatedVariableID = "m8rcy1df";
-        assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> externalVariableID.equals(variable.getId())));
-        assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> calculatedVariableID.equals(variable.getId())));
+        assertThat(questionnaire.getVariables().getVariable())
+                .anyMatch(variable -> externalVariableID.equals(variable.getId()))
+                .anyMatch(variable -> calculatedVariableID.equals(variable.getId()));
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
                 new CodesList("id","sauce",List.of(
                         new Code("1","Mayonnaise",null),
@@ -245,9 +247,9 @@ class CodesListServiceTest {
                         new Code("4","Andalouse ",null),
                         new Code("5","Poivre ",null)
                 )));
-        assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> externalVariableID.equals(variable.getId())));
-        assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> calculatedVariableID.equals(variable.getId())));
-
+        assertThat(questionnaire.getVariables().getVariable())
+                .anyMatch(variable -> externalVariableID.equals(variable.getId()))
+                .anyMatch(variable -> calculatedVariableID.equals(variable.getId()));
     }
 
     @Test
@@ -255,7 +257,7 @@ class CodesListServiceTest {
     void shouldGetRightCodesListsFromQuestionnaire() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
         List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTD(questionnaire);
-        assertEquals(4, codesLists.size());
+        assertThat(codesLists).hasSize(4);
         assertThat(codesLists.get(0).getRelatedQuestionNames())
                 .containsExactly("QUESTION", "TAB", "TAB_SECONDARY", "CHOIXMULTIT");
     }
