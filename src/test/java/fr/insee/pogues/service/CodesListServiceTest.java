@@ -235,7 +235,6 @@ class CodesListServiceTest {
         String codesListIdToUpdate = "m7c6apvz";
         String externalVariableID = "m8rd4mu4";
         String calculatedVariableID = "m8rcy1df";
-        String questionId = "m7c69g2e";
         assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> externalVariableID.equals(variable.getId())));
         assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> calculatedVariableID.equals(variable.getId())));
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
