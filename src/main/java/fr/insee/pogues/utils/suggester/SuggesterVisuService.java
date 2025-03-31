@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.utils.PoguesDeserializer;
+import fr.insee.pogues.utils.model.CodesList;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -56,8 +58,8 @@ public class SuggesterVisuService {
      */
     public List<String> getNomenclatureIdsFromQuestionnaire(Questionnaire questionnaire){
         return questionnaire.getCodeLists().getCodeList().stream()
-                .filter(codeList -> codeList.getSuggesterParameters() != null)
-                .map(codeList -> codeList.getId())
+                .filter(CodesList::isNomenclatureCodeList)
+                .map(CodeList::getId)
                 .toList();
     }
 
