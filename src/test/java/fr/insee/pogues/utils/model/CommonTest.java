@@ -55,7 +55,7 @@ class CommonTest {
         );
         assertEquals("1 1",mappings.getFirst().getMappingTarget());
         assertEquals(
-                String.format("%d %d", primaryCodes.size(), secondaryCodes.size()),
+                String.format("%d %d", secondaryCodes.size(), primaryCodes.size()),
                 mappings.getLast().getMappingTarget());
     }
 
@@ -92,7 +92,7 @@ class CommonTest {
         List<MappingType> mappings = buildMappingsBasedOnTwoDimensions(primaryCodes, responsesPattern, responses);
         assertEquals(6, mappings.size());
         assertEquals("1 1", mappings.getFirst().getMappingTarget());
-        assertEquals("3 2", mappings.getLast().getMappingTarget());
+        assertEquals("2 3", mappings.getLast().getMappingTarget());
         // Test if each responses id are mapped
         responses.forEach(response -> {
             assertTrue(mappings.stream().anyMatch(m->response.getId().equals(m.getMappingSource())));
