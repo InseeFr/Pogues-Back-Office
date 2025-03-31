@@ -191,8 +191,6 @@ class CodesListServiceTest {
         String questionTableId = "m7d6ws56";
         String codesListIdToUpdate = "m7c68dlm";
 
-        List<ResponseType> responsesBefore = findQuestionWithId(questionnaire, questionTableId).getResponse();
-
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
                 new CodesList("id","h-f",List.of(
                         new Code("F","Femme",null),
@@ -238,7 +236,6 @@ class CodesListServiceTest {
         String externalVariableID = "m8rd4mu4";
         String calculatedVariableID = "m8rcy1df";
         String questionId = "m7c69g2e";
-        QuestionType question = findQuestionWithId(questionnaire, questionId);
         assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> externalVariableID.equals(variable.getId())));
         assertTrue(questionnaire.getVariables().getVariable().stream().anyMatch(variable -> calculatedVariableID.equals(variable.getId())));
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
