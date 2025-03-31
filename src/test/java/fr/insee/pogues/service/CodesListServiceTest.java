@@ -1,9 +1,7 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.exception.CodesListException;
-import fr.insee.pogues.model.CodeList;
-import fr.insee.pogues.model.QuestionType;
-import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.webservice.model.dtd.codelists.Code;
@@ -187,24 +185,27 @@ class CodesListServiceTest {
     }
 
     @Test
-    @DisplayName("Should success")
+    @DisplayName("Should conserve column order when updated primary codeList")
     void updateExistingCodeListInTableQuestionComplex() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        String codesListIdToUpdate = "m7d6wcx1";
+        String questionTableId = "m7d6ws56";
+        String codesListIdToUpdate = "m7c68dlm";
+
+        List<ResponseType> responsesBefore = findQuestionWithId(questionnaire, questionTableId).getResponse();
+
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
-                new CodesList("id","sauce",List.of(
-                        new Code("1","Mayonnaise",null),
-                        new Code("2","Ketchup",null),
-                        new Code("3","Moutarde",null),
-                        new Code("4","Andalouse ",null),
-                        new Code("5","Poivre ",null)
+                new CodesList("id","h-f",List.of(
+                        new Code("F","Femme",null),
+                        new Code("H","Homme",null)
                 )));
-        String questionnaireasString = PoguesSerializer.questionnaireJavaToString(questionnaire);
-        File tmpFile = File.createTempFile("pogues-model-", ".json");
-        FileWriter writer = new FileWriter(tmpFile);
-        writer.write(questionnaireasString);
-        writer.close();
-        System.out.println(tmpFile.getAbsolutePath());
+        List<ResponseType> responsesAfter = findQuestionWithId(questionnaire, questionTableId).getResponse();
+        assertEquals(2*3, responsesAfter.size());
+        assertEquals(VisualizationHintEnum.RADIO, responsesAfter.get(0).getDatatype().getVisualizationHint());
+        assertEquals(VisualizationHintEnum.RADIO, responsesAfter.get(1).getDatatype().getVisualizationHint());
+        assertEquals(DatatypeTypeEnum.NUMERIC, responsesAfter.get(2).getDatatype().getTypeName());
+        assertEquals(DatatypeTypeEnum.NUMERIC, responsesAfter.get(3).getDatatype().getTypeName());
+        assertEquals(VisualizationHintEnum.DROPDOWN, responsesAfter.get(4).getDatatype().getVisualizationHint());
+        assertEquals(VisualizationHintEnum.DROPDOWN, responsesAfter.get(5).getDatatype().getVisualizationHint());
     }
 
     @Test
@@ -212,7 +213,7 @@ class CodesListServiceTest {
     void shouldRemoveClarificationQuestion() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
         String codesListIdToUpdate = "m7c6apvz";
-        String questionIdWithClarificationQuestion = "m7c69g2e";
+        String questionIdWithClarificationQuestion = "m8hd7kt3";
         QuestionType question = findQuestionWithId(questionnaire, questionIdWithClarificationQuestion);
         assertEquals(1, question.getClarificationQuestion().size());
         assertEquals(1, question.getFlowControl().size());
@@ -258,7 +259,8 @@ class CodesListServiceTest {
     void shouldGetRightCodesListsFromQuestionnaire() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
         List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTD(questionnaire);
-        assertEquals(5, codesLists.size());
-        assertThat(codesLists.get(0).getRelatedQuestionNames()).containsExactly("QUESTION", "TAB", "TAB_SECONDARY");
+        assertEquals(4, codesLists.size());
+        assertThat(codesLists.get(0).getRelatedQuestionNames())
+                .containsExactly("QUESTION", "TAB", "TAB_SECONDARY", "CHOIXMULTIT");
     }
 }

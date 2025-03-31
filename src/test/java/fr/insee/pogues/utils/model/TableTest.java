@@ -24,11 +24,12 @@ class TableTest {
         List<DimensionType> measureDimensions = table.getResponseStructure().getDimension().stream()
                 .filter(dimensionType -> DimensionTypeEnum.MEASURE.equals(dimensionType.getDimensionType()))
                 .toList();
-        assertEquals(2, uniqueResponseType.size());
+        assertEquals(3, uniqueResponseType.size());
         assertEquals(measureDimensions.size(), uniqueResponseType.size());
         assertEquals(DatatypeTypeEnum.TEXT, uniqueResponseType.get(0).getDatatype().getTypeName());
         assertEquals(VisualizationHintEnum.RADIO, uniqueResponseType.get(0).getDatatype().getVisualizationHint());
         assertEquals(DatatypeTypeEnum.NUMERIC, uniqueResponseType.get(1).getDatatype().getTypeName());
+        assertEquals(VisualizationHintEnum.DROPDOWN, uniqueResponseType.get(2).getDatatype().getVisualizationHint());
     }
 
 

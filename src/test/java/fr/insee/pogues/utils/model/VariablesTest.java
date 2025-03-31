@@ -40,7 +40,9 @@ class VariablesTest {
                 createResponse(DatatypeTypeEnum.TEXT)
         );
         List<VariableType> variables = buildVariablesBasedOnTwoDimensions(
-                primaryCodes, secondaryCodes, responses, "SUPER_QUESTION", code -> code.getLabel()
+                primaryCodes, secondaryCodes,
+                responses, "SUPER_QUESTION",
+                CodeType::getLabel, CodeType::getLabel
         );
         assertEquals(primaryCodes.size()*secondaryCodes.size(),
                 variables.size());
@@ -65,7 +67,9 @@ class VariablesTest {
         );
 
         List<VariableType> variables = buildVariablesBasedOnTwoDimensions(
-                primaryCodes, measures, responses, "SUPER_QUESTION", measure -> measure.getLabel());
+                measures, primaryCodes,
+                responses, "SUPER_QUESTION",
+                DimensionType::getLabel, CodeType::getLabel);
         assertEquals(6, variables.size());
         // Test if each responses id are mapped with variable
         responses.forEach(response -> {
