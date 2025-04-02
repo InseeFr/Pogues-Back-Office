@@ -132,6 +132,8 @@ public class CodesListService {
         List<QuestionType> questionsToModify = getListOfQuestionWhereCodesListIsUsed(questionnaire, updatedCodeListId);
         // Clear Clarification question for concerned question
         questionsToModify.forEach(Common::removeClarificationQuestion);
+        // Clear CodeList filters for concerned question
+        questionsToModify.forEach(Common::removeCodeListFilters);
         // modify Multiple and Table question and get there new Variables
         List<QuestionType> multipleAndTableQuestion = questionsToModify.stream()
                 .filter(questionType -> {

@@ -86,4 +86,8 @@ public class Common {
         question.getClarificationQuestion().clear();
         question.getFlowControl().removeIf(flowControl -> FlowControlTypeEnum.CLARIFICATION.equals(flowControl.getFlowControlType()));
     }
+
+    public static void removeCodeListFilters(QuestionType question){
+        question.getCodeFilters().clear();
+    }
 }
