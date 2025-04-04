@@ -76,6 +76,9 @@
             "\"Oui, non ou peut-être ?\""
           ],
           "Control": [],
+          "codeFilters": [
+            { "codeValue": "4", "conditionFilter": "QUESTION = \"test\"" }
+          ],
           "Response": [
             {
               "id": "m8hdmqud",
