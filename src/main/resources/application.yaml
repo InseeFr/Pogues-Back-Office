@@ -111,9 +111,9 @@ spring:
     defaultSchema: public
     change-log: classpath:db/master.xml
   datasource:
-    url: jdbc:postgresql://localhost:53941/pogues
-    username: pogues
-    password: pogues
+    url:
+    username:
+    password:
     table: pogues
     hikari.maximumPoolSize: 5
   banner:
