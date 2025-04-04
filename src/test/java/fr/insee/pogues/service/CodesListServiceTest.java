@@ -229,22 +229,43 @@ class CodesListServiceTest {
     }
 
     @Test
-    @DisplayName("Should remove codeList filters after update code list")
+    @DisplayName("CodeList filters should be removed after updating the CodeList because it has changed")
     void shouldRemoveCodeListFilters() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
         String codesListIdToUpdate = "m7c6apvz";
         String questionIdWithCodeListFilters = "m8hd7kt3";
         QuestionType question = findQuestionWithId(questionnaire, questionIdWithCodeListFilters);
         assertThat(question.getCodeFilters()).hasSize(1);
-        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
-                new CodesList("id","sauce",List.of(
-                        new Code("1","Mayonnaise",null),
-                        new Code("2","Ketchup",null),
-                        new Code("3","Moutarde",null),
-                        new Code("4","Andalouse ",null),
-                        new Code("5","Poivre ",null)
-                )));
+
+        CodesList updatedCodeList = new CodesList("id", "sauce", List.of(
+                new Code("1", "Mayonnaise", null),
+                new Code("2", "Ketchup", null),
+                new Code("3", "Moutarde", null),
+                new Code("4", "Andalouse", null),
+                new Code("5", "Poivre", null)
+        ));
+
+        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate, updatedCodeList);
         assertThat(question.getCodeFilters()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("CodeList filters should not be removed after updating the CodeList because it hasn't changed")
+    void shouldRemoveCodeListFilters2() throws Exception {
+        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String codesListIdToUpdate = "m7c6apvz";
+        String questionIdWithCodeListFilters = "m8hd7kt3";
+        QuestionType question = findQuestionWithId(questionnaire, questionIdWithCodeListFilters);
+        assertThat(question.getCodeFilters()).hasSize(1);
+
+        CodesList updatedCodeList = new CodesList("id", "sauce", List.of(
+                new Code("1", "Mayonnaise", null),
+                new Code("3", "Ketchup", null),
+                new Code("4", "Moutarde", null)
+        ));
+
+        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate, updatedCodeList);
+        assertThat(question.getCodeFilters()).hasSize(1);
     }
 
     @Test
