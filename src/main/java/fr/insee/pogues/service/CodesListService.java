@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -58,15 +59,12 @@ public class CodesListService {
      */
     public List<String> updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesList codesList) {
         List<fr.insee.pogues.model.CodeList> codesLists = questionnaire.getCodeLists().getCodeList();
-        CodeList originalCodesList = null;
-        if (!codesLists.isEmpty()) {
-            originalCodesList = codesLists.stream()
-                    .filter(cL -> idCodesList.equals(cL.getId()))
-                    .findFirst()
-                    .orElseThrow();
-        }
+        CodeList originalCodesList = codesLists.stream()
+                .filter(cL -> idCodesList.equals(cL.getId()))
+                .findFirst()
+                .orElse(null);
         boolean created = updateOrAddCodeListDTD(codesLists, idCodesList, codesList);
-        return !created
+        return !created && originalCodesList != null
                 ? updateQuestionAndVariablesAccordingToCodesList(originalCodesList, questionnaire, idCodesList)
                 : null;
     }
