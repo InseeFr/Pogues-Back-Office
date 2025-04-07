@@ -292,6 +292,23 @@ class CodesListServiceTest {
     }
 
     @Test
+    @DisplayName("Should add a new CodeList when it does not exist yet")
+    void shouldCreateNewCodeList() throws Exception {
+        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String newCodeListId = "new-code-list";
+        assertThat(questionnaire.getCodeLists().getCodeList())
+                .noneMatch(codeList -> newCodeListId.equals(codeList.getId()));
+        CodesList newCodesList = new CodesList(newCodeListId, "new-sauces", List.of(
+                new Code("1", "BBQ", null),
+                new Code("2", "Curry", null)
+        ));
+        List<String> result = codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, newCodeListId, newCodesList);
+        assertThat(questionnaire.getCodeLists().getCodeList())
+                .anyMatch(codeList -> newCodeListId.equals(codeList.getId()));
+        assertThat(result).isNull();
+    }
+
+    @Test
     @DisplayName("Should get right CodeListDTD from questionnaire")
     void shouldGetRightCodesListsFromQuestionnaire() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
