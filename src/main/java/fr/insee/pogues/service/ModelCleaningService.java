@@ -72,6 +72,12 @@ public class ModelCleaningService {
                 } else foundDimension.setDynamic(NON_DYNAMIC_DIMENSION);
             }
         }
+
+        // remove existing dynamic attribute for non-primary dimension
+        tableQuestion.getResponseStructure()
+                .getDimension().stream()
+                .filter(d -> !DimensionTypeEnum.PRIMARY.equals(d.getDimensionType()))
+                .forEach(dimension -> dimension.setDynamic(null));
     }
 
 

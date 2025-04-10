@@ -10,6 +10,7 @@ import java.util.List;
 
 import static fr.insee.pogues.utils.model.question.Table.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 class ModelCleaningServiceTest {
@@ -164,6 +165,7 @@ class ModelCleaningServiceTest {
         tableQuestion0.setQuestionType(QuestionTypeEnum.TABLE);
         ResponseStructureType responseStructure0 = new ResponseStructureType();
         responseStructure0.getDimension().add(createFakeDimension("0", DimensionTypeEnum.PRIMARY));
+        responseStructure0.getDimension().add(createFakeDimension("0", DimensionTypeEnum.MEASURE));
         tableQuestion0.setResponseStructure(responseStructure0);
 
         sequence.getChild().add(tableQuestion0);
@@ -171,8 +173,9 @@ class ModelCleaningServiceTest {
 
         modelCleaningService.convertDynamicTableDimension(questionnaire);
 
-        QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(0);
-        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
+        QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().getFirst();
+        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().get(0).getDynamic());
+        assertNull(tableQuestionChanged0.getResponseStructure().getDimension().get(1).getDynamic());
     }
 
     @Test
