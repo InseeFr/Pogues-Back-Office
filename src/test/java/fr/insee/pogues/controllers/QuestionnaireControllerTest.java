@@ -33,7 +33,7 @@ public class QuestionnaireControllerTest {
 
     @BeforeEach
     public void beforeEach() {
-        questionnaireController =  new QuestionnaireController();
+        questionnaireController =  new QuestionnaireController(applicationProperties,questionnairesService, null, null, null, null);
         initMocks(this);
     }
 

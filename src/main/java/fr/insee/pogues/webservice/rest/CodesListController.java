@@ -28,7 +28,6 @@ public class CodesListController {
 
     private CodesListService codesListService;
 
-    @Autowired
     public CodesListController(CodesListService codesListService){
         this.codesListService = codesListService;
     }

@@ -7,6 +7,7 @@ import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.VariablesService;
+import fr.insee.pogues.service.ModelCleaningService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import fr.insee.pogues.exception.PoguesException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -15,7 +16,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -45,20 +45,29 @@ import java.util.List;
 @Slf4j
 public class QuestionnaireController {
 
-	@Autowired
 	private ApplicationProperties applicationProperties;
-
-    @Autowired
 	private QuestionnairesService questionnaireService;
-    
-    @Autowired
+	private ModelCleaningService modelCleaningService;
 	private VariablesService variablesService;
-
-	@Autowired
 	private SuggesterVisuService suggesterVisuService;
-
-	@Autowired
 	private UserProvider userProvider;
+
+	public QuestionnaireController(
+			ApplicationProperties applicationProperties,
+			QuestionnairesService questionnaireService,
+			ModelCleaningService modelCleaningService,
+			VariablesService variablesService,
+			SuggesterVisuService suggesterVisuService,
+			UserProvider userProvider
+	){
+		this.applicationProperties = applicationProperties;
+		this.questionnaireService = questionnaireService;
+		this.modelCleaningService = modelCleaningService;
+		this.variablesService = variablesService;
+		this.suggesterVisuService = suggesterVisuService;
+		this.userProvider = userProvider;
+
+	}
 
 	private static final String IDQUESTIONNAIRE_PATTERN="[a-zA-Z0-9]*";
 	public static final String BAD_REQUEST = "Bad Request";
@@ -89,7 +98,8 @@ public class QuestionnaireController {
 		JsonNode result = references ?
 					questionnaireService.getQuestionnaireByIDWithReferences(id) :
 					questionnaireService.getQuestionnaireByID(id);
-			return ResponseEntity.status(HttpStatus.OK).body(result);
+		JsonNode cleanedResult = modelCleaningService.cleanModel(result);
+			return ResponseEntity.status(HttpStatus.OK).body(cleanedResult);
 	}
 	
     @GetMapping("questionnaire/json-lunatic/{id}")
@@ -245,21 +255,6 @@ public class QuestionnaireController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
-	@GetMapping("questionnaires")
-	@Operation(
-			operationId = "getQuestionnaireList",
-	        summary = "Get questionnaires",
-            description = "Gets the `QuestionnaireList` object"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "404", description = "Not found")
-    })
-	public ResponseEntity<Object> getQuestionnaireList() throws Exception {
-		List<JsonNode> questionnaires = questionnaireService.getQuestionnaireList();
-		return ResponseEntity.status(HttpStatus.OK).body(questionnaires);
-	}
-	
 	@PutMapping("questionnaire/{id}")
 	@Operation(
 			operationId = "updateQuestionnaire",
