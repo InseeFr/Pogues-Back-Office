@@ -7,6 +7,7 @@ import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.VariablesService;
+import fr.insee.pogues.service.ModelCleaningService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import fr.insee.pogues.exception.PoguesException;
 import io.swagger.v3.oas.annotations.Operation;
@@ -50,6 +51,9 @@ public class QuestionnaireController {
 
     @Autowired
 	private QuestionnairesService questionnaireService;
+
+	@Autowired
+	private ModelCleaningService modelCleaningService;
     
     @Autowired
 	private VariablesService variablesService;
@@ -89,7 +93,8 @@ public class QuestionnaireController {
 		JsonNode result = references ?
 					questionnaireService.getQuestionnaireByIDWithReferences(id) :
 					questionnaireService.getQuestionnaireByID(id);
-			return ResponseEntity.status(HttpStatus.OK).body(result);
+		JsonNode cleanedResult = modelCleaningService.cleanModel(result);
+			return ResponseEntity.status(HttpStatus.OK).body(cleanedResult);
 	}
 	
     @GetMapping("questionnaire/json-lunatic/{id}")
@@ -245,6 +250,7 @@ public class QuestionnaireController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
+	@Deprecated
 	@GetMapping("questionnaires")
 	@Operation(
 			operationId = "getQuestionnaireList",
