@@ -61,7 +61,7 @@ public class ModelCleaningService {
         if(primaryDimension.isPresent()){
             DimensionType foundDimension = primaryDimension.get();
             String dynamic = foundDimension.getDynamic();
-            if(!List.of(NON_DYNAMIC_DIMENSION, DYNAMIC_LENGTH_DIMENSION, FIXED_LENGTH_DIMENSION).contains(dynamic) && dynamic.contains("-")){
+            if(!List.of(NON_DYNAMIC_DIMENSION, DYNAMIC_LENGTH_DIMENSION, FIXED_LENGTH_DIMENSION).contains(dynamic)){
                 List<Integer> minMax = Arrays.stream(dynamic.split("-"))
                         .filter(value -> !value.isEmpty())
                         .map(Integer::parseInt).toList();

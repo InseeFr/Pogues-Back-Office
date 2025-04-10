@@ -155,6 +155,27 @@ class ModelCleaningServiceTest {
     }
 
     @Test
+    @DisplayName("Should convert old modelisation dynamic dimension as 0 to NON_DYNAMIC on Table")
+    void should_convertDimensionWithAsDimension(){
+        Questionnaire questionnaire = new Questionnaire();
+        SequenceType sequence = new SequenceType();
+
+        QuestionType tableQuestion0 = new QuestionType();
+        tableQuestion0.setQuestionType(QuestionTypeEnum.TABLE);
+        ResponseStructureType responseStructure0 = new ResponseStructureType();
+        responseStructure0.getDimension().add(createFakeDimension("0", DimensionTypeEnum.PRIMARY));
+        tableQuestion0.setResponseStructure(responseStructure0);
+
+        sequence.getChild().add(tableQuestion0);
+        questionnaire.getChild().add(sequence);
+
+        modelCleaningService.convertDynamicTableDimension(questionnaire);
+
+        QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(0);
+        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
+    }
+
+    @Test
     @DisplayName("Should convert old modelisation dynamic dimension on Table where min & max are defined")
     void should_convertDimensionDynamic() {
         Questionnaire questionnaire = new Questionnaire();
