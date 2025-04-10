@@ -49,6 +49,39 @@ class ModelCleaningServiceTest {
     }
 
     @Test
+    @DisplayName("Should change INFO criticty to WARN deep inside questionnaire")
+    void should_changeCriticityInfoWarnDeep(){
+        Questionnaire questionnaire = new Questionnaire();
+        SequenceType sequence = new SequenceType();
+        sequence.getControl().add(createFakeControle(ControlCriticityEnum.INFO));
+
+        QuestionType questionSeqLevel = new QuestionType();
+        questionSeqLevel.getControl().add(createFakeControle(ControlCriticityEnum.INFO));
+        sequence.getChild().add(questionSeqLevel);
+
+        SequenceType subSequence = new SequenceType();
+        subSequence.getControl().add(createFakeControle(ControlCriticityEnum.INFO));
+
+        QuestionType questionSubSeqLevel = new QuestionType();
+        questionSubSeqLevel.getControl().add(createFakeControle(ControlCriticityEnum.INFO));
+
+        subSequence.getChild().add(questionSubSeqLevel);
+        sequence.getChild().add(subSequence);
+        questionnaire.getChild().add(sequence);
+
+        modelCleaningService.changeControlCriticityInfoToWarn(questionnaire);
+        SequenceType sequenceChanged = (SequenceType) questionnaire.getChild().getFirst();
+        QuestionType questionSeqLevelChanged = (QuestionType) sequenceChanged.getChild().getFirst();
+        SequenceType subSequenceChanged = (SequenceType) sequenceChanged.getChild().stream().filter(componentType -> componentType instanceof SequenceType).findFirst().get();
+        QuestionType questionSubSeqLevelChanged = (QuestionType) subSequenceChanged.getChild().getFirst();
+
+        assertEquals(ControlCriticityEnum.WARN, sequenceChanged.getControl().getFirst().getCriticity());
+        assertEquals(ControlCriticityEnum.WARN, questionSeqLevelChanged.getControl().getFirst().getCriticity());
+        assertEquals(ControlCriticityEnum.WARN, subSequenceChanged.getControl().getFirst().getCriticity());
+        assertEquals(ControlCriticityEnum.WARN, questionSubSeqLevelChanged.getControl().getFirst().getCriticity());
+    }
+
+    @Test
     @DisplayName("Should keep other value of criticty (WARN and ERROR)")
     void should_keepOtherCriticity(){
         Questionnaire questionnaire = new Questionnaire();
@@ -70,5 +103,7 @@ class ModelCleaningServiceTest {
         assertEquals(ControlCriticityEnum.WARN, inputNumberChanged.getControl().get(0).getCriticity());
         assertEquals(ControlCriticityEnum.ERROR, inputNumberChanged.getControl().get(1).getCriticity());
     }
+
+
 
 }
