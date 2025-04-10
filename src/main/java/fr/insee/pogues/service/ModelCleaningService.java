@@ -18,8 +18,6 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 @Slf4j
 public class ModelCleaningService {
 
-    public ModelCleaningService() {}
-
     public JsonNode cleanModel(JsonNode jsonNodeQuestionnaire) throws JAXBException, UnsupportedEncodingException, JsonProcessingException {
         Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonNodeQuestionnaire);
         changeControlCriticityInfoToWarn(questionnaire);

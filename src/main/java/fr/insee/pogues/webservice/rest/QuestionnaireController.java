@@ -46,23 +46,29 @@ import java.util.List;
 @Slf4j
 public class QuestionnaireController {
 
-	@Autowired
 	private ApplicationProperties applicationProperties;
-
-    @Autowired
 	private QuestionnairesService questionnaireService;
-
-	@Autowired
 	private ModelCleaningService modelCleaningService;
-    
-    @Autowired
 	private VariablesService variablesService;
-
-	@Autowired
 	private SuggesterVisuService suggesterVisuService;
-
-	@Autowired
 	private UserProvider userProvider;
+
+	public QuestionnaireController(
+			ApplicationProperties applicationProperties,
+			QuestionnairesService questionnaireService,
+			ModelCleaningService modelCleaningService,
+			VariablesService variablesService,
+			SuggesterVisuService suggesterVisuService,
+			UserProvider userProvider
+	){
+		this.applicationProperties = applicationProperties;
+		this.questionnaireService = questionnaireService;
+		this.modelCleaningService = modelCleaningService;
+		this.variablesService = variablesService;
+		this.suggesterVisuService = suggesterVisuService;
+		this.userProvider = userProvider;
+
+	}
 
 	private static final String IDQUESTIONNAIRE_PATTERN="[a-zA-Z0-9]*";
 	public static final String BAD_REQUEST = "Bad Request";

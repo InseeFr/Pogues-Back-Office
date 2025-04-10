@@ -1,7 +1,6 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.utils.PoguesSerializer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
-public class ModelCleaningServiceTest {
+class ModelCleaningServiceTest {
 
     private ModelCleaningService modelCleaningService;
 
