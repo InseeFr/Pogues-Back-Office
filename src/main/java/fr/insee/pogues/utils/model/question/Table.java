@@ -16,6 +16,10 @@ public class Table {
         throw new IllegalStateException("Utility class");
     }
 
+    public static final String NON_DYNAMIC_DIMENSION = "NON_DYNAMIC";
+    public static final String DYNAMIC_LENGTH_DIMENSION = "DYNAMIC_LENGTH";
+    public static final String FIXED_LENGTH_DIMENSION = "FIXED_LENGTH";
+
     private static boolean isDimensionBasedOnCodeListId(List<DimensionType> dimensions, String updatedCodeListId){
         return dimensions.stream().anyMatch(dimension -> (isDimensionPrimary(dimension) || isDimensionSecondary(dimension))
                 && updatedCodeListId.equals(dimension.getCodeListReference()));
