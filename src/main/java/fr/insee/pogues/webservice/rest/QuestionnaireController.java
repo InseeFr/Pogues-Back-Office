@@ -250,22 +250,6 @@ public class QuestionnaireController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
-	@Deprecated
-	@GetMapping("questionnaires")
-	@Operation(
-			operationId = "getQuestionnaireList",
-	        summary = "Get questionnaires",
-            description = "Gets the `QuestionnaireList` object"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "404", description = "Not found")
-    })
-	public ResponseEntity<Object> getQuestionnaireList() throws Exception {
-		List<JsonNode> questionnaires = questionnaireService.getQuestionnaireList();
-		return ResponseEntity.status(HttpStatus.OK).body(questionnaires);
-	}
-	
 	@PutMapping("questionnaire/{id}")
 	@Operation(
 			operationId = "updateQuestionnaire",

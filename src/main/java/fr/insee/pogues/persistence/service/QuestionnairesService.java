@@ -9,8 +9,6 @@ import java.util.List;
  */
 public interface QuestionnairesService {
 
-    List<JsonNode> getQuestionnaireList() throws Exception;
-    
     List<JsonNode> getQuestionnairesMetadata(String owner) throws Exception;
     
     List<JsonNode> getQuestionnairesStamps() throws Exception;

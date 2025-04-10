@@ -12,8 +12,6 @@ import java.util.List;
 
 public interface QuestionnaireRepository {
 
-    List<JsonNode> getQuestionnaires() throws Exception;
-
     JsonNode getQuestionnaireByID(String id) throws Exception;
 
     JsonNode getJsonLunaticByID(String id) throws Exception;
