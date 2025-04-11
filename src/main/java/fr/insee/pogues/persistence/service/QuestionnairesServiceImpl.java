@@ -39,13 +39,6 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	@Autowired
 	protected StampsRestrictionsService stampsRestrictionsService;
 
-	public List<JsonNode> getQuestionnaireList() throws Exception {
-		List<JsonNode> questionnaires = questionnaireRepository.getQuestionnaires();
-		if (questionnaires.isEmpty()) {
-			throw new PoguesException(404, "Not found", "Aucun questionnaire enregistré");
-		}
-		return questionnaires;
-	}
 	public List<JsonNode> getQuestionnairesMetadata(String owner) throws Exception {
 		if (null == owner || owner.isEmpty()) {
 			throw new PoguesException(400, "Bad Request", "Missing parameter: owner");

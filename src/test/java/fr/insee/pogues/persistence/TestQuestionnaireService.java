@@ -15,8 +15,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -33,16 +31,6 @@ class TestQuestionnaireService {
 
     @Mock
     VersionServiceImpl versionService;
-
-    @Test
-    void emptyListThrowsException() throws Exception {
-        when(questionnairesServiceQuery.getQuestionnaires())
-                .thenReturn(new ArrayList<>());
-        Throwable exception = assertThrows(PoguesException.class,()->questionnairesService.getQuestionnaireList());
-        assertEquals("Not found",exception.getMessage());
-
-    }
-
     @Test
     void getQuestionnaireByOwnerWithNullException() throws Exception{
         Throwable exception = assertThrows(PoguesException.class,()->questionnairesService.getQuestionnairesByOwner(null));
@@ -82,23 +70,6 @@ class TestQuestionnaireService {
         assertEquals(q1, q2);
         assertEquals("foo", q2.get("id").asText());
 
-    }
-
-
-    @Test
-    void listReturnsNormally() throws Exception {
-        try {
-            when(questionnairesServiceQuery.getQuestionnaires())
-                    .thenReturn(new ArrayList<>() {
-                        {
-                            add(JsonNodeFactory.instance.objectNode());
-                        }
-                    });
-            List<JsonNode> qList = questionnairesService.getQuestionnaireList();
-            assertEquals(1, qList.size());
-        } catch (Exception e) {
-            throw e;
-        }
     }
 
     @Test
