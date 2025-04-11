@@ -50,7 +50,7 @@ class ModelCleaningServiceTest {
         sequence.getChild().add(inputNumber);
         questionnaire.getChild().add(sequence);
 
-        modelCleaningService.changeControlCriticityInfoToWarn(questionnaire);
+        modelCleaningService.cleanModel(questionnaire);
         SequenceType sequenceChanged = (SequenceType) questionnaire.getChild().getFirst();
         QuestionType inputNumberChanged = (QuestionType) sequenceChanged.getChild().getFirst();
 
@@ -80,7 +80,7 @@ class ModelCleaningServiceTest {
         sequence.getChild().add(subSequence);
         questionnaire.getChild().add(sequence);
 
-        modelCleaningService.changeControlCriticityInfoToWarn(questionnaire);
+        modelCleaningService.cleanModel(questionnaire);
         SequenceType sequenceChanged = (SequenceType) questionnaire.getChild().getFirst();
         QuestionType questionSeqLevelChanged = (QuestionType) sequenceChanged.getChild().getFirst();
         SequenceType subSequenceChanged = (SequenceType) sequenceChanged.getChild().stream().filter(componentType -> componentType instanceof SequenceType).findFirst().get();
@@ -106,7 +106,7 @@ class ModelCleaningServiceTest {
         sequence.getChild().add(inputNumber);
         questionnaire.getChild().add(sequence);
 
-        modelCleaningService.changeControlCriticityInfoToWarn(questionnaire);
+        modelCleaningService.cleanModel(questionnaire);
         SequenceType sequenceChanged = (SequenceType) questionnaire.getChild().getFirst();
         QuestionType inputNumberChanged = (QuestionType) sequenceChanged.getChild().getFirst();
 
@@ -145,7 +145,7 @@ class ModelCleaningServiceTest {
         sequence.getChild().add(tableQuestion2);
         questionnaire.getChild().add(sequence);
 
-        modelCleaningService.convertDynamicTableDimension(questionnaire);
+        modelCleaningService.cleanModel(questionnaire);
 
         QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(0);
         QuestionType tableQuestionChanged1 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(1);
@@ -171,7 +171,7 @@ class ModelCleaningServiceTest {
         sequence.getChild().add(tableQuestion0);
         questionnaire.getChild().add(sequence);
 
-        modelCleaningService.convertDynamicTableDimension(questionnaire);
+        modelCleaningService.cleanModel(questionnaire);
 
         QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().getFirst();
         assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().get(0).getDynamic());
@@ -192,7 +192,7 @@ class ModelCleaningServiceTest {
         sequence.getChild().add(tableQuestion0);
         questionnaire.getChild().add(sequence);
 
-        modelCleaningService.convertDynamicTableDimension(questionnaire);
+        modelCleaningService.cleanModel(questionnaire);
 
         QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().getFirst();
         assertEquals(DYNAMIC_LENGTH_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
@@ -230,7 +230,7 @@ class ModelCleaningServiceTest {
         sequence.getChild().add(tableQuestion2);
         questionnaire.getChild().add(sequence);
 
-        modelCleaningService.convertDynamicTableDimension(questionnaire);
+        modelCleaningService.cleanModel(questionnaire);
 
         QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(0);
         QuestionType tableQuestionChanged1 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(1);
