@@ -5,9 +5,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.math.BigInteger;
 import java.util.List;
 
+import static fr.insee.pogues.utils.model.question.Table.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 
 class ModelCleaningServiceTest {
@@ -18,6 +21,14 @@ class ModelCleaningServiceTest {
         ControlType control = new ControlType();
         control.setCriticity(criticity);
         return control;
+    }
+
+
+    private DimensionType createFakeDimension(String dynamic, DimensionTypeEnum dimensionType){
+        DimensionType dimension = new DimensionType();
+        dimension.setDynamic(dynamic);
+        dimension.setDimensionType(dimensionType);
+        return dimension;
     }
 
     @BeforeEach
@@ -104,6 +115,130 @@ class ModelCleaningServiceTest {
         assertEquals(ControlCriticityEnum.ERROR, inputNumberChanged.getControl().get(1).getCriticity());
     }
 
+    @Test
+    @DisplayName("Should convert old modelisation dynamic dimension on Table where min or max or both are not defined")
+    void should_convertDimension() {
+        Questionnaire questionnaire = new Questionnaire();
+        SequenceType sequence = new SequenceType();
+
+        QuestionType tableQuestion0 = new QuestionType();
+        tableQuestion0.setQuestionType(QuestionTypeEnum.TABLE);
+        ResponseStructureType responseStructure0 = new ResponseStructureType();
+        responseStructure0.getDimension().add(createFakeDimension("-", DimensionTypeEnum.PRIMARY));
+        tableQuestion0.setResponseStructure(responseStructure0);
+
+        QuestionType tableQuestion1 = new QuestionType();
+        tableQuestion1.setQuestionType(QuestionTypeEnum.TABLE);
+        ResponseStructureType responseStructure1 = new ResponseStructureType();
+        responseStructure1.getDimension().add(createFakeDimension("3-", DimensionTypeEnum.PRIMARY));
+        tableQuestion1.setResponseStructure(responseStructure1);
+
+
+        QuestionType tableQuestion2 = new QuestionType();
+        tableQuestion2.setQuestionType(QuestionTypeEnum.TABLE);
+        ResponseStructureType responseStructure2 = new ResponseStructureType();
+        responseStructure2.getDimension().add(createFakeDimension("-4", DimensionTypeEnum.PRIMARY));
+        tableQuestion2.setResponseStructure(responseStructure2);
+
+        sequence.getChild().add(tableQuestion0);
+        sequence.getChild().add(tableQuestion1);
+        sequence.getChild().add(tableQuestion2);
+        questionnaire.getChild().add(sequence);
+
+        modelCleaningService.convertDynamicTableDimension(questionnaire);
+
+        QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(0);
+        QuestionType tableQuestionChanged1 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(1);
+        QuestionType tableQuestionChanged2 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(2);
+        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged2.getResponseStructure().getDimension().getFirst().getDynamic());
+    }
+
+    @Test
+    @DisplayName("Should convert old modelisation dynamic dimension as 0 to NON_DYNAMIC on Table")
+    void should_convertDimensionWithAsDimension(){
+        Questionnaire questionnaire = new Questionnaire();
+        SequenceType sequence = new SequenceType();
+
+        QuestionType tableQuestion0 = new QuestionType();
+        tableQuestion0.setQuestionType(QuestionTypeEnum.TABLE);
+        ResponseStructureType responseStructure0 = new ResponseStructureType();
+        responseStructure0.getDimension().add(createFakeDimension("0", DimensionTypeEnum.PRIMARY));
+        responseStructure0.getDimension().add(createFakeDimension("0", DimensionTypeEnum.MEASURE));
+        tableQuestion0.setResponseStructure(responseStructure0);
+
+        sequence.getChild().add(tableQuestion0);
+        questionnaire.getChild().add(sequence);
+
+        modelCleaningService.convertDynamicTableDimension(questionnaire);
+
+        QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().getFirst();
+        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().get(0).getDynamic());
+        assertNull(tableQuestionChanged0.getResponseStructure().getDimension().get(1).getDynamic());
+    }
+
+    @Test
+    @DisplayName("Should convert old modelisation dynamic dimension on Table where min & max are defined")
+    void should_convertDimensionDynamic() {
+        Questionnaire questionnaire = new Questionnaire();
+        SequenceType sequence = new SequenceType();
+
+        QuestionType tableQuestion0 = new QuestionType();
+        tableQuestion0.setQuestionType(QuestionTypeEnum.TABLE);
+        ResponseStructureType responseStructure0 = new ResponseStructureType();
+        responseStructure0.getDimension().add(createFakeDimension("1-5", DimensionTypeEnum.PRIMARY));
+        tableQuestion0.setResponseStructure(responseStructure0);
+        sequence.getChild().add(tableQuestion0);
+        questionnaire.getChild().add(sequence);
+
+        modelCleaningService.convertDynamicTableDimension(questionnaire);
+
+        QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().getFirst();
+        assertEquals(DYNAMIC_LENGTH_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals(BigInteger.valueOf(1), tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMinLines());
+        assertEquals(BigInteger.valueOf(5), tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMaxLines());
+    }
+
+    @Test
+    @DisplayName("Should not convert modelisation when dynamic is always in new modelisation")
+    void should_notConvertDimension() {
+        Questionnaire questionnaire = new Questionnaire();
+        SequenceType sequence = new SequenceType();
+
+        QuestionType tableQuestion0 = new QuestionType();
+        tableQuestion0.setQuestionType(QuestionTypeEnum.TABLE);
+        ResponseStructureType responseStructure0 = new ResponseStructureType();
+        responseStructure0.getDimension().add(createFakeDimension(NON_DYNAMIC_DIMENSION, DimensionTypeEnum.PRIMARY));
+        tableQuestion0.setResponseStructure(responseStructure0);
+
+        QuestionType tableQuestion1 = new QuestionType();
+        tableQuestion1.setQuestionType(QuestionTypeEnum.TABLE);
+        ResponseStructureType responseStructure1 = new ResponseStructureType();
+        responseStructure1.getDimension().add(createFakeDimension(DYNAMIC_LENGTH_DIMENSION, DimensionTypeEnum.PRIMARY));
+        tableQuestion1.setResponseStructure(responseStructure1);
+
+
+        QuestionType tableQuestion2 = new QuestionType();
+        tableQuestion2.setQuestionType(QuestionTypeEnum.TABLE);
+        ResponseStructureType responseStructure2 = new ResponseStructureType();
+        responseStructure2.getDimension().add(createFakeDimension(FIXED_LENGTH_DIMENSION, DimensionTypeEnum.PRIMARY));
+        tableQuestion2.setResponseStructure(responseStructure2);
+
+        sequence.getChild().add(tableQuestion0);
+        sequence.getChild().add(tableQuestion1);
+        sequence.getChild().add(tableQuestion2);
+        questionnaire.getChild().add(sequence);
+
+        modelCleaningService.convertDynamicTableDimension(questionnaire);
+
+        QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(0);
+        QuestionType tableQuestionChanged1 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(1);
+        QuestionType tableQuestionChanged2 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(2);
+        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals(DYNAMIC_LENGTH_DIMENSION, tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals(FIXED_LENGTH_DIMENSION, tableQuestionChanged2.getResponseStructure().getDimension().getFirst().getDynamic());
+    }
 
 
 }
