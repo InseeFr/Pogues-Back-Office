@@ -229,13 +229,35 @@ class CodesListServiceTest {
     }
 
     @Test
-    @DisplayName("CodeList filters should be removed after updating the CodeList because it has changed")
+    @DisplayName("CodeList filters should be remove because '4' codeValue is removed after updating")
     void shouldRemoveCodeListFilters() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
         String codesListIdToUpdate = "m7c6apvz";
         String questionIdWithCodeListFilters = "m8hd7kt3";
         QuestionType question = findQuestionWithId(questionnaire, questionIdWithCodeListFilters);
         assertThat(question.getCodeFilters()).hasSize(1);
+        assertEquals("4",question.getCodeFilters().getFirst().getCodeValue());
+
+        CodesList updatedCodeList = new CodesList("id", "sauce", List.of(
+                new Code("1", "Mayonnaise", null),
+                new Code("2", "Ketchup", null),
+                new Code("3", "Moutarde", null),
+                new Code("3bis", "Poivre", null)
+        ));
+
+        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate, updatedCodeList);
+        assertThat(question.getCodeFilters()).isEmpty();
+    }
+
+    @Test
+    @DisplayName("CodeList filters should be conserved because '4' code still exist after updating (adding element and change label value)")
+    void shouldNotRemoveCodeListFilters() throws Exception {
+        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String codesListIdToUpdate = "m7c6apvz";
+        String questionIdWithCodeListFilters = "m8hd7kt3";
+        QuestionType question = findQuestionWithId(questionnaire, questionIdWithCodeListFilters);
+        assertThat(question.getCodeFilters()).hasSize(1);
+        assertEquals("4",question.getCodeFilters().getFirst().getCodeValue());
 
         CodesList updatedCodeList = new CodesList("id", "sauce", List.of(
                 new Code("1", "Mayonnaise", null),
@@ -246,7 +268,8 @@ class CodesListServiceTest {
         ));
 
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate, updatedCodeList);
-        assertThat(question.getCodeFilters()).isEmpty();
+        assertThat(question.getCodeFilters()).hasSize(1);
+        assertEquals("4",question.getCodeFilters().getFirst().getCodeValue());
     }
 
     @Test
