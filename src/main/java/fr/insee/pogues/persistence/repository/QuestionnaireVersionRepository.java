@@ -15,6 +15,8 @@ public interface QuestionnaireVersionRepository {
 
     void createVersion(Version version) throws Exception;
 
+    void cleanVersions();
+
     void deleteVersionsByQuestionnaireId(String poguesId) throws Exception;
 
     void deleteAllVersionsByQuestionnaireIdExceptLast(String poguesId) throws Exception;

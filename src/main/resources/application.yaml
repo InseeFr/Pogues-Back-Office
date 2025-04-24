@@ -155,8 +155,11 @@ feature:
   swagger:
     enabled: true
   database:
-    # During an edition day, we keep the last 10 versions
-    maxCurrentVersions: 10
+    rollingBackup:
+      # Default, every day at 23h00 according to timezone set by application.timezoneId
+      cron: '0 0 23 * * *'
+      # For a day, we keep the 10 last backup, then one by day (the last)
+      maxByQuestionnaire: 10
 
   cache:
     enabled: true
