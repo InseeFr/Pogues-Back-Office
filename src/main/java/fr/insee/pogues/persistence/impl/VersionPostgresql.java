@@ -11,6 +11,8 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
+import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,15 +26,15 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
-	@Value("${feature.database.maxCurrentVersions}")
-	private int maxCurrentVersions;
+	@Value("${feature.database.rollingBackup.maxByQuestionnaire}")
+	private int maxBackupByQuestionnaire;
 		
 	private static final String NOT_FOUND="Not found";
 	private static final String FORBIDDEN="Forbidden";
 
 
-	private static String COLUMNS_WITHOUT_DATA = "id, timestamp, pogues_id, day, author";
-	private static String COLUMNS_WITH_DATA = COLUMNS_WITHOUT_DATA + ", data";
+	private static final String COLUMNS_WITHOUT_DATA = "id, timestamp, pogues_id, day, author";
+	private static final String COLUMNS_WITH_DATA = COLUMNS_WITHOUT_DATA + ", data";
 
 	@Override
 	public List<Version> getVersionsByQuestionnaireId(String poguesId, boolean withData) throws Exception {
@@ -75,37 +77,24 @@ public class VersionPostgresql implements QuestionnaireVersionRepository {
 	}
 
 	@Override
+	public void cleanVersions() {
+		Date nowSqlDate = new Date(Instant.now().toEpochMilli());
+		String qString = "CALL clean_versions(?, ?)";
+		jdbcTemplate.update(qString, nowSqlDate, maxBackupByQuestionnaire);
+	}
+
+	@Override
 	public void createVersion(Version version) throws Exception {
 		String qString = """
 				INSERT INTO pogues_version (id, data, "timestamp", "day", pogues_id, author) 
 				VALUES (?, ?, ?, ?, ?, ?);
-				
-				DELETE from pogues_version pv WHERE pv.id IN
-				(SELECT pv.id FROM pogues_version pv
-					WHERE pv.pogues_id = ? and pv.day = ?
-				    ORDER BY pv."timestamp" desc offset ? );
-				    
-				DELETE FROM pogues_version
-				WHERE pogues_id = ?
-				AND day != ?
-				AND (day, pogues_id, timestamp) NOT IN (
-					SELECT day, pogues_id, MAX(timestamp)
-				    FROM pogues_version
-				    WHERE pogues_id = ?
-				    AND day != ?
-				    GROUP BY day, pogues_id
-				);
 				""";
 		PGobject jsonData = new PGobject();
 		jsonData.setType("jsonb");
 		jsonData.setValue(version.getData().toString());
 		jdbcTemplate.update(qString,
 				// insert request
-				version.getId(), jsonData, convertZonedDateTimeToTimestamp(version.getTimestamp()), version.getDay(), version.getPoguesId(), version.getAuthor(),
-				// Delete request: we keep last ${maxCurrentVersions} for the current day
-				version.getPoguesId(), version.getDay(), maxCurrentVersions,
-				// Delete request: we keep only the last version for each edited day
-				version.getPoguesId(), version.getDay(), version.getPoguesId(), version.getDay()
+				version.getId(), jsonData, convertZonedDateTimeToTimestamp(version.getTimestamp()), version.getDay(), version.getPoguesId(), version.getAuthor()
 		);
 	}
 
