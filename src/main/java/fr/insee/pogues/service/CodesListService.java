@@ -14,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -59,13 +58,9 @@ public class CodesListService {
      */
     public List<String> updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesList codesList) {
         List<fr.insee.pogues.model.CodeList> codesLists = questionnaire.getCodeLists().getCodeList();
-        CodeList originalCodesList = codesLists.stream()
-                .filter(cL -> idCodesList.equals(cL.getId()))
-                .findFirst()
-                .orElse(null);
         boolean created = updateOrAddCodeListDTD(codesLists, idCodesList, codesList);
-        return !created && originalCodesList != null
-                ? updateQuestionAndVariablesAccordingToCodesList(originalCodesList, questionnaire, idCodesList)
+        return !created
+                ? updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList)
                 : null;
     }
 
@@ -126,7 +121,7 @@ public class CodesListService {
             throw new CodesListException(404, ErrorCode.CODE_LIST_NOT_FOUND, "Not found", String.format("CodesList with id %s doesn't exist in questionnaire", id), null);
     }
 
-    List<String> updateQuestionAndVariablesAccordingToCodesList(CodeList originalCodesList, Questionnaire questionnaire, String updatedCodeListId) {
+    List<String> updateQuestionAndVariablesAccordingToCodesList(Questionnaire questionnaire, String updatedCodeListId) {
         // Retrieve updatedCodeList in questionnaire
         CodeList codeList = questionnaire.getCodeLists().getCodeList().stream()
                 .filter(cL -> updatedCodeListId.equals(cL.getId()))
@@ -136,10 +131,8 @@ public class CodesListService {
         List<QuestionType> questionsToModify = getListOfQuestionWhereCodesListIsUsed(questionnaire, updatedCodeListId);
         // Clear Clarification question for concerned question
         questionsToModify.forEach(Common::removeClarificationQuestion);
-        // Clear CodeList filters for concerned question
-        if (!isSameCodeList(originalCodesList, codeList)) {
-            questionsToModify.forEach(Common::removeCodeListFilters);
-        }
+        // Clear orphan CodeList filters for concerned question
+        questionsToModify.forEach(question -> Common.removeCodeListFilters(question, codeList));
         // modify Multiple and Table question and get there new Variables
         List<QuestionType> multipleAndTableQuestion = questionsToModify.stream()
                 .filter(questionType -> {
@@ -189,31 +182,4 @@ public class CodesListService {
         return getCodesListsDTD(questionnaire);
     }
 
-    /**
-     * Compares two {@code CodeList} objects to determine if they contain
-     * the same root codes (i.e., codes with no parent).
-     * <p>
-     * A root code is identified by an empty parent ({@code getParent().isEmpty()}).
-     * The comparison is based solely on the values of the root codes
-     * and considers the order in which they appear.
-     * </p>
-     *
-     * @param original the reference {@code CodeList}
-     * @param actual the {@code CodeList} to compare
-     * @return {@code true} if both lists contain exactly the same root code values
-     *         in the same order; {@code false} otherwise
-     */
-    public static boolean isSameCodeList(CodeList original, CodeList actual) {
-        List<String> originalCodes = original.getCode().stream()
-                .filter(codeType -> codeType.getParent().isEmpty())
-                .map(CodeType::getValue)
-                .toList();
-
-        List<String> actualCodes = actual.getCode().stream()
-                .filter(codeType -> codeType.getParent().isEmpty())
-                .map(CodeType::getValue)
-                .toList();
-
-        return originalCodes.equals(actualCodes);
-    }
 }
