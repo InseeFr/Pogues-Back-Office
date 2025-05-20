@@ -1,0 +1,2661 @@
+{
+  "id": "mawgv66f",
+  "genericName": "QUESTIONNAIRE",
+  "agency": "fr.insee",
+  "final": true,
+  "flowLogic": "FILTER",
+  "formulasLanguage": "VTL",
+  "lastUpdatedDate": "Tue May 20 2025 14:08:27 GMT+0200 (heure d’été d’Europe centrale)",
+  "owner": "DR59-SNDI59",
+  "Name": "LCTOUTESLE",
+  "Label": [
+    "[LC]: Toutes les nomenclatures existantes"
+  ],
+  "Control": [],
+  "FlowControl": [],
+  "TargetMode": [
+    "CAWI"
+  ],
+  "Child": [
+    {
+      "id": "mawgxbiw",
+      "depth": 1,
+      "genericName": "MODULE",
+      "type": "SequenceType",
+      "Name": "S1",
+      "Label": [
+        "S1"
+      ],
+      "Declaration": [],
+      "Control": [],
+      "FlowControl": [],
+      "TargetMode": [
+        "CAWI"
+      ],
+      "Child": [
+        {
+          "id": "mawh6qii",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_1",
+          "Label": [
+            "\"Nomenclature 1\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh72ks",
+              "mandatory": false,
+              "CodeListReference": "L_ACTIVITES-2-1-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawgsswu"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawgtc5z",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_2",
+          "Label": [
+            "\"Nomenclature 2\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawgzt4c",
+              "mandatory": false,
+              "CodeListReference": "L_COMMUNES-2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh6odq"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawguiy9",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_3",
+          "Label": [
+            "\"Nomenclature 3\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawhacev",
+              "mandatory": false,
+              "CodeListReference": "L_DEP-1-1-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh0hhg"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawgu9ck",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_4",
+          "Label": [
+            "\"Nomenclature 4\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh2idt",
+              "mandatory": false,
+              "CodeListReference": "L_DIPLOMES-2-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawgw7xn"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawgtyvb",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_5",
+          "Label": [
+            "\"Nomenclature 5\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawgvpd9",
+              "mandatory": false,
+              "CodeListReference": "L_PRODEAP_VPIZ_2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh7131"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawgzw3w",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_6",
+          "Label": [
+            "\"Nomenclature 6\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawgt4sd",
+              "mandatory": false,
+              "CodeListReference": "L_PRODIAA_VPIZ_2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawha35q"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawgvvl2",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_7",
+          "Label": [
+            "\"Nomenclature 7\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawgw3jf",
+              "mandatory": false,
+              "CodeListReference": "L_PRODEAP_DECHETS_2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawhaebs"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawhaqhu",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_8",
+          "Label": [
+            "\"Nomenclature 8\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh4ea8",
+              "mandatory": false,
+              "CodeListReference": "L_PRODEAP_EAU_2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh2hqi"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawgtnq5",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_9",
+          "Label": [
+            "\"Nomenclature 9\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawgvuul",
+              "mandatory": false,
+              "CodeListReference": "L_PRODEAP_ELEC_2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawgyojn"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawgskhq",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_10",
+          "Label": [
+            "\"Nomenclature 10\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh7xfz",
+              "mandatory": false,
+              "CodeListReference": "L_PRODEAP_GAZ_2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawgxxpr"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawgxi3n",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_11",
+          "Label": [
+            "\"Nomenclature 11\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawgy6u1",
+              "mandatory": false,
+              "CodeListReference": "L_PRODEAP_INSTAL_REPAR_2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh5q96"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawh7f0a",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_12",
+          "Label": [
+            "\"Nomenclature 12\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawgw5pv",
+              "mandatory": false,
+              "CodeListReference": "L_PRODEAP_VAPEUR_2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh7czd"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawh2q4h",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_13",
+          "Label": [
+            "\"Nomenclature 13\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh1euf",
+              "mandatory": false,
+              "CodeListReference": "L_PRODEAP_VPI_2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh3b0p"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawgvks6",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_14",
+          "Label": [
+            "\"Nomenclature 14\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh0ssq",
+              "mandatory": false,
+              "CodeListReference": "L_PRODIAA_VPI_2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawgzzmd"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawhebli",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_15",
+          "Label": [
+            "\"Nomenclature 15\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawgwtue",
+              "mandatory": false,
+              "CodeListReference": "L_PRODEAP_VPNI_2024",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh8763"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawha2k3",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_16",
+          "Label": [
+            "\"Nomenclature 16\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh2b7n",
+              "mandatory": false,
+              "CodeListReference": "L_LANGUES-2-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawgybdj"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawhcbz8",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_17",
+          "Label": [
+            "\"Nomenclature 17\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawhdgg5",
+              "mandatory": false,
+              "CodeListReference": "L_NATIONALITE-2-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh6ezh"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawh7103",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_18",
+          "Label": [
+            "\"Nomenclature 18\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawhebit",
+              "mandatory": false,
+              "CodeListReference": "L_PAYS-2-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawhfbtw"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawh03aa",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_19",
+          "Label": [
+            "\"Nomenclature 19\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawgy69f",
+              "mandatory": false,
+              "CodeListReference": "L_PCS_FEMMES-2-2-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawheq7v"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawhdxsr",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_20",
+          "Label": [
+            "\"Nomenclature 20\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawhftsi",
+              "mandatory": false,
+              "CodeListReference": "L_PCS_HOMMES-2-2-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawhdfbo"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawh4qvc",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_21",
+          "Label": [
+            "\"Nomenclature 21\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawhae8s",
+              "mandatory": false,
+              "CodeListReference": "L_REGFRONT_DE-1-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh3x2s"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawgzdes",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_22",
+          "Label": [
+            "\"Nomenclature 22\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawgx8hq",
+              "mandatory": false,
+              "CodeListReference": "L_REGFRONT_BE-1-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh5vt3"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawh1qlu",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_23",
+          "Label": [
+            "\"Nomenclature 23\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawhbvky",
+              "mandatory": false,
+              "CodeListReference": "L_REGFRONT_ES-1-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawgz53z"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawhgogr",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_24",
+          "Label": [
+            "\"Nomenclature 24\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh4q7p",
+              "mandatory": false,
+              "CodeListReference": "L_REGFRONT_IT-1-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh0714"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawh7snx",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_25",
+          "Label": [
+            "\"Nomenclature 25\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh43rs",
+              "mandatory": false,
+              "CodeListReference": "L_REGFRONT_NL-1-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh27t1"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawh0gw0",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_26",
+          "Label": [
+            "\"Nomenclature 26\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh0k4k",
+              "mandatory": false,
+              "CodeListReference": "L_REGFRONT_UK-1-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh8cgg"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawh05om",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_27",
+          "Label": [
+            "\"Nomenclature 27\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh2sqi",
+              "mandatory": false,
+              "CodeListReference": "L_REGFRONT_CH-1-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawh3tx1"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawh7eou",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_28",
+          "Label": [
+            "\"Nomenclature 28\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawh6xz3",
+              "mandatory": false,
+              "CodeListReference": "L_SPECIALITES-1-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawhcn8o"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        },
+        {
+          "id": "mawh1t8x",
+          "questionType": "SINGLE_CHOICE",
+          "type": "QuestionType",
+          "Name": "N_29",
+          "Label": [
+            "\"Nomenclature 29\""
+          ],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": [
+            "CAWI"
+          ],
+          "Response": [
+            {
+              "id": "mawgz9a0",
+              "mandatory": false,
+              "CodeListReference": "L_TYPEVOIE-1-0-0",
+              "Datatype": {
+                "typeName": "TEXT",
+                "visualizationHint": "SUGGESTER",
+                "allowArbitraryResponse": false,
+                "type": "TextDatatypeType",
+                "MaxLength": 1
+              },
+              "CollectedVariableReference": "mawhb8kc"
+            }
+          ],
+          "ClarificationQuestion": [],
+          "codeFilters": []
+        }
+      ]
+    },
+    {
+      "id": "idendquest",
+      "depth": 1,
+      "genericName": "MODULE",
+      "type": "SequenceType",
+      "Name": "QUESTIONNAIRE_END",
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "Declaration": [],
+      "Control": [],
+      "FlowControl": [],
+      "TargetMode": [
+        "CAWI"
+      ],
+      "Child": []
+    }
+  ],
+  "DataCollection": [],
+  "ComponentGroup": [
+    {
+      "id": "mawhk3n0",
+      "Name": "PAGE_1",
+      "Label": [
+        "Components for page 1"
+      ],
+      "MemberReference": [
+        "idendquest",
+        "mawgxbiw",
+        "mawh6qii",
+        "mawgtc5z",
+        "mawguiy9",
+        "mawgu9ck",
+        "mawgtyvb",
+        "mawgzw3w",
+        "mawgvvl2",
+        "mawhaqhu",
+        "mawgtnq5",
+        "mawgskhq",
+        "mawgxi3n",
+        "mawh7f0a",
+        "mawh2q4h",
+        "mawgvks6",
+        "mawhebli",
+        "mawha2k3",
+        "mawhcbz8",
+        "mawh7103",
+        "mawh03aa",
+        "mawhdxsr",
+        "mawh4qvc",
+        "mawgzdes",
+        "mawh1qlu",
+        "mawhgogr",
+        "mawh7snx",
+        "mawh0gw0",
+        "mawh05om",
+        "mawh7eou",
+        "mawh1t8x"
+      ]
+    }
+  ],
+  "CodeLists": {
+    "CodeList": [
+      {
+        "id": "L_ACTIVITES-2-1-0",
+        "Urn": "urn:ddi:fr.insee:l_activites-2-1-0:1",
+        "Name": "L_ACTIVITES-2-1-0",
+        "Label": "Activités",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false,
+              "synonyms": {
+                "EHPAD": [
+                  "EPHAD",
+                  "HEPAD",
+                  "EPAD",
+                  "EPAHD",
+                  "EPADH"
+                ],
+                "URSSAF": [
+                  "URSAF",
+                  "URSAFF"
+                ],
+                "ascenseurs": [
+                  "ASCENCEUR",
+                  "ASSENCEUR",
+                  "ACSENCEUR"
+                ],
+                "joaillerie": [
+                  "JOAILLIER"
+                ],
+                "alimentaire": [
+                  "ALIMANTAIRE"
+                ],
+                "briqueterie": [
+                  "BRIQUETTERIE"
+                ],
+                "prestations": [
+                  "PRESTATAIRE"
+                ],
+                "alimentaires": [
+                  "ALIMANTAIRES"
+                ],
+                "echafaudages": [
+                  "ECHAFFAUDAGE",
+                  "ECHAFFAUDEUR"
+                ],
+                "plaquisterie": [
+                  "PLACO",
+                  "PLACOPLATRE"
+                ],
+                "pneumatiques": [
+                  "PNEUS"
+                ],
+                "agroalimentaire": [
+                  "AGGROALIMANTAIRE",
+                  "AGROALIMANTAIRE"
+                ],
+                "agroalimentaires": [
+                  "AGGROALIMANTAIRES",
+                  "AGROALIMENTAIRES"
+                ]
+              }
+            }
+          ],
+          "stopWords": [
+            "a",
+            "au",
+            "dans",
+            "de",
+            "des",
+            "du",
+            "en",
+            "et",
+            "la",
+            "le",
+            "ou",
+            "sur",
+            "d",
+            "l",
+            "aux",
+            "dans",
+            "un",
+            "une",
+            "pour",
+            "avec",
+            "chez",
+            "par",
+            "les"
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_COMMUNES-2024",
+        "Urn": "urn:ddi:fr.insee:l_communes-2024:1",
+        "Name": "L_COMMUNES-2024",
+        "Label": "Communes 2024",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_DEP-1-1-0",
+        "Urn": "urn:ddi:fr.insee:l_dep-1-1-0:1",
+        "Name": "L_DEP-1-1-0",
+        "Label": "Départements",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ]
+            },
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ]
+            }
+          ],
+          "order": {
+            "field": "label",
+            "type": "ascending"
+          },
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 2,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_DIPLOMES-2-0-0",
+        "Urn": "urn:ddi:fr.insee:l_diplomes-2-0-0:1",
+        "Name": "L_DIPLOMES-2-0-0",
+        "Label": "Diplomes",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PRODEAP_VPIZ_2024",
+        "Urn": "urn:ddi:fr.insee:l_prodeap_vpiz_2024:1",
+        "Name": "L_PRODEAP_VPIZ_2024",
+        "Label": "EAP - Produits - commerce",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "nc",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PRODIAA_VPIZ_2024",
+        "Urn": "urn:ddi:fr.insee:l_prodiaa_vpiz_2024:1",
+        "Name": "L_PRODIAA_VPIZ_2024",
+        "Label": "EAP - Produits - commerce (dont IAA)",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "nc",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PRODEAP_DECHETS_2024",
+        "Urn": "urn:ddi:fr.insee:l_prodeap_dechets_2024:1",
+        "Name": "L_PRODEAP_DECHETS_2024",
+        "Label": "EAP - Produits - déchets",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "nc",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PRODEAP_EAU_2024",
+        "Urn": "urn:ddi:fr.insee:l_prodeap_eau_2024:1",
+        "Name": "L_PRODEAP_EAU_2024",
+        "Label": "EAP - Produits - eau",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "nc",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PRODEAP_ELEC_2024",
+        "Urn": "urn:ddi:fr.insee:l_prodeap_elec_2024:1",
+        "Name": "L_PRODEAP_ELEC_2024",
+        "Label": "EAP - Produits - électricité",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "nc",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PRODEAP_GAZ_2024",
+        "Urn": "urn:ddi:fr.insee:l_prodeap_gaz_2024:1",
+        "Name": "L_PRODEAP_GAZ_2024",
+        "Label": "EAP - Produits - gaz",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "nc",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PRODEAP_INSTAL_REPAR_2024",
+        "Urn": "urn:ddi:fr.insee:l_prodeap_instal_repar_2024:1",
+        "Name": "L_PRODEAP_INSTAL_REPAR_2024",
+        "Label": "EAP - Produits - installation - réparation",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "nc",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PRODEAP_VAPEUR_2024",
+        "Urn": "urn:ddi:fr.insee:l_prodeap_vapeur_2024:1",
+        "Name": "L_PRODEAP_VAPEUR_2024",
+        "Label": "EAP - Produits - vapeur",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "nc",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PRODEAP_VPI_2024",
+        "Urn": "urn:ddi:fr.insee:l_prodeap_vpi_2024:1",
+        "Name": "L_PRODEAP_VPI_2024",
+        "Label": "EAP - Produits - vente de produits industriels",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "nc",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PRODIAA_VPI_2024",
+        "Urn": "urn:ddi:fr.insee:l_prodiaa_vpi_2024:1",
+        "Name": "L_PRODIAA_VPI_2024",
+        "Label": "EAP - Produits - vente de produits industriels (dont IAA)",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "nc",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PRODEAP_VPNI_2024",
+        "Urn": "urn:ddi:fr.insee:l_prodeap_vpni_2024:1",
+        "Name": "L_PRODEAP_VPNI_2024",
+        "Label": "EAP - Produits - vente de produits non industriels",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "id",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            },
+            {
+              "name": "nc",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_LANGUES-2-0-0",
+        "Urn": "urn:ddi:fr.insee:l_langues-2-0-0:1",
+        "Name": "L_LANGUES-2-0-0",
+        "Label": "Langues",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_NATIONALITE-2-0-0",
+        "Urn": "urn:ddi:fr.insee:l_nationalite-2-0-0:1",
+        "Name": "L_NATIONALITE-2-0-0",
+        "Label": "Nationalités",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PAYS-2-0-0",
+        "Urn": "urn:ddi:fr.insee:l_pays-2-0-0:1",
+        "Name": "L_PAYS-2-0-0",
+        "Label": "Pays",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PCS_FEMMES-2-2-0",
+        "Urn": "urn:ddi:fr.insee:l_pcs_femmes-2-2-0:1",
+        "Name": "L_PCS_FEMMES-2-2-0",
+        "Label": "Professions féminin",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false,
+              "synonyms": {
+                "URSSAF": [
+                  "URSAF",
+                  "URSAFF"
+                ],
+                "accueil": [
+                  "ACCEUIL"
+                ],
+                "abattoir": [
+                  "ABATOIR",
+                  "ABBATOIR",
+                  "ABATOIRE",
+                  "ABATTOIRE"
+                ],
+                "ascenseur": [
+                  "ASCENCEUR",
+                  "ASSENCEUR"
+                ],
+                "ascenseurs": [
+                  "ASCENCEURS",
+                  "ASSENCEURS"
+                ],
+                "fabrication": [
+                  "FABRICANT"
+                ],
+                "ingénierie": [
+                  "INGENIEURIE",
+                  "INGENERIE",
+                  "INGIENERIE"
+                ],
+                "alimentaires": [
+                  "ALIMANTAIRE"
+                ],
+                "construction": [
+                  "CONSTRUCTEUR"
+                ],
+                "distribution": [
+                  "DISTRIBUTEUR"
+                ],
+                "échafaudage": [
+                  "ECHAFFAUDAGE"
+                ],
+                "agroalimentaire": [
+                  "AGROALIMANTAIRE",
+                  "AGGROALIMANTAIRE"
+                ],
+                "agroalimentaires": [
+                  "AGROALIMANTAIRE",
+                  "AGGROALIMANTAIRES"
+                ]
+              }
+            }
+          ],
+          "meloto": true,
+          "stopWords": [
+            "a",
+            "au",
+            "dans",
+            "de",
+            "des",
+            "du",
+            "en",
+            "et",
+            "la",
+            "le",
+            "ou",
+            "sur",
+            "d",
+            "l",
+            "aux",
+            "dans",
+            "un",
+            "une",
+            "pour",
+            "avec",
+            "chez",
+            "par",
+            "les"
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_PCS_HOMMES-2-2-0",
+        "Urn": "urn:ddi:fr.insee:l_pcs_hommes-2-2-0:1",
+        "Name": "L_PCS_HOMMES-2-2-0",
+        "Label": "Professions masculin",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false,
+              "synonyms": {
+                "URSSAF": [
+                  "URSAF",
+                  "URSAFF"
+                ],
+                "accueil": [
+                  "ACCEUIL"
+                ],
+                "abattoir": [
+                  "ABATOIR",
+                  "ABBATOIR",
+                  "ABATOIRE",
+                  "ABATTOIRE"
+                ],
+                "ascenseur": [
+                  "ASCENCEUR",
+                  "ASSENCEUR"
+                ],
+                "ascenseurs": [
+                  "ASCENCEURS",
+                  "ASSENCEURS"
+                ],
+                "fabrication": [
+                  "FABRICANT"
+                ],
+                "ingénierie": [
+                  "INGENIEURIE",
+                  "INGENERIE",
+                  "INGIENERIE"
+                ],
+                "alimentaires": [
+                  "ALIMANTAIRE"
+                ],
+                "construction": [
+                  "CONSTRUCTEUR"
+                ],
+                "distribution": [
+                  "DISTRIBUTEUR"
+                ],
+                "échafaudage": [
+                  "ECHAFFAUDAGE"
+                ],
+                "agroalimentaire": [
+                  "AGROALIMANTAIRE",
+                  "AGGROALIMANTAIRE"
+                ],
+                "agroalimentaires": [
+                  "AGROALIMANTAIRE",
+                  "AGGROALIMANTAIRES"
+                ]
+              }
+            }
+          ],
+          "meloto": true,
+          "stopWords": [
+            "a",
+            "au",
+            "dans",
+            "de",
+            "des",
+            "du",
+            "en",
+            "et",
+            "la",
+            "le",
+            "ou",
+            "sur",
+            "d",
+            "l",
+            "aux",
+            "dans",
+            "un",
+            "une",
+            "pour",
+            "avec",
+            "chez",
+            "par",
+            "les"
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_REGFRONT_DE-1-0-0",
+        "Urn": "urn:ddi:fr.insee:l_regfront_de-1-0-0:1",
+        "Name": "L_REGFRONT_DE-1-0-0",
+        "Label": "Régions frontalières Allemagne",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_REGFRONT_BE-1-0-0",
+        "Urn": "urn:ddi:fr.insee:l_regfront_be-1-0-0:1",
+        "Name": "L_REGFRONT_BE-1-0-0",
+        "Label": "Régions frontalières Belgique",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_REGFRONT_ES-1-0-0",
+        "Urn": "urn:ddi:fr.insee:l_regfront_es-1-0-0:1",
+        "Name": "L_REGFRONT_ES-1-0-0",
+        "Label": "Régions frontalières Espagne",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_REGFRONT_IT-1-0-0",
+        "Urn": "urn:ddi:fr.insee:l_regfront_it-1-0-0:1",
+        "Name": "L_REGFRONT_IT-1-0-0",
+        "Label": "Régions frontalières Italie",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_REGFRONT_NL-1-0-0",
+        "Urn": "urn:ddi:fr.insee:l_regfront_nl-1-0-0:1",
+        "Name": "L_REGFRONT_NL-1-0-0",
+        "Label": "Régions frontalières Pays-Bas",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_REGFRONT_UK-1-0-0",
+        "Urn": "urn:ddi:fr.insee:l_regfront_uk-1-0-0:1",
+        "Name": "L_REGFRONT_UK-1-0-0",
+        "Label": "Régions frontalières Royaume Uni",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_REGFRONT_CH-1-0-0",
+        "Urn": "urn:ddi:fr.insee:l_regfront_ch-1-0-0:1",
+        "Name": "L_REGFRONT_CH-1-0-0",
+        "Label": "Régions frontalières Suisse",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_SPECIALITES-1-0-0",
+        "Urn": "urn:ddi:fr.insee:l_specialites-1-0-0:1",
+        "Name": "L_SPECIALITES-1-0-0",
+        "Label": "Spécialités (dans les diplomes)",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      },
+      {
+        "id": "L_TYPEVOIE-1-0-0",
+        "Urn": "urn:ddi:fr.insee:l_typevoie-1-0-0:1",
+        "Name": "L_TYPEVOIE-1-0-0",
+        "Label": "Types de voie",
+        "SuggesterParameters": {
+          "fields": [
+            {
+              "name": "label",
+              "rules": [
+                "[\\w]+"
+              ],
+              "language": "French",
+              "min": 3,
+              "stemmer": false
+            }
+          ],
+          "queryParser": {
+            "type": "tokenized",
+            "params": {
+              "language": "French",
+              "min": 3,
+              "pattern": "[\\w.]+",
+              "stemmer": false
+            }
+          },
+          "version": 1
+        }
+      }
+    ]
+  },
+  "Variables": {
+    "Variable": [
+      {
+        "id": "mawgsswu",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_ACTIVITES-2-1-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_1",
+        "Label": "N_1 label"
+      },
+      {
+        "id": "mawh6odq",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_COMMUNES-2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_2",
+        "Label": "N_2 label"
+      },
+      {
+        "id": "mawh0hhg",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_DEP-1-1-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_3",
+        "Label": "N_3 label"
+      },
+      {
+        "id": "mawgw7xn",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_DIPLOMES-2-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_4",
+        "Label": "N_4 label"
+      },
+      {
+        "id": "mawh7131",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PRODEAP_VPIZ_2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_5",
+        "Label": "N_5 label"
+      },
+      {
+        "id": "mawha35q",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PRODIAA_VPIZ_2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_6",
+        "Label": "N_6 label"
+      },
+      {
+        "id": "mawhaebs",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PRODEAP_DECHETS_2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_7",
+        "Label": "N_7 label"
+      },
+      {
+        "id": "mawh2hqi",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PRODEAP_EAU_2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_8",
+        "Label": "N_8 label"
+      },
+      {
+        "id": "mawgyojn",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PRODEAP_ELEC_2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_9",
+        "Label": "N_9 label"
+      },
+      {
+        "id": "mawgxxpr",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PRODEAP_GAZ_2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_10",
+        "Label": "N_10 label"
+      },
+      {
+        "id": "mawh5q96",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PRODEAP_INSTAL_REPAR_2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_11",
+        "Label": "N_11 label"
+      },
+      {
+        "id": "mawh7czd",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PRODEAP_VAPEUR_2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_12",
+        "Label": "N_12 label"
+      },
+      {
+        "id": "mawh3b0p",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PRODEAP_VPI_2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_13",
+        "Label": "N_13 label"
+      },
+      {
+        "id": "mawgzzmd",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PRODIAA_VPI_2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_14",
+        "Label": "N_14 label"
+      },
+      {
+        "id": "mawh8763",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PRODEAP_VPNI_2024",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_15",
+        "Label": "N_15 label"
+      },
+      {
+        "id": "mawgybdj",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_LANGUES-2-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_16",
+        "Label": "N_16 label"
+      },
+      {
+        "id": "mawh6ezh",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_NATIONALITE-2-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_17",
+        "Label": "N_17 label"
+      },
+      {
+        "id": "mawhfbtw",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PAYS-2-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_18",
+        "Label": "N_18 label"
+      },
+      {
+        "id": "mawheq7v",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PCS_FEMMES-2-2-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_19",
+        "Label": "N_19 label"
+      },
+      {
+        "id": "mawhdfbo",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_PCS_HOMMES-2-2-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_20",
+        "Label": "N_20 label"
+      },
+      {
+        "id": "mawh3x2s",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_REGFRONT_DE-1-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_21",
+        "Label": "N_21 label"
+      },
+      {
+        "id": "mawh5vt3",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_REGFRONT_BE-1-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_22",
+        "Label": "N_22 label"
+      },
+      {
+        "id": "mawgz53z",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_REGFRONT_ES-1-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_23",
+        "Label": "N_23 label"
+      },
+      {
+        "id": "mawh0714",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_REGFRONT_IT-1-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_24",
+        "Label": "N_24 label"
+      },
+      {
+        "id": "mawh27t1",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_REGFRONT_NL-1-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_25",
+        "Label": "N_25 label"
+      },
+      {
+        "id": "mawh8cgg",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_REGFRONT_UK-1-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_26",
+        "Label": "N_26 label"
+      },
+      {
+        "id": "mawh3tx1",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_REGFRONT_CH-1-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_27",
+        "Label": "N_27 label"
+      },
+      {
+        "id": "mawhcn8o",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_SPECIALITES-1-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_28",
+        "Label": "N_28 label"
+      },
+      {
+        "id": "mawhb8kc",
+        "type": "CollectedVariableType",
+        "CodeListReference": "L_TYPEVOIE-1-0-0",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 1
+        },
+        "Name": "N_29",
+        "Label": "N_29 label"
+      }
+    ]
+  },
+  "childQuestionnaireRef": []
+}
