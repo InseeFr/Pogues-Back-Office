@@ -4,6 +4,8 @@ package fr.insee.pogues.utils;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.webservice.model.dtd.codelists.Code;
 import fr.insee.pogues.webservice.model.dtd.codelists.CodesList;
+import fr.insee.pogues.webservice.model.dtd.nomenclatures.ExternalLink;
+import fr.insee.pogues.webservice.model.dtd.nomenclatures.Nomenclature;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -71,7 +73,11 @@ public class CodesListConverter {
         return new CodesList(codeList.getId(), codeList.getLabel(), getRootCodesFromCodeList(codeList.getCode()));
     }
 
-
-
+    public static Nomenclature convertFromCodeListNomenclatureModelToNomenclatureDTD(CodeList codeList){
+        ExternalLink externalLink = new ExternalLink(codeList.getUrn());
+        // TODO: fix me, use version instead of Name of codeList !!!
+        // id, label, version, externalLink
+        return new Nomenclature(codeList.getId(), codeList.getLabel(), codeList.getName(), externalLink);
+    }
 
 }

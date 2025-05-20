@@ -43,7 +43,7 @@ public class CodesListService {
      * @throws Exception
      */
     public List<String> updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireWithId(questionnaireId);
+        Questionnaire questionnaire = retrieveQuestionnaireById(questionnaireId);
         List<String> updatedQuestionIds = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
         updateQuestionnaireInDataBase(questionnaire);
         return updatedQuestionIds;
@@ -64,8 +64,8 @@ public class CodesListService {
                 : null;
     }
 
-    public void deleteCodeListOfQuestionnaireWithId(String questionnaireId, String codesListId) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireWithId(questionnaireId);
+    public void deleteCodeListOfQuestionnaireById(String questionnaireId, String codesListId) throws Exception {
+        Questionnaire questionnaire = retrieveQuestionnaireById(questionnaireId);
         deleteCodeListOfQuestionnaire(questionnaire, codesListId);
         updateQuestionnaireInDataBase(questionnaire);
     }
@@ -80,7 +80,7 @@ public class CodesListService {
         removeCodeListDTD(codesLists, codesListId);
     }
 
-    private Questionnaire retrieveQuestionnaireWithId(String id) throws Exception {
+    private Questionnaire retrieveQuestionnaireById(String id) throws Exception {
         return PoguesDeserializer.questionnaireToJavaObject(questionnairesService.getQuestionnaireByID(id));
     }
 
@@ -177,8 +177,8 @@ public class CodesListService {
                 .toList();
     }
 
-    public List<ExtendedCodesList> getCodesListsDTDWithId(String questionnaireId) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireWithId(questionnaireId);
+    public List<ExtendedCodesList> getCodesListsDTDById(String questionnaireId) throws Exception {
+        Questionnaire questionnaire = retrieveQuestionnaireById(questionnaireId);
         return getCodesListsDTD(questionnaire);
     }
 
