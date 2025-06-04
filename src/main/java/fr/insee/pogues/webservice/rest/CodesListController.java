@@ -55,7 +55,7 @@ public class CodesListController {
     public ResponseEntity<Object> deleteCodesListInQuestionnaire(
             @PathVariable(value = "questionnaireId") String questionnaireId,
             @PathVariable(value = "codesListId") String codesListId) throws Exception {
-        codesListService.deleteCodeListOfQuestionnaireWithId(questionnaireId, codesListId);
+        codesListService.deleteCodeListOfQuestionnaireById(questionnaireId, codesListId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
@@ -99,7 +99,7 @@ public class CodesListController {
     })
     public ResponseEntity<List<ExtendedCodesList>> getCodesListsInQuestionnaire(
             @PathVariable(value = "questionnaireId") String questionnaireId) throws Exception {
-        List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTDWithId(questionnaireId);
+        List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTDById(questionnaireId);
         return ResponseEntity.status(HttpStatus.OK).body(codesLists);
     }
 }
