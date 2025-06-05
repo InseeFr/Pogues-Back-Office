@@ -28,6 +28,7 @@ public class TableDimensionCleaner implements ModelCleaner {
         }
         if(poguesComponent instanceof QuestionType question && QuestionTypeEnum.TABLE.equals(question.getQuestionType())){
             convertDynamicTableDimension(question);
+            convertMinMaxVtlDimension(question);
         }
     }
 
@@ -68,5 +69,46 @@ public class TableDimensionCleaner implements ModelCleaner {
                 .getDimension().stream()
                 .filter(d -> !DimensionTypeEnum.PRIMARY.equals(d.getDimensionType()))
                 .forEach(dimension -> dimension.setDynamic(null));
+    }
+
+    private void convertMinMaxVtlDimension(QuestionType tableQuestion){
+        Optional<DimensionType> primaryDimension = tableQuestion.getResponseStructure()
+                .getDimension().stream()
+                .filter(d -> DimensionTypeEnum.PRIMARY.equals(d.getDimensionType()))
+                .findFirst();
+        if(primaryDimension.isPresent()){
+            DimensionType foundDimension = primaryDimension.get();
+            String dynamic = foundDimension.getDynamic();
+            if(FIXED_LENGTH_DIMENSION.equals(dynamic)) {
+                foundDimension.setDynamic(DYNAMIC_FIXED_DIMENSION);
+                ExpressionType fixedLength = foundDimension.getFixedLength();
+                if(fixedLength != null){
+                    String vtlFormula = foundDimension.getFixedLength().getValue();
+                    TypedValueType vtlSize = new TypedValueType();
+                    vtlSize.setType(ValueTypeEnum.VTL);
+                    vtlSize.setValue(vtlFormula);
+                    foundDimension.setSize(vtlSize);
+                    foundDimension.setFixedLength(null);
+                }
+            }
+            BigInteger minLines = foundDimension.getMinLines();
+            if(minLines != null){
+                foundDimension.setMinimum(convertBigIntegerToTypedNumber(minLines));
+                foundDimension.setMinLines(null);
+            }
+            BigInteger maxLines = foundDimension.getMaxLines();
+            if(maxLines != null){
+                foundDimension.setMaximum(convertBigIntegerToTypedNumber(maxLines));
+                foundDimension.setMaxLines(null);
+            }
+
+        }
+    }
+
+    private TypedValueType convertBigIntegerToTypedNumber(BigInteger integer){
+        TypedValueType typedNumber = new TypedValueType();
+        typedNumber.setType(ValueTypeEnum.NUMBER);
+        typedNumber.setValue(integer.toString());
+        return typedNumber;
     }
 }
