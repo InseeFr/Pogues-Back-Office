@@ -38,7 +38,7 @@ import static fr.insee.pogues.utils.IOStreamsUtils.string2InputStream;
  */
 @RestController
 @RequestMapping("/api/transform")
-@Tag(name = "7. Model transformation")
+@Tag(name = "8. Model transformation")
 @Slf4j
 public class ModelTransform {
 
