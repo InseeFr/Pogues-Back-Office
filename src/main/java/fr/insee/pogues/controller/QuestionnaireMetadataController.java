@@ -1,4 +1,4 @@
-package fr.insee.pogues.webservice.rest;
+package fr.insee.pogues.controller;
 
 import fr.insee.pogues.exception.QuestionnaireMetadataException;
 import fr.insee.pogues.exception.QuestionnaireMetadataRuntimeException;
