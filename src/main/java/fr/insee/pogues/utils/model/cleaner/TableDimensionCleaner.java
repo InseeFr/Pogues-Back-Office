@@ -81,15 +81,15 @@ public class TableDimensionCleaner implements ModelCleaner {
             String dynamic = foundDimension.getDynamic();
             if(FIXED_LENGTH_DIMENSION.equals(dynamic)) {
                 foundDimension.setDynamic(DYNAMIC_FIXED_DIMENSION);
-                ExpressionType fixedLength = foundDimension.getFixedLength();
-                if(fixedLength != null){
-                    String vtlFormula = foundDimension.getFixedLength().getValue();
-                    TypedValueType vtlSize = new TypedValueType();
-                    vtlSize.setType(ValueTypeEnum.VTL);
-                    vtlSize.setValue(vtlFormula);
-                    foundDimension.setSize(vtlSize);
-                    foundDimension.setFixedLength(null);
-                }
+            }
+            ExpressionType fixedLength = foundDimension.getFixedLength();
+            if(fixedLength != null){
+                String vtlFormula = foundDimension.getFixedLength().getValue();
+                TypedValueType vtlSize = new TypedValueType();
+                vtlSize.setType(ValueTypeEnum.VTL);
+                vtlSize.setValue(vtlFormula);
+                foundDimension.setSize(vtlSize);
+                foundDimension.setFixedLength(null);
             }
             BigInteger minLines = foundDimension.getMinLines();
             if(minLines != null){
