@@ -18,6 +18,8 @@ import java.util.HashMap;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import static fr.insee.pogues.utils.json.JSONFunctions.objectNodeToPrettyJsonString;
+
 @Service
 @Slf4j
 public class QuestionnaireMetadataService {
@@ -40,9 +42,7 @@ public class QuestionnaireMetadataService {
         try {
             JsonNode jsonWithRef = questionnairesService.getQuestionnaireByIDWithReferences(poguesId);
 
-            String jsonStr = new ObjectMapper()
-                    .writerWithDefaultPrettyPrinter()
-                    .writeValueAsString(jsonWithRef);
+            String jsonStr = objectNodeToPrettyJsonString(jsonWithRef);
 
             InputStream jsonStream = new ByteArrayInputStream(jsonStr.getBytes(StandardCharsets.UTF_8));
 
