@@ -24,7 +24,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-@Tag(name = "6. Search to MetaData repository")
+@Tag(name = "7. Search to MetaData repository")
 @Slf4j
 public class MetadataController {
 

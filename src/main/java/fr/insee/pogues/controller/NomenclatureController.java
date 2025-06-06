@@ -22,7 +22,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/questionnaires")
-@Tag(name = "4. Nomenclature Controller")
+@Tag(name = "5. Nomenclature Controller")
 @Slf4j
 public class NomenclatureController {
 
