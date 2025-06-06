@@ -1,5 +1,8 @@
 package fr.insee.pogues.utils.model;
 
+import lombok.Getter;
+
+@Getter
 public class ZipFile {
     private final String entryName;
     private final byte[] content;
@@ -9,11 +12,4 @@ public class ZipFile {
         this.content = content;
     }
 
-    public String getEntryName() {
-        return entryName;
-    }
-
-    public byte[] getContent() {
-        return content;
-    }
 }
