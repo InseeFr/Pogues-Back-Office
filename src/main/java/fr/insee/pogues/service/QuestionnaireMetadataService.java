@@ -1,7 +1,6 @@
 package fr.insee.pogues.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.pogues.exception.QuestionnaireMetadataException;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
