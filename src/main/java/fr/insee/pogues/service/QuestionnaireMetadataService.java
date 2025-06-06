@@ -36,7 +36,7 @@ public class QuestionnaireMetadataService {
         this.xmlToDdi = xmlToDdi;
     }
 
-    public void generateZip(String poguesId, OutputStream outputStream) {
+    public void generateZip(String poguesId, OutputStream outputStream) throws QuestionnaireMetadataException {
         try {
             JsonNode jsonWithRef = questionnairesService.getQuestionnaireByIDWithReferences(poguesId);
 
@@ -64,7 +64,7 @@ public class QuestionnaireMetadataService {
             }
 
         } catch (Exception e) {
-            throw new QuestionnaireMetadataException("Erreur lors de la génération du ZIP", e);
+            throw new QuestionnaireMetadataException(500, "Error while generating the ZIP archive", e);
         }
     }
 }

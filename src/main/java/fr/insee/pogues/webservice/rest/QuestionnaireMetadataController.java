@@ -1,5 +1,7 @@
 package fr.insee.pogues.webservice.rest;
 
+import fr.insee.pogues.exception.QuestionnaireMetadataException;
+import fr.insee.pogues.exception.QuestionnaireMetadataRuntimeException;
 import fr.insee.pogues.service.QuestionnaireMetadataService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +33,13 @@ public class QuestionnaireMetadataController {
     @GetMapping("/{poguesId}/metadata")
     public ResponseEntity<StreamingResponseBody> getMetadataZip(@PathVariable String poguesId) {
         StreamingResponseBody stream = outputStream ->
+        {
+            try {
                 metadataService.generateZip(poguesId, outputStream);
+            } catch (QuestionnaireMetadataException e) {
+                throw new QuestionnaireMetadataRuntimeException("Failed to generate metadata ZIP", e);
+            }
+        };
 
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + poguesId + "-metadata.zip")
