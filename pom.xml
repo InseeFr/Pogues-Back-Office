@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.5</version>
+		<version>3.5.0</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
@@ -13,21 +13,21 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>jar</packaging>
-	<version>4.16.0</version>
+	<version>4.16.1</version>
 	<name>Pogues-Back-Office</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>21</java.version>
 		<final.asset.name>pogues-bo</final.asset.name>
-		<pogues-model.version>1.8.2</pogues-model.version>
+		<pogues-model.version>1.9.3</pogues-model.version>
 		<fop.version>2.11</fop.version>
-		<springdoc-openapi-ui.version>2.8.8</springdoc-openapi-ui.version>
+		<springdoc-openapi-ui.version>2.8.9</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.13</jacoco.version>
 		<saxon.version>12.7</saxon.version>
-		<liquibase.version>4.31.1</liquibase.version>
+		<liquibase.version>4.32.0</liquibase.version>
 
-		<caffeine.version>3.2.0</caffeine.version>
+		<caffeine.version>3.2.1</caffeine.version>
 
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
