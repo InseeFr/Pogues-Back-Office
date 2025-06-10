@@ -25,10 +25,6 @@ public class JSONFunctions {
 		return objectMapper.readTree(jsonString);
 	}
 
-	public static String objectNodetoJsonString(ObjectNode jsonNode){
-		return jsonNode.toString();
-	}
-
 	public static JsonNode renameQuestionnairePlural(JsonNode questionnaire) {
 		questionnaire = renameKey(questionnaire, "children", "Child");
 		questionnaire = renameKey(questionnaire, "controls", "Control");
@@ -47,4 +43,15 @@ public class JSONFunctions {
 		inputNode.remove(key);
 		return inputNode;
 	}
+
+	public static String objectNodeToPrettyJsonString(JsonNode jsonNode) {
+		try {
+			ObjectMapper objectMapper = new ObjectMapper();
+			return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
+		} catch (JsonProcessingException e) {
+			log.error("Error converting JsonNode to pretty JSON string", e);
+			return jsonNode.toString();
+		}
+	}
+
 }
