@@ -44,8 +44,11 @@ public class QuestionnaireMetadataController {
     })
     @GetMapping("/{poguesId}/metadata")
     public ResponseEntity<StreamingResponseBody> getMetadataZip(@PathVariable String poguesId) {
-        StreamingResponseBody stream = outputStream ->
-        {
+        if (poguesId == null || poguesId.trim().isEmpty()) {
+            throw new IllegalArgumentException("Pogues ID cannot be null or empty");
+        }
+
+        StreamingResponseBody stream = outputStream -> {
             try {
                 metadataService.generateZip(poguesId, outputStream);
             } catch (QuestionnaireMetadataException e) {

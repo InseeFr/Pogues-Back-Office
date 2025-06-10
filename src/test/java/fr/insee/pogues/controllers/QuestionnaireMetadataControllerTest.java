@@ -72,5 +72,19 @@ class QuestionnaireMetadataControllerTest {
         Objects.requireNonNull(controller.getMetadataZip(poguesId).getBody()).writeTo(new ByteArrayOutputStream());
     }
 
+    @Test
+    void shouldHandleEmptyId() {
+        // Given
+        String poguesId = "";
+
+        // When & Then
+        Assertions.assertThrows(IllegalArgumentException.class, () -> controller.getMetadataZip(poguesId));
+    }
+
+    @Test
+    void shouldHandleNullId() {
+        // When & Then
+        Assertions.assertThrows(IllegalArgumentException.class, () -> controller.getMetadataZip(null));
+    }
 }
 
