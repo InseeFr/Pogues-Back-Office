@@ -82,6 +82,9 @@ public class TableDimensionCleaner implements ModelCleaner {
             if(FIXED_LENGTH_DIMENSION.equals(dynamic)) {
                 foundDimension.setDynamic(DYNAMIC_FIXED_DIMENSION);
             }
+            if(DYNAMIC_LENGTH_DIMENSION.equals(dynamic)){
+                foundDimension.setDynamic(DYNAMIC_DIMENSION);
+            }
             ExpressionType fixedLength = foundDimension.getFixedLength();
             if(fixedLength != null){
                 String vtlFormula = foundDimension.getFixedLength().getValue();

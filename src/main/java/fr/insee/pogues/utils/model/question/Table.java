@@ -18,6 +18,7 @@ public class Table {
 
     public static final String NON_DYNAMIC_DIMENSION = "NON_DYNAMIC";
     public static final String DYNAMIC_LENGTH_DIMENSION = "DYNAMIC_LENGTH";
+    public static final String DYNAMIC_DIMENSION = "DYNAMIC"; // replacement: "DYNAMIC_LENGTH" -> "DYNAMIC"
     public static final String FIXED_LENGTH_DIMENSION = "FIXED_LENGTH";
     public static final String DYNAMIC_FIXED_DIMENSION = "DYNAMIC_FIXED"; // replacement: "FIXED_LENGTH" -> "DYNAMIC_FIXED"
 

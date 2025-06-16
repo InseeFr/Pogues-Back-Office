@@ -215,7 +215,7 @@ class ModelCleaningServiceTest {
         modelCleaningService.cleanModel(questionnaire);
 
         QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().getFirst();
-        assertEquals("DYNAMIC_LENGTH", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals("DYNAMIC", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
         assertNull(tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMinLines());
         assertNull(tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMaxLines());
         assertEquals("1", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMinimum().getValue());
@@ -258,7 +258,7 @@ class ModelCleaningServiceTest {
         QuestionType tableQuestionChanged1 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(1);
         QuestionType tableQuestionChanged2 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(2);
         assertEquals("NON_DYNAMIC", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
-        assertEquals("DYNAMIC_LENGTH", tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals("DYNAMIC", tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getDynamic());
         assertEquals("DYNAMIC_FIXED", tableQuestionChanged2.getResponseStructure().getDimension().getFirst().getDynamic());
     }
 
@@ -290,7 +290,7 @@ class ModelCleaningServiceTest {
         QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(0);
         QuestionType tableQuestionChanged1 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(1);
 
-        assertEquals("DYNAMIC_LENGTH", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals("DYNAMIC", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
         assertEquals("DYNAMIC_FIXED", tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getDynamic());
 
         assertEquals("1", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMinimum().getValue());
