@@ -1,6 +1,7 @@
 package fr.insee.pogues.utils.model.cleaner;
 
 import fr.insee.pogues.model.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -15,6 +16,7 @@ import static fr.insee.pogues.utils.model.question.Table.*;
  * This cleaner convert old dynamic dimension modeling to new dynamic modeling.
  * Actually, both are based on String object (ugly)
  */
+@Slf4j
 public class TableDimensionCleaner implements ModelCleaner {
 
     @Override
@@ -76,36 +78,38 @@ public class TableDimensionCleaner implements ModelCleaner {
                 .getDimension().stream()
                 .filter(d -> DimensionTypeEnum.PRIMARY.equals(d.getDimensionType()))
                 .findFirst();
-        if(primaryDimension.isPresent()){
-            DimensionType foundDimension = primaryDimension.get();
-            String dynamic = foundDimension.getDynamic();
-            if(FIXED_LENGTH_DIMENSION.equals(dynamic)) {
-                foundDimension.setDynamic(DYNAMIC_FIXED_DIMENSION);
-            }
-            if(DYNAMIC_LENGTH_DIMENSION.equals(dynamic)){
-                foundDimension.setDynamic(DYNAMIC_DIMENSION);
-            }
-            ExpressionType fixedLength = foundDimension.getFixedLength();
-            if(fixedLength != null){
-                String vtlFormula = foundDimension.getFixedLength().getValue();
-                TypedValueType vtlSize = new TypedValueType();
-                vtlSize.setType(ValueTypeEnum.VTL);
-                vtlSize.setValue(vtlFormula);
-                foundDimension.setSize(vtlSize);
-                foundDimension.setFixedLength(null);
-            }
-            BigInteger minLines = foundDimension.getMinLines();
-            if(minLines != null){
-                foundDimension.setMinimum(convertBigIntegerToTypedNumber(minLines));
-                foundDimension.setMinLines(null);
-            }
-            BigInteger maxLines = foundDimension.getMaxLines();
-            if(maxLines != null){
-                foundDimension.setMaximum(convertBigIntegerToTypedNumber(maxLines));
-                foundDimension.setMaxLines(null);
-            }
-
+        if(primaryDimension.isEmpty()) {
+            log.warn("A pogues table should have a 'PRIMARY' dimension.");
+            return;
+        };
+        DimensionType foundDimension = primaryDimension.get();
+        String dynamic = foundDimension.getDynamic();
+        if(FIXED_LENGTH_DIMENSION.equals(dynamic)) {
+            foundDimension.setDynamic(DYNAMIC_FIXED_DIMENSION);
         }
+        if(DYNAMIC_LENGTH_DIMENSION.equals(dynamic)){
+            foundDimension.setDynamic(DYNAMIC_DIMENSION);
+        }
+        ExpressionType fixedLength = foundDimension.getFixedLength();
+        if(fixedLength != null){
+            String vtlFormula = foundDimension.getFixedLength().getValue();
+            TypedValueType vtlSize = new TypedValueType();
+            vtlSize.setType(ValueTypeEnum.VTL);
+            vtlSize.setValue(vtlFormula);
+            foundDimension.setSize(vtlSize);
+            foundDimension.setFixedLength(null);
+        }
+        BigInteger minLines = foundDimension.getMinLines();
+        if(minLines != null){
+            foundDimension.setMinimum(convertBigIntegerToTypedNumber(minLines));
+            foundDimension.setMinLines(null);
+        }
+        BigInteger maxLines = foundDimension.getMaxLines();
+        if(maxLines != null){
+            foundDimension.setMaximum(convertBigIntegerToTypedNumber(maxLines));
+            foundDimension.setMaxLines(null);
+        }
+
     }
 
     private TypedValueType convertBigIntegerToTypedNumber(BigInteger integer){
