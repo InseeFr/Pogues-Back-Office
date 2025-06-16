@@ -18,7 +18,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<ApiMessage> handleGenericException(GenericException exception) {
         log.error(exception.getMessage(), exception);
         ApiMessage message = exception.toApiMessage();
-        return new ResponseEntity<>(message, HttpStatusCode.valueOf(message.getStatus()));
+        return new ResponseEntity<ApiMessage>(message, HttpStatusCode.valueOf(message.getStatus()));
     }
     @ExceptionHandler(value = { Exception.class })
     public ResponseEntity<ApiError> handleOtherException(Exception e) {
