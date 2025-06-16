@@ -62,7 +62,7 @@ class QuestionnaireMetadataControllerTest {
         assertEquals("Generation failed", thrown.getMessage());
     }
 
-    private void writeMetadataZipToOutputStream(String poguesId) throws IOException {
+    private void writeMetadataZipToOutputStream(String poguesId) {
         controller.getMetadataZip(poguesId).getBody();
     }
 
