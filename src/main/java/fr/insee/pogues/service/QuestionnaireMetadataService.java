@@ -1,7 +1,7 @@
 package fr.insee.pogues.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import fr.insee.pogues.exception.QuestionnaireMetadataException;
+import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
 import fr.insee.pogues.transforms.visualize.eno.PoguesXMLToDDI;
@@ -49,7 +49,7 @@ public class QuestionnaireMetadataService {
         }
     }
 
-    public void generateZip(String poguesId, OutputStream outputStream) throws QuestionnaireMetadataException {
+    public void generateZip(String poguesId, OutputStream outputStream) throws PoguesException {
         try {
             JsonNode jsonWithRef = questionnairesService.getQuestionnaireByIDWithReferences(poguesId);
             String jsonStr = objectNodeToPrettyJsonString(jsonWithRef);
@@ -69,7 +69,7 @@ public class QuestionnaireMetadataService {
             generateZip(files, outputStream);
 
         } catch (Exception e) {
-            throw new QuestionnaireMetadataException(500, "Error while generating the ZIP archive", e);
+            throw new PoguesException(500, "Error while generating the ZIP archive", e.getMessage());
         }
     }
 }

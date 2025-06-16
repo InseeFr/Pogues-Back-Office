@@ -1,7 +1,7 @@
 package fr.insee.pogues.controllers;
 
 import fr.insee.pogues.controller.QuestionnaireMetadataController;
-import fr.insee.pogues.exception.QuestionnaireMetadataException;
+import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.service.QuestionnaireMetadataService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ class QuestionnaireMetadataControllerTest {
     private final QuestionnaireMetadataController controller = new QuestionnaireMetadataController(metadataService);
 
     @Test
-    void shouldReturnZipResponseEntity() throws Exception {
+    void shouldReturnZipResponseEntity() {
         // Given
         String poguesId = "test-id";
 
@@ -46,16 +46,16 @@ class QuestionnaireMetadataControllerTest {
     }
 
     @Test
-    void shouldThrowRuntimeExceptionWhenZipGenerationFails() throws QuestionnaireMetadataException {
+    void shouldThrowRuntimeExceptionWhenZipGenerationFails() throws PoguesException {
         // Given
         String poguesId = "error-id";
 
-        doThrow(new QuestionnaireMetadataException(500, "Generation failed"))
+        doThrow(new PoguesException(500, "Generation failed", null))
                 .when(metadataService).generateZip(ArgumentMatchers.eq(poguesId), ArgumentMatchers.any(OutputStream.class));
 
         // When & Then
-        QuestionnaireMetadataException thrown = Assertions.assertThrows(
-                QuestionnaireMetadataException.class,
+        PoguesException thrown = Assertions.assertThrows(
+                PoguesException.class,
                 () -> writeMetadataZipToOutputStream(poguesId)
         );
 
