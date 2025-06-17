@@ -4,7 +4,7 @@ import fr.insee.pogues.webservice.error.ApiMessage;
 import lombok.Getter;
 
 @Getter
-public abstract class GenericException extends Exception {
+public abstract class GenericException extends RuntimeException {
 
     private final String details;
 
