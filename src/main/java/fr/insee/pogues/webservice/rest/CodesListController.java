@@ -13,17 +13,18 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/persistence")
 @Tag(name = "3. CodesList Controller")
+@Slf4j
 public class CodesListController {
 
     private CodesListService codesListService;
@@ -99,7 +100,34 @@ public class CodesListController {
     })
     public ResponseEntity<List<ExtendedCodesList>> getCodesListsInQuestionnaire(
             @PathVariable(value = "questionnaireId") String questionnaireId) throws Exception {
-        List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTDById(questionnaireId);
+        List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTDByQuestionnaireId(questionnaireId);
+        return ResponseEntity.status(HttpStatus.OK).body(codesLists);
+    }
+
+    @GetMapping("questionnaire/{questionnaireId}/version/${versionId}/codes-lists")
+    @Operation(
+            operationId  = "getCodesListsInVersionOfQuestionnaire",
+            summary = "Get codes lists in backup of questionnaire",
+            description = "Get all codes lists for questionnaire of id and backup of id"
+    )
+    @ApiResponses(value = {
+            @ApiResponse(
+                    responseCode = "200 ",
+                    description = "Success",
+                    content = {
+                            @Content(mediaType = "application/json",array = @ArraySchema(
+                                    schema = @Schema(implementation = ExtendedCodesList.class)))}),
+            @ApiResponse(
+                    responseCode = "404",
+                    description = "Not found",
+                    content = { @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = ApiMessage.class)) })
+    })
+    public ResponseEntity<List<ExtendedCodesList>> getCodesListsInVersionOfQuestionnaire(
+            @PathVariable(value = "questionnaireId") String questionnaireId,
+            @PathVariable(value = "versionId") UUID versionId) throws Exception {
+        log.info("Get codeLists of backup (id: {}) of questionnaire {}.", versionId, questionnaireId);
+        List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTDByVersionId(versionId);
         return ResponseEntity.status(HttpStatus.OK).body(codesLists);
     }
 }
