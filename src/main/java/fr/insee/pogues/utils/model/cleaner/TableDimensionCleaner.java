@@ -81,7 +81,7 @@ public class TableDimensionCleaner implements ModelCleaner {
         if(primaryDimension.isEmpty()) {
             log.warn("A pogues table should have a 'PRIMARY' dimension.");
             return;
-        };
+        }
         DimensionType foundDimension = primaryDimension.get();
         String dynamic = foundDimension.getDynamic();
         if(FIXED_LENGTH_DIMENSION.equals(dynamic)) {
