@@ -26,7 +26,7 @@ public class QuestionnaireMetadataController {
     }
 
     private static String getZipFileName(String poguesId){
-        return String.format("pogues-metadonnees-%s.zip", poguesId);
+        return String.format("pogues-metadata-%s.zip", poguesId);
     }
 
     /**

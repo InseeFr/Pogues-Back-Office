@@ -35,7 +35,7 @@ class QuestionnaireMetadataControllerTest {
 
         // Then
         assertEquals(200, response.getStatusCode().value());
-        assertEquals("attachment; filename=\"pogues-metadonnees-test-id.zip\"",
+        assertEquals("attachment; filename=\"pogues-metadata-test-id.zip\"",
                 response.getHeaders().getFirst(HttpHeaders.CONTENT_DISPOSITION));
         assertEquals("application/octet-stream",
                 response.getHeaders().getFirst(HttpHeaders.CONTENT_TYPE));
