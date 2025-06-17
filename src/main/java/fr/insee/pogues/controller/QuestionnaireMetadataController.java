@@ -25,6 +25,10 @@ public class QuestionnaireMetadataController {
         this.metadataService = metadataService;
     }
 
+    private static String getZipFileName(String poguesId){
+        return String.format("pogues-metadonnees-%s.zip", poguesId);
+    }
+
     /**
      * Endpoint to generate and download a ZIP archive containing metadata
      * (JSON + DDI XML) of the questionnaire identified by its Pogues ID.
@@ -50,7 +54,7 @@ public class QuestionnaireMetadataController {
         byte[] zipBytes = byteStream.toByteArray();
 
         return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + poguesId + "-metadata.zip\"")
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + getZipFileName(poguesId) + "\"")
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .body(zipBytes);
     }
