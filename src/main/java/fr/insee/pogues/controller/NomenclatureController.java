@@ -58,7 +58,7 @@ public class NomenclatureController {
         return ResponseEntity.status(HttpStatus.OK).body(nomenclatures);
     }
 
-    @GetMapping("{questionnaireId}/version/${versionId}/nomenclatures")
+    @GetMapping("{questionnaireId}/version/{versionId}/nomenclatures")
     @Operation(
             operationId  = "getNomenclaturesInVersionOfQuestionnaire",
             summary = "Get nomenclatures in backup od questionnaire",

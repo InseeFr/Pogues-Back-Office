@@ -104,7 +104,7 @@ public class CodesListController {
         return ResponseEntity.status(HttpStatus.OK).body(codesLists);
     }
 
-    @GetMapping("questionnaire/{questionnaireId}/version/${versionId}/codes-lists")
+    @GetMapping("questionnaire/{questionnaireId}/version/{versionId}/codes-lists")
     @Operation(
             operationId  = "getCodesListsInVersionOfQuestionnaire",
             summary = "Get codes lists in backup of questionnaire",

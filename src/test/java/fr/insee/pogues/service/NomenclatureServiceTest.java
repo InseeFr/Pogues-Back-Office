@@ -1,7 +1,6 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.persistence.repository.QuestionnaireVersionRepository;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.webservice.model.dtd.nomenclatures.ExtendedNomenclature;
