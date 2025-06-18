@@ -31,6 +31,26 @@ class ModelCleaningServiceTest {
         return dimension;
     }
 
+    private DimensionType createFakeDimension(String dynamic, DimensionTypeEnum dimensionType, BigInteger min, BigInteger max){
+        DimensionType dimension = new DimensionType();
+        dimension.setDynamic(dynamic);
+        dimension.setDimensionType(dimensionType);
+        dimension.setMinLines(min);
+        dimension.setMaxLines(max);
+        return dimension;
+    }
+
+    private DimensionType createFakeDimension(String dynamic, DimensionTypeEnum dimensionType, String fixedLength){
+        DimensionType dimension = new DimensionType();
+        dimension.setDynamic(dynamic);
+        dimension.setDimensionType(dimensionType);
+        ExpressionType size = new ExpressionType();
+        size.setValue(fixedLength);
+        dimension.setFixedLength(size);
+        return dimension;
+    }
+
+
     @BeforeEach
     void initService(){
         modelCleaningService = new ModelCleaningService();
@@ -150,9 +170,9 @@ class ModelCleaningServiceTest {
         QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(0);
         QuestionType tableQuestionChanged1 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(1);
         QuestionType tableQuestionChanged2 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(2);
-        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
-        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getDynamic());
-        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged2.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals("NON_DYNAMIC", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals("NON_DYNAMIC", tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals("NON_DYNAMIC", tableQuestionChanged2.getResponseStructure().getDimension().getFirst().getDynamic());
     }
 
     @Test
@@ -174,7 +194,7 @@ class ModelCleaningServiceTest {
         modelCleaningService.cleanModel(questionnaire);
 
         QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().getFirst();
-        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().get(0).getDynamic());
+        assertEquals("NON_DYNAMIC", tableQuestionChanged0.getResponseStructure().getDimension().get(0).getDynamic());
         assertNull(tableQuestionChanged0.getResponseStructure().getDimension().get(1).getDynamic());
     }
 
@@ -195,9 +215,11 @@ class ModelCleaningServiceTest {
         modelCleaningService.cleanModel(questionnaire);
 
         QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().getFirst();
-        assertEquals(DYNAMIC_LENGTH_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
-        assertEquals(BigInteger.valueOf(1), tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMinLines());
-        assertEquals(BigInteger.valueOf(5), tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMaxLines());
+        assertEquals("DYNAMIC", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertNull(tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMinLines());
+        assertNull(tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMaxLines());
+        assertEquals("1", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMinimum().getValue());
+        assertEquals("5", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMaximum().getValue());
     }
 
     @Test
@@ -235,9 +257,53 @@ class ModelCleaningServiceTest {
         QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(0);
         QuestionType tableQuestionChanged1 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(1);
         QuestionType tableQuestionChanged2 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(2);
-        assertEquals(NON_DYNAMIC_DIMENSION, tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
-        assertEquals(DYNAMIC_LENGTH_DIMENSION, tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getDynamic());
-        assertEquals(FIXED_LENGTH_DIMENSION, tableQuestionChanged2.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals("NON_DYNAMIC", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals("DYNAMIC", tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals("DYNAMIC_FIXED", tableQuestionChanged2.getResponseStructure().getDimension().getFirst().getDynamic());
+    }
+
+    @Test
+    @DisplayName("Should convert min max integer to number object")
+    void should_updateMinMaxToTypedValue(){
+        Questionnaire questionnaire = new Questionnaire();
+        SequenceType sequence = new SequenceType();
+
+        QuestionType tableQuestion0 = new QuestionType();
+        tableQuestion0.setQuestionType(QuestionTypeEnum.TABLE);
+        ResponseStructureType responseStructure0 = new ResponseStructureType();
+        responseStructure0.getDimension().add(createFakeDimension(DYNAMIC_LENGTH_DIMENSION, DimensionTypeEnum.PRIMARY,
+                BigInteger.valueOf(1), BigInteger.valueOf(5)));
+        tableQuestion0.setResponseStructure(responseStructure0);
+
+        QuestionType tableQuestion1 = new QuestionType();
+        tableQuestion1.setQuestionType(QuestionTypeEnum.TABLE);
+        ResponseStructureType responseStructure1 = new ResponseStructureType();
+        responseStructure1.getDimension().add(createFakeDimension(FIXED_LENGTH_DIMENSION, DimensionTypeEnum.PRIMARY, "4+2"));
+        tableQuestion1.setResponseStructure(responseStructure1);
+
+        sequence.getChild().add(tableQuestion0);
+        sequence.getChild().add(tableQuestion1);
+        questionnaire.getChild().add(sequence);
+
+        modelCleaningService.cleanModel(questionnaire);
+
+        QuestionType tableQuestionChanged0 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(0);
+        QuestionType tableQuestionChanged1 = (QuestionType) ((SequenceType) questionnaire.getChild().getFirst()).getChild().get(1);
+
+        assertEquals("DYNAMIC", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getDynamic());
+        assertEquals("DYNAMIC_FIXED", tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getDynamic());
+
+        assertEquals("1", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMinimum().getValue());
+        assertEquals(ValueTypeEnum.NUMBER, tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMinimum().getType());
+        assertNull(tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMinLines());
+        assertEquals("5", tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMaximum().getValue());
+        assertEquals(ValueTypeEnum.NUMBER, tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMaximum().getType());
+        assertNull(tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getMaxLines());
+
+
+        assertEquals("4+2", tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getSize().getValue());
+        assertEquals(ValueTypeEnum.VTL, tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getSize().getType());
+        assertNull(tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getFixedLength());
     }
 
 
