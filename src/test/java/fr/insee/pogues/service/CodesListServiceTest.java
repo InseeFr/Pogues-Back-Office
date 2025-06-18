@@ -3,6 +3,7 @@ package fr.insee.pogues.service;
 import fr.insee.pogues.exception.CodesListException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.webservice.model.dtd.codelists.Code;
 import fr.insee.pogues.webservice.model.dtd.codelists.CodesList;
@@ -32,12 +33,14 @@ class CodesListServiceTest {
 
     @Mock
     QuestionnairesService questionnairesService;
+    @Mock
+    VersionService versionService;
 
     private CodesListService codesListService;
 
     @BeforeEach
     void initQuestionnaireService(){
-        codesListService = new CodesListService(questionnairesService);
+        codesListService = new CodesListService(questionnairesService, versionService);
         initMocks(this);
     }
 

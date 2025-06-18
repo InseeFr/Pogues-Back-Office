@@ -3,6 +3,7 @@ package fr.insee.pogues.service;
 import fr.insee.pogues.exception.CodesListException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.CodesListConverter;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -30,9 +32,12 @@ import static fr.insee.pogues.utils.model.question.Table.updateTableQuestionAcco
 @Slf4j
 public class CodesListService {
     private final QuestionnairesService questionnairesService;
+    private final VersionService versionService;
 
-    public CodesListService(QuestionnairesService questionnairesService) {
+    public CodesListService(QuestionnairesService questionnairesService,
+                            VersionService versionService) {
         this.questionnairesService = questionnairesService;
+        this.versionService = versionService;
     }
 
     /**
@@ -43,7 +48,7 @@ public class CodesListService {
      * @throws Exception
      */
     public List<String> updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireById(questionnaireId);
+        Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
         List<String> updatedQuestionIds = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
         updateQuestionnaireInDataBase(questionnaire);
         return updatedQuestionIds;
@@ -65,7 +70,7 @@ public class CodesListService {
     }
 
     public void deleteCodeListOfQuestionnaireById(String questionnaireId, String codesListId) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireById(questionnaireId);
+        Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
         deleteCodeListOfQuestionnaire(questionnaire, codesListId);
         updateQuestionnaireInDataBase(questionnaire);
     }
@@ -80,8 +85,12 @@ public class CodesListService {
         removeCodeListDTD(codesLists, codesListId);
     }
 
-    private Questionnaire retrieveQuestionnaireById(String id) throws Exception {
+    private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
         return PoguesDeserializer.questionnaireToJavaObject(questionnairesService.getQuestionnaireByID(id));
+    }
+
+    private Questionnaire retrieveQuestionnaireByIdVersion(UUID versionId) throws Exception {
+        return PoguesDeserializer.questionnaireToJavaObject(versionService.getVersionDataByVersionId(versionId));
     }
 
     private void updateQuestionnaireInDataBase(Questionnaire questionnaire) throws Exception {
@@ -177,9 +186,13 @@ public class CodesListService {
                 .toList();
     }
 
-    public List<ExtendedCodesList> getCodesListsDTDById(String questionnaireId) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireById(questionnaireId);
+    public List<ExtendedCodesList> getCodesListsDTDByQuestionnaireId(String questionnaireId) throws Exception {
+        Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
         return getCodesListsDTD(questionnaire);
     }
 
+    public List<ExtendedCodesList> getCodesListsDTDByVersionId(UUID versionId) throws Exception {
+        Questionnaire questionnaire = retrieveQuestionnaireByIdVersion(versionId);
+        return getCodesListsDTD(questionnaire);
+    }
 }

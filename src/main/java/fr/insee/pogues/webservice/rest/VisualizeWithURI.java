@@ -35,7 +35,7 @@ import static fr.insee.pogues.utils.IOStreamsUtils.string2InputStream;
 
 @RestController
 @RequestMapping("/api/transform")
-@Tag(name = "8. Visualization with URI")
+@Tag(name = "9. Visualization with URI")
 @AllArgsConstructor
 @Slf4j
 public class VisualizeWithURI {
