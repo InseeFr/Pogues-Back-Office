@@ -2,6 +2,7 @@ package fr.insee.pogues.service;
 
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.webservice.model.dtd.nomenclatures.ExtendedNomenclature;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,11 +21,13 @@ class NomenclatureServiceTest {
 
     @Mock
     QuestionnairesService questionnairesService;
+    @Mock
+    VersionService versionService;
     private NomenclatureService nomenclatureService;
 
     @BeforeEach
     void initQuestionnaireService(){
-        nomenclatureService = new NomenclatureService(questionnairesService);
+        nomenclatureService = new NomenclatureService(questionnairesService, versionService);
         initMocks(this);
     }
 
