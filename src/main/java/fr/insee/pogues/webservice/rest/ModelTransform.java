@@ -38,7 +38,7 @@ import static fr.insee.pogues.utils.IOStreamsUtils.string2InputStream;
  */
 @RestController
 @RequestMapping("/api/transform")
-@Tag(name = "7. Model transformation")
+@Tag(name = "8. Model transformation")
 @Slf4j
 public class ModelTransform {
 
@@ -98,7 +98,7 @@ public class ModelTransform {
 	@PostMapping(path = "visualize-ddi", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization DDI file from JSON serialized Pogues entity")
 	public ResponseEntity<StreamingResponseBody> visualizeDDIFromBody(@RequestBody String request,
-			@RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+			@RequestParam(name = "references", defaultValue = "false") Boolean ref) {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		params.put("needDeref", ref);
@@ -159,7 +159,7 @@ public class ModelTransform {
 			@RequestParam(name = "orientation") OrientationEnum orientation,
 			@RequestParam(name = "capture") CaptureEnum capture,
 			@RequestParam(name = "studyunit") StudyUnitEnum studyUnit,
-			@RequestParam(name = "timequestion") Boolean timequestion) throws Exception {
+			@RequestParam(name = "timequestion") Boolean timequestion) {
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		if (columns != null) {
@@ -196,7 +196,7 @@ public class ModelTransform {
 
 	@PostMapping(path = "fo2pdf", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization PDF questionnaire from FO questionnaire")
-	public ResponseEntity<StreamingResponseBody> fo2Pdf(@RequestBody String questFO) throws Exception {
+	public ResponseEntity<StreamingResponseBody> fo2Pdf(@RequestBody String questFO) {
 		ByteArrayOutputStream boas = null;
 		String questionnaireName = "pdf";
 
@@ -223,7 +223,7 @@ public class ModelTransform {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "500", description = "Error")
 	})
-	public ResponseEntity<StreamingResponseBody> json2XML(@RequestBody String questJson) throws Exception {
+	public ResponseEntity<StreamingResponseBody> json2XML(@RequestBody String questJson) {
 		String questionnaire = "xforms";
 		return transform(string2InputStream(questJson), jsonToXML,
 				questionnaire, MediaType.APPLICATION_XML);
@@ -235,7 +235,7 @@ public class ModelTransform {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "500", description = "Error") })
 	@ResponseBody
-	public ResponseEntity<StreamingResponseBody> xml2Json(@RequestBody String questXML) throws Exception {
+	public ResponseEntity<StreamingResponseBody> xml2Json(@RequestBody String questXML) {
 		String questionnaire = "xforms";
 		return transform(new ByteArrayInputStream(questXML.getBytes(StandardCharsets.UTF_8)), xmlToJson,
 				questionnaire, MediaType.APPLICATION_JSON);
