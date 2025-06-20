@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.0</version>
+		<version>3.5.3</version>
 		<relativePath/>
 		<!-- lookup parent from repository -->
 	</parent>
@@ -13,7 +13,7 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>jar</packaging>
-	<version>4.17.0-SNAPSHOT.2</version>
+	<version>4.17.0</version>
 	<name>Pogues-Back-Office</name>
 
 	<properties>
