@@ -22,6 +22,14 @@ public class Table {
     public static final String FIXED_LENGTH_DIMENSION = "FIXED_LENGTH";
     public static final String DYNAMIC_FIXED_DIMENSION = "DYNAMIC_FIXED"; // replacement: "FIXED_LENGTH" -> "DYNAMIC_FIXED"
 
+
+    public static final List<String> ENUM_DIMENSION = List.of(
+            NON_DYNAMIC_DIMENSION,
+            DYNAMIC_LENGTH_DIMENSION,
+            DYNAMIC_DIMENSION,
+            FIXED_LENGTH_DIMENSION,
+            DYNAMIC_FIXED_DIMENSION); // Replace by enum of Pogues-Model when all questionnaire are updated
+
     private static boolean isDimensionBasedOnCodeListId(List<DimensionType> dimensions, String updatedCodeListId){
         return dimensions.stream().anyMatch(dimension -> (isDimensionPrimary(dimension) || isDimensionSecondary(dimension))
                 && updatedCodeListId.equals(dimension.getCodeListReference()));
