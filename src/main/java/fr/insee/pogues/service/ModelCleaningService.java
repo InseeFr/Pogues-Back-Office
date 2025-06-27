@@ -6,6 +6,7 @@ import fr.insee.pogues.model.*;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.model.cleaner.ControlCriticityCleaner;
+import fr.insee.pogues.utils.model.cleaner.LoopMinMaxCleaner;
 import fr.insee.pogues.utils.model.cleaner.ModelCleaner;
 import fr.insee.pogues.utils.model.cleaner.TableDimensionCleaner;
 import lombok.extern.slf4j.Slf4j;
@@ -31,7 +32,8 @@ public class ModelCleaningService {
     public void cleanModel(Questionnaire questionnaire) {
         List<ModelCleaner> modelCleaners = List.of(
                 new ControlCriticityCleaner(),
-                new TableDimensionCleaner());
+                new TableDimensionCleaner(),
+                new LoopMinMaxCleaner());
         modelCleaners.forEach(modelCleaner -> modelCleaner.apply(questionnaire));
     }
 }
