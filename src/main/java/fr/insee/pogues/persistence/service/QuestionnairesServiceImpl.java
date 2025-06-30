@@ -3,14 +3,15 @@ package fr.insee.pogues.persistence.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
 import fr.insee.pogues.exception.NullReferenceException;
+import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.impl.EntityNotFoundException;
 import fr.insee.pogues.persistence.impl.NonUniqueResultException;
 import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
+import fr.insee.pogues.service.ModelCleaningService;
 import fr.insee.pogues.transforms.visualize.composition.QuestionnaireComposition;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
-import fr.insee.pogues.exception.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,6 +40,9 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 	@Autowired
 	protected StampsRestrictionsService stampsRestrictionsService;
 
+	@Autowired
+	private ModelCleaningService modelCleaningService;
+
 	public List<JsonNode> getQuestionnairesMetadata(String owner) throws Exception {
 		if (null == owner || owner.isEmpty()) {
 			throw new PoguesException(400, "Bad Request", "Missing parameter: owner");
@@ -66,17 +70,20 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		if (null == questionnaire) {
 			throw new PoguesException(404, "Not found", "Pas de questionnaire pour cet identifiant");
 		}
+		questionnaire = modelCleaningService.cleanModel(questionnaire);
 		return questionnaire;
 	}
 
 	@Override
 	public JsonNode getQuestionnaireByIDWithReferences(String id) throws Exception {
 		JsonNode jsonQuestionnaire = this.getQuestionnaireByID(id);
+		jsonQuestionnaire = modelCleaningService.cleanModel(jsonQuestionnaire);
 		return getQuestionnaireWithReferences(jsonQuestionnaire);
 	}
 
 	@Override
 	public JsonNode getQuestionnaireWithReferences(JsonNode jsonQuestionnaire) throws Exception {
+		jsonQuestionnaire = modelCleaningService.cleanModel(jsonQuestionnaire);
 		Questionnaire questionnaireWithReferences = this.deReference(jsonQuestionnaire);
 		return jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaireWithReferences));
 	}

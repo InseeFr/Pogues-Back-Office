@@ -98,8 +98,7 @@ public class QuestionnaireController {
 		JsonNode result = references ?
 					questionnaireService.getQuestionnaireByIDWithReferences(id) :
 					questionnaireService.getQuestionnaireByID(id);
-		JsonNode cleanedResult = modelCleaningService.cleanModel(result);
-			return ResponseEntity.status(HttpStatus.OK).body(cleanedResult);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
     @GetMapping("questionnaire/json-lunatic/{id}")
