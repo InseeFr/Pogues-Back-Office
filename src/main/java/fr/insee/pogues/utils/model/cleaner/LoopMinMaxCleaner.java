@@ -3,6 +3,11 @@ package fr.insee.pogues.utils.model.cleaner;
 import fr.insee.pogues.model.DynamicIterationType;
 import fr.insee.pogues.model.Questionnaire;
 
+/**
+ * Model cleaning step for a modeling change on loop min/max properties.
+ * Old properties in loops (DynamicIterationType): "Minimum", "Maximum".
+ * New ones: "minimum", "maximum", "size".
+ */
 public class LoopMinMaxCleaner implements ModelCleaner {
 
     @Override
@@ -13,11 +18,32 @@ public class LoopMinMaxCleaner implements ModelCleaner {
                 // the min/max props are on the DynamicIterationType subclass
                 .filter(DynamicIterationType.class::isInstance).map(DynamicIterationType.class::cast)
                 .forEach(loop -> {
-                    loop.setMinimum(loop.getDeprecatedMinimum());
-                    loop.setMaximum(loop.getDeprecatedMaximum());
-                    loop.setDeprecatedMinimum(null);
-                    loop.setDeprecatedMaximum(null);
+                    // For now, we need to have both new and old modeling to be backward compatible towards Eno Xml
+                    oldToNew(loop);
+                    newToOld(loop);
                 });
+    }
+
+    /** If old Minimum/Maximum properties are present,
+     * they are kept, and the now props are valorized from the old ones. */
+    private void oldToNew(DynamicIterationType loop) {
+        if (loop.getDeprecatedMinimum() != null)
+            loop.setMinimum(loop.getDeprecatedMinimum());
+        if (loop.getDeprecatedMaximum() != null)
+            loop.setMaximum(loop.getDeprecatedMaximum());
+    }
+
+    /** If the loop has the new props, its values are copied onto the old ones. */
+    private void newToOld(DynamicIterationType loop) {
+        if (loop.getSize() != null) {
+            loop.setDeprecatedMinimum(loop.getSize());
+            loop.setDeprecatedMaximum(loop.getSize());
+            return;
+        }
+        if (loop.getMinimum() != null)
+            loop.setDeprecatedMinimum(loop.getMinimum());
+        if (loop.getMaximum() != null)
+            loop.setDeprecatedMaximum(loop.getMaximum());
     }
 
 }
