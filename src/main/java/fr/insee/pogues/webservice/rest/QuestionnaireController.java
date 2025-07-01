@@ -5,11 +5,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
+import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.VariablesService;
-import fr.insee.pogues.service.ModelCleaningService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
-import fr.insee.pogues.exception.PoguesException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -26,18 +25,7 @@ import java.util.List;
 
 /**
  * WebService class for the Instrument Persistence
- * 
- * See the swagger documentation for this service :
- * http://inseefr.github.io/Pogues/en/remote-apis/swagger.html
- * 
  * @author I6VWID
- * 
- *         schemes: - http
- * 
- *         consumes: - application/json
- * 
- *         produces: - application/json
- *
  */
 @RestController
 @RequestMapping("/api/persistence")
@@ -45,31 +33,28 @@ import java.util.List;
 @Slf4j
 public class QuestionnaireController {
 
-	private ApplicationProperties applicationProperties;
-	private QuestionnairesService questionnaireService;
-	private ModelCleaningService modelCleaningService;
-	private VariablesService variablesService;
-	private SuggesterVisuService suggesterVisuService;
-	private UserProvider userProvider;
+	private final ApplicationProperties applicationProperties;
+	private final QuestionnairesService questionnaireService;
+	private final VariablesService variablesService;
+	private final SuggesterVisuService suggesterVisuService;
+	private final UserProvider userProvider;
 
 	public QuestionnaireController(
 			ApplicationProperties applicationProperties,
 			QuestionnairesService questionnaireService,
-			ModelCleaningService modelCleaningService,
 			VariablesService variablesService,
 			SuggesterVisuService suggesterVisuService,
 			UserProvider userProvider
 	){
 		this.applicationProperties = applicationProperties;
 		this.questionnaireService = questionnaireService;
-		this.modelCleaningService = modelCleaningService;
 		this.variablesService = variablesService;
 		this.suggesterVisuService = suggesterVisuService;
 		this.userProvider = userProvider;
 
 	}
 
-	private static final String IDQUESTIONNAIRE_PATTERN="[a-zA-Z0-9]*";
+	private static final String QUESTIONNAIRE_ID_PATTERN ="[a-zA-Z0-9]*";
 	public static final String BAD_REQUEST = "Bad Request";
     private static final String MESSAGE_INVALID_IDENTIFIER = "Identifier %s is invalid";
 
@@ -268,7 +253,7 @@ public class QuestionnaireController {
 			@PathVariable(value = "id") String id,
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
-		if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
 			questionnaireService.updateQuestionnaire(id, jsonContent);
 			log.info("Questionnaire {} updated", id);
 		} else {
@@ -310,7 +295,7 @@ public class QuestionnaireController {
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
 		String id = jsonContent.get("id").asText();
-		if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
 			questionnaireService.createQuestionnaire(jsonContent);
 			String uriQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/%s",
 					applicationProperties.scheme(),
@@ -337,7 +322,7 @@ public class QuestionnaireController {
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
 		String id = jsonContent.get("id").asText();
-		if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
 			questionnaireService.createJsonLunatic(jsonContent);
 			String uriJsonLunaticQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/json-lunatic/%s",
 					applicationProperties.scheme(),
@@ -370,4 +355,5 @@ public class QuestionnaireController {
 		JsonNode nomenclaturesUrls = suggesterVisuService.createJsonNomenclaturesForVisu(nomenclaturesIds);
 		return ResponseEntity.status(HttpStatus.OK).body(nomenclaturesUrls);
 	}
+
 }

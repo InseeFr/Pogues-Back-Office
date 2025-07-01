@@ -13,7 +13,6 @@ import fr.insee.pogues.transforms.visualize.composition.QuestionnaireComposition
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,23 +24,29 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
  *
  * @author I6VWID
  * @see /Pogues-BO/src/main/java/fr/insee/pogues/webservice/rest/
- *      PoguesPersistenceQuestionnaireList.java
+ * PoguesPersistenceQuestionnaireList.java
  */
 @Service
 @Slf4j
 public class QuestionnairesServiceImpl implements QuestionnairesService {
 
-	@Autowired
-	private QuestionnaireRepository questionnaireRepository;
+	private final QuestionnaireRepository questionnaireRepository;
 
-	@Autowired
-	private VersionService versionService;
+	private final VersionService versionService;
 
-	@Autowired
-	protected StampsRestrictionsService stampsRestrictionsService;
+	private final StampsRestrictionsService stampsRestrictionsService;
 
-	@Autowired
-	private ModelCleaningService modelCleaningService;
+	private final ModelCleaningService modelCleaningService;
+
+	public QuestionnairesServiceImpl(
+			QuestionnaireRepository questionnaireRepository,
+			VersionService versionService,
+			StampsRestrictionsService stampsRestrictionsService) {
+		this.questionnaireRepository = questionnaireRepository;
+		this.versionService = versionService;
+		this.stampsRestrictionsService = stampsRestrictionsService;
+		this.modelCleaningService = new ModelCleaningService();
+	}
 
 	public List<JsonNode> getQuestionnairesMetadata(String owner) throws Exception {
 		if (null == owner || owner.isEmpty()) {
@@ -49,7 +54,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 		}
 		return questionnaireRepository.getMetaQuestionnaire(owner);
 	}
-	
+
 	public List<JsonNode> getQuestionnairesStamps() throws Exception {
 		List<JsonNode> stamps = questionnaireRepository.getStamps();
 		if (stamps.isEmpty()) {
@@ -83,24 +88,25 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 
 	@Override
 	public JsonNode getQuestionnaireWithReferences(JsonNode jsonQuestionnaire) throws Exception {
-		jsonQuestionnaire = modelCleaningService.cleanModel(jsonQuestionnaire);
+		if (modelCleaningService != null)
+			jsonQuestionnaire = modelCleaningService.cleanModel(jsonQuestionnaire);
 		Questionnaire questionnaireWithReferences = this.deReference(jsonQuestionnaire);
 		return jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaireWithReferences));
 	}
 
 	public JsonNode getJsonLunaticByID(String id) throws Exception {
 		JsonNode questionnaireLunatic = this.questionnaireRepository.getJsonLunaticByID(id);
-        if (null == questionnaireLunatic) {
-            throw new PoguesException(404, "Not found", "Pas de questionnaire pour cet identifiant");
-        }
-        return questionnaireLunatic;
-    }
+		if (null == questionnaireLunatic) {
+			throw new PoguesException(404, "Not found", "Pas de questionnaire pour cet identifiant");
+		}
+		return questionnaireLunatic;
+	}
 
 	public void deleteQuestionnaireByID(String id) throws Exception {
 		versionService.deleteAllVersionsByQuestionnaireIdExceptLast(id);
 		questionnaireRepository.deleteQuestionnaireByID(id);
 	}
-	
+
 	public void deleteJsonLunaticByID(String id) throws Exception {
 		questionnaireRepository.deleteJsonLunaticByID(id);
 	}
@@ -115,14 +121,14 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 			throw new PoguesException(409, "Conflict", e.getMessage());
 		}
 	}
-	
+
 	public void createJsonLunatic(JsonNode dataLunatic) throws Exception {
-        try {
-            this.questionnaireRepository.createJsonLunatic(dataLunatic);
-        } catch (NonUniqueResultException e) {
-            throw new PoguesException(409, "Conflict", e.getMessage());
-        }
-    }
+		try {
+			this.questionnaireRepository.createJsonLunatic(dataLunatic);
+		} catch (NonUniqueResultException e) {
+			throw new PoguesException(409, "Conflict", e.getMessage());
+		}
+	}
 
 	public void updateQuestionnaire(String id, JsonNode questionnaire) throws Exception {
 		try {
@@ -133,13 +139,13 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 			throw new PoguesException(404, "Not found", e.getMessage());
 		}
 	}
-	
+
 	public void updateJsonLunatic(String id, JsonNode dataLunatic) throws Exception {
-	    try {
-	        this.questionnaireRepository.updateJsonLunatic(id, dataLunatic);
-	    } catch (EntityNotFoundException e) {
-	        throw new PoguesException(404, "Not found", e.getMessage());
-	    }
+		try {
+			this.questionnaireRepository.updateJsonLunatic(id, dataLunatic);
+		} catch (EntityNotFoundException e) {
+			throw new PoguesException(404, "Not found", e.getMessage());
+		}
 	}
 
 	public Questionnaire deReference(JsonNode jsonQuestionnaire) throws Exception {
@@ -160,7 +166,7 @@ public class QuestionnairesServiceImpl implements QuestionnairesService {
 			} else {
 				Questionnaire referencedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(referencedJsonQuestionnaire);
 				// Coherence check
-				if (! reference.equals(referencedQuestionnaire.getId())) {
+				if (!reference.equals(referencedQuestionnaire.getId())) {
 					log.warn("Reference '{}' found in questionnaire '{}' mismatch referenced questionnaire's id '{}'",
 							reference, questionnaire.getId(), referencedQuestionnaire.getId());
 				}
