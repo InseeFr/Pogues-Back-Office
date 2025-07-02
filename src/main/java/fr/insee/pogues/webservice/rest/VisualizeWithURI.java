@@ -70,7 +70,7 @@ public class VisualizeWithURI {
         params.put("needDeref", ref);
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-                .map(modelCleaningService::transform, params, questionnaire.toLowerCase())
+                .map(modelCleaningService::transform, null, null)
                 .map(jsonToJsonDeref::transform, params, questionnaire.toLowerCase())
                 .map(jsonToXML::transform, params, questionnaire.toLowerCase())
                 .map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
@@ -96,7 +96,7 @@ public class VisualizeWithURI {
         params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
-                .map(modelCleaningService::transform, params, questionnaireName.toLowerCase())
+                .map(modelCleaningService::transform, null, null)
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
                 .transform();
@@ -119,7 +119,7 @@ public class VisualizeWithURI {
         params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
-                .map(modelCleaningService::transform, params, questionnaireName.toLowerCase())
+                .map(modelCleaningService::transform, null, null)
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
                 .transform();
@@ -173,7 +173,7 @@ public class VisualizeWithURI {
         params.put("context", context);
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
-                .map(modelCleaningService::transform, params, questionnaireName.toLowerCase())
+                .map(modelCleaningService::transform, null, null)
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
                 .transform();

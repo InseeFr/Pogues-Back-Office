@@ -114,7 +114,7 @@ public class ModelTransform {
                 try {
                     output.write(
                             pipeline.from(string2InputStream(request))
-                                    .map(modelCleaningService::transform, params, questionnaireName)
+                                    .map(modelCleaningService::transform, null, null)
                                     .map(jsonToJsonDeref::transform, params, questionnaireName)
                                     .map(jsonToXML::transform, params, questionnaireName)
                                     .map(poguesXMLToDDI::transform, params, questionnaireName).transform().toByteArray());
@@ -146,7 +146,7 @@ public class ModelTransform {
 		StreamingResponseBody stream = output -> {
             try {
                 output.write(pipeline.from(string2InputStream(request))
-                        .map(modelCleaningService::transform, params, questionnaireName)
+                        .map(modelCleaningService::transform, null, null)
                         .map(jsonToJsonDeref::transform, params, questionnaireName)
                         .map(jsonToXML::transform, params, questionnaireName)
                         .map(poguesXMLToDDI::transform, params, questionnaireName)
