@@ -2,8 +2,8 @@ package fr.insee.pogues.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.pogues.conversion.JSONDeserializer;
-import fr.insee.pogues.conversion.JSONSerializer;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.transforms.visualize.ModelTransformer;
 import fr.insee.pogues.utils.PoguesDeserializer;
@@ -51,9 +51,10 @@ public class ModelCleaningService implements ModelTransformer {
 
         cleanModel(questionnaire);
 
-        JSONSerializer jsonSerializer = new JSONSerializer();
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        outputStream.write(jsonSerializer.serialize(questionnaire).getBytes());
+        // DON'T USE POGUES MODEL HERE, it wraps the content with in a "Questionnaire" key
+        String serialized = new ObjectMapper().writeValueAsString(questionnaire);
+        outputStream.write(serialized.getBytes());
         return outputStream;
     }
 
