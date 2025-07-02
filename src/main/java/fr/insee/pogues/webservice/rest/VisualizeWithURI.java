@@ -1,5 +1,6 @@
 package fr.insee.pogues.webservice.rest;
 
+import fr.insee.pogues.service.ModelCleaningService;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDeref;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
@@ -50,6 +51,7 @@ public class VisualizeWithURI {
     LunaticJSONToUriStromaeV3 lunaticJSONToUriStromaeV3;
     PoguesJSONToPoguesJSONDeref jsonToJsonDeref;
     SuggesterVisuService suggesterVisuService;
+    ModelCleaningService modelCleaningService;
 
     @PostMapping(path = "visualize/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI from JSON serialized Pogues entity", description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
@@ -59,6 +61,8 @@ public class VisualizeWithURI {
             @PathVariable(value = "dataCollection") String dataCollection,
             @PathVariable(value = "questionnaire") String questionnaire,
             @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+        log.info("Visualize 'Web V1', questionnaire name = '{}', data collection = '{}'", dataCollection, questionnaire);
+
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
         params.put("dataCollection", dataCollection.toLowerCase());
@@ -66,6 +70,7 @@ public class VisualizeWithURI {
         params.put("needDeref", ref);
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+                .map(modelCleaningService::transform, null, null)
                 .map(jsonToJsonDeref::transform, params, questionnaire.toLowerCase())
                 .map(jsonToXML::transform, params, questionnaire.toLowerCase())
                 .map(poguesXMLToDDI::transform, params, questionnaire.toLowerCase())
@@ -82,6 +87,8 @@ public class VisualizeWithURI {
             @RequestBody String request,
             @PathVariable(value = "questionnaire") String questionnaireName,
             @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+        log.info("Visualize 'Web CATI', questionnaire name = '{}'", questionnaireName);
+
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
         params.put("mode", "CATI");
@@ -89,6 +96,7 @@ public class VisualizeWithURI {
         params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
+                .map(modelCleaningService::transform, null, null)
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
                 .transform();
@@ -102,6 +110,8 @@ public class VisualizeWithURI {
             @RequestBody String request,
             @PathVariable(value = "questionnaire") String questionnaireName,
             @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
+        log.info("Visualize 'Web CAPI', questionnaire name = '{}'", questionnaireName);
+
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
         params.put("mode", "CAPI");
@@ -109,6 +119,7 @@ public class VisualizeWithURI {
         params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+                .map(modelCleaningService::transform, null, null)
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
                 .transform();
@@ -116,8 +127,12 @@ public class VisualizeWithURI {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
     }
 
+    /**
+     * @deprecated 'Web V2' doesn't exist anymore.
+     */
     @PostMapping(path = "visualize-stromae-v2/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI Stromae V2 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V2 from JSON serialized Pogues entity")
+    @Deprecated(since = "4.19.0", forRemoval = true)
     public ResponseEntity<String> visualizeStromaeV2FromBody(
             @RequestBody String request,
             @PathVariable(value = "questionnaire") String questionnaireName,
@@ -146,6 +161,7 @@ public class VisualizeWithURI {
             @PathVariable(value = "questionnaire") String questionnaireName,
             @RequestParam(name = "references", defaultValue = "false") Boolean ref,
             @RequestParam(defaultValue = "DEFAULT") EnoContext context) throws Exception {
+        log.info("Visualize 'Web CAWI', questionnaire name = '{}', context = '{}'", questionnaireName, context);
 
         PipeLine pipeline = new PipeLine();
         Map<String, Object> params = new HashMap<>();
@@ -157,6 +173,7 @@ public class VisualizeWithURI {
         params.put("context", context);
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
+                .map(modelCleaningService::transform, null, null)
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
                 .transform();
