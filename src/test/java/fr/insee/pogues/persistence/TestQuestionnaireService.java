@@ -65,6 +65,8 @@ class TestQuestionnaireService {
     void getQuestionnaireById() throws Exception {
         ObjectNode q1 = JsonNodeFactory.instance.objectNode();
         q1.put("id", "foo");
+        q1.putArray("Control");
+        q1.putArray("Child");
         when(questionnairesServiceQuery.getQuestionnaireByID("foo")).thenReturn(q1);
         JsonNode q2 = questionnairesService.getQuestionnaireByID("foo");
         assertEquals(q1, q2);
