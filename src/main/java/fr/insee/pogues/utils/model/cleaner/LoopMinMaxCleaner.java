@@ -21,6 +21,7 @@ public class LoopMinMaxCleaner implements ModelCleaner {
                     // For now, we need to have both new and old modeling to be backward compatible towards Eno Xml
                     oldToNew(loop);
                     newToOld(loop);
+                    fixedLengthConsistency(loop);
                 });
     }
 
@@ -38,12 +39,20 @@ public class LoopMinMaxCleaner implements ModelCleaner {
         if (loop.getSize() != null) {
             loop.setDeprecatedMinimum(loop.getSize());
             loop.setDeprecatedMaximum(loop.getSize());
-            return;
         }
         if (loop.getMinimum() != null)
             loop.setDeprecatedMinimum(loop.getMinimum());
         if (loop.getMaximum() != null)
             loop.setDeprecatedMaximum(loop.getMaximum());
+    }
+
+    private void fixedLengthConsistency(DynamicIterationType loop) {
+        if (loop.isIsFixedLength() != null && loop.isIsFixedLength()) {
+            loop.setMinimum(null);
+            loop.setMaximum(null);
+        } else {
+            loop.setSize(null);
+        }
     }
 
 }
