@@ -51,12 +51,12 @@ public class StubQuestionnaireService implements QuestionnairesService {
 
     @Override
     public void deleteQuestionnaireByID(String id) throws Exception {
-
+        /* Does nothing for now (stub) */
     }
 
     @Override
     public void deleteJsonLunaticByID(String id) throws Exception {
-
+        /* Does nothing for now (stub) */
     }
 
     @Override
@@ -66,16 +66,16 @@ public class StubQuestionnaireService implements QuestionnairesService {
 
     @Override
     public void createJsonLunatic(JsonNode questionnaireLunatic) throws Exception {
-
+        /* Does nothing for now (stub) */
     }
 
     @Override
     public void updateQuestionnaire(String id, JsonNode questionnaire) throws Exception {
-
+        /* Does nothing for now (stub) */
     }
 
     @Override
     public void updateJsonLunatic(String id, JsonNode questionnaireLunatic) throws Exception {
-
+        /* Does nothing for now (stub) */
     }
 }

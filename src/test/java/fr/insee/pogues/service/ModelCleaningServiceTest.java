@@ -311,7 +311,7 @@ class ModelCleaningServiceTest {
     }
 
     @Test
-    void dontUsePoguesModel() throws Exception {
+    void simpleQuestionnaire_shouldBeUnchanged() throws Exception {
         String json = "{\"id\":\"foo\"}";
         ByteArrayOutputStream outputStream = modelCleaningService.transform(new ByteArrayInputStream(json.getBytes()), null, null);
         String string = outputStream.toString();
