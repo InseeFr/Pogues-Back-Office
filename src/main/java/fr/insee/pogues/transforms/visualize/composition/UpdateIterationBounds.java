@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
+import static fr.insee.pogues.transforms.visualize.composition.UpdateReferencedVariablesScope.gatherQuestionnaireIterations;
 import static fr.insee.pogues.utils.model.PoguesModelUtils.getIterationBounds;
 import static fr.insee.pogues.utils.model.PoguesModelUtils.getSequences;
 
@@ -28,19 +29,17 @@ class UpdateIterationBounds implements CompositionStep {
     @Override
     public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
             throws DeReferencingException {
-        if (questionnaire.getIterations() != null) {
-            try {
-                for (IterationType iterationType : questionnaire.getIterations().getIteration()) {
-                    updateIterationBounds(referencedQuestionnaire, iterationType);
-                }
-                log.debug("Iterations' bounds updated in '{}' when de-referencing '{}'",
-                        questionnaire.getId(), referencedQuestionnaire.getId());
-            } catch (IllegalIterationException e) {
-                String message = String.format(
-                        "Error when updating iteration bounds in questionnaire '%s' with reference '%s'",
-                        questionnaire.getId(), referencedQuestionnaire.getId());
-                throw new DeReferencingException(message, e);
+        try {
+            for (IterationType iterationType : gatherQuestionnaireIterations(questionnaire)) {
+                updateIterationBounds(referencedQuestionnaire, iterationType);
             }
+            log.debug("Iterations' bounds updated in '{}' when de-referencing '{}'",
+                    questionnaire.getId(), referencedQuestionnaire.getId());
+        } catch (IllegalIterationException e) {
+            String message = String.format(
+                    "Error when updating iteration bounds in questionnaire '%s' with reference '%s'",
+                    questionnaire.getId(), referencedQuestionnaire.getId());
+            throw new DeReferencingException(message, e);
         }
     }
 
@@ -59,11 +58,11 @@ class UpdateIterationBounds implements CompositionStep {
         String beginMember = iterationBounds.get(0);
         String endMember = iterationBounds.get(1);
         if (beginMember.equals(reference)) {
-            iterationBounds.set(0, referencedQuestionnaire.getChild().get(0).getId());
+            iterationBounds.set(0, referencedQuestionnaire.getChild().getFirst().getId());
         }
         if (endMember.equals(reference)) {
             List<ComponentType> referenceSequences = getSequences(referencedQuestionnaire);
-            iterationBounds.set(1, referenceSequences.get(referenceSequences.size() - 1).getId());
+            iterationBounds.set(1, referenceSequences.getLast().getId());
         }
     }
 
