@@ -58,11 +58,11 @@ class UpdateFlowControlBounds implements CompositionStep {
         String beginMember = flowControlBounds[0];
         String endMember = flowControlBounds[1];
         if (beginMember.equals(reference)) {
-            beginMember = referencedQuestionnaire.getChild().get(0).getId();
+            beginMember = referencedQuestionnaire.getChild().getFirst().getId();
         }
         if (endMember.equals(reference)) {
             List<ComponentType> referenceSequences = getSequences(referencedQuestionnaire);
-            endMember = referenceSequences.get(referenceSequences.size() - 1).getId();
+            endMember = referenceSequences.getLast().getId();
         }
         flowControlType.setIfTrue(beginMember+"-"+endMember);
     }

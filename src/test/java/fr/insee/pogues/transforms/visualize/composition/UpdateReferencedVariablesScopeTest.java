@@ -135,4 +135,44 @@ class UpdateReferencedVariablesScopeTest {
                 assertEquals("main-loop-id", variableType.getScope()));
     }
 
+    @Test
+    void roundaboutInReferencing_scopeShouldBeEqualToMainLoopId() throws DeReferencingException {
+        //
+        Questionnaire questionnaire = new Questionnaire();
+        RoundaboutType roundaboutType = new RoundaboutType();
+        DynamicIterationType iterationType = new DynamicIterationType();
+        iterationType.setId("linked-loop-id");
+        iterationType.setIterableReference("main-loop-id");
+        iterationType.getMemberReference().add("ref-id");
+        iterationType.getMemberReference().add("seq3");
+        roundaboutType.setLoop(iterationType);
+        SequenceType sequenceType1 = new SequenceType();
+        sequenceType1.setId("seq1");
+        SequenceType sequenceType2 = new SequenceType();
+        sequenceType2.setId("ref-id");
+        SequenceType sequenceType3= new SequenceType();
+        sequenceType3.setId("seq3");
+        questionnaire.getChild().add(sequenceType1);
+        questionnaire.getChild().add(roundaboutType);
+        questionnaire.getChild().add(sequenceType2);
+        questionnaire.getChild().add(sequenceType3);
+        //
+        Questionnaire referencedQuestionnaire = new Questionnaire();
+        referencedQuestionnaire.setId("ref-id");
+        CollectedVariableType collectedVariableType = new CollectedVariableType();
+        CalculatedVariableType calculatedVariableType = new CalculatedVariableType();
+        ExternalVariableType externalVariableType = new ExternalVariableType();
+        referencedQuestionnaire.setVariables(new Questionnaire.Variables());
+        referencedQuestionnaire.getVariables().getVariable().add(collectedVariableType);
+        referencedQuestionnaire.getVariables().getVariable().add(calculatedVariableType);
+        referencedQuestionnaire.getVariables().getVariable().add(externalVariableType);
+
+        //
+        new UpdateReferencedVariablesScope().apply(questionnaire, referencedQuestionnaire);
+
+        //
+        referencedQuestionnaire.getVariables().getVariable().forEach(variableType ->
+                assertEquals("main-loop-id", variableType.getScope()));
+    }
+
 }

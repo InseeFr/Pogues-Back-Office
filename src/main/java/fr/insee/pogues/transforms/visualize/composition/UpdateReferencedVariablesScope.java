@@ -2,14 +2,12 @@ package fr.insee.pogues.transforms.visualize.composition;
 
 import fr.insee.pogues.exception.DeReferencingException;
 import fr.insee.pogues.exception.IllegalIterationException;
-import fr.insee.pogues.model.ComponentType;
-import fr.insee.pogues.model.IterationType;
-import fr.insee.pogues.model.Questionnaire;
-import fr.insee.pogues.model.VariableType;
+import fr.insee.pogues.model.*;
 import fr.insee.pogues.utils.model.PoguesModelUtils;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.stream.Stream;
 
 import static fr.insee.pogues.utils.model.PoguesModelUtils.getIterationBounds;
 
@@ -33,14 +31,32 @@ class UpdateReferencedVariablesScope implements CompositionStep {
     public void apply(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
             throws DeReferencingException {
         try {
-            if (questionnaire.getIterations() != null)
-                updateReferencedVariablesScope(questionnaire, referencedQuestionnaire);
+            updateReferencedVariablesScope(questionnaire, referencedQuestionnaire);
         } catch (IllegalIterationException e) {
             String message = String.format(
                     "Error when updating referenced variables scope in questionnaire '%s' with reference '%s'",
                     questionnaire.getId(), referencedQuestionnaire.getId());
             throw new DeReferencingException(message, e);
         }
+    }
+
+    /**
+     * Gather iterations defined in the questionnaire (e.g. in loops and roundabouts).
+     * @param questionnaire A Pogues questionnaire object.
+     * @return List of iteration objects.
+     */
+    static List<IterationType> gatherQuestionnaireIterations(Questionnaire questionnaire) {
+        // Roundabouts
+        // Note: a questionnaire reference cannot be inserted as a subsequence.
+        // Thus, there is no need to fetch roundabouts in "depth 2".
+        Stream<IterationType> roundaboutIterations = questionnaire.getChild().stream()
+                .filter(RoundaboutType.class::isInstance).map(RoundaboutType.class::cast)
+                .map(RoundaboutType::getLoop);
+        // Loops
+        if (questionnaire.getIterations() == null)
+            return roundaboutIterations.toList();
+        Stream<IterationType> iterations = questionnaire.getIterations().getIteration().stream();
+        return Stream.concat(iterations, roundaboutIterations).toList();
     }
 
     /**
@@ -53,7 +69,7 @@ class UpdateReferencedVariablesScope implements CompositionStep {
      */
     static void updateReferencedVariablesScope(Questionnaire questionnaire, Questionnaire referencedQuestionnaire)
             throws IllegalIterationException {
-        for (IterationType iterationType : questionnaire.getIterations().getIteration()) {
+        for (IterationType iterationType : gatherQuestionnaireIterations(questionnaire)) {
             String scope = updateReferenceIfInBounds(questionnaire, referencedQuestionnaire, iterationType);
             if (scope != null) {
                 log.debug("Scope of root variables from referenced questionnaire '{}' set to iteration scope '{}'",
