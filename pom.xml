@@ -12,7 +12,7 @@
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>jar</packaging>
-	<version>4.19.0-SNAPSHOT.5</version>
+	<version>4.19.0-SNAPSHOT.6</version>
 	<name>Pogues-Back-Office</name>
 
 	<properties>

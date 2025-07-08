@@ -71,7 +71,7 @@ public class PoguesModelUtils {
         if (size == 1) {
             log.warn("'MemberReference' property with 1 element is deprecated (iteration object '{}').",
                     iterationType.getId());
-            iterationType.getMemberReference().add(iterationType.getMemberReference().get(0));
+            iterationType.getMemberReference().add(iterationType.getMemberReference().getFirst());
         }
         return iterationType.getMemberReference();
     }
