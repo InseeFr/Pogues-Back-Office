@@ -4,7 +4,11 @@ import fr.insee.pogues.model.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.skyscreamer.jsonassert.JSONAssert;
+import org.skyscreamer.jsonassert.JSONCompareMode;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -306,5 +310,12 @@ class ModelCleaningServiceTest {
         assertNull(tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getFixedLength());
     }
 
+    @Test
+    void simpleQuestionnaire_shouldBeUnchanged() throws Exception {
+        String json = "{\"id\":\"foo\"}";
+        ByteArrayOutputStream outputStream = modelCleaningService.transform(new ByteArrayInputStream(json.getBytes()), null, null);
+        String string = outputStream.toString();
+        JSONAssert.assertEquals(json, string, JSONCompareMode.LENIENT);
+    }
 
 }
