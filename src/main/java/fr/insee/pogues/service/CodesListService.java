@@ -5,6 +5,7 @@ import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnairesService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.CodesListConverter;
+import fr.insee.pogues.utils.DateUtils;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.model.question.Common;
@@ -14,6 +15,7 @@ import fr.insee.pogues.webservice.model.dtd.codelists.ExtendedCodesList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -48,8 +50,13 @@ public class CodesListService {
      * @throws Exception
      */
     public List<String> updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
+        // (1) Retrieve questionnaire
         Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
+        // (2) Update questionnaire code list and get updated question ids
         List<String> updatedQuestionIds = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesList);
+        // (2) Update lastUpdatedDate in Pogues-Model
+        questionnaire.setLastUpdatedDate(DateUtils.getIsoDateFromInstant(Instant.now()));
+        // (3) Update questionnaire in pogues table
         updateQuestionnaireInDataBase(questionnaire);
         return updatedQuestionIds;
     }
