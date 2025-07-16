@@ -91,4 +91,20 @@ public class Common {
         List<String> codesId = updatedCodeList.getCode().stream().map(CodeType::getValue).toList();
         question.getCodeFilters().removeIf(codeFilter -> !codesId.contains(codeFilter.getCodeValue()));
     }
+
+    public static void limitToSingleClarification(QuestionType question) {
+        List<QuestionType> clarifications = question.getClarificationQuestion();
+        if (clarifications == null || clarifications.size() <= 1) {
+            return;
+        }
+        QuestionType firstClarification = clarifications.getFirst();
+        question.getClarificationQuestion().clear();
+        question.getClarificationQuestion().add(firstClarification);
+
+        List<String> clarificationIdsToKeep = List.of(firstClarification.getId());
+
+        question.getFlowControl().removeIf(fc ->
+                FlowControlTypeEnum.CLARIFICATION.equals(fc.getFlowControlType())
+                        && !clarificationIdsToKeep.contains(fc.getIfTrue()));
+    }
 }
