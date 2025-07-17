@@ -5,14 +5,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static fr.insee.pogues.service.modelcleaning.rules.ClarificationCleaner.limitToSingleClarification;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ClarificationCleanerTest {
 
     @Test
-    void testLimitToSingleClarification() {
-
+    void testLimitToSingleClarification_withQuestionnaire() {
+        // Setup main question
         QuestionType mainQuestion = new QuestionType();
         mainQuestion.setQuestionType(QuestionTypeEnum.SINGLE_CHOICE);
 
@@ -40,12 +39,11 @@ class ClarificationCleanerTest {
         response3.setCollectedVariableReference("var-3");
         clarificationToRemove2.getResponse().add(response3);
 
-        // Add the clarifications to the main question
         mainQuestion.getClarificationQuestion().addAll(
                 List.of(clarificationToKeep, clarificationToRemove1, clarificationToRemove2)
         );
 
-        // Add FlowControls
+        // FlowControls
         FlowControlType flowToKeep = new FlowControlType();
         flowToKeep.setFlowControlType(FlowControlTypeEnum.CLARIFICATION);
         flowToKeep.setIfTrue("clarif-1");
@@ -60,24 +58,41 @@ class ClarificationCleanerTest {
 
         mainQuestion.getFlowControl().addAll(List.of(flowToKeep, flowToRemove1, flowToRemove2));
 
-        // Call the method
-        limitToSingleClarification(mainQuestion);
+        // Create variables and questionnaire
+        CollectedVariableType variable1 = new CollectedVariableType();
+        variable1.setId("var-1");
 
-        // Verify: only one clarification remains
+        CollectedVariableType variable2 = new CollectedVariableType();
+        variable2.setId("var-2");
+
+        CollectedVariableType variable3 = new CollectedVariableType();
+        variable3.setId("var-3");
+
+        Questionnaire questionnaire = new Questionnaire();
+        Questionnaire.Variables variables = new Questionnaire.Variables();
+        variables.getVariable().addAll(List.of(variable1, variable2, variable3));
+        questionnaire.setVariables(variables);
+
+        // Call the method under test
+        ClarificationCleaner.limitToSingleClarification(mainQuestion, questionnaire);
+
+        // Assertions
         assertEquals(1, mainQuestion.getClarificationQuestion().size());
         assertEquals("clarif-1", mainQuestion.getClarificationQuestion().getFirst().getId());
 
-        // Verify: clarification 1's variable is retained
-        assertEquals("var-1", mainQuestion.getClarificationQuestion().getFirst().getResponse().getFirst().getCollectedVariableReference());
-
-        // Verify: remaining FlowControls only reference clarif-1
         assertEquals(1, mainQuestion.getFlowControl().size());
         assertEquals("clarif-1", mainQuestion.getFlowControl().getFirst().getIfTrue());
 
-        // Verify: removed clarifications have their variable references set to null
-        assertNull(response2.getCollectedVariableReference(), "Clarif 2 variable should be null");
-        assertNull(response3.getCollectedVariableReference(), "Clarif 3 variable should be null");
+        assertNull(response2.getCollectedVariableReference());
+        assertNull(response3.getCollectedVariableReference());
+
+        List<String> remainingVariableIds = questionnaire.getVariables().getVariable()
+                .stream()
+                .map(VariableType::getId)
+                .toList();
+
+        assertEquals(1, remainingVariableIds.size());
+        assertTrue(remainingVariableIds.contains("var-1"));
     }
-
-
 }
+
