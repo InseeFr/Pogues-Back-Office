@@ -5,11 +5,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static fr.insee.pogues.service.modelcleaning.rules.ClarificationRules.limitToSingleClarification;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static fr.insee.pogues.service.modelcleaning.rules.ClarificationCleaner.limitToSingleClarification;
+import static org.junit.jupiter.api.Assertions.*;
 
-class ClarificationRulesTest {
+class ClarificationCleanerTest {
 
     @Test
     void testLimitToSingleClarification() {
@@ -77,4 +76,5 @@ class ClarificationRulesTest {
         assertNull(resp2.getCollectedVariableReference(), "Clarif 2 variable should be null");
         assertNull(resp3.getCollectedVariableReference(), "Clarif 3 variable should be null");
     }
+
 }
