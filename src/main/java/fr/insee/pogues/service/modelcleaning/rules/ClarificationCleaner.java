@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * This cleaner ensures that each question (QCU/QCM) keeps only a single clarification question,
- * and removes related FlowControls that target removed clarifications.
+ * and removes related FlowControls that target removed clarifications (business rule).
  */
 public class ClarificationCleaner implements ModelCleaner {
 
@@ -23,11 +23,21 @@ public class ClarificationCleaner implements ModelCleaner {
     }
 
     private void singleClarification(ComponentType poguesComponent) {
-        if (poguesComponent instanceof QuestionType question &&
-                (QuestionTypeEnum.MULTIPLE_CHOICE.equals(question.getQuestionType())
-                        || QuestionTypeEnum.SINGLE_CHOICE.equals(question.getQuestionType()))) {
-            limitToSingleClarification(question);
+        if (isSingleOrMultipleChoiceQuestion(poguesComponent)) {
+            limitToSingleClarification((QuestionType) poguesComponent);
         }
+    }
+
+    /**
+     * Checks whether the given component is a question of type SINGLE_CHOICE or MULTIPLE_CHOICE.
+     *
+     * @param component the component to check
+     * @return true if it is a single or multiple choice question, false otherwise
+     */
+    private boolean isSingleOrMultipleChoiceQuestion(ComponentType component) {
+        return component instanceof QuestionType question &&
+                (QuestionTypeEnum.SINGLE_CHOICE.equals(question.getQuestionType())
+                        || QuestionTypeEnum.MULTIPLE_CHOICE.equals(question.getQuestionType()));
     }
 
     /**
