@@ -13,68 +13,71 @@ class ClarificationCleanerTest {
     @Test
     void testLimitToSingleClarification() {
 
-        QuestionType question = new QuestionType();
-        question.setQuestionType(QuestionTypeEnum.SINGLE_CHOICE);
+        QuestionType mainQuestion = new QuestionType();
+        mainQuestion.setQuestionType(QuestionTypeEnum.SINGLE_CHOICE);
 
         // Clarification 1 - kept
-        QuestionType clarification1 = new QuestionType();
-        clarification1.setId("clarif-1");
-        ResponseType resp1 = new ResponseType();
-        resp1.setId("resp-1");
-        resp1.setCollectedVariableReference("var-1");
-        clarification1.getResponse().add(resp1);
+        QuestionType clarificationToKeep = new QuestionType();
+        clarificationToKeep.setId("clarif-1");
+        ResponseType response1 = new ResponseType();
+        response1.setId("resp-1");
+        response1.setCollectedVariableReference("var-1");
+        clarificationToKeep.getResponse().add(response1);
 
         // Clarification 2 - removed
-        QuestionType clarification2 = new QuestionType();
-        clarification2.setId("clarif-2");
-        ResponseType resp2 = new ResponseType();
-        resp2.setId("resp-2");
-        resp2.setCollectedVariableReference("var-2");
-        clarification2.getResponse().add(resp2);
+        QuestionType clarificationToRemove1 = new QuestionType();
+        clarificationToRemove1.setId("clarif-2");
+        ResponseType response2 = new ResponseType();
+        response2.setId("resp-2");
+        response2.setCollectedVariableReference("var-2");
+        clarificationToRemove1.getResponse().add(response2);
 
         // Clarification 3 - removed
-        QuestionType clarification3 = new QuestionType();
-        clarification3.setId("clarif-3");
-        ResponseType resp3 = new ResponseType();
-        resp3.setId("resp-3");
-        resp3.setCollectedVariableReference("var-3");
-        clarification3.getResponse().add(resp3);
+        QuestionType clarificationToRemove2 = new QuestionType();
+        clarificationToRemove2.setId("clarif-3");
+        ResponseType response3 = new ResponseType();
+        response3.setId("resp-3");
+        response3.setCollectedVariableReference("var-3");
+        clarificationToRemove2.getResponse().add(response3);
 
-        // Add the clarifications to the question
-        question.getClarificationQuestion().addAll(List.of(clarification1, clarification2, clarification3));
+        // Add the clarifications to the main question
+        mainQuestion.getClarificationQuestion().addAll(
+                List.of(clarificationToKeep, clarificationToRemove1, clarificationToRemove2)
+        );
 
         // Add FlowControls
-        FlowControlType fc1 = new FlowControlType();
-        fc1.setFlowControlType(FlowControlTypeEnum.CLARIFICATION);
-        fc1.setIfTrue("clarif-1");
+        FlowControlType flowToKeep = new FlowControlType();
+        flowToKeep.setFlowControlType(FlowControlTypeEnum.CLARIFICATION);
+        flowToKeep.setIfTrue("clarif-1");
 
-        FlowControlType fc2 = new FlowControlType();
-        fc2.setFlowControlType(FlowControlTypeEnum.CLARIFICATION);
-        fc2.setIfTrue("clarif-2");
+        FlowControlType flowToRemove1 = new FlowControlType();
+        flowToRemove1.setFlowControlType(FlowControlTypeEnum.CLARIFICATION);
+        flowToRemove1.setIfTrue("clarif-2");
 
-        FlowControlType fc3 = new FlowControlType();
-        fc3.setFlowControlType(FlowControlTypeEnum.CLARIFICATION);
-        fc3.setIfTrue("clarif-3");
+        FlowControlType flowToRemove2 = new FlowControlType();
+        flowToRemove2.setFlowControlType(FlowControlTypeEnum.CLARIFICATION);
+        flowToRemove2.setIfTrue("clarif-3");
 
-        question.getFlowControl().addAll(List.of(fc1, fc2, fc3));
+        mainQuestion.getFlowControl().addAll(List.of(flowToKeep, flowToRemove1, flowToRemove2));
 
         // Call the method
-        limitToSingleClarification(question);
+        limitToSingleClarification(mainQuestion);
 
         // Verify: only one clarification remains
-        assertEquals(1, question.getClarificationQuestion().size());
-        assertEquals("clarif-1", question.getClarificationQuestion().getFirst().getId());
+        assertEquals(1, mainQuestion.getClarificationQuestion().size());
+        assertEquals("clarif-1", mainQuestion.getClarificationQuestion().getFirst().getId());
 
         // Verify: clarification 1's variable is retained
-        assertEquals("var-1", question.getClarificationQuestion().getFirst().getResponse().getFirst().getCollectedVariableReference());
+        assertEquals("var-1", mainQuestion.getClarificationQuestion().getFirst().getResponse().getFirst().getCollectedVariableReference());
 
         // Verify: remaining FlowControls only reference clarif-1
-        assertEquals(1, question.getFlowControl().size());
-        assertEquals("clarif-1", question.getFlowControl().getFirst().getIfTrue());
+        assertEquals(1, mainQuestion.getFlowControl().size());
+        assertEquals("clarif-1", mainQuestion.getFlowControl().getFirst().getIfTrue());
 
         // Verify: removed clarifications have their variable references set to null
-        assertNull(resp2.getCollectedVariableReference(), "Clarif 2 variable should be null");
-        assertNull(resp3.getCollectedVariableReference(), "Clarif 3 variable should be null");
+        assertNull(response2.getCollectedVariableReference(), "Clarif 2 variable should be null");
+        assertNull(response3.getCollectedVariableReference(), "Clarif 3 variable should be null");
     }
+
 
 }
