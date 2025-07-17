@@ -19,12 +19,12 @@ public class ClarificationCleaner implements ModelCleaner {
 
     @Override
     public void apply(Questionnaire questionnaire) {
-        singleClarification(questionnaire);
+        singleClarification(questionnaire, questionnaire);
     }
 
-    private void singleClarification(ComponentType poguesComponent) {
+    private void singleClarification(ComponentType poguesComponent, Questionnaire questionnaire) {
         if (isSingleOrMultipleChoiceQuestion(poguesComponent)) {
-            limitToSingleClarification((QuestionType) poguesComponent);
+            limitToSingleClarification((QuestionType) poguesComponent, questionnaire);
         }
     }
 
@@ -46,29 +46,65 @@ public class ClarificationCleaner implements ModelCleaner {
      * and clears variable references in the removed clarifications.
      *
      * @param question the question to clean
+     * @param questionnaire the questionnaire containing the variables and flow controls related to the question
      */
-    static void limitToSingleClarification(QuestionType question) {
+    static void limitToSingleClarification(QuestionType question, Questionnaire questionnaire) {
         List<QuestionType> clarifications = question.getClarificationQuestion();
-
-        if (clarifications == null || clarifications.size() <= 1) {
-            return;
-        }
+        if (clarifications == null || clarifications.size() <= 1) return;
 
         QuestionType firstClarification = clarifications.getFirst();
         List<QuestionType> toRemove = new ArrayList<>(clarifications.subList(1, clarifications.size()));
 
+        retainOnlyFirstClarification(question, firstClarification);
+        removeClarificationFlowControls(question, firstClarification);
+        List<String> removedVariableIds = clearClarificationResponses(toRemove);
+        removeVariablesFromQuestionnaire(questionnaire, removedVariableIds);
+    }
+
+    /**
+     * Keeps only the first clarification in the question.
+     */
+    private static void retainOnlyFirstClarification(QuestionType question, QuestionType firstClarification) {
+        List<QuestionType> clarifications = question.getClarificationQuestion();
         clarifications.clear();
         clarifications.add(firstClarification);
+    }
 
-        question.getFlowControl().removeIf(fc ->
-                FlowControlTypeEnum.CLARIFICATION.equals(fc.getFlowControlType()) &&
-                        !firstClarification.getId().equals(fc.getIfTrue())
+    /**
+     * Removes flow controls pointing to clarifications other than the retained one.
+     */
+    private static void removeClarificationFlowControls(QuestionType question, QuestionType retainedClarification) {
+        question.getFlowControl().removeIf(flowControl ->
+                FlowControlTypeEnum.CLARIFICATION.equals(flowControl.getFlowControlType()) &&
+                        !retainedClarification.getId().equals(flowControl.getIfTrue())
         );
+    }
 
+    /**
+     * Clears the collected variable references from removed clarifications and returns the removed variable IDs.
+     */
+    private static List<String> clearClarificationResponses(List<QuestionType> toRemove) {
+        List<String> removedVariableIds = new ArrayList<>();
         for (QuestionType clarification : toRemove) {
             for (ResponseType response : clarification.getResponse()) {
-                response.setCollectedVariableReference(null);
+                String varRef = response.getCollectedVariableReference();
+                if (varRef != null) {
+                    removedVariableIds.add(varRef);
+                    response.setCollectedVariableReference(null);
+                }
             }
+        }
+        return removedVariableIds;
+    }
+
+    /**
+     * Removes the given variable IDs from the questionnaire’s variable list.
+     */
+    private static void removeVariablesFromQuestionnaire(Questionnaire questionnaire, List<String> removedVariableIds) {
+        if (questionnaire.getVariables() != null && questionnaire.getVariables().getVariable() != null) {
+            questionnaire.getVariables().getVariable().removeIf(variable ->
+                    removedVariableIds.contains(variable.getId())
+            );
         }
     }
 }
