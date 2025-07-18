@@ -1,5 +1,6 @@
 package fr.insee.pogues.webservice.rest;
 
+import fr.insee.pogues.service.ModelCleaningService;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.visualize.*;
 import fr.insee.pogues.transforms.visualize.eno.DDIToFO;
@@ -62,6 +63,9 @@ public class ModelTransform {
 	@Autowired
 	PoguesJSONToPoguesJSONDeref jsonToJsonDeref;
 
+	@Autowired
+	ModelCleaningService modelCleaningService;
+
 	private static final String CONTENT_DISPOSITION = HttpHeaders.CONTENT_DISPOSITION;
 
 
@@ -69,6 +73,8 @@ public class ModelTransform {
 	@Operation(summary = "Get visualization spec from JSON serialized Pogues entity", hidden = true)
 	public ResponseEntity<StreamingResponseBody> visualizeSpecFromBody(@RequestBody String request,
 			@RequestParam(name = "references", defaultValue = "false") Boolean ref) {
+		log.info("Visualize questionnaire specifications (ODT format)...");
+
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		params.put("needDeref", ref);
@@ -108,6 +114,7 @@ public class ModelTransform {
                 try {
                     output.write(
                             pipeline.from(string2InputStream(request))
+                                    .map(modelCleaningService::transform, null, null)
                                     .map(jsonToJsonDeref::transform, params, questionnaireName)
                                     .map(jsonToXML::transform, params, questionnaireName)
                                     .map(poguesXMLToDDI::transform, params, questionnaireName).transform().toByteArray());
@@ -129,6 +136,8 @@ public class ModelTransform {
 	@Operation(summary = "Get visualization PDF questionnaire from JSON serialized Pogues entity")
 	public ResponseEntity<StreamingResponseBody> visualizePDFFromBody(@RequestBody String request,
 			@RequestParam(name = "references", defaultValue = "false") Boolean ref) {
+		log.info("Visualize questionnaire in paper (PDF) format...");
+
 		PipeLine pipeline = new PipeLine();
 		Map<String, Object> params = new HashMap<>();
 		params.put("needDeref", ref);
@@ -137,6 +146,7 @@ public class ModelTransform {
 		StreamingResponseBody stream = output -> {
             try {
                 output.write(pipeline.from(string2InputStream(request))
+                        .map(modelCleaningService::transform, null, null)
                         .map(jsonToJsonDeref::transform, params, questionnaireName)
                         .map(jsonToXML::transform, params, questionnaireName)
                         .map(poguesXMLToDDI::transform, params, questionnaireName)
