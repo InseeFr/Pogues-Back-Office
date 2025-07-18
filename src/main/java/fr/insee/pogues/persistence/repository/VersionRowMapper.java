@@ -1,4 +1,4 @@
-package fr.insee.pogues.persistence.impl;
+package fr.insee.pogues.persistence.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.pogues.domain.entity.db.Version;

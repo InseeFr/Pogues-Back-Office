@@ -85,6 +85,7 @@ public class VersionController {
             @RequestParam(name = "withData", required = false, defaultValue = "false") Boolean withData) throws Exception {
         return versionService.getVersionByVersionId(versionId, withData);
     }
+
     @DeleteMapping("questionnaire/{poguesId}/versions")
     @Operation(
             operationId  = "deleteVersionsByQuestionnaireId",

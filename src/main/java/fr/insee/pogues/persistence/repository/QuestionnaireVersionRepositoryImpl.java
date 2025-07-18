@@ -1,7 +1,6 @@
-package fr.insee.pogues.persistence.impl;
+package fr.insee.pogues.persistence.repository;
 
 import fr.insee.pogues.domain.entity.db.Version;
-import fr.insee.pogues.persistence.repository.QuestionnaireVersionRepository;
 import fr.insee.pogues.exception.PoguesException;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PGobject;
@@ -20,7 +19,7 @@ import static fr.insee.pogues.utils.DateUtils.convertZonedDateTimeToTimestamp;
 
 @Service
 @Slf4j
-public class VersionPostgresql implements QuestionnaireVersionRepository {
+public class QuestionnaireVersionRepositoryImpl implements QuestionnaireVersionRepository {
 
 	
 	@Autowired

@@ -1,11 +1,11 @@
-package fr.insee.pogues.persistence.impl;
+package fr.insee.pogues.persistence.repository;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
 import fr.insee.pogues.configuration.cache.CacheName;
-import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
 import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +23,11 @@ import java.util.stream.Collectors;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
 /**
- * Questionnaire Service Query for the Postgresql implementation to assume the
- * persistance of Pogues UI in JSON
- * 
- * @author I6VWID
- *
+ * Questionnaire Service Query for the Postgresql implementation to assume the persistance of Pogues UI in JSON.
  */
 @Service
 @Slf4j
-public class QuestionnairePostgresql implements QuestionnaireRepository {
+public class QuestionnaireRepositoryImpl implements QuestionnaireRepository {
 
 	@Value("${application.stamp.restricted}")
 	String stampRestricted; 
@@ -71,22 +67,6 @@ public class QuestionnairePostgresql implements QuestionnaireRepository {
 			return null;
 		}
 	}
-	
-	/**
-	 * A method to get the questionnaire in JSON Lunatic with an id
-	 * 
-	 * @param id id of the questionnaire
-	 * @return the JSON Lunatic description of the questionnaire
-	 */
-	public JsonNode getJsonLunaticByID(String id) throws Exception {
-		try {
-			String qString = "SELECT data_lunatic FROM visu_lunatic WHERE id=?";
-			PGobject q = jdbcTemplate.queryForObject(qString,PGobject.class, id);
-			return jsonStringtoJsonNode(q.toString());
-		} catch (EmptyResultDataAccessException e) {
-			return null;
-		}
-	}
 
 	/**
 	 * A method to delete the questionnaire with an id
@@ -103,20 +83,6 @@ public class QuestionnairePostgresql implements QuestionnaireRepository {
 		String qString = "DELETE FROM pogues where id=?";
 		int r = jdbcTemplate.update(qString, id);
 		if (0 == r) {
-			throw new PoguesException(404, NOT_FOUND, String.format("Entity with id %s not found", id));
-		}
-	}
-	
-	/**
-	 * A method to delete the questionnaire in JSON Lunatic with an id
-	 * 
-	 * @param id id of the questionnaire
-	 *            
-	 */
-	public void deleteJsonLunaticByID(String id) throws Exception {
-		String qString = "DELETE FROM visu_lunatic where id=?";
-		int r = jdbcTemplate.update(qString, id);
-		if(0 == r) {
 			throw new PoguesException(404, NOT_FOUND, String.format("Entity with id %s not found", id));
 		}
 	}
@@ -190,25 +156,6 @@ public class QuestionnairePostgresql implements QuestionnaireRepository {
 		q.setValue(questionnaire.toString());
 		jdbcTemplate.update(qString, id, q);
 	}
-	
-	
-	/**
-	 * A method to save a new questionnaire in JSON Lunatic in database
-	 * 
-	 * @param questionnaireLunatic the JSON Lunatic description of the questionnaire
-	 */
-	public void createJsonLunatic(JsonNode questionnaireLunatic) throws Exception {
-		String qString =
-				"INSERT INTO visu_lunatic (id, data_lunatic) VALUES (?, ?)";
-	    String id  = questionnaireLunatic.get("id").asText();
-		if(null != getJsonLunaticByID(id)){
-			throw new NonUniqueResultException("Entity already exists");
-		}
-		PGobject q = new PGobject();
-		q.setType("json");
-		q.setValue(questionnaireLunatic.toString());
-		jdbcTemplate.update(qString, id, q);
-    }
 
 	/**
 	 * A method to update an existing questionnaire in database
@@ -233,24 +180,7 @@ public class QuestionnairePostgresql implements QuestionnaireRepository {
 			throw new NonUniqueResultException("Entity already exists");
 		}
 	}
-	
-	/**
-	 * A method to update an existing questionnaire in JSON Lunatic in database
-	 * 
-	 * @param id id of the questionnaire
-	 * @param questionnaireLunatic the JSON Lunatic description of the questionnaire
-	 */
-	public void updateJsonLunatic(String id, JsonNode questionnaireLunatic) throws Exception {
-       	String qString = "UPDATE visu_lunatic SET data_lunatic=? WHERE id=?";
-		PGobject q = new PGobject();
-		q.setType("json");
-		q.setValue(questionnaireLunatic.toString());
-		int r = jdbcTemplate.update(qString, q, id);
-		if(0 == r) {
-			throw new NonUniqueResultException("Entity already exists");
-		}
-    }
-	
+
 	/**
 	 * A method to count the questionnaires stored in database
 	 */

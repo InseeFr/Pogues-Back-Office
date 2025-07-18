@@ -2,7 +2,7 @@ package fr.insee.pogues.service;
 
 import fr.insee.pogues.exception.CodesListException;
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.webservice.model.dtd.codelists.Code;
@@ -32,7 +32,7 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class CodesListServiceTest {
 
     @Mock
-    QuestionnairesService questionnairesService;
+    QuestionnaireService questionnaireService;
     @Mock
     VersionService versionService;
 
@@ -40,7 +40,7 @@ class CodesListServiceTest {
 
     @BeforeEach
     void initQuestionnaireService(){
-        codesListService = new CodesListService(questionnairesService, versionService);
+        codesListService = new CodesListService(questionnaireService, versionService);
         initMocks(this);
     }
 
@@ -107,6 +107,7 @@ class CodesListServiceTest {
                         new Code("03","label 3",null)
                 ))
         );
+
         assertThat(questionnaire.getCodeLists().getCodeList()).hasSize(1);
     }
 

@@ -25,12 +25,12 @@ class VariablesServiceImplTest {
         String stringQuestionnaire = Files.readString(Path.of(url.toURI()));
         JsonNode jsonQuestionnaire = jsonStringtoJsonNode(stringQuestionnaire);
         // Mock questionnaire service
-        QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
-        Mockito.when(questionnairesService.getQuestionnaireByID("l4i3m6qa")).thenReturn(jsonQuestionnaire);
+        QuestionnaireService questionnaireService = Mockito.mock(QuestionnaireService.class);
+        Mockito.when(questionnaireService.getQuestionnaireByID("l4i3m6qa")).thenReturn(jsonQuestionnaire);
 
         // When
-        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
-        JsonNode resultAsJson = variablesService.getVariablesByQuestionnaire("l4i3m6qa");
+        VariableService variableService = new VariableService(questionnaireService);
+        JsonNode resultAsJson = variableService.getVariablesByQuestionnaire("l4i3m6qa");
         String result = resultAsJson.toString();
 
         // Then
@@ -56,12 +56,12 @@ class VariablesServiceImplTest {
         String stringQuestionnaire = Files.readString(Path.of(url.toURI()));
         JsonNode jsonQuestionnaire = jsonStringtoJsonNode(stringQuestionnaire);
         // Mock questionnaire service
-        QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
-        Mockito.when(questionnairesService.getQuestionnaireByIDWithReferences("l4i3m6qa")).thenReturn(jsonQuestionnaire);
+        QuestionnaireService questionnaireService = Mockito.mock(QuestionnaireService.class);
+        Mockito.when(questionnaireService.getQuestionnaireByIDWithReferences("l4i3m6qa")).thenReturn(jsonQuestionnaire);
 
         // When
-        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
-        ArrayNode result = variablesService.getVariablesByQuestionnaireForPublicEnemy("l4i3m6qa");
+        VariableService variableService = new VariableService(questionnaireService);
+        ArrayNode result = variableService.getVariablesByQuestionnaireForPublicEnemy("l4i3m6qa");
 
         // Then
         assertNotNull(result);
@@ -78,12 +78,12 @@ class VariablesServiceImplTest {
     @Test
     void getVariables_exceptionDuringQuestionnaireQuery_shouldReturnNull() throws Exception {
         // Given
-        QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
-        Mockito.when(questionnairesService.getQuestionnaireByID("foo-id")).thenThrow(new MockedException());
+        QuestionnaireService questionnaireService = Mockito.mock(QuestionnaireService.class);
+        Mockito.when(questionnaireService.getQuestionnaireByID("foo-id")).thenThrow(new MockedException());
 
         // When
-        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
-        JsonNode result = variablesService.getVariablesByQuestionnaire("foo-id");
+        VariableService variableService = new VariableService(questionnaireService);
+        JsonNode result = variableService.getVariablesByQuestionnaire("foo-id");
 
         // Then
         assertNull(result);
@@ -92,12 +92,12 @@ class VariablesServiceImplTest {
     @Test
     void getVariablesForPublicEnemy_exceptionDuringQuestionnaireQuery_shouldReturnNull() throws Exception {
         // Given
-        QuestionnairesService questionnairesService = Mockito.mock(QuestionnairesService.class);
-        Mockito.when(questionnairesService.getQuestionnaireByID("foo-id")).thenThrow(new MockedException());
+        QuestionnaireService questionnaireService = Mockito.mock(QuestionnaireService.class);
+        Mockito.when(questionnaireService.getQuestionnaireByID("foo-id")).thenThrow(new MockedException());
 
         // When
-        VariablesServiceImpl variablesService = new VariablesServiceImpl(questionnairesService);
-        ArrayNode result = variablesService.getVariablesByQuestionnaireForPublicEnemy("foo-id");
+        VariableService variableService = new VariableService(questionnaireService);
+        ArrayNode result = variableService.getVariablesByQuestionnaireForPublicEnemy("foo-id");
 
         // Then
         assertNull(result);

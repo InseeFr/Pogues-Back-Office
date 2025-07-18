@@ -4,10 +4,10 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.persistence.impl.NonUniqueResultException;
+import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
 import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
-import fr.insee.pogues.persistence.service.QuestionnairesServiceImpl;
-import fr.insee.pogues.persistence.service.VersionServiceImpl;
+import fr.insee.pogues.persistence.service.QuestionnaireService;
+import fr.insee.pogues.persistence.service.VersionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,19 +27,20 @@ class TestQuestionnaireService {
     QuestionnaireRepository questionnairesServiceQuery;
 
     @InjectMocks
-    QuestionnairesServiceImpl questionnairesService;
+    QuestionnaireService questionnaireService;
 
     @Mock
-    VersionServiceImpl versionService;
+    VersionService versionService;
+
     @Test
     void getQuestionnaireByOwnerWithNullException() throws Exception{
-        Throwable exception = assertThrows(PoguesException.class,()->questionnairesService.getQuestionnairesByOwner(null));
+        Throwable exception = assertThrows(PoguesException.class,()->questionnaireService.getQuestionnairesByOwner(null));
         assertEquals("Bad Request",exception.getMessage());
     }
     
     @Test
     void getQuestionnaireByOwnerWithEmptyException() throws Exception{
-        Throwable exception = assertThrows(PoguesException.class,()->questionnairesService.getQuestionnairesByOwner(""));
+        Throwable exception = assertThrows(PoguesException.class,()->questionnaireService.getQuestionnairesByOwner(""));
         assertEquals("Bad Request",exception.getMessage());
     }
 
@@ -48,7 +49,7 @@ class TestQuestionnaireService {
     void questionnaireNotFoundThrowsException() throws Exception {
         when(questionnairesServiceQuery.getQuestionnaireByID("id"))
                 .thenReturn(null);
-        Throwable exception = assertThrows(PoguesException.class,()->questionnairesService.getQuestionnaireByID("id"));
+        Throwable exception = assertThrows(PoguesException.class,()->questionnaireService.getQuestionnaireByID("id"));
         assertEquals("Not found",exception.getMessage());
 
     }
@@ -57,7 +58,7 @@ class TestQuestionnaireService {
     void ambiguousIdThrowsException() throws Exception {
         when(questionnairesServiceQuery.getQuestionnaireByID("id"))
                 .thenThrow(new NonUniqueResultException("Test: Exception should propagate"));
-        Throwable exception = assertThrows(NonUniqueResultException.class,()->questionnairesService.getQuestionnaireByID("id"));
+        Throwable exception = assertThrows(NonUniqueResultException.class,()->questionnaireService.getQuestionnaireByID("id"));
         assertEquals("Test: Exception should propagate",exception.getMessage());
     }
 
@@ -66,7 +67,7 @@ class TestQuestionnaireService {
         ObjectNode q1 = JsonNodeFactory.instance.objectNode();
         q1.put("id", "foo");
         when(questionnairesServiceQuery.getQuestionnaireByID("foo")).thenReturn(q1);
-        JsonNode q2 = questionnairesService.getQuestionnaireByID("foo");
+        JsonNode q2 = questionnaireService.getQuestionnaireByID("foo");
         assertEquals(q1, q2);
         assertEquals("foo", q2.get("id").asText());
 
@@ -77,7 +78,7 @@ class TestQuestionnaireService {
         doThrow(new SQLException("Test: Exception should propagate"))
                 .when(questionnairesServiceQuery)
                 .deleteQuestionnaireByID("1");
-        Throwable exception = assertThrows(SQLException.class,()->questionnairesService.deleteQuestionnaireByID("1"));
+        Throwable exception = assertThrows(SQLException.class,()->questionnaireService.deleteQuestionnaireByID("1"));
         assertEquals("Test: Exception should propagate",exception.getMessage());
 
     }
@@ -86,7 +87,7 @@ class TestQuestionnaireService {
     void deleteQuestionnaireById() throws Exception {
         doAnswer(invocationOnMock -> null).when(questionnairesServiceQuery).deleteQuestionnaireByID("foo");
         doAnswer(invocationOnMock -> null).when(versionService).deleteAllVersionsByQuestionnaireIdExceptLast("foo");
-        questionnairesService.deleteQuestionnaireByID("foo");
+        questionnaireService.deleteQuestionnaireByID("foo");
     }
 }
 

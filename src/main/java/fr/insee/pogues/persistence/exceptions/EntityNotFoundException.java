@@ -1,4 +1,4 @@
-package fr.insee.pogues.persistence.impl;
+package fr.insee.pogues.persistence.exceptions;
 
 /**
  * Created by acordier on 04/07/17.

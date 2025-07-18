@@ -4,7 +4,8 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.JSONLunaticService;
+import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.webservice.rest.QuestionnaireController;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,14 +27,17 @@ public class QuestionnaireControllerTest {
     QuestionnaireController questionnaireController;
 
     @Mock
-    QuestionnairesService questionnairesService;
+    QuestionnaireService questionnaireService;
+
+    @Mock
+    JSONLunaticService jsonLunaticService;
 
     @Mock
     ApplicationProperties applicationProperties;
 
     @BeforeEach
     public void beforeEach() {
-        questionnaireController =  new QuestionnaireController(applicationProperties,questionnairesService, null, null, null, null);
+        questionnaireController =  new QuestionnaireController(applicationProperties, questionnaireService, jsonLunaticService, null, null, null, null);
         initMocks(this);
     }
 
@@ -55,7 +59,7 @@ public class QuestionnaireControllerTest {
         assertEquals(expectedStatus, actualStatus);
 
         // test if the method of create questionnaire is never called
-        verify(questionnairesService, never()).createQuestionnaire(fakeQuestionnaire);
+        verify(questionnaireService, never()).createQuestionnaire(fakeQuestionnaire);
     }
 
     @Test
@@ -67,7 +71,7 @@ public class QuestionnaireControllerTest {
         // test if no exception is thrown
         ResponseEntity responseEntity = assertDoesNotThrow(()->questionnaireController.createQuestionnaire(fakeQuestionnaire));
         // test if the method of create questionnaire is called
-        verify(questionnairesService, atMostOnce()).createQuestionnaire(fakeQuestionnaire);
+        verify(questionnaireService, atMostOnce()).createQuestionnaire(fakeQuestionnaire);
         // test content of response
         assertEquals(1,responseEntity.getHeaders().get("Location").size());
         assertEquals("http://localhost/api/persistence/questionnaire/goodid", responseEntity.getHeaders().get("Location").get(0));

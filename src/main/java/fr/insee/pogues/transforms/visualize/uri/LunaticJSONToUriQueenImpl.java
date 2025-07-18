@@ -1,7 +1,7 @@
 package fr.insee.pogues.transforms.visualize.uri;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.JSONLunaticService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import fr.insee.pogues.exception.PoguesException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +21,7 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 	
 	@Autowired
-	private QuestionnairesService questionnaireService;
+	private JSONLunaticService jsonLunaticService;
 
 	@Autowired
 	private SuggesterVisuService suggesterVisuService;
@@ -50,9 +50,9 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 		JsonNode jsonContent = jsonStringtoJsonNode(new String(input.readAllBytes(), StandardCharsets.UTF_8));
 		String id  = jsonContent.get("id").asText();
 		try {
-			questionnaireService.createJsonLunatic(jsonContent);
+			jsonLunaticService.createJsonLunatic(jsonContent);
 		} catch (PoguesException e) {
-			questionnaireService.updateJsonLunatic(id, jsonContent);
+			jsonLunaticService.updateJsonLunatic(id, jsonContent);
         } catch (Exception e) {
             throw new Exception(String.format("%s:%s", getClass().getName(), e.getMessage()));
         }

@@ -6,19 +6,27 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+
 @Service
 @Slf4j
-public class VariablesServiceImpl implements VariablesService {
+public class VariableService {
 
-	@Autowired QuestionnairesService questionnairesService;
+	@Autowired
+	QuestionnaireService questionnaireService;
 
-	public VariablesServiceImpl(QuestionnairesService questionnairesService) {
-		this.questionnairesService = questionnairesService;
+	public VariableService(QuestionnaireService questionnaireService) {
+		this.questionnaireService = questionnaireService;
 	}
 
+	/**
+	 * Used for public enemy, delivers
+	 * @param id
+	 * @return variables as json directly from DB
+	 */
 	public ArrayNode getVariablesByQuestionnaireForPublicEnemy(String id) {
 		try {
-			JsonNode questionnaire = questionnairesService.getQuestionnaireByIDWithReferences(id);
+			JsonNode questionnaire = questionnaireService.getQuestionnaireByIDWithReferences(id);
 			// We test the existence of the questionnaire in repository
 			if (questionnaire != null) {
 				JsonNode variables = questionnaire.get("Variables");
@@ -30,9 +38,14 @@ public class VariablesServiceImpl implements VariablesService {
 		return null;
 	}
 
+	/**
+	 * Used for pogues frontend
+	 * @param id questionnaire id
+	 * @return variables as json string with caveats from pogues-model (like format for datedatatype, ...)
+	 */
 	public JsonNode getVariablesByQuestionnaire(String id) {
 		try {
-			JsonNode questionnaire = questionnairesService.getQuestionnaireByID(id);
+			JsonNode questionnaire = questionnaireService.getQuestionnaireByID(id);
 			// We test the existence of the questionnaire in repository
 			if (questionnaire != null) {
 				return questionnaire.get("Variables");
