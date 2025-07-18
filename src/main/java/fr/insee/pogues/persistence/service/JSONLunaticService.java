@@ -1,29 +1,16 @@
 package fr.insee.pogues.persistence.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
-import fr.insee.pogues.exception.NullReferenceException;
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.exceptions.EntityNotFoundException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
 import fr.insee.pogues.persistence.repository.JSONLunaticRepository;
-import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
-import fr.insee.pogues.transforms.visualize.composition.QuestionnaireComposition;
-import fr.insee.pogues.utils.PoguesDeserializer;
-import fr.insee.pogues.utils.PoguesSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
-import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
-
 /**
- * Questionnaire Service to assume the persistence of Pogues UI in JSON
- *
- * @author I6VWID
+ * Questionnaire Service to assume the persistance of questionnaires' JSON unatic representation.
  * @see /Pogues-BO/src/main/java/fr/insee/pogues/webservice/rest/
  *      PoguesPersistenceQuestionnaireList.java
  */
@@ -32,16 +19,13 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 public class JSONLunaticService {
 
     @Autowired
-    private QuestionnaireRepository questionnaireRepository;
-
-    @Autowired
     private JSONLunaticRepository jsonLunaticRepository;
 
     /**
-     *
-     * @param id Id of requested object
+     * Fetch the JSON Lunatic representation of the questionnaire.
+     * @param id ID of the questionnaire to fetch
      * @return JSON Lunatic representation of a questionnaire
-     * @throws Exception
+     * @throws PoguesException Questionnaire not found
      */
     public JsonNode getJsonLunaticByID(String id) throws Exception {
         JsonNode questionnaireLunatic = this.jsonLunaticRepository.getJsonLunaticByID(id);
@@ -52,8 +36,8 @@ public class JSONLunaticService {
     }
 
     /**
-     *
-     * @param id Id of the object we want to delete
+     * Delete the JSON Lunatic representation of the questionnaire.
+     * @param id ID of the questionnaire to delete
      * @throws Exception
      */
     public void deleteJsonLunaticByID(String id) throws Exception {
@@ -61,9 +45,9 @@ public class JSONLunaticService {
     }
 
     /**
-     * Save the JSON Lunatic representation of a questionnaire
-     * @param questionnaireLunatic JSON Lunatic representation of a questionnaire
-     * @throws Exception
+     * Create a JSON Lunatic representation of a questionnaire.
+     * @param dataLunatic JSON Lunatic description of a questionnaire to create
+     * @throws PoguesException A JSON Lunatic already exists for this questionnaire ID
      */
     public void createJsonLunatic(JsonNode dataLunatic) throws Exception {
         try {
@@ -74,10 +58,10 @@ public class JSONLunaticService {
     }
 
     /**
-     * Update a questionnaire object
-     * @param questionnaireLunatic JSON Lunatic representation of a questionnaire
-     * @param id id of the questionnaire
-     * @throws Exception
+     * Update the JSON Lunatic representation of the questionnaire.
+     * @param id ID of the questionnaire to update
+     * @param dataLunatic JSON Lunatic description of a questionnaire to update
+     * @throws PoguesException Questionnaire not found
      */
     public void updateJsonLunatic(String id, JsonNode dataLunatic) throws Exception {
         try {
