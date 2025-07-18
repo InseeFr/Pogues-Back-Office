@@ -1,7 +1,7 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.model.Questionnaire;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.CodesListConverter;
 import fr.insee.pogues.utils.PoguesDeserializer;
@@ -19,12 +19,12 @@ import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionNameWhereCo
 @Slf4j
 public class NomenclatureService {
 
-    private final QuestionnairesService questionnairesService;
+    private final QuestionnaireService questionnaireService;
     private final VersionService versionService;
 
-    public NomenclatureService(QuestionnairesService questionnairesService,
+    public NomenclatureService(QuestionnaireService questionnaireService,
                                VersionService versionService) {
-        this.questionnairesService = questionnairesService;
+        this.questionnaireService = questionnaireService;
         this.versionService = versionService;
     }
 
@@ -47,7 +47,7 @@ public class NomenclatureService {
     }
 
     private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
-        return PoguesDeserializer.questionnaireToJavaObject(questionnairesService.getQuestionnaireByID(id));
+        return PoguesDeserializer.questionnaireToJavaObject(questionnaireService.getQuestionnaireByID(id));
     }
 
     private Questionnaire retrieveQuestionnaireByVersionId(UUID versionId) throws Exception {

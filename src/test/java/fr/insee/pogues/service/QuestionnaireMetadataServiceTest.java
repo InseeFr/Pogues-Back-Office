@@ -2,7 +2,7 @@ package fr.insee.pogues.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
 import fr.insee.pogues.transforms.visualize.eno.PoguesXMLToDDI;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,16 +26,16 @@ class QuestionnaireMetadataServiceTest {
 
     private QuestionnaireMetadataService service;
 
-    private QuestionnairesService questionnairesService;
+    private QuestionnaireService questionnaireService;
     private PoguesJSONToPoguesXML jsonToXml;
     private PoguesXMLToDDI xmlToDdi;
 
     @BeforeEach
     void setup() {
-        questionnairesService = mock(QuestionnairesService.class);
+        questionnaireService = mock(QuestionnaireService.class);
         jsonToXml = mock(PoguesJSONToPoguesXML.class);
         xmlToDdi = mock(PoguesXMLToDDI.class);
-        service = new QuestionnaireMetadataService(questionnairesService, jsonToXml, xmlToDdi);
+        service = new QuestionnaireMetadataService(questionnaireService, jsonToXml, xmlToDdi);
     }
 
     @Test
@@ -52,7 +52,7 @@ class QuestionnaireMetadataServiceTest {
         ddiStream.write("<ddi/>".getBytes(StandardCharsets.UTF_8));
 
         String poguesId = "test-id";
-        when(questionnairesService.getQuestionnaireByIDWithReferences(poguesId)).thenReturn(jsonNode);
+        when(questionnaireService.getQuestionnaireByIDWithReferences(poguesId)).thenReturn(jsonNode);
         when(jsonToXml.transform(any(InputStream.class), anyMap(), eq(poguesId))).thenReturn(xmlStream);
         when(xmlToDdi.transform(any(InputStream.class), anyMap(), eq(poguesId))).thenReturn(ddiStream);
 

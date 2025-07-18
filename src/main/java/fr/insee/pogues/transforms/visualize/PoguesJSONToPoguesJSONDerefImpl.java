@@ -2,7 +2,7 @@ package fr.insee.pogues.transforms.visualize;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.model.Questionnaire;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
@@ -24,15 +24,15 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
     private static final String NULL_INPUT_MESSAGE = "Null input";
 
     @Autowired
-    QuestionnairesService questionnairesService;
+    QuestionnaireService questionnaireService;
 
     @Autowired
     SuggesterVisuService suggesterVisuService;
 
     public PoguesJSONToPoguesJSONDerefImpl() {}
 
-    public PoguesJSONToPoguesJSONDerefImpl(QuestionnairesService questionnairesService) {
-        this.questionnairesService = questionnairesService;
+    public PoguesJSONToPoguesJSONDerefImpl(QuestionnaireService questionnaireService) {
+        this.questionnaireService = questionnaireService;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
             throw new NullPointerException(NULL_INPUT_MESSAGE);
         }
         JsonNode jsonQuestionnaire = jsonStringtoJsonNode(input);
-        JsonNode questionnaireWithRef = questionnairesService.getQuestionnaireWithReferences(jsonQuestionnaire);
+        JsonNode questionnaireWithRef = questionnaireService.getQuestionnaireWithReferences(jsonQuestionnaire);
         return PoguesDeserializer.questionnaireToJavaObject(questionnaireWithRef);
     }
 

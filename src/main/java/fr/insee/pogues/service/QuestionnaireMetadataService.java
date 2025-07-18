@@ -2,7 +2,7 @@ package fr.insee.pogues.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
 import fr.insee.pogues.transforms.visualize.eno.PoguesXMLToDDI;
 import fr.insee.pogues.utils.model.ZipFile;
@@ -25,16 +25,16 @@ import static fr.insee.pogues.utils.json.JSONFunctions.objectNodeToPrettyJsonStr
 @Slf4j
 public class QuestionnaireMetadataService {
 
-    private final QuestionnairesService questionnairesService;
+    private final QuestionnaireService questionnaireService;
     private final PoguesJSONToPoguesXML jsonToXml;
     private final PoguesXMLToDDI xmlToDdi;
 
     public QuestionnaireMetadataService(
-            QuestionnairesService questionnairesService,
+            QuestionnaireService questionnaireService,
             PoguesJSONToPoguesXML jsonToXml,
             PoguesXMLToDDI xmlToDdi
     ) {
-        this.questionnairesService = questionnairesService;
+        this.questionnaireService = questionnaireService;
         this.jsonToXml = jsonToXml;
         this.xmlToDdi = xmlToDdi;
     }
@@ -51,7 +51,7 @@ public class QuestionnaireMetadataService {
 
     public void generateZip(String poguesId, OutputStream outputStream) throws PoguesException {
         try {
-            JsonNode jsonWithRef = questionnairesService.getQuestionnaireByIDWithReferences(poguesId);
+            JsonNode jsonWithRef = questionnaireService.getQuestionnaireByIDWithReferences(poguesId);
             String jsonStr = objectNodeToPrettyJsonString(jsonWithRef);
             byte[] jsonBytes = jsonStr.getBytes(StandardCharsets.UTF_8);
 
