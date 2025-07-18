@@ -10,8 +10,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClarificationCleanerTest {
 
     @Test
-    void testLimitToSingleClarification_withQuestionnaire() {
-        // Setup main question
+    void testLimitToSingleClarification() {
+
         QuestionType mainQuestion = new QuestionType();
         mainQuestion.setQuestionType(QuestionTypeEnum.SINGLE_CHOICE);
 
@@ -73,7 +73,7 @@ class ClarificationCleanerTest {
         variables.getVariable().addAll(List.of(variable1, variable2, variable3));
         questionnaire.setVariables(variables);
 
-        // Call the method under test
+        // Call the method
         ClarificationCleaner.limitToSingleClarification(mainQuestion, questionnaire);
 
         // Assertions
