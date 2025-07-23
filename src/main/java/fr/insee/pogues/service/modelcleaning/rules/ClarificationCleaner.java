@@ -15,16 +15,18 @@ public class ClarificationCleaner implements ModelCleaner {
 
     @Override
     public void apply(Questionnaire questionnaire) {
-        singleClarification(questionnaire, questionnaire);
+        List<String> removedVariableIds = new ArrayList<>();
+        singleClarification(questionnaire, removedVariableIds);
+        removeVariablesFromQuestionnaire(questionnaire, removedVariableIds);
     }
 
-    private void singleClarification(ComponentType component, Questionnaire questionnaire) {
+    private void singleClarification(ComponentType component, List<String> removedVariableIds) {
         if (component instanceof SequenceType sequence) {
-            sequence.getChild().forEach(child -> singleClarification(child, questionnaire));
+            sequence.getChild().forEach(child -> singleClarification(child, removedVariableIds));
         }
         if (isSingleOrMultipleChoiceQuestion(component)) {
             assert component instanceof QuestionType;
-            limitToSingleClarification((QuestionType) component, questionnaire);
+            removedVariableIds.addAll(limitToSingleClarification((QuestionType) component));
         }
     }
 
@@ -44,21 +46,24 @@ public class ClarificationCleaner implements ModelCleaner {
      * Limits the given question to only one clarification question.
      * Retains only the first clarification, removes FlowControls to removed ones,
      * and clears variable references in the removed clarifications.
+     * It returns the list of variable IDs that were associated with the removed clarification
+     * questions, so they can be deleted from the questionnaire at a later stage.
      *
      * @param question the question to clean
-     * @param questionnaire the questionnaire containing the variables and flow controls related to the question
+     * @return a list of variable IDs to be removed from the questionnaire
      */
-    private static void limitToSingleClarification(QuestionType question, Questionnaire questionnaire) {
+    private static List<String> limitToSingleClarification(QuestionType question) {
         List<QuestionType> clarifications = question.getClarificationQuestion();
-        if (clarifications == null || clarifications.size() <= 1) return;
+        if (clarifications == null || clarifications.size() <= 1) {
+            return List.of();
+        }
 
         QuestionType firstClarification = clarifications.getFirst();
         List<QuestionType> toRemove = new ArrayList<>(clarifications.subList(1, clarifications.size()));
 
         retainOnlyFirstClarification(question, firstClarification);
         removeClarificationFlowControls(question, firstClarification);
-        List<String> removedVariableIds = clearClarificationResponses(toRemove);
-        removeVariablesFromQuestionnaire(questionnaire, removedVariableIds);
+        return clearClarificationResponses(toRemove);
     }
 
     /**
