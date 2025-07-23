@@ -13,7 +13,8 @@ import java.util.List;
 
 /**
  * This cleaner ensures that each question (QCU/QCM) keeps only a single clarification question,
- * and removes related FlowControls that target removed clarifications (business rule).
+ * and removes related FlowControls that target removed clarifications, according to business rules.
+ * As part of this process, any variables linked to the removed clarification questions are also deleted.
  */
 public class ClarificationCleaner implements ModelCleaner {
 
