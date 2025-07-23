@@ -1,11 +1,6 @@
 package fr.insee.pogues.service.modelcleaning.rules;
 
-import fr.insee.pogues.model.ComponentType;
-import fr.insee.pogues.model.FlowControlTypeEnum;
-import fr.insee.pogues.model.QuestionType;
-import fr.insee.pogues.model.QuestionTypeEnum;
-import fr.insee.pogues.model.Questionnaire;
-import fr.insee.pogues.model.ResponseType;
+import fr.insee.pogues.model.*;
 import fr.insee.pogues.utils.model.cleaner.ModelCleaner;
 
 import java.util.ArrayList;
@@ -23,9 +18,13 @@ public class ClarificationCleaner implements ModelCleaner {
         singleClarification(questionnaire, questionnaire);
     }
 
-    private void singleClarification(ComponentType poguesComponent, Questionnaire questionnaire) {
-        if (isSingleOrMultipleChoiceQuestion(poguesComponent)) {
-            limitToSingleClarification((QuestionType) poguesComponent, questionnaire);
+    private void singleClarification(ComponentType component, Questionnaire questionnaire) {
+        if (component instanceof SequenceType sequence) {
+            sequence.getChild().forEach(child -> singleClarification(child, questionnaire));
+        }
+        if (isSingleOrMultipleChoiceQuestion(component)) {
+            assert component instanceof QuestionType;
+            limitToSingleClarification((QuestionType) component, questionnaire);
         }
     }
 
@@ -49,7 +48,7 @@ public class ClarificationCleaner implements ModelCleaner {
      * @param question the question to clean
      * @param questionnaire the questionnaire containing the variables and flow controls related to the question
      */
-    static void limitToSingleClarification(QuestionType question, Questionnaire questionnaire) {
+    private static void limitToSingleClarification(QuestionType question, Questionnaire questionnaire) {
         List<QuestionType> clarifications = question.getClarificationQuestion();
         if (clarifications == null || clarifications.size() <= 1) return;
 

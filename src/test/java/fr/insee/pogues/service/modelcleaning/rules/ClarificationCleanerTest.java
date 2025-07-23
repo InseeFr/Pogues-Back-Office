@@ -58,7 +58,7 @@ class ClarificationCleanerTest {
 
         mainQuestion.getFlowControl().addAll(List.of(flowToKeep, flowToRemove1, flowToRemove2));
 
-        // Create variables and questionnaire
+        // Variables & questionnaire
         CollectedVariableType variable1 = new CollectedVariableType();
         variable1.setId("var-1");
 
@@ -73,8 +73,11 @@ class ClarificationCleanerTest {
         variables.getVariable().addAll(List.of(variable1, variable2, variable3));
         questionnaire.setVariables(variables);
 
-        // Call the method
-        ClarificationCleaner.limitToSingleClarification(mainQuestion, questionnaire);
+        // Add the main question to questionnaire
+        questionnaire.getChild().add(mainQuestion);
+
+        // Call the method under test
+        new ClarificationCleaner().apply(questionnaire);
 
         // Assertions
         assertEquals(1, mainQuestion.getClarificationQuestion().size());
@@ -83,6 +86,7 @@ class ClarificationCleanerTest {
         assertEquals(1, mainQuestion.getFlowControl().size());
         assertEquals("clarif-1", mainQuestion.getFlowControl().getFirst().getIfTrue());
 
+        // The removed clarifications' responses should have their variables cleared
         assertNull(response2.getCollectedVariableReference());
         assertNull(response3.getCollectedVariableReference());
 
