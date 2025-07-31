@@ -6,8 +6,10 @@ import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
-import fr.insee.pogues.persistence.service.VariablesService;
+import fr.insee.pogues.persistence.service.IQuestionnaireService;
+import fr.insee.pogues.persistence.service.JSONLunaticService;
+import fr.insee.pogues.persistence.service.QuestionnaireService;
+import fr.insee.pogues.persistence.service.VariableService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -33,25 +35,27 @@ import java.util.List;
 @Slf4j
 public class QuestionnaireController {
 
-	private final ApplicationProperties applicationProperties;
-	private final QuestionnairesService questionnaireService;
-	private final VariablesService variablesService;
-	private final SuggesterVisuService suggesterVisuService;
-	private final UserProvider userProvider;
+	private ApplicationProperties applicationProperties;
+	private IQuestionnaireService questionnaireService;
+	private JSONLunaticService jsonLunaticService;
+	private VariableService variableService;
+	private SuggesterVisuService suggesterVisuService;
+	private UserProvider userProvider;
 
 	public QuestionnaireController(
 			ApplicationProperties applicationProperties,
-			QuestionnairesService questionnaireService,
-			VariablesService variablesService,
+			IQuestionnaireService questionnaireService,
+			JSONLunaticService jsonLunaticService,
+			VariableService variableService,
 			SuggesterVisuService suggesterVisuService,
 			UserProvider userProvider
 	){
 		this.applicationProperties = applicationProperties;
 		this.questionnaireService = questionnaireService;
-		this.variablesService = variablesService;
+		this.jsonLunaticService = jsonLunaticService;
+		this.variableService = variableService;
 		this.suggesterVisuService = suggesterVisuService;
 		this.userProvider = userProvider;
-
 	}
 
 	private static final String QUESTIONNAIRE_ID_PATTERN ="[a-zA-Z0-9]*";
@@ -99,7 +103,7 @@ public class QuestionnaireController {
 	public ResponseEntity<Object> getJsonLunatic(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		JsonNode result = questionnaireService.getJsonLunaticByID(id);
+		JsonNode result = jsonLunaticService.getJsonLunaticByID(id);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 
 	}
@@ -197,7 +201,7 @@ public class QuestionnaireController {
 	public ResponseEntity<JsonNode> getQuestionnaireVariables(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		JsonNode result = variablesService.getVariablesByQuestionnaire(id);
+		JsonNode result = variableService.getVariablesByQuestionnaire(id);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
@@ -216,7 +220,7 @@ public class QuestionnaireController {
 	public ResponseEntity<ArrayNode> getVariables(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		ArrayNode result = variablesService.getVariablesByQuestionnaireForPublicEnemy(id);
+		ArrayNode result = variableService.getVariablesByQuestionnaireForPublicEnemy(id);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
@@ -234,7 +238,7 @@ public class QuestionnaireController {
 	public ResponseEntity<Object> deleteJsonLunatic(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		questionnaireService.deleteJsonLunaticByID(id);
+		jsonLunaticService.deleteJsonLunaticByID(id);
 		log.info("Questionnaire {} deleted", id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
@@ -276,7 +280,7 @@ public class QuestionnaireController {
 			@PathVariable(value = "id") String id,
 			@RequestBody JsonNode jsonLunatic
 	) throws Exception {
-		questionnaireService.updateJsonLunatic(id, jsonLunatic);
+		jsonLunaticService.updateJsonLunatic(id, jsonLunatic);
 		log.info("Json Lunatic of questionnaire {} updated", id);
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
@@ -323,7 +327,7 @@ public class QuestionnaireController {
 	) throws Exception {
 		String id = jsonContent.get("id").asText();
 		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
-			questionnaireService.createJsonLunatic(jsonContent);
+			jsonLunaticService.createJsonLunatic(jsonContent);
 			String uriJsonLunaticQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/json-lunatic/%s",
 					applicationProperties.scheme(),
 					applicationProperties.host(),

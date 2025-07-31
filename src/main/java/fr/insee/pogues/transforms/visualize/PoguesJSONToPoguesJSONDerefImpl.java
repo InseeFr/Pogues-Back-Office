@@ -2,7 +2,7 @@ package fr.insee.pogues.transforms.visualize;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.model.Questionnaire;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
@@ -22,15 +22,15 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDeref{
 
     @Autowired
-    QuestionnairesService questionnairesService;
+    QuestionnaireService questionnaireService;
 
     @Autowired
     SuggesterVisuService suggesterVisuService;
 
     public PoguesJSONToPoguesJSONDerefImpl() {}
 
-    public PoguesJSONToPoguesJSONDerefImpl(QuestionnairesService questionnairesService) {
-        this.questionnairesService = questionnairesService;
+    public PoguesJSONToPoguesJSONDerefImpl(QuestionnaireService questionnaireService) {
+        this.questionnaireService = questionnaireService;
     }
 
     @Override
@@ -56,7 +56,7 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
             throw new NullPointerException("Null string cannot be converted to a questionnaire.");
         }
         JsonNode jsonQuestionnaire = jsonStringtoJsonNode(input);
-        JsonNode questionnaireWithRef = questionnairesService.getQuestionnaireWithReferences(jsonQuestionnaire);
+        JsonNode questionnaireWithRef = questionnaireService.getQuestionnaireWithReferences(jsonQuestionnaire);
         return PoguesDeserializer.questionnaireToJavaObject(questionnaireWithRef);
     }
 

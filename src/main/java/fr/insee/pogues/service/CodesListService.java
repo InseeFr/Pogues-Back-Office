@@ -2,7 +2,7 @@ package fr.insee.pogues.service;
 
 import fr.insee.pogues.exception.CodesListException;
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.CodesListConverter;
 import fr.insee.pogues.utils.DateUtils;
@@ -33,12 +33,12 @@ import static fr.insee.pogues.utils.model.question.Table.updateTableQuestionAcco
 @Service
 @Slf4j
 public class CodesListService {
-    private final QuestionnairesService questionnairesService;
+    private final QuestionnaireService questionnaireService;
     private final VersionService versionService;
 
-    public CodesListService(QuestionnairesService questionnairesService,
+    public CodesListService(QuestionnaireService questionnaireService,
                             VersionService versionService) {
-        this.questionnairesService = questionnairesService;
+        this.questionnaireService = questionnaireService;
         this.versionService = versionService;
     }
 
@@ -97,7 +97,7 @@ public class CodesListService {
     }
 
     private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
-        return PoguesDeserializer.questionnaireToJavaObject(questionnairesService.getQuestionnaireByID(id));
+        return PoguesDeserializer.questionnaireToJavaObject(questionnaireService.getQuestionnaireByID(id));
     }
 
     private Questionnaire retrieveQuestionnaireByIdVersion(UUID versionId) throws Exception {
@@ -111,7 +111,7 @@ public class CodesListService {
      */
     private void updateQuestionnaireInDataBase(Questionnaire questionnaire) throws Exception {
         questionnaire.setLastUpdatedDate(DateUtils.getIsoDateFromInstant(Instant.now()));
-        questionnairesService.updateQuestionnaire(
+        questionnaireService.updateQuestionnaire(
                 questionnaire.getId(),
                 jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaire)));
     }

@@ -21,16 +21,16 @@ public class QuestionnaireControllerTest {
 
     private StubQuestionnaireService stubQuestionnaireService;
 
+
     @BeforeEach
     public void beforeEach() {
-        ApplicationProperties fooProperties = new ApplicationProperties(
-                "localhost", "http", null, null, null, null, null);
+        ApplicationProperties fooProperties = new ApplicationProperties("localhost", "http", null, null, null, null, null);
         stubQuestionnaireService = new StubQuestionnaireService();
-        questionnaireController =  new QuestionnaireController(fooProperties, stubQuestionnaireService, null, null, null);
+        questionnaireController = new QuestionnaireController(fooProperties, stubQuestionnaireService, null, null, null, null);
     }
 
     @Test
-    void testCreateBadIdQuestionnaire() {
+    void testCreateBadIdQuestionnaire() throws Exception {
         // Given
         // a questionnaire with a valid id
         ObjectNode fakeQuestionnaire = JsonNodeFactory.instance.objectNode();
@@ -52,14 +52,12 @@ public class QuestionnaireControllerTest {
     }
 
     @Test
-    void testCreateGoodIdQuestionnaire() {
+    void testCreateGoodIdQuestionnaire() throws Exception {
         // Given
         // a questionnaire with a valid id
         ObjectNode fakeQuestionnaire = JsonNodeFactory.instance.objectNode();
         String goodId = "foo12345";
         fakeQuestionnaire.put("id", goodId);
-        stubQuestionnaireService.getFakeQuestionnaires().put(goodId, fakeQuestionnaire);
-
         // When
         // calling the "create questionnaire" controller
         // test that no exception is thrown

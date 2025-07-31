@@ -1,7 +1,7 @@
 package fr.insee.pogues.service.stub;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import fr.insee.pogues.persistence.service.QuestionnairesService;
+import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @Getter
-public class StubQuestionnaireService implements QuestionnairesService {
+public class StubQuestionnaireService implements IQuestionnaireService {
 
     private int getCreateQuestionnaireCalls = 0;
     private final Map<String, JsonNode> fakeQuestionnaires = new HashMap<>();
@@ -44,18 +44,9 @@ public class StubQuestionnaireService implements QuestionnairesService {
         return null;
     }
 
-    @Override
-    public JsonNode getJsonLunaticByID(String id) throws Exception {
-        return fakeQuestionnaires.get(id);
-    }
 
     @Override
     public void deleteQuestionnaireByID(String id) throws Exception {
-        /* Does nothing for now (stub) */
-    }
-
-    @Override
-    public void deleteJsonLunaticByID(String id) throws Exception {
         /* Does nothing for now (stub) */
     }
 
@@ -64,18 +55,9 @@ public class StubQuestionnaireService implements QuestionnairesService {
         getCreateQuestionnaireCalls++;
     }
 
-    @Override
-    public void createJsonLunatic(JsonNode questionnaireLunatic) throws Exception {
-        /* Does nothing for now (stub) */
-    }
 
     @Override
     public void updateQuestionnaire(String id, JsonNode questionnaire) throws Exception {
-        /* Does nothing for now (stub) */
-    }
-
-    @Override
-    public void updateJsonLunatic(String id, JsonNode questionnaireLunatic) throws Exception {
         /* Does nothing for now (stub) */
     }
 }
