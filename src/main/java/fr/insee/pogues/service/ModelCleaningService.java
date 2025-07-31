@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.conversion.JSONSerializer;
 import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.service.modelcleaning.rules.ClarificationCleaner;
 import fr.insee.pogues.transforms.visualize.ModelTransformer;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
@@ -38,6 +39,7 @@ public class ModelCleaningService implements ModelTransformer {
         List<ModelCleaner> modelCleaners = List.of(
                 new ControlCriticityCleaner(),
                 new TableDimensionCleaner(),
+                new ClarificationCleaner(),
                 new LoopMinMaxCleaner());
         modelCleaners.forEach(modelCleaner -> modelCleaner.apply(questionnaire));
     }
