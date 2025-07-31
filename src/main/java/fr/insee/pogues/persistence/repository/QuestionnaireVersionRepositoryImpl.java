@@ -21,27 +21,30 @@ import static fr.insee.pogues.utils.DateUtils.convertZonedDateTimeToTimestamp;
 @Slf4j
 public class QuestionnaireVersionRepositoryImpl implements QuestionnaireVersionRepository {
 
-	
 	@Autowired
 	JdbcTemplate jdbcTemplate;
 
 	@Value("${feature.database.rollingBackup.maxByQuestionnaire}")
 	private int maxBackupByQuestionnaire;
-		
-	private static final String NOT_FOUND="Not found";
-	private static final String FORBIDDEN="Forbidden";
 
-
+	private static final String BASE_COLUMNS = "id, timestamp, pogues_id, day, author";
 	private static final String COLUMNS_WITHOUT_DATA = "id, timestamp, pogues_id, day, author";
 	private static final String COLUMNS_WITH_DATA = COLUMNS_WITHOUT_DATA + ", data";
 
+	private static final String SELECT_VERSIONS_QUERY = "SELECT %s FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC";
+	private static final String SELECT_LAST_VERSION_QUERY = "SELECT %s FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC LIMIT 1;";
+	private static final String SELECT_VERSION_QUERY = "SELECT %s FROM pogues_version pv WHERE pv.id = ?;";
+
+	private static final String SELECT_VERSIONS_QUERY_WITH_DATA = String.format(SELECT_VERSIONS_QUERY, COLUMNS_WITH_DATA);
+	private static final String SELECT_VERSIONS_QUERY_WITHOUT_DATA = String.format(SELECT_VERSIONS_QUERY, BASE_COLUMNS);
+	private static final String SELECT_LAST_VERSION_QUERY_WITH_DATA = String.format(SELECT_LAST_VERSION_QUERY, COLUMNS_WITH_DATA);
+	private static final String SELECT_LAST_VERSION_QUERY_WITHOUT_DATA = String.format(SELECT_LAST_VERSION_QUERY, BASE_COLUMNS);
+	private static final String SELECT_VERSION_QUERY_WITH_DATA = String.format(SELECT_VERSION_QUERY, COLUMNS_WITH_DATA);
+	private static final String SELECT_VERSION_QUERY_WITHOUT_DATA = String.format(SELECT_VERSION_QUERY, BASE_COLUMNS);
+
 	@Override
 	public List<Version> getVersionsByQuestionnaireId(String poguesId, boolean withData) throws Exception {
-		String columns = withData ? COLUMNS_WITH_DATA : COLUMNS_WITHOUT_DATA;
-		String qString =
-				"SELECT " + columns +
-						" FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC;";
-
+		String qString = withData ? SELECT_VERSIONS_QUERY_WITH_DATA : SELECT_VERSIONS_QUERY_WITHOUT_DATA;
 		List<Version> versions = jdbcTemplate.query(qString,  new VersionRowMapper(withData), poguesId);
 		if(versions.isEmpty()){
 			throw new PoguesException(404, "Not found", "No version for poguesId "+ poguesId);
@@ -51,10 +54,7 @@ public class QuestionnaireVersionRepositoryImpl implements QuestionnaireVersionR
 
 	@Override
 	public Version getLastVersionByQuestionnaireId(String poguesId, boolean withData) throws Exception {
-		String columns = withData ? COLUMNS_WITH_DATA : COLUMNS_WITHOUT_DATA;
-		String qString =
-				"SELECT " + columns +
-						" FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC LIMIT 1;";
+		String qString = withData ? SELECT_LAST_VERSION_QUERY_WITH_DATA : SELECT_LAST_VERSION_QUERY_WITHOUT_DATA;
 		try {
 			return jdbcTemplate.queryForObject(qString,  new VersionRowMapper(withData), poguesId);
 		} catch (EmptyResultDataAccessException e) {
@@ -64,10 +64,7 @@ public class QuestionnaireVersionRepositoryImpl implements QuestionnaireVersionR
 
 	@Override
 	public Version getVersionByVersionId(UUID versionId, boolean withData) throws Exception {
-		String columns = withData ? COLUMNS_WITH_DATA : COLUMNS_WITHOUT_DATA;
-		String qString =
-				"SELECT " + columns +
-				" FROM pogues_version pv WHERE pv.id = ?;";
+		String qString = withData ? SELECT_VERSION_QUERY_WITH_DATA : SELECT_VERSION_QUERY_WITHOUT_DATA;
 		try {
 			return jdbcTemplate.queryForObject(qString, new VersionRowMapper(withData), versionId);
 		} catch (EmptyResultDataAccessException e) {
