@@ -6,6 +6,7 @@ import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.JSONLunaticService;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VariableService;
@@ -35,7 +36,7 @@ import java.util.List;
 public class QuestionnaireController {
 
 	private ApplicationProperties applicationProperties;
-	private QuestionnaireService questionnaireService;
+	private IQuestionnaireService questionnaireService;
 	private JSONLunaticService jsonLunaticService;
 	private VariableService variableService;
 	private SuggesterVisuService suggesterVisuService;
@@ -43,7 +44,7 @@ public class QuestionnaireController {
 
 	public QuestionnaireController(
 			ApplicationProperties applicationProperties,
-			QuestionnaireService questionnaireService,
+			IQuestionnaireService questionnaireService,
 			JSONLunaticService jsonLunaticService,
 			VariableService variableService,
 			SuggesterVisuService suggesterVisuService,
@@ -55,7 +56,6 @@ public class QuestionnaireController {
 		this.variableService = variableService;
 		this.suggesterVisuService = suggesterVisuService;
 		this.userProvider = userProvider;
-
 	}
 
 	private static final String QUESTIONNAIRE_ID_PATTERN ="[a-zA-Z0-9]*";

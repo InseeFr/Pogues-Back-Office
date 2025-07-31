@@ -8,6 +8,7 @@ import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.exceptions.EntityNotFoundException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
 import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
+import fr.insee.pogues.service.ModelCleaningService;
 import fr.insee.pogues.transforms.visualize.composition.QuestionnaireComposition;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
@@ -24,20 +25,27 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
  *
  * @author I6VWID
  * @see /Pogues-BO/src/main/java/fr/insee/pogues/webservice/rest/
- *      PoguesPersistenceQuestionnaireList.java
+ * PoguesPersistenceQuestionnaireList.java
  */
 @Service
 @Slf4j
-public class QuestionnaireService {
+public class QuestionnaireService implements IQuestionnaireService{
 
-    @Autowired
-    private QuestionnaireRepository questionnaireRepository;
+    private final QuestionnaireRepository questionnaireRepository;
+    private final VersionService versionService;
+    private final StampsRestrictionsService stampsRestrictionsService;
+    private final ModelCleaningService modelCleaningService;
 
-    @Autowired
-    private VersionService versionService;
+    public QuestionnaireService(
+            QuestionnaireRepository questionnaireRepository,
+            VersionService versionService,
+            StampsRestrictionsService stampsRestrictionsService) {
+        this.questionnaireRepository = questionnaireRepository;
+        this.versionService = versionService;
+        this.stampsRestrictionsService = stampsRestrictionsService;
+        this.modelCleaningService = new ModelCleaningService();
+    }
 
-    @Autowired
-    protected StampsRestrictionsService stampsRestrictionsService;
 
     public List<JsonNode> getQuestionnairesMetadata(String owner) throws Exception {
         if (null == owner || owner.isEmpty()) {
@@ -78,6 +86,7 @@ public class QuestionnaireService {
         if (null == questionnaire) {
             throw new PoguesException(404, "Not found", "Pas de questionnaire pour cet identifiant");
         }
+        questionnaire = modelCleaningService.cleanModel(questionnaire);
         return questionnaire;
     }
 
@@ -91,6 +100,7 @@ public class QuestionnaireService {
      */
     public JsonNode getQuestionnaireByIDWithReferences(String id) throws Exception {
         JsonNode jsonQuestionnaire = this.getQuestionnaireByID(id);
+
         return getQuestionnaireWithReferences(jsonQuestionnaire);
     }
 
@@ -103,6 +113,8 @@ public class QuestionnaireService {
      * @throws Exception
      */
     public JsonNode getQuestionnaireWithReferences(JsonNode jsonQuestionnaire) throws Exception {
+        if (modelCleaningService != null)
+            jsonQuestionnaire = modelCleaningService.cleanModel(jsonQuestionnaire);
         Questionnaire questionnaireWithReferences = this.deReference(jsonQuestionnaire);
         return jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaireWithReferences));
     }

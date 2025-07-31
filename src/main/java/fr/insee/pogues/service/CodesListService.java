@@ -111,7 +111,7 @@ public class CodesListService {
      */
     private void updateQuestionnaireInDataBase(Questionnaire questionnaire) throws Exception {
         questionnaire.setLastUpdatedDate(DateUtils.getIsoDateFromInstant(Instant.now()));
-        questionnairesService.updateQuestionnaire(
+        questionnaireService.updateQuestionnaire(
                 questionnaire.getId(),
                 jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaire)));
     }

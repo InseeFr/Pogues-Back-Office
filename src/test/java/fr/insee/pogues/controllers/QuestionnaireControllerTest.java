@@ -4,8 +4,6 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.persistence.service.JSONLunaticService;
-import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.service.stub.StubQuestionnaireService;
 import fr.insee.pogues.webservice.rest.QuestionnaireController;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,26 +19,18 @@ public class QuestionnaireControllerTest {
 
     private QuestionnaireController questionnaireController;
 
-    @Mock
-    QuestionnaireService questionnaireService;
-
-    @Mock
-    JSONLunaticService jsonLunaticService;
-
-    @Mock
-    ApplicationProperties applicationProperties;
-    
     private StubQuestionnaireService stubQuestionnaireService;
 
 
     @BeforeEach
     public void beforeEach() {
+        ApplicationProperties fooProperties = new ApplicationProperties("localhost", "http", null, null, null, null, null);
         stubQuestionnaireService = new StubQuestionnaireService();
-        questionnaireController =  new QuestionnaireController(applicationProperties, stubQuestionnaireService, jsonLunaticService, null, null, null);
-        initMocks(this);
+        questionnaireController = new QuestionnaireController(fooProperties, stubQuestionnaireService, null, null, null, null);
+    }
 
     @Test
-    void testCreateBadIdQuestionnaire() {
+    void testCreateBadIdQuestionnaire() throws Exception {
         // Given
         // a questionnaire with a valid id
         ObjectNode fakeQuestionnaire = JsonNodeFactory.instance.objectNode();
@@ -62,14 +52,12 @@ public class QuestionnaireControllerTest {
     }
 
     @Test
-    void testCreateGoodIdQuestionnaire() {
+    void testCreateGoodIdQuestionnaire() throws Exception {
         // Given
         // a questionnaire with a valid id
         ObjectNode fakeQuestionnaire = JsonNodeFactory.instance.objectNode();
         String goodId = "foo12345";
         fakeQuestionnaire.put("id", goodId);
-        stubQuestionnaireService.getFakeQuestionnaires().put(goodId, fakeQuestionnaire);
-
         // When
         // calling the "create questionnaire" controller
         // test that no exception is thrown

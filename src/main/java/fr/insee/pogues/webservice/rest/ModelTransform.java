@@ -81,17 +81,18 @@ public class ModelTransform {
 		String questionnaireName = "spec";
 		try {
 			StreamingResponseBody stream = output -> {
-                try {
-                    output.write(
-                            pipeline.from(string2InputStream(request))
-                                    .map(jsonToJsonDeref::transform, params, questionnaireName)
-                                    .map(jsonToXML::transform, params, questionnaireName)
-                                    .map(poguesXMLToDDI::transform, params, questionnaireName)
-                                    .map(ddiToOdt::transform, params, questionnaireName).transform().toByteArray());
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            };
+				try {
+					output.write(
+							pipeline.from(string2InputStream(request))
+									.map(modelCleaningService::transform, null, null)
+									.map(jsonToJsonDeref::transform, params, questionnaireName)
+									.map(jsonToXML::transform, params, questionnaireName)
+									.map(poguesXMLToDDI::transform, params, questionnaireName)
+									.map(ddiToOdt::transform, params, questionnaireName).transform().toByteArray());
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			};
 
 			return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_OCTET_STREAM)
 					.header(CONTENT_DISPOSITION, "attachment; filename=form.fodt").body(stream);
