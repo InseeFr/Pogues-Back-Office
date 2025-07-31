@@ -33,7 +33,7 @@ public class QuestionnaireVersionRepositoryImpl implements QuestionnaireVersionR
 
 	private static final String SELECT_VERSIONS_QUERY = "SELECT %s FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC";
 	private static final String SELECT_LAST_VERSION_QUERY = "SELECT %s FROM pogues_version pv WHERE pv.pogues_id = ? ORDER BY timestamp DESC LIMIT 1;";
-	private static final String SELECT_VERSION_QUERY = "SELECT %s FROM pogues_version pv WHERE pv.id;";
+	private static final String SELECT_VERSION_QUERY = "SELECT %s FROM pogues_version pv WHERE pv.id = ?;";
 
 	private static final String SELECT_VERSIONS_QUERY_WITH_DATA = String.format(SELECT_VERSIONS_QUERY, COLUMNS_WITH_DATA);
 	private static final String SELECT_VERSIONS_QUERY_WITHOUT_DATA = String.format(SELECT_VERSIONS_QUERY, BASE_COLUMNS);
