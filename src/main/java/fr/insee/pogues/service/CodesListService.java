@@ -5,6 +5,7 @@ import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.CodesListConverter;
+import fr.insee.pogues.utils.DateUtils;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.model.question.Common;
@@ -14,6 +15,7 @@ import fr.insee.pogues.webservice.model.dtd.codelists.ExtendedCodesList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
@@ -41,10 +43,12 @@ public class CodesListService {
     }
 
     /**
-     * @param questionnaireId
-     * @param idCodesList
-     * @param codesList
-     * @return the list of question's id updated (or null if created)
+     * Update the questionnaire with a new code list or an updated existing one.
+     * It will update the questionnaire's last updated date.
+     * @param questionnaireId ID of the questionnaire to update
+     * @param idCodesList ID of the code list to upsert
+     * @param codesList New or updated code list
+     * @return IDs of questions that have been updated by this update (null if it's a new code list)
      * @throws Exception
      */
     public List<String> updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesList codesList) throws Exception {
@@ -69,6 +73,13 @@ public class CodesListService {
                 : null;
     }
 
+    /**
+     * Update the questionnaire by removing an existing code list.
+     * It will update the questionnaire's last updated date.
+     * @param questionnaireId ID of the questionnaire to update
+     * @param codesListId ID of the code list to delete
+     * @throws Exception
+     */
     public void deleteCodeListOfQuestionnaireById(String questionnaireId, String codesListId) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
         deleteCodeListOfQuestionnaire(questionnaire, codesListId);
@@ -93,8 +104,14 @@ public class CodesListService {
         return PoguesDeserializer.questionnaireToJavaObject(versionService.getVersionDataByVersionId(versionId));
     }
 
+    /**
+     * Set the questionnaire last updated date as now and save it in the DB.
+     * @param questionnaire Questionnaire to update
+     * @throws Exception
+     */
     private void updateQuestionnaireInDataBase(Questionnaire questionnaire) throws Exception {
-        questionnaireService.updateQuestionnaire(
+        questionnaire.setLastUpdatedDate(DateUtils.getIsoDateFromInstant(Instant.now()));
+        questionnairesService.updateQuestionnaire(
                 questionnaire.getId(),
                 jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaire)));
     }

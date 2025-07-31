@@ -81,11 +81,11 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         Mockito.when(questionnaireService.getQuestionnaireByID("lct8pcsy")).thenReturn(null);
 
         Mockito.when(questionnaireService.deReference(jsonStringtoJsonNode(testedInput))).thenCallRealMethod();
-        Mockito.when(questionnaireService.getQuestionnaireWithReferences(jsonStringtoJsonNode(testedInput))).thenCallRealMethod();
-
         //
-        PoguesJSONToPoguesJSONDerefImpl deref = new PoguesJSONToPoguesJSONDerefImpl(questionnaireService);
-        assertThrows(NullReferenceException.class, () -> deref.transformAsQuestionnaire(testedInput));
+        JsonNode jsonQuestionnaire = jsonStringtoJsonNode(testedInput);
+        Mockito.when(questionnairesService.deReference(jsonQuestionnaire)).thenCallRealMethod();
+        //
+        assertThrows(NullReferenceException.class, () -> questionnairesService.deReference(jsonQuestionnaire));
     }
 
     /**

@@ -6,25 +6,20 @@ import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.service.JSONLunaticService;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
+import fr.insee.pogues.service.stub.StubQuestionnaireService;
 import fr.insee.pogues.webservice.rest.QuestionnaireController;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import static fr.insee.pogues.webservice.rest.QuestionnaireController.BAD_REQUEST;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
-import static org.mockito.MockitoAnnotations.initMocks;
+import java.util.List;
 
-@Slf4j
+import static org.junit.jupiter.api.Assertions.*;
+
 public class QuestionnaireControllerTest {
 
-    @InjectMocks
-    QuestionnaireController questionnaireController;
+    private QuestionnaireController questionnaireController;
 
     @Mock
     QuestionnaireService questionnaireService;
@@ -34,49 +29,62 @@ public class QuestionnaireControllerTest {
 
     @Mock
     ApplicationProperties applicationProperties;
+    
+    private StubQuestionnaireService stubQuestionnaireService;
+
 
     @BeforeEach
     public void beforeEach() {
-        questionnaireController =  new QuestionnaireController(applicationProperties, questionnaireService, jsonLunaticService, null, null, null, null);
+        stubQuestionnaireService = new StubQuestionnaireService();
+        questionnaireController =  new QuestionnaireController(applicationProperties, stubQuestionnaireService, jsonLunaticService, null, null, null);
         initMocks(this);
-    }
 
     @Test
-    void testCreateBadIdQuestionnaire() throws Exception {
+    void testCreateBadIdQuestionnaire() {
+        // Given
+        // a questionnaire with a valid id
         ObjectNode fakeQuestionnaire = JsonNodeFactory.instance.objectNode();
-        fakeQuestionnaire.put("id","bad-id");
+        fakeQuestionnaire.put("id","bad-id"); // '-' is not allowed in id
 
+        // When
+        // calling the "create questionnaire" controller
         // test if exception is thrown
         PoguesException exception = assertThrows(
                 PoguesException.class,
                 () -> questionnaireController.createQuestionnaire(fakeQuestionnaire));
 
-        String expectedMessage = BAD_REQUEST;
-        String actualMessage = exception.getMessage();
-        int expectedStatus = 400;
-        int actualStatus = exception.getStatus();
-        assertEquals(expectedMessage, actualMessage);
-        assertEquals(expectedStatus, actualStatus);
+        // Then
+        assertEquals("Bad Request", exception.getMessage());
+        assertEquals(400, exception.getStatus());
 
         // test if the method of create questionnaire is never called
-        verify(questionnaireService, never()).createQuestionnaire(fakeQuestionnaire);
+        assertEquals(0, stubQuestionnaireService.getGetCreateQuestionnaireCalls());
     }
 
     @Test
-    void testCreateGoodIdQuestionnaire() throws Exception {
+    void testCreateGoodIdQuestionnaire() {
+        // Given
+        // a questionnaire with a valid id
         ObjectNode fakeQuestionnaire = JsonNodeFactory.instance.objectNode();
-        fakeQuestionnaire.put("id","goodid");
-        when(applicationProperties.scheme()).thenReturn("http");
-        when(applicationProperties.host()).thenReturn("localhost");
-        // test if no exception is thrown
-        ResponseEntity responseEntity = assertDoesNotThrow(()->questionnaireController.createQuestionnaire(fakeQuestionnaire));
+        String goodId = "foo12345";
+        fakeQuestionnaire.put("id", goodId);
+        stubQuestionnaireService.getFakeQuestionnaires().put(goodId, fakeQuestionnaire);
+
+        // When
+        // calling the "create questionnaire" controller
+        // test that no exception is thrown
+        ResponseEntity<Object> responseEntity = assertDoesNotThrow(() ->
+                questionnaireController.createQuestionnaire(fakeQuestionnaire));
+
+        // Then
         // test if the method of create questionnaire is called
-        verify(questionnaireService, atMostOnce()).createQuestionnaire(fakeQuestionnaire);
+        assertEquals(1, stubQuestionnaireService.getGetCreateQuestionnaireCalls());
         // test content of response
-        assertEquals(1,responseEntity.getHeaders().get("Location").size());
-        assertEquals("http://localhost/api/persistence/questionnaire/goodid", responseEntity.getHeaders().get("Location").get(0));
+        List<String> location = responseEntity.getHeaders().get("Location");
+        assertNotNull(location);
+        assertEquals(1, location.size());
+        assertEquals("http://localhost/api/persistence/questionnaire/foo12345", location.getFirst());
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
     }
-
 
 }

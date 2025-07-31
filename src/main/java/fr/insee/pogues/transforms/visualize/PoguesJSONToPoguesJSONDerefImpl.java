@@ -21,8 +21,6 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 @Slf4j
 public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDeref{
 
-    private static final String NULL_INPUT_MESSAGE = "Null input";
-
     @Autowired
     QuestionnaireService questionnaireService;
 
@@ -38,7 +36,7 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
     @Override
     public ByteArrayOutputStream transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
         if (null == input) {
-            throw new NullPointerException(NULL_INPUT_MESSAGE);
+            throw new NullPointerException("Null input stream in 'Pogues to Pogues dereferenced' transform method.");
         }
         // TODO: This parameter could be replaced by logical check in back-office
         // (when Pogues-Model supports "childQuestionnaireRef")
@@ -55,12 +53,11 @@ public class PoguesJSONToPoguesJSONDerefImpl implements PoguesJSONToPoguesJSONDe
 
     public Questionnaire transformAsQuestionnaire(String input) throws Exception {
         if (null == input) {
-            throw new NullPointerException(NULL_INPUT_MESSAGE);
+            throw new NullPointerException("Null string cannot be converted to a questionnaire.");
         }
         JsonNode jsonQuestionnaire = jsonStringtoJsonNode(input);
         JsonNode questionnaireWithRef = questionnaireService.getQuestionnaireWithReferences(jsonQuestionnaire);
         return PoguesDeserializer.questionnaireToJavaObject(questionnaireWithRef);
     }
-
 
 }

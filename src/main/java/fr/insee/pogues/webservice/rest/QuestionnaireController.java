@@ -5,12 +5,11 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
+import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.service.JSONLunaticService;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VariableService;
-import fr.insee.pogues.service.ModelCleaningService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
-import fr.insee.pogues.exception.PoguesException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -27,18 +26,7 @@ import java.util.List;
 
 /**
  * WebService class for the Instrument Persistence
- * 
- * See the swagger documentation for this service :
- * http://inseefr.github.io/Pogues/en/remote-apis/swagger.html
- * 
  * @author I6VWID
- * 
- *         schemes: - http
- * 
- *         consumes: - application/json
- * 
- *         produces: - application/json
- *
  */
 @RestController
 @RequestMapping("/api/persistence")
@@ -49,7 +37,6 @@ public class QuestionnaireController {
 	private ApplicationProperties applicationProperties;
 	private QuestionnaireService questionnaireService;
 	private JSONLunaticService jsonLunaticService;
-	private ModelCleaningService modelCleaningService;
 	private VariableService variableService;
 	private SuggesterVisuService suggesterVisuService;
 	private UserProvider userProvider;
@@ -58,7 +45,6 @@ public class QuestionnaireController {
 			ApplicationProperties applicationProperties,
 			QuestionnaireService questionnaireService,
 			JSONLunaticService jsonLunaticService,
-			ModelCleaningService modelCleaningService,
 			VariableService variableService,
 			SuggesterVisuService suggesterVisuService,
 			UserProvider userProvider
@@ -66,14 +52,13 @@ public class QuestionnaireController {
 		this.applicationProperties = applicationProperties;
 		this.questionnaireService = questionnaireService;
 		this.jsonLunaticService = jsonLunaticService;
-		this.modelCleaningService = modelCleaningService;
 		this.variableService = variableService;
 		this.suggesterVisuService = suggesterVisuService;
 		this.userProvider = userProvider;
 
 	}
 
-	private static final String IDQUESTIONNAIRE_PATTERN="[a-zA-Z0-9]*";
+	private static final String QUESTIONNAIRE_ID_PATTERN ="[a-zA-Z0-9]*";
 	public static final String BAD_REQUEST = "Bad Request";
     private static final String MESSAGE_INVALID_IDENTIFIER = "Identifier %s is invalid";
 
@@ -102,8 +87,7 @@ public class QuestionnaireController {
 		JsonNode result = references ?
 					questionnaireService.getQuestionnaireByIDWithReferences(id) :
 					questionnaireService.getQuestionnaireByID(id);
-		JsonNode cleanedResult = modelCleaningService.cleanModel(result);
-			return ResponseEntity.status(HttpStatus.OK).body(cleanedResult);
+		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
     @GetMapping("questionnaire/json-lunatic/{id}")
@@ -273,7 +257,7 @@ public class QuestionnaireController {
 			@PathVariable(value = "id") String id,
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
-		if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
 			questionnaireService.updateQuestionnaire(id, jsonContent);
 			log.info("Questionnaire {} updated", id);
 		} else {
@@ -315,7 +299,7 @@ public class QuestionnaireController {
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
 		String id = jsonContent.get("id").asText();
-		if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
 			questionnaireService.createQuestionnaire(jsonContent);
 			String uriQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/%s",
 					applicationProperties.scheme(),
@@ -342,7 +326,7 @@ public class QuestionnaireController {
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
 		String id = jsonContent.get("id").asText();
-		if (id.matches(IDQUESTIONNAIRE_PATTERN)) {
+		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
 			jsonLunaticService.createJsonLunatic(jsonContent);
 			String uriJsonLunaticQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/json-lunatic/%s",
 					applicationProperties.scheme(),
@@ -375,4 +359,5 @@ public class QuestionnaireController {
 		JsonNode nomenclaturesUrls = suggesterVisuService.createJsonNomenclaturesForVisu(nomenclaturesIds);
 		return ResponseEntity.status(HttpStatus.OK).body(nomenclaturesUrls);
 	}
+
 }
