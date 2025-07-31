@@ -20,11 +20,10 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
-import java.util.function.Function;
-import java.util.function.Predicate;
 
 import static fr.insee.pogues.utils.CodesListConverter.convertFromCodeListDTDtoCodeListModel;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+import static fr.insee.pogues.utils.ListUtils.replaceElementInListAccordingToCondition;
 import static fr.insee.pogues.utils.model.CodesList.*;
 import static fr.insee.pogues.utils.model.Variables.getNeededCollectedVariablesInQuestionnaire;
 import static fr.insee.pogues.utils.model.question.MultipleChoice.updateMultipleChoiceQuestionAccordingToCodeList;
@@ -33,6 +32,7 @@ import static fr.insee.pogues.utils.model.question.Table.updateTableQuestionAcco
 @Service
 @Slf4j
 public class CodesListService {
+
     private final QuestionnaireService questionnaireService;
     private final VersionService versionService;
 
@@ -128,7 +128,7 @@ public class CodesListService {
             return true;
         }
         codesListDtdToUpdate.setId(idCodesList);
-        replaceElementInListAccordingCondition(
+        replaceElementInListAccordingToCondition(
                 existingCodeLists,
                 codeList -> Objects.equals(idCodesList, codeList.getId()),
                 codesListDtdToUpdate,
@@ -185,16 +185,6 @@ public class CodesListService {
         return questionsToModify.stream().map(ComponentType::getId).toList();
     }
 
-    private <T, G> void replaceElementInListAccordingCondition(List<T> elements, Predicate<T> conditionFunction, G newElement, Function<G, T> factory) {
-        for (int i = 0; i < elements.size(); i++) {
-            T element = elements.get(i);
-            if (conditionFunction.test(element)) {
-                elements.set(i, factory.apply(newElement));
-                break;
-            }
-        }
-    }
-
     public List<ExtendedCodesList> getCodesListsDTD(Questionnaire questionnaire) {
         return questionnaire.getCodeLists().getCodeList().stream()
                 .filter(codeList -> !isNomenclatureCodeList(codeList))
@@ -212,4 +202,5 @@ public class CodesListService {
         Questionnaire questionnaire = retrieveQuestionnaireByIdVersion(versionId);
         return getCodesListsDTD(questionnaire);
     }
+
 }
