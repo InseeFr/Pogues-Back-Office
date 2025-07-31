@@ -1,0 +1,27 @@
+package fr.insee.pogues.webservice.model.dtd.variables;
+
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+/**
+ * Variables depict the data computed from the survey.
+ */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class Variable {
+
+    private String id;
+    private String label;
+    private String description;
+    private VariableTypeEnum type;
+    private String scope;
+    private String formula;
+
+}
