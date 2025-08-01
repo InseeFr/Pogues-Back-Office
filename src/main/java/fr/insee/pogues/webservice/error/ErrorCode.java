@@ -3,7 +3,8 @@ package fr.insee.pogues.webservice.error;
 public enum ErrorCode {
     CODE_LIST_RELATED_QUESTIONS_NAME("codelist:relatedquestions:name"),
     CODE_LIST_NOT_FOUND("codelist:notfound"),
-    VARIABLE_NOT_FOUND("variable:notfound");
+    VARIABLE_NOT_FOUND("variable:notfound"),
+    VARIABLE_INVALID_MODEL("variable:invalidmodel");
 
     public final String label;
 
