@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.service.stub.StubQuestionnaireService;
+import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
 import fr.insee.pogues.webservice.rest.QuestionnaireController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,15 +18,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class QuestionnaireControllerTest {
 
     private QuestionnaireController questionnaireController;
-
-    private StubQuestionnaireService stubQuestionnaireService;
-
+    private QuestionnaireServiceStub questionnaireServiceStub;
 
     @BeforeEach
     public void beforeEach() {
         ApplicationProperties fooProperties = new ApplicationProperties("localhost", "http", null, null, null, null, null);
-        stubQuestionnaireService = new StubQuestionnaireService();
-        questionnaireController = new QuestionnaireController(fooProperties, stubQuestionnaireService, null, null, null, null);
+        questionnaireServiceStub = new QuestionnaireServiceStub();
+        questionnaireController = new QuestionnaireController(fooProperties, questionnaireServiceStub, null, null, null, null);
     }
 
     @Test
@@ -48,7 +46,7 @@ public class QuestionnaireControllerTest {
         assertEquals(400, exception.getStatus());
 
         // test if the method of create questionnaire is never called
-        assertEquals(0, stubQuestionnaireService.getGetCreateQuestionnaireCalls());
+        assertEquals(0, questionnaireServiceStub.getGetCreateQuestionnaireCalls());
     }
 
     @Test
@@ -66,7 +64,7 @@ public class QuestionnaireControllerTest {
 
         // Then
         // test if the method of create questionnaire is called
-        assertEquals(1, stubQuestionnaireService.getGetCreateQuestionnaireCalls());
+        assertEquals(1, questionnaireServiceStub.getGetCreateQuestionnaireCalls());
         // test content of response
         List<String> location = responseEntity.getHeaders().get("Location");
         assertNotNull(location);

@@ -1,6 +1,7 @@
 package fr.insee.pogues.utils;
 
 
+import fr.insee.pogues.exception.VariableInvalidModelException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.webservice.model.dtd.variables.Variable;
 import fr.insee.pogues.webservice.model.dtd.variables.VariableTypeEnum;
@@ -9,7 +10,7 @@ public class VariablesConverter {
 
     private VariablesConverter() {}
 
-    public static VariableType convertFromDTDtoModel(Variable variableDTD) throws Exception {
+    public static VariableType convertFromDTDtoModel(Variable variableDTD) throws VariableInvalidModelException {
         VariableType variable;
         if (VariableTypeEnum.COLLECTED == variableDTD.getType()) {
             variable = new CollectedVariableType();
@@ -21,7 +22,7 @@ public class VariablesConverter {
             formula.setValue(variableDTD.getFormula());
             ((CalculatedVariableType) variable).setFormula(formula);
         } else {
-            throw new Exception("Invalid variable type");
+            throw new VariableInvalidModelException(String.format("Invalid variable type %s", variableDTD.getType()), variableDTD.toString());
         }
         variable.setId(variableDTD.getId());
         variable.setName(variableDTD.getLabel());
@@ -30,7 +31,7 @@ public class VariablesConverter {
         return variable;
     }
 
-    public static Variable convertFromModelToDTD(VariableType variable) throws Exception {
+    public static Variable convertFromModelToDTD(VariableType variable) throws VariableInvalidModelException {
         if (CollectedVariableType.class == variable.getClass()) {
             return new Variable(variable.getId(), variable.getName(), variable.getLabel(), VariableTypeEnum.COLLECTED, variable.getScope(), "");
         }
@@ -40,6 +41,6 @@ public class VariablesConverter {
         if (CalculatedVariableType.class == variable.getClass()) {
             return new Variable(variable.getId(), variable.getName(), variable.getLabel(), VariableTypeEnum.CALCULATED, variable.getScope(), ((CalculatedVariableType) variable).getFormula().getValue());
         }
-        throw new Exception("Invalid variable type");
+        throw new VariableInvalidModelException(String.format("Invalid variable type %s", variable.getClass()), variable.toString());
     }
 }
