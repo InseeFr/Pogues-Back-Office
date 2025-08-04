@@ -49,7 +49,7 @@ public class VariableController {
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
-	@GetMapping("questionnaire/{questionnaireId}/version/{versionId}/variables")
+	@GetMapping("/questionnaire/{questionnaireId}/version/{versionId}/variables")
 	public ResponseEntity<List<Variable>> getQuestionnaireVersionVariables(
 			@PathVariable(value = "versionId") UUID versionId
 	) throws Exception {
@@ -62,7 +62,7 @@ public class VariableController {
 			@ApiResponse(responseCode = "200", description = "Successfully updated"),
 			@ApiResponse(responseCode = "201", description = "Successfully created"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
-	@PostMapping("questionnaire/{questionnaireId}/variable")
+	@PostMapping("/questionnaire/{questionnaireId}/variable")
 	public ResponseEntity<List<Variable>> upsertQuestionnaireVariable(
 			@PathVariable(value = "questionnaireId") String questionnaireId,
 			@RequestBody Variable variable
@@ -79,7 +79,7 @@ public class VariableController {
 			@ApiResponse(responseCode = "204", description = "Success"),
 			@ApiResponse(responseCode = "400", description = "Variable is in use"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
-	@DeleteMapping("questionnaire/{questionnaireId}/variable/{variableId}")
+	@DeleteMapping("/questionnaire/{questionnaireId}/variable/{variableId}")
 	public ResponseEntity<JsonNode> deleteQuestionnaireVariable(
 			@PathVariable(value = "questionnaireId") String questionnaireId,
 			@PathVariable(value = "variableId") String variableId
