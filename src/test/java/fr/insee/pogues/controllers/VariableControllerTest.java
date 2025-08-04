@@ -45,7 +45,7 @@ public class VariableControllerTest {
         String expectedJSON = objectMapper.writeValueAsString(expected);
 
         // When we fetch the questionnaire variables
-        mockMvc.perform(get("/api/persistence/questionnaire/{questionnaireId}/variables", "my-q-id")
+        mockMvc.perform(get("/api/persistence/questionnaire/my-q-id/variables")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 // Then we receive a 200 and the variables are returned
                 .andExpect(status().isOk())
@@ -60,8 +60,8 @@ public class VariableControllerTest {
                 .thenThrow(new PoguesException(404, "Questionnaire not found", ""));
 
         // When we fetch the questionnaire variables
-        mockMvc.perform(get("/api/persistence/questionnaire/{questionnaireId}/variables", "my-q-id")
-                .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
+        mockMvc.perform(get("/api/persistence/questionnaire/my-q-id/variables")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 // Then we receive a 404
                 .andExpect(status().isNotFound());
     }
@@ -77,7 +77,7 @@ public class VariableControllerTest {
         String expectedJSON = objectMapper.writeValueAsString(expected);
 
         // When we fetch the questionnaire variables
-        mockMvc.perform(get("/api/persistence/questionnaire/{questionnaireId}/version/{versionId}/variables", "my-q-id", versionId)
+        mockMvc.perform(get(String.format("/api/persistence/questionnaire/my-q-id/version/%s/variables", versionId))
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 // Then we receive a 200 and the variables are returned
                 .andExpect(status().isOk())
@@ -93,7 +93,7 @@ public class VariableControllerTest {
                 .thenThrow(new PoguesException(404, "Version not found", ""));
 
         // When we fetch the questionnaire variables
-        mockMvc.perform(get("/api/persistence/questionnaire/{questionnaireId}/version/{versionId}/variables", "my-q-id", versionId)
+        mockMvc.perform(get(String.format("/api/persistence/questionnaire/my-q-id/version/%s/variables", versionId))
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 // Then we receive a 404
                 .andExpect(status().isNotFound());
@@ -110,7 +110,7 @@ public class VariableControllerTest {
                 .thenReturn(true);
 
         // When we insert the variable in the questionnaire
-        mockMvc.perform(post("/api/persistence/questionnaire/{questionnaireId}/variable", "my-q-id")
+        mockMvc.perform(post("/api/persistence/questionnaire/my-q-id/variable")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(expectedJSON)
                         .characterEncoding("utf-8")
@@ -130,7 +130,7 @@ public class VariableControllerTest {
                 .thenReturn(false);
 
         // When we update the variable in the questionnaire
-        mockMvc.perform(post("/api/persistence/questionnaire/{questionnaireId}/variable", "my-q-id")
+        mockMvc.perform(post("/api/persistence/questionnaire/my-q-id/variable")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(expectedJSON)
                         .characterEncoding("utf-8")
@@ -150,7 +150,7 @@ public class VariableControllerTest {
                 .thenThrow(new PoguesException(404, "Questionnaire not found", ""));
 
         // When we try to insert the variable in a questionnaire which does not exist
-        mockMvc.perform(post("/api/persistence/questionnaire/{questionnaireId}/variable", "my-q-id")
+        mockMvc.perform(post("/api/persistence/questionnaire/my-q-id/variable")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(expectedJSON)
                         .characterEncoding("utf-8")
@@ -166,7 +166,7 @@ public class VariableControllerTest {
         Mockito.doNothing().when(variableService).deleteQuestionnaireVariable("my-q-id", "my-var-id");
 
         // When we delete the questionnaire variable
-        mockMvc.perform(delete("/api/persistence/questionnaire/{questionnaireId}/variable/${variableId}", "my-q-id", "my-var-id")
+        mockMvc.perform(delete("/api/persistence/questionnaire/my-q-id/variable/my-var-id")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 // Then we receive a 200 and the variables are returned
                 .andExpect(status().isNoContent());
@@ -176,10 +176,11 @@ public class VariableControllerTest {
     @DisplayName("Should trigger an error when we try to delete a variable from a questionnaire that does not exist")
     void deleteQuestionnaireVariable_error_questionnaireNotFound() throws Exception {
         // Given a questionnaire that does not exist
-        Mockito.doThrow(new PoguesException(404, "Questionnaire not found", "")).when(variableService).deleteQuestionnaireVariable("my-q-id", "my-var-id");
+        Mockito.doThrow(new PoguesException(404, "Questionnaire not found", ""))
+                .when(variableService).deleteQuestionnaireVariable("my-q-id", "my-var-id");
 
         // When we delete the questionnaire variable
-        mockMvc.perform(delete("/api/persistence/questionnaire/{questionnaireId}/variable/${variableId}", "my-q-id", "my-var-id")
+        mockMvc.perform(delete("/api/persistence/questionnaire/my-q-id/variable/my-var-id")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 // Then we receive a 404
                 .andExpect(status().isNotFound());
@@ -188,11 +189,12 @@ public class VariableControllerTest {
     @Test
     @DisplayName("Should trigger an error when we try to delete a variable that does not exist")
     void deleteQuestionnaireVariable_error_variableNotFound() throws Exception {
-        // Given a variable that does not exist in a questionnaire
-        Mockito.doThrow(new VariableNotFoundException("Variable not found")).when(variableService).deleteQuestionnaireVariable("my-q-id", "my-var-id");
+        // Given a variable that does not exist in a questionnaire*
+        Mockito.doThrow(new VariableNotFoundException("Variable not found"))
+                .when(variableService).deleteQuestionnaireVariable("my-q-id", "my-var-id");
 
         // When we delete the questionnaire variable
-        mockMvc.perform(delete("/api/persistence/questionnaire/{questionnaireId}/variable/${variableId}", "my-q-id", "my-var-id")
+        mockMvc.perform(delete("/api/persistence/questionnaire/my-q-id/variable/my-var-id")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 // Then we receive a 404
                 .andExpect(status().isNotFound());
