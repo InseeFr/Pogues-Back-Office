@@ -18,7 +18,6 @@ import java.util.UUID;
 
 /**
  * WebService class used to fetch and update the variables of a questionnaire.
- * @author I6VWID
  */
 @RestController
 @RequestMapping("/api/persistence")
@@ -36,8 +35,8 @@ public class VariableController {
 			responses = { @ApiResponse(content = @Content(mediaType = "application/json")) })
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Success"),
-			@ApiResponse(responseCode = "404", description = "Not found") })
-	@GetMapping("questionnaire/{questionnaireId}/variables")
+			@ApiResponse(responseCode = "404", description = "Questionnaire not found") })
+	@GetMapping("/questionnaire/{questionnaireId}/variables")
 	public ResponseEntity<List<Variable>> getQuestionnaireVariables(
 			@PathVariable(value = "questionnaireId") String questionnaireId
 	) throws Exception {
