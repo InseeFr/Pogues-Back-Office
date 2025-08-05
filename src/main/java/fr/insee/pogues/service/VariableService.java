@@ -45,7 +45,6 @@ public class VariableService {
      * @return Whether the variable has been created
      * @throws Exception Could not read the DB
      * @throws PoguesException Questionnaire not found
-     * @throws VariableInvalidModelException The provided variable has an invalid type
      */
     public boolean upsertQuestionnaireVariable(String questionnaireId, VariableType variable) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
@@ -54,7 +53,7 @@ public class VariableService {
         return isCreated;
     }
 
-    private boolean upsertQuestionnaireVariable(Questionnaire questionnaire, VariableType variable) throws VariableInvalidModelException {
+    private boolean upsertQuestionnaireVariable(Questionnaire questionnaire, VariableType variable) {
         List<VariableType> variables = questionnaire.getVariables().getVariable();
         return upsertVariable(variables, variable);
     }
@@ -64,9 +63,8 @@ public class VariableService {
      * @param existingVariables List of variables we want to add our variable to
      * @param variable Variable to create or update
      * @return Whether the variable was created
-     * @throws VariableInvalidModelException The provided variable has an invalid type
      */
-    private boolean upsertVariable(List<VariableType> existingVariables, VariableType variable) throws VariableInvalidModelException {
+    private boolean upsertVariable(List<VariableType> existingVariables, VariableType variable) {
         String variableId = variable.getId();
         if (existingVariables.stream().noneMatch(codeList -> Objects.equals(variableId, codeList.getId()))) {
             existingVariables.add(variable);
@@ -81,7 +79,6 @@ public class VariableService {
      * Update an existing variable in the variable list.
      * @param existingVariables List of variables we want to add our variable to
      * @param variable Variable to update
-     * @throws VariableInvalidModelException The provided variable has an invalid type
      */
     @SneakyThrows
     private void updateVariable(List<VariableType> existingVariables, String variableId, VariableType variable) {
@@ -138,7 +135,6 @@ public class VariableService {
      * Fetch the variables of a questionnaire.
      * @param questionnaireId ID of the questionnaire to fetch the variables from
      * @throws Exception Could not read from or write in the DB
-     * @throws VariableInvalidModelException A variable of the questionnaire has an invalid type
      */
     public List<VariableType> getQuestionnaireVariables(String questionnaireId) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
@@ -153,7 +149,6 @@ public class VariableService {
      * Fetch the variables of a questionnaire's version.
      * @param versionId ID of the questionnaire's version to fetch the variables from
      * @throws Exception There was an error when fetching the questionnaire from the DB
-     * @throws VariableInvalidModelException A variable of the questionnaire has an invalid type
      */
     public List<VariableType> getVersionVariables(UUID versionId) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireByIdVersion(versionId);

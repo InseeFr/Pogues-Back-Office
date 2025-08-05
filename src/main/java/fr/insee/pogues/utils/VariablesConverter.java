@@ -7,12 +7,14 @@ import fr.insee.pogues.webservice.model.dtd.variables.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.time.Duration;
 
 public class VariablesConverter {
 
     private VariablesConverter() {}
 
+    /**
+     * @throws VariableInvalidModelException The variable has an invalid model (type or datatype).
+     */
     public static VariableType toModel(VariableDTO variableDTO) throws VariableInvalidModelException {
         VariableType variable;
 
@@ -38,7 +40,10 @@ public class VariablesConverter {
         return variable;
     }
 
-    private static void setDatatype(VariableType variable, VariableDTODatatype variableDTODatatype) {
+    /**
+     * @throws VariableInvalidModelException The variable has an invalid datatype.
+     */
+    private static void setDatatype(VariableType variable, VariableDTODatatype variableDTODatatype) throws VariableInvalidModelException {
         switch (variableDTODatatype.getTypeName()) {
             case VariableDTODatatypeTypeEnum.BOOLEAN: {
                 BooleanDatatypeType datatype = new BooleanDatatypeType();
@@ -103,65 +108,58 @@ public class VariablesConverter {
         }
     }
 
+    /**
+     * @throws VariableInvalidModelException The variable has an invalid model (type or datatype).
+     */
     public static VariableDTO toDTO(VariableType variable) throws VariableInvalidModelException {
         VariableDTODatatype datatypeDTO;
 
         switch (variable.getDatatype().getTypeName()) {
-            case DatatypeTypeEnum.BOOLEAN -> {
-                datatypeDTO = new VariableDTODatatype(
-                        VariableDTODatatypeTypeEnum.BOOLEAN,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null);
-            }
-            case DatatypeTypeEnum.DATE -> {
-                datatypeDTO = new VariableDTODatatype(
-                        VariableDTODatatypeTypeEnum.DATE,
-                        computeDateDatatypeFormat(((DateDatatypeType) variable.getDatatype()).getFormat()),
-                        ((DateDatatypeType) variable.getDatatype()).getMinimum(),
-                        ((DateDatatypeType) variable.getDatatype()).getMaximum(),
-                        null,
-                        null,
-                        null,
-                        null);
-            }
-            case DatatypeTypeEnum.DURATION -> {
-                datatypeDTO = new VariableDTODatatype(
-                        VariableDTODatatypeTypeEnum.DURATION,
-                        computeDurationDatatypeFormat(((DurationDatatypeType) variable.getDatatype()).getFormat()),
-                        ((DurationDatatypeType) variable.getDatatype()).getMinimum(),
-                        ((DurationDatatypeType) variable.getDatatype()).getMaximum(),
-                        null,
-                        null,
-                        null,
-                        null);
-            }
-            case DatatypeTypeEnum.NUMERIC -> {
-                datatypeDTO = new VariableDTODatatype(
-                        VariableDTODatatypeTypeEnum.NUMERIC,
-                        null,
-                        ((NumericDatatypeType) variable.getDatatype()).getMinimum().doubleValue(),
-                        ((NumericDatatypeType) variable.getDatatype()).getMaximum().doubleValue(),
-                        ((NumericDatatypeType) variable.getDatatype()).getDecimals().intValue(),
-                        ((NumericDatatypeType) variable.getDatatype()).isIsDynamicUnit(),
-                        ((NumericDatatypeType) variable.getDatatype()).getUnit(),
-                        null);
-            }
-            case DatatypeTypeEnum.TEXT -> {
-                datatypeDTO = new VariableDTODatatype(
-                        VariableDTODatatypeTypeEnum.TEXT,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        null,
-                        ((TextDatatypeType) variable.getDatatype()).getMaxLength().intValue());
-            }
+            case DatatypeTypeEnum.BOOLEAN -> datatypeDTO = new VariableDTODatatype(
+                    VariableDTODatatypeTypeEnum.BOOLEAN,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null);
+            case DatatypeTypeEnum.DATE -> datatypeDTO = new VariableDTODatatype(
+                    VariableDTODatatypeTypeEnum.DATE,
+                    computeDateDatatypeFormat(((DateDatatypeType) variable.getDatatype()).getFormat()),
+                    ((DateDatatypeType) variable.getDatatype()).getMinimum(),
+                    ((DateDatatypeType) variable.getDatatype()).getMaximum(),
+                    null,
+                    null,
+                    null,
+                    null);
+            case DatatypeTypeEnum.DURATION -> datatypeDTO = new VariableDTODatatype(
+                    VariableDTODatatypeTypeEnum.DURATION,
+                    computeDurationDatatypeFormat(((DurationDatatypeType) variable.getDatatype()).getFormat()),
+                    ((DurationDatatypeType) variable.getDatatype()).getMinimum(),
+                    ((DurationDatatypeType) variable.getDatatype()).getMaximum(),
+                    null,
+                    null,
+                    null,
+                    null);
+            case DatatypeTypeEnum.NUMERIC -> datatypeDTO = new VariableDTODatatype(
+                    VariableDTODatatypeTypeEnum.NUMERIC,
+                    null,
+                    ((NumericDatatypeType) variable.getDatatype()).getMinimum().doubleValue(),
+                    ((NumericDatatypeType) variable.getDatatype()).getMaximum().doubleValue(),
+                    ((NumericDatatypeType) variable.getDatatype()).getDecimals().intValue(),
+                    ((NumericDatatypeType) variable.getDatatype()).isIsDynamicUnit(),
+                    ((NumericDatatypeType) variable.getDatatype()).getUnit(),
+                    null);
+            case DatatypeTypeEnum.TEXT -> datatypeDTO = new VariableDTODatatype(
+                    VariableDTODatatypeTypeEnum.TEXT,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    null,
+                    ((TextDatatypeType) variable.getDatatype()).getMaxLength().intValue());
             default -> throw new VariableInvalidModelException(String.format("Invalid variable datatype %s", variable.getDatatype().getTypeName()), variable.toString());
         }
 
@@ -187,7 +185,10 @@ public class VariablesConverter {
         };
     }
 
-    private static VariableDTODatatypeFormatEnum computeDurationDatatypeFormat(String format) {
+    /**
+     * @throws VariableInvalidModelException The variable has an invalid duration format.
+     */
+    private static VariableDTODatatypeFormatEnum computeDurationDatatypeFormat(String format) throws VariableInvalidModelException {
         return switch (format) {
             case "PTnHnM" -> VariableDTODatatypeFormatEnum.DURATION_MINUTE_SECOND;
             case "PnYnM" -> VariableDTODatatypeFormatEnum.DURATION_YEAR_MONTH;
