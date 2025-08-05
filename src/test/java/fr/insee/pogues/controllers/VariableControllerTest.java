@@ -3,9 +3,12 @@ package fr.insee.pogues.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.exception.VariableNotFoundException;
+import fr.insee.pogues.model.*;
 import fr.insee.pogues.service.VariableService;
-import fr.insee.pogues.webservice.model.dtd.variables.Variable;
-import fr.insee.pogues.webservice.model.dtd.variables.VariableTypeEnum;
+import fr.insee.pogues.webservice.model.dtd.variables.VariableDTO;
+import fr.insee.pogues.webservice.model.dtd.variables.VariableDTODatatype;
+import fr.insee.pogues.webservice.model.dtd.variables.VariableDTODatatypeTypeEnum;
+import fr.insee.pogues.webservice.model.dtd.variables.VariableDTOTypeEnum;
 import fr.insee.pogues.webservice.rest.VariableController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -39,10 +42,15 @@ public class VariableControllerTest {
     @DisplayName("Should fetch questionnaires variables")
     void getQuestionnaireVariables_success() throws Exception {
         // Given a questionnaire with variables
-        List<Variable> expected = List.of(new Variable("id", "name", "description", VariableTypeEnum.COLLECTED, "", ""));
-        Mockito.when(variableService.getQuestionnaireVariables("my-q-id")).thenReturn(expected);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String expectedJSON = objectMapper.writeValueAsString(expected);
+        VariableType variable = new CollectedVariableType();
+        variable.setId("id");
+        variable.setName("name");
+        variable.setLabel("description");
+        BooleanDatatypeType datatype = new BooleanDatatypeType();
+        datatype.setTypeName(DatatypeTypeEnum.BOOLEAN);
+        variable.setDatatype(datatype);
+        Mockito.when(variableService.getQuestionnaireVariables("my-q-id")).thenReturn(List.of(variable));
+        String expectedJSON = "[{\"id\":\"id\",\"label\":\"name\",\"description\":\"description\",\"type\":\"COLLECTED\",\"datatype\":{\"typeName\":\"BOOLEAN\"}}]";
 
         // When we fetch the questionnaire variables
         mockMvc.perform(get("/api/persistence/questionnaire/my-q-id/variables")
@@ -71,10 +79,15 @@ public class VariableControllerTest {
     void getQuestionnaireVersionVariables_success() throws Exception {
         // Given a questionnaire's version with variables
         UUID versionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
-        List<Variable> expected = List.of(new Variable("id", "name", "description", VariableTypeEnum.COLLECTED, "", ""));
-        Mockito.when(variableService.getVersionVariables(versionId)).thenReturn(expected);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String expectedJSON = objectMapper.writeValueAsString(expected);
+        VariableType variable = new CollectedVariableType();
+        variable.setId("id");
+        variable.setName("name");
+        variable.setLabel("description");
+        BooleanDatatypeType datatype = new BooleanDatatypeType();
+        datatype.setTypeName(DatatypeTypeEnum.BOOLEAN);
+        variable.setDatatype(datatype);
+        Mockito.when(variableService.getVersionVariables(versionId)).thenReturn(List.of(variable));
+        String expectedJSON = "[{\"id\":\"id\",\"label\":\"name\",\"description\":\"description\",\"type\":\"COLLECTED\",\"datatype\":{\"typeName\":\"BOOLEAN\"}}]";
 
         // When we fetch the questionnaire variables
         mockMvc.perform(get(String.format("/api/persistence/questionnaire/my-q-id/version/%s/variables", versionId))
@@ -103,10 +116,11 @@ public class VariableControllerTest {
     @DisplayName("Should insert questionnaire variable")
     void upsertQuestionnaireVariable_success_created() throws Exception {
         // Given a variable
-        Variable expected = new Variable("id", "name", "description", VariableTypeEnum.COLLECTED, "", "");
+        VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
+        VariableDTO variable = new VariableDTO("id", "name", "description", VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
         ObjectMapper objectMapper = new ObjectMapper();
-        String expectedJSON = objectMapper.writeValueAsString(expected);
-        Mockito.when(variableService.upsertQuestionnaireVariable(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getId(), expected.getId()))))
+        String expectedJSON = objectMapper.writeValueAsString(variable);
+        Mockito.when(variableService.upsertQuestionnaireVariable(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getId(), variable.getId()))))
                 .thenReturn(true);
 
         // When we insert the variable in the questionnaire
@@ -123,10 +137,11 @@ public class VariableControllerTest {
     @DisplayName("Should update questionnaire variable")
     void upsertQuestionnaireVariable_success_updated() throws Exception {
         // Given a questionnaire with a variable
-        Variable expected = new Variable("id", "name", "description", VariableTypeEnum.COLLECTED, "", "");
+        VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
+        VariableDTO variable = new VariableDTO("id", "name", "description", VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
         ObjectMapper objectMapper = new ObjectMapper();
-        String expectedJSON = objectMapper.writeValueAsString(expected);
-        Mockito.when(variableService.upsertQuestionnaireVariable(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getId(), expected.getId()))))
+        String expectedJSON = objectMapper.writeValueAsString(variable);
+        Mockito.when(variableService.upsertQuestionnaireVariable(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getId(), variable.getId()))))
                 .thenReturn(false);
 
         // When we update the variable in the questionnaire
@@ -143,10 +158,11 @@ public class VariableControllerTest {
     @DisplayName("Should trigger an error when we try to update a variable from a questionnaire that does not exist")
     void upsertQuestionnaireVariable_error_notFound() throws Exception {
         // Given a variable
-        Variable expected = new Variable("id", "name", "description", VariableTypeEnum.COLLECTED, "", "");
+        VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
+        VariableDTO variable = new VariableDTO("id", "name", "description", VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
         ObjectMapper objectMapper = new ObjectMapper();
-        String expectedJSON = objectMapper.writeValueAsString(expected);
-        Mockito.when(variableService.upsertQuestionnaireVariable(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getId(), expected.getId()))))
+        String expectedJSON = objectMapper.writeValueAsString(variable);
+        Mockito.when(variableService.upsertQuestionnaireVariable(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getId(), variable.getId()))))
                 .thenThrow(new PoguesException(404, "Questionnaire not found", ""));
 
         // When we try to insert the variable in a questionnaire which does not exist

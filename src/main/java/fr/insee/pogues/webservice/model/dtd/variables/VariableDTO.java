@@ -15,13 +15,14 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Variable {
+public class VariableDTO {
 
     private String id;
     private String label;
     private String description;
-    private VariableTypeEnum type;
+    private VariableDTOTypeEnum type;
     private String scope;
     private String formula;
+    private VariableDTODatatype datatype;
 
 }

@@ -7,8 +7,6 @@ import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
 import fr.insee.pogues.utils.PoguesSerializer;
-import fr.insee.pogues.webservice.model.dtd.variables.Variable;
-import fr.insee.pogues.webservice.model.dtd.variables.VariableTypeEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -49,7 +47,8 @@ class VariableServiceTest {
         assertEquals(1, variableService.getQuestionnaireVariables("lmyoceix").size());
 
         // When we update the variable
-        Variable variable = new Variable("lmyo22nw", "new-name", "new-description", VariableTypeEnum.COLLECTED, "", "");
+        VariableType variable = new CollectedVariableType();
+        variable.setId("lmyo22nw");
         boolean isCreated = variableService.upsertQuestionnaireVariable("lmyoceix", variable);
 
         // Then the questionnaire is updated
@@ -69,7 +68,8 @@ class VariableServiceTest {
         assertEquals(1, variableService.getQuestionnaireVariables("lmyoceix").size());
 
         // When we insert a new variable
-        Variable variable = new Variable("new-variable", "name", "description", VariableTypeEnum.COLLECTED, "", "");
+        VariableType variable = new CollectedVariableType();
+        variable.setId("new-variable");
         boolean isCreated = variableService.upsertQuestionnaireVariable("lmyoceix", variable);
 
         // Then the questionnaire is created
@@ -83,7 +83,8 @@ class VariableServiceTest {
         // Given a questionnaire that does not exist
 
         // When we insert a new variable
-        Variable variable = new Variable("new-variable", "name", "description", VariableTypeEnum.COLLECTED, "", "");
+        VariableType variable = new CollectedVariableType();
+        variable.setId("new-variable");
         assertThrows(PoguesException.class, () -> variableService.upsertQuestionnaireVariable("lmyoceix", variable));
 
         // Then an exception is thrown
@@ -144,14 +145,17 @@ class VariableServiceTest {
         String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
         JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
         questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
-        List<Variable> expected = List.of(new Variable("lmyo22nw", "Q1", "Q1 label", VariableTypeEnum.COLLECTED, "", ""));
+        VariableType expected = new CollectedVariableType();
+        expected.setId("lmyo22nw");
+        expected.setName("Q1");
+        expected.setLabel("Q1 label");
 
         // When we get the questionnaire's variables
-        List<Variable> res = variableService.getQuestionnaireVariables("lmyoceix");
+        List<VariableType> res = variableService.getQuestionnaireVariables("lmyoceix");
 
         // Then the variable is fetched
         assertEquals(1, res.size());
-        assertEquals(expected.getFirst().getId(), res.getFirst().getId());
+        assertEquals(expected.getId(), res.getFirst().getId());
     }
 
     @Test

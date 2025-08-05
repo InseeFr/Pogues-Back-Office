@@ -13,7 +13,7 @@ import lombok.Getter;
  * </ul>
  */
 @Getter
-public enum VariableTypeEnum {
+public enum VariableDTOTypeEnum {
 
 	/** The variable value is linked to a question. */
 	COLLECTED("COLLECTED"),
@@ -24,7 +24,7 @@ public enum VariableTypeEnum {
 
 	private final String variableType;
 
-	private VariableTypeEnum(String variableType) {
+	private VariableDTOTypeEnum(String variableType) {
 		this.variableType = variableType;
 	}
 

@@ -1,8 +1,10 @@
 package fr.insee.pogues.webservice.rest;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import fr.insee.pogues.model.VariableType;
 import fr.insee.pogues.service.VariableService;
-import fr.insee.pogues.webservice.model.dtd.variables.Variable;
+import fr.insee.pogues.utils.VariablesConverter;
+import fr.insee.pogues.webservice.model.dtd.variables.VariableDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,11 +39,12 @@ public class VariableController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "404", description = "Questionnaire not found") })
 	@GetMapping("/questionnaire/{questionnaireId}/variables")
-	public ResponseEntity<List<Variable>> getQuestionnaireVariables(
+	public ResponseEntity<List<VariableDTO>> getQuestionnaireVariables(
 			@PathVariable(value = "questionnaireId") String questionnaireId
 	) throws Exception {
-		List<Variable> result = variableService.getQuestionnaireVariables(questionnaireId);
-		return ResponseEntity.status(HttpStatus.OK).body(result);
+		List<VariableType> variables = variableService.getQuestionnaireVariables(questionnaireId);
+		List<VariableDTO> variablesDTO = variables.stream().map(VariablesConverter::toDTO).toList();
+		return ResponseEntity.status(HttpStatus.OK).body(variablesDTO);
 	}
 
 	@Operation(summary = "Get the variables from a questionnaire's backup",
@@ -50,11 +53,12 @@ public class VariableController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
 	@GetMapping("/questionnaire/{questionnaireId}/version/{versionId}/variables")
-	public ResponseEntity<List<Variable>> getQuestionnaireVersionVariables(
+	public ResponseEntity<List<VariableDTO>> getQuestionnaireVersionVariables(
 			@PathVariable(value = "versionId") UUID versionId
 	) throws Exception {
-		List<Variable> result = variableService.getVersionVariables(versionId);
-		return ResponseEntity.status(HttpStatus.OK).body(result);
+		List<VariableType> variables = variableService.getVersionVariables(versionId);
+		List<VariableDTO> variablesDTO = variables.stream().map(VariablesConverter::toDTO).toList();
+		return ResponseEntity.status(HttpStatus.OK).body(variablesDTO);
 	}
 
 	@Operation(summary = "Update or create a variable in a questionnaire")
@@ -63,10 +67,11 @@ public class VariableController {
 			@ApiResponse(responseCode = "201", description = "Successfully created"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
 	@PostMapping("/questionnaire/{questionnaireId}/variable")
-	public ResponseEntity<List<Variable>> upsertQuestionnaireVariable(
+	public ResponseEntity<List<VariableDTO>> upsertQuestionnaireVariable(
 			@PathVariable(value = "questionnaireId") String questionnaireId,
-			@RequestBody Variable variable
+			@RequestBody VariableDTO variableDTO
 	) throws Exception {
+		VariableType variable = VariablesConverter.toModel(variableDTO);
 		boolean isCreated = variableService.upsertQuestionnaireVariable(questionnaireId, variable);
 		if (isCreated) {
 			return ResponseEntity.status(HttpStatus.CREATED).build();

@@ -6,11 +6,9 @@ import fr.insee.pogues.exception.VariableNotFoundException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
-import fr.insee.pogues.utils.VariablesConverter;
 import fr.insee.pogues.utils.DateUtils;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
-import fr.insee.pogues.webservice.model.dtd.variables.Variable;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,12 +19,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 import static fr.insee.pogues.utils.ListUtils.replaceElementInListAccordingToCondition;
-import static fr.insee.pogues.utils.VariablesConverter.convertFromDTDtoModel;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
 /**
- * Variable Service used to fetch or update variables between Pogues UI and API.
- * 
+ * Variable Service used to fetch or update variables in questionnaires.
  */
 @Service
 @Slf4j
@@ -51,16 +47,16 @@ public class VariableService {
      * @throws PoguesException Questionnaire not found
      * @throws VariableInvalidModelException The provided variable has an invalid type
      */
-    public boolean upsertQuestionnaireVariable(String questionnaireId, Variable variable) throws Exception {
+    public boolean upsertQuestionnaireVariable(String questionnaireId, VariableType variable) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
         boolean isCreated = upsertQuestionnaireVariable(questionnaire, variable);
         updateQuestionnaireInDataBase(questionnaire);
         return isCreated;
     }
 
-    private boolean upsertQuestionnaireVariable(Questionnaire questionnaire, Variable variable) throws VariableInvalidModelException {
+    private boolean upsertQuestionnaireVariable(Questionnaire questionnaire, VariableType variable) throws VariableInvalidModelException {
         List<VariableType> variables = questionnaire.getVariables().getVariable();
-        return upsertVariableDTD(variables, variable);
+        return upsertVariable(variables, variable);
     }
 
     /**
@@ -70,26 +66,15 @@ public class VariableService {
      * @return Whether the variable was created
      * @throws VariableInvalidModelException The provided variable has an invalid type
      */
-    private boolean upsertVariableDTD(List<VariableType> existingVariables, Variable variable) throws VariableInvalidModelException {
+    private boolean upsertVariable(List<VariableType> existingVariables, VariableType variable) throws VariableInvalidModelException {
         String variableId = variable.getId();
         if (existingVariables.stream().noneMatch(codeList -> Objects.equals(variableId, codeList.getId()))) {
-            insertVariableDTD(existingVariables, variable);
+            existingVariables.add(variable);
             return true;
         }
 
-        updateVariableDTD(existingVariables, variableId, variable);
+        updateVariable(existingVariables, variableId, variable);
         return false;
-    }
-
-    /**
-     * Create a new variable in the variable list.
-     * @param existingVariables List of variables we want to add our variable to
-     * @param variable Variable to create
-     * @throws VariableInvalidModelException The provided variable has an invalid type
-     */
-    private void insertVariableDTD(List<VariableType> existingVariables, Variable variable) throws VariableInvalidModelException {
-        VariableType variableModel = convertFromDTDtoModel(variable);
-        existingVariables.add(variableModel);
     }
 
     /**
@@ -99,12 +84,12 @@ public class VariableService {
      * @throws VariableInvalidModelException The provided variable has an invalid type
      */
     @SneakyThrows
-    private void updateVariableDTD(List<VariableType> existingVariables, String variableId, Variable variable) {
+    private void updateVariable(List<VariableType> existingVariables, String variableId, VariableType variable) {
         replaceElementInListAccordingToCondition(
                 existingVariables,
                 existingVariable -> Objects.equals(variableId, existingVariable.getId()),
                 variable,
-                VariablesConverter::convertFromDTDtoModel);
+                v -> v);
     }
 
     /**
@@ -155,9 +140,9 @@ public class VariableService {
      * @throws Exception Could not read from or write in the DB
      * @throws VariableInvalidModelException A variable of the questionnaire has an invalid type
      */
-    public List<Variable> getQuestionnaireVariables(String questionnaireId) throws Exception {
+    public List<VariableType> getQuestionnaireVariables(String questionnaireId) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
-        return getQuestionnaireVariablesDTD(questionnaire);
+        return getQuestionnaireVariables(questionnaire);
     }
 
     private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
@@ -170,9 +155,9 @@ public class VariableService {
      * @throws Exception There was an error when fetching the questionnaire from the DB
      * @throws VariableInvalidModelException A variable of the questionnaire has an invalid type
      */
-    public List<Variable> getVersionVariables(UUID versionId) throws Exception {
+    public List<VariableType> getVersionVariables(UUID versionId) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireByIdVersion(versionId);
-        return getQuestionnaireVariablesDTD(questionnaire);
+        return getQuestionnaireVariables(questionnaire);
     }
 
     private Questionnaire retrieveQuestionnaireByIdVersion(UUID versionId) throws Exception {
@@ -180,9 +165,8 @@ public class VariableService {
     }
 
     @SneakyThrows
-    private List<Variable> getQuestionnaireVariablesDTD(Questionnaire questionnaire) {
+    private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) {
         return questionnaire.getVariables().getVariable().stream()
-                .map(VariablesConverter::convertFromModelToDTD)
                 .toList();
     }
 
