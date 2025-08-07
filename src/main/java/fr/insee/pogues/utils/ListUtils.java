@@ -6,6 +6,10 @@ import java.util.function.Predicate;
 
 public class ListUtils {
 
+    private ListUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static <T, G> void replaceElementInListAccordingToCondition(List<T> elements, Predicate<T> conditionFunction, G newElement, Function<G, T> factory) {
         for (int i = 0; i < elements.size(); i++) {
             T element = elements.get(i);

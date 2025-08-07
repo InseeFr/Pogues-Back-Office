@@ -16,16 +16,10 @@ import lombok.Getter;
 public enum VariableDTOTypeEnum {
 
 	/** The variable value is linked to a question. */
-	COLLECTED("COLLECTED"),
+	COLLECTED,
 	/** The variable value is calculated from a formula. */
-	CALCULATED("CALCULATED"),
+	CALCULATED,
 	/** The variable value is explicitly provided for the respondent beforehand. */
-	EXTERNAL("EXTERNAL");
-
-	private final String variableType;
-
-	private VariableDTOTypeEnum(String variableType) {
-		this.variableType = variableType;
-	}
+	EXTERNAL;
 
 }

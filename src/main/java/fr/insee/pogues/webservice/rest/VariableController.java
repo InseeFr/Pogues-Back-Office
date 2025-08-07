@@ -54,6 +54,7 @@ public class VariableController {
 			@ApiResponse(responseCode = "404", description = "Not found") })
 	@GetMapping("/questionnaire/{questionnaireId}/version/{versionId}/variables")
 	public ResponseEntity<List<VariableDTO>> getQuestionnaireVersionVariables(
+			@PathVariable(value = "questionnaireId") String ignoredQuestionnaireId,
 			@PathVariable(value = "versionId") UUID versionId
 	) throws Exception {
 		List<VariableType> variables = variableService.getVersionVariables(versionId);

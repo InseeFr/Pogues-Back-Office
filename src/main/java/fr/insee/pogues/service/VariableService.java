@@ -1,7 +1,6 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.exception.VariableInvalidModelException;
 import fr.insee.pogues.exception.VariableNotFoundException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
@@ -9,7 +8,6 @@ import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.DateUtils;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
-import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -80,7 +78,6 @@ public class VariableService {
      * @param existingVariables List of variables we want to add our variable to
      * @param variable Variable to update
      */
-    @SneakyThrows
     private void updateVariable(List<VariableType> existingVariables, String variableId, VariableType variable) {
         replaceElementInListAccordingToCondition(
                 existingVariables,
@@ -159,7 +156,6 @@ public class VariableService {
         return PoguesDeserializer.questionnaireToJavaObject(versionService.getVersionDataByVersionId(versionId));
     }
 
-    @SneakyThrows
     private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) {
         return questionnaire.getVariables().getVariable().stream()
                 .toList();

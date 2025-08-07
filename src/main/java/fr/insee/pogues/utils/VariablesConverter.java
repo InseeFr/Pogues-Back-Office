@@ -93,18 +93,20 @@ public class VariablesConverter {
         }
     }
 
-    private static void setDateDatatypeFormat(DateDatatypeType variable, VariableDTODatatypeFormatEnum variableDTODatatypeFormat) {
+    private static void setDateDatatypeFormat(DateDatatypeType variable, VariableDTODatatypeFormatEnum variableDTODatatypeFormat) throws VariableInvalidModelException {
         switch (variableDTODatatypeFormat) {
             case VariableDTODatatypeFormatEnum.DATE_YEAR -> variable.setFormat(DateFormatEnum.YYYY);
             case VariableDTODatatypeFormatEnum.DATE_YEAR_MONTH -> variable.setFormat(DateFormatEnum.YYYY_MM);
             case VariableDTODatatypeFormatEnum.DATE_YEAR_MONTH_DAY -> variable.setFormat(DateFormatEnum.YYYY_MM_DD);
+            default -> throw new VariableInvalidModelException(String.format("Invalid date format %s", variableDTODatatypeFormat), null);
         }
     }
 
-    private static void setDurationDatatypeFormat(DurationDatatypeType variable, VariableDTODatatypeFormatEnum variableDTODatatypeFormat) {
+    private static void setDurationDatatypeFormat(DurationDatatypeType variable, VariableDTODatatypeFormatEnum variableDTODatatypeFormat) throws VariableInvalidModelException {
         switch (variableDTODatatypeFormat) {
             case VariableDTODatatypeFormatEnum.DURATION_MINUTE_SECOND -> variable.setFormat("PTnHnM");
             case VariableDTODatatypeFormatEnum.DURATION_YEAR_MONTH -> variable.setFormat("PnYnM");
+            default -> throw new VariableInvalidModelException(String.format("Invalid duration format %s", variableDTODatatypeFormat), null);
         }
     }
 
@@ -115,63 +117,35 @@ public class VariablesConverter {
         VariableDTODatatype datatypeDTO;
 
         switch (variable.getDatatype().getTypeName()) {
-            case DatatypeTypeEnum.BOOLEAN -> datatypeDTO = new VariableDTODatatype(
-                    VariableDTODatatypeTypeEnum.BOOLEAN,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null);
-            case DatatypeTypeEnum.DATE -> datatypeDTO = new VariableDTODatatype(
-                    VariableDTODatatypeTypeEnum.DATE,
+            case DatatypeTypeEnum.BOOLEAN -> datatypeDTO = VariableDTODatatype.booleanDatatype();
+            case DatatypeTypeEnum.DATE -> datatypeDTO = VariableDTODatatype.dateDatatype(
                     computeDateDatatypeFormat(((DateDatatypeType) variable.getDatatype()).getFormat()),
                     ((DateDatatypeType) variable.getDatatype()).getMinimum(),
-                    ((DateDatatypeType) variable.getDatatype()).getMaximum(),
-                    null,
-                    null,
-                    null,
-                    null);
-            case DatatypeTypeEnum.DURATION -> datatypeDTO = new VariableDTODatatype(
-                    VariableDTODatatypeTypeEnum.DURATION,
+                    ((DateDatatypeType) variable.getDatatype()).getMaximum());
+            case DatatypeTypeEnum.DURATION -> datatypeDTO = VariableDTODatatype.durationDatatype(
                     computeDurationDatatypeFormat(((DurationDatatypeType) variable.getDatatype()).getFormat()),
                     ((DurationDatatypeType) variable.getDatatype()).getMinimum(),
-                    ((DurationDatatypeType) variable.getDatatype()).getMaximum(),
-                    null,
-                    null,
-                    null,
-                    null);
-            case DatatypeTypeEnum.NUMERIC -> datatypeDTO = new VariableDTODatatype(
-                    VariableDTODatatypeTypeEnum.NUMERIC,
-                    null,
+                    ((DurationDatatypeType) variable.getDatatype()).getMaximum());
+            case DatatypeTypeEnum.NUMERIC -> datatypeDTO = VariableDTODatatype.numericDatatype(
                     ((NumericDatatypeType) variable.getDatatype()).getMinimum().doubleValue(),
                     ((NumericDatatypeType) variable.getDatatype()).getMaximum().doubleValue(),
                     ((NumericDatatypeType) variable.getDatatype()).getDecimals().intValue(),
                     ((NumericDatatypeType) variable.getDatatype()).isIsDynamicUnit(),
-                    ((NumericDatatypeType) variable.getDatatype()).getUnit(),
-                    null);
-            case DatatypeTypeEnum.TEXT -> datatypeDTO = new VariableDTODatatype(
-                    VariableDTODatatypeTypeEnum.TEXT,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
-                    null,
+                    ((NumericDatatypeType) variable.getDatatype()).getUnit());
+            case DatatypeTypeEnum.TEXT -> datatypeDTO = VariableDTODatatype.textDatatype(
                     ((TextDatatypeType) variable.getDatatype()).getMaxLength().intValue());
             default -> throw new VariableInvalidModelException(String.format("Invalid variable datatype %s", variable.getDatatype().getTypeName()), variable.toString());
         }
 
         switch (variable) {
-            case CollectedVariableType var -> {
-                return new VariableDTO(var.getId(), var.getName(), var.getLabel(), VariableDTOTypeEnum.COLLECTED, var.getScope(), null, datatypeDTO);
+            case CollectedVariableType v -> {
+                return new VariableDTO(v.getId(), v.getName(), v.getLabel(), VariableDTOTypeEnum.COLLECTED, v.getScope(), null, datatypeDTO);
             }
-            case ExternalVariableType var -> {
-                return new VariableDTO(var.getId(), var.getName(), var.getLabel(), VariableDTOTypeEnum.EXTERNAL, var.getScope(), null, datatypeDTO);
+            case ExternalVariableType v -> {
+                return new VariableDTO(v.getId(), v.getName(), v.getLabel(), VariableDTOTypeEnum.EXTERNAL, v.getScope(), null, datatypeDTO);
             }
-            case CalculatedVariableType var -> {
-                return new VariableDTO(var.getId(), var.getName(), var.getLabel(), VariableDTOTypeEnum.CALCULATED, var.getScope(), var.getFormula().getValue(), datatypeDTO);
+            case CalculatedVariableType v -> {
+                return new VariableDTO(v.getId(), v.getName(), v.getLabel(), VariableDTOTypeEnum.CALCULATED, v.getScope(), v.getFormula().getValue(), datatypeDTO);
             }
             default -> throw new VariableInvalidModelException(String.format("Invalid variable type %s", variable.getClass()), variable.toString());
         }

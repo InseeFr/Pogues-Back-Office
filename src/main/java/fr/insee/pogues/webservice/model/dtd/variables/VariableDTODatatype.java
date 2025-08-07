@@ -34,4 +34,63 @@ public class VariableDTODatatype {
     // Text value
     private Integer maxLength;
 
+    public static VariableDTODatatype booleanDatatype() {
+        return new VariableDTODatatype(
+                VariableDTODatatypeTypeEnum.BOOLEAN,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    public static VariableDTODatatype dateDatatype(VariableDTODatatypeFormatEnum format, String minimum, String maximum) {
+        return new VariableDTODatatype(
+                VariableDTODatatypeTypeEnum.DATE,
+                format,
+                minimum,
+                maximum,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    public static VariableDTODatatype durationDatatype(VariableDTODatatypeFormatEnum format, String minimum, String maximum) {
+        return new VariableDTODatatype(
+                VariableDTODatatypeTypeEnum.DURATION,
+                format,
+                minimum,
+                maximum,
+                null,
+                null,
+                null,
+                null);
+    }
+
+    public static VariableDTODatatype numericDatatype(double minimum, double maximum, Integer decimals, boolean isDynamicUnit, String unit) {
+        return new VariableDTODatatype(
+                VariableDTODatatypeTypeEnum.NUMERIC,
+                null,
+                minimum,
+                maximum,
+                decimals,
+                isDynamicUnit,
+                unit,
+                null);
+    }
+
+    public static VariableDTODatatype textDatatype(Integer maxLength) {
+        return new VariableDTODatatype(
+                VariableDTODatatypeTypeEnum.TEXT,
+                null,
+                null,
+                null,
+                null,
+                null,
+                null,
+                maxLength);
+    }
 }

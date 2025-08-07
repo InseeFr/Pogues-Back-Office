@@ -12,7 +12,7 @@ import static fr.insee.pogues.utils.VariablesConverter.toDTO;
 import static fr.insee.pogues.utils.VariablesConverter.toModel;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class VariablesConverterTest {
+class VariablesConverterTest {
 
     @Test
     @DisplayName("Should convert DTO collected variable into model")

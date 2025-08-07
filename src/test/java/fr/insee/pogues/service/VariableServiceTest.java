@@ -7,6 +7,7 @@ import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
 import fr.insee.pogues.utils.PoguesSerializer;
+import fr.insee.pogues.webservice.error.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -85,9 +86,13 @@ class VariableServiceTest {
         // When we insert a new variable
         VariableType variable = new CollectedVariableType();
         variable.setId("new-variable");
-        assertThrows(PoguesException.class, () -> variableService.upsertQuestionnaireVariable("lmyoceix", variable));
+        PoguesException exception = assertThrows(
+                PoguesException.class,
+                () -> variableService.upsertQuestionnaireVariable("no-questionnaire", variable));
 
-        // Then an exception is thrown
+        // Then a 404 exception is thrown
+        assertEquals(404, exception.getStatus());
+        assertNull(exception.getErrorCode());
     }
 
     @Test
@@ -120,9 +125,13 @@ class VariableServiceTest {
         assertEquals(1, variableService.getQuestionnaireVariables("lmyoceix").size());
 
         // When we delete a variable that does not exist
-        assertThrows(VariableNotFoundException.class, () -> variableService.deleteQuestionnaireVariable("lmyoceix", "no-variable"));
+        VariableNotFoundException exception = assertThrows(
+                VariableNotFoundException.class,
+                () -> variableService.deleteQuestionnaireVariable("lmyoceix", "no-variable"));
 
-        // Then an exception is thrown and no variable has been deleted
+        // Then a 404 exception is thrown and no variable has been deleted
+        assertEquals(404, exception.getStatus());
+        assertEquals(ErrorCode.VARIABLE_NOT_FOUND, exception.getErrorCode());
         assertEquals(1, variableService.getQuestionnaireVariables("lmyoceix").size());
     }
 
@@ -132,9 +141,13 @@ class VariableServiceTest {
         // Given a questionnaire that does not exist
 
         // When we delete a variable
-        assertThrows(PoguesException.class, () -> variableService.deleteQuestionnaireVariable("no-questionnaire", "no-variable"));
+        PoguesException exception = assertThrows(
+                PoguesException.class,
+                () -> variableService.deleteQuestionnaireVariable("no-questionnaire", "no-variable"));
 
-        // Then an exception is thrown
+        // Then a 404 exception is thrown
+        assertEquals(404, exception.getStatus());
+        assertNull(exception.getErrorCode());
     }
 
     @Test
@@ -164,9 +177,13 @@ class VariableServiceTest {
         // Given a questionnaire that does not exist
 
         // When we get the questionnaire's variables
-        assertThrows(PoguesException.class, () -> variableService.getQuestionnaireVariables("lmyoceix"));
+        PoguesException exception = assertThrows(
+                PoguesException.class,
+                () -> variableService.getQuestionnaireVariables("no-questionnaire"));
 
-        // Then an exception is thrown
+        // Then a 404 exception is thrown
+        assertEquals(404, exception.getStatus());
+        assertNull(exception.getErrorCode());
     }
 
 }

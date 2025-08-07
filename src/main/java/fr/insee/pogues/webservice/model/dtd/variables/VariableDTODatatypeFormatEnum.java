@@ -16,10 +16,10 @@ public enum VariableDTODatatypeFormatEnum {
 	/** Format to describe a Duration datatype with minutes and seconds. */
 	DURATION_MINUTE_SECOND("PTnHnM");
 
-	private final String variableDatatypeFormat;
+	private final String value;
 
-	private VariableDTODatatypeFormatEnum(String variableDatatypeFormat) {
-		this.variableDatatypeFormat = variableDatatypeFormat;
+	VariableDTODatatypeFormatEnum(String value) {
+		this.value = value;
 	}
 
 }
