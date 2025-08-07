@@ -31,7 +31,7 @@ public class VariablesConverter {
         }
 
         variable.setId(variableDTO.getId());
-        variable.setName(variableDTO.getLabel());
+        variable.setName(variableDTO.getName());
         variable.setLabel(variableDTO.getDescription());
         variable.setScope(variableDTO.getScope());
 

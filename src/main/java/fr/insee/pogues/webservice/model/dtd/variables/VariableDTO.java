@@ -18,7 +18,7 @@ import lombok.Setter;
 public class VariableDTO {
 
     private String id;
-    private String label;
+    private String name;
     private String description;
     private VariableDTOTypeEnum type;
     private String scope;

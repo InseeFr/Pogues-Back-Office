@@ -50,7 +50,7 @@ class VariableControllerTest {
         datatype.setTypeName(DatatypeTypeEnum.BOOLEAN);
         variable.setDatatype(datatype);
         Mockito.when(variableService.getQuestionnaireVariables("my-q-id")).thenReturn(List.of(variable));
-        String expectedJSON = "[{\"id\":\"id\",\"label\":\"name\",\"description\":\"description\",\"type\":\"COLLECTED\",\"datatype\":{\"typeName\":\"BOOLEAN\"}}]";
+        String expectedJSON = "[{\"id\":\"id\",\"name\":\"name\",\"description\":\"description\",\"type\":\"COLLECTED\",\"datatype\":{\"typeName\":\"BOOLEAN\"}}]";
 
         // When we fetch the questionnaire variables
         mockMvc.perform(get("/api/persistence/questionnaire/my-q-id/variables")
@@ -87,7 +87,7 @@ class VariableControllerTest {
         datatype.setTypeName(DatatypeTypeEnum.BOOLEAN);
         variable.setDatatype(datatype);
         Mockito.when(variableService.getVersionVariables(versionId)).thenReturn(List.of(variable));
-        String expectedJSON = "[{\"id\":\"id\",\"label\":\"name\",\"description\":\"description\",\"type\":\"COLLECTED\",\"datatype\":{\"typeName\":\"BOOLEAN\"}}]";
+        String expectedJSON = "[{\"id\":\"id\",\"name\":\"name\",\"description\":\"description\",\"type\":\"COLLECTED\",\"datatype\":{\"typeName\":\"BOOLEAN\"}}]";
 
         // When we fetch the questionnaire variables
         mockMvc.perform(get(String.format("/api/persistence/questionnaire/my-q-id/version/%s/variables", versionId))
