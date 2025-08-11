@@ -352,6 +352,29 @@ class VariablesConverterTest {
     }
 
     @Test
+    @DisplayName("Should convert model numeric datatype into DTO")
+    void toDTO_success_numericDatatype_noPrecision() throws Exception {
+        // Given a model variable with a numeric datatype
+        VariableType variableModel = new CollectedVariableType();
+        NumericDatatypeType datatypeModel = new NumericDatatypeType();
+        datatypeModel.setTypeName(DatatypeTypeEnum.NUMERIC);
+        datatypeModel.setMinimum(BigDecimal.valueOf(3.23));
+        datatypeModel.setMaximum(BigDecimal.valueOf(42));
+        datatypeModel.setIsDynamicUnit(true);
+        datatypeModel.setUnit("€");
+        variableModel.setDatatype(datatypeModel);
+
+        VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.NUMERIC, null, 3.23, 42.0, null, true, "€", null);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+
+        // When we convert it to DTO
+        VariableDTO res = toDTO(variableModel);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
     @DisplayName("Should convert model text datatype into DTO")
     void toDTO_success_textDatatype() throws Exception {
         // Given a model variable with a text datatype

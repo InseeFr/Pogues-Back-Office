@@ -129,7 +129,7 @@ public class VariablesConverter {
             case DatatypeTypeEnum.NUMERIC -> datatypeDTO = VariableDTODatatype.numericDatatype(
                     ((NumericDatatypeType) variable.getDatatype()).getMinimum().doubleValue(),
                     ((NumericDatatypeType) variable.getDatatype()).getMaximum().doubleValue(),
-                    ((NumericDatatypeType) variable.getDatatype()).getDecimals().intValue(),
+                    ((NumericDatatypeType) variable.getDatatype()).getDecimals() != null ?((NumericDatatypeType) variable.getDatatype()).getDecimals().intValue() : null,
                     ((NumericDatatypeType) variable.getDatatype()).isIsDynamicUnit(),
                     ((NumericDatatypeType) variable.getDatatype()).getUnit());
             case DatatypeTypeEnum.TEXT -> datatypeDTO = VariableDTODatatype.textDatatype(
