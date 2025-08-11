@@ -6,16 +6,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-
 @Service
 @Slf4j
-public class VariableService {
+public class PublicEnemyVariableService {
 
 	@Autowired
 	QuestionnaireService questionnaireService;
 
-	public VariableService(QuestionnaireService questionnaireService) {
+	public PublicEnemyVariableService(QuestionnaireService questionnaireService) {
 		this.questionnaireService = questionnaireService;
 	}
 

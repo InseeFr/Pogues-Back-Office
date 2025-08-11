@@ -8,8 +8,7 @@ import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.JSONLunaticService;
-import fr.insee.pogues.persistence.service.QuestionnaireService;
-import fr.insee.pogues.persistence.service.VariableService;
+import fr.insee.pogues.persistence.service.PublicEnemyVariableService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,7 +37,7 @@ public class QuestionnaireController {
 	private ApplicationProperties applicationProperties;
 	private IQuestionnaireService questionnaireService;
 	private JSONLunaticService jsonLunaticService;
-	private VariableService variableService;
+	private PublicEnemyVariableService publicEnemyVariableService;
 	private SuggesterVisuService suggesterVisuService;
 	private UserProvider userProvider;
 
@@ -46,14 +45,14 @@ public class QuestionnaireController {
 			ApplicationProperties applicationProperties,
 			IQuestionnaireService questionnaireService,
 			JSONLunaticService jsonLunaticService,
-			VariableService variableService,
+			PublicEnemyVariableService publicEnemyVariableService,
 			SuggesterVisuService suggesterVisuService,
 			UserProvider userProvider
 	){
 		this.applicationProperties = applicationProperties;
 		this.questionnaireService = questionnaireService;
 		this.jsonLunaticService = jsonLunaticService;
-		this.variableService = variableService;
+		this.publicEnemyVariableService = publicEnemyVariableService;
 		this.suggesterVisuService = suggesterVisuService;
 		this.userProvider = userProvider;
 	}
@@ -201,7 +200,7 @@ public class QuestionnaireController {
 	public ResponseEntity<JsonNode> getQuestionnaireVariables(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		JsonNode result = variableService.getVariablesByQuestionnaire(id);
+		JsonNode result = publicEnemyVariableService.getVariablesByQuestionnaire(id);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 
@@ -220,7 +219,7 @@ public class QuestionnaireController {
 	public ResponseEntity<ArrayNode> getVariables(
 			@PathVariable(value = "id") String id
 	) throws Exception {
-		ArrayNode result = variableService.getVariablesByQuestionnaireForPublicEnemy(id);
+		ArrayNode result = publicEnemyVariableService.getVariablesByQuestionnaireForPublicEnemy(id);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
 	
