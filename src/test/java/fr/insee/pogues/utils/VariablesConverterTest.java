@@ -106,7 +106,7 @@ class VariablesConverterTest {
     }
 
     @Test
-    @DisplayName("Should convert DTO boolean datatype into model")
+    @DisplayName("Should convert DTO date datatype into model")
     void toModel_success_dateDatatype() throws Exception {
         // Given a DTO variable with a date datatype
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DATE, VariableDTODatatypeFormatEnum.DATE_YEAR_MONTH, "2000-01", "2019-12", null, null, null, null);
@@ -118,6 +118,26 @@ class VariablesConverterTest {
         expectedDatatype.setFormat(DateFormatEnum.YYYY_MM);
         expectedDatatype.setMinimum("2000-01");
         expectedDatatype.setMaximum("2019-12");
+        expected.setDatatype(expectedDatatype);
+
+        // When we convert it to Pogues model
+        VariableType res = toModel(variableDTO);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("Should convert DTO date datatype into model")
+    void toModel_success_dateDatatype_noMinMax() throws Exception {
+        // Given a DTO variable with a date datatype
+        VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DATE, VariableDTODatatypeFormatEnum.DATE_YEAR_MONTH, null, null, null, null, null, null);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+
+        VariableType expected = new CollectedVariableType();
+        DateDatatypeType expectedDatatype = new DateDatatypeType();
+        expectedDatatype.setTypeName(DatatypeTypeEnum.DATE);
+        expectedDatatype.setFormat(DateFormatEnum.YYYY_MM);
         expected.setDatatype(expectedDatatype);
 
         // When we convert it to Pogues model
@@ -140,6 +160,26 @@ class VariablesConverterTest {
         expectedDatatype.setFormat("PTnHnM");
         expectedDatatype.setMinimum("PT1H1M");
         expectedDatatype.setMaximum("PT99H59M");
+        expected.setDatatype(expectedDatatype);
+
+        // When we convert it to Pogues model
+        VariableType res = toModel(variableDTO);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("Should convert DTO duration datatype into model when min and max are null")
+    void toModel_success_durationDatatype_noMinMax() throws Exception {
+        // Given a DTO variable with a duration datatype
+        VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DURATION, VariableDTODatatypeFormatEnum.DURATION_MINUTE_SECOND, null, null, null, null, null, null);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+
+        VariableType expected = new CollectedVariableType();
+        DurationDatatypeType expectedDatatype = new DurationDatatypeType();
+        expectedDatatype.setTypeName(DatatypeTypeEnum.DURATION);
+        expectedDatatype.setFormat("PTnHnM");
         expected.setDatatype(expectedDatatype);
 
         // When we convert it to Pogues model
@@ -174,6 +214,50 @@ class VariablesConverterTest {
     }
 
     @Test
+    @DisplayName("Should convert DTO numeric datatype into model when decimals is null")
+    void toModel_success_numericDatatype_noPrecision() throws Exception {
+        // Given a DTO variable with a numeric datatype
+        VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.NUMERIC, null, 3.23, 42, null, true, "€", null);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+
+        VariableType expected = new CollectedVariableType();
+        NumericDatatypeType expectedDatatype = new NumericDatatypeType();
+        expectedDatatype.setTypeName(DatatypeTypeEnum.NUMERIC);
+        expectedDatatype.setMinimum(BigDecimal.valueOf(3.23));
+        expectedDatatype.setMaximum(BigDecimal.valueOf(42));
+        expectedDatatype.setIsDynamicUnit(true);
+        expectedDatatype.setUnit("€");
+        expected.setDatatype(expectedDatatype);
+
+        // When we convert it to Pogues model
+        VariableType res = toModel(variableDTO);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("Should convert DTO numeric datatype into model when isDynamicUnit is null")
+    void toModel_success_numericDatatype_noDynamicUnit() throws Exception {
+        // Given a DTO variable with a numeric datatype
+        VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.NUMERIC, null, 3.23, 42, null, null, null, null);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+
+        VariableType expected = new CollectedVariableType();
+        NumericDatatypeType expectedDatatype = new NumericDatatypeType();
+        expectedDatatype.setTypeName(DatatypeTypeEnum.NUMERIC);
+        expectedDatatype.setMinimum(BigDecimal.valueOf(3.23));
+        expectedDatatype.setMaximum(BigDecimal.valueOf(42));
+        expected.setDatatype(expectedDatatype);
+
+        // When we convert it to Pogues model
+        VariableType res = toModel(variableDTO);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
     @DisplayName("Should convert DTO text datatype into model")
     void toModel_success_textDatatype() throws Exception {
         // Given a DTO variable with a text datatype
@@ -192,6 +276,26 @@ class VariablesConverterTest {
         // It is correctly converted
         assertThat(res).usingRecursiveComparison().isEqualTo(expected);
     }
+
+    @Test
+    @DisplayName("Should convert DTO text datatype into model when max length is null")
+    void toModel_success_textDatatype_noMaxLength() throws Exception {
+        // Given a DTO variable with a text datatype
+        VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.TEXT, null, null, null, null, null, null, null);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+
+        VariableType expected = new CollectedVariableType();
+        TextDatatypeType expectedDatatype = new TextDatatypeType();
+        expectedDatatype.setTypeName(DatatypeTypeEnum.TEXT);
+        expected.setDatatype(expectedDatatype);
+
+        // When we convert it to Pogues model
+        VariableType res = toModel(variableDTO);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
     @Test
     @DisplayName("Should convert model collected variable into DTO")
     void toDTO_success_collectedVariable() throws Exception {
@@ -284,7 +388,7 @@ class VariablesConverterTest {
     }
 
     @Test
-    @DisplayName("Should convert model boolean datatype into DTO")
+    @DisplayName("Should convert model date datatype into DTO")
     void toDTO_success_dateDatatype() throws Exception {
         // Given a model variable with a date datatype
         VariableType variableModel = new CollectedVariableType();
@@ -296,6 +400,26 @@ class VariablesConverterTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DATE, VariableDTODatatypeFormatEnum.DATE_YEAR_MONTH, "2000-01", "2019-12", null, null, null, null);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+
+        // When we convert it to DTO
+        VariableDTO res = toDTO(variableModel);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("Should convert model date datatype into DTO when min and max are null")
+    void toDTO_success_dateDatatype_noMinMax() throws Exception {
+        // Given a model variable with a date datatype
+        VariableType variableModel = new CollectedVariableType();
+        DateDatatypeType datatypeModel = new DateDatatypeType();
+        datatypeModel.setTypeName(DatatypeTypeEnum.DATE);
+        datatypeModel.setFormat(DateFormatEnum.YYYY_MM);
+        variableModel.setDatatype(datatypeModel);
+
+        VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DATE, VariableDTODatatypeFormatEnum.DATE_YEAR_MONTH, null, null, null, null, null, null);
         VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
 
         // When we convert it to DTO
@@ -318,6 +442,26 @@ class VariablesConverterTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DURATION, VariableDTODatatypeFormatEnum.DURATION_MINUTE_SECOND, "PT1H1M", "PT99H59M", null, null, null, null);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+
+        // When we convert it to DTO
+        VariableDTO res = toDTO(variableModel);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("Should convert model duration datatype into DTO when min and max are null")
+    void toDTO_success_durationDatatype_noMinMax() throws Exception {
+        // Given a model variable with a duration datatype
+        VariableType variableModel = new CollectedVariableType();
+        DurationDatatypeType datatypeModel = new DurationDatatypeType();
+        datatypeModel.setTypeName(DatatypeTypeEnum.DURATION);
+        datatypeModel.setFormat("PTnHnM");
+        variableModel.setDatatype(datatypeModel);
+
+        VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DURATION, VariableDTODatatypeFormatEnum.DURATION_MINUTE_SECOND, null, null, null, null, null, null);
         VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
 
         // When we convert it to DTO
@@ -352,7 +496,7 @@ class VariablesConverterTest {
     }
 
     @Test
-    @DisplayName("Should convert model numeric datatype into DTO")
+    @DisplayName("Should convert model numeric datatype into DTO when precision is null")
     void toDTO_success_numericDatatype_noPrecision() throws Exception {
         // Given a model variable with a numeric datatype
         VariableType variableModel = new CollectedVariableType();
@@ -375,6 +519,28 @@ class VariablesConverterTest {
     }
 
     @Test
+    @DisplayName("Should convert model numeric datatype into DTO when isDynamicUnit is null")
+    void toDTO_success_numericDatatype_noDynamicUnit() throws Exception {
+        // Given a model variable with a numeric datatype
+        VariableType variableModel = new CollectedVariableType();
+        NumericDatatypeType datatypeModel = new NumericDatatypeType();
+        datatypeModel.setTypeName(DatatypeTypeEnum.NUMERIC);
+        datatypeModel.setMinimum(BigDecimal.valueOf(3.23));
+        datatypeModel.setMaximum(BigDecimal.valueOf(42));
+        datatypeModel.setDecimals(BigInteger.valueOf(2));
+        variableModel.setDatatype(datatypeModel);
+
+        VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.NUMERIC, null, 3.23, 42.0, 2, false, null, null);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+
+        // When we convert it to DTO
+        VariableDTO res = toDTO(variableModel);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
     @DisplayName("Should convert model text datatype into DTO")
     void toDTO_success_textDatatype() throws Exception {
         // Given a model variable with a text datatype
@@ -385,6 +551,25 @@ class VariablesConverterTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.TEXT, null, null, null, null, null, null, 202);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+
+        // When we convert it to DTO
+        VariableDTO res = toDTO(variableModel);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("Should convert model text datatype into DTO when max length is null")
+    void toDTO_success_textDatatype_noMaxLength() throws Exception {
+        // Given a model variable with a text datatype
+        VariableType variableModel = new CollectedVariableType();
+        TextDatatypeType datatypeModel = new TextDatatypeType();
+        datatypeModel.setTypeName(DatatypeTypeEnum.TEXT);
+        variableModel.setDatatype(datatypeModel);
+
+        VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.TEXT, null, null, null, null, null, null, null);
         VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
 
         // When we convert it to DTO

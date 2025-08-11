@@ -74,7 +74,9 @@ public class VariablesConverter {
                 datatype.setTypeName(DatatypeTypeEnum.NUMERIC);
                 datatype.setMinimum(new BigDecimal(variableDTODatatype.getMinimum().toString()));
                 datatype.setMaximum(new BigDecimal(variableDTODatatype.getMaximum().toString()));
-                datatype.setDecimals(BigInteger.valueOf(variableDTODatatype.getDecimals()));
+                if (variableDTODatatype.getDecimals() != null) {
+                    datatype.setDecimals(BigInteger.valueOf(variableDTODatatype.getDecimals()));
+                }
                 datatype.setIsDynamicUnit(variableDTODatatype.getIsDynamicUnit());
                 datatype.setUnit(variableDTODatatype.getUnit());
                 variable.setDatatype(datatype);
@@ -83,7 +85,9 @@ public class VariablesConverter {
             case VariableDTODatatypeTypeEnum.TEXT: {
                 TextDatatypeType datatype = new TextDatatypeType();
                 datatype.setTypeName(DatatypeTypeEnum.TEXT);
-                datatype.setMaxLength(BigInteger.valueOf(variableDTODatatype.getMaxLength()));
+                if ((variableDTODatatype.getMaxLength()) != null) {
+                    datatype.setMaxLength(BigInteger.valueOf(variableDTODatatype.getMaxLength()));
+                }
                 variable.setDatatype(datatype);
                 break;
             }
@@ -129,11 +133,11 @@ public class VariablesConverter {
             case DatatypeTypeEnum.NUMERIC -> datatypeDTO = VariableDTODatatype.numericDatatype(
                     ((NumericDatatypeType) variable.getDatatype()).getMinimum().doubleValue(),
                     ((NumericDatatypeType) variable.getDatatype()).getMaximum().doubleValue(),
-                    ((NumericDatatypeType) variable.getDatatype()).getDecimals() != null ?((NumericDatatypeType) variable.getDatatype()).getDecimals().intValue() : null,
-                    ((NumericDatatypeType) variable.getDatatype()).isIsDynamicUnit(),
+                    ((NumericDatatypeType) variable.getDatatype()).getDecimals() != null ? ((NumericDatatypeType) variable.getDatatype()).getDecimals().intValue() : null,
+                    ((NumericDatatypeType) variable.getDatatype()).isIsDynamicUnit() != null ? ((NumericDatatypeType) variable.getDatatype()).isIsDynamicUnit() : false,
                     ((NumericDatatypeType) variable.getDatatype()).getUnit());
             case DatatypeTypeEnum.TEXT -> datatypeDTO = VariableDTODatatype.textDatatype(
-                    ((TextDatatypeType) variable.getDatatype()).getMaxLength().intValue());
+                    ((TextDatatypeType) variable.getDatatype()).getMaxLength() != null ? ((TextDatatypeType) variable.getDatatype()).getMaxLength().intValue() : null);
             default -> throw new VariableInvalidModelException(String.format("Invalid variable datatype %s", variable.getDatatype().getTypeName()), variable.toString());
         }
 
