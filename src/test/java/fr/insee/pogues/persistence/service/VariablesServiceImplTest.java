@@ -29,8 +29,8 @@ class VariablesServiceImplTest {
         Mockito.when(questionnaireService.getQuestionnaireByID("l4i3m6qa")).thenReturn(jsonQuestionnaire);
 
         // When
-        VariableService variableService = new VariableService(questionnaireService);
-        JsonNode resultAsJson = variableService.getVariablesByQuestionnaire("l4i3m6qa");
+        PublicEnemyVariableService publicEnemyVariableService = new PublicEnemyVariableService(questionnaireService);
+        JsonNode resultAsJson = publicEnemyVariableService.getVariablesByQuestionnaire("l4i3m6qa");
         String result = resultAsJson.toString();
 
         // Then
@@ -60,8 +60,8 @@ class VariablesServiceImplTest {
         Mockito.when(questionnaireService.getQuestionnaireByIDWithReferences("l4i3m6qa")).thenReturn(jsonQuestionnaire);
 
         // When
-        VariableService variableService = new VariableService(questionnaireService);
-        ArrayNode result = variableService.getVariablesByQuestionnaireForPublicEnemy("l4i3m6qa");
+        PublicEnemyVariableService publicEnemyVariableService = new PublicEnemyVariableService(questionnaireService);
+        ArrayNode result = publicEnemyVariableService.getVariablesByQuestionnaireForPublicEnemy("l4i3m6qa");
 
         // Then
         assertNotNull(result);
@@ -82,8 +82,8 @@ class VariablesServiceImplTest {
         Mockito.when(questionnaireService.getQuestionnaireByID("foo-id")).thenThrow(new MockedException());
 
         // When
-        VariableService variableService = new VariableService(questionnaireService);
-        JsonNode result = variableService.getVariablesByQuestionnaire("foo-id");
+        PublicEnemyVariableService publicEnemyVariableService = new PublicEnemyVariableService(questionnaireService);
+        JsonNode result = publicEnemyVariableService.getVariablesByQuestionnaire("foo-id");
 
         // Then
         assertNull(result);
@@ -96,8 +96,8 @@ class VariablesServiceImplTest {
         Mockito.when(questionnaireService.getQuestionnaireByID("foo-id")).thenThrow(new MockedException());
 
         // When
-        VariableService variableService = new VariableService(questionnaireService);
-        ArrayNode result = variableService.getVariablesByQuestionnaireForPublicEnemy("foo-id");
+        PublicEnemyVariableService publicEnemyVariableService = new PublicEnemyVariableService(questionnaireService);
+        ArrayNode result = publicEnemyVariableService.getVariablesByQuestionnaireForPublicEnemy("foo-id");
 
         // Then
         assertNull(result);
