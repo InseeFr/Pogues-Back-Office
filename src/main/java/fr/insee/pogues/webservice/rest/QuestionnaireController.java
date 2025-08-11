@@ -185,25 +185,6 @@ public class QuestionnaireController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
-	@GetMapping("questionnaire/{id}/variables")
-	@Operation(
-			operationId  = "getQuestionnaireVariables",
-			summary = "Get the variables of a questionnaire, used for pogues frontend",
-			description = "Gets the variables with questionnaire id {id}",
-			responses = {
-					@ApiResponse(content = @Content(mediaType = "application/json"))}
-	)
-	@ApiResponses(value = {
-			@ApiResponse(responseCode = "200", description = "Success"),
-			@ApiResponse(responseCode = "404", description = "Not found")
-	})
-	public ResponseEntity<JsonNode> getQuestionnaireVariables(
-			@PathVariable(value = "id") String id
-	) throws Exception {
-		JsonNode result = publicEnemyVariableService.getVariablesByQuestionnaire(id);
-		return ResponseEntity.status(HttpStatus.OK).body(result);
-	}
-
 	@GetMapping("questionnaire/{id}/vars")
 	@Operation(
 			operationId  = "getQuestionnaireVars",
