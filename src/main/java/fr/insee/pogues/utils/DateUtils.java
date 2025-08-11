@@ -8,7 +8,6 @@ import java.time.format.DateTimeFormatter;
 
 public class DateUtils {
 
-    public static ZoneId zoneId = ZoneId.systemDefault();
     public static DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
 
     /**
@@ -18,9 +17,9 @@ public class DateUtils {
      */
     public static String getIsoDateFromInstant(Instant instant){
         if(instant != null) {
-            return instant.atZone(zoneId).format(formatter);
+            return instant.atZone(ZoneId.systemDefault()).format(formatter);
         }
-        ZonedDateTime zonedDateTimeNow = ZonedDateTime.now(zoneId);
+        ZonedDateTime zonedDateTimeNow = ZonedDateTime.now(ZoneId.systemDefault());
         return zonedDateTimeNow.format(formatter);
     }
 
