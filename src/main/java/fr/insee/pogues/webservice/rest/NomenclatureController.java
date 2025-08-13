@@ -1,8 +1,8 @@
-package fr.insee.pogues.controller;
+package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.service.NomenclatureService;
 import fr.insee.pogues.webservice.error.ApiMessage;
-import fr.insee.pogues.webservice.model.dto.nomenclatures.ExtendedNomenclature;
+import fr.insee.pogues.webservice.model.dto.nomenclatures.ExtendedNomenclatureDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -45,16 +45,16 @@ public class NomenclatureController {
                     description = "Success",
                     content = {
                             @Content(mediaType = "application/json", array = @ArraySchema(
-                                    schema = @Schema(implementation = ExtendedNomenclature.class)))}),
+                                    schema = @Schema(implementation = ExtendedNomenclatureDTO.class)))}),
             @ApiResponse(
                     responseCode = "404",
                     description = "Not found",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiMessage.class)) })
     })
-    public ResponseEntity<List<ExtendedNomenclature>> getNomenclaturesInQuestionnaire(
+    public ResponseEntity<List<ExtendedNomenclatureDTO>> getNomenclaturesInQuestionnaire(
             @PathVariable(value = "questionnaireId") String questionnaireId) throws Exception {
-        List<ExtendedNomenclature> nomenclatures = nomenclatureService.getNomenclaturesDTDByQuestionnaireId(questionnaireId);
+        List<ExtendedNomenclatureDTO> nomenclatures = nomenclatureService.getNomenclaturesDTOByQuestionnaireId(questionnaireId);
         return ResponseEntity.status(HttpStatus.OK).body(nomenclatures);
     }
 
@@ -70,18 +70,18 @@ public class NomenclatureController {
                     description = "Success",
                     content = {
                             @Content(mediaType = "application/json", array = @ArraySchema(
-                                    schema = @Schema(implementation = ExtendedNomenclature.class)))}),
+                                    schema = @Schema(implementation = ExtendedNomenclatureDTO.class)))}),
             @ApiResponse(
                     responseCode = "404",
                     description = "Not found",
                     content = { @Content(mediaType = "application/json",
                             schema = @Schema(implementation = ApiMessage.class)) })
     })
-    public ResponseEntity<List<ExtendedNomenclature>> getNomenclaturesInVersionOfQuestionnaire(
+    public ResponseEntity<List<ExtendedNomenclatureDTO>> getNomenclaturesInVersionOfQuestionnaire(
             @PathVariable(value = "questionnaireId") String questionnaireId,
             @PathVariable(value = "versionId") UUID versionId) throws Exception {
         log.info("Get nomenclatures of backup (id: {}) of questionnaire {}.", versionId, questionnaireId);
-        List<ExtendedNomenclature> nomenclatures = nomenclatureService.getNomenclaturesDTDByVersionId(versionId);
+        List<ExtendedNomenclatureDTO> nomenclatures = nomenclatureService.getNomenclaturesDTOByVersionId(versionId);
         return ResponseEntity.status(HttpStatus.OK).body(nomenclatures);
     }
 }

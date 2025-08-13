@@ -3,7 +3,7 @@ package fr.insee.pogues.service;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
-import fr.insee.pogues.webservice.model.dto.nomenclatures.ExtendedNomenclature;
+import fr.insee.pogues.webservice.model.dto.nomenclatures.ExtendedNomenclatureDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -32,10 +32,10 @@ class NomenclatureServiceTest {
     }
 
     @Test
-    @DisplayName("Should get right NomenclatureDTD from questionnaire")
+    @DisplayName("Should get right NomenclatureDTO from questionnaire")
     void shouldGetRightNomenclaturesFromQuestionnaire() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/withAllNomenclatures.json");
-        List<ExtendedNomenclature> nomenclatures = nomenclatureService.getNomenclaturesDTD(questionnaire);
+        List<ExtendedNomenclatureDTO> nomenclatures = nomenclatureService.getNomenclaturesDTO(questionnaire);
         assertThat(nomenclatures).hasSize(29);
         assertThat(nomenclatures.getFirst().getRelatedQuestionNames())
                 .containsExactly("N_1");

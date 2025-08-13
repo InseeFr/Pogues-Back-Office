@@ -3,8 +3,8 @@ package fr.insee.pogues.webservice.rest;
 import fr.insee.pogues.service.CodesListService;
 import fr.insee.pogues.webservice.error.ApiMessage;
 import fr.insee.pogues.webservice.error.CodesListMessage;
-import fr.insee.pogues.webservice.model.dto.codelists.CodesList;
-import fr.insee.pogues.webservice.model.dto.codelists.ExtendedCodesList;
+import fr.insee.pogues.webservice.model.dto.codeslists.CodesListDTO;
+import fr.insee.pogues.webservice.model.dto.codeslists.ExtendedCodesListDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -38,27 +38,27 @@ public class CodesListController {
     @Operation(summary = "Get codes lists of a questionnaire",
             responses = { @ApiResponse(content = @Content(mediaType = "application/json")) })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json", array = @ArraySchema( schema = @Schema(implementation = ExtendedCodesList.class)))}),
+            @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json", array = @ArraySchema( schema = @Schema(implementation = ExtendedCodesListDTO.class)))}),
             @ApiResponse(responseCode = "404", description = "Questionnaire not found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class)) }) })
     @GetMapping("/questionnaire/{questionnaireId}/codes-lists")
-    public ResponseEntity<List<ExtendedCodesList>> getQuestionnaireCodesLists(
+    public ResponseEntity<List<ExtendedCodesListDTO>> getQuestionnaireCodesLists(
             @PathVariable(value = "questionnaireId") String questionnaireId
     ) throws Exception {
-        List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTDByQuestionnaireId(questionnaireId);
+        List<ExtendedCodesListDTO> codesLists = codesListService.getCodesListsDTOByQuestionnaireId(questionnaireId);
         return ResponseEntity.status(HttpStatus.OK).body(codesLists);
     }
 
     @Operation(summary = "Get the codes lists from a questionnaire's backup",
             responses = { @ApiResponse(content = @Content(mediaType = "application/json")) })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json",array = @ArraySchema( schema = @Schema(implementation = ExtendedCodesList.class)))}),
+            @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json",array = @ArraySchema( schema = @Schema(implementation = ExtendedCodesListDTO.class)))}),
             @ApiResponse(responseCode = "404", description = "Version not found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class)) }) })
     @GetMapping("/questionnaire/{questionnaireId}/version/{versionId}/codes-lists")
-    public ResponseEntity<List<ExtendedCodesList>> getQuestionnaireVersionCodesLists(
+    public ResponseEntity<List<ExtendedCodesListDTO>> getQuestionnaireVersionCodesLists(
             @PathVariable(value = "questionnaireId") String ignoredQuestionnaireId,
             @PathVariable(value = "versionId") UUID versionId
     ) throws Exception {
-        List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTDByVersionId(versionId);
+        List<ExtendedCodesListDTO> codesLists = codesListService.getCodesListsDTOByVersionId(versionId);
         return ResponseEntity.status(HttpStatus.OK).body(codesLists);
     }
 
@@ -71,9 +71,9 @@ public class CodesListController {
     public ResponseEntity<Object> upsertQuestionnaireCodesList(
             @PathVariable(value = "questionnaireId") String questionnaireId,
             @PathVariable(value = "codesListId") String codesListId,
-            @RequestBody CodesList codesList
+            @RequestBody CodesListDTO codesListDTO
     ) throws Exception {
-        List<String> updatedQuestionIds = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
+        List<String> updatedQuestionIds = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesListDTO);
         if (updatedQuestionIds != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(updatedQuestionIds);
         }

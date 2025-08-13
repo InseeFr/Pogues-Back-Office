@@ -5,9 +5,9 @@ import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.PoguesSerializer;
-import fr.insee.pogues.webservice.model.dto.codelists.Code;
-import fr.insee.pogues.webservice.model.dto.codelists.CodesList;
-import fr.insee.pogues.webservice.model.dto.codelists.ExtendedCodesList;
+import fr.insee.pogues.webservice.model.dto.codeslists.CodeDTO;
+import fr.insee.pogues.webservice.model.dto.codeslists.CodesListDTO;
+import fr.insee.pogues.webservice.model.dto.codeslists.ExtendedCodesListDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -45,20 +45,20 @@ class CodesListServiceTest {
     }
 
     @Test
-    void addCodeListDTDToExistingCodeLists(){
+    void addCodeListDTOToExistingCodeLists(){
         List<CodeList> existingCodeLists = initFakeCodeLists(8);
-        codesListService.addCodeListDTD(existingCodeLists, new CodesList("h-f","Homme-Femme", List.of(
-                new Code("F","Femme",null),
-                new Code("H","Homme",null)
+        codesListService.addCodeListDTO(existingCodeLists, new CodesListDTO("h-f","Homme-Femme", List.of(
+                new CodeDTO("F","Femme",null),
+                new CodeDTO("H","Homme",null)
         )));
         assertThat(existingCodeLists).hasSize(9);
         assertEquals("h-f", existingCodeLists.get(8).getId());
     }
 
     @Test
-    void removeCodeListDTDToExistingCodeListsWithId() throws CodesListException {
+    void removeCodeListDTOToExistingCodeListsWithId() throws CodesListException {
         List<fr.insee.pogues.model.CodeList> existingCodeLists = initFakeCodeLists(10);
-        codesListService.removeCodeListDTD(existingCodeLists, "code-list-4");
+        codesListService.removeCodeListDTO(existingCodeLists, "code-list-4");
         assertEquals(9, existingCodeLists.size());
         assertFalse(existingCodeLists.stream().anyMatch(codeList -> Objects.equals(codeList.getId(), "code-list-4")));
     }
@@ -101,10 +101,10 @@ class CodesListServiceTest {
         codesListService.updateOrAddCodeListToQuestionnaire(
                 questionnaire,
                 "test-1",
-                new CodesList("test-1","My super CodeList", List.of(
-                        new Code("01","label 1",null),
-                        new Code("02","label 2",null),
-                        new Code("03","label 3",null)
+                new CodesListDTO("test-1","My super CodeList", List.of(
+                        new CodeDTO("01","label 1",null),
+                        new CodeDTO("02","label 2",null),
+                        new CodeDTO("03","label 3",null)
                 ))
         );
 
@@ -136,13 +136,13 @@ class CodesListServiceTest {
         assertThat(codeLists).hasSize(4);
         assertThat(initialCodeList.getCode()).hasSize(3);
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, "m7d794ks",
-                new CodesList("id","label",List.of(
-                        new Code("1","New York",null),
-                        new Code("2","Los Angeles",null),
-                        new Code("3","Chicago",null),
-                        new Code("4","Houston",null),
-                        new Code("5","Phoenix",null),
-                        new Code("6","Philadelphie",null)
+                new CodesListDTO("id","label",List.of(
+                        new CodeDTO("1","New York",null),
+                        new CodeDTO("2","Los Angeles",null),
+                        new CodeDTO("3","Chicago",null),
+                        new CodeDTO("4","Houston",null),
+                        new CodeDTO("5","Phoenix",null),
+                        new CodeDTO("6","Philadelphie",null)
                 )));
         List<CodeList> updatedCodeLists = questionnaire.getCodeLists().getCodeList();
         CodeList codeListUpdated = updatedCodeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), "m7d794ks")).findFirst().get();
@@ -168,12 +168,12 @@ class CodesListServiceTest {
         assertEquals(3,codeLists.size());
         assertEquals(2,initialCodeList.getCode().size());
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
-                new CodesList("id","non-binaire",List.of(
-                        new Code("1","Homme",null),
-                        new Code("2","Femmes",null),
-                        new Code("3","Non-binaire",null),
-                        new Code("4","Agenre ",null),
-                        new Code("5","Cisgenre ",null)
+                new CodesListDTO("id","non-binaire",List.of(
+                        new CodeDTO("1","Homme",null),
+                        new CodeDTO("2","Femmes",null),
+                        new CodeDTO("3","Non-binaire",null),
+                        new CodeDTO("4","Agenre ",null),
+                        new CodeDTO("5","Cisgenre ",null)
                 )));
         List<CodeList> updatedCodeLists = questionnaire.getCodeLists().getCodeList();
         CodeList codeListUpdated = updatedCodeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), codesListIdToUpdate)).findFirst().get();
@@ -197,9 +197,9 @@ class CodesListServiceTest {
         String codesListIdToUpdate = "m7c68dlm";
 
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
-                new CodesList("id","h-f",List.of(
-                        new Code("F","Femme",null),
-                        new Code("H","Homme",null)
+                new CodesListDTO("id","h-f",List.of(
+                        new CodeDTO("F","Femme",null),
+                        new CodeDTO("H","Homme",null)
                 )));
         List<ResponseType> responsesAfter = findQuestionWithId(questionnaire, questionTableId).getResponse();
         assertThat(responsesAfter).hasSize(2*3);
@@ -221,12 +221,12 @@ class CodesListServiceTest {
         assertThat(question.getClarificationQuestion()).hasSize(1);
         assertThat(question.getFlowControl()).hasSize(1);
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
-                new CodesList("id","sauce",List.of(
-                        new Code("1","Mayonnaise",null),
-                        new Code("2","Ketchup",null),
-                        new Code("3","Moutarde",null),
-                        new Code("4","Andalouse ",null),
-                        new Code("5","Poivre ",null)
+                new CodesListDTO("id","sauce",List.of(
+                        new CodeDTO("1","Mayonnaise",null),
+                        new CodeDTO("2","Ketchup",null),
+                        new CodeDTO("3","Moutarde",null),
+                        new CodeDTO("4","Andalouse ",null),
+                        new CodeDTO("5","Poivre ",null)
                 )));
         assertThat(question.getClarificationQuestion()).isEmpty();
         assertThat(question.getFlowControl()).isEmpty();
@@ -242,11 +242,11 @@ class CodesListServiceTest {
         assertThat(question.getCodeFilters()).hasSize(1);
         assertEquals("4",question.getCodeFilters().getFirst().getCodeValue());
 
-        CodesList updatedCodeList = new CodesList("id", "sauce", List.of(
-                new Code("1", "Mayonnaise", null),
-                new Code("2", "Ketchup", null),
-                new Code("3", "Moutarde", null),
-                new Code("3bis", "Poivre", null)
+        CodesListDTO updatedCodeList = new CodesListDTO("id", "sauce", List.of(
+                new CodeDTO("1", "Mayonnaise", null),
+                new CodeDTO("2", "Ketchup", null),
+                new CodeDTO("3", "Moutarde", null),
+                new CodeDTO("3bis", "Poivre", null)
         ));
 
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate, updatedCodeList);
@@ -263,12 +263,12 @@ class CodesListServiceTest {
         assertThat(question.getCodeFilters()).hasSize(1);
         assertEquals("4",question.getCodeFilters().getFirst().getCodeValue());
 
-        CodesList updatedCodeList = new CodesList("id", "sauce", List.of(
-                new Code("1", "Mayonnaise", null),
-                new Code("2", "Ketchup", null),
-                new Code("3", "Moutarde", null),
-                new Code("4", "Andalouse", null),
-                new Code("5", "Poivre", null)
+        CodesListDTO updatedCodeList = new CodesListDTO("id", "sauce", List.of(
+                new CodeDTO("1", "Mayonnaise", null),
+                new CodeDTO("2", "Ketchup", null),
+                new CodeDTO("3", "Moutarde", null),
+                new CodeDTO("4", "Andalouse", null),
+                new CodeDTO("5", "Poivre", null)
         ));
 
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate, updatedCodeList);
@@ -285,10 +285,10 @@ class CodesListServiceTest {
         QuestionType question = findQuestionWithId(questionnaire, questionIdWithCodeListFilters);
         assertThat(question.getCodeFilters()).hasSize(1);
 
-        CodesList updatedCodeList = new CodesList("id", "sauce", List.of(
-                new Code("1", "Mayonnaise", null),
-                new Code("3", "Ketchup", null),
-                new Code("4", "Moutarde", null)
+        CodesListDTO updatedCodeList = new CodesListDTO("id", "sauce", List.of(
+                new CodeDTO("1", "Mayonnaise", null),
+                new CodeDTO("3", "Ketchup", null),
+                new CodeDTO("4", "Moutarde", null)
         ));
 
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate, updatedCodeList);
@@ -306,12 +306,12 @@ class CodesListServiceTest {
                 .anyMatch(variable -> externalVariableID.equals(variable.getId()))
                 .anyMatch(variable -> calculatedVariableID.equals(variable.getId()));
         codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
-                new CodesList("id","sauce",List.of(
-                        new Code("1","Mayonnaise",null),
-                        new Code("2","Ketchup",null),
-                        new Code("3","Moutarde",null),
-                        new Code("4","Andalouse ",null),
-                        new Code("5","Poivre ",null)
+                new CodesListDTO("id","sauce",List.of(
+                        new CodeDTO("1","Mayonnaise",null),
+                        new CodeDTO("2","Ketchup",null),
+                        new CodeDTO("3","Moutarde",null),
+                        new CodeDTO("4","Andalouse ",null),
+                        new CodeDTO("5","Poivre ",null)
                 )));
         assertThat(questionnaire.getVariables().getVariable())
                 .anyMatch(variable -> externalVariableID.equals(variable.getId()))
@@ -325,9 +325,9 @@ class CodesListServiceTest {
         String newCodeListId = "new-code-list";
         assertThat(questionnaire.getCodeLists().getCodeList())
                 .noneMatch(codeList -> newCodeListId.equals(codeList.getId()));
-        CodesList newCodesList = new CodesList(newCodeListId, "new-sauces", List.of(
-                new Code("1", "BBQ", null),
-                new Code("2", "Curry", null)
+        CodesListDTO newCodesList = new CodesListDTO(newCodeListId, "new-sauces", List.of(
+                new CodeDTO("1", "BBQ", null),
+                new CodeDTO("2", "Curry", null)
         ));
         List<String> result = codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, newCodeListId, newCodesList);
         assertThat(questionnaire.getCodeLists().getCodeList())
@@ -336,10 +336,10 @@ class CodesListServiceTest {
     }
 
     @Test
-    @DisplayName("Should get right CodeListDTD from questionnaire")
+    @DisplayName("Should get right CodeListDTO from questionnaire")
     void shouldGetRightCodesListsFromQuestionnaire() throws Exception {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTD(questionnaire);
+        List<ExtendedCodesListDTO> codesLists = codesListService.getCodesListsDTO(questionnaire);
         assertThat(codesLists).hasSize(4);
         assertThat(codesLists.get(0).getRelatedQuestionNames())
                 .containsExactly("QUESTION", "TAB", "TAB_SECONDARY", "CHOIXMULTIT");

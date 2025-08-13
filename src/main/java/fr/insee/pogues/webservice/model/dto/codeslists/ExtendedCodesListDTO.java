@@ -1,4 +1,4 @@
-package fr.insee.pogues.webservice.model.dto.codelists;
+package fr.insee.pogues.webservice.model.dto.codeslists;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -13,11 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ExtendedCodesList extends CodesList {
+public class ExtendedCodesListDTO extends CodesListDTO {
     private List<String> relatedQuestionNames;
 
-    public ExtendedCodesList(CodesList codesList, List<String> relatedQuestionNames){
-        super(codesList.getId(), codesList.getLabel(), codesList.getCodes());
+    public ExtendedCodesListDTO(CodesListDTO codesListDTO, List<String> relatedQuestionNames){
+        super(codesListDTO.getId(), codesListDTO.getLabel(), codesListDTO.getCodes());
         this.relatedQuestionNames = relatedQuestionNames;
     }
 }

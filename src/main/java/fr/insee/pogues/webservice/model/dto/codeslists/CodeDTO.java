@@ -1,4 +1,4 @@
-package fr.insee.pogues.webservice.model.dto.codelists;
+package fr.insee.pogues.webservice.model.dto.codeslists;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
@@ -13,9 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Code {
+public class CodeDTO {
     private String value;
     private String label;
-    private List<Code> codes;
-
+    private List<CodeDTO> codes;
 }

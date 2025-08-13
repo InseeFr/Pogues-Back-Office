@@ -13,11 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ExtendedNomenclature extends Nomenclature {
+public class ExtendedNomenclatureDTO extends NomenclatureDTO {
     private List<String> relatedQuestionNames;
 
-    public ExtendedNomenclature(Nomenclature nomenclature, List<String> relatedQuestionNames){
-        super(nomenclature.getId(), nomenclature.getLabel(), nomenclature.getVersion(), nomenclature.getExternalLink());
+    public ExtendedNomenclatureDTO(NomenclatureDTO nomenclatureDTO, List<String> relatedQuestionNames){
+        super(nomenclatureDTO.getId(), nomenclatureDTO.getLabel(), nomenclatureDTO.getVersion(), nomenclatureDTO.getExternalLink());
         this.relatedQuestionNames = relatedQuestionNames;
     }
 }

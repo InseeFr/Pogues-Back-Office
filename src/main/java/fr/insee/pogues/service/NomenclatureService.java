@@ -6,7 +6,7 @@ import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.webservice.mapper.CodesListMapper;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.model.CodesList;
-import fr.insee.pogues.webservice.model.dto.nomenclatures.ExtendedNomenclature;
+import fr.insee.pogues.webservice.model.dto.nomenclatures.ExtendedNomenclatureDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -28,22 +28,22 @@ public class NomenclatureService {
         this.versionService = versionService;
     }
 
-    public List<ExtendedNomenclature> getNomenclaturesDTD(Questionnaire questionnaire) {
+    public List<ExtendedNomenclatureDTO> getNomenclaturesDTO(Questionnaire questionnaire) {
         return questionnaire.getCodeLists().getCodeList().stream()
                 .filter(CodesList::isNomenclatureCodeList)
-                .map(CodesListMapper::convertFromCodeListNomenclatureModelToNomenclatureDTD)
-                .map(nomenclature -> new ExtendedNomenclature(nomenclature, getListOfQuestionNameWhereCodesListIsUsed(questionnaire, nomenclature.getId())))
+                .map(CodesListMapper::convertFromCodeListNomenclatureModelToNomenclatureDTO)
+                .map(nomenclature -> new ExtendedNomenclatureDTO(nomenclature, getListOfQuestionNameWhereCodesListIsUsed(questionnaire, nomenclature.getId())))
                 .toList();
     }
 
-    public List<ExtendedNomenclature> getNomenclaturesDTDByQuestionnaireId(String questionnaireId) throws Exception {
+    public List<ExtendedNomenclatureDTO> getNomenclaturesDTOByQuestionnaireId(String questionnaireId) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
-        return getNomenclaturesDTD(questionnaire);
+        return getNomenclaturesDTO(questionnaire);
     }
 
-    public List<ExtendedNomenclature> getNomenclaturesDTDByVersionId(UUID versionId) throws Exception {
+    public List<ExtendedNomenclatureDTO> getNomenclaturesDTOByVersionId(UUID versionId) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireByVersionId(versionId);
-        return getNomenclaturesDTD(questionnaire);
+        return getNomenclaturesDTO(questionnaire);
     }
 
     private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {

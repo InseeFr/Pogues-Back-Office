@@ -1,6 +1,5 @@
 package fr.insee.pogues.webservice.model.dto.nomenclatures;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,9 +11,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Nomenclature {
-    private String id;
-    private String label;
-    private String version;
-    private ExternalLink externalLink;
+public class ExternalLinkDTO {
+    private String urn;
 }

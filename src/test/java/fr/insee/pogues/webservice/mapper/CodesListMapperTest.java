@@ -2,8 +2,8 @@ package fr.insee.pogues.webservice.mapper;
 
 import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.CodeType;
-import fr.insee.pogues.webservice.model.dto.codelists.Code;
-import fr.insee.pogues.webservice.model.dto.codelists.CodesList;
+import fr.insee.pogues.webservice.model.dto.codeslists.CodeDTO;
+import fr.insee.pogues.webservice.model.dto.codeslists.CodesListDTO;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -15,11 +15,11 @@ class CodesListMapperTest {
 
     @Test
     void testConversionSimpleCodeListToPoguesModel(){
-        CodesList codesList = new CodesList("h-f","Homme-Femme", List.of(
-                new Code("F","Femme",null),
-                new Code("H","Homme",null)
+        CodesListDTO codesListDTO = new CodesListDTO("h-f","Homme-Femme", List.of(
+                new CodeDTO("F","Femme",null),
+                new CodeDTO("H","Homme",null)
         ));
-        fr.insee.pogues.model.CodeList codeListPoguesModel = convertFromCodeListDTDtoCodeListModel(codesList);
+        fr.insee.pogues.model.CodeList codeListPoguesModel = convertFromCodeListDTOtoCodeListModel(codesListDTO);
         assertEquals("h-f", codeListPoguesModel.getId());
         assertEquals("Homme-Femme", codeListPoguesModel.getLabel());
         assertEquals(2, codeListPoguesModel.getCode().size());
@@ -27,19 +27,19 @@ class CodesListMapperTest {
 
     @Test
     void testConversionHierarchicalCodeListToPoguesModel(){
-        CodesList codesList = new CodesList("h-f","Homme-Femme", List.of(
-                new Code("F","Femme", List.of(
-                        new Code("F1", "Femme 1", null),
-                        new Code("F2", "Femme 2", null),
-                        new Code("F3", "Femme 3", null)
+        CodesListDTO codesListDTO = new CodesListDTO("h-f","Homme-Femme", List.of(
+                new CodeDTO("F","Femme", List.of(
+                        new CodeDTO("F1", "Femme 1", null),
+                        new CodeDTO("F2", "Femme 2", null),
+                        new CodeDTO("F3", "Femme 3", null)
                 )),
-                new Code("H","Homme", List.of(
-                        new Code("H1", "Homme 1", null),
-                        new Code("H2", "Homme 2", null),
-                        new Code("H3", "Homme 3", null)
+                new CodeDTO("H","Homme", List.of(
+                        new CodeDTO("H1", "Homme 1", null),
+                        new CodeDTO("H2", "Homme 2", null),
+                        new CodeDTO("H3", "Homme 3", null)
                 ))
         ));
-        fr.insee.pogues.model.CodeList codeListPoguesModel = convertFromCodeListDTDtoCodeListModel(codesList);
+        fr.insee.pogues.model.CodeList codeListPoguesModel = convertFromCodeListDTOtoCodeListModel(codesListDTO);
         assertEquals("h-f", codeListPoguesModel.getId());
         assertEquals("Homme-Femme", codeListPoguesModel.getLabel());
         assertEquals(8, codeListPoguesModel.getCode().size());
@@ -59,10 +59,10 @@ class CodesListMapperTest {
         CodeType codeTypeF = createCodeType("","F","Femme");
         CodeType codeTypeH = createCodeType("","H","Homme");
         poguesModelCodeList.getCode().addAll(List.of(codeTypeF,codeTypeH));
-        CodesList codesListDTD = convertFromCodeListModelToCodeListDTD(poguesModelCodeList);
-        assertEquals("h-f", codesListDTD.getId());
-        assertEquals("Homme-Femme", codesListDTD.getLabel());
-        assertEquals(2, codesListDTD.getCodes().size());
+        CodesListDTO codesListDTO = convertFromCodeListModelToCodeListDTO(poguesModelCodeList);
+        assertEquals("h-f", codesListDTO.getId());
+        assertEquals("Homme-Femme", codesListDTO.getLabel());
+        assertEquals(2, codesListDTO.getCodes().size());
     }
 
     @Test
@@ -81,13 +81,13 @@ class CodesListMapperTest {
         poguesModelCodeList.getCode().addAll(List.of(
                 codeTypeF,codeTypeF1,codeTypeF2,codeTypeF3,
                 codeTypeH,codeTypeH1,codeTypeH2,codeTypeH3));
-        CodesList codesListDTD = convertFromCodeListModelToCodeListDTD(poguesModelCodeList);
-        assertEquals("h-f", codesListDTD.getId());
-        assertEquals("Homme-Femme", codesListDTD.getLabel());
-        assertEquals(2, codesListDTD.getCodes().size());
-        assertEquals(3, codesListDTD.getCodes().get(0).getCodes().size());
-        assertEquals(3, codesListDTD.getCodes().get(1).getCodes().size());
-        assertEquals("Femme 2", codesListDTD.getCodes().get(0).getCodes().get(1).getLabel());
+        CodesListDTO codesListDTO = convertFromCodeListModelToCodeListDTO(poguesModelCodeList);
+        assertEquals("h-f", codesListDTO.getId());
+        assertEquals("Homme-Femme", codesListDTO.getLabel());
+        assertEquals(2, codesListDTO.getCodes().size());
+        assertEquals(3, codesListDTO.getCodes().get(0).getCodes().size());
+        assertEquals(3, codesListDTO.getCodes().get(1).getCodes().size());
+        assertEquals("Femme 2", codesListDTO.getCodes().get(0).getCodes().get(1).getLabel());
     }
 
 

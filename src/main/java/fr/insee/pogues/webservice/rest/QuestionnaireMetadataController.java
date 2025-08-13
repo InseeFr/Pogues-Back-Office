@@ -1,4 +1,4 @@
-package fr.insee.pogues.controller;
+package fr.insee.pogues.webservice.rest;
 
 import fr.insee.pogues.service.QuestionnaireMetadataService;
 import io.swagger.v3.oas.annotations.Operation;

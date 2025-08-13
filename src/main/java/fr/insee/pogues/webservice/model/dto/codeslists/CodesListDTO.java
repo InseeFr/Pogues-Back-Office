@@ -1,4 +1,4 @@
-package fr.insee.pogues.webservice.model.dto.codelists;
+package fr.insee.pogues.webservice.model.dto.codeslists;
 
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -14,9 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CodesList {
-
+public class CodesListDTO {
     private String id;
     private String label;
-    private List<Code> codes;
+    private List<CodeDTO> codes;
 }
