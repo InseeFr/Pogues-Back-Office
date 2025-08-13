@@ -1,6 +1,5 @@
 package fr.insee.pogues.webservice.rest;
 
-
 import fr.insee.pogues.service.CodesListService;
 import fr.insee.pogues.webservice.error.ApiMessage;
 import fr.insee.pogues.webservice.error.CodesListMessage;
@@ -21,113 +20,77 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * WebService class used to fetch and update the codes lists of a questionnaire.
+ */
 @RestController
 @RequestMapping("/api/persistence")
 @Tag(name = "4. CodesList Controller")
 @Slf4j
 public class CodesListController {
 
-    private CodesListService codesListService;
+    private final CodesListService codesListService;
 
     public CodesListController(CodesListService codesListService){
         this.codesListService = codesListService;
     }
-    /**
-     *
-     * @param questionnaireId (id of questionnaire)
-     * @param codesListId (id of codeList to delete)
-     * @return
-     * @throws Exception
-     */
-    @DeleteMapping("questionnaire/{questionnaireId}/codes-list/{codesListId}")
-    @Operation(
-            operationId  = "deleteCodesListInQuestionnaire",
-            summary = "Delete codes list in questionnaire",
-            description = "Delete codes list (with idCodesList) for questionnaire of id"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Success - Deleted"),
-            @ApiResponse(
-                    responseCode = "400",
-                    description = "The codesList is required",
-                    content = { @Content( mediaType = "application/json", schema = @Schema(implementation = CodesListMessage.class)) }),
-            @ApiResponse(responseCode = "404", description = "Not found")
-    })
-    public ResponseEntity<Object> deleteCodesListInQuestionnaire(
-            @PathVariable(value = "questionnaireId") String questionnaireId,
-            @PathVariable(value = "codesListId") String codesListId) throws Exception {
-        codesListService.deleteCodeListOfQuestionnaireById(questionnaireId, codesListId);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-    }
 
-    @PutMapping("questionnaire/{questionnaireId}/codes-list/{codesListId}")
-    @Operation(
-            operationId  = "updateOrAddCodesListInQuestionnaire",
-            summary = "Update or add codes list in questionnaire",
-            description = "Update codes list (with codesListId) for questionnaire of id"
-    )
+    @Operation(summary = "Get codes lists of a questionnaire",
+            responses = { @ApiResponse(content = @Content(mediaType = "application/json")) })
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201 ", description = "Success - Created"),
-            @ApiResponse(responseCode = "200", description = "Success - Edited, return list of questionIds updated"),
-            @ApiResponse(responseCode = "404", description = "Not found")
-    })
-    public ResponseEntity<Object> updateOrAddCodesListInQuestionnaire(
-            @PathVariable(value = "questionnaireId") String questionnaireId,
-            @PathVariable(value = "codesListId") String codesListId,
-            @RequestBody CodesList codesList) throws Exception {
-        List<String> updatedQuestionIds = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
-        return ResponseEntity.status(updatedQuestionIds == null ? HttpStatus.CREATED : HttpStatus.OK).body(updatedQuestionIds);
-    }
-
-    @GetMapping("questionnaire/{questionnaireId}/codes-lists")
-    @Operation(
-            operationId  = "getCodesListsInQuestionnaire",
-            summary = "Get codes lists in questionnaire",
-            description = "Get all codes lists for questionnaire of id"
-    )
-    @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200 ",
-                    description = "Success",
-                    content = {
-                            @Content(mediaType = "application/json",array = @ArraySchema(
-                                            schema = @Schema(implementation = ExtendedCodesList.class)))}),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Not found",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiMessage.class)) })
-    })
-    public ResponseEntity<List<ExtendedCodesList>> getCodesListsInQuestionnaire(
-            @PathVariable(value = "questionnaireId") String questionnaireId) throws Exception {
+            @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json", array = @ArraySchema( schema = @Schema(implementation = ExtendedCodesList.class)))}),
+            @ApiResponse(responseCode = "404", description = "Questionnaire not found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class)) }) })
+    @GetMapping("/questionnaire/{questionnaireId}/codes-lists")
+    public ResponseEntity<List<ExtendedCodesList>> getQuestionnaireCodesLists(
+            @PathVariable(value = "questionnaireId") String questionnaireId
+    ) throws Exception {
         List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTDByQuestionnaireId(questionnaireId);
         return ResponseEntity.status(HttpStatus.OK).body(codesLists);
     }
 
-    @GetMapping("questionnaire/{questionnaireId}/version/{versionId}/codes-lists")
-    @Operation(
-            operationId  = "getCodesListsInVersionOfQuestionnaire",
-            summary = "Get codes lists in backup of questionnaire",
-            description = "Get all codes lists for questionnaire of id and backup of id"
-    )
+    @Operation(summary = "Get the codes lists from a questionnaire's backup",
+            responses = { @ApiResponse(content = @Content(mediaType = "application/json")) })
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200 ",
-                    description = "Success",
-                    content = {
-                            @Content(mediaType = "application/json",array = @ArraySchema(
-                                    schema = @Schema(implementation = ExtendedCodesList.class)))}),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Not found",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiMessage.class)) })
-    })
-    public ResponseEntity<List<ExtendedCodesList>> getCodesListsInVersionOfQuestionnaire(
-            @PathVariable(value = "questionnaireId") String questionnaireId,
-            @PathVariable(value = "versionId") UUID versionId) throws Exception {
-        log.info("Get codeLists of backup (id: {}) of questionnaire {}.", versionId, questionnaireId);
+            @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json",array = @ArraySchema( schema = @Schema(implementation = ExtendedCodesList.class)))}),
+            @ApiResponse(responseCode = "404", description = "Version not found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class)) }) })
+    @GetMapping("/questionnaire/{questionnaireId}/version/{versionId}/codes-lists")
+    public ResponseEntity<List<ExtendedCodesList>> getQuestionnaireVersionCodesLists(
+            @PathVariable(value = "questionnaireId") String ignoredQuestionnaireId,
+            @PathVariable(value = "versionId") UUID versionId
+    ) throws Exception {
         List<ExtendedCodesList> codesLists = codesListService.getCodesListsDTDByVersionId(versionId);
         return ResponseEntity.status(HttpStatus.OK).body(codesLists);
+    }
+
+    @Operation(summary = "Update or create codes list in a questionnaire")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Successfully updated", content = @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = String.class)))),
+            @ApiResponse(responseCode = "201", description = "Successfully created"),
+            @ApiResponse(responseCode = "404", description = "Not found") })
+    @PutMapping("/questionnaire/{questionnaireId}/codes-list/{codesListId}")
+    public ResponseEntity<Object> upsertQuestionnaireCodesList(
+            @PathVariable(value = "questionnaireId") String questionnaireId,
+            @PathVariable(value = "codesListId") String codesListId,
+            @RequestBody CodesList codesList
+    ) throws Exception {
+        List<String> updatedQuestionIds = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesList);
+        if (updatedQuestionIds != null) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(updatedQuestionIds);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(null);
+    }
+
+    @Operation(summary = "Delete the codes list from a questionnaire")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Successfully deleted"),
+            @ApiResponse( responseCode = "400", description = "Codes list is used in questions", content = { @Content( mediaType = "application/json", schema = @Schema(implementation = CodesListMessage.class)) }),
+            @ApiResponse(responseCode = "404", description = "Not found") })
+    @DeleteMapping("/questionnaire/{questionnaireId}/codes-list/{codesListId}")
+    public ResponseEntity<Object> deleteQuestionnaireCodesList(
+            @PathVariable(value = "questionnaireId") String questionnaireId,
+            @PathVariable(value = "codesListId") String codesListId
+    ) throws Exception {
+        codesListService.deleteCodeListOfQuestionnaireById(questionnaireId, codesListId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

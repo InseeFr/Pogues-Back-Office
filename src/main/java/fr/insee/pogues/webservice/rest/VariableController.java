@@ -51,7 +51,7 @@ public class VariableController {
 			responses = { @ApiResponse(content = @Content(mediaType = "application/json")) })
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Success"),
-			@ApiResponse(responseCode = "404", description = "Not found") })
+			@ApiResponse(responseCode = "404", description = "Version not found") })
 	@GetMapping("/questionnaire/{questionnaireId}/version/{versionId}/variables")
 	public ResponseEntity<List<VariableDTO>> getQuestionnaireVersionVariables(
 			@PathVariable(value = "questionnaireId") String ignoredQuestionnaireId,
@@ -82,7 +82,7 @@ public class VariableController {
 
 	@Operation(summary = "Delete the variable from a questionnaire")
 	@ApiResponses(value = {
-			@ApiResponse(responseCode = "204", description = "Success"),
+			@ApiResponse(responseCode = "204", description = "Successfully deleted"),
 			@ApiResponse(responseCode = "400", description = "Variable is in use"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
 	@DeleteMapping("/questionnaire/{questionnaireId}/variable/{variableId}")
