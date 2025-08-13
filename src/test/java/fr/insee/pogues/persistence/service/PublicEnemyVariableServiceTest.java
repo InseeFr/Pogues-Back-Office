@@ -13,7 +13,7 @@ import java.util.List;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static org.junit.jupiter.api.Assertions.*;
 
-class VariablesServiceImplTest {
+class PublicEnemyVariableServiceTest {
 
     @Test
     void getVariables() throws Exception {

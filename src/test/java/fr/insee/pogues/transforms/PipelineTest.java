@@ -18,7 +18,7 @@ import static fr.insee.pogues.utils.IOStreamsUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-class TestPipeline {
+class PipelineTest {
 
     @Test
     void passesThroughTest() throws Exception {

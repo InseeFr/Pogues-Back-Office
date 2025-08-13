@@ -1,16 +1,18 @@
-package fr.insee.pogues.utils;
+package fr.insee.pogues.webservice.mapper;
 
 
 import fr.insee.pogues.exception.VariableInvalidModelException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.webservice.model.dto.variables.*;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-public class VariablesConverter {
+@Component
+public class VariablesMapper {
 
-    private VariablesConverter() {}
+    private VariablesMapper() {}
 
     /**
      * @throws VariableInvalidModelException The variable has an invalid model (type or datatype).

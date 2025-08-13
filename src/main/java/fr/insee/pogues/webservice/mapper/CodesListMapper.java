@@ -1,4 +1,4 @@
-package fr.insee.pogues.utils;
+package fr.insee.pogues.webservice.mapper;
 
 
 import fr.insee.pogues.model.*;
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class CodesListConverter {
+public class CodesListMapper {
 
-    private CodesListConverter() {}
+    private CodesListMapper() {}
 
     private static List<CodeType> convertFromCodeListDTDToCodeTypeWithParent(Code code, String parent){
         List<CodeType> codeTypes = new ArrayList<>();
@@ -34,12 +34,12 @@ public class CodesListConverter {
         return codeTypes;
     }
 
-    public static CodeList convertFromCodeListDTDtoCodeListModel(CodesList codesListDtd){
+    public static CodeList convertFromCodeListDTDtoCodeListModel(CodesList codesListDto){
         String noParent= "";
         CodeList codeList = new CodeList();
-        codeList.setId(codesListDtd.getId());
-        codeList.setLabel(codesListDtd.getLabel());
-        List<CodeType> codeTypes = codesListDtd.getCodes().stream()
+        codeList.setId(codesListDto.getId());
+        codeList.setLabel(codesListDto.getLabel());
+        List<CodeType> codeTypes = codesListDto.getCodes().stream()
                 .map(code -> convertFromCodeListDTDToCodeTypeWithParent(code, noParent))
                 .flatMap(Collection::stream).toList();
         codeList.getCode().addAll(codeTypes);

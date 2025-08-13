@@ -1,4 +1,4 @@
-package fr.insee.pogues.webservice.model.dtd.nomenclatures;
+package fr.insee.pogues.webservice.model.dto.nomenclatures;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package fr.insee.pogues.controllers;
+package fr.insee.pogues.webservice.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.pogues.exception.PoguesException;
@@ -9,7 +9,6 @@ import fr.insee.pogues.webservice.model.dto.variables.VariableDTO;
 import fr.insee.pogues.webservice.model.dto.variables.VariableDTODatatype;
 import fr.insee.pogues.webservice.model.dto.variables.VariableDTODatatypeTypeEnum;
 import fr.insee.pogues.webservice.model.dto.variables.VariableDTOTypeEnum;
-import fr.insee.pogues.webservice.rest.VariableController;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

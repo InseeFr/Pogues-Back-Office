@@ -3,8 +3,8 @@ package fr.insee.pogues.webservice.rest;
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.model.VariableType;
 import fr.insee.pogues.service.VariableService;
-import fr.insee.pogues.utils.VariablesConverter;
-import fr.insee.pogues.webservice.model.dtd.variables.VariableDTO;
+import fr.insee.pogues.webservice.mapper.VariablesMapper;
+import fr.insee.pogues.webservice.model.dto.variables.VariableDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -43,7 +43,7 @@ public class VariableController {
 			@PathVariable(value = "questionnaireId") String questionnaireId
 	) throws Exception {
 		List<VariableType> variables = variableService.getQuestionnaireVariables(questionnaireId);
-		List<VariableDTO> variablesDTO = variables.stream().map(VariablesConverter::toDTO).toList();
+		List<VariableDTO> variablesDTO = variables.stream().map(VariablesMapper::toDTO).toList();
 		return ResponseEntity.status(HttpStatus.OK).body(variablesDTO);
 	}
 
@@ -58,7 +58,7 @@ public class VariableController {
 			@PathVariable(value = "versionId") UUID versionId
 	) throws Exception {
 		List<VariableType> variables = variableService.getVersionVariables(versionId);
-		List<VariableDTO> variablesDTO = variables.stream().map(VariablesConverter::toDTO).toList();
+		List<VariableDTO> variablesDTO = variables.stream().map(VariablesMapper::toDTO).toList();
 		return ResponseEntity.status(HttpStatus.OK).body(variablesDTO);
 	}
 
@@ -72,7 +72,7 @@ public class VariableController {
 			@PathVariable(value = "questionnaireId") String questionnaireId,
 			@RequestBody VariableDTO variableDTO
 	) throws Exception {
-		VariableType variable = VariablesConverter.toModel(variableDTO);
+		VariableType variable = VariablesMapper.toModel(variableDTO);
 		boolean isCreated = variableService.upsertQuestionnaireVariable(questionnaireId, variable);
 		if (isCreated) {
 			return ResponseEntity.status(HttpStatus.CREATED).build();

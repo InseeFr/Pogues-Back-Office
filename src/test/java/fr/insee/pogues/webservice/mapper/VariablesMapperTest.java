@@ -1,4 +1,4 @@
-package fr.insee.pogues.utils;
+package fr.insee.pogues.webservice.mapper;
 
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.webservice.model.dto.variables.*;

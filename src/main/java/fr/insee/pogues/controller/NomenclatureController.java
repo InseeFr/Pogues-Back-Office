@@ -2,7 +2,7 @@ package fr.insee.pogues.controller;
 
 import fr.insee.pogues.service.NomenclatureService;
 import fr.insee.pogues.webservice.error.ApiMessage;
-import fr.insee.pogues.webservice.model.dtd.nomenclatures.ExtendedNomenclature;
+import fr.insee.pogues.webservice.model.dto.nomenclatures.ExtendedNomenclature;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

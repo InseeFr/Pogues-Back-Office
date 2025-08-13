@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.MockitoAnnotations.initMocks;
 
-class TestDDIASClient {
+class DDIASClientTest {
 
     @Mock
     HttpClientBuilder clientFactory;

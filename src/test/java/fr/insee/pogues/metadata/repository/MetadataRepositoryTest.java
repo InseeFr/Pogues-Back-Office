@@ -1,9 +1,7 @@
-package fr.insee.pogues.metadata;
+package fr.insee.pogues.metadata.repository;
 
 import fr.insee.pogues.metadata.client.DDIASClient;
 import fr.insee.pogues.metadata.model.ddias.Unit;
-import fr.insee.pogues.metadata.repository.MetadataRepository;
-import fr.insee.pogues.metadata.repository.MetadataRepositoryImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -17,7 +15,7 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 
-class TestMetadataRepository {
+class MetadataRepositoryTest {
 
     @Mock
     DDIASClient DDIASClient;

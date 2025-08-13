@@ -1,4 +1,4 @@
-package fr.insee.pogues.persistence;
+package fr.insee.pogues.persistence.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
@@ -6,8 +6,6 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
 import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
-import fr.insee.pogues.persistence.service.QuestionnaireService;
-import fr.insee.pogues.persistence.service.VersionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class TestQuestionnaireService {
+class QuestionnaireServiceTest {
 
     @Mock
     QuestionnaireRepository questionnairesServiceQuery;

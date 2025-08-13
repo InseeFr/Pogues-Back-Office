@@ -1,6 +1,5 @@
-package fr.insee.pogues.controllers;
+package fr.insee.pogues.controller;
 
-import fr.insee.pogues.controller.QuestionnaireMetadataController;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.service.QuestionnaireMetadataService;
 import org.junit.jupiter.api.Assertions;

@@ -17,9 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * @author I6VWID
  *
  */
-class TestJSONFunctions {
+class JSONFunctionsTest {
 
-	final static Logger logger = LogManager.getLogger(TestJSONFunctions.class);
+	final static Logger logger = LogManager.getLogger(JSONFunctionsTest.class);
 
 	private String json1 = "{\"id\":\"1\",\"Name\":\"FIRSTQUESTIONNAIRE\"}";
 	private String json2 = "{\"id\":\"2\",\"Name\":\"FIRSTQUESTIONNAIRE2\"}";

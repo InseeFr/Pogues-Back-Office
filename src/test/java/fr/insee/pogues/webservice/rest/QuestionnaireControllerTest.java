@@ -1,11 +1,10 @@
-package fr.insee.pogues.controllers;
+package fr.insee.pogues.webservice.rest;
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
-import fr.insee.pogues.webservice.rest.QuestionnaireController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;

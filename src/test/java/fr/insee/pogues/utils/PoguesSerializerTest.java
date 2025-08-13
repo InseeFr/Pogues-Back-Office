@@ -1,7 +1,6 @@
-package fr.insee.pogues.utils.json;
+package fr.insee.pogues.utils;
 
 import fr.insee.pogues.model.Questionnaire;
-import fr.insee.pogues.utils.PoguesSerializer;
 import org.junit.jupiter.api.Test;
 
 import javax.xml.bind.JAXBException;

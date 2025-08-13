@@ -1,4 +1,4 @@
-package fr.insee.pogues.utils;
+package fr.insee.pogues.webservice.mapper;
 
 import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.CodeType;
@@ -8,10 +8,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static fr.insee.pogues.utils.CodesListConverter.*;
+import static fr.insee.pogues.webservice.mapper.CodesListMapper.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class ModelConverterTest {
+class CodesListMapperTest {
 
     @Test
     void testConversionSimpleCodeListToPoguesModel(){

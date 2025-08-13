@@ -1,7 +1,6 @@
-package fr.insee.pogues.utils.model;
+package fr.insee.pogues.utils.model.question;
 
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.utils.model.question.Table;
 import org.junit.jupiter.api.Test;
 
 import javax.xml.bind.JAXBException;

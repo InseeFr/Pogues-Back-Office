@@ -4,14 +4,14 @@ import fr.insee.pogues.exception.CodesListException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
-import fr.insee.pogues.utils.CodesListConverter;
+import fr.insee.pogues.webservice.mapper.CodesListMapper;
 import fr.insee.pogues.utils.DateUtils;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.model.question.Common;
 import fr.insee.pogues.webservice.error.ErrorCode;
-import fr.insee.pogues.webservice.model.dtd.codelists.CodesList;
-import fr.insee.pogues.webservice.model.dtd.codelists.ExtendedCodesList;
+import fr.insee.pogues.webservice.model.dto.codelists.CodesList;
+import fr.insee.pogues.webservice.model.dto.codelists.ExtendedCodesList;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static fr.insee.pogues.utils.CodesListConverter.convertFromCodeListDTDtoCodeListModel;
+import static fr.insee.pogues.webservice.mapper.CodesListMapper.convertFromCodeListDTDtoCodeListModel;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static fr.insee.pogues.utils.ListUtils.replaceElementInListAccordingToCondition;
 import static fr.insee.pogues.utils.model.CodesList.*;
@@ -188,7 +188,7 @@ public class CodesListService {
     public List<ExtendedCodesList> getCodesListsDTD(Questionnaire questionnaire) {
         return questionnaire.getCodeLists().getCodeList().stream()
                 .filter(codeList -> !isNomenclatureCodeList(codeList))
-                .map(CodesListConverter::convertFromCodeListModelToCodeListDTD)
+                .map(CodesListMapper::convertFromCodeListModelToCodeListDTD)
                 .map(codesList -> new ExtendedCodesList(codesList, getListOfQuestionNameWhereCodesListIsUsed(questionnaire, codesList.getId())))
                 .toList();
     }

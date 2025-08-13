@@ -1,4 +1,4 @@
-package fr.insee.pogues.webservice.model.dtd.variables;
+package fr.insee.pogues.webservice.model.dto.variables;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package fr.insee.pogues.utils.model;
+package fr.insee.pogues.utils.model.question;
 
 import fr.insee.pogues.model.CodeType;
 import fr.insee.pogues.model.DatatypeTypeEnum;
