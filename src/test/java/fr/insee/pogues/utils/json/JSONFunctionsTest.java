@@ -13,19 +13,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * Test Class used to test JSON functions
- * 
- * @author I6VWID
- *
  */
 class JSONFunctionsTest {
-
-	final static Logger logger = LogManager.getLogger(JSONFunctionsTest.class);
-
-	private String json1 = "{\"id\":\"1\",\"Name\":\"FIRSTQUESTIONNAIRE\"}";
-	private String json2 = "{\"id\":\"2\",\"Name\":\"FIRSTQUESTIONNAIRE2\"}";
-	private String jsonArray = "[{\"id\":\"1\",\"Name\":\"FIRSTQUESTIONNAIRE\"},{\"id\":\"2\",\"Name\":\"FIRSTQUESTIONNAIRE2\"}]";
-	
-	private HashMap<String, String> data = new HashMap<String, String>();
 
 	@Test
 	void renamePluralTest() {
