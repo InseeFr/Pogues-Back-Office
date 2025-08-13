@@ -1,8 +1,8 @@
 package fr.insee.pogues.exception;
 
-import fr.insee.pogues.webservice.error.ApiMessage;
-import fr.insee.pogues.webservice.error.CodesListMessage;
-import fr.insee.pogues.webservice.error.ErrorCode;
+import fr.insee.pogues.controller.error.ApiMessage;
+import fr.insee.pogues.controller.error.CodesListMessage;
+import fr.insee.pogues.controller.error.ErrorCode;
 import lombok.Getter;
 
 import java.util.List;

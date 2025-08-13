@@ -3,10 +3,10 @@ package fr.insee.pogues.service;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
-import fr.insee.pogues.webservice.mapper.CodesListMapper;
+import fr.insee.pogues.mapper.CodesListMapper;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.model.CodesList;
-import fr.insee.pogues.webservice.model.dto.nomenclatures.ExtendedNomenclatureDTO;
+import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

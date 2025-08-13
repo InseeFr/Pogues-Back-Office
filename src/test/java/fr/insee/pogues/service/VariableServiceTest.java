@@ -7,7 +7,7 @@ import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
 import fr.insee.pogues.utils.PoguesSerializer;
-import fr.insee.pogues.webservice.error.ErrorCode;
+import fr.insee.pogues.controller.error.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

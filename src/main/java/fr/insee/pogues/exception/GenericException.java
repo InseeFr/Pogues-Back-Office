@@ -1,6 +1,6 @@
 package fr.insee.pogues.exception;
 
-import fr.insee.pogues.webservice.error.ApiMessage;
+import fr.insee.pogues.controller.error.ApiMessage;
 import lombok.Getter;
 
 @Getter

@@ -1,7 +1,7 @@
 package fr.insee.pogues.api.remote.eno.transforms;
 
 import fr.insee.pogues.exception.EnoException;
-import fr.insee.pogues.webservice.model.EnoContext;
+import fr.insee.pogues.model.EnoContext;
 import fr.insee.pogues.exception.PoguesException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.IOException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;

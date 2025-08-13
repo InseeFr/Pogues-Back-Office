@@ -1,6 +1,6 @@
 package fr.insee.pogues.api.remote.eno.transforms;
 
-import fr.insee.pogues.webservice.model.EnoContext;
+import fr.insee.pogues.model.EnoContext;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

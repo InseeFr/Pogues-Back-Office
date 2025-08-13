@@ -2,7 +2,6 @@ package fr.insee.pogues.controller;
 
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.service.QuestionnaireMetadataService;
-import fr.insee.pogues.webservice.rest.QuestionnaireMetadataController;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentMatchers;

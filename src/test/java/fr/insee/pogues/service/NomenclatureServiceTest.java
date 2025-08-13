@@ -3,7 +3,7 @@ package fr.insee.pogues.service;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
-import fr.insee.pogues.webservice.model.dto.nomenclatures.ExtendedNomenclatureDTO;
+import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
