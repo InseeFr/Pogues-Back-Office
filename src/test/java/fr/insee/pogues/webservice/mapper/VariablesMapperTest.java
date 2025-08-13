@@ -1,18 +1,18 @@
 package fr.insee.pogues.utils;
 
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.webservice.model.dtd.variables.*;
+import fr.insee.pogues.webservice.model.dto.variables.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
-import static fr.insee.pogues.utils.VariablesConverter.toDTO;
-import static fr.insee.pogues.utils.VariablesConverter.toModel;
+import static fr.insee.pogues.webservice.mapper.VariablesMapper.toDTO;
+import static fr.insee.pogues.webservice.mapper.VariablesMapper.toModel;
 import static org.assertj.core.api.Assertions.assertThat;
 
-class VariablesConverterTest {
+class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO collected variable into model")

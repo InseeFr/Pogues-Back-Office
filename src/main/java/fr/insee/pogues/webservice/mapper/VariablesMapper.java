@@ -3,7 +3,7 @@ package fr.insee.pogues.utils;
 
 import fr.insee.pogues.exception.VariableInvalidModelException;
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.webservice.model.dtd.variables.*;
+import fr.insee.pogues.webservice.model.dto.variables.*;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

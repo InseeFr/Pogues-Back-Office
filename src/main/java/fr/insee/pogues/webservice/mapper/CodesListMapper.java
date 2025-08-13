@@ -2,10 +2,10 @@ package fr.insee.pogues.utils;
 
 
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.webservice.model.dtd.codelists.Code;
-import fr.insee.pogues.webservice.model.dtd.codelists.CodesList;
-import fr.insee.pogues.webservice.model.dtd.nomenclatures.ExternalLink;
-import fr.insee.pogues.webservice.model.dtd.nomenclatures.Nomenclature;
+import fr.insee.pogues.webservice.model.dto.codelists.Code;
+import fr.insee.pogues.webservice.model.dto.codelists.CodesList;
+import fr.insee.pogues.webservice.model.dto.nomenclatures.ExternalLink;
+import fr.insee.pogues.webservice.model.dto.nomenclatures.Nomenclature;
 
 import java.util.ArrayList;
 import java.util.Collection;

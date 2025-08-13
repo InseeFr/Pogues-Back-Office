@@ -2,8 +2,8 @@ package fr.insee.pogues.utils;
 
 import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.CodeType;
-import fr.insee.pogues.webservice.model.dtd.codelists.Code;
-import fr.insee.pogues.webservice.model.dtd.codelists.CodesList;
+import fr.insee.pogues.webservice.model.dto.codelists.Code;
+import fr.insee.pogues.webservice.model.dto.codelists.CodesList;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
