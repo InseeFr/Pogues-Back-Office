@@ -7,7 +7,7 @@ import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
 import fr.insee.pogues.utils.PoguesSerializer;
-import fr.insee.pogues.webservice.error.ErrorCode;
+import fr.insee.pogues.controller.error.ErrorCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,6 +34,42 @@ class VariableServiceTest {
     void init() {
         questionnaireService = new QuestionnaireServiceStub();
         variableService = new VariableService(questionnaireService, versionService);
+    }
+
+    @Test
+    @DisplayName("Should fetch questionnaire variables")
+    void getQuestionnaireVariables_success() throws Exception {
+        // Given a questionnaire with 1 variable
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("simple-questionnaire.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
+        VariableType expected = new CollectedVariableType();
+        expected.setId("lmyo22nw");
+        expected.setName("Q1");
+        expected.setLabel("Q1 label");
+
+        // When we get the questionnaire's variables
+        List<VariableType> res = variableService.getQuestionnaireVariables("lmyoceix");
+
+        // Then the variable is fetched
+        assertEquals(1, res.size());
+        assertEquals(expected.getId(), res.getFirst().getId());
+    }
+
+    @Test
+    @DisplayName("Should trigger an error when we try to fetch variables from a questionnaire that does not exist")
+    void getQuestionnaireVariables_error_questionnaireNotFound() {
+        // Given a questionnaire that does not exist
+
+        // When we get the questionnaire's variables
+        PoguesException exception = assertThrows(
+                PoguesException.class,
+                () -> variableService.getQuestionnaireVariables("no-questionnaire"));
+
+        // Then a 404 exception is thrown
+        assertEquals(404, exception.getStatus());
+        assertNull(exception.getErrorCode());
     }
 
     @Test
@@ -144,42 +180,6 @@ class VariableServiceTest {
         PoguesException exception = assertThrows(
                 PoguesException.class,
                 () -> variableService.deleteQuestionnaireVariable("no-questionnaire", "no-variable"));
-
-        // Then a 404 exception is thrown
-        assertEquals(404, exception.getStatus());
-        assertNull(exception.getErrorCode());
-    }
-
-    @Test
-    @DisplayName("Should fetch questionnaire variables")
-    void getQuestionnaireVariables_success() throws Exception {
-        // Given a questionnaire with 1 variable
-        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("simple-questionnaire.json");
-        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
-        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
-        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
-        VariableType expected = new CollectedVariableType();
-        expected.setId("lmyo22nw");
-        expected.setName("Q1");
-        expected.setLabel("Q1 label");
-
-        // When we get the questionnaire's variables
-        List<VariableType> res = variableService.getQuestionnaireVariables("lmyoceix");
-
-        // Then the variable is fetched
-        assertEquals(1, res.size());
-        assertEquals(expected.getId(), res.getFirst().getId());
-    }
-
-    @Test
-    @DisplayName("Should trigger an error when we try to fetch variables from a questionnaire that does not exist")
-    void getQuestionnaireVariables_error_questionnaireNotFound() {
-        // Given a questionnaire that does not exist
-
-        // When we get the questionnaire's variables
-        PoguesException exception = assertThrows(
-                PoguesException.class,
-                () -> variableService.getQuestionnaireVariables("no-questionnaire"));
 
         // Then a 404 exception is thrown
         assertEquals(404, exception.getStatus());
