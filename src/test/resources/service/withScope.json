@@ -1,0 +1,509 @@
+{
+  "id" : "ma0nzzmj",
+  "genericName" : "QUESTIONNAIRE",
+  "agency" : "fr.insee",
+  "final" : false,
+  "flowLogic" : "FILTER",
+  "formulasLanguage" : "VTL",
+  "lastUpdatedDate" : "Thu Aug 07 2025 15:07:37 GMT+0200 (heure d’été d’Europe centrale)",
+  "owner" : "DR59-SNDI59",
+  "Name" : "AVPOKEMON",
+  "Label" : [ "[mn]: Aventure pokemon" ],
+  "Control" : [ ],
+  "FlowControl" : [ ],
+  "TargetMode" : [ "CAWI", "CATI" ],
+  "Child" : [ {
+    "id" : "m7c64mrn",
+    "depth" : 1,
+    "genericName" : "MODULE",
+    "type" : "SequenceType",
+    "Name" : "S1",
+    "Label" : [ "\"Début de l'aventure pokemon\"" ],
+    "Declaration" : [ ],
+    "Control" : [ ],
+    "FlowControl" : [ ],
+    "TargetMode" : [ "CAWI" ],
+    "Child" : [ {
+      "id" : "ma0ofcqg",
+      "questionType" : "SINGLE_CHOICE",
+      "type" : "QuestionType",
+      "Name" : "UNCOMMENTA",
+      "Label" : [ "Voulez vous commencer ? " ],
+      "Declaration" : [ ],
+      "Control" : [ ],
+      "FlowControl" : [ ],
+      "TargetMode" : [ "CAWI" ],
+      "Response" : [ {
+        "id" : "mdy588y3",
+        "mandatory" : false,
+        "CodeListReference" : "m7c6apvz",
+        "Datatype" : {
+          "typeName" : "TEXT",
+          "visualizationHint" : "RADIO",
+          "type" : "TextDatatypeType",
+          "MaxLength" : 1
+        },
+        "CollectedVariableReference" : "mdy5mszp"
+      } ],
+      "ClarificationQuestion" : [ ],
+      "codeFilters" : [ ]
+    }, {
+      "id" : "mdy4upm9",
+      "questionType" : "SIMPLE",
+      "type" : "QuestionType",
+      "Name" : "COMBIENAVE",
+      "Label" : [ "Combien avez vous de pokemon ? " ],
+      "Declaration" : [ ],
+      "Control" : [ ],
+      "FlowControl" : [ ],
+      "TargetMode" : [ "CAWI", "CATI" ],
+      "Response" : [ {
+        "id" : "mdy5qnoc",
+        "mandatory" : false,
+        "Datatype" : {
+          "typeName" : "NUMERIC",
+          "type" : "NumericDatatypeType",
+          "Minimum" : 2,
+          "Maximum" : 5,
+          "IsDynamicUnit" : false,
+          "Unit" : ""
+        },
+        "CollectedVariableReference" : "mdy57ykp"
+      } ]
+    }, {
+      "id" : "me17qdu8",
+      "questionType" : "SINGLE_CHOICE",
+      "type" : "QuestionType",
+      "Name" : "QUELPAYSL",
+      "Label" : [ "Quel pays (libre)? " ],
+      "Declaration" : [ ],
+      "Control" : [ ],
+      "FlowControl" : [ ],
+      "TargetMode" : [ "CAWI", "CATI" ],
+      "Response" : [ {
+        "id" : "me17lh4w",
+        "mandatory" : false,
+        "CodeListReference" : "L_PAYS-2-0-0",
+        "Datatype" : {
+          "typeName" : "TEXT",
+          "visualizationHint" : "SUGGESTER",
+          "allowArbitraryResponse" : true,
+          "type" : "TextDatatypeType",
+          "MaxLength" : 1
+        },
+        "CollectedVariableReference" : "me17adcb"
+      } ],
+      "ArbitraryResponse" : {
+        "id" : "me1ewop9",
+        "mandatory" : false,
+        "Datatype" : {
+          "typeName" : "TEXT",
+          "type" : "TextDatatypeType",
+          "MaxLength" : 249
+        },
+        "CollectedVariableReference" : "me17m8i3"
+      },
+      "ClarificationQuestion" : [ ],
+      "codeFilters" : [ ]
+    }, {
+      "id" : "me1fgkal",
+      "questionType" : "SINGLE_CHOICE",
+      "type" : "QuestionType",
+      "Name" : "QUELVILLE",
+      "Label" : [ "Quel ville (pas libre)? " ],
+      "Declaration" : [ ],
+      "Control" : [ ],
+      "FlowControl" : [ ],
+      "TargetMode" : [ "CAWI", "CATI" ],
+      "Response" : [ {
+        "id" : "me1ewmjd",
+        "mandatory" : false,
+        "CodeListReference" : "L_COMMUNES-2024",
+        "Datatype" : {
+          "typeName" : "TEXT",
+          "visualizationHint" : "SUGGESTER",
+          "allowArbitraryResponse" : false,
+          "type" : "TextDatatypeType",
+          "MaxLength" : 1
+        },
+        "CollectedVariableReference" : "me1f9pii"
+      } ],
+      "ClarificationQuestion" : [ ],
+      "codeFilters" : [ ]
+    }, {
+      "id" : "mdy55qnb",
+      "depth" : 2,
+      "genericName" : "SUBMODULE",
+      "type" : "SequenceType",
+      "Name" : "SOUSEQ",
+      "Label" : [ "Sous sequence" ],
+      "Declaration" : [ ],
+      "Control" : [ ],
+      "FlowControl" : [ ],
+      "TargetMode" : [ "CAWI", "CATI" ],
+      "Child" : [ {
+        "id" : "mdy55blq",
+        "questionType" : "SIMPLE",
+        "type" : "QuestionType",
+        "Name" : "NOMDUPOKEM",
+        "Label" : [ "Nom du pokemon" ],
+        "Declaration" : [ ],
+        "Control" : [ ],
+        "FlowControl" : [ ],
+        "TargetMode" : [ "CAWI", "CATI" ],
+        "Response" : [ {
+          "id" : "mdy5b6sm",
+          "mandatory" : false,
+          "Datatype" : {
+            "typeName" : "TEXT",
+            "type" : "TextDatatypeType",
+            "MaxLength" : 249
+          },
+          "CollectedVariableReference" : "mdy51s3x"
+        } ]
+      } ]
+    } ]
+  }, {
+    "id" : "mdy535ai",
+    "type" : "RoundaboutType",
+    "Name" : "RONDPOINTP",
+    "Label" : [ "Rond Point Pokemon" ],
+    "Declaration" : [ ],
+    "Control" : [ ],
+    "FlowControl" : [ ],
+    "TargetMode" : [ "CAWI", "CATI" ],
+    "OccurrenceLabel" : "$NOMDUPOKEM$",
+    "OccurrenceDescription" : "Description occurrence",
+    "Locked" : false,
+    "Loop" : {
+      "Name" : "RONDPOINT",
+      "MemberReference" : [ "mdy545ou", "mdy545ou" ],
+      "IterableReference" : "mdy57fmb"
+    }
+  }, {
+    "id" : "mdy545ou",
+    "depth" : 1,
+    "genericName" : "MODULE",
+    "type" : "SequenceType",
+    "Name" : "S2RONDPOIN",
+    "Label" : [ "\"Informations sur \" ||  $NOMDUPOKEM$" ],
+    "Declaration" : [ ],
+    "Control" : [ ],
+    "FlowControl" : [ ],
+    "TargetMode" : [ "CAWI", "CATI" ],
+    "Child" : [ {
+      "id" : "mdy5egtf",
+      "questionType" : "SINGLE_CHOICE",
+      "type" : "QuestionType",
+      "Name" : "QUELESTLET",
+      "Label" : [ "\"Quel est le type de \" || $NOMDUPOKEM$ || \" ?\"" ],
+      "Declaration" : [ ],
+      "Control" : [ ],
+      "FlowControl" : [ ],
+      "TargetMode" : [ "CAWI", "CATI" ],
+      "Response" : [ {
+        "id" : "mdy596ux",
+        "mandatory" : false,
+        "CodeListReference" : "mdwu61h6",
+        "Datatype" : {
+          "typeName" : "TEXT",
+          "visualizationHint" : "RADIO",
+          "type" : "TextDatatypeType",
+          "MaxLength" : 1
+        },
+        "CollectedVariableReference" : "mdy53lwr"
+      } ],
+      "ClarificationQuestion" : [ ],
+      "codeFilters" : [ ]
+    } ]
+  }, {
+    "id" : "mdy5l9e9",
+    "depth" : 1,
+    "genericName" : "MODULE",
+    "type" : "SequenceType",
+    "Name" : "FINITO",
+    "Label" : [ "Finito" ],
+    "Declaration" : [ ],
+    "Control" : [ ],
+    "FlowControl" : [ ],
+    "TargetMode" : [ "CAWI", "CATI" ],
+    "Child" : [ ]
+  }, {
+    "id" : "idendquest",
+    "depth" : 1,
+    "genericName" : "MODULE",
+    "type" : "SequenceType",
+    "Name" : "QUESTIONNAIRE_END",
+    "Label" : [ "QUESTIONNAIRE_END" ],
+    "Declaration" : [ ],
+    "Control" : [ ],
+    "FlowControl" : [ ],
+    "TargetMode" : [ "CAWI", "CATI" ],
+    "Child" : [ ]
+  } ],
+  "DataCollection" : [ {
+    "id" : "s2106-dc",
+    "uri" : "http://ddi:fr.insee:DataCollection.s2106-dc"
+  } ],
+  "ComponentGroup" : [ {
+    "id" : "m7c7efhr",
+    "Name" : "PAGE_1",
+    "Label" : [ "Components for page 1" ],
+    "MemberReference" : [ "m7c64mrn", "ma0ofcqg", "mdy4upm9", "me17qdu8", "me1fgkal", "mdy55qnb", "mdy55blq", "mdy545ou", "mdy5egtf", "mdy5l9e9", "idendquest" ]
+  } ],
+  "CodeLists" : {
+    "CodeList" : [ {
+      "id" : "m7c6apvz",
+      "Label" : "o-n-pe",
+      "Code" : [ {
+        "Value" : "1",
+        "Label" : "\"Oui !!!\"",
+        "Parent" : ""
+      }, {
+        "Value" : "3",
+        "Label" : "\"Peut-être\"",
+        "Parent" : ""
+      }, {
+        "Value" : "4",
+        "Label" : "\"Autre\"",
+        "Parent" : ""
+      } ]
+    }, {
+      "id" : "L_PRODEAP_GAZ_2024",
+      "Urn" : "urn:ddi:fr.insee:l_prodeap_gaz_2024:1",
+      "Name" : "L_PRODEAP_GAZ_2024",
+      "Label" : "EAP - Produits - gaz",
+      "SuggesterParameters" : {
+        "fields" : [ {
+          "name" : "id",
+          "rules" : [ "[\\w]+" ],
+          "language" : "French",
+          "min" : 3,
+          "stemmer" : false
+        }, {
+          "name" : "label",
+          "rules" : [ "[\\w]+" ],
+          "language" : "French",
+          "min" : 3,
+          "stemmer" : false
+        }, {
+          "name" : "nc",
+          "rules" : [ "[\\w]+" ],
+          "language" : "French",
+          "min" : 3,
+          "stemmer" : false
+        } ],
+        "queryParser" : {
+          "type" : "tokenized",
+          "params" : {
+            "language" : "French",
+            "min" : 3,
+            "pattern" : "[\\w.]+",
+            "stemmer" : false
+          }
+        },
+        "version" : 1
+      }
+    }, {
+      "id" : "mcyggmkc",
+      "Label" : "Test Keys Refactor",
+      "Code" : [ {
+        "Value" : "heure",
+        "Label" : "8",
+        "Parent" : ""
+      } ]
+    }, {
+      "id" : "mdwu61h6",
+      "Label" : "Options",
+      "Code" : [ {
+        "Value" : "OPT1",
+        "Label" : "Option 1",
+        "Parent" : ""
+      }, {
+        "Value" : "OPT2",
+        "Label" : "Option 2",
+        "Parent" : ""
+      }, {
+        "Value" : "OPT3",
+        "Label" : "Option 3",
+        "Parent" : ""
+      } ]
+    }, {
+      "id" : "L_PAYS-2-0-0",
+      "Urn" : "urn:ddi:fr.insee:l_pays-2-0-0:1",
+      "Name" : "L_PAYS-2-0-0",
+      "Label" : "Pays",
+      "SuggesterParameters" : {
+        "fields" : [ {
+          "name" : "label",
+          "rules" : [ "[\\w]+" ],
+          "language" : "French",
+          "min" : 3,
+          "stemmer" : false
+        } ],
+        "queryParser" : {
+          "type" : "tokenized",
+          "params" : {
+            "language" : "French",
+            "min" : 3,
+            "pattern" : "[\\w.]+",
+            "stemmer" : false
+          }
+        },
+        "version" : 1
+      }
+    }, {
+      "id" : "L_COMMUNES-2024",
+      "Urn" : "urn:ddi:fr.insee:l_communes-2024:1",
+      "Name" : "L_COMMUNES-2024",
+      "Label" : "Communes 2024",
+      "SuggesterParameters" : {
+        "fields" : [ {
+          "name" : "label",
+          "rules" : [ "[\\w]+" ],
+          "language" : "French",
+          "min" : 3,
+          "stemmer" : false
+        } ],
+        "queryParser" : {
+          "type" : "tokenized",
+          "params" : {
+            "language" : "French",
+            "min" : 3,
+            "pattern" : "[\\w.]+",
+            "stemmer" : false
+          }
+        },
+        "version" : 1
+      }
+    } ]
+  },
+  "Variables" : {
+    "Variable" : [ {
+      "id" : "m8rcy1df",
+      "type" : "CalculatedVariableType",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 249
+      },
+      "Name" : "TEST_CALC",
+      "Label" : "TEST",
+      "Formula" : "nvl($CHOIXMULTIT6$, \"\")"
+    }, {
+      "id" : "m8rd4mu4",
+      "type" : "ExternalVariableType",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 249
+      },
+      "Name" : "TEST_EXT",
+      "Label" : "TEST"
+    }, {
+      "id" : "m8rk915q",
+      "type" : "ExternalVariableType",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 249
+      },
+      "Name" : "qsdfqsdqsqd",
+      "Label" : "sdfsqsdq"
+    }, {
+      "id" : "mdy5mszp",
+      "type" : "CollectedVariableType",
+      "CodeListReference" : "m7c6apvz",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 1
+      },
+      "Name" : "UNCOMMENTA",
+      "Label" : "UNCOMMENTA label"
+    }, {
+      "id" : "mdy57ykp",
+      "type" : "CollectedVariableType",
+      "Datatype" : {
+        "typeName" : "NUMERIC",
+        "type" : "NumericDatatypeType",
+        "Minimum" : 2,
+        "Maximum" : 5,
+        "IsDynamicUnit" : false,
+        "Unit" : ""
+      },
+      "Name" : "COMBIENAVE",
+      "Label" : "COMBIENAVE label"
+    }, {
+      "id" : "me17adcb",
+      "type" : "CollectedVariableType",
+      "CodeListReference" : "L_PAYS-2-0-0",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 1
+      },
+      "Name" : "QUELPAYSL",
+      "Label" : "QUELPAYSL label"
+    }, {
+      "id" : "me17m8i3",
+      "type" : "CollectedVariableType",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 249
+      },
+      "Name" : "QUELPAYSL_ARBITRARY",
+      "Label" : "QUELPAYSL_ARBITRARY label"
+    }, {
+      "id" : "mdy51s3x",
+      "type" : "CollectedVariableType",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 249
+      },
+      "Name" : "NOMDUPOKEM",
+      "Label" : "NOMDUPOKEM label",
+      "Scope" : "mdy57fmb"
+    }, {
+      "id" : "mdy53lwr",
+      "type" : "CollectedVariableType",
+      "CodeListReference" : "mdwu61h6",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 1
+      },
+      "Name" : "QUELESTLET",
+      "Label" : "QUELESTLET label",
+      "Scope" : "mdy57fmb"
+    }, {
+      "id" : "me1f9pii",
+      "type" : "CollectedVariableType",
+      "CodeListReference" : "L_COMMUNES-2024",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 1
+      },
+      "Name" : "QUELVILLE",
+      "Label" : "QUELVILLE label"
+    } ]
+  },
+  "Iterations" : {
+    "Iteration" : [ {
+      "id" : "mdy57fmb",
+      "type" : "DynamicIterationType",
+      "Name" : "LOOP_TEST",
+      "MemberReference" : [ "mdy55qnb", "mdy55qnb" ],
+      "Minimum" : "$COMBIENAVE$",
+      "Maximum" : "$COMBIENAVE$",
+      "isFixedLength" : false,
+      "minimum" : "$COMBIENAVE$",
+      "maximum" : "$COMBIENAVE$",
+      "Step" : 1
+    } ]
+  },
+  "childQuestionnaireRef" : [ ]
+}
