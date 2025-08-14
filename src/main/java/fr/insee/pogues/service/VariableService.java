@@ -71,14 +71,21 @@ public class VariableService {
      */
     private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) {
         List<VariableType> variables = questionnaire.getVariables().getVariable().stream().toList();
-        variables.forEach(v -> {
-            String scopeId = v.getScope();
-            if (scopeId != null) {
-                IterationType iteration = questionnaire.getIterations().getIteration().stream().filter(s -> scopeId.equals(s.getId())).toList().getFirst();
-                if (iteration != null) v.setScope(iteration.getName());
-            }
-        });
+        variables.forEach(v -> computeScopeNameFromScopeId(v, questionnaire.getIterations()));
         return variables;
+    }
+
+    /**
+     * Compute the scope name instead of the id. If no related scope is found, do nothing.
+     * @param variable Variable to update
+     * @param iterations Iterations in which we will find the scope name
+     */
+    private void computeScopeNameFromScopeId(VariableType variable, Questionnaire.Iterations iterations) {
+        String scopeId = variable.getScope();
+        if (scopeId != null) {
+            IterationType iteration = iterations.getIteration().stream().filter(v -> scopeId.equals(v.getId())).toList().getFirst();
+            if (iteration != null) variable.setScope(iteration.getName());
+        }
     }
 
     /**
