@@ -1,5 +1,6 @@
 package fr.insee.pogues.model.dto.variables;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 
 @Getter
@@ -17,6 +18,11 @@ public enum VariableDTODatatypeFormatEnum {
 	DURATION_MINUTE_SECOND("PTnHnM");
 
 	private final String value;
+
+	@JsonValue
+	public String getValue() {
+		return value;
+	}
 
 	VariableDTODatatypeFormatEnum(String value) {
 		this.value = value;
