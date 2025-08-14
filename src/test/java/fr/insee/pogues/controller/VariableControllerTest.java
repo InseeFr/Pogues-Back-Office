@@ -60,6 +60,29 @@ class VariableControllerTest {
     }
 
     @Test
+    @DisplayName("Should fetch questionnaires variables with correct date format")
+    void getQuestionnaireVariables_success_dateFormat() throws Exception {
+        // Given a questionnaire with variables
+        VariableType variable = new CollectedVariableType();
+        variable.setId("id");
+        variable.setName("name");
+        variable.setLabel("description");
+        DateDatatypeType datatype = new DateDatatypeType();
+        datatype.setTypeName(DatatypeTypeEnum.DATE);
+        datatype.setFormat(DateFormatEnum.YYYY_MM);
+        variable.setDatatype(datatype);
+        Mockito.when(variableService.getQuestionnaireVariables("my-q-id")).thenReturn(List.of(variable));
+        String expectedJSON = "[{\"id\":\"id\",\"name\":\"name\",\"description\":\"description\",\"type\":\"COLLECTED\",\"datatype\":{\"typeName\":\"DATE\",\"format\":\"YYYY-MM\"}}]";
+
+        // When we fetch the questionnaire variables
+        mockMvc.perform(get("/api/persistence/questionnaire/my-q-id/variables")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
+                // Then we receive a 200 and the variables are returned
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedJSON));
+    }
+
+    @Test
     @DisplayName("Should trigger an error when we try to fetch variables from a questionnaire that does not exist")
     void getQuestionnaireVariables_error_notFound() throws Exception {
         // Given no questionnaire
