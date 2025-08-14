@@ -1,8 +1,9 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.exception.CodesListException;
+import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.persistence.service.QuestionnaireService;
+import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.mapper.CodesListMapper;
 import fr.insee.pogues.utils.DateUtils;
@@ -21,7 +22,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
-import static fr.insee.pogues.mapper.CodesListMapper.convertFromCodeListDTOtoCodeListModel;
+import static fr.insee.pogues.mapper.CodesListMapper.toModel;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static fr.insee.pogues.utils.ListUtils.replaceElementInListAccordingToCondition;
 import static fr.insee.pogues.utils.model.CodesList.*;
@@ -29,21 +30,62 @@ import static fr.insee.pogues.utils.model.Variables.getNeededCollectedVariablesI
 import static fr.insee.pogues.utils.model.question.MultipleChoice.updateMultipleChoiceQuestionAccordingToCodeList;
 import static fr.insee.pogues.utils.model.question.Table.updateTableQuestionAccordingToCodeList;
 
+/**
+ * Variable Service used to fetch or update codes lists in questionnaires.
+ */
 @Service
 @Slf4j
 public class CodesListService {
 
-    private final QuestionnaireService questionnaireService;
+    private final IQuestionnaireService questionnaireService;
     private final VersionService versionService;
 
-    public CodesListService(QuestionnaireService questionnaireService,
+    public CodesListService(IQuestionnaireService questionnaireService,
                             VersionService versionService) {
         this.questionnaireService = questionnaireService;
         this.versionService = versionService;
     }
 
+    private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
+        return PoguesDeserializer.questionnaireToJavaObject(questionnaireService.getQuestionnaireByID(id));
+    }
+
+    private Questionnaire retrieveQuestionnaireByVersionId(UUID versionId) throws Exception {
+        return PoguesDeserializer.questionnaireToJavaObject(versionService.getVersionDataByVersionId(versionId));
+    }
+
     /**
-     * Update the questionnaire with a new code list or an updated existing one.
+     * Fetch the codes lists of a questionnaire.
+     * @param questionnaireId ID of the questionnaire to fetch the codes lists from
+     * @throws Exception Could not read from the DB
+     * @throws PoguesException 404 questionnaire not found
+     */
+    public List<ExtendedCodesListDTO> getQuestionnaireCodesLists(String questionnaireId) throws Exception {
+        Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
+        return getCodesListsDTO(questionnaire);
+    }
+
+    /**
+     * Fetch the codes lists of a questionnaire.
+     * @param versionId ID of the questionnaire's version to fetch the codes lists from
+     * @throws Exception Could not read from the DB
+     * @throws PoguesException 404 questionnaire not found
+     */
+    public List<ExtendedCodesListDTO> getVersionCodesLists(UUID versionId) throws Exception {
+        Questionnaire questionnaire = retrieveQuestionnaireByVersionId(versionId);
+        return getCodesListsDTO(questionnaire);
+    }
+
+    private List<ExtendedCodesListDTO> getCodesListsDTO(Questionnaire questionnaire) {
+        return questionnaire.getCodeLists().getCodeList().stream()
+                .filter(codeList -> !isNomenclatureCodeList(codeList))
+                .map(CodesListMapper::toDTO)
+                .map(codesList -> new ExtendedCodesListDTO(codesList, getListOfQuestionNameWhereCodesListIsUsed(questionnaire, codesList.getId())))
+                .toList();
+    }
+
+    /**
+     * Update or create a new code list in the questionnaire.
      * It will update the questionnaire's last updated date.
      * @param questionnaireId ID of the questionnaire to update
      * @param idCodesList ID of the code list to upsert
@@ -51,63 +93,77 @@ public class CodesListService {
      * @return IDs of questions that have been updated by this update (null if it's a new code list)
      * @throws Exception
      */
-    public List<String> updateOrAddCodeListToQuestionnaire(String questionnaireId, String idCodesList, CodesListDTO codesListDTO) throws Exception {
+    public List<String> upsertQuestionnaireCodesList(String questionnaireId, String idCodesList, CodesListDTO codesListDTO) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
-        List<String> updatedQuestionIds = updateOrAddCodeListToQuestionnaire(questionnaire, idCodesList, codesListDTO);
+        List<String> updatedQuestionIds = upsertQuestionnaireCodesList(questionnaire, idCodesList, codesListDTO);
         updateQuestionnaireInDataBase(questionnaire);
         return updatedQuestionIds;
     }
 
     /**
-     * @param questionnaire
-     * @param idCodesList
-     * @param codesListDTO
      * @return the list of question's id updated (or null if created)
-     * @throws Exception
      */
-    public List<String> updateOrAddCodeListToQuestionnaire(Questionnaire questionnaire, String idCodesList, CodesListDTO codesListDTO) {
+    private List<String> upsertQuestionnaireCodesList(Questionnaire questionnaire, String idCodesList, CodesListDTO codesListDTO) {
         List<fr.insee.pogues.model.CodeList> codesLists = questionnaire.getCodeLists().getCodeList();
-        boolean created = updateOrAddCodeListDTO(codesLists, idCodesList, codesListDTO);
-        return !created
-                ? updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList)
-                : null;
+        boolean isCreated = upsertCodeList(codesLists, idCodesList, codesListDTO);
+        if (isCreated) {
+            return null;
+        }
+        return updateQuestionAndVariablesAccordingToCodesList(questionnaire, idCodesList);
     }
 
     /**
-     * Update the questionnaire by removing an existing code list.
+     * @return Whether the code list has been created
+     */
+    private boolean upsertCodeList(List<CodeList> existingCodeLists, String idCodesList, CodesListDTO codesListDtoToUpdate) {
+        if (existingCodeLists.stream().noneMatch(codeList -> Objects.equals(idCodesList, codeList.getId()))) {
+            existingCodeLists.add(toModel(codesListDtoToUpdate));
+            return true;
+        }
+
+        codesListDtoToUpdate.setId(idCodesList);
+        replaceElementInListAccordingToCondition(
+                existingCodeLists,
+                codeList -> Objects.equals(idCodesList, codeList.getId()),
+                codesListDtoToUpdate,
+                codesList -> toModel(codesListDtoToUpdate));
+        return false;
+    }
+
+    /**
+     * Delete the code list of a questionnaire.
      * It will update the questionnaire's last updated date.
      * @param questionnaireId ID of the questionnaire to update
      * @param codesListId ID of the code list to delete
-     * @throws Exception
+     * @throws Exception 404 questionnaire or code list not found
+     * @throws CodesListException 400 code list has related questions
      */
-    public void deleteCodeListOfQuestionnaireById(String questionnaireId, String codesListId) throws Exception {
+    public void deleteQuestionnaireCodeList(String questionnaireId, String codesListId) throws Exception {
         Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
-        deleteCodeListOfQuestionnaire(questionnaire, codesListId);
+        deleteQuestionnaireCodeList(questionnaire, codesListId);
         updateQuestionnaireInDataBase(questionnaire);
     }
 
-    public void deleteCodeListOfQuestionnaire(Questionnaire questionnaire, String codesListId) throws CodesListException {
+    private void deleteQuestionnaireCodeList(Questionnaire questionnaire, String codesListId) throws CodesListException {
         List<String> questionsName = getListOfQuestionNameWhereCodesListIsUsed(questionnaire, codesListId);
         if (!questionsName.isEmpty()) {
-            throw new CodesListException(400, ErrorCode.CODE_LIST_RELATED_QUESTIONS_NAME, String.format("CodesList with id %s is required.", codesListId), null, questionsName);
-
+            String message = String.format("CodesList with id %s is required.", codesListId);
+            throw new CodesListException(400, ErrorCode.CODE_LIST_RELATED_QUESTIONS_NAME, message, null, questionsName);
         }
+
         List<fr.insee.pogues.model.CodeList> codesLists = questionnaire.getCodeLists().getCodeList();
-        removeCodeListDTO(codesLists, codesListId);
-    }
-
-    private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
-        return PoguesDeserializer.questionnaireToJavaObject(questionnaireService.getQuestionnaireByID(id));
-    }
-
-    private Questionnaire retrieveQuestionnaireByIdVersion(UUID versionId) throws Exception {
-        return PoguesDeserializer.questionnaireToJavaObject(versionService.getVersionDataByVersionId(versionId));
+        boolean deleted = codesLists.removeIf(codeList -> codesListId.equals(codeList.getId()));
+        if (!deleted) {
+            String message = String.format("CodesList with id %s doesn't exist in questionnaire", codesListId);
+            throw new CodesListException(404, ErrorCode.CODE_LIST_NOT_FOUND, "Not found", message, null);
+        }
     }
 
     /**
      * Set the questionnaire last updated date as now and save it in the DB.
      * @param questionnaire Questionnaire to update
-     * @throws Exception
+     * @throws Exception Could not read from or write in the DB
+     * @throws PoguesException 404 questionnaire not found
      */
     private void updateQuestionnaireInDataBase(Questionnaire questionnaire) throws Exception {
         questionnaire.setLastUpdatedDate(DateUtils.getIsoDateFromInstant(Instant.now()));
@@ -116,38 +172,7 @@ public class CodesListService {
                 jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaire)));
     }
 
-    /**
-     * @param existingCodeLists
-     * @param idCodesList
-     * @param codesListDtoToUpdate
-     * @return true if new codeList is created
-     */
-    boolean updateOrAddCodeListDTO(List<CodeList> existingCodeLists, String idCodesList, CodesListDTO codesListDtoToUpdate) {
-        if (existingCodeLists.stream().noneMatch(codeList -> Objects.equals(idCodesList, codeList.getId()))) {
-            addCodeListDTO(existingCodeLists, codesListDtoToUpdate);
-            return true;
-        }
-        codesListDtoToUpdate.setId(idCodesList);
-        replaceElementInListAccordingToCondition(
-                existingCodeLists,
-                codeList -> Objects.equals(idCodesList, codeList.getId()),
-                codesListDtoToUpdate,
-                codesList -> convertFromCodeListDTOtoCodeListModel(codesListDtoToUpdate));
-        return false;
-    }
-
-
-    void addCodeListDTO(List<CodeList> existingCodeLists, CodesListDTO codesListDtoToAdd) {
-        existingCodeLists.add(convertFromCodeListDTOtoCodeListModel(codesListDtoToAdd));
-    }
-
-    void removeCodeListDTO(List<CodeList> existingCodeLists, String id) throws CodesListException {
-        boolean deleted = existingCodeLists.removeIf(codeList -> id.equals(codeList.getId()));
-        if (!deleted)
-            throw new CodesListException(404, ErrorCode.CODE_LIST_NOT_FOUND, "Not found", String.format("CodesList with id %s doesn't exist in questionnaire", id), null);
-    }
-
-    List<String> updateQuestionAndVariablesAccordingToCodesList(Questionnaire questionnaire, String updatedCodeListId) {
+    private List<String> updateQuestionAndVariablesAccordingToCodesList(Questionnaire questionnaire, String updatedCodeListId) {
         // Retrieve updatedCodeList in questionnaire
         CodeList codeList = questionnaire.getCodeLists().getCodeList().stream()
                 .filter(cL -> updatedCodeListId.equals(cL.getId()))
@@ -183,24 +208,6 @@ public class CodesListService {
                 .removeIf(variableType -> variableType instanceof CollectedVariableType
                         && !neededCollectedVariables.contains(variableType.getId()));
         return questionsToModify.stream().map(ComponentType::getId).toList();
-    }
-
-    public List<ExtendedCodesListDTO> getCodesListsDTO(Questionnaire questionnaire) {
-        return questionnaire.getCodeLists().getCodeList().stream()
-                .filter(codeList -> !isNomenclatureCodeList(codeList))
-                .map(CodesListMapper::convertFromCodeListModelToCodeListDTO)
-                .map(codesList -> new ExtendedCodesListDTO(codesList, getListOfQuestionNameWhereCodesListIsUsed(questionnaire, codesList.getId())))
-                .toList();
-    }
-
-    public List<ExtendedCodesListDTO> getCodesListsDTOByQuestionnaireId(String questionnaireId) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
-        return getCodesListsDTO(questionnaire);
-    }
-
-    public List<ExtendedCodesListDTO> getCodesListsDTOByVersionId(UUID versionId) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireByIdVersion(versionId);
-        return getCodesListsDTO(questionnaire);
     }
 
 }

@@ -35,6 +35,39 @@ public class VariableService {
         this.versionService = versionService;
     }
 
+    private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
+        return PoguesDeserializer.questionnaireToJavaObject(questionnaireService.getQuestionnaireByID(id));
+    }
+
+    private Questionnaire retrieveQuestionnaireByVersionId(UUID versionId) throws Exception {
+        return PoguesDeserializer.questionnaireToJavaObject(versionService.getVersionDataByVersionId(versionId));
+    }
+
+    /**
+     * Fetch the variables of a questionnaire.
+     * @param questionnaireId ID of the questionnaire to fetch the variables from
+     * @throws Exception Could not read from or write in the DB
+     * @throws PoguesException 404 questionnaire not found
+     */
+    public List<VariableType> getQuestionnaireVariables(String questionnaireId) throws Exception {
+        Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
+        return getQuestionnaireVariables(questionnaire);
+    }
+
+    /**
+     * Fetch the variables of a questionnaire's version.
+     * @param versionId ID of the questionnaire's version to fetch the variables from
+     * @throws Exception There was an error when fetching the questionnaire from the DB
+     */
+    public List<VariableType> getVersionVariables(UUID versionId) throws Exception {
+        Questionnaire questionnaire = retrieveQuestionnaireByVersionId(versionId);
+        return getQuestionnaireVariables(questionnaire);
+    }
+
+    private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) {
+        return questionnaire.getVariables().getVariable().stream().toList();
+    }
+
     /**
      * Update or create a new variable in the questionnaire.
      * It will update the questionnaire's last updated date.
@@ -118,47 +151,14 @@ public class VariableService {
     /**
      * Set the questionnaire last updated date as now and save it in the DB.
      * @param questionnaire Questionnaire to update
-     * @throws PoguesException Questionnaire not found
      * @throws Exception Could not read from or write in the DB
+     * @throws PoguesException 404 questionnaire not found
      */
     private void updateQuestionnaireInDataBase(Questionnaire questionnaire) throws Exception {
         questionnaire.setLastUpdatedDate(DateUtils.getIsoDateFromInstant(Instant.now()));
         questionnaireService.updateQuestionnaire(
                 questionnaire.getId(),
                 jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaire)));
-    }
-
-    /**
-     * Fetch the variables of a questionnaire.
-     * @param questionnaireId ID of the questionnaire to fetch the variables from
-     * @throws Exception Could not read from or write in the DB
-     */
-    public List<VariableType> getQuestionnaireVariables(String questionnaireId) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
-        return getQuestionnaireVariables(questionnaire);
-    }
-
-    private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
-        return PoguesDeserializer.questionnaireToJavaObject(questionnaireService.getQuestionnaireByID(id));
-    }
-
-    /**
-     * Fetch the variables of a questionnaire's version.
-     * @param versionId ID of the questionnaire's version to fetch the variables from
-     * @throws Exception There was an error when fetching the questionnaire from the DB
-     */
-    public List<VariableType> getVersionVariables(UUID versionId) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireByIdVersion(versionId);
-        return getQuestionnaireVariables(questionnaire);
-    }
-
-    private Questionnaire retrieveQuestionnaireByIdVersion(UUID versionId) throws Exception {
-        return PoguesDeserializer.questionnaireToJavaObject(versionService.getVersionDataByVersionId(versionId));
-    }
-
-    private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) {
-        return questionnaire.getVariables().getVariable().stream()
-                .toList();
     }
 
 }

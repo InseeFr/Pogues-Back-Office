@@ -35,7 +35,7 @@ public class CodesListController {
         this.codesListService = codesListService;
     }
 
-    @Operation(summary = "Get codes lists of a questionnaire",
+    @Operation(summary = "Get the codes lists of a questionnaire",
             responses = { @ApiResponse(content = @Content(mediaType = "application/json")) })
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json", array = @ArraySchema( schema = @Schema(implementation = ExtendedCodesListDTO.class)))}),
@@ -44,7 +44,7 @@ public class CodesListController {
     public ResponseEntity<List<ExtendedCodesListDTO>> getQuestionnaireCodesLists(
             @PathVariable(value = "questionnaireId") String questionnaireId
     ) throws Exception {
-        List<ExtendedCodesListDTO> codesLists = codesListService.getCodesListsDTOByQuestionnaireId(questionnaireId);
+        List<ExtendedCodesListDTO> codesLists = codesListService.getQuestionnaireCodesLists(questionnaireId);
         return ResponseEntity.status(HttpStatus.OK).body(codesLists);
     }
 
@@ -58,7 +58,7 @@ public class CodesListController {
             @PathVariable(value = "questionnaireId") String ignoredQuestionnaireId,
             @PathVariable(value = "versionId") UUID versionId
     ) throws Exception {
-        List<ExtendedCodesListDTO> codesLists = codesListService.getCodesListsDTOByVersionId(versionId);
+        List<ExtendedCodesListDTO> codesLists = codesListService.getVersionCodesLists(versionId);
         return ResponseEntity.status(HttpStatus.OK).body(codesLists);
     }
 
@@ -73,7 +73,7 @@ public class CodesListController {
             @PathVariable(value = "codesListId") String codesListId,
             @RequestBody CodesListDTO codesListDTO
     ) throws Exception {
-        List<String> updatedQuestionIds = codesListService.updateOrAddCodeListToQuestionnaire(questionnaireId, codesListId, codesListDTO);
+        List<String> updatedQuestionIds = codesListService.upsertQuestionnaireCodesList(questionnaireId, codesListId, codesListDTO);
         if (updatedQuestionIds != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(updatedQuestionIds);
         }
@@ -90,7 +90,7 @@ public class CodesListController {
             @PathVariable(value = "questionnaireId") String questionnaireId,
             @PathVariable(value = "codesListId") String codesListId
     ) throws Exception {
-        codesListService.deleteCodeListOfQuestionnaireById(questionnaireId, codesListId);
+        codesListService.deleteQuestionnaireCodeList(questionnaireId, codesListId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

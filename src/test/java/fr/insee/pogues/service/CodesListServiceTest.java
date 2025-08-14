@@ -1,9 +1,11 @@
 package fr.insee.pogues.service;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.exception.CodesListException;
 import fr.insee.pogues.model.*;
-import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
+import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
+import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.model.dto.codeslists.CodeDTO;
 import fr.insee.pogues.model.dto.codeslists.CodesListDTO;
@@ -20,10 +22,9 @@ import java.io.FileWriter;
 import java.util.List;
 import java.util.Objects;
 
-import static fr.insee.pogues.utils.ModelCreatorUtils.initFakeCodeLists;
 import static fr.insee.pogues.utils.Utils.findQuestionWithId;
 import static fr.insee.pogues.utils.Utils.loadQuestionnaireFromResources;
-import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionIdWhereCodesListIsUsed;
+import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.MockitoAnnotations.initMocks;
@@ -32,74 +33,49 @@ import static org.mockito.MockitoAnnotations.initMocks;
 class CodesListServiceTest {
 
     @Mock
-    QuestionnaireService questionnaireService;
-    @Mock
     VersionService versionService;
 
     private CodesListService codesListService;
+    private QuestionnaireServiceStub questionnaireService;
 
     @BeforeEach
-    void initQuestionnaireService(){
+    void init(){
+        questionnaireService = new QuestionnaireServiceStub();
         codesListService = new CodesListService(questionnaireService, versionService);
         initMocks(this);
     }
 
     @Test
-    void addCodeListDTOToExistingCodeLists(){
-        List<CodeList> existingCodeLists = initFakeCodeLists(8);
-        codesListService.addCodeListDTO(existingCodeLists, new CodesListDTO("h-f","Homme-Femme", List.of(
-                new CodeDTO("F","Femme",null),
-                new CodeDTO("H","Homme",null)
-        )));
-        assertThat(existingCodeLists).hasSize(9);
-        assertEquals("h-f", existingCodeLists.get(8).getId());
+    @DisplayName("Should fetch questionnaire codes lists")
+    void getQuestionnaireCodesLists_success() throws Exception {
+        // Given a questionnaire with 1 code list
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
+
+        // When we get the questionnaire's codes lists
+        List<ExtendedCodesListDTO> codesLists = codesListService.getQuestionnaireCodesLists("m7c5siu3");
+
+        // Then the code list is fetched
+        assertThat(codesLists).hasSize(4);
+        assertThat(codesLists.getFirst().getRelatedQuestionNames())
+                .containsExactly("QUESTION", "TAB", "TAB_SECONDARY", "CHOIXMULTIT");
     }
 
     @Test
-    void removeCodeListDTOToExistingCodeListsWithId() throws CodesListException {
-        List<fr.insee.pogues.model.CodeList> existingCodeLists = initFakeCodeLists(10);
-        codesListService.removeCodeListDTO(existingCodeLists, "code-list-4");
-        assertEquals(9, existingCodeLists.size());
-        assertFalse(existingCodeLists.stream().anyMatch(codeList -> Objects.equals(codeList.getId(), "code-list-4")));
-    }
+    void upsertQuestionnaireCodesList_success_created() throws Exception {
+        // Given a questionnaire with no code list
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/withoutCodesList.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
 
-    @Test
-    void findQuestionIdWithCodesList() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/withCodesLists.json");
-        List<String> questionIds = getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7c68dlm");
-        assertTrue(questionIds.contains("m7c61ohr"));
-    }
+        assertEquals(0, codesListService.getQuestionnaireCodesLists("lw6534qt").size());
 
-    @Test
-    void tryToRemoveExistingCodesList() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/withCodesLists.json");
-        String codesListToDelete = "m7c68dlm";
-        CodesListException exception = assertThrows(
-                CodesListException.class,
-                () -> codesListService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
-        );
-        assertEquals(400, exception.getStatus());
-        assertTrue(exception.getRelatedQuestionNames().contains("QUESTION"));
-    }
-
-    @Test
-    void tryToRemoveExistingCodesListInLoop() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/loop_roudabout.json");
-        String codesListToDelete = "m7d5nan9";
-        CodesListException exception = assertThrows(
-                CodesListException.class,
-                () -> codesListService.deleteCodeListOfQuestionnaire(questionnaire, codesListToDelete)
-        );
-        assertEquals(400, exception.getStatus());
-        assertTrue(exception.getRelatedQuestionNames().contains("CODESLISTD"));
-    }
-
-    @Test
-    void addCodeList() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/withoutCodesList.json");
-        assertThat(questionnaire.getCodeLists().getCodeList()).isEmpty();
-        codesListService.updateOrAddCodeListToQuestionnaire(
-                questionnaire,
+        // When we insert a new code list
+        List<String> res = codesListService.upsertQuestionnaireCodesList(
+                "lw6534qt",
                 "test-1",
                 new CodesListDTO("test-1","My super CodeList", List.of(
                         new CodeDTO("01","label 1",null),
@@ -108,34 +84,27 @@ class CodesListServiceTest {
                 ))
         );
 
-        assertThat(questionnaire.getCodeLists().getCodeList()).hasSize(1);
-    }
-
-    @Test
-    void findQuestionIdWithCodesListInTable() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/table.json");
-        List<String> questionIds = getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7c68dlm");
-        assertTrue(questionIds.contains("m7c61ohr"));
-        assertTrue(questionIds.contains("m7d6ws56"));
+        // Then the code list is created and no question is returned
+        assertNull(res);
+        assertEquals(1, codesListService.getQuestionnaireCodesLists("lw6534qt").size());
     }
 
 
     @Test
-    void findQuestionIdWithCodesListInMultipleChoiceQuestion() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/multiple.json");
-        List<String> questionIds = getListOfQuestionIdWhereCodesListIsUsed(questionnaire, "m7d794ks");
-        assertTrue(questionIds.contains("m7d749wl"));
-    }
+    void upsertQuestionnaireCodesList_success_updateExistingInMultipleQuestion() throws Exception {
+        // Given a questionnaire with a code list in a multiple question
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/multiple.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
 
-    @Test
-    void updateExistingCodeListInMultipleQuestion() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/multiple.json");
-        List<CodeList> codeLists = questionnaire.getCodeLists().getCodeList();
-        CodeList initialCodeList = codeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), "m7d794ks")).findFirst().get();
+        List<ExtendedCodesListDTO> initialCodesLists = codesListService.getQuestionnaireCodesLists("m7c5siu3");
+        assertEquals(4, initialCodesLists.size());
+        ExtendedCodesListDTO initialCodeList = initialCodesLists.stream().filter(codeList -> Objects.equals(codeList.getId(), "m7d794ks")).findFirst().get();
+        assertThat(initialCodeList.getCodes()).hasSize(3);
 
-        assertThat(codeLists).hasSize(4);
-        assertThat(initialCodeList.getCode()).hasSize(3);
-        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, "m7d794ks",
+        // When we update the code list
+        codesListService.upsertQuestionnaireCodesList("m7c5siu3", "m7d794ks",
                 new CodesListDTO("id","label",List.of(
                         new CodeDTO("1","New York",null),
                         new CodeDTO("2","Los Angeles",null),
@@ -144,30 +113,41 @@ class CodesListServiceTest {
                         new CodeDTO("5","Phoenix",null),
                         new CodeDTO("6","Philadelphie",null)
                 )));
-        List<CodeList> updatedCodeLists = questionnaire.getCodeLists().getCodeList();
+
+        // Then the code list has been updated
+        JsonNode updatedQuestionnaireJsonNode = questionnaireService.getQuestionnaireByID("m7c5siu3");
+        Questionnaire updatedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(updatedQuestionnaireJsonNode);
+        List<CodeList> updatedCodeLists = updatedQuestionnaire.getCodeLists().getCodeList();
         CodeList codeListUpdated = updatedCodeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), "m7d794ks")).findFirst().get();
         assertThat(updatedCodeLists).hasSize(4);
         assertThat(codeListUpdated.getCode()).hasSize(6);
 
-        String questionnaireasString = PoguesSerializer.questionnaireJavaToString(questionnaire);
+        String questionnaireasString = PoguesSerializer.questionnaireJavaToString(updatedQuestionnaire);
         File tmpFile = File.createTempFile("pogues-model-", ".json");
         FileWriter writer = new FileWriter(tmpFile);
         writer.write(questionnaireasString);
         writer.close();
         System.out.println(tmpFile.getAbsolutePath());
-
     }
 
     @Test
-    void updateExistingCodeListInTableQuestion() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/table.json");
-        String codesListIdToUpdate = "m7c68dlm";
-        List<CodeList> codeLists = questionnaire.getCodeLists().getCodeList();
-        CodeList initialCodeList = codeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), codesListIdToUpdate)).findFirst().get();
+    void upsertQuestionnaireCodesList_success_updateExistingInTableQuestion() throws Exception {
+        // Given a questionnaire with a code list in a table question
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/table.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
 
-        assertEquals(3,codeLists.size());
-        assertEquals(2,initialCodeList.getCode().size());
-        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
+        String questionnaireId = "m7c5siu3";
+        String codeListId = "m7c68dlm";
+
+        List<ExtendedCodesListDTO> initialCodesLists = codesListService.getQuestionnaireCodesLists(questionnaireId);
+        assertEquals(3, initialCodesLists.size());
+        ExtendedCodesListDTO initialCodeList = initialCodesLists.stream().filter(codeList -> Objects.equals(codeList.getId(), codeListId)).findFirst().get();
+        assertThat(initialCodeList.getCodes()).hasSize(2);
+
+        // When we update the code list
+        codesListService.upsertQuestionnaireCodesList(questionnaireId, codeListId,
                 new CodesListDTO("id","non-binaire",List.of(
                         new CodeDTO("1","Homme",null),
                         new CodeDTO("2","Femmes",null),
@@ -175,12 +155,16 @@ class CodesListServiceTest {
                         new CodeDTO("4","Agenre ",null),
                         new CodeDTO("5","Cisgenre ",null)
                 )));
-        List<CodeList> updatedCodeLists = questionnaire.getCodeLists().getCodeList();
-        CodeList codeListUpdated = updatedCodeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), codesListIdToUpdate)).findFirst().get();
-        assertEquals(3, updatedCodeLists.size());
-        assertEquals(5, codeListUpdated.getCode().size());
 
-        String questionnaireasString = PoguesSerializer.questionnaireJavaToString(questionnaire);
+        // Then the code list has been updated
+        JsonNode updatedQuestionnaireJsonNode = questionnaireService.getQuestionnaireByID(questionnaireId);
+        Questionnaire updatedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(updatedQuestionnaireJsonNode);
+        List<CodeList> updatedCodeLists = updatedQuestionnaire.getCodeLists().getCodeList();
+        CodeList codeListUpdated = updatedCodeLists.stream().filter(codeList -> Objects.equals(codeList.getId(), codeListId)).findFirst().get();
+        assertThat(updatedCodeLists).hasSize(3);
+        assertThat(codeListUpdated.getCode()).hasSize(5);
+
+        String questionnaireasString = PoguesSerializer.questionnaireJavaToString(updatedQuestionnaire);
         File tmpFile = File.createTempFile("pogues-model-", ".json");
         FileWriter writer = new FileWriter(tmpFile);
         writer.write(questionnaireasString);
@@ -191,17 +175,24 @@ class CodesListServiceTest {
 
     @Test
     @DisplayName("Should conserve column order when updated primary codeList")
-    void updateExistingCodeListInTableQuestionComplex() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        String questionTableId = "m7d6ws56";
-        String codesListIdToUpdate = "m7c68dlm";
+    void upsertQuestionnaireCodesList_success_updateExistingInTableQuestionComplex() throws Exception {
+        // Given a questionnaire with a code list in a complex table question
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
 
-        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
+        // When we update the code list
+        codesListService.upsertQuestionnaireCodesList("m7c5siu3", "m7c68dlm",
                 new CodesListDTO("id","h-f",List.of(
                         new CodeDTO("F","Femme",null),
                         new CodeDTO("H","Homme",null)
                 )));
-        List<ResponseType> responsesAfter = findQuestionWithId(questionnaire, questionTableId).getResponse();
+
+        // Then the code list has been updated and the column order has not changed
+        JsonNode updatedQuestionnaireJsonNode = questionnaireService.getQuestionnaireByID("m7c5siu3");
+        Questionnaire updatedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(updatedQuestionnaireJsonNode);
+        List<ResponseType> responsesAfter = findQuestionWithId(updatedQuestionnaire, "m7d6ws56").getResponse();
         assertThat(responsesAfter).hasSize(2*3);
         assertEquals(VisualizationHintEnum.RADIO, responsesAfter.get(0).getDatatype().getVisualizationHint());
         assertEquals(VisualizationHintEnum.RADIO, responsesAfter.get(1).getDatatype().getVisualizationHint());
@@ -213,14 +204,19 @@ class CodesListServiceTest {
 
     @Test
     @DisplayName("Should remove clarification Question after update code list")
-    void shouldRemoveClarificationQuestion() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        String codesListIdToUpdate = "m7c6apvz";
-        String questionIdWithClarificationQuestion = "m8hd7kt3";
-        QuestionType question = findQuestionWithId(questionnaire, questionIdWithClarificationQuestion);
+    void upsertQuestionnaireCodesList_success_removeClarificationQuestion() throws Exception {
+        // Given a questionnaire with a code list in a complex table question
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
+
+        QuestionType question = findQuestionWithId(mockQuestionnaire, "m8hd7kt3");
         assertThat(question.getClarificationQuestion()).hasSize(1);
         assertThat(question.getFlowControl()).hasSize(1);
-        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
+
+        // When we update the code list to remove the clarification modal
+        codesListService.upsertQuestionnaireCodesList("m7c5siu3", "m7c6apvz",
                 new CodesListDTO("id","sauce",List.of(
                         new CodeDTO("1","Mayonnaise",null),
                         new CodeDTO("2","Ketchup",null),
@@ -228,120 +224,187 @@ class CodesListServiceTest {
                         new CodeDTO("4","Andalouse ",null),
                         new CodeDTO("5","Poivre ",null)
                 )));
-        assertThat(question.getClarificationQuestion()).isEmpty();
-        assertThat(question.getFlowControl()).isEmpty();
+
+        // Then the clarification question has been removed
+        JsonNode updatedQuestionnaireJsonNode = questionnaireService.getQuestionnaireByID("m7c5siu3");
+        Questionnaire updatedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(updatedQuestionnaireJsonNode);
+        QuestionType updatedQuestion = findQuestionWithId(updatedQuestionnaire, "m8hd7kt3");
+        assertThat(updatedQuestion.getClarificationQuestion()).isEmpty();
+        assertThat(updatedQuestion.getFlowControl()).isEmpty();
     }
 
     @Test
     @DisplayName("CodeList filters should be remove because '4' codeValue is removed after updating")
-    void shouldRemoveCodeListFilters() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        String codesListIdToUpdate = "m7c6apvz";
+    void upsertQuestionnaireCodesList_success_removeCodeListFilters() throws Exception {
+        // Given a questionnaire with a code list and a code filter associated to code '4'
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
+
+        String questionnaireId = "m7c5siu3";
         String questionIdWithCodeListFilters = "m8hd7kt3";
-        QuestionType question = findQuestionWithId(questionnaire, questionIdWithCodeListFilters);
+
+        QuestionType question = findQuestionWithId(mockQuestionnaire, questionIdWithCodeListFilters);
         assertThat(question.getCodeFilters()).hasSize(1);
         assertEquals("4",question.getCodeFilters().getFirst().getCodeValue());
 
-        CodesListDTO updatedCodeList = new CodesListDTO("id", "sauce", List.of(
-                new CodeDTO("1", "Mayonnaise", null),
-                new CodeDTO("2", "Ketchup", null),
-                new CodeDTO("3", "Moutarde", null),
-                new CodeDTO("3bis", "Poivre", null)
-        ));
+        // When we update the code list to remove the code '4'
+        codesListService.upsertQuestionnaireCodesList(questionnaireId, "m7c6apvz",
+                new CodesListDTO("id","sauce", List.of(
+                        new CodeDTO("1", "Mayonnaise", null),
+                        new CodeDTO("2", "Ketchup", null),
+                        new CodeDTO("3", "Moutarde", null),
+                        new CodeDTO("3bis", "Poivre", null)
+                )));
 
-        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate, updatedCodeList);
-        assertThat(question.getCodeFilters()).isEmpty();
+        // Then the question no longer has code filter
+        JsonNode updatedQuestionnaireJsonNode = questionnaireService.getQuestionnaireByID(questionnaireId);
+        Questionnaire updatedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(updatedQuestionnaireJsonNode);
+        QuestionType updatedQuestion = findQuestionWithId(updatedQuestionnaire, questionIdWithCodeListFilters);
+        assertThat(updatedQuestion.getCodeFilters()).isEmpty();
     }
 
     @Test
     @DisplayName("CodeList filters should be conserved because '4' code still exist after updating (adding element and change label value)")
-    void shouldNotRemoveCodeListFilters() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        String codesListIdToUpdate = "m7c6apvz";
+    void upsertQuestionnaireCodesList_shouldNotRemoveCodeListFilters() throws Exception {
+        // Given a questionnaire with a code list and a code filter associated to code '4'
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
+
+        String questionnaireId = "m7c5siu3";
         String questionIdWithCodeListFilters = "m8hd7kt3";
-        QuestionType question = findQuestionWithId(questionnaire, questionIdWithCodeListFilters);
+
+        QuestionType question = findQuestionWithId(mockQuestionnaire, questionIdWithCodeListFilters);
         assertThat(question.getCodeFilters()).hasSize(1);
         assertEquals("4",question.getCodeFilters().getFirst().getCodeValue());
 
-        CodesListDTO updatedCodeList = new CodesListDTO("id", "sauce", List.of(
+        // When we update the code list with new codes (including old '4' one)
+        codesListService.upsertQuestionnaireCodesList(questionnaireId, "m7c6apvz", new CodesListDTO("id", "sauce", List.of(
                 new CodeDTO("1", "Mayonnaise", null),
                 new CodeDTO("2", "Ketchup", null),
                 new CodeDTO("3", "Moutarde", null),
                 new CodeDTO("4", "Andalouse", null),
                 new CodeDTO("5", "Poivre", null)
-        ));
+        )));
 
-        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate, updatedCodeList);
-        assertThat(question.getCodeFilters()).hasSize(1);
-        assertEquals("4",question.getCodeFilters().getFirst().getCodeValue());
+        // Then the question still has the code filter associated to code '4'
+        JsonNode updatedQuestionnaireJsonNode = questionnaireService.getQuestionnaireByID(questionnaireId);
+        Questionnaire updatedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(updatedQuestionnaireJsonNode);
+        QuestionType updatedQuestion = findQuestionWithId(updatedQuestionnaire, questionIdWithCodeListFilters);
+        assertThat(updatedQuestion.getCodeFilters()).hasSize(1);
+        assertEquals("4",updatedQuestion.getCodeFilters().getFirst().getCodeValue());
     }
 
     @Test
     @DisplayName("CodeList filters should not be removed after updating the CodeList because it hasn't changed")
-    void shouldRemoveCodeListFilters2() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        String codesListIdToUpdate = "m7c6apvz";
+    void upsertQuestionnaireCodesList_shouldNotRemoveCodeListFilters2() throws Exception {
+        // Given a questionnaire with a code list and filters
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
+
+        String questionnaireId = "m7c5siu3";
         String questionIdWithCodeListFilters = "m8hd7kt3";
-        QuestionType question = findQuestionWithId(questionnaire, questionIdWithCodeListFilters);
+
+        QuestionType question = findQuestionWithId(mockQuestionnaire, questionIdWithCodeListFilters);
         assertThat(question.getCodeFilters()).hasSize(1);
 
-        CodesListDTO updatedCodeList = new CodesListDTO("id", "sauce", List.of(
+        // When we update the code list but nothing really change
+        codesListService.upsertQuestionnaireCodesList(questionnaireId, "m7c6apvz", new CodesListDTO("id", "sauce", List.of(
                 new CodeDTO("1", "Mayonnaise", null),
                 new CodeDTO("3", "Ketchup", null),
                 new CodeDTO("4", "Moutarde", null)
-        ));
+        )));
 
-        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate, updatedCodeList);
+        // Then the question still has the code filter
         assertThat(question.getCodeFilters()).hasSize(1);
     }
 
     @Test
     @DisplayName("Should not remove CALCULATED and EXTERNAL variables after update code list")
-    void shouldNotRemoveCalculatedAndExternalVariables() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        String codesListIdToUpdate = "m7c6apvz";
+    void upsertQuestionnaireCodesList_shouldNotRemoveCalculatedAndExternalVariables() throws Exception {
+        // Given a questionnaire with CALCULATED AND EXTERNAL variables
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
+
+        String questionnaireId = "m7c5siu3";
         String externalVariableID = "m8rd4mu4";
         String calculatedVariableID = "m8rcy1df";
-        assertThat(questionnaire.getVariables().getVariable())
+
+        assertThat(mockQuestionnaire.getVariables().getVariable())
                 .anyMatch(variable -> externalVariableID.equals(variable.getId()))
                 .anyMatch(variable -> calculatedVariableID.equals(variable.getId()));
-        codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, codesListIdToUpdate,
-                new CodesListDTO("id","sauce",List.of(
-                        new CodeDTO("1","Mayonnaise",null),
-                        new CodeDTO("2","Ketchup",null),
-                        new CodeDTO("3","Moutarde",null),
-                        new CodeDTO("4","Andalouse ",null),
-                        new CodeDTO("5","Poivre ",null)
-                )));
-        assertThat(questionnaire.getVariables().getVariable())
+
+        // When we update the code list
+        codesListService.upsertQuestionnaireCodesList(questionnaireId, "m7c6apvz", new CodesListDTO("id","sauce",List.of(
+                new CodeDTO("1","Mayonnaise",null),
+                new CodeDTO("2","Ketchup",null),
+                new CodeDTO("3","Moutarde",null),
+                new CodeDTO("4","Andalouse ",null),
+                new CodeDTO("5","Poivre ",null)
+        )));
+
+        // Then the CALCULATED AND EXTERNAL variables still exist
+        JsonNode updatedQuestionnaireJsonNode = questionnaireService.getQuestionnaireByID(questionnaireId);
+        Questionnaire updatedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(updatedQuestionnaireJsonNode);
+        assertThat(updatedQuestionnaire.getVariables().getVariable())
                 .anyMatch(variable -> externalVariableID.equals(variable.getId()))
                 .anyMatch(variable -> calculatedVariableID.equals(variable.getId()));
     }
 
     @Test
-    @DisplayName("Should add a new CodeList when it does not exist yet")
-    void shouldCreateNewCodeList() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        String newCodeListId = "new-code-list";
-        assertThat(questionnaire.getCodeLists().getCodeList())
-                .noneMatch(codeList -> newCodeListId.equals(codeList.getId()));
-        CodesListDTO newCodesList = new CodesListDTO(newCodeListId, "new-sauces", List.of(
-                new CodeDTO("1", "BBQ", null),
-                new CodeDTO("2", "Curry", null)
-        ));
-        List<String> result = codesListService.updateOrAddCodeListToQuestionnaire(questionnaire, newCodeListId, newCodesList);
-        assertThat(questionnaire.getCodeLists().getCodeList())
-                .anyMatch(codeList -> newCodeListId.equals(codeList.getId()));
-        assertThat(result).isNull();
+    void deleteQuestionnaireCodeList_error_usedByQuestions() throws Exception {
+        // Given a questionnaire with a code list used in a question
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/withCodesLists.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
+
+        String questionnaireId = "m7c5siu3";
+        String codeListId = "m7c68dlm";
+
+        assertEquals(2, codesListService.getQuestionnaireCodesLists(questionnaireId).size());
+
+        // When we delete the code list
+        CodesListException exception = assertThrows(
+                CodesListException.class,
+                () -> codesListService.deleteQuestionnaireCodeList(questionnaireId, codeListId)
+        );
+
+        // Then there is a 400 exception, the related question is returned, and no code list has been deleted
+        assertEquals(400, exception.getStatus());
+        assertTrue(exception.getRelatedQuestionNames().contains("QUESTION"));
+        assertEquals(2, codesListService.getQuestionnaireCodesLists(questionnaireId).size());
     }
 
     @Test
-    @DisplayName("Should get right CodeListDTO from questionnaire")
-    void shouldGetRightCodesListsFromQuestionnaire() throws Exception {
-        Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
-        List<ExtendedCodesListDTO> codesLists = codesListService.getCodesListsDTO(questionnaire);
-        assertThat(codesLists).hasSize(4);
-        assertThat(codesLists.get(0).getRelatedQuestionNames())
-                .containsExactly("QUESTION", "TAB", "TAB_SECONDARY", "CHOIXMULTIT");
+    void deleteQuestionnaireCodeList_error_usedByQuestionInLoop() throws Exception {
+        // Given a questionnaire with a code list used in a question in a loop
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/loop_roudabout.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
+
+        String questionnaireId = "m7d5k0hy";
+        String codeListId = "m7d5nan9";
+
+        assertEquals(1, codesListService.getQuestionnaireCodesLists(questionnaireId).size());
+
+        // When we delete the code list
+        CodesListException exception = assertThrows(
+                CodesListException.class,
+                () -> codesListService.deleteQuestionnaireCodeList(questionnaireId, codeListId)
+        );
+
+        // Then there is a 400 exception, the related question is returned, and no code list has been deleted
+        assertEquals(400, exception.getStatus());
+        assertTrue(exception.getRelatedQuestionNames().contains("CODESLISTD"));
+        assertEquals(1, codesListService.getQuestionnaireCodesLists(questionnaireId).size());
     }
 }

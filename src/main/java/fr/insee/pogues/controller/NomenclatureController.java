@@ -21,67 +21,43 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.UUID;
 
+/**
+ * WebService class used to fetch the nomenclatures of a questionnaire.
+ */
 @RestController
 @RequestMapping("/api/questionnaires")
 @Tag(name = "5. Nomenclature Controller")
 @Slf4j
 public class NomenclatureController {
 
-    private NomenclatureService nomenclatureService;
+    private final NomenclatureService nomenclatureService;
 
     public NomenclatureController(NomenclatureService nomenclatureService){
         this.nomenclatureService = nomenclatureService;
     }
 
-    @GetMapping("{questionnaireId}/nomenclatures")
-    @Operation(
-            operationId  = "getNomenclaturesInQuestionnaire",
-            summary = "Get nomenclatures in questionnaire",
-            description = "Get all nomenclatures for questionnaire of id"
-    )
+    @Operation(summary = "Get the nomenclatures of a questionnaire")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200 ",
-                    description = "Success",
-                    content = {
-                            @Content(mediaType = "application/json", array = @ArraySchema(
-                                    schema = @Schema(implementation = ExtendedNomenclatureDTO.class)))}),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Not found",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiMessage.class)) })
-    })
-    public ResponseEntity<List<ExtendedNomenclatureDTO>> getNomenclaturesInQuestionnaire(
-            @PathVariable(value = "questionnaireId") String questionnaireId) throws Exception {
-        List<ExtendedNomenclatureDTO> nomenclatures = nomenclatureService.getNomenclaturesDTOByQuestionnaireId(questionnaireId);
+            @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ExtendedNomenclatureDTO.class))) }),
+            @ApiResponse(responseCode = "404", description = "Not found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class)) }) })
+    @GetMapping("/{questionnaireId}/nomenclatures")
+    public ResponseEntity<List<ExtendedNomenclatureDTO>> getQuestionnaireNomenclatures(
+            @PathVariable(value = "questionnaireId") String questionnaireId
+    ) throws Exception {
+        List<ExtendedNomenclatureDTO> nomenclatures = nomenclatureService.getQuestionnaireNomenclatures(questionnaireId);
         return ResponseEntity.status(HttpStatus.OK).body(nomenclatures);
     }
 
-    @GetMapping("{questionnaireId}/version/{versionId}/nomenclatures")
-    @Operation(
-            operationId  = "getNomenclaturesInVersionOfQuestionnaire",
-            summary = "Get nomenclatures in backup od questionnaire",
-            description = "Get all nomenclatures for questionnaire of id and backup of id"
-    )
+    @Operation(summary = "Get the nomenclatures from a questionnaire's backup")
     @ApiResponses(value = {
-            @ApiResponse(
-                    responseCode = "200 ",
-                    description = "Success",
-                    content = {
-                            @Content(mediaType = "application/json", array = @ArraySchema(
-                                    schema = @Schema(implementation = ExtendedNomenclatureDTO.class)))}),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Not found",
-                    content = { @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = ApiMessage.class)) })
-    })
-    public ResponseEntity<List<ExtendedNomenclatureDTO>> getNomenclaturesInVersionOfQuestionnaire(
-            @PathVariable(value = "questionnaireId") String questionnaireId,
-            @PathVariable(value = "versionId") UUID versionId) throws Exception {
-        log.info("Get nomenclatures of backup (id: {}) of questionnaire {}.", versionId, questionnaireId);
-        List<ExtendedNomenclatureDTO> nomenclatures = nomenclatureService.getNomenclaturesDTOByVersionId(versionId);
+            @ApiResponse(responseCode = "200", description = "Success", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ExtendedNomenclatureDTO.class))) }),
+            @ApiResponse(responseCode = "404", description = "Version not found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class)) }) })
+    @GetMapping("/{questionnaireId}/version/{versionId}/nomenclatures")
+    public ResponseEntity<List<ExtendedNomenclatureDTO>> getQuestionnaireVersionNomenclatures(
+            @PathVariable(value = "questionnaireId") String ignoredQuestionnaireId,
+            @PathVariable(value = "versionId") UUID versionId
+    ) throws Exception {
+        List<ExtendedNomenclatureDTO> nomenclatures = nomenclatureService.getVersionNomenclatures(versionId);
         return ResponseEntity.status(HttpStatus.OK).body(nomenclatures);
     }
 }

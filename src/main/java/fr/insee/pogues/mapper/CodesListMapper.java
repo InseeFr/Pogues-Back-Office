@@ -15,6 +15,22 @@ public class CodesListMapper {
 
     private CodesListMapper() {}
 
+    /**
+     * Compute the code list into its Pogues model
+     * @param codesListDto Code list to convert
+     */
+    public static CodeList toModel(CodesListDTO codesListDto){
+        String noParent= "";
+        CodeList codeList = new CodeList();
+        codeList.setId(codesListDto.getId());
+        codeList.setLabel(codesListDto.getLabel());
+        List<CodeType> codeTypes = codesListDto.getCodes().stream()
+                .map(code -> convertFromCodeListDTOToCodeTypeWithParent(code, noParent))
+                .flatMap(Collection::stream).toList();
+        codeList.getCode().addAll(codeTypes);
+        return codeList;
+    }
+
     private static List<CodeType> convertFromCodeListDTOToCodeTypeWithParent(CodeDTO codeDTO, String parent){
         List<CodeType> codeTypes = new ArrayList<>();
         CodeType codeType = new CodeType();
@@ -34,24 +50,19 @@ public class CodesListMapper {
         return codeTypes;
     }
 
-    public static CodeList convertFromCodeListDTOtoCodeListModel(CodesListDTO codesListDto){
-        String noParent= "";
-        CodeList codeList = new CodeList();
-        codeList.setId(codesListDto.getId());
-        codeList.setLabel(codesListDto.getLabel());
-        List<CodeType> codeTypes = codesListDto.getCodes().stream()
-                .map(code -> convertFromCodeListDTOToCodeTypeWithParent(code, noParent))
-                .flatMap(Collection::stream).toList();
-        codeList.getCode().addAll(codeTypes);
-        return codeList;
+    /**
+     * Compute the code list into its DTO
+     * @param codeList Code list to convert
+     */
+    public static CodesListDTO toDTO(CodeList codeList) {
+        return new CodesListDTO(codeList.getId(), codeList.getLabel(), getRootCodesFromCodeList(codeList.getCode()));
     }
 
-    public static CodeType createCodeType(String parent, String id, String label){
-        CodeType codeType = new CodeType();
-        codeType.setParent(parent);
-        codeType.setValue(id);
-        codeType.setLabel(label);
-        return codeType;
+    private static List<CodeDTO> getRootCodesFromCodeList(List<CodeType> codeTypes){
+        return codeTypes.stream()
+                .filter(codeType -> codeType.getParent() == null || codeType.getParent().isEmpty())
+                .map(codeType -> new CodeDTO(codeType.getValue(), codeType.getLabel(), getSubCodesByParentCodeValue(codeTypes, codeType.getValue())))
+                .toList();
     }
 
     private static List<CodeDTO> getSubCodesByParentCodeValue(List<CodeType> codeTypes, String parentCodeValue){
@@ -62,18 +73,11 @@ public class CodesListMapper {
         return subCodeDTOS.isEmpty() ? null : subCodeDTOS;
     }
 
-    private static List<CodeDTO> getRootCodesFromCodeList(List<CodeType> codeTypes){
-        return codeTypes.stream()
-                .filter(codeType -> codeType.getParent() == null || codeType.getParent().isEmpty())
-                .map(codeType -> new CodeDTO(codeType.getValue(), codeType.getLabel(), getSubCodesByParentCodeValue(codeTypes, codeType.getValue())))
-                .toList();
-    }
-
-    public static CodesListDTO convertFromCodeListModelToCodeListDTO(CodeList codeList){
-        return new CodesListDTO(codeList.getId(), codeList.getLabel(), getRootCodesFromCodeList(codeList.getCode()));
-    }
-
-    public static NomenclatureDTO convertFromCodeListNomenclatureModelToNomenclatureDTO(CodeList codeList){
+    /**
+     * Compute the code list into its nomenclature DTO
+     * @param codeList Nomenclature to convert
+     */
+    public static NomenclatureDTO toNomenclatureDTO(CodeList codeList){
         ExternalLinkDTO externalLinkDTO = new ExternalLinkDTO(codeList.getUrn());
         // TODO: fix me, use version instead of Name of codeList !!!
         // id, label, version, externalLink

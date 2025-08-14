@@ -4,6 +4,7 @@ import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.CodeType;
 import fr.insee.pogues.model.dto.codeslists.CodeDTO;
 import fr.insee.pogues.model.dto.codeslists.CodesListDTO;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -13,20 +14,30 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CodesListMapperTest {
 
+    static CodeType createCodeType(String parent, String id, String label){
+        CodeType codeType = new CodeType();
+        codeType.setParent(parent);
+        codeType.setValue(id);
+        codeType.setLabel(label);
+        return codeType;
+    }
+
     @Test
-    void testConversionSimpleCodeListToPoguesModel(){
+    @DisplayName("Should convert DTO code list into model")
+    void toModel_success(){
         CodesListDTO codesListDTO = new CodesListDTO("h-f","Homme-Femme", List.of(
                 new CodeDTO("F","Femme",null),
                 new CodeDTO("H","Homme",null)
         ));
-        fr.insee.pogues.model.CodeList codeListPoguesModel = convertFromCodeListDTOtoCodeListModel(codesListDTO);
+        fr.insee.pogues.model.CodeList codeListPoguesModel = toModel(codesListDTO);
         assertEquals("h-f", codeListPoguesModel.getId());
         assertEquals("Homme-Femme", codeListPoguesModel.getLabel());
         assertEquals(2, codeListPoguesModel.getCode().size());
     }
 
     @Test
-    void testConversionHierarchicalCodeListToPoguesModel(){
+    @DisplayName("Should convert DTO code list with hierarchy into model")
+    void toModel_success_hierarchicalCodeList(){
         CodesListDTO codesListDTO = new CodesListDTO("h-f","Homme-Femme", List.of(
                 new CodeDTO("F","Femme", List.of(
                         new CodeDTO("F1", "Femme 1", null),
@@ -39,7 +50,7 @@ class CodesListMapperTest {
                         new CodeDTO("H3", "Homme 3", null)
                 ))
         ));
-        fr.insee.pogues.model.CodeList codeListPoguesModel = convertFromCodeListDTOtoCodeListModel(codesListDTO);
+        fr.insee.pogues.model.CodeList codeListPoguesModel = toModel(codesListDTO);
         assertEquals("h-f", codeListPoguesModel.getId());
         assertEquals("Homme-Femme", codeListPoguesModel.getLabel());
         assertEquals(8, codeListPoguesModel.getCode().size());
@@ -52,21 +63,23 @@ class CodesListMapperTest {
     }
 
     @Test
-    void testConversionPoguesModelCodeListToSimpleCodeList(){
+    @DisplayName("Should convert model code list into DTO")
+    void toDTO_success() {
         CodeList poguesModelCodeList = new CodeList();
         poguesModelCodeList.setId("h-f");
         poguesModelCodeList.setLabel("Homme-Femme");
         CodeType codeTypeF = createCodeType("","F","Femme");
         CodeType codeTypeH = createCodeType("","H","Homme");
         poguesModelCodeList.getCode().addAll(List.of(codeTypeF,codeTypeH));
-        CodesListDTO codesListDTO = convertFromCodeListModelToCodeListDTO(poguesModelCodeList);
+        CodesListDTO codesListDTO = toDTO(poguesModelCodeList);
         assertEquals("h-f", codesListDTO.getId());
         assertEquals("Homme-Femme", codesListDTO.getLabel());
         assertEquals(2, codesListDTO.getCodes().size());
     }
 
     @Test
-    void testConversionHierarchicalPoguesModelCodeListToSimpleCodeList(){
+    @DisplayName("Should convert model code list with hierarchy into DTO")
+    void toDTO_success_hierarchicalCodeList() {
         CodeList poguesModelCodeList = new CodeList();
         poguesModelCodeList.setId("h-f");
         poguesModelCodeList.setLabel("Homme-Femme");
@@ -81,7 +94,7 @@ class CodesListMapperTest {
         poguesModelCodeList.getCode().addAll(List.of(
                 codeTypeF,codeTypeF1,codeTypeF2,codeTypeF3,
                 codeTypeH,codeTypeH1,codeTypeH2,codeTypeH3));
-        CodesListDTO codesListDTO = convertFromCodeListModelToCodeListDTO(poguesModelCodeList);
+        CodesListDTO codesListDTO = toDTO(poguesModelCodeList);
         assertEquals("h-f", codesListDTO.getId());
         assertEquals("Homme-Femme", codesListDTO.getLabel());
         assertEquals(2, codesListDTO.getCodes().size());

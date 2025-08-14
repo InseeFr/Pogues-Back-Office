@@ -15,6 +15,8 @@ public class VariablesMapper {
     private VariablesMapper() {}
 
     /**
+     * Compute the variable into its Pogues model
+     * @param variableDTO Variable to convert
      * @throws VariableInvalidModelException The variable has an invalid model (type or datatype).
      */
     public static VariableType toModel(VariableDTO variableDTO) throws VariableInvalidModelException {
@@ -117,6 +119,8 @@ public class VariablesMapper {
     }
 
     /**
+     * Compute the variable into its DTO
+     * @param variable Variable to convert
      * @throws VariableInvalidModelException The variable has an invalid model (type or datatype).
      */
     public static VariableDTO toDTO(VariableType variable) throws VariableInvalidModelException {
