@@ -64,8 +64,21 @@ public class VariableService {
         return getQuestionnaireVariables(questionnaire);
     }
 
+    /**
+     * Get the questionnaire's variables and, if they have a scope, compute the scope name instead of the id.
+     * @param questionnaire Questionnaire from which we want the variables
+     * @return Questionnaire's variables with a readable scope.
+     */
     private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) {
-        return questionnaire.getVariables().getVariable().stream().toList();
+        List<VariableType> variables = questionnaire.getVariables().getVariable().stream().toList();
+        variables.forEach(v -> {
+            String scopeId = v.getScope();
+            if (scopeId != null) {
+                IterationType iteration = questionnaire.getIterations().getIteration().stream().filter(s -> scopeId.equals(s.getId())).toList().getFirst();
+                if (iteration != null) v.setScope(iteration.getName());
+            }
+        });
+        return variables;
     }
 
     /**
