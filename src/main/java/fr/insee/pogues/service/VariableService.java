@@ -1,5 +1,6 @@
 package fr.insee.pogues.service;
 
+import fr.insee.pogues.exception.IllegalIterationException;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.exception.VariableNotFoundException;
 import fr.insee.pogues.model.*;
@@ -8,12 +9,14 @@ import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.DateUtils;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
+import fr.insee.pogues.utils.model.PoguesModelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 import static fr.insee.pogues.utils.ListUtils.replaceElementInListAccordingToCondition;
@@ -81,10 +84,20 @@ public class VariableService {
      * @param iterations Iterations in which we will find the scope name
      */
     private void computeScopeNameFromScopeId(VariableType variable, Questionnaire.Iterations iterations) {
+        if (iterations == null) return;
+
         String scopeId = variable.getScope();
-        if (scopeId != null) {
-            IterationType iteration = iterations.getIteration().stream().filter(v -> scopeId.equals(v.getId())).toList().getFirst();
-            if (iteration != null) variable.setScope(iteration.getName());
+        if (scopeId == null) return;
+
+        Optional<IterationType> iteration = iterations.getIteration().stream().filter(v -> {
+            try {
+                return PoguesModelUtils.isIterationRelatedToScopeId(v, scopeId);
+            } catch (IllegalIterationException e) {
+                return false;
+            }
+        }).findFirst();
+        if (iteration.isPresent()) {
+            variable.setScope(iteration.get().getName());
         }
     }
 
