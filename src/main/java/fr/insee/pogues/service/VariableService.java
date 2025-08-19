@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 import static fr.insee.pogues.utils.ListUtils.replaceElementInListAccordingToCondition;
@@ -83,8 +84,10 @@ public class VariableService {
     private void computeScopeNameFromScopeId(VariableType variable, Questionnaire.Iterations iterations) {
         String scopeId = variable.getScope();
         if (scopeId != null) {
-            IterationType iteration = iterations.getIteration().stream().filter(v -> scopeId.equals(v.getId())).toList().getFirst();
-            if (iteration != null) variable.setScope(iteration.getName());
+            Optional<IterationType> iteration = iterations.getIteration().stream().filter(v -> scopeId.equals(v.getId())).findFirst();
+            if (iteration.isPresent()) {
+                variable.setScope(iteration.get().getName());
+            }
         }
     }
 
