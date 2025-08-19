@@ -15,10 +15,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import static fr.insee.pogues.utils.Utils.loadQuestionnaireFromResources;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -55,6 +57,36 @@ class VariableServiceTest {
         // Then the variable is fetched
         assertEquals(1, res.size());
         assertEquals(expected.getId(), res.getFirst().getId());
+    }
+
+    @Test
+    @DisplayName("Should fetch questionnaire variables and compute the scope name")
+    void getQuestionnaireVariables_success_scopeName() throws Exception {
+        // Given a questionnaire with 1 variable
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/withScope.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
+
+        String questionnaireId = "ma0nzzmj";
+        String variableId = "mdy51s3x";
+
+        VariableType expected = new CollectedVariableType();
+        expected.setId(variableId);
+        expected.setName("NOMDUPOKEM");
+        expected.setLabel("NOMDUPOKEM label");
+        expected.setScope("LOOP_TEST");
+        TextDatatypeType expectedDatatype = new TextDatatypeType();
+        expectedDatatype.setTypeName(DatatypeTypeEnum.TEXT);
+        expectedDatatype.setMaxLength(BigInteger.valueOf(249));
+        expected.setDatatype(expectedDatatype);
+
+        // When we get the questionnaire's variables
+        List<VariableType> res = variableService.getQuestionnaireVariables(questionnaireId);
+
+        // Then the variable is fetched
+        VariableType variable = res.stream().filter(v -> variableId.equals(v.getId())).toList().getFirst();
+        assertThat(variable).usingRecursiveComparison().isEqualTo(expected);
     }
 
     @Test
