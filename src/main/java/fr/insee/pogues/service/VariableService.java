@@ -84,6 +84,8 @@ public class VariableService {
      * @param iterations Iterations in which we will find the scope name
      */
     private void computeScopeNameFromScopeId(VariableType variable, Questionnaire.Iterations iterations) {
+        if (iterations == null) return;
+
         String scopeId = variable.getScope();
         if (scopeId == null) return;
 
