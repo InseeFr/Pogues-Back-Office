@@ -6,7 +6,6 @@ import fr.insee.pogues.model.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 /** Helper class to factorize methods on Pogues-Model objects.
  * Some parts of the model should be revised to make this class obsolete. */
@@ -98,6 +97,20 @@ public class PoguesModelUtils {
     public static String getLinkedLoopReference(IterationType iterationType) throws IllegalIterationException {
         checkIterationInstance(iterationType);
         return ((DynamicIterationType) iterationType).getIterableReference();
+    }
+
+    /**
+     * Check if the provided iteration is associated to the scope id
+     * (which can be found in variable for example).
+     * If the iteration is a "main" loop, we directly check the id.
+     * If it is a linked loop, we check the identifier of the corresponding "main" loop.
+     * @param iterationType A Pogues iteration (loop) object.
+     * @param scopeId The id of the scope.
+     * @return Whether the iteration is the one referenced by the scope id.
+     * @throws IllegalIterationException If the iteration object given is not a DynamicIterationType.
+     */
+    public static boolean isIterationRelatedToScopeId(IterationType iterationType, String scopeId) throws IllegalIterationException {
+        return scopeId.equals(iterationType.getId()) || scopeId.equals(getLinkedLoopReference(iterationType));
     }
 
     /**
