@@ -70,7 +70,7 @@ public class VariableDTODatatype {
                 null);
     }
 
-    public static VariableDTODatatype numericDatatype(double minimum, double maximum, Integer decimals, boolean isDynamicUnit, String unit) {
+    public static VariableDTODatatype numericDatatype(Double minimum, Double maximum, Integer decimals, boolean isDynamicUnit, String unit) {
         return new VariableDTODatatype(
                 VariableDTODatatypeTypeEnum.NUMERIC,
                 null,
