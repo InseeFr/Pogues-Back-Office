@@ -2,6 +2,7 @@ package fr.insee.pogues.persistence.repository;
 
 import fr.insee.pogues.domain.entity.db.Version;
 import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.exception.VersionNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +69,8 @@ public class QuestionnaireVersionRepositoryImpl implements QuestionnaireVersionR
 		try {
 			return jdbcTemplate.queryForObject(qString, new VersionRowMapper(withData), versionId);
 		} catch (EmptyResultDataAccessException e) {
-			throw new PoguesException(404, "Not found", "No version with id "+ versionId);
+			String message = String.format("Version with id %s does not exist", versionId);
+			throw new VersionNotFoundException(message);
 		}
 	}
 
