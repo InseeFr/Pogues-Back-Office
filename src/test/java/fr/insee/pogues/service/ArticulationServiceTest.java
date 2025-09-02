@@ -76,7 +76,7 @@ class ArticulationServiceTest {
 
     @Test
     @DisplayName("Should throw an exception when there is no questionnaires related to the id")
-    void getQuestionnaireArticulation_error_notFound() throws Exception {
+    void getQuestionnaireArticulation_error_notFound() {
         // Given a questionnaire that does not exist
 
         // When we get the questionnaire's articulation

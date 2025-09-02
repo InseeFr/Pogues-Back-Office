@@ -2,9 +2,8 @@ package fr.insee.pogues.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.pogues.exception.QuestionnaireNotFoundException;
-import fr.insee.pogues.model.Articulation;
-import fr.insee.pogues.model.Item;
-import fr.insee.pogues.model.ValueTypeEnum;
+import fr.insee.pogues.exception.VersionNotFoundException;
+import fr.insee.pogues.model.*;
 import fr.insee.pogues.model.dto.articulations.ArticulationDTO;
 import fr.insee.pogues.model.dto.articulations.ArticulationItemDTO;
 import fr.insee.pogues.service.ArticulationService;
@@ -103,13 +102,35 @@ class ArticulationControllerTest {
         // Given no questionnaire's version
         UUID versionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
         Mockito.when(articulationService.getVersionArticulation(versionId))
-                .thenThrow(new QuestionnaireNotFoundException("Questionnaire not found"));
+                .thenThrow(new VersionNotFoundException("Version not found"));
 
         // When we fetch the questionnaire articulation
         mockMvc.perform(get(String.format("/api/persistence/questionnaire/my-q-id/version/%s/articulation", versionId))
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 // Then we receive a 404
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Should fetch questionnaire variables available for articulation")
+    void getQuestionnaireArticulationVariables_success() throws Exception {
+        // Given a questionnaire with a roundabout and associated variable
+        VariableType variable = new CollectedVariableType();
+        variable.setId("id");
+        variable.setName("name");
+        variable.setLabel("description");
+        BooleanDatatypeType datatype = new BooleanDatatypeType();
+        datatype.setTypeName(DatatypeTypeEnum.BOOLEAN);
+        variable.setDatatype(datatype);
+        Mockito.when(articulationService.getQuestionnaireArticulationVariables("my-q-id")).thenReturn(List.of(variable));
+        String expectedJSON = "[{\"id\":\"id\",\"name\":\"name\",\"description\":\"description\",\"type\":\"COLLECTED\",\"datatype\":{\"typeName\":\"BOOLEAN\"}}]";
+
+        // When we fetch the questionnaire variables available for articulation
+        mockMvc.perform(get("/api/persistence/questionnaire/my-q-id/articulation/variables")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
+                // Then we receive a 200 and the variables are returned
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedJSON));
     }
 
     @Test
