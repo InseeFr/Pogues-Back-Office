@@ -2,6 +2,7 @@ package fr.insee.pogues.service.stub;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.exception.QuestionnaireNotFoundException;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import lombok.Getter;
 
@@ -37,7 +38,7 @@ public class QuestionnaireServiceStub implements IQuestionnaireService {
     public JsonNode getQuestionnaireByID(String id) throws PoguesException {
         JsonNode questionnaire = questionnaires.get(id);
         if (null == questionnaire) {
-            throw new PoguesException(404, "Not found", "");
+            throw new QuestionnaireNotFoundException("Not found");
         }
         return questionnaire;
     }

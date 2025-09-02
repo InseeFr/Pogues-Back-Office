@@ -1,0 +1,529 @@
+{
+  "id": "m7d5k0hy",
+  "Name": "LCRONPTQR",
+  "Child": [
+    {
+      "id": "m0kqzuue",
+      "Name": "SEQ1",
+      "type": "SequenceType",
+      "Child": [
+        {
+          "id": "m0krsung",
+          "Name": "NBIND",
+          "type": "QuestionType",
+          "Label": [
+            "Combien d'individus y a t-il dans le ménage?"
+          ],
+          "depth": 2,
+          "Control": [],
+          "Response": [
+            {
+              "id": "m0ksbkd5",
+              "Datatype": {
+                "Unit": "",
+                "type": "NumericDatatypeType",
+                "Maximum": "10",
+                "Minimum": "1",
+                "Decimals": "",
+                "typeName": "NUMERIC",
+                "IsDynamicUnit": false
+              },
+              "mandatory": false,
+              "CollectedVariableReference": "m6uow06r"
+            }
+          ],
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "FlowControl": [],
+          "questionType": "SIMPLE"
+        },
+        {
+          "id": "m0ks9op8",
+          "Name": "SOUSSQUENC",
+          "type": "SequenceType",
+          "Child": [
+            {
+              "id": "m0kraxei",
+              "Name": "PRENOM",
+              "type": "QuestionType",
+              "Label": [
+                "Quel est votre prénom?"
+              ],
+              "depth": 3,
+              "Control": [
+                {
+                  "id": "m1hux0gg",
+                  "scope": false,
+                  "criticity": "INFO",
+                  "Expression": "$PRENOM$ = ''",
+                  "Description": "Contrôle sur prénom vide",
+                  "FailMessage": "Prénom vide",
+                  "post_collect": false,
+                  "during_collect": false
+                }
+              ],
+              "Response": [
+                {
+                  "id": "m0ksdakz",
+                  "Datatype": {
+                    "type": "TextDatatypeType",
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "MaxLength": 249
+                  },
+                  "mandatory": false,
+                  "CollectedVariableReference": "m0kr7m5i"
+                }
+              ],
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "FlowControl": [],
+              "questionType": "SIMPLE"
+            },
+            {
+              "id": "m20lvngp",
+              "Name": "NOM",
+              "type": "QuestionType",
+              "Label": [
+                "Noms"
+              ],
+              "depth": 3,
+              "Control": [],
+              "Response": [
+                {
+                  "id": "m20lv6rm",
+                  "Datatype": {
+                    "type": "TextDatatypeType",
+                    "Pattern": "",
+                    "typeName": "TEXT",
+                    "MaxLength": 249
+                  },
+                  "mandatory": false,
+                  "CollectedVariableReference": "m20m3jeh"
+                }
+              ],
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "FlowControl": [],
+              "questionType": "SIMPLE"
+            },
+            {
+              "id": "m28uj7dc",
+              "Name": "ESTPARTI",
+              "type": "QuestionType",
+              "Label": [
+                "\"Est parti du logement ?\""
+              ],
+              "depth": 3,
+              "Control": [],
+              "Response": [
+                {
+                  "id": "m28upar0",
+                  "Datatype": {
+                    "type": "BooleanDatatypeType",
+                    "typeName": "BOOLEAN"
+                  },
+                  "mandatory": true,
+                  "CollectedVariableReference": "m28udv86"
+                }
+              ],
+              "TargetMode": [
+                "CAPI",
+                "CATI",
+                "CAWI",
+                "PAPI"
+              ],
+              "Declaration": [],
+              "FlowControl": [],
+              "questionType": "SIMPLE"
+            }
+          ],
+          "Label": [
+            "Sous séquence"
+          ],
+          "depth": 2,
+          "Control": [],
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "FlowControl": [],
+          "genericName": "SUBMODULE"
+        }
+      ],
+      "Label": [
+        "Séquence 1"
+      ],
+      "depth": 1,
+      "Control": [],
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "FlowControl": [],
+      "genericName": "MODULE"
+    },
+    {
+      "id": "m0krk1a2",
+      "Loop": {
+        "Name": "RONDPOINT",
+        "Filter": "ESTPARTI",
+        "MemberReference": [
+          "m0kriatz",
+          "m0kriatz"
+        ],
+        "IterableReference": "m0krfx72"
+      },
+      "Name": "RDPTIND",
+      "type": "RoundaboutType",
+      "Label": [
+        "RondPoint Individu"
+      ],
+      "depth": 1,
+      "Locked": false,
+      "Control": [],
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [
+        {
+          "id": "m6up058d",
+          "Text": "description rond-point",
+          "position": "AFTER_QUESTION_TEXT",
+          "DeclarationMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "declarationType": "HELP"
+        }
+      ],
+      "FlowControl": [],
+      "OccurrenceLabel": "$PRENOM$",
+      "OccurrenceDescription": "description occurence"
+    },
+    {
+      "id": "m0kriatz",
+      "Name": "SEQ2",
+      "type": "SequenceType",
+      "Child": [
+        {
+          "id": "m0krjtgb",
+          "Name": "QUELGEAVEZ",
+          "type": "QuestionType",
+          "Label": [
+            "\"Quel âge a \" || $PRENOM$ || \" ?\""
+          ],
+          "depth": 2,
+          "Control": [],
+          "Response": [
+            {
+              "id": "m0ks1mzy",
+              "Datatype": {
+                "Unit": "http://id.insee.fr/unit/an",
+                "type": "NumericDatatypeType",
+                "Maximum": "150",
+                "Minimum": "0",
+                "Decimals": "1",
+                "typeName": "NUMERIC"
+              },
+              "mandatory": false,
+              "CollectedVariableReference": "m0krgu6f"
+            }
+          ],
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "FlowControl": [],
+          "questionType": "SIMPLE"
+        },
+        {
+          "id": "m7d5vs4h",
+          "Name": "CODESLISTD",
+          "type": "QuestionType",
+          "Label": [
+            "\"CodesList dans boucle ?\""
+          ],
+          "depth": 2,
+          "Control": [],
+          "Response": [
+            {
+              "id": "m7d5l16h",
+              "Datatype": {
+                "type": "TextDatatypeType",
+                "Pattern": "",
+                "typeName": "TEXT",
+                "MaxLength": 1,
+                "visualizationHint": "RADIO"
+              },
+              "mandatory": false,
+              "CodeListReference": "m7d5nan9",
+              "CollectedVariableReference": "m7d5ksp8"
+            }
+          ],
+          "TargetMode": [
+            "CAPI",
+            "CATI",
+            "CAWI",
+            "PAPI"
+          ],
+          "Declaration": [],
+          "FlowControl": [],
+          "questionType": "SINGLE_CHOICE",
+          "ClarificationQuestion": []
+        }
+      ],
+      "Label": [
+        "\"Séquence 2 de \" || $PRENOM$"
+      ],
+      "depth": 1,
+      "Control": [],
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "FlowControl": [],
+      "genericName": "MODULE"
+    },
+    {
+      "id": "m0ks3w7z",
+      "Name": "SEQ3",
+      "type": "SequenceType",
+      "Child": [],
+      "Label": [
+        "Séquence 3"
+      ],
+      "depth": 1,
+      "Control": [],
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "FlowControl": [],
+      "genericName": "MODULE"
+    },
+    {
+      "id": "idendquest",
+      "Name": "QUESTIONNAIRE_END",
+      "type": "SequenceType",
+      "Child": [],
+      "Label": [
+        "QUESTIONNAIRE_END"
+      ],
+      "depth": 1,
+      "Control": [],
+      "TargetMode": [
+        "CAPI",
+        "CATI",
+        "CAWI",
+        "PAPI"
+      ],
+      "Declaration": [],
+      "FlowControl": [],
+      "genericName": "MODULE"
+    }
+  ],
+  "Label": [
+    "[LC] Rond-point"
+  ],
+  "final": false,
+  "owner": "DR59-SNDI59",
+  "agency": "fr.insee",
+  "CodeLists": {
+    "CodeList": [
+      {
+        "id": "m7d5nan9",
+        "Code": [
+          {
+            "Label": "\"oui\"",
+            "Value": "1",
+            "Parent": ""
+          },
+          {
+            "Label": "\"non\"",
+            "Value": "2",
+            "Parent": ""
+          }
+        ],
+        "Label": "ouinon"
+      }
+    ]
+  },
+  "Variables": {
+    "Variable": [
+      {
+        "id": "m6uow06r",
+        "Name": "NBIND",
+        "type": "CollectedVariableType",
+        "Label": "NBIND label",
+        "Datatype": {
+          "Unit": "",
+          "type": "NumericDatatypeType",
+          "Maximum": "10",
+          "Minimum": "1",
+          "Decimals": "",
+          "typeName": "NUMERIC",
+          "IsDynamicUnit": false
+        }
+      },
+      {
+        "id": "m0kr7m5i",
+        "Name": "PRENOM",
+        "type": "CollectedVariableType",
+        "Label": "PRENOM label",
+        "Scope": "m0krfx72",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m20m3jeh",
+        "Name": "NOM",
+        "type": "CollectedVariableType",
+        "Label": "NOM label",
+        "Scope": "m0krfx72",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 249
+        }
+      },
+      {
+        "id": "m28udv86",
+        "Name": "ESTPARTI",
+        "type": "CollectedVariableType",
+        "Label": "ESTPARTI label",
+        "Scope": "m0krfx72",
+        "Datatype": {
+          "type": "BooleanDatatypeType",
+          "typeName": "BOOLEAN"
+        }
+      },
+      {
+        "id": "m0krgu6f",
+        "Name": "QUELGEAVEZ",
+        "type": "CollectedVariableType",
+        "Label": "QUELGEAVEZ label",
+        "Scope": "m0krfx72",
+        "Datatype": {
+          "Unit": "http://id.insee.fr/unit/an",
+          "type": "NumericDatatypeType",
+          "Maximum": "150",
+          "Minimum": "0",
+          "Decimals": "1",
+          "typeName": "NUMERIC"
+        }
+      },
+      {
+        "id": "m7d5ksp8",
+        "Name": "CODESLISTD",
+        "type": "CollectedVariableType",
+        "Label": "CODESLISTD label",
+        "Scope": "m0krfx72",
+        "Datatype": {
+          "type": "TextDatatypeType",
+          "Pattern": "",
+          "typeName": "TEXT",
+          "MaxLength": 1
+        },
+        "CodeListReference": "m7d5nan9"
+      }
+    ]
+  },
+  "flowLogic": "FILTER",
+  "Iterations": {
+    "Iteration": [
+      {
+        "id": "m0krfx72",
+        "Name": "BOUCLE_IND",
+        "Step": "1",
+        "type": "DynamicIterationType",
+        "Maximum": "$NBIND$",
+        "Minimum": "$NBIND$",
+        "MemberReference": [
+          "m0ks9op8",
+          "m0ks9op8"
+        ]
+      }
+    ]
+  },
+  "TargetMode": [
+    "CAPI",
+    "CATI",
+    "CAWI",
+    "PAPI"
+  ],
+  "FlowControl": [],
+  "genericName": "QUESTIONNAIRE",
+  "ComponentGroup": [
+    {
+      "id": "m0ks00qa",
+      "Name": "PAGE_1",
+      "Label": [
+        "Components for page 1"
+      ],
+      "MemberReference": [
+        "m0kqzuue",
+        "m0krsung",
+        "m0ks9op8",
+        "m0kraxei",
+        "m20lvngp",
+        "m28uj7dc",
+        "m0kriatz",
+        "m0krjtgb",
+        "m7d5vs4h",
+        "m0ks3w7z",
+        "idendquest"
+      ]
+    }
+  ],
+  "DataCollection": [
+    {
+      "id": "s2114-dc",
+      "uri": "http://ddi:fr.insee:DataCollection.s2114-dc",
+      "Name": "Enquête Logement 2020"
+    }
+  ],
+  "lastUpdatedDate": "Thu Feb 20 2025 10:40:08 GMT+0100 (heure normale d’Europe centrale)",
+  "formulasLanguage": "XPATH",
+  "childQuestionnaireRef": []
+}

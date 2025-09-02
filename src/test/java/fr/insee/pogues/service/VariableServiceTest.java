@@ -2,6 +2,7 @@ package fr.insee.pogues.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.exception.QuestionnaireNotFoundException;
 import fr.insee.pogues.exception.VariableNotFoundException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.VersionService;
@@ -96,12 +97,12 @@ class VariableServiceTest {
 
         // When we get the questionnaire's variables
         PoguesException exception = assertThrows(
-                PoguesException.class,
+                QuestionnaireNotFoundException.class,
                 () -> variableService.getQuestionnaireVariables("no-questionnaire"));
 
         // Then a 404 exception is thrown
         assertEquals(404, exception.getStatus());
-        assertNull(exception.getErrorCode());
+        assertEquals(ErrorCode.QUESTIONNAIRE_NOT_FOUND, exception.getErrorCode());
     }
 
     @Test
@@ -155,12 +156,12 @@ class VariableServiceTest {
         VariableType variable = new CollectedVariableType();
         variable.setId("new-variable");
         PoguesException exception = assertThrows(
-                PoguesException.class,
+                QuestionnaireNotFoundException.class,
                 () -> variableService.upsertQuestionnaireVariable("no-questionnaire", variable));
 
         // Then a 404 exception is thrown
         assertEquals(404, exception.getStatus());
-        assertNull(exception.getErrorCode());
+        assertEquals(ErrorCode.QUESTIONNAIRE_NOT_FOUND, exception.getErrorCode());
     }
 
     @Test
@@ -210,12 +211,12 @@ class VariableServiceTest {
 
         // When we delete a variable
         PoguesException exception = assertThrows(
-                PoguesException.class,
+                QuestionnaireNotFoundException.class,
                 () -> variableService.deleteQuestionnaireVariable("no-questionnaire", "no-variable"));
 
         // Then a 404 exception is thrown
         assertEquals(404, exception.getStatus());
-        assertNull(exception.getErrorCode());
+        assertEquals(ErrorCode.QUESTIONNAIRE_NOT_FOUND, exception.getErrorCode());
     }
 
 }

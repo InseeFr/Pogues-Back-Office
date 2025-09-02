@@ -179,7 +179,7 @@ public class ArticulationService {
         // roundabout cannot be null since we checked if the questionnaire has one beforehand
         assert roundabout != null;
 
-        String roundaboutId = roundabout.getId();
+        String roundaboutId = roundabout.getLoop().getIterableReference();
         return questionnaire.getVariables().getVariable().stream().filter(v -> roundaboutId.equals(v.getScope())).toList();
     }
 
