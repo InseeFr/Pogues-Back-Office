@@ -137,8 +137,8 @@ public class VariablesMapper {
                     ((DurationDatatypeType) variable.getDatatype()).getMinimum(),
                     ((DurationDatatypeType) variable.getDatatype()).getMaximum());
             case DatatypeTypeEnum.NUMERIC -> datatypeDTO = VariableDTODatatype.numericDatatype(
-                    ((NumericDatatypeType) variable.getDatatype()).getMinimum().doubleValue(),
-                    ((NumericDatatypeType) variable.getDatatype()).getMaximum().doubleValue(),
+                    ((NumericDatatypeType) variable.getDatatype()).getMinimum() != null ? ((NumericDatatypeType) variable.getDatatype()).getMinimum().doubleValue() : null,
+                    ((NumericDatatypeType) variable.getDatatype()).getMaximum() != null ? ((NumericDatatypeType) variable.getDatatype()).getMaximum().doubleValue() : null,
                     ((NumericDatatypeType) variable.getDatatype()).getDecimals() != null ? ((NumericDatatypeType) variable.getDatatype()).getDecimals().intValue() : null,
                     ((NumericDatatypeType) variable.getDatatype()).isIsDynamicUnit() != null ? ((NumericDatatypeType) variable.getDatatype()).isIsDynamicUnit() : false,
                     ((NumericDatatypeType) variable.getDatatype()).getUnit());
