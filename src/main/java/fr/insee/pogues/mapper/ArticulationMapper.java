@@ -39,6 +39,8 @@ public class ArticulationMapper {
      * @param articulation Articulation to convert
      */
     public static ArticulationDTO toDTO(Articulation articulation) {
+        if (articulation == null) return new ArticulationDTO();
+
         List<ArticulationItemDTO> itemsDTO = articulation.getItems().stream().map(ArticulationMapper::toDTO).toList();
         return new ArticulationDTO(itemsDTO);
     }

@@ -60,6 +60,21 @@ class ArticulationControllerTest {
     }
 
     @Test
+    @DisplayName("Should return an empty object when articulation is empty")
+    void getQuestionnaireArticulation_success_empty() throws Exception {
+        // Given a questionnaire with articulation
+        Mockito.when(articulationService.getQuestionnaireArticulation("my-q-id")).thenReturn(null);
+        String expectedJSON = "{}";
+
+        // When we fetch the questionnaire articulation
+        mockMvc.perform(get("/api/persistence/questionnaire/my-q-id/articulation")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
+                // Then we receive a 200 and the articulation are returned
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedJSON));
+    }
+
+    @Test
     @DisplayName("Should trigger an error when we try to fetch articulation from a questionnaire that does not exist")
     void getQuestionnaireArticulation_error_notFound() throws Exception {
         // Given no questionnaire

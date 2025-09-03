@@ -67,4 +67,17 @@ class ArticulationMapperTest {
         assertThat(res).usingRecursiveComparison().isEqualTo(expected);
     }
 
+    @Test
+    @DisplayName("Should convert a null model articulation into DTO")
+    void toDTO_success_null() {
+        // Given a model articulation that is null
+        ArticulationDTO expected = new ArticulationDTO();
+
+        // When we convert it to DTO
+        ArticulationDTO res = ArticulationMapper.toDTO(null);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
 }
