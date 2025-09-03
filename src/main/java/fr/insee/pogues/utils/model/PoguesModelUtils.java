@@ -87,6 +87,21 @@ public class PoguesModelUtils {
     }
 
     /**
+     * Get the roundabout of a questionnaire if it exists.
+     * There should be only one.
+     * @param questionnaire Questionnaire from which we want the roundabout.
+     * @return The roundabout of the questionnaire, or null if there is none.
+     */
+    public static RoundaboutType getQuestionnaireRoundabout(Questionnaire questionnaire) {
+        ComponentType roundabout = questionnaire.getChild().stream()
+                .filter(RoundaboutType.class::isInstance).findFirst().orElse(null);
+        if (roundabout != null) {
+            return (RoundaboutType) roundabout;
+        }
+        return null;
+    }
+
+    /**
      * The iteration reference of the given iteration.
      * If the iteration is a "main" loop, this is null.
      * If it is a linked loop, this is the identifier of the corresponding "main" loop.

@@ -386,7 +386,7 @@ class CodesListServiceTest {
     @Test
     void deleteQuestionnaireCodeList_error_usedByQuestionInLoop() throws Exception {
         // Given a questionnaire with a code list used in a question in a loop
-        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/loop_roudabout.json");
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/loopRoundabout.json");
         String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
         JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
         questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
