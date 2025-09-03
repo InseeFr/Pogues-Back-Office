@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
@@ -56,7 +57,7 @@ public class ArticulationService {
             String message = String.format("Questionnaire with id %s has the formula language %s and not VTL", questionnaire.getId(), questionnaire.getFormulasLanguage());
             throw new QuestionnaireFormulaLanguageNotVTLException(message);
         }
-        if (getQuestionnaireRoundabout(questionnaire) == null) {
+        if (getQuestionnaireRoundabout(questionnaire).isEmpty()) {
             String message = String.format("Questionnaire with id %s does not have a roundabout", questionnaire.getId());
             throw new QuestionnaireRoundaboutNotFoundException(message);
         }
@@ -175,11 +176,11 @@ public class ArticulationService {
     }
 
     private List<VariableType> getQuestionnaireArticulationVariables(Questionnaire questionnaire) {
-        RoundaboutType roundabout = getQuestionnaireRoundabout(questionnaire);
+        Optional<RoundaboutType> optionalRoundabout = getQuestionnaireRoundabout(questionnaire);
         // roundabout cannot be null since we checked if the questionnaire has one beforehand
-        assert roundabout != null;
+        assert optionalRoundabout.isPresent();
 
-        String roundaboutId = roundabout.getLoop().getIterableReference();
+        String roundaboutId = optionalRoundabout.get().getLoop().getIterableReference();
         return questionnaire.getVariables().getVariable().stream().filter(v -> roundaboutId.equals(v.getScope())).toList();
     }
 

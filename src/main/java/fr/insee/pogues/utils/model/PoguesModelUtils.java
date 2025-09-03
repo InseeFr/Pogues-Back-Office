@@ -6,6 +6,7 @@ import fr.insee.pogues.model.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Optional;
 
 /** Helper class to factorize methods on Pogues-Model objects.
  * Some parts of the model should be revised to make this class obsolete. */
@@ -92,13 +93,9 @@ public class PoguesModelUtils {
      * @param questionnaire Questionnaire from which we want the roundabout.
      * @return The roundabout of the questionnaire, or null if there is none.
      */
-    public static RoundaboutType getQuestionnaireRoundabout(Questionnaire questionnaire) {
-        ComponentType roundabout = questionnaire.getChild().stream()
-                .filter(RoundaboutType.class::isInstance).findFirst().orElse(null);
-        if (roundabout != null) {
-            return (RoundaboutType) roundabout;
-        }
-        return null;
+    public static Optional<RoundaboutType> getQuestionnaireRoundabout(Questionnaire questionnaire) {
+        return questionnaire.getChild().stream()
+                .filter(RoundaboutType.class::isInstance).map(RoundaboutType.class::cast).findFirst();
     }
 
     /**

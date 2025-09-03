@@ -1,13 +1,10 @@
 package fr.insee.pogues.exception;
 
-import lombok.Getter;
-
 import static fr.insee.pogues.controller.error.ErrorCode.QUESTIONNAIRE_FORMULA_LANGUAGE_NOT_VTL;
 
 /**
  * Exception that is thrown when one tries to use a feature only available to questionnaire whose formula language is VTL.
  */
-@Getter
 public class QuestionnaireFormulaLanguageNotVTLException extends PoguesException {
 
     public QuestionnaireFormulaLanguageNotVTLException(String message) {
