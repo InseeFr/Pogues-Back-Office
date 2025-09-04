@@ -68,7 +68,7 @@ public class ArticulationService {
      * @param questionnaire Questionnaire to check
      */
     private boolean isQuestionnaireFormulaLanguageInVTL(Questionnaire questionnaire) {
-        return questionnaire.getFormulasLanguage().equals(FormulasLanguageEnum.VTL);
+        return FormulasLanguageEnum.VTL.equals(questionnaire.getFormulasLanguage());
     }
 
     /**
