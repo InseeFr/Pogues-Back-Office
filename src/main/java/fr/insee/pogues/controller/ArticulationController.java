@@ -53,7 +53,7 @@ public class ArticulationController {
 		return ResponseEntity.status(HttpStatus.OK).body(articulationDTO);
 	}
 
-	@Operation(summary = "Get the articulation of a questionnaire, used for pogues frontend",
+	@Operation(summary = "Get the articulation of a questionnaire's backup, used for pogues frontend",
 			responses = { @ApiResponse(content = @Content(mediaType = "application/json")) })
 	@ApiResponses(value = {
 			@ApiResponse(responseCode = "200", description = "Success"),
@@ -61,7 +61,7 @@ public class ArticulationController {
 			@ApiResponse(responseCode = "422", description = "Questionnaire does not have a roundabout"),
 			@ApiResponse(responseCode = "422", description = "Questionnaire is not in VTL") })
 	@GetMapping("/questionnaire/{questionnaireId}/version/{versionId}/articulation")
-	public ResponseEntity<ArticulationDTO> getQuestionnaireArticulation(
+	public ResponseEntity<ArticulationDTO> getQuestionnaireVersionArticulation(
 			@PathVariable(value = "questionnaireId") String ignoredQuestionnaireId,
 			@PathVariable(value = "versionId") UUID versionId
 	) throws Exception {

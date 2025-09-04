@@ -1,0 +1,113 @@
+{
+  "id" : "multimode-id",
+  "genericName" : "QUESTIONNAIRE",
+  "agency" : "fr.insee",
+  "final" : true,
+  "flowLogic" : "FILTER",
+  "formulasLanguage" : "VTL",
+  "lastUpdatedDate" : "Thu Sep 04 2025 14:40:09 GMT+0200 (heure d’été d’Europe centrale)",
+  "Name" : "QUESTIONNA",
+  "Label" : [ "Questionnaire" ],
+  "Control" : [ ],
+  "FlowControl" : [ ],
+  "TargetMode" : [ "CAPI", "CAWI", "CATI", "PAPI" ],
+  "Child" : [ {
+    "id" : "mf5elrcg",
+    "depth" : 1,
+    "genericName" : "MODULE",
+    "type" : "SequenceType",
+    "Name" : "S1",
+    "Label" : [ "Sequence 1" ],
+    "Declaration" : [ ],
+    "Control" : [ ],
+    "FlowControl" : [ ],
+    "TargetMode" : [ "CAPI", "CAWI", "CATI", "PAPI" ],
+    "Child" : [ {
+      "id" : "mf5elrfi",
+      "questionType" : "SIMPLE",
+      "type" : "QuestionType",
+      "Name" : "QSIMPLE",
+      "Label" : [ "Question simple" ],
+      "Declaration" : [ ],
+      "Control" : [ ],
+      "FlowControl" : [ ],
+      "TargetMode" : [ "CAPI", "CAWI", "CATI", "PAPI" ],
+      "Response" : [ {
+        "id" : "mf5ei7i4",
+        "mandatory" : false,
+        "Datatype" : {
+          "typeName" : "TEXT",
+          "type" : "TextDatatypeType",
+          "MaxLength" : 249
+        },
+        "CollectedVariableReference" : "mf5ejwpk"
+      } ]
+    } ]
+  }, {
+    "id" : "idendquest",
+    "depth" : 1,
+    "genericName" : "MODULE",
+    "type" : "SequenceType",
+    "Name" : "QUESTIONNAIRE_END",
+    "Label" : [ "QUESTIONNAIRE_END" ],
+    "Declaration" : [ ],
+    "Control" : [ ],
+    "FlowControl" : [ ],
+    "TargetMode" : [ "CAPI", "CAWI", "CATI", "PAPI" ],
+    "Child" : [ ]
+  } ],
+  "DataCollection" : [ ],
+  "ComponentGroup" : [ {
+    "id" : "mf5ets5k",
+    "Name" : "PAGE_1",
+    "Label" : [ "Components for page 1" ],
+    "MemberReference" : [ "idendquest", "mf5elrcg", "mf5elrfi" ]
+  } ],
+  "CodeLists" : {
+    "CodeList" : [ ]
+  },
+  "Variables" : {
+    "Variable" : [ {
+      "id" : "mf5ejwpk",
+      "type" : "CollectedVariableType",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 249
+      },
+      "Name" : "QSIMPLE",
+      "Label" : "QSIMPLE label"
+    } ]
+  },
+  "multimode": {
+    "questionnaire": {
+      "rules": [
+        {
+          "name": "IS_MOVED",
+          "type": "VTL",
+          "value": "nvl(HABITEZ_VOUS_ICI, true)"
+        }
+      ]
+    },
+    "leaf": {
+      "rules": [
+        {
+          "name": "IS_MOVED",
+          "type": "VTL",
+          "value": "nvl(PRENOM_HABITE_PLUS_LA, false)"
+        },
+        {
+          "name": "IS_MOVED",
+          "type": "VTL",
+          "value": "nvl(fzqfqzgjh, false)"
+        },
+        {
+          "name": "IS_SPLIT",
+          "type": "VTL",
+          "value": "nvl(PRENOM_HABITE_PLUS_LA, false)"
+        }
+      ]
+    }
+  },
+  "childQuestionnaireRef" : [ ]
+}

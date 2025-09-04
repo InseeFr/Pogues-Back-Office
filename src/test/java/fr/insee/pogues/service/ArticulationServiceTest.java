@@ -52,7 +52,7 @@ class ArticulationServiceTest {
         expected.getItems().add(item);
 
         // When we get the questionnaire's articulation
-        Articulation res = articulationService.getQuestionnaireArticulation("m7d5k0hy");
+        Articulation res = articulationService.getQuestionnaireArticulation("articulation-id");
 
         // Then the articulation is fetched
         assertThat(res).usingRecursiveComparison().isEqualTo(expected);
@@ -157,7 +157,7 @@ class ArticulationServiceTest {
         item.setValue("my articulation value");
         item.setType(ValueTypeEnum.VTL);
         expected.getItems().add(item);
-        assertThat(articulationService.getQuestionnaireArticulation("m7d5k0hy")).usingRecursiveComparison().isEqualTo(expected);
+        assertThat(articulationService.getQuestionnaireArticulation("articulation-id")).usingRecursiveComparison().isEqualTo(expected);
 
         // When we update the questionnaire's articulation
         Articulation newArticulation = new Articulation();
@@ -166,11 +166,11 @@ class ArticulationServiceTest {
         newItem.setValue("my new articulation value");
         newItem.setType(ValueTypeEnum.VTL);
         newArticulation.getItems().add(newItem);
-        boolean isCreated = articulationService.upsertQuestionnaireArticulation("m7d5k0hy", newArticulation);
+        boolean isCreated = articulationService.upsertQuestionnaireArticulation("articulation-id", newArticulation);
 
         // Then the articulation is updated
         assertFalse(isCreated);
-        assertThat(articulationService.getQuestionnaireArticulation("m7d5k0hy")).usingRecursiveComparison().isEqualTo(newArticulation);
+        assertThat(articulationService.getQuestionnaireArticulation("articulation-id")).usingRecursiveComparison().isEqualTo(newArticulation);
     }
 
     @Test
@@ -205,13 +205,13 @@ class ArticulationServiceTest {
         String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
         JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
         questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
-        assertNotNull(articulationService.getQuestionnaireArticulation("m7d5k0hy"));
+        assertNotNull(articulationService.getQuestionnaireArticulation("articulation-id"));
 
         // When we delete the articulation
-        assertDoesNotThrow(() -> articulationService.deleteQuestionnaireArticulation("m7d5k0hy"));
+        assertDoesNotThrow(() -> articulationService.deleteQuestionnaireArticulation("articulation-id"));
 
         // Then the articulation is deleted
-        assertNull(articulationService.getQuestionnaireArticulation("m7d5k0hy"));
+        assertNull(articulationService.getQuestionnaireArticulation("articulation-id"));
     }
 
 }

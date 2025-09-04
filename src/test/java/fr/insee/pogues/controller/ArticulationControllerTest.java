@@ -62,7 +62,7 @@ class ArticulationControllerTest {
     @Test
     @DisplayName("Should return an empty object when articulation is empty")
     void getQuestionnaireArticulation_success_empty() throws Exception {
-        // Given a questionnaire with articulation
+        // Given a questionnaire without articulation
         Mockito.when(articulationService.getQuestionnaireArticulation("my-q-id")).thenReturn(null);
         String expectedJSON = "{}";
 
@@ -81,7 +81,7 @@ class ArticulationControllerTest {
         Mockito.when(articulationService.getQuestionnaireArticulation("my-q-id"))
                 .thenThrow(new QuestionnaireNotFoundException("Questionnaire not found"));
 
-        // When we fetch the questionnaire variables
+        // When we fetch the questionnaire articulation
         mockMvc.perform(get("/api/persistence/questionnaire/my-q-id/articulation")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 // Then we receive a 404
@@ -112,7 +112,7 @@ class ArticulationControllerTest {
     }
 
     @Test
-    @DisplayName("Should trigger an error when we try to fetch variables from a questionnaire's backup that does not exist")
+    @DisplayName("Should trigger an error when we try to fetch articulation from a questionnaire's backup that does not exist")
     void getVersionArticulation_error_notFound() throws Exception {
         // Given no questionnaire's version
         UUID versionId = UUID.fromString("123e4567-e89b-12d3-a456-426614174000");
@@ -150,8 +150,8 @@ class ArticulationControllerTest {
 
     @Test
     @DisplayName("Should insert questionnaire articulation")
-    void upsertQuestionnaireVariable_success_created() throws Exception {
-        // Given a variable
+    void upsertQuestionnaireArticulation_success_created() throws Exception {
+        // Given an articulation
         ArticulationDTO articulation = new ArticulationDTO(List.of(
                 new ArticulationItemDTO("my label", "my value"),
                 new ArticulationItemDTO("my other label", "my other value")
@@ -161,7 +161,7 @@ class ArticulationControllerTest {
         Mockito.when(articulationService.upsertQuestionnaireArticulation(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getItems().size(), articulation.getItems().size()))))
                 .thenReturn(true);
 
-        // When we insert the variable in the questionnaire
+        // When we insert the articulation in the questionnaire
         mockMvc.perform(put("/api/persistence/questionnaire/my-q-id/articulation")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(expectedJSON)
@@ -173,7 +173,7 @@ class ArticulationControllerTest {
 
     @Test
     @DisplayName("Should update questionnaire articulation")
-    void upsertQuestionnaireVariable_success_updated() throws Exception {
+    void upsertQuestionnaireArticulation_success_updated() throws Exception {
         // Given a questionnaire with an articulation
         ArticulationDTO articulation = new ArticulationDTO(List.of(
                 new ArticulationItemDTO("my label", "my value"),
