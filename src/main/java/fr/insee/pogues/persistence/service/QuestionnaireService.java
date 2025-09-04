@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
 import fr.insee.pogues.exception.NullReferenceException;
 import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.exception.QuestionnaireNotFoundException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.exceptions.EntityNotFoundException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
@@ -13,7 +14,6 @@ import fr.insee.pogues.transforms.visualize.composition.QuestionnaireComposition
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -84,7 +84,8 @@ public class QuestionnaireService implements IQuestionnaireService{
     public JsonNode getQuestionnaireByID(String id) throws Exception {
         JsonNode questionnaire = this.questionnaireRepository.getQuestionnaireByID(id);
         if (null == questionnaire) {
-            throw new PoguesException(404, "Not found", "Pas de questionnaire pour cet identifiant");
+            String message = String.format("Questionnaire with id %s does not exist", id);
+            throw new QuestionnaireNotFoundException(message);
         }
         questionnaire = modelCleaningService.cleanModel(questionnaire);
         return questionnaire;

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.exception.QuestionnaireNotFoundException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
 import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
 import org.junit.jupiter.api.Test;
@@ -47,9 +48,7 @@ class QuestionnaireServiceTest {
     void questionnaireNotFoundThrowsException() throws Exception {
         when(questionnairesServiceQuery.getQuestionnaireByID("id"))
                 .thenReturn(null);
-        Throwable exception = assertThrows(PoguesException.class,()->questionnaireService.getQuestionnaireByID("id"));
-        assertEquals("Not found",exception.getMessage());
-
+        assertThrows(QuestionnaireNotFoundException.class, ()->questionnaireService.getQuestionnaireByID("id"));
     }
 
     @Test
