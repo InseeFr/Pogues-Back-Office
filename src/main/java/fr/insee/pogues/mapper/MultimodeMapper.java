@@ -1,6 +1,5 @@
 package fr.insee.pogues.mapper;
 
-
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.model.dto.multimode.MultimodeDTO;
 import fr.insee.pogues.model.dto.multimode.MultimodeItemDTO;
@@ -55,10 +54,11 @@ public class MultimodeMapper {
      */
     public static MultimodeDTO toDTO(Multimode multimode) {
         if (multimode == null) return new MultimodeDTO();
-        
-        return new MultimodeDTO(
-            new MultimodeItemDTO(toDTO(multimode.getQuestionnaire().getRules())),
-                new MultimodeItemDTO(toDTO(multimode.getLeaf().getRules())));
+
+        MultimodeItemDTO multimodeQuestionnaireDTO = multimode.getQuestionnaire() == null ? new MultimodeItemDTO() : new MultimodeItemDTO(toDTO(multimode.getQuestionnaire().getRules()));
+        MultimodeItemDTO multimodeLeafDTO = multimode.getLeaf() == null ? new MultimodeItemDTO() : new MultimodeItemDTO(toDTO(multimode.getLeaf().getRules()));
+
+        return new MultimodeDTO(multimodeQuestionnaireDTO, multimodeLeafDTO);
     }
 
     private static List<MultimodeRuleDTO> toDTO(List<Rule> rules) {

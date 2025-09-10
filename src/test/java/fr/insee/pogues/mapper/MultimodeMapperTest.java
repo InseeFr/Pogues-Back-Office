@@ -121,4 +121,19 @@ class MultimodeMapperTest {
         assertThat(res).usingRecursiveComparison().isEqualTo(expected);
     }
 
+    @Test
+    @DisplayName("Should convert incomplete model multimode into DTO")
+    void toDTO_success_incomplete() {
+        // Given a model multimode
+        Multimode multimode = new Multimode();
+
+        MultimodeDTO expected = new MultimodeDTO();
+
+        // When we convert it to DTO
+        MultimodeDTO res = MultimodeMapper.toDTO(multimode);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
+
 }
