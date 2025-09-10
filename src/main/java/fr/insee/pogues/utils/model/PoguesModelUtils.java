@@ -99,6 +99,15 @@ public class PoguesModelUtils {
     }
 
     /**
+     * Check if the questionnaire's formula language is VTL.
+     * @param questionnaire Questionnaire to check
+     * @return Whether the questionnaire language is VTL.
+     */
+    public static boolean isQuestionnaireFormulaLanguageVTL(Questionnaire questionnaire) {
+        return FormulasLanguageEnum.VTL.equals(questionnaire.getFormulasLanguage());
+    }
+
+    /**
      * The iteration reference of the given iteration.
      * If the iteration is a "main" loop, this is null.
      * If it is a linked loop, this is the identifier of the corresponding "main" loop.
