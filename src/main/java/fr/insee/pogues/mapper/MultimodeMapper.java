@@ -55,8 +55,8 @@ public class MultimodeMapper {
     public static MultimodeDTO toDTO(Multimode multimode) {
         if (multimode == null) return new MultimodeDTO();
 
-        MultimodeItemDTO multimodeQuestionnaireDTO = multimode.getQuestionnaire() == null ? new MultimodeItemDTO() : new MultimodeItemDTO(toDTO(multimode.getQuestionnaire().getRules()));
-        MultimodeItemDTO multimodeLeafDTO = multimode.getLeaf() == null ? new MultimodeItemDTO() : new MultimodeItemDTO(toDTO(multimode.getLeaf().getRules()));
+        MultimodeItemDTO multimodeQuestionnaireDTO = multimode.getQuestionnaire() == null ? null : new MultimodeItemDTO(toDTO(multimode.getQuestionnaire().getRules()));
+        MultimodeItemDTO multimodeLeafDTO = multimode.getLeaf() == null ? null : new MultimodeItemDTO(toDTO(multimode.getLeaf().getRules()));
 
         return new MultimodeDTO(multimodeQuestionnaireDTO, multimodeLeafDTO);
     }
