@@ -18,11 +18,15 @@ public class MultimodeMapper {
     public static Multimode toModel(MultimodeDTO multimodeDTO) {
         Multimode multimode = new Multimode();
         Rules leafRules = new Rules();
-        leafRules.getRules().addAll(toModel(multimodeDTO.getLeaf().getRules()));
-        multimode.setLeaf(leafRules);
+        if (multimodeDTO.getLeaf() != null) {
+            leafRules.getRules().addAll(toModel(multimodeDTO.getLeaf().getRules()));
+            multimode.setLeaf(leafRules);
+        }
         Rules questionnaireRules = new Rules();
-        questionnaireRules.getRules().addAll(toModel(multimodeDTO.getQuestionnaire().getRules()));
-        multimode.setQuestionnaire(questionnaireRules);
+        if (multimodeDTO.getQuestionnaire() != null) {
+            questionnaireRules.getRules().addAll(toModel(multimodeDTO.getQuestionnaire().getRules()));
+            multimode.setQuestionnaire(questionnaireRules);
+        }
         return multimode;
     }
 

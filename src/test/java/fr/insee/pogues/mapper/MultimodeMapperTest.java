@@ -59,6 +59,21 @@ class MultimodeMapperTest {
         // It is correctly converted
         assertThat(res).usingRecursiveComparison().isEqualTo(expected);
     }
+    
+    @Test
+    @DisplayName("Should convert incomplete DTO multimode into model")
+    void toModel_success_incomplete() {
+        // Given a DTO multimode
+        MultimodeDTO multimodeDTO = new MultimodeDTO();
+
+        Multimode expected = new Multimode();
+
+        // When we convert it to Pogues model
+        Multimode res = MultimodeMapper.toModel(multimodeDTO);
+
+        // It is correctly converted
+        assertThat(res).usingRecursiveComparison().isEqualTo(expected);
+    }
 
     @Test
     @DisplayName("Should convert model multimode into DTO")
