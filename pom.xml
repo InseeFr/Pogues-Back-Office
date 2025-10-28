@@ -5,14 +5,14 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.6</version>
+		<version>3.5.7</version>
 		<relativePath/>
 	</parent>
 
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>jar</packaging>
-	<version>4.23.2</version>
+	<version>4.23.3</version>
 	<name>Pogues-Back-Office</name>
 
 	<properties>
@@ -26,7 +26,7 @@
 		<saxon.version>12.9</saxon.version>
 		<liquibase.version>4.33.0</liquibase.version>
 
-		<caffeine.version>3.2.2</caffeine.version>
+		<caffeine.version>3.2.3</caffeine.version>
 
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
