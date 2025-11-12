@@ -1,0 +1,216 @@
+{
+  "id" : "mhw86ndx",
+  "genericName" : "QUESTIONNAIRE",
+  "agency" : "fr.insee",
+  "final" : false,
+  "flowLogic" : "FILTER",
+  "formulasLanguage" : "VTL",
+  "lastUpdatedDate" : "Wed Nov 12 2025 17:52:10 GMT+0100 (heure normale d’Europe centrale)",
+  "owner" : "DR59-SNDI59",
+  "Name" : "POGUES_MCQ",
+  "Label" : [ "Multiple choice questions" ],
+  "Control" : [ ],
+  "FlowControl" : [ ],
+  "TargetMode" : [ "CAPI", "CAWI", "CATI", "PAPI" ],
+  "Child" : [ {
+    "id" : "mhw8hbgd",
+    "depth" : 1,
+    "genericName" : "MODULE",
+    "type" : "SequenceType",
+    "Name" : "SEQUENCE",
+    "Label" : [ "\"Sequence\"" ],
+    "Declaration" : [ ],
+    "Control" : [ ],
+    "FlowControl" : [ ],
+    "TargetMode" : [ "CAPI", "CAWI", "CATI", "PAPI" ],
+    "Child" : [ {
+      "id" : "mhw905oi",
+      "questionType" : "MULTIPLE_CHOICE",
+      "type" : "QuestionType",
+      "Name" : "MCQ_BOOLEAN",
+      "Label" : [ "\"Boolean multiple choice question\"" ],
+      "Declaration" : [ ],
+      "Control" : [ ],
+      "FlowControl" : [ ],
+      "TargetMode" : [ "CAPI", "CAWI", "CATI", "PAPI" ],
+      "Response" : [ {
+        "id" : "mhw93qwp",
+        "Datatype" : {
+          "typeName" : "BOOLEAN",
+          "type" : "BooleanDatatypeType"
+        },
+        "CollectedVariableReference" : "mhw8o6zy"
+      }, {
+        "id" : "mhw8ycwf",
+        "Datatype" : {
+          "typeName" : "BOOLEAN",
+          "type" : "BooleanDatatypeType"
+        },
+        "CollectedVariableReference" : "mhw8yx5s"
+      } ],
+      "ResponseStructure" : {
+        "Dimension" : [ {
+          "dimensionType" : "PRIMARY",
+          "dynamic" : "NON_DYNAMIC",
+          "CodeListReference" : "mhw88fz4"
+        }, {
+          "dimensionType" : "MEASURE"
+        } ],
+        "Attribute" : [ ],
+        "Mapping" : [ {
+          "MappingSource" : "mhw93qwp",
+          "MappingTarget" : "1"
+        }, {
+          "MappingSource" : "mhw8ycwf",
+          "MappingTarget" : "2"
+        } ]
+      },
+      "ClarificationQuestion" : [ ],
+      "codeFilters" : [ ]
+    }, {
+      "id" : "mhw81s6e",
+      "questionType" : "MULTIPLE_CHOICE",
+      "type" : "QuestionType",
+      "Name" : "MCQ_CODE_LIST",
+      "Label" : [ "\"Code list multiple choice question\"" ],
+      "Declaration" : [ ],
+      "Control" : [ ],
+      "FlowControl" : [ ],
+      "TargetMode" : [ "CAPI", "CAWI", "CATI", "PAPI" ],
+      "Response" : [ {
+        "id" : "mhw8zgbm",
+        "CodeListReference" : "mhw8h2xc",
+        "Datatype" : {
+          "typeName" : "TEXT",
+          "visualizationHint" : "RADIO",
+          "type" : "TextDatatypeType",
+          "MaxLength" : 1
+        },
+        "CollectedVariableReference" : "mhw8pte3"
+      }, {
+        "id" : "mhw8yvrd",
+        "CodeListReference" : "mhw8h2xc",
+        "Datatype" : {
+          "typeName" : "TEXT",
+          "visualizationHint" : "RADIO",
+          "type" : "TextDatatypeType",
+          "MaxLength" : 1
+        },
+        "CollectedVariableReference" : "mhw8pzib"
+      } ],
+      "ResponseStructure" : {
+        "Dimension" : [ {
+          "dimensionType" : "PRIMARY",
+          "dynamic" : "NON_DYNAMIC",
+          "CodeListReference" : "mhw88fz4"
+        }, {
+          "dimensionType" : "MEASURE"
+        } ],
+        "Attribute" : [ ],
+        "Mapping" : [ {
+          "MappingSource" : "mhw8zgbm",
+          "MappingTarget" : "1"
+        }, {
+          "MappingSource" : "mhw8yvrd",
+          "MappingTarget" : "2"
+        } ]
+      },
+      "ClarificationQuestion" : [ ],
+      "codeFilters" : [ ]
+    } ]
+  }, {
+    "id" : "idendquest",
+    "depth" : 1,
+    "genericName" : "MODULE",
+    "type" : "SequenceType",
+    "Name" : "QUESTIONNAIRE_END",
+    "Label" : [ "QUESTIONNAIRE_END" ],
+    "Declaration" : [ ],
+    "Control" : [ ],
+    "FlowControl" : [ ],
+    "TargetMode" : [ "CAPI", "CAWI", "CATI", "PAPI" ],
+    "Child" : [ ]
+  } ],
+  "DataCollection" : [ {
+    "id" : "s2193-dc",
+    "uri" : "http://ddi:fr.insee:DataCollection.s2193-dc",
+    "Name" : "Enquête capacité à innover et stratégie 2024"
+  } ],
+  "ComponentGroup" : [ {
+    "id" : "mhw884k8",
+    "Name" : "PAGE_1",
+    "Label" : [ "Components for page 1" ],
+    "MemberReference" : [ "mhw8hbgd", "mhw905oi", "mhw81s6e", "idendquest" ]
+  } ],
+  "CodeLists" : {
+    "CodeList" : [ {
+      "id" : "mhw88fz4",
+      "Label" : "FOO_CODE_LIST",
+      "Code" : [ {
+        "Value" : "1",
+        "Label" : "\"Foo 1\"",
+        "Parent" : ""
+      }, {
+        "Value" : "2",
+        "Label" : "\"Foo 2\"",
+        "Parent" : ""
+      } ]
+    }, {
+      "id" : "mhw8h2xc",
+      "Label" : "BAR_CODE_LIST",
+      "Code" : [ {
+        "Value" : "1",
+        "Label" : "\"Bar 1\"",
+        "Parent" : ""
+      }, {
+        "Value" : "2",
+        "Label" : "\"Bar 2\"",
+        "Parent" : ""
+      } ]
+    } ]
+  },
+  "Variables" : {
+    "Variable" : [ {
+      "id" : "mhw8pte3",
+      "type" : "CollectedVariableType",
+      "CodeListReference" : "mhw8h2xc",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 1
+      },
+      "Name" : "MCQ_CODE_LIST1",
+      "Label" : "1 - \"Foo 1\""
+    }, {
+      "id" : "mhw8pzib",
+      "type" : "CollectedVariableType",
+      "CodeListReference" : "mhw8h2xc",
+      "Datatype" : {
+        "typeName" : "TEXT",
+        "type" : "TextDatatypeType",
+        "MaxLength" : 1
+      },
+      "Name" : "MCQ_CODE_LIST2",
+      "Label" : "2 - \"Foo 2\""
+    }, {
+      "id" : "mhw8o6zy",
+      "type" : "CollectedVariableType",
+      "Datatype" : {
+        "typeName" : "BOOLEAN",
+        "type" : "BooleanDatatypeType"
+      },
+      "Name" : "MCQ_BOOLEAN1",
+      "Label" : "1 - \"Foo 1\""
+    }, {
+      "id" : "mhw8yx5s",
+      "type" : "CollectedVariableType",
+      "Datatype" : {
+        "typeName" : "BOOLEAN",
+        "type" : "BooleanDatatypeType"
+      },
+      "Name" : "MCQ_BOOLEAN2",
+      "Label" : "2 - \"Foo 2\""
+    } ]
+  },
+  "childQuestionnaireRef" : [ ]
+}
