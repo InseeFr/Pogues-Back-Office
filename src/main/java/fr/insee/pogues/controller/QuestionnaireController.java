@@ -6,15 +6,19 @@ import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.JSONLunaticService;
 import fr.insee.pogues.persistence.service.PublicEnemyVariableService;
+import fr.insee.pogues.service.ModelValidationService;
+import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,35 +35,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/persistence")
 @Tag(name = "2. Questionnaire Controller")
+@RequiredArgsConstructor
 @Slf4j
 public class QuestionnaireController {
 
-	private ApplicationProperties applicationProperties;
-	private IQuestionnaireService questionnaireService;
-	private JSONLunaticService jsonLunaticService;
-	private PublicEnemyVariableService publicEnemyVariableService;
-	private SuggesterVisuService suggesterVisuService;
-	private UserProvider userProvider;
-
-	public QuestionnaireController(
-			ApplicationProperties applicationProperties,
-			IQuestionnaireService questionnaireService,
-			JSONLunaticService jsonLunaticService,
-			PublicEnemyVariableService publicEnemyVariableService,
-			SuggesterVisuService suggesterVisuService,
-			UserProvider userProvider
-	){
-		this.applicationProperties = applicationProperties;
-		this.questionnaireService = questionnaireService;
-		this.jsonLunaticService = jsonLunaticService;
-		this.publicEnemyVariableService = publicEnemyVariableService;
-		this.suggesterVisuService = suggesterVisuService;
-		this.userProvider = userProvider;
-	}
+	private final ApplicationProperties applicationProperties;
+	private final IQuestionnaireService questionnaireService;
+	private final JSONLunaticService jsonLunaticService;
+	private final PublicEnemyVariableService publicEnemyVariableService;
+	private final SuggesterVisuService suggesterVisuService;
+	private final UserProvider userProvider;
+	private final ModelValidationService modelValidationService;
 
 	private static final String QUESTIONNAIRE_ID_PATTERN ="[a-zA-Z0-9]*";
 	public static final String BAD_REQUEST = "Bad Request";
-    private static final String MESSAGE_INVALID_IDENTIFIER = "Identifier %s is invalid";
+	private static final String MESSAGE_INVALID_IDENTIFIER = "Identifier %s is invalid";
 
 	/**
 	 * @param id: the id of questionnaire
@@ -238,6 +228,7 @@ public class QuestionnaireController {
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
 		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
+			modelValidationService.validate(PoguesDeserializer.questionnaireToJavaObject(jsonContent));
 			questionnaireService.updateQuestionnaire(id, jsonContent);
 			log.info("Questionnaire {} updated", id);
 		} else {
@@ -278,7 +269,9 @@ public class QuestionnaireController {
 	public ResponseEntity<Object> createQuestionnaire(
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
-		String id = jsonContent.get("id").asText();
+		Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonContent);
+		String id = questionnaire.getId();
+		modelValidationService.validate(questionnaire);
 		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
 			questionnaireService.createQuestionnaire(jsonContent);
 			String uriQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/%s",
@@ -287,9 +280,9 @@ public class QuestionnaireController {
 					id);
 			log.debug("New questionnaire created , uri : {}",uriQuestionnaire);
 			return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriQuestionnaire).build();
-    	} else {
-    		throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
-    	}
+		} else {
+			throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
+		}
 	}
 	
 	@PostMapping("questionnaires/json-lunatic")
