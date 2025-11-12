@@ -1,6 +1,7 @@
 package fr.insee.pogues.controller.error;
 
 import fr.insee.pogues.exception.GenericException;
+import fr.insee.pogues.exception.PoguesValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -27,4 +28,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiError apiErrorResponse = new ApiError(500, cause, causeMessage);
         return new ResponseEntity<>(apiErrorResponse, HttpStatus.valueOf(500));
     }
+
+    @ExceptionHandler(PoguesValidationException.class)
+    public ResponseEntity<String> handleModelValidationException(PoguesValidationException validationException) {
+        return new ResponseEntity<>(validationException.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }

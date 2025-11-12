@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.service.ModelValidationService;
 import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,16 +15,16 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class QuestionnaireControllerTest {
+class QuestionnaireControllerTest {
 
     private QuestionnaireController questionnaireController;
     private QuestionnaireServiceStub questionnaireServiceStub;
 
     @BeforeEach
-    public void beforeEach() {
+    void beforeEach() {
         ApplicationProperties fooProperties = new ApplicationProperties("localhost", "http", null, null, null, null, null);
         questionnaireServiceStub = new QuestionnaireServiceStub();
-        questionnaireController = new QuestionnaireController(fooProperties, questionnaireServiceStub, null, null, null, null);
+        questionnaireController = new QuestionnaireController(fooProperties, questionnaireServiceStub, null, null, null, null, new ModelValidationService());
     }
 
     @Test
