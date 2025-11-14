@@ -76,8 +76,12 @@ public class VariablesMapper {
             case VariableDTODatatypeTypeEnum.NUMERIC: {
                 NumericDatatypeType datatype = new NumericDatatypeType();
                 datatype.setTypeName(DatatypeTypeEnum.NUMERIC);
-                datatype.setMinimum(new BigDecimal(variableDTODatatype.getMinimum().toString()));
-                datatype.setMaximum(new BigDecimal(variableDTODatatype.getMaximum().toString()));
+                if ((variableDTODatatype.getMinimum()) != null) {
+                    datatype.setMinimum(new BigDecimal(variableDTODatatype.getMinimum().toString()));
+                }
+                if ((variableDTODatatype.getMaximum()) != null) {
+                    datatype.setMaximum(new BigDecimal(variableDTODatatype.getMaximum().toString()));
+                }
                 if (variableDTODatatype.getDecimals() != null) {
                     datatype.setDecimals(BigInteger.valueOf(variableDTODatatype.getDecimals()));
                 }
