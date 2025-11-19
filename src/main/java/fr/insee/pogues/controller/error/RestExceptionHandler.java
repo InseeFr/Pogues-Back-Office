@@ -1,6 +1,8 @@
 package fr.insee.pogues.controller.error;
 
 import fr.insee.pogues.exception.GenericException;
+import fr.insee.pogues.exception.PoguesIdentifierException;
+import fr.insee.pogues.exception.PoguesDeserializationException;
 import fr.insee.pogues.exception.PoguesValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         ApiMessage message = exception.toApiMessage();
         return new ResponseEntity<>(message, HttpStatusCode.valueOf(message.getStatus()));
     }
+
     @ExceptionHandler(value = { Exception.class })
     public ResponseEntity<ApiError> handleOtherException(Exception e) {
         log.error(e.getMessage(), e);
@@ -30,8 +33,36 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(PoguesValidationException.class)
-    public ResponseEntity<String> handleModelValidationException(PoguesValidationException validationException) {
-        return new ResponseEntity<>(validationException.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ApiMessage> handleModelValidationException(PoguesValidationException validationException) {
+        log.error(validationException.getMessage());
+        ApiMessage apiMessage = new ApiMessage(
+                400,
+                "Questionnaire validation failed.",
+                validationException.getMessage(),
+                ErrorCode.QUESTIONNAIRE_INVALID.label);
+        return new ResponseEntity<>(apiMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PoguesDeserializationException.class)
+    public ResponseEntity<ApiMessage> handleDeserializationException(PoguesDeserializationException deserializationException) {
+        log.error(deserializationException.getMessage());
+        ApiMessage apiMessage = new ApiMessage(
+                400,
+                "Error when de-serializing Pogues questionnaire.",
+                deserializationException.getMessage(),
+                ErrorCode.QUESTIONNAIRE_INVALID.label);
+        return new ResponseEntity<>(apiMessage, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(PoguesIdentifierException.class)
+    public ResponseEntity<ApiMessage> handleInvalidIdentifierException(PoguesIdentifierException identifierException) {
+        log.error(identifierException.getMessage());
+        ApiMessage apiMessage = new ApiMessage(
+                400,
+                "Identifier is invalid.",
+                identifierException.getMessage(),
+                ErrorCode.IDENTIFIER_INVALID.label);
+        return new ResponseEntity<>(apiMessage, HttpStatus.BAD_REQUEST);
     }
 
 }

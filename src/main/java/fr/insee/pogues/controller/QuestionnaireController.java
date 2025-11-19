@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
-import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.exception.PoguesIdentifierException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.JSONLunaticService;
@@ -48,8 +48,6 @@ public class QuestionnaireController {
 	private final ModelValidationService modelValidationService;
 
 	private static final String QUESTIONNAIRE_ID_PATTERN ="[a-zA-Z0-9]*";
-	public static final String BAD_REQUEST = "Bad Request";
-	private static final String MESSAGE_INVALID_IDENTIFIER = "Identifier %s is invalid";
 
 	/**
 	 * @param id: the id of questionnaire
@@ -150,8 +148,7 @@ public class QuestionnaireController {
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
 	public ResponseEntity<Object> getQuestionnaireStamps() throws Exception {
-		List<JsonNode> questionnairesStamps = new ArrayList<>();
-		questionnairesStamps.addAll(questionnaireService.getQuestionnairesStamps());
+        List<JsonNode> questionnairesStamps = new ArrayList<>(questionnaireService.getQuestionnairesStamps());
 		return ResponseEntity.status(HttpStatus.OK).body(questionnairesStamps);
 	}
 	
@@ -189,7 +186,7 @@ public class QuestionnaireController {
 	})
 	public ResponseEntity<ArrayNode> getVariables(
 			@PathVariable(value = "id") String id
-	) throws Exception {
+	) {
 		ArrayNode result = publicEnemyVariableService.getVariablesByQuestionnaireForPublicEnemy(id);
 		return ResponseEntity.status(HttpStatus.OK).body(result);
 	}
@@ -204,7 +201,6 @@ public class QuestionnaireController {
             @ApiResponse(responseCode = "204", description = "No content"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
-//	@OwnerRestricted
 	public ResponseEntity<Object> deleteJsonLunatic(
 			@PathVariable(value = "id") String id
 	) throws Exception {
@@ -221,19 +217,18 @@ public class QuestionnaireController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success"),
-            @ApiResponse(responseCode = "404", description = "Not found")
+            @ApiResponse(responseCode = "400", description = "Invalid"),
+            @ApiResponse(responseCode = "404", description = "Not found"),
     })
 	public ResponseEntity<Object> updateQuestionnaire(
 			@PathVariable(value = "id") String id,
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
-		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
-			modelValidationService.validate(PoguesDeserializer.questionnaireToJavaObject(jsonContent));
-			questionnaireService.updateQuestionnaire(id, jsonContent);
-			log.info("Questionnaire {} updated", id);
-		} else {
-			throw new PoguesException(400, BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
-		}
+        if (! id.matches(QUESTIONNAIRE_ID_PATTERN))
+            throw new PoguesIdentifierException(id);
+        modelValidationService.validate(PoguesDeserializer.questionnaireToJavaObject(jsonContent));
+        questionnaireService.updateQuestionnaire(id, jsonContent);
+        log.info("Questionnaire {} updated", id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 	
@@ -264,25 +259,24 @@ public class QuestionnaireController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created"),
-            @ApiResponse(responseCode = "400", description = "Entity already exists")
+            @ApiResponse(responseCode = "400", description = "Invalid"),
+            @ApiResponse(responseCode = "409", description = "Entity already exists"),
     })
 	public ResponseEntity<Object> createQuestionnaire(
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
 		Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonContent);
 		String id = questionnaire.getId();
-		modelValidationService.validate(questionnaire);
-		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
-			questionnaireService.createQuestionnaire(jsonContent);
-			String uriQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/%s",
-					applicationProperties.scheme(),
-					applicationProperties.host(),
-					id);
-			log.debug("New questionnaire created , uri : {}",uriQuestionnaire);
-			return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriQuestionnaire).build();
-		} else {
-			throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
-		}
+        if (! id.matches(QUESTIONNAIRE_ID_PATTERN))
+            throw new PoguesIdentifierException(id);
+        modelValidationService.validate(questionnaire);
+        questionnaireService.createQuestionnaire(jsonContent);
+        String questionnaireUri = String.format("%s://%s/api/persistence/questionnaire/%s",
+                applicationProperties.scheme(),
+                applicationProperties.host(),
+                id);
+        log.info("New questionnaire created , uri: {}", questionnaireUri);
+        return ResponseEntity.status(HttpStatus.CREATED).header("Location: ", questionnaireUri).build();
 	}
 	
 	@PostMapping("questionnaires/json-lunatic")
@@ -293,23 +287,22 @@ public class QuestionnaireController {
     )
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Created"),
-            @ApiResponse(responseCode = "400", description = "Entity already exists")
+            @ApiResponse(responseCode = "400", description = "Invalid"),
+            @ApiResponse(responseCode = "409", description = "Entity already exists"),
     })
 	public ResponseEntity<Object> createJsonLunatic(
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
 		String id = jsonContent.get("id").asText();
-		if (id.matches(QUESTIONNAIRE_ID_PATTERN)) {
-			jsonLunaticService.createJsonLunatic(jsonContent);
-			String uriJsonLunaticQuestionnaire = String.format("%s://%s/api/persistence/questionnaire/json-lunatic/%s",
-					applicationProperties.scheme(),
-					applicationProperties.host(),
-					id);
-			log.debug("New Json Lunatic created , uri : {}", uriJsonLunaticQuestionnaire);
-			return ResponseEntity.status(HttpStatus.CREATED).header("Location", uriJsonLunaticQuestionnaire).build();
-		} else {
-			throw new PoguesException(400,BAD_REQUEST,String.format(MESSAGE_INVALID_IDENTIFIER,id));
-		}
+        if (! id.matches(QUESTIONNAIRE_ID_PATTERN))
+            throw new PoguesIdentifierException(id);
+        jsonLunaticService.createJsonLunatic(jsonContent);
+        String jsonLunaticUri = String.format("%s://%s/api/persistence/questionnaire/json-lunatic/%s",
+                applicationProperties.scheme(),
+                applicationProperties.host(),
+                id);
+        log.info("New Json Lunatic created, uri: {}", jsonLunaticUri);
+        return ResponseEntity.status(HttpStatus.CREATED).header("Location: ", jsonLunaticUri).build();
 	}
 
 	@GetMapping("questionnaire/{id}/nomenclatures")
