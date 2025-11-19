@@ -1,8 +1,9 @@
 package fr.insee.pogues.controller.error;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.pogues.exception.GenericException;
-import fr.insee.pogues.exception.PoguesIdentifierException;
 import fr.insee.pogues.exception.PoguesDeserializationException;
+import fr.insee.pogues.exception.PoguesIdentifierException;
 import fr.insee.pogues.exception.PoguesValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -35,34 +36,45 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(PoguesValidationException.class)
     public ResponseEntity<ApiMessage> handleModelValidationException(PoguesValidationException validationException) {
         log.error(validationException.getMessage());
+        int httpStatusCode = 400;
         ApiMessage apiMessage = new ApiMessage(
-                400,
+                httpStatusCode,
                 "Questionnaire validation failed.",
                 validationException.getMessage(),
                 ErrorCode.QUESTIONNAIRE_INVALID.label);
-        return new ResponseEntity<>(apiMessage, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiMessage, HttpStatus.valueOf(httpStatusCode));
     }
 
     @ExceptionHandler(PoguesDeserializationException.class)
     public ResponseEntity<ApiMessage> handleDeserializationException(PoguesDeserializationException deserializationException) {
         log.error(deserializationException.getMessage());
+        int httpStatusCode = 400;
         ApiMessage apiMessage = new ApiMessage(
-                400,
+                httpStatusCode,
                 "Error when de-serializing Pogues questionnaire.",
                 deserializationException.getMessage(),
                 ErrorCode.QUESTIONNAIRE_INVALID.label);
-        return new ResponseEntity<>(apiMessage, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiMessage, HttpStatus.valueOf(httpStatusCode));
+    }
+
+    // Note: jackson exception should be wrapped
+    @ExceptionHandler({PoguesDeserializationException.class, JsonProcessingException.class})
+    public ResponseEntity<String> handleSerializationException(Exception exception) {
+        log.error(exception.getMessage());
+        return new ResponseEntity<>(
+                "Error when serializing Pogues questionnaire.", HttpStatus.valueOf(500));
     }
 
     @ExceptionHandler(PoguesIdentifierException.class)
     public ResponseEntity<ApiMessage> handleInvalidIdentifierException(PoguesIdentifierException identifierException) {
         log.error(identifierException.getMessage());
+        int httpStatusCode = 400;
         ApiMessage apiMessage = new ApiMessage(
-                400,
+                httpStatusCode,
                 "Identifier is invalid.",
                 identifierException.getMessage(),
                 ErrorCode.IDENTIFIER_INVALID.label);
-        return new ResponseEntity<>(apiMessage, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(apiMessage, HttpStatus.valueOf(httpStatusCode));
     }
 
 }

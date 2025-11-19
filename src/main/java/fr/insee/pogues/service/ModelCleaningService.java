@@ -4,6 +4,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.conversion.JSONSerializer;
+import fr.insee.pogues.exception.PoguesDeserializationException;
+import fr.insee.pogues.exception.PoguesSerializationException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.service.modelcleaning.rules.ClarificationCleaner;
 import fr.insee.pogues.transforms.visualize.ModelTransformer;
@@ -29,7 +31,7 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 @Slf4j
 public class ModelCleaningService implements ModelTransformer {
 
-    public JsonNode cleanModel(JsonNode jsonNodeQuestionnaire) throws JAXBException, UnsupportedEncodingException, JsonProcessingException {
+    public JsonNode cleanModel(JsonNode jsonNodeQuestionnaire) throws PoguesDeserializationException, PoguesSerializationException, JsonProcessingException {
         Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonNodeQuestionnaire);
         cleanModel(questionnaire);
         return jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaire));

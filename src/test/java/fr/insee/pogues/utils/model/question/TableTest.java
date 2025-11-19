@@ -1,9 +1,9 @@
 package fr.insee.pogues.utils.model.question;
 
+import fr.insee.pogues.exception.PoguesDeserializationException;
 import fr.insee.pogues.model.*;
 import org.junit.jupiter.api.Test;
 
-import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class TableTest {
 
     @Test
-    void testGetUniqueResponseType() throws JAXBException, URISyntaxException, IOException {
+    void testGetUniqueResponseType() throws URISyntaxException, IOException, PoguesDeserializationException {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/complexTableWithCodesLists.json");
         QuestionType table = findQuestionWithId(questionnaire, "m7d6ws56");
 
@@ -33,7 +33,7 @@ class TableTest {
 
 
     @Test
-    void testGetUniqueResponseTypeWhenSeveralResponseTypeAreEquals() throws JAXBException, URISyntaxException, IOException {
+    void testGetUniqueResponseTypeWhenSeveralResponseTypeAreEquals() throws URISyntaxException, IOException, PoguesDeserializationException {
         Questionnaire questionnaire = loadQuestionnaireFromResources("service/tableWithSameDataTypeFor2Measures.json");
         QuestionType table = findQuestionWithId(questionnaire, "m8fv4po6");
 
