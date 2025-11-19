@@ -5,7 +5,7 @@ on:
     branches:
       - "main"
     paths-ignore:
-      ["docs/**", "Dockerfile", "LICENSE", "CHANGELOG.md", "README.md"]
+      ["docs/**", "Dockerfile", "LICENSE", "CHANGELOG.md", "README.md", ".github/**"]
 
 env:
   JAVA_VERSION: "21"
