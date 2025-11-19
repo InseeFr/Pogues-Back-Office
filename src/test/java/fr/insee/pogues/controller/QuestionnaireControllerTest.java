@@ -3,7 +3,7 @@ package fr.insee.pogues.controller;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
-import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.exception.PoguesIdentifierException;
 import fr.insee.pogues.service.ModelValidationService;
 import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ class QuestionnaireControllerTest {
     }
 
     @Test
-    void testCreateBadIdQuestionnaire() throws Exception {
+    void testCreateBadIdQuestionnaire() {
         // Given
         // a questionnaire with a valid id
         ObjectNode fakeQuestionnaire = JsonNodeFactory.instance.objectNode();
@@ -37,20 +37,19 @@ class QuestionnaireControllerTest {
         // When
         // calling the "create questionnaire" controller
         // test if exception is thrown
-        PoguesException exception = assertThrows(
-                PoguesException.class,
+        PoguesIdentifierException identifierException = assertThrows(
+                PoguesIdentifierException.class,
                 () -> questionnaireController.createQuestionnaire(fakeQuestionnaire));
 
         // Then
-        assertEquals("Bad Request", exception.getMessage());
-        assertEquals(400, exception.getStatus());
+        assertEquals("Identifier bad-id is invalid.", identifierException.getMessage());
 
         // test if the method of create questionnaire is never called
         assertEquals(0, questionnaireServiceStub.getGetCreateQuestionnaireCalls());
     }
 
     @Test
-    void testCreateGoodIdQuestionnaire() throws Exception {
+    void testCreateGoodIdQuestionnaire() {
         // Given
         // a questionnaire with a valid id
         ObjectNode fakeQuestionnaire = JsonNodeFactory.instance.objectNode();

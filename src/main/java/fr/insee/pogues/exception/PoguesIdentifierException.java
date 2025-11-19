@@ -9,7 +9,7 @@ public class PoguesIdentifierException extends Exception {
      * @param id Invalid identifier value.
      */
     public PoguesIdentifierException(String id) {
-        super("Identifier %s is invalid".formatted(id));
+        super("Identifier %s is invalid.".formatted(id));
     }
 
 }

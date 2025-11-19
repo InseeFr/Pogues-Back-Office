@@ -276,7 +276,7 @@ public class QuestionnaireController {
                 applicationProperties.host(),
                 id);
         log.info("New questionnaire created , uri: {}", questionnaireUri);
-        return ResponseEntity.status(HttpStatus.CREATED).header("Location: ", questionnaireUri).build();
+        return ResponseEntity.status(HttpStatus.CREATED).header("Location", questionnaireUri).build();
 	}
 	
 	@PostMapping("questionnaires/json-lunatic")
@@ -302,7 +302,7 @@ public class QuestionnaireController {
                 applicationProperties.host(),
                 id);
         log.info("New Json Lunatic created, uri: {}", jsonLunaticUri);
-        return ResponseEntity.status(HttpStatus.CREATED).header("Location: ", jsonLunaticUri).build();
+        return ResponseEntity.status(HttpStatus.CREATED).header("Location", jsonLunaticUri).build();
 	}
 
 	@GetMapping("questionnaire/{id}/nomenclatures")

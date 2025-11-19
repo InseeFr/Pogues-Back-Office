@@ -1,10 +1,6 @@
 package fr.insee.pogues.controller.error;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import fr.insee.pogues.exception.GenericException;
-import fr.insee.pogues.exception.PoguesDeserializationException;
-import fr.insee.pogues.exception.PoguesIdentifierException;
-import fr.insee.pogues.exception.PoguesValidationException;
+import fr.insee.pogues.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -57,8 +53,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiMessage, HttpStatus.valueOf(httpStatusCode));
     }
 
-    // Note: jackson exception should be wrapped
-    @ExceptionHandler({PoguesDeserializationException.class, JsonProcessingException.class})
+    @ExceptionHandler(PoguesSerializationException.class)
     public ResponseEntity<String> handleSerializationException(Exception exception) {
         log.error(exception.getMessage());
         return new ResponseEntity<>(
