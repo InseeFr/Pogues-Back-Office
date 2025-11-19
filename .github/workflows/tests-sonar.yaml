@@ -1,0 +1,98 @@
+name: Tests and Sonar analysis
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    paths-ignore:
+      ["docs/**", "Dockerfile", "LICENSE", "CHANGELOG.md", "README.md"]
+
+env:
+  JAVA_VERSION: "21"
+
+jobs:
+  pogues-model:
+    if: ${{ (github.event.pull_request.draft == false) && !contains(github.event.pull_request.labels.*.name, 'deploy-snapshot') }}
+    name: Check Pogues-Model lib version exists
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.get-version.outputs.version }}
+      available: ${{ steps.check-available.outputs.available }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Get Pogues-Model Version
+        id: get-version
+        run: echo "version=$(mvn help:evaluate -Dexpression='pogues-model.version' -q -DforceStdout)" >> $GITHUB_OUTPUT
+
+      - name: Check if Pogues-Model ${{ steps.get-version.outputs.version }} is available
+        id: check-available
+        run: |
+          mvn dependency:get -Dartifact=fr.insee.pogues:pogues-model:${{steps.get-version.outputs.version}} --no-transfer-progress
+          result=$?
+          if [[ $result -eq 0 ]]; then
+            echo "Pogues-Model ${{steps.get-version.outputs.version}} is available."
+            echo "available=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          echo "available=false" >> $GITHUB_OUTPUT
+
+      - name: Check Pogues-Model lib tag ${{ steps.get-version.outputs.version }} existence
+        id: check-tag-exists
+        uses: mukunku/tag-exists-action@v1.6.0
+        with:
+          repo: InseeFr/Pogues-Model
+          tag: ${{ steps.get-version.outputs.version }}
+
+      - name: Pogues-Model lib tag verification
+        id: check-tag
+        run: |
+          if [[ "${{ steps.check-tag-exists.outputs.exists }}" == "false" ]]; then
+            echo "The tag v${{ steps.get-version.outputs.version }} doesn't exist in Pogues-Model repo."
+            exit 1
+          fi
+
+  sonar:
+    needs: pogues-model
+    name: Run tests and sonar analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          distribution: "temurin"
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - name: Checkout Pogues-Model lib repo
+        if: ${{ needs.pogues-model.outputs.available == 'false' }}
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: ${{ needs.pogues-model.outputs.version }}
+          repository: InseeFr/Pogues-Model
+          path: Pogues-Model
+
+      - name: Build Pogues-Model lib
+        if: ${{ needs.pogues-model.outputs.available == 'false' }}
+        working-directory: ./Pogues-Model
+        run: mvn install --no-transfer-progress -DskipTests=true -Dmaven.javadoc.skip=true
+
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.organization=inseefr -Dsonar.projectKey=InseeFr_Pogues-Back-Office -Dsonar.host.url=https://sonarcloud.io
