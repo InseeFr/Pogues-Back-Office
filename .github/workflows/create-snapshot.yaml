@@ -36,7 +36,7 @@ jobs:
       - name: Check if Pogues-Model ${{ steps.get-version.outputs.version }} is available
         id: check-available
         run: |
-          mvn dependency:get -Dartifact=fr.insee.pogues:pogues-model:${{steps.get-version.outputs.version}}
+          mvn dependency:get -Dartifact=fr.insee.pogues:pogues-model:${{steps.get-version.outputs.version}} --no-transfer-progress
           result=$?
           if [[ $result -eq 0 ]]; then
             echo "Pogues-Model ${{steps.get-version.outputs.version}} is available."
