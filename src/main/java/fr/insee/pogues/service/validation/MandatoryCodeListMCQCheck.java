@@ -57,5 +57,4 @@ public class MandatoryCodeListMCQCheck implements ValidationStep {
         return question.getResponse().getFirst().getCodeListReference() != null;
     }
 
-
 }

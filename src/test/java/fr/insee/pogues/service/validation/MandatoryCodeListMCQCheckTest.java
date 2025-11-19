@@ -4,6 +4,7 @@ import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.model.QuestionType;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.model.SequenceType;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -14,20 +15,23 @@ import static org.junit.jupiter.api.Assertions.*;
 class MandatoryCodeListMCQCheckTest {
 
     private final ClassLoader classLoader = this.getClass().getClassLoader();
+    private Questionnaire questionnaireWithMCQ;
+
+    @BeforeEach
+    void parseTestQuestionnaire() throws JAXBException {
+        questionnaireWithMCQ = new JSONDeserializer().deserialize(
+                classLoader.getResourceAsStream("questionnaires/multiple-choice-questions.json"));
+    }
 
     @Test
     @DisplayName("Mandatory undefined, should be valid")
-    void mandatoryUndefined() throws JAXBException {
-        Questionnaire questionnaireWithMCQ = new JSONDeserializer().deserialize(
-                classLoader.getResourceAsStream("questionnaires/multiple-choice-questions.json"));
+    void mandatoryUndefined() {
         assertTrue(new MandatoryCodeListMCQCheck().validate(questionnaireWithMCQ));
     }
 
     @Test
     @DisplayName("Mandatory boolean MCQ, should be valid")
-    void mandatoryBooleanMCQ() throws JAXBException {
-        Questionnaire questionnaireWithMCQ = new JSONDeserializer().deserialize(
-                classLoader.getResourceAsStream("questionnaires/multiple-choice-questions.json"));
+    void mandatoryBooleanMCQ() {
         SequenceType sequence = (SequenceType) questionnaireWithMCQ.getChild().getFirst();
         QuestionType booleanMCQ = (QuestionType) sequence.getChild().getFirst();
         booleanMCQ.setMandatory(true);
@@ -39,9 +43,7 @@ class MandatoryCodeListMCQCheckTest {
 
     @Test
     @DisplayName("Mandatory code list MCQ, should be invalid")
-    void mandatoryCodeListMCQ() throws JAXBException {
-        Questionnaire questionnaireWithMCQ = new JSONDeserializer().deserialize(
-                classLoader.getResourceAsStream("questionnaires/multiple-choice-questions.json"));
+    void mandatoryCodeListMCQ() {
         SequenceType sequence = (SequenceType) questionnaireWithMCQ.getChild().getFirst();
         QuestionType codeListMCQ = (QuestionType) sequence.getChild().get(1);
         codeListMCQ.setMandatory(true);
