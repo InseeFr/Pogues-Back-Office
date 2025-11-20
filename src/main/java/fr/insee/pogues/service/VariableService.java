@@ -75,17 +75,13 @@ public class VariableService {
      * Get the questionnaire's variables and, if they have a scope, compute the scope name instead of the id.
      * @param questionnaire Questionnaire from which we want the variables
      * @return Questionnaire's variables with a readable scope.
+     * @throws IllegalIterationException 
      */
-    private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) {
+    private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) throws IllegalIterationException {
         List<VariableType> variables = questionnaire.getVariables().getVariable().stream().toList();
-        variables.forEach(v -> {
-            try {
-                computeScopeNameFromScopeId(v, questionnaire);
-            } catch (IllegalIterationException e) {
-                log.error(String.format("Error while getting scope name from variable %s", v.getName()));
-                e.printStackTrace();
-            }
-        });
+        for (VariableType variable : variables) {
+            computeScopeNameFromScopeId(variable, questionnaire);
+        }
         return variables;
     }
 
