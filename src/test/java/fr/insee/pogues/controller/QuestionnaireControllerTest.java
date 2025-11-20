@@ -42,7 +42,7 @@ class QuestionnaireControllerTest {
                 () -> questionnaireController.createQuestionnaire(fakeQuestionnaire));
 
         // Then
-        assertEquals("Identifier bad-id is invalid.", identifierException.getMessage());
+        assertEquals("Invalid questionnaire identifier: bad-id", identifierException.getMessage());
 
         // test if the method of create questionnaire is never called
         assertEquals(0, questionnaireServiceStub.getGetCreateQuestionnaireCalls());
