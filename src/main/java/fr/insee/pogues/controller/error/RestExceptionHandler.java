@@ -60,15 +60,15 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 "Error when serializing Pogues questionnaire.", HttpStatus.valueOf(500));
     }
 
-    @ExceptionHandler(PoguesIdentifierException.class)
-    public ResponseEntity<ApiMessage> handleInvalidIdentifierException(PoguesIdentifierException identifierException) {
-        log.error(identifierException.getMessage());
+    @ExceptionHandler(QuestionnaireIdentifierException.class)
+    public ResponseEntity<ApiMessage> handleInvalidIdentifierException(QuestionnaireIdentifierException exception) {
+        log.error(exception.getMessage());
         int httpStatusCode = 400;
         ApiMessage apiMessage = new ApiMessage(
                 httpStatusCode,
-                "Identifier is invalid.",
-                identifierException.getMessage(),
-                ErrorCode.IDENTIFIER_INVALID.label);
+                "Questionnaire identifier is invalid.",
+                exception.getMessage(),
+                ErrorCode.QUESTIONNAIRE_IDENTIFIER_INVALID.label);
         return new ResponseEntity<>(apiMessage, HttpStatus.valueOf(httpStatusCode));
     }
 

@@ -3,7 +3,7 @@ package fr.insee.pogues.controller;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
-import fr.insee.pogues.exception.PoguesIdentifierException;
+import fr.insee.pogues.exception.QuestionnaireIdentifierException;
 import fr.insee.pogues.service.ModelValidationService;
 import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,8 +37,8 @@ class QuestionnaireControllerTest {
         // When
         // calling the "create questionnaire" controller
         // test if exception is thrown
-        PoguesIdentifierException identifierException = assertThrows(
-                PoguesIdentifierException.class,
+        QuestionnaireIdentifierException identifierException = assertThrows(
+                QuestionnaireIdentifierException.class,
                 () -> questionnaireController.createQuestionnaire(fakeQuestionnaire));
 
         // Then

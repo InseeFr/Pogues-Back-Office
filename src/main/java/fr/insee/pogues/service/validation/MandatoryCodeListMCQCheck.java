@@ -48,6 +48,7 @@ public class MandatoryCodeListMCQCheck implements ValidationStep {
             throw new IllegalStateException("Question " + question + " has no response.");
         // A 'code list' multiple choice question has a code list reference in its responses
         return question.getResponse().getFirst().getCodeListReference() != null;
+
     }
 
 }

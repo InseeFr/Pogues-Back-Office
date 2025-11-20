@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
-import fr.insee.pogues.exception.PoguesIdentifierException;
+import fr.insee.pogues.exception.QuestionnaireIdentifierException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.JSONLunaticService;
@@ -225,7 +225,7 @@ public class QuestionnaireController {
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
         if (! id.matches(QUESTIONNAIRE_ID_PATTERN))
-            throw new PoguesIdentifierException(id);
+            throw new QuestionnaireIdentifierException(id);
         modelValidationService.validate(PoguesDeserializer.questionnaireToJavaObject(jsonContent));
         questionnaireService.updateQuestionnaire(id, jsonContent);
         log.info("Questionnaire {} updated", id);
@@ -268,7 +268,7 @@ public class QuestionnaireController {
 		Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonContent);
 		String id = questionnaire.getId();
         if (! id.matches(QUESTIONNAIRE_ID_PATTERN))
-            throw new PoguesIdentifierException(id);
+            throw new QuestionnaireIdentifierException(id);
         modelValidationService.validate(questionnaire);
         questionnaireService.createQuestionnaire(jsonContent);
         String questionnaireUri = String.format("%s://%s/api/persistence/questionnaire/%s",
@@ -295,7 +295,7 @@ public class QuestionnaireController {
 	) throws Exception {
 		String id = jsonContent.get("id").asText();
         if (! id.matches(QUESTIONNAIRE_ID_PATTERN))
-            throw new PoguesIdentifierException(id);
+            throw new QuestionnaireIdentifierException(id);
         jsonLunaticService.createJsonLunatic(jsonContent);
         String jsonLunaticUri = String.format("%s://%s/api/persistence/questionnaire/json-lunatic/%s",
                 applicationProperties.scheme(),
