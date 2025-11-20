@@ -12,6 +12,10 @@ import java.util.List;
 @Service
 public class ModelValidationService {
 
+    /**
+     * Checks if there is any issue in the questionnaire (e.g. an invalid question property).
+     * @throws PoguesValidationException if there is.
+     */
     public void validate(Questionnaire questionnaire) throws PoguesValidationException {
         List<ValidationStep> validationSteps = List.of(
                 new MandatoryCodeListMCQCheck()

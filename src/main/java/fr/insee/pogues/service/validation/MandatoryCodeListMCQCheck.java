@@ -7,7 +7,7 @@ import java.util.Optional;
 
 /**
  * Validation step that checks that the questionnaire doesn't contain "code list" multiple choice question
- * with the mandatory property.
+ * with the mandatory property (it is only allowed for "boolean" multiple choice question).
  */
 public class MandatoryCodeListMCQCheck implements ValidationStep {
 
@@ -40,6 +40,7 @@ public class MandatoryCodeListMCQCheck implements ValidationStep {
         return isCodeListMCQ(question) && Boolean.TRUE.equals(question.isMandatory());
     }
 
+    /** Checks if the question is a multiple choice question, and if its response type is 'code list'. */
     private static boolean isCodeListMCQ(QuestionType question) {
         if (! QuestionTypeEnum.MULTIPLE_CHOICE.equals(question.getQuestionType()))
             return false;
