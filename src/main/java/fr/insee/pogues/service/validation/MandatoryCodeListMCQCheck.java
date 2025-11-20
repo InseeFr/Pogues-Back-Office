@@ -3,6 +3,7 @@ package fr.insee.pogues.service.validation;
 import fr.insee.pogues.model.*;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Validation step that checks that the questionnaire doesn't contain "code list" multiple choice question
@@ -10,42 +11,33 @@ import java.util.List;
  */
 public class MandatoryCodeListMCQCheck implements ValidationStep {
 
-    /** Local variable to store the invalid question that might be found. */
-    private QuestionType invalidQuestion;
-
     @Override
-    public String errorMessage() {
-        if (invalidQuestion == null)
-            throw new IllegalStateException("No invalid question found.");
-        return "Les question QCM de type \"Liste de codes\" ne peuvent pas être obligatoires (question '%s')."
-                .formatted(invalidQuestion.getName());
-    }
+    public ValidationResult validate(Questionnaire questionnaire) {
+        Optional<QuestionType> invalidQuestion = lookForInvalidCase(questionnaire.getChild());
 
-    @Override
-    public boolean validate(Questionnaire questionnaire) {
-        return !containsInvalidCase(questionnaire.getChild());
+        if (invalidQuestion.isEmpty())
+            return ValidationResult.valid();
+
+        String errorMessage = String.format(
+                "Les question QCM de type \"Liste de codes\" ne peuvent pas être obligatoires (question '%s').",
+                invalidQuestion.get().getName());
+        return ValidationResult.invalid(errorMessage);
     }
 
     /** Returns true if a "code list" multiple choice question with the mandatory property is found in the
      * questionnaire. */
-    private boolean containsInvalidCase(List<ComponentType> components) {
+    private Optional<QuestionType> lookForInvalidCase(List<ComponentType> components) {
         for (ComponentType component : components) {
-            if (component instanceof SequenceType sequenceType && containsInvalidCase(sequenceType.getChild()))
-                return true;
-            if (isMandatoryCodeListMCQ(component))
-                return true;
+            if (component instanceof SequenceType sequenceType)
+                return lookForInvalidCase(sequenceType.getChild());
+            if ((component instanceof QuestionType question) && isMandatoryCodeListMCQ(question))
+                return Optional.of(question);
         }
-        return false;
+        return Optional.empty();
     }
 
-    private boolean isMandatoryCodeListMCQ(ComponentType component) {
-        if (! (component instanceof QuestionType question))
-            return false;
-        if (isCodeListMCQ(question) && Boolean.TRUE.equals(question.isMandatory())) {
-            invalidQuestion = question;
-            return true;
-        }
-        return false;
+    private boolean isMandatoryCodeListMCQ(QuestionType question) {
+        return isCodeListMCQ(question) && Boolean.TRUE.equals(question.isMandatory());
     }
 
     private static boolean isCodeListMCQ(QuestionType question) {

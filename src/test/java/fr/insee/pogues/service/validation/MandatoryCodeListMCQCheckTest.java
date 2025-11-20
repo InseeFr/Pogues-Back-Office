@@ -26,7 +26,9 @@ class MandatoryCodeListMCQCheckTest {
     @Test
     @DisplayName("Mandatory undefined, should be valid")
     void mandatoryUndefined() {
-        assertTrue(new MandatoryCodeListMCQCheck().validate(questionnaireWithMCQ));
+        ValidationResult validationResult = new MandatoryCodeListMCQCheck().validate(questionnaireWithMCQ);
+        assertTrue(validationResult.isValid());
+        assertNull(validationResult.errorMessage());
     }
 
     @Test
@@ -36,9 +38,9 @@ class MandatoryCodeListMCQCheckTest {
         QuestionType booleanMCQ = (QuestionType) sequence.getChild().getFirst();
         booleanMCQ.setMandatory(true);
 
-        var mandatoryCodeListMCQCheck = new MandatoryCodeListMCQCheck();
-        assertTrue(mandatoryCodeListMCQCheck.validate(questionnaireWithMCQ));
-        assertThrows(IllegalStateException.class, mandatoryCodeListMCQCheck::errorMessage);
+        ValidationResult validationResult = new MandatoryCodeListMCQCheck().validate(questionnaireWithMCQ);
+        assertTrue(validationResult.isValid());
+        assertNull(validationResult.errorMessage());
     }
 
     @Test
@@ -48,12 +50,12 @@ class MandatoryCodeListMCQCheckTest {
         QuestionType codeListMCQ = (QuestionType) sequence.getChild().get(1);
         codeListMCQ.setMandatory(true);
 
-        var mandatoryCodeListMCQCheck = new MandatoryCodeListMCQCheck();
-        assertFalse(mandatoryCodeListMCQCheck.validate(questionnaireWithMCQ));
+        ValidationResult validationResult = new MandatoryCodeListMCQCheck().validate(questionnaireWithMCQ);
+        assertFalse(validationResult.isValid());
         assertEquals(
                 "Les question QCM de type \"Liste de codes\" ne peuvent pas être obligatoires " +
                         "(question 'MCQ_CODE_LIST').",
-                mandatoryCodeListMCQCheck.errorMessage());
+                validationResult.errorMessage());
     }
 
 }

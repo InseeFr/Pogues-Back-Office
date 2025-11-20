@@ -3,6 +3,7 @@ package fr.insee.pogues.service;
 import fr.insee.pogues.exception.PoguesValidationException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.service.validation.MandatoryCodeListMCQCheck;
+import fr.insee.pogues.service.validation.ValidationResult;
 import fr.insee.pogues.service.validation.ValidationStep;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +17,9 @@ public class ModelValidationService {
                 new MandatoryCodeListMCQCheck()
         );
         List<String> errors = validationSteps.stream()
-                .filter(validationStep -> !validationStep.validate(questionnaire))
-                .map(ValidationStep::errorMessage)
+                .map(validationStep -> validationStep.validate(questionnaire))
+                .filter(validationResult -> !validationResult.isValid())
+                .map(ValidationResult::errorMessage)
                 .toList();
         int errorsCount = errors.size();
         if (errorsCount > 0)
