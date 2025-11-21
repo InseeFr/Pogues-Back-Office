@@ -34,4 +34,12 @@ public class PoguesDeserializer {
         }
     }
 
+    public static Questionnaire deserialize(InputStream poguesQuestionnaireInputStream) throws PoguesDeserializationException {
+        try {
+            return jsonDeserializer.deserialize(poguesQuestionnaireInputStream);
+        } catch (JAXBException jaxbException) {
+            throw new PoguesDeserializationException(jaxbException);
+        }
+    }
+
 }
