@@ -2,6 +2,7 @@ package fr.insee.pogues.utils;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.conversion.JSONDeserializer;
+import fr.insee.pogues.exception.PoguesDeserializationException;
 import fr.insee.pogues.model.Questionnaire;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,7 +15,8 @@ import java.nio.charset.StandardCharsets;
 @Slf4j
 public class PoguesDeserializer {
 
-    private static JSONDeserializer jsonDeserializer = new JSONDeserializer();
+    private static final JSONDeserializer jsonDeserializer = new JSONDeserializer();
+
     private PoguesDeserializer() {}
 
     /**
@@ -23,9 +25,21 @@ public class PoguesDeserializer {
      * @return Corresponding Pogues-Model questionnaire object.
      */
     public static Questionnaire questionnaireToJavaObject(JsonNode jsonQuestionnaire)
-            throws  JAXBException {
+            throws PoguesDeserializationException {
         InputStream questionnaireAsIS = new ByteArrayInputStream(jsonQuestionnaire.toString().getBytes(StandardCharsets.UTF_8));
-        return jsonDeserializer.deserialize(questionnaireAsIS);
+        try {
+            return jsonDeserializer.deserialize(questionnaireAsIS);
+        } catch (JAXBException jaxbException) {
+            throw new PoguesDeserializationException(jaxbException);
+        }
+    }
+
+    public static Questionnaire deserialize(InputStream poguesQuestionnaireInputStream) throws PoguesDeserializationException {
+        try {
+            return jsonDeserializer.deserialize(poguesQuestionnaireInputStream);
+        } catch (JAXBException jaxbException) {
+            throw new PoguesDeserializationException(jaxbException);
+        }
     }
 
 }

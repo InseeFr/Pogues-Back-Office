@@ -12,7 +12,9 @@ import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.model.PoguesModelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.http.HttpClient;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
