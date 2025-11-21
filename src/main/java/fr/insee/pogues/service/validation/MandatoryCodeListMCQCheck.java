@@ -19,7 +19,8 @@ public class MandatoryCodeListMCQCheck implements ValidationStep {
             return ValidationResult.valid();
 
         String errorMessage = String.format(
-                "Les question QCM de type \"Liste de codes\" ne peuvent pas être obligatoires (question '%s').",
+                "Les questions à choix multiples dont le type de réponse est \"Liste de codes\" ne peuvent pas être " +
+                        "obligatoires (question '%s').",
                 invalidQuestion.get().getName());
         return ValidationResult.invalid(errorMessage);
     }

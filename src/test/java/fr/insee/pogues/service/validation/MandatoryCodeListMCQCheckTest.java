@@ -53,8 +53,8 @@ class MandatoryCodeListMCQCheckTest {
         ValidationResult validationResult = new MandatoryCodeListMCQCheck().validate(questionnaireWithMCQ);
         assertFalse(validationResult.isValid());
         assertEquals(
-                "Les question QCM de type \"Liste de codes\" ne peuvent pas être obligatoires " +
-                        "(question 'MCQ_CODE_LIST').",
+                "Les questions à choix multiples dont le type de réponse est \"Liste de codes\" ne peuvent " +
+                        "pas être obligatoires (question 'MCQ_CODE_LIST').",
                 validationResult.errorMessage());
     }
 
