@@ -35,7 +35,9 @@ public class ModelValidationService implements ModelTransformer {
         int errorsCount = errors.size();
         if (errorsCount > 0)
             throw new PoguesValidationException(errors.getFirst() +
-                    " (%d other error%s)".formatted(errorsCount - 1, (errorsCount - 1) > 1));
+                    " (%d other error%s)".formatted(
+                            errorsCount - 1,
+                            (errorsCount - 1) > 1 ? "s" : ""));
     }
 
     @Override
