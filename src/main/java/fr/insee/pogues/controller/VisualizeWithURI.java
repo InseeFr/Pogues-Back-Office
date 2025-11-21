@@ -1,6 +1,8 @@
 package fr.insee.pogues.controller;
 
+import fr.insee.pogues.model.EnoContext;
 import fr.insee.pogues.service.ModelCleaningService;
+import fr.insee.pogues.service.ModelValidationService;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDeref;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
@@ -12,7 +14,6 @@ import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV3;
 import fr.insee.pogues.transforms.visualize.uri.XFormsToURIStromaeV1;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
-import fr.insee.pogues.model.EnoContext;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -52,6 +53,7 @@ public class VisualizeWithURI {
     PoguesJSONToPoguesJSONDeref jsonToJsonDeref;
     SuggesterVisuService suggesterVisuService;
     ModelCleaningService modelCleaningService;
+    ModelValidationService modelValidationService;
 
     @PostMapping(path = "visualize/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI from JSON serialized Pogues entity", description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
@@ -96,6 +98,7 @@ public class VisualizeWithURI {
         params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
+                .map(modelValidationService::transform, null, null)
                 .map(modelCleaningService::transform, null, null)
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
@@ -119,6 +122,7 @@ public class VisualizeWithURI {
         params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
+                .map(modelValidationService::transform, null, null)
                 .map(modelCleaningService::transform, null, null)
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
@@ -173,6 +177,7 @@ public class VisualizeWithURI {
         params.put("context", context);
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
+                .map(modelValidationService::transform, null, null)
                 .map(modelCleaningService::transform, null, null)
                 .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
                 .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
