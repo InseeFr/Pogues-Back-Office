@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import fr.insee.pogues.exception.PoguesDeserializationException;
 import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.utils.PoguesDeserializer;
@@ -11,7 +12,6 @@ import fr.insee.pogues.utils.model.CodesList;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.xml.bind.JAXBException;
 import java.util.List;
 
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
@@ -46,7 +46,7 @@ public class SuggesterVisuService {
      * @param jsonQuestionnairePoguesModel
      * @return List of nomenclatureIds inside questionnaire
      */
-    public List<String> getNomenclatureIdsFromQuestionnaire(String jsonQuestionnairePoguesModel) throws JAXBException, JsonProcessingException {
+    public List<String> getNomenclatureIdsFromQuestionnaire(String jsonQuestionnairePoguesModel) throws JsonProcessingException, PoguesDeserializationException {
         Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonStringtoJsonNode(jsonQuestionnairePoguesModel));
         return getNomenclatureIdsFromQuestionnaire(questionnaire);
     }
