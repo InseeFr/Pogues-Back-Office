@@ -1,11 +1,12 @@
 package fr.insee.pogues.utils;
 
+import fr.insee.pogues.exception.PoguesDeserializationException;
 import fr.insee.pogues.model.ComponentType;
 import fr.insee.pogues.model.QuestionType;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.model.SequenceType;
 
-import javax.xml.bind.JAXBException;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -18,8 +19,11 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
 public class Utils {
 
-    public static Questionnaire loadQuestionnaireFromResources(String uriResources) throws URISyntaxException, IOException, JAXBException {
+    public static Questionnaire loadQuestionnaireFromResources(String uriResources)
+            throws IOException, URISyntaxException, PoguesDeserializationException {
         URL url = Utils.class.getClassLoader().getResource(uriResources);
+        if (url == null)
+            throw new FileNotFoundException("File not found at: " + uriResources);
         String stringQuestionnaire = Files.readString(Path.of(url.toURI()));
         return PoguesDeserializer.questionnaireToJavaObject(jsonStringtoJsonNode(stringQuestionnaire));
     }
