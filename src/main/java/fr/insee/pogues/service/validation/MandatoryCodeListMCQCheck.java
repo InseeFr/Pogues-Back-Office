@@ -29,8 +29,11 @@ public class MandatoryCodeListMCQCheck implements ValidationStep {
      * questionnaire. */
     private Optional<QuestionType> lookForInvalidCase(List<ComponentType> components) {
         for (ComponentType component : components) {
-            if (component instanceof SequenceType sequenceType)
-                return lookForInvalidCase(sequenceType.getChild());
+            if (component instanceof SequenceType sequenceType) {
+                Optional<QuestionType> result = lookForInvalidCase(sequenceType.getChild());
+                if (result.isPresent())
+                    return result;
+            }
             if ((component instanceof QuestionType question) && isMandatoryCodeListMCQ(question))
                 return Optional.of(question);
         }

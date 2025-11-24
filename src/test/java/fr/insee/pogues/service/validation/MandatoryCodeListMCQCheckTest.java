@@ -58,4 +58,20 @@ class MandatoryCodeListMCQCheckTest {
                 validationResult.errorMessage());
     }
 
+    @Test
+    @DisplayName("Validation when not in first sequence")
+    void notFirstSequence() {
+        questionnaireWithMCQ.getChild().addFirst(new SequenceType());
+        SequenceType sequence = (SequenceType) questionnaireWithMCQ.getChild().get(1);
+        QuestionType codeListMCQ = (QuestionType) sequence.getChild().get(1);
+        codeListMCQ.setMandatory(true);
+
+        ValidationResult validationResult = new MandatoryCodeListMCQCheck().validate(questionnaireWithMCQ);
+        assertFalse(validationResult.isValid());
+        assertEquals(
+                "Les questions à choix multiples dont le type de réponse est \"Liste de codes\" ne peuvent " +
+                        "pas être obligatoires (question 'MCQ_CODE_LIST').",
+                validationResult.errorMessage());
+    }
+
 }
