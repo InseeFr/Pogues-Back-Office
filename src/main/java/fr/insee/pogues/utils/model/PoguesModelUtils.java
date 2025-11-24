@@ -142,9 +142,9 @@ public class PoguesModelUtils {
         }
 
         // Case 2: get the associated iteration reference from questions
-        QuestionType questionIterable = getQuestionByID(questionnaire.getChild(), iterableReference);
-        if (questionIterable != null) {
-            return questionIterable.getName();
+        Optional<QuestionType> questionIterable = getQuestionByID(questionnaire.getChild(), iterableReference);
+        if (questionIterable.isPresent()) {
+            return questionIterable.get().getName();
         }
 
         return null;
@@ -156,23 +156,23 @@ public class PoguesModelUtils {
      * @param id ID of the question we want to find.
      * @return The question associated to the id, or null.
      */
-    public static QuestionType getQuestionByID(List<ComponentType> components, String id) {
+    public static Optional<QuestionType> getQuestionByID(List<ComponentType> components, String id) {
         Optional<QuestionType> question = components.stream()
             .filter(QuestionType.class::isInstance)
             .map(QuestionType.class::cast)
             .filter(q -> id.equals(q.getId())).findFirst();
-        if (question.isPresent()) {
-            return question.get();
-        }
+        if (question.isPresent()) return question;
+
         // Look into (sub)sequences if question was not found
         List<SequenceType> sequences = components.stream().filter(SequenceType.class::isInstance).map(SequenceType.class::cast).toList();
         for (SequenceType sequence : sequences) {
-            QuestionType questionFromSequence = getQuestionByID(sequence.getChild(), id);
-            if (questionFromSequence != null) {
+            Optional<QuestionType> questionFromSequence = getQuestionByID(sequence.getChild(), id);
+            if (questionFromSequence.isPresent()) {
                 return questionFromSequence;
             }
         }
-        return null;
+
+        return Optional.empty();
     }
 
     /**

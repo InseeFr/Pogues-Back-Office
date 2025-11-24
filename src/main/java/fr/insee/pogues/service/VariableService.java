@@ -105,14 +105,14 @@ public class VariableService {
                 return false;
             }
         }).findFirst();
-        if (iteration.isPresent()) {
-            if (PoguesModelUtils.isLinkedLoop(iteration.get())) {
-                // If the related scope is associated to a linked loop, we use
-                // the iterable reference name.
-                variable.setScope(getLinkedLoopReferenceName(questionnaire, iteration.get()));
-            } else {
-                variable.setScope(iteration.get().getName());
-            }
+        if (iteration.isEmpty()) return;
+
+        if (PoguesModelUtils.isLinkedLoop(iteration.get())) {
+            // If the related scope is associated to a linked loop, we use
+            // the iterable reference name.
+            variable.setScope(getLinkedLoopReferenceName(questionnaire, iteration.get()));
+        } else {
+            variable.setScope(iteration.get().getName());
         }
     }
 
