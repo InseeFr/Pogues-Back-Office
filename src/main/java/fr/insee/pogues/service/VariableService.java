@@ -4,6 +4,7 @@ import fr.insee.pogues.exception.IllegalIterationException;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.exception.VariableNotFoundException;
 import fr.insee.pogues.model.*;
+import fr.insee.pogues.model.Questionnaire.Iterations;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.DateUtils;
@@ -23,6 +24,7 @@ import java.util.UUID;
 
 import static fr.insee.pogues.utils.ListUtils.replaceElementInListAccordingToCondition;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+import static fr.insee.pogues.utils.model.PoguesModelUtils.getLinkedLoopReferenceName;
 
 /**
  * Variable Service used to fetch or update variables in questionnaires.
@@ -73,19 +75,24 @@ public class VariableService {
      * Get the questionnaire's variables and, if they have a scope, compute the scope name instead of the id.
      * @param questionnaire Questionnaire from which we want the variables
      * @return Questionnaire's variables with a readable scope.
+     * @throws IllegalIterationException 
      */
-    private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) {
+    private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) throws IllegalIterationException {
         List<VariableType> variables = questionnaire.getVariables().getVariable().stream().toList();
-        variables.forEach(v -> computeScopeNameFromScopeId(v, questionnaire.getIterations()));
+        for (VariableType variable : variables) {
+            computeScopeNameFromScopeId(variable, questionnaire);
+        }
         return variables;
     }
 
     /**
-     * Compute the scope name instead of the id. If no related scope is found, do nothing.
+     * <p>Compute the scope name instead of the id. If no related scope is found, do nothing.</p>
+     * <p>In the case of a linked loop, we use the iterable reference name.</p>
      * @param variable Variable to update
      * @param iterations Iterations in which we will find the scope name
      */
-    private void computeScopeNameFromScopeId(VariableType variable, Questionnaire.Iterations iterations) {
+    private void computeScopeNameFromScopeId(VariableType variable, Questionnaire questionnaire) throws IllegalIterationException {
+        Iterations iterations = questionnaire.getIterations();
         if (iterations == null) return;
 
         String scopeId = variable.getScope();
@@ -98,7 +105,13 @@ public class VariableService {
                 return false;
             }
         }).findFirst();
-        if (iteration.isPresent()) {
+        if (iteration.isEmpty()) return;
+
+        if (PoguesModelUtils.isLinkedLoop(iteration.get())) {
+            // If the related scope is associated to a linked loop, we use
+            // the iterable reference name.
+            variable.setScope(getLinkedLoopReferenceName(questionnaire, iteration.get()));
+        } else {
             variable.setScope(iteration.get().getName());
         }
     }

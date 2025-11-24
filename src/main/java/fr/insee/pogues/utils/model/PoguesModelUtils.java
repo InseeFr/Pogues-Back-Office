@@ -121,6 +121,61 @@ public class PoguesModelUtils {
     }
 
     /**
+     * The iteration reference name of the given iteration.
+     * If the iteration is a "main" loop, this is null.
+     * If it is a linked loop, this is the name of the corresponding "main" loop.
+     * @param iterationType A Pogues iteration (loop) object.
+     * @return The iteration reference of the given iteration.
+     * @throws IllegalIterationException If the iteration object given is not a DynamicIterationType.
+     */
+    public static String getLinkedLoopReferenceName(Questionnaire questionnaire, IterationType iterationType) throws IllegalIterationException {
+        String iterableReference = getLinkedLoopReference(iterationType);
+        if (iterableReference == null)
+            return null;
+
+        // Case 1: get the associated iterable reference from other loops
+        Optional<IterationType> loopIterable = questionnaire.getIterations().getIteration().stream().filter(v ->
+            iterableReference.equals(v.getId())
+        ).findFirst();
+        if (loopIterable.isPresent()) {
+            return loopIterable.get().getName();
+        }
+
+        // Case 2: get the associated iteration reference from questions
+        Optional<QuestionType> questionIterable = getQuestionByID(questionnaire.getChild(), iterableReference);
+        if (questionIterable.isPresent()) {
+            return questionIterable.get().getName();
+        }
+
+        return null;
+    }
+
+    /**
+     * Find the question associated to the id from a list of components.
+     * @param components A list of components (questions and sequences).
+     * @param id ID of the question we want to find.
+     * @return The question associated to the id, or null.
+     */
+    public static Optional<QuestionType> getQuestionByID(List<ComponentType> components, String id) {
+        Optional<QuestionType> question = components.stream()
+            .filter(QuestionType.class::isInstance)
+            .map(QuestionType.class::cast)
+            .filter(q -> id.equals(q.getId())).findFirst();
+        if (question.isPresent()) return question;
+
+        // Look into (sub)sequences if question was not found
+        List<SequenceType> sequences = components.stream().filter(SequenceType.class::isInstance).map(SequenceType.class::cast).toList();
+        for (SequenceType sequence : sequences) {
+            Optional<QuestionType> questionFromSequence = getQuestionByID(sequence.getChild(), id);
+            if (questionFromSequence.isPresent()) {
+                return questionFromSequence;
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    /**
      * Check if the provided iteration is associated to the scope id
      * (which can be found in variable for example).
      * If the iteration is a "main" loop, we directly check the id.
@@ -143,7 +198,7 @@ public class PoguesModelUtils {
      * @throws IllegalIterationException If the iteration object given is not a DynamicIterationType.
      */
     private static void checkIterationInstance(IterationType iterationType) throws IllegalIterationException {
-        if (! (iterationType instanceof DynamicIterationType)) // (
+        if (! (iterationType instanceof DynamicIterationType))
             throw new IllegalIterationException(String.format(
                     "Pogues iteration with id=%s and name=%s is not is of type %s. " +
                             "Only DynamicIterationType is supported.",
