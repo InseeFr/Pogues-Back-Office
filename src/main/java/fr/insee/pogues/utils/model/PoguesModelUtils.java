@@ -3,6 +3,7 @@ package fr.insee.pogues.utils.model;
 import fr.insee.pogues.exception.IllegalFlowControlException;
 import fr.insee.pogues.exception.IllegalIterationException;
 import fr.insee.pogues.model.*;
+import fr.insee.pogues.model.Questionnaire.Iterations;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -121,28 +122,25 @@ public class PoguesModelUtils {
     }
 
     /**
-     * The iteration reference name of the given iteration.
-     * If the iteration is a "main" loop, this is null.
-     * If it is a linked loop, this is the name of the corresponding "main" loop.
-     * @param iterationType A Pogues iteration (loop) object.
-     * @return The iteration reference of the given iteration.
-     * @throws IllegalIterationException If the iteration object given is not a DynamicIterationType.
+     * The scope name of the given id.
+     * The scope is either the name of a "main" loop, or the name of a question.
+     * @param id The scope id.
+     * @return The scope name of the given id.
      */
-    public static String getLinkedLoopReferenceName(Questionnaire questionnaire, IterationType iterationType) throws IllegalIterationException {
-        String iterableReference = getLinkedLoopReference(iterationType);
-        if (iterableReference == null)
-            return null;
-
-        // Case 1: get the associated iterable reference from other loops
-        Optional<IterationType> loopIterable = questionnaire.getIterations().getIteration().stream().filter(v ->
-            iterableReference.equals(v.getId())
-        ).findFirst();
-        if (loopIterable.isPresent()) {
-            return loopIterable.get().getName();
+    public static String getScopeNameFromID(Questionnaire questionnaire, String id) {
+        // Case 1: get the associated scope from loops
+        Iterations iterations = questionnaire.getIterations();
+        if (iterations != null) {
+            Optional<IterationType> loopIterable = questionnaire.getIterations().getIteration().stream().filter(v ->
+                id.equals(v.getId())
+            ).findFirst();
+            if (loopIterable.isPresent()) {
+                return loopIterable.get().getName();
+            }
         }
 
-        // Case 2: get the associated iteration reference from questions
-        Optional<QuestionType> questionIterable = getQuestionByID(questionnaire.getChild(), iterableReference);
+        // Case 2: get the associated scope from questions
+        Optional<QuestionType> questionIterable = getQuestionByID(questionnaire.getChild(), id);
         if (questionIterable.isPresent()) {
             return questionIterable.get().getName();
         }
@@ -173,20 +171,6 @@ public class PoguesModelUtils {
         }
 
         return Optional.empty();
-    }
-
-    /**
-     * Check if the provided iteration is associated to the scope id
-     * (which can be found in variable for example).
-     * If the iteration is a "main" loop, we directly check the id.
-     * If it is a linked loop, we check the identifier of the corresponding "main" loop.
-     * @param iterationType A Pogues iteration (loop) object.
-     * @param scopeId The id of the scope.
-     * @return Whether the iteration is the one referenced by the scope id.
-     * @throws IllegalIterationException If the iteration object given is not a DynamicIterationType.
-     */
-    public static boolean isIterationRelatedToScopeId(IterationType iterationType, String scopeId) throws IllegalIterationException {
-        return scopeId.equals(iterationType.getId()) || scopeId.equals(getLinkedLoopReference(iterationType));
     }
 
     /**

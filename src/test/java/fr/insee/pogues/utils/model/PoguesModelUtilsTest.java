@@ -66,16 +66,6 @@ class PoguesModelUtilsTest {
     }
 
     @Test
-    void getLinkedLoopReferenceName_wrongObject_shouldThrowException() {
-        // Given an unexpected new type of iteration
-        Questionnaire questionnaire = new Questionnaire();
-        IterationType iterationType = new FooIteration();
-        // When + Then
-        assertThrows(IllegalIterationException.class, () ->
-                PoguesModelUtils.getLinkedLoopReferenceName(questionnaire, iterationType));
-    }
-
-    @Test
     void isLinkedLoop_unitTests() throws IllegalIterationException {
         //
         DynamicIterationType mainLoop = new DynamicIterationType();
@@ -102,40 +92,30 @@ class PoguesModelUtilsTest {
     }
 
     @Test
-    void getLinkedLoopReferenceName_unitTests() throws IllegalIterationException {
-        // 1: Given a non-linked loop
-        DynamicIterationType mainLoop = new DynamicIterationType();
-        mainLoop.setId("main-loop-id");
-        mainLoop.setName("ma_boucle");
-        // 2: Given a linked loop referenced by a loop "ma_boucle"
-        DynamicIterationType linkedLoop = new DynamicIterationType();
-        linkedLoop.setId("linked-loop-id");
-        linkedLoop.setIterableReference("main-loop-id");
-        // 2: Given a linked loop referenced by a question "ma_question"
-        DynamicIterationType varLinkedLoop = new DynamicIterationType();
-        varLinkedLoop.setId("linked-loop-id");
-        varLinkedLoop.setIterableReference("q-id");
-
+    void getScopeNameFromID_unitTests() {
+        // 1: Given a loop
+        DynamicIterationType loop = new DynamicIterationType();
+        loop.setId("loop-id");
+        loop.setName("ma_boucle");
+        // 2: Given a question "ma_question"
         QuestionType question = new QuestionType();
         question.setId("q-id");
         question.setName("ma_question");
         SequenceType sequence = new SequenceType();
         sequence.getChild().add(question);
         Iterations iterations = new Iterations();
-        iterations.getIteration().add(mainLoop);
-        iterations.getIteration().add(linkedLoop);
-        iterations.getIteration().add(varLinkedLoop);
+        iterations.getIteration().add(loop);
         Questionnaire questionnaire = new Questionnaire();
         questionnaire.setIterations(iterations);
         questionnaire.getChild().add(sequence);
 
         // When we get the linked loop reference name
-        // 1: Then we return null
-        assertNull(PoguesModelUtils.getLinkedLoopReferenceName(questionnaire, mainLoop));
-        // 2: Then we return the loop name ("ma_boucle")
-        assertEquals("ma_boucle", PoguesModelUtils.getLinkedLoopReferenceName(questionnaire, linkedLoop));
-        // 3: Then we return the question name ("ma_question")
-        assertEquals("ma_question", PoguesModelUtils.getLinkedLoopReferenceName(questionnaire, varLinkedLoop));
+        // Then we return null
+        assertNull(PoguesModelUtils.getScopeNameFromID(questionnaire, "non-existing-scope-id"));
+        // 1: Then we return the loop name ("ma_boucle")
+        assertEquals("ma_boucle", PoguesModelUtils.getScopeNameFromID(questionnaire, "loop-id"));
+        // 2: Then we return the question name ("ma_question")
+        assertEquals("ma_question", PoguesModelUtils.getScopeNameFromID(questionnaire, "q-id"));
     }
 
 }
