@@ -82,10 +82,9 @@ public class VariableService {
 
     /**
      * <p>Compute the scope name instead of the id. If no related scope is found, do nothing.</p>
-     * <p>The scope is the name of either an iteration or a question.</p>
-     * <p>In the case of a linked loop, we use the iterable reference name.</p>
+     * <p>The scope name is from either an iteration or a question.</p>
      * @param variable Variable to update
-     * @param iterations Iterations in which we will find the scope name
+     * @param questionnaire Questionnaire in which we will find the scope name
      */
     private void computeScopeNameFromScopeId(VariableType variable, Questionnaire questionnaire) {
         String scopeId = variable.getScope();
