@@ -9,20 +9,17 @@ import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.DateUtils;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
-import fr.insee.pogues.utils.model.PoguesModelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
-import java.net.http.HttpClient;
 import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
 
 import static fr.insee.pogues.utils.ListUtils.replaceElementInListAccordingToCondition;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+import static fr.insee.pogues.utils.model.PoguesModelUtils.getScopeNameFromID;
 
 /**
  * Variable Service used to fetch or update variables in questionnaires.
@@ -73,34 +70,31 @@ public class VariableService {
      * Get the questionnaire's variables and, if they have a scope, compute the scope name instead of the id.
      * @param questionnaire Questionnaire from which we want the variables
      * @return Questionnaire's variables with a readable scope.
+     * @throws IllegalIterationException 
      */
     private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) {
         List<VariableType> variables = questionnaire.getVariables().getVariable().stream().toList();
-        variables.forEach(v -> computeScopeNameFromScopeId(v, questionnaire.getIterations()));
+        for (VariableType variable : variables) {
+            computeScopeNameFromScopeId(variable, questionnaire);
+        }
         return variables;
     }
 
     /**
-     * Compute the scope name instead of the id. If no related scope is found, do nothing.
+     * <p>Compute the scope name instead of the id. If no related scope is found, do nothing.</p>
+     * <p>The scope is the name of either an iteration or a question.</p>
+     * <p>In the case of a linked loop, we use the iterable reference name.</p>
      * @param variable Variable to update
      * @param iterations Iterations in which we will find the scope name
      */
-    private void computeScopeNameFromScopeId(VariableType variable, Questionnaire.Iterations iterations) {
-        if (iterations == null) return;
-
+    private void computeScopeNameFromScopeId(VariableType variable, Questionnaire questionnaire) {
         String scopeId = variable.getScope();
         if (scopeId == null) return;
 
-        Optional<IterationType> iteration = iterations.getIteration().stream().filter(v -> {
-            try {
-                return PoguesModelUtils.isIterationRelatedToScopeId(v, scopeId);
-            } catch (IllegalIterationException e) {
-                return false;
-            }
-        }).findFirst();
-        if (iteration.isPresent()) {
-            variable.setScope(iteration.get().getName());
-        }
+        String scopeName = getScopeNameFromID(questionnaire, scopeId);
+        if (scopeName == null) return;
+
+        variable.setScope(scopeName);
     }
 
     /**
