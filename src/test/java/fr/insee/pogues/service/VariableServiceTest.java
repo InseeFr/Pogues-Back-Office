@@ -91,6 +91,36 @@ class VariableServiceTest {
     }
 
     @Test
+    @DisplayName("Should fetch questionnaire variables and compute the question scope name")
+    void getQuestionnaireVariables_success_scopeNameQuestion() throws Exception {
+        // Given a questionnaire with 1 variable
+        Questionnaire mockQuestionnaire = loadQuestionnaireFromResources("service/withScopeFromQuestion.json");
+        String mockQuestionnaireString = PoguesSerializer.questionnaireJavaToString(mockQuestionnaire);
+        JsonNode mockQuestionnaireJSON = jsonStringtoJsonNode(mockQuestionnaireString);
+        questionnaireService.createQuestionnaire(mockQuestionnaireJSON);
+
+        String questionnaireId = "mig28dzs";
+        String variableId = "mig1qa6h";
+
+        VariableType expected = new CollectedVariableType();
+        expected.setId(variableId);
+        expected.setName("Q_DYN1");
+        expected.setLabel("mesure");
+        expected.setScope("Q_DYN");
+        TextDatatypeType expectedDatatype = new TextDatatypeType();
+        expectedDatatype.setTypeName(DatatypeTypeEnum.TEXT);
+        expectedDatatype.setMaxLength(BigInteger.valueOf(249));
+        expected.setDatatype(expectedDatatype);
+
+        // When we get the questionnaire's variables
+        List<VariableType> res = variableService.getQuestionnaireVariables(questionnaireId);
+
+        // Then the variable is fetched
+        VariableType variable = res.stream().filter(v -> variableId.equals(v.getId())).toList().getFirst();
+        assertThat(variable).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
     @DisplayName("Should trigger an error when we try to fetch variables from a questionnaire that does not exist")
     void getQuestionnaireVariables_error_questionnaireNotFound() {
         // Given a questionnaire that does not exist

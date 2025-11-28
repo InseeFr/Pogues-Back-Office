@@ -5,6 +5,11 @@ import fr.insee.pogues.exception.IllegalIterationException;
 import fr.insee.pogues.model.DynamicIterationType;
 import fr.insee.pogues.model.FlowControlType;
 import fr.insee.pogues.model.IterationType;
+import fr.insee.pogues.model.QuestionType;
+import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.model.Questionnaire.Iterations;
+import fr.insee.pogues.model.SequenceType;
+
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -84,6 +89,33 @@ class PoguesModelUtilsTest {
         //
         assertNull(PoguesModelUtils.getLinkedLoopReference(mainLoop));
         assertEquals("main-loop-id", PoguesModelUtils.getLinkedLoopReference(linkedLoop));
+    }
+
+    @Test
+    void getScopeNameFromID_unitTests() {
+        // 1: Given a loop
+        DynamicIterationType loop = new DynamicIterationType();
+        loop.setId("loop-id");
+        loop.setName("ma_boucle");
+        // 2: Given a question "ma_question"
+        QuestionType question = new QuestionType();
+        question.setId("q-id");
+        question.setName("ma_question");
+        SequenceType sequence = new SequenceType();
+        sequence.getChild().add(question);
+        Iterations iterations = new Iterations();
+        iterations.getIteration().add(loop);
+        Questionnaire questionnaire = new Questionnaire();
+        questionnaire.setIterations(iterations);
+        questionnaire.getChild().add(sequence);
+
+        // When we get the linked loop reference name
+        // Then we return null
+        assertNull(PoguesModelUtils.getScopeNameFromID(questionnaire, "non-existing-scope-id"));
+        // 1: Then we return the loop name ("ma_boucle")
+        assertEquals("ma_boucle", PoguesModelUtils.getScopeNameFromID(questionnaire, "loop-id"));
+        // 2: Then we return the question name ("ma_question")
+        assertEquals("ma_question", PoguesModelUtils.getScopeNameFromID(questionnaire, "q-id"));
     }
 
 }
