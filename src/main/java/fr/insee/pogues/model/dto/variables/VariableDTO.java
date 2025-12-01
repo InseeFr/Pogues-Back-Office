@@ -24,5 +24,6 @@ public class VariableDTO {
     private String scope;
     private String formula;
     private VariableDTODatatype datatype;
+    private Boolean isDeletedOnReset;
 
 }
