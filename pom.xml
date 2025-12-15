@@ -5,21 +5,21 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.7</version>
+		<version>3.5.8</version>
 		<relativePath/>
 	</parent>
 
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>jar</packaging>
-	<version>4.24.0</version>
+	<version>4.25.0</version>
 	<name>Pogues-Back-Office</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<java.version>21</java.version>
 		<final.asset.name>pogues-bo</final.asset.name>
-		<pogues-model.version>1.12.2</pogues-model.version>
+		<pogues-model.version>1.13.0</pogues-model.version>
 		<fop.version>2.11</fop.version>
 		<springdoc-openapi-ui.version>2.8.14</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.14</jacoco.version>

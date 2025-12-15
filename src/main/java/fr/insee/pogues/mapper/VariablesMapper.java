@@ -41,6 +41,9 @@ public class VariablesMapper {
 
         setDatatype(variable, variableDTO.getDatatype());
 
+        if (variable instanceof ExternalVariableType externalVariable)
+            externalVariable.setDeletedOnReset(variableDTO.getIsDeletedOnReset());
+
         return variable;
     }
 
@@ -149,13 +152,13 @@ public class VariablesMapper {
 
         switch (variable) {
             case CollectedVariableType v -> {
-                return new VariableDTO(v.getId(), v.getName(), v.getLabel(), VariableDTOTypeEnum.COLLECTED, v.getScope(), null, datatypeDTO);
+                return new VariableDTO(v.getId(), v.getName(), v.getLabel(), VariableDTOTypeEnum.COLLECTED, v.getScope(), null, datatypeDTO, null);
             }
             case ExternalVariableType v -> {
-                return new VariableDTO(v.getId(), v.getName(), v.getLabel(), VariableDTOTypeEnum.EXTERNAL, v.getScope(), null, datatypeDTO);
+                return new VariableDTO(v.getId(), v.getName(), v.getLabel(), VariableDTOTypeEnum.EXTERNAL, v.getScope(), null, datatypeDTO, v.isDeletedOnReset());
             }
             case CalculatedVariableType v -> {
-                return new VariableDTO(v.getId(), v.getName(), v.getLabel(), VariableDTOTypeEnum.CALCULATED, v.getScope(), v.getFormula().getValue(), datatypeDTO);
+                return new VariableDTO(v.getId(), v.getName(), v.getLabel(), VariableDTOTypeEnum.CALCULATED, v.getScope(), v.getFormula().getValue(), datatypeDTO, null);
             }
             default -> throw new VariableInvalidModelException(String.format("Invalid variable type %s", variable.getClass()), variable.toString());
         }

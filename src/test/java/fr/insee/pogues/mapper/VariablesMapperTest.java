@@ -4,6 +4,8 @@ import fr.insee.pogues.model.*;
 import fr.insee.pogues.model.dto.variables.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -16,10 +18,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO collected variable into model")
-    void toModel_success_collectedVariable() throws Exception {
+    void toModel_success_collectedVariable() {
         // Given a DTO collected variable
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
-        VariableDTO variableDTO = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.COLLECTED, "my-scope", null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.COLLECTED, "my-scope", null, datatypeDTO, null);
 
         VariableType expected = new CollectedVariableType();
         expected.setId("var-id");
@@ -37,14 +39,15 @@ class VariablesMapperTest {
         assertThat(res).usingRecursiveComparison().isEqualTo(expected);
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
     @DisplayName("Should convert DTO external variable into model")
-    void toModel_success_externalVariable() throws Exception {
+    void toModel_success_externalVariable(boolean isDeletedOnReset) {
         // Given a DTO external variable
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
-        VariableDTO variableDTO = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.EXTERNAL, "my-scope", null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.EXTERNAL, "my-scope", null, datatypeDTO, isDeletedOnReset);
 
-        VariableType expected = new ExternalVariableType();
+        ExternalVariableType expected = new ExternalVariableType();
         expected.setId("var-id");
         expected.setName("MY_VAR");
         expected.setLabel("a simple var");
@@ -52,6 +55,7 @@ class VariablesMapperTest {
         BooleanDatatypeType expectedDatatype = new BooleanDatatypeType();
         expectedDatatype.setTypeName(DatatypeTypeEnum.BOOLEAN);
         expected.setDatatype(expectedDatatype);
+        expected.setDeletedOnReset(isDeletedOnReset);
 
         // When we convert it to Pogues model
         VariableType res = toModel(variableDTO);
@@ -62,10 +66,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO calculated variable into model")
-    void toModel_success_calculatedVariable() throws Exception {
+    void toModel_success_calculatedVariable() {
         // Given a DTO calculated variable
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
-        VariableDTO variableDTO = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.CALCULATED, "my-scope", "1+2", datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.CALCULATED, "my-scope", "1+2", datatypeDTO, null);
 
         CalculatedVariableType expected = new CalculatedVariableType();
         expected.setId("var-id");
@@ -88,10 +92,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO boolean datatype into model")
-    void toModel_success_booleanDatatype() throws Exception {
+    void toModel_success_booleanDatatype() {
         // Given a DTO variable with a boolean datatype
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
-        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
 
         VariableType expected = new CollectedVariableType();
         BooleanDatatypeType expectedDatatype = new BooleanDatatypeType();
@@ -107,10 +111,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO date datatype into model")
-    void toModel_success_dateDatatype() throws Exception {
+    void toModel_success_dateDatatype() {
         // Given a DTO variable with a date datatype
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DATE, VariableDTODatatypeFormatEnum.DATE_YEAR_MONTH, "2000-01", "2019-12", null, null, null, null);
-        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
 
         VariableType expected = new CollectedVariableType();
         DateDatatypeType expectedDatatype = new DateDatatypeType();
@@ -129,10 +133,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO date datatype into model")
-    void toModel_success_dateDatatype_noMinMax() throws Exception {
+    void toModel_success_dateDatatype_noMinMax() {
         // Given a DTO variable with a date datatype
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DATE, VariableDTODatatypeFormatEnum.DATE_YEAR_MONTH, null, null, null, null, null, null);
-        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
 
         VariableType expected = new CollectedVariableType();
         DateDatatypeType expectedDatatype = new DateDatatypeType();
@@ -149,10 +153,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO duration datatype into model")
-    void toModel_success_durationDatatype() throws Exception {
+    void toModel_success_durationDatatype() {
         // Given a DTO variable with a duration datatype
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DURATION, VariableDTODatatypeFormatEnum.DURATION_MINUTE_SECOND, "PT1H1M", "PT99H59M", null, null, null, null);
-        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
 
         VariableType expected = new CollectedVariableType();
         DurationDatatypeType expectedDatatype = new DurationDatatypeType();
@@ -171,10 +175,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO duration datatype into model when min and max are null")
-    void toModel_success_durationDatatype_noMinMax() throws Exception {
+    void toModel_success_durationDatatype_noMinMax() {
         // Given a DTO variable with a duration datatype
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DURATION, VariableDTODatatypeFormatEnum.DURATION_MINUTE_SECOND, null, null, null, null, null, null);
-        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
 
         VariableType expected = new CollectedVariableType();
         DurationDatatypeType expectedDatatype = new DurationDatatypeType();
@@ -191,10 +195,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO numeric datatype into model")
-    void toModel_success_numericDatatype() throws Exception {
+    void toModel_success_numericDatatype() {
         // Given a DTO variable with a numeric datatype
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.NUMERIC, null, 3.23, 42, 2, true, "€", null);
-        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
 
         VariableType expected = new CollectedVariableType();
         NumericDatatypeType expectedDatatype = new NumericDatatypeType();
@@ -215,10 +219,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO numeric datatype into model when decimals is null")
-    void toModel_success_numericDatatype_noPrecision() throws Exception {
+    void toModel_success_numericDatatype_noPrecision() {
         // Given a DTO variable with a numeric datatype
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.NUMERIC, null, 3.23, 42, null, true, "€", null);
-        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
 
         VariableType expected = new CollectedVariableType();
         NumericDatatypeType expectedDatatype = new NumericDatatypeType();
@@ -238,10 +242,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO numeric datatype into model when isDynamicUnit is null")
-    void toModel_success_numericDatatype_noDynamicUnit() throws Exception {
+    void toModel_success_numericDatatype_noDynamicUnit() {
         // Given a DTO variable with a numeric datatype
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.NUMERIC, null, 3.23, 42, null, null, null, null);
-        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
 
         VariableType expected = new CollectedVariableType();
         NumericDatatypeType expectedDatatype = new NumericDatatypeType();
@@ -259,10 +263,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO text datatype into model")
-    void toModel_success_textDatatype() throws Exception {
+    void toModel_success_textDatatype() {
         // Given a DTO variable with a text datatype
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.TEXT, null, null, null, null, null, null, 202);
-        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
 
         VariableType expected = new CollectedVariableType();
         TextDatatypeType expectedDatatype = new TextDatatypeType();
@@ -279,10 +283,10 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert DTO text datatype into model when max length is null")
-    void toModel_success_textDatatype_noMaxLength() throws Exception {
+    void toModel_success_textDatatype_noMaxLength() {
         // Given a DTO variable with a text datatype
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.TEXT, null, null, null, null, null, null, null);
-        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO);
+        VariableDTO variableDTO = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
 
         VariableType expected = new CollectedVariableType();
         TextDatatypeType expectedDatatype = new TextDatatypeType();
@@ -298,7 +302,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model collected variable into DTO")
-    void toDTO_success_collectedVariable() throws Exception {
+    void toDTO_success_collectedVariable() {
         // Given a model collected variable
         VariableType variableModel = new CollectedVariableType();
         variableModel.setId("var-id");
@@ -310,7 +314,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
-        VariableDTO expected = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.COLLECTED, "my-scope", null, expectedDatatype);
+        VariableDTO expected = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.COLLECTED, "my-scope", null, expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -319,11 +323,12 @@ class VariablesMapperTest {
         assertThat(res).usingRecursiveComparison().isEqualTo(expected);
     }
 
-    @Test
+    @ParameterizedTest
+    @ValueSource(booleans = {true, false})
     @DisplayName("Should convert model external variable into DTO")
-    void toDTO_success_externalVariable() throws Exception {
+    void toDTO_success_externalVariable(boolean isDeletedOnReset) {
         // Given a model external variable
-        VariableType variableModel = new ExternalVariableType();
+        ExternalVariableType variableModel = new ExternalVariableType();
         variableModel.setId("var-id");
         variableModel.setName("MY_VAR");
         variableModel.setLabel("a simple var");
@@ -331,9 +336,10 @@ class VariablesMapperTest {
         BooleanDatatypeType datatypeModel = new BooleanDatatypeType();
         datatypeModel.setTypeName(DatatypeTypeEnum.BOOLEAN);
         variableModel.setDatatype(datatypeModel);
+        variableModel.setDeletedOnReset(isDeletedOnReset);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
-        VariableDTO expected = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.EXTERNAL, "my-scope", null, expectedDatatype);
+        VariableDTO expected = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.EXTERNAL, "my-scope", null, expectedDatatype, isDeletedOnReset);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -344,7 +350,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model calculated variable into DTO")
-    void toDTO_success_calculatedVariable() throws Exception {
+    void toDTO_success_calculatedVariable() {
         // Given a model calculated variable
         CalculatedVariableType variableModel = new CalculatedVariableType();
         variableModel.setId("var-id");
@@ -359,7 +365,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
-        VariableDTO expected = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.CALCULATED, "my-scope", "1+2", expectedDatatype);
+        VariableDTO expected = new VariableDTO("var-id", "MY_VAR", "a simple var", VariableDTOTypeEnum.CALCULATED, "my-scope", "1+2", expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -370,7 +376,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model boolean datatype into DTO")
-    void toDTO_success_booleanDatatype() throws Exception {
+    void toDTO_success_booleanDatatype() {
         // Given a model variable with a boolean datatype
         VariableType variableModel = new CollectedVariableType();
         BooleanDatatypeType datatypeModel = new BooleanDatatypeType();
@@ -378,7 +384,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
-        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -389,7 +395,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model date datatype into DTO")
-    void toDTO_success_dateDatatype() throws Exception {
+    void toDTO_success_dateDatatype() {
         // Given a model variable with a date datatype
         VariableType variableModel = new CollectedVariableType();
         DateDatatypeType datatypeModel = new DateDatatypeType();
@@ -400,7 +406,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DATE, VariableDTODatatypeFormatEnum.DATE_YEAR_MONTH, "2000-01", "2019-12", null, null, null, null);
-        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -411,7 +417,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model date datatype into DTO when min and max are null")
-    void toDTO_success_dateDatatype_noMinMax() throws Exception {
+    void toDTO_success_dateDatatype_noMinMax() {
         // Given a model variable with a date datatype
         VariableType variableModel = new CollectedVariableType();
         DateDatatypeType datatypeModel = new DateDatatypeType();
@@ -420,7 +426,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DATE, VariableDTODatatypeFormatEnum.DATE_YEAR_MONTH, null, null, null, null, null, null);
-        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -431,7 +437,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model duration datatype into DTO")
-    void toDTO_success_durationDatatype() throws Exception {
+    void toDTO_success_durationDatatype() {
         // Given a model variable with a duration datatype
         VariableType variableModel = new CollectedVariableType();
         DurationDatatypeType datatypeModel = new DurationDatatypeType();
@@ -442,7 +448,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DURATION, VariableDTODatatypeFormatEnum.DURATION_MINUTE_SECOND, "PT1H1M", "PT99H59M", null, null, null, null);
-        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -453,7 +459,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model duration datatype into DTO when min and max are null")
-    void toDTO_success_durationDatatype_noMinMax() throws Exception {
+    void toDTO_success_durationDatatype_noMinMax() {
         // Given a model variable with a duration datatype
         VariableType variableModel = new CollectedVariableType();
         DurationDatatypeType datatypeModel = new DurationDatatypeType();
@@ -462,7 +468,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.DURATION, VariableDTODatatypeFormatEnum.DURATION_MINUTE_SECOND, null, null, null, null, null, null);
-        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -473,7 +479,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model numeric datatype into DTO")
-    void toDTO_success_numericDatatype() throws Exception {
+    void toDTO_success_numericDatatype() {
         // Given a model variable with a numeric datatype
         VariableType variableModel = new CollectedVariableType();
         NumericDatatypeType datatypeModel = new NumericDatatypeType();
@@ -486,7 +492,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.NUMERIC, null, 3.23, 42.0, 2, true, "€", null);
-        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -497,7 +503,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model numeric datatype into DTO when precision is null")
-    void toDTO_success_numericDatatype_noPrecision() throws Exception {
+    void toDTO_success_numericDatatype_noPrecision() {
         // Given a model variable with a numeric datatype
         VariableType variableModel = new CollectedVariableType();
         NumericDatatypeType datatypeModel = new NumericDatatypeType();
@@ -509,7 +515,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.NUMERIC, null, 3.23, 42.0, null, true, "€", null);
-        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -520,7 +526,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model numeric datatype into DTO when isDynamicUnit is null")
-    void toDTO_success_numericDatatype_noDynamicUnit() throws Exception {
+    void toDTO_success_numericDatatype_noDynamicUnit() {
         // Given a model variable with a numeric datatype
         VariableType variableModel = new CollectedVariableType();
         NumericDatatypeType datatypeModel = new NumericDatatypeType();
@@ -531,7 +537,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.NUMERIC, null, 3.23, 42.0, 2, false, null, null);
-        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -542,7 +548,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model text datatype into DTO")
-    void toDTO_success_textDatatype() throws Exception {
+    void toDTO_success_textDatatype() {
         // Given a model variable with a text datatype
         VariableType variableModel = new CollectedVariableType();
         TextDatatypeType datatypeModel = new TextDatatypeType();
@@ -551,7 +557,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.TEXT, null, null, null, null, null, null, 202);
-        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);
@@ -562,7 +568,7 @@ class VariablesMapperTest {
 
     @Test
     @DisplayName("Should convert model text datatype into DTO when max length is null")
-    void toDTO_success_textDatatype_noMaxLength() throws Exception {
+    void toDTO_success_textDatatype_noMaxLength() {
         // Given a model variable with a text datatype
         VariableType variableModel = new CollectedVariableType();
         TextDatatypeType datatypeModel = new TextDatatypeType();
@@ -570,7 +576,7 @@ class VariablesMapperTest {
         variableModel.setDatatype(datatypeModel);
 
         VariableDTODatatype expectedDatatype = new VariableDTODatatype(VariableDTODatatypeTypeEnum.TEXT, null, null, null, null, null, null, null);
-        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype);
+        VariableDTO expected = new VariableDTO(null, null, null, VariableDTOTypeEnum.COLLECTED, null, null, expectedDatatype, null);
 
         // When we convert it to DTO
         VariableDTO res = toDTO(variableModel);

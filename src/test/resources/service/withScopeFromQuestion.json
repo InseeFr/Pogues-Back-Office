@@ -1,0 +1,105 @@
+{
+  "id": "mig28dzs",
+  "genericName": "QUESTIONNAIRE",
+  "agency": "fr.insee",
+  "final": true,
+  "flowLogic": "FILTER",
+  "formulasLanguage": "VTL",
+  "lastUpdatedDate": "Wed Nov 26 2025 14:33:19 GMT+0100 (heure normale d’Europe centrale)",
+  "owner": "DR59-SNDI59",
+  "Name": "VARIABLETE",
+  "Label": ["variable test"],
+  "Control": [],
+  "FlowControl": [],
+  "TargetMode": ["CAPI", "CAWI", "CATI", "PAPI"],
+  "Child": [
+    {
+      "id": "mig1s0xe",
+      "depth": 1,
+      "genericName": "MODULE",
+      "type": "SequenceType",
+      "Name": "S1",
+      "Label": ["S1"],
+      "Declaration": [],
+      "Control": [],
+      "FlowControl": [],
+      "TargetMode": ["CAPI", "CAWI", "CATI", "PAPI"],
+      "Child": [
+        {
+          "id": "mig1ypma",
+          "questionType": "TABLE",
+          "type": "QuestionType",
+          "Name": "Q_DYN",
+          "Label": ["Q_DYN"],
+          "Declaration": [],
+          "Control": [],
+          "FlowControl": [],
+          "TargetMode": ["CAPI", "CAWI", "CATI", "PAPI"],
+          "Response": [
+            {
+              "id": "mig1vhyq",
+              "Datatype": {
+                "typeName": "TEXT",
+                "type": "TextDatatypeType",
+                "MaxLength": 249
+              },
+              "CollectedVariableReference": "mig1qa6h"
+            }
+          ],
+          "ResponseStructure": {
+            "Dimension": [
+              {
+                "dimensionType": "PRIMARY",
+                "dynamic": "DYNAMIC_FIXED",
+                "size": { "type": "number", "value": "1" }
+              },
+              { "dimensionType": "MEASURE", "Label": "\"mesure\"" }
+            ],
+            "Attribute": [],
+            "Mapping": [{ "MappingSource": "mig1vhyq", "MappingTarget": "1 1" }]
+          }
+        }
+      ]
+    },
+    {
+      "id": "idendquest",
+      "depth": 1,
+      "genericName": "MODULE",
+      "type": "SequenceType",
+      "Name": "QUESTIONNAIRE_END",
+      "Label": ["QUESTIONNAIRE_END"],
+      "Declaration": [],
+      "Control": [],
+      "FlowControl": [],
+      "TargetMode": ["CAPI", "CAWI", "CATI", "PAPI"],
+      "Child": []
+    }
+  ],
+  "DataCollection": [],
+  "ComponentGroup": [
+    {
+      "id": "mig1y2g2",
+      "Name": "PAGE_1",
+      "Label": ["Components for page 1"],
+      "MemberReference": ["idendquest", "mig1s0xe", "mig1ypma"]
+    }
+  ],
+  "CodeLists": { "CodeList": [] },
+  "Variables": {
+    "Variable": [
+      {
+        "id": "mig1qa6h",
+        "type": "CollectedVariableType",
+        "Datatype": {
+          "typeName": "TEXT",
+          "type": "TextDatatypeType",
+          "MaxLength": 249
+        },
+        "Name": "Q_DYN1",
+        "Label": "mesure",
+        "Scope": "mig1ypma"
+      }
+    ]
+  },
+  "childQuestionnaireRef": []
+}
