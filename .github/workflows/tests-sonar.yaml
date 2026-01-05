@@ -38,7 +38,7 @@ jobs:
 
       - name: Check Pogues-Model lib tag ${{ steps.get-version.outputs.version }} existence
         id: check-tag-exists
-        uses: mukunku/tag-exists-action@v1.6.0
+        uses: mukunku/tag-exists-action@v1.7.0
         with:
           repo: InseeFr/Pogues-Model
           tag: ${{ steps.get-version.outputs.version }}
