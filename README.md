@@ -1,14 +1,19 @@
+# Pogues
+
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=InseeFr_Pogues-Back-Office&metric=alert_status)](https://sonarcloud.io/dashboard?id=InseeFr_Pogues-Back-Office)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=InseeFr_Pogues-Back-Office&metric=security_rating)](https://sonarcloud.io/dashboard?id=InseeFr_Pogues-Back-Office)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=InseeFr_Pogues-Back-Office&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=InseeFr_Pogues-Back-Office)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=InseeFr_Pogues-Back-Office&metric=coverage)](https://sonarcloud.io/dashboard?id=InseeFr_Pogues-Back-Office)
 
-# Pogues-Back-Office
+Navigation: [Client][1] | **Back-office** | [Pogues model][2]
 
-Rest Endpoints and services integration used by [Pogues](https://github.com/InseeFr/Pogues)
+[1]: https://github.com/InseeFr/Pogues
+[2]: https://github.com/InseeFr/Pogues-Model
 
-[![Release CI](https://github.com/InseeFr/Pogues-Back-Office/actions/workflows/create-release.yaml/badge.svg)](https://github.com/InseeFr/Pogues-Back-Office/actions/workflows/create-release.yaml)
+## Introduction
 
-## Developer Documentation
+Pogues is a tool that allow to design questionnaires with components that are structural (sequences, questions...) and dynamic (filters, controls, loops...).
 
-https://inseefr.github.io/Pogues-Back-Office
+This is the repository of the back-end part of Pogues.
+
+For more information see the [developer documentation](https://inseefr.github.io/Pogues-Back-Office).
