@@ -76,7 +76,7 @@ class VariableServiceTest {
         expected.setId(variableId);
         expected.setName("NOMDUPOKEM");
         expected.setLabel("NOMDUPOKEM label");
-        expected.setScope("LOOP_TEST");
+        expected.setScope("mdy57fmb");
         TextDatatypeType expectedDatatype = new TextDatatypeType();
         expectedDatatype.setTypeName(DatatypeTypeEnum.TEXT);
         expectedDatatype.setMaxLength(BigInteger.valueOf(249));
@@ -106,7 +106,7 @@ class VariableServiceTest {
         expected.setId(variableId);
         expected.setName("Q_DYN1");
         expected.setLabel("mesure");
-        expected.setScope("Q_DYN");
+        expected.setScope("mig1ypma");
         TextDatatypeType expectedDatatype = new TextDatatypeType();
         expectedDatatype.setTypeName(DatatypeTypeEnum.TEXT);
         expectedDatatype.setMaxLength(BigInteger.valueOf(249));

@@ -73,27 +73,7 @@ public class VariableService {
      * @throws IllegalIterationException 
      */
     private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) {
-        List<VariableType> variables = questionnaire.getVariables().getVariable().stream().toList();
-        for (VariableType variable : variables) {
-            computeScopeNameFromScopeId(variable, questionnaire);
-        }
-        return variables;
-    }
-
-    /**
-     * <p>Compute the scope name instead of the id. If no related scope is found, do nothing.</p>
-     * <p>The scope name is from either an iteration or a question.</p>
-     * @param variable Variable to update
-     * @param questionnaire Questionnaire in which we will find the scope name
-     */
-    private void computeScopeNameFromScopeId(VariableType variable, Questionnaire questionnaire) {
-        String scopeId = variable.getScope();
-        if (scopeId == null) return;
-
-        String scopeName = getScopeNameFromID(questionnaire, scopeId);
-        if (scopeName == null) return;
-
-        variable.setScope(scopeName);
+        return questionnaire.getVariables().getVariable().stream().toList();
     }
 
     /**
