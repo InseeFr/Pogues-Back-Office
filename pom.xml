@@ -25,7 +25,6 @@
 		<jacoco.version>0.8.14</jacoco.version>
 		<saxon.version>12.9</saxon.version>
 		<liquibase.version>4.33.0</liquibase.version>
-
 		<caffeine.version>3.2.3</caffeine.version>
 
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
