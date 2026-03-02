@@ -33,7 +33,7 @@
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.language>java</sonar.language>
 		<argLine>-Xms256m -Xmx512m -ea -Dfile.encoding=UTF-8</argLine>
-		<revision>v4.3.8</revision>
+		<revision>4.26.7</revision>
 	</properties>
 
 	<repositories>
