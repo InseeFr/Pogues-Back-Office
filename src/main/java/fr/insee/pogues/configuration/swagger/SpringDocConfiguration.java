@@ -26,7 +26,6 @@ import java.util.Arrays;
 public class SpringDocConfiguration {
 
     public static final String OAUTH2SCHEME = "oAuth2";
-    public static final String BEARERSCHEME = "bearerAuth";
 
     @Autowired
     ApplicationProperties applicationProperties;
@@ -43,31 +42,16 @@ public class SpringDocConfiguration {
     @Bean
     @ConditionalOnProperty(name = "feature.oidc.enabled", havingValue = "true")
     protected OpenAPI oidcOpenAPI(OidcProperties oidcProperties, BuildProperties buildProperties) {
-        String authUrl = oidcProperties.authServerUrl() + "/realms/" + oidcProperties.realm() + "/protocol/openid-connect";
-
         return generateOpenAPI(buildProperties)
                 .addSecurityItem(new SecurityRequirement().addList(OAUTH2SCHEME, Arrays.asList("read", "write")))
-                .addSecurityItem(new SecurityRequirement().addList(BEARERSCHEME, Arrays.asList("read", "write")))
                 .components(
                         new Components()
                                 .addSecuritySchemes(OAUTH2SCHEME,
                                         new SecurityScheme()
                                                 .name(OAUTH2SCHEME)
                                                 .type(SecurityScheme.Type.OAUTH2)
-                                                .flows(getFlows(authUrl))
+                                                .flows(getFlows(oidcProperties))
 
-                                )
-                                .addSecuritySchemes(BEARERSCHEME,
-                                        new SecurityScheme()
-                                                .name(BEARERSCHEME)
-                                                .type(SecurityScheme.Type.HTTP)
-                                                .scheme("bearer")
-                                                .bearerFormat("JWT")
-                                                .description(
-                                                        String.format("You have to retrieve JWT token with oidc server, copy & paste here its value %s",
-                                                                oidcProperties.tokenHelper() != null && !oidcProperties.tokenHelper().isEmpty()
-                                                                        ? ": --> [Retrieve token here]("+oidcProperties.tokenHelper()+")"
-                                                                        : ""))
                                 )
                 );
 
@@ -93,10 +77,17 @@ public class SpringDocConfiguration {
                 .description("Generated server url from properties"));
     }
 
-    private OAuthFlows getFlows(String authUrl) {
+    private OAuthFlows getFlows(OidcProperties oidcProperties) {
+        String authUrl = oidcProperties.authServerUrl() + "/realms/" + oidcProperties.realm() + "/protocol/openid-connect";
+
         OAuthFlows flows = new OAuthFlows();
         OAuthFlow flow = new OAuthFlow();
         Scopes scopes = new Scopes();
+
+        for(String scope: oidcProperties.scopes()){
+            scopes.addString(scope, scope);
+        }
+
         flow.setAuthorizationUrl(authUrl + "/auth");
         flow.setTokenUrl(authUrl + "/token");
         flow.setRefreshUrl(authUrl + "/token");

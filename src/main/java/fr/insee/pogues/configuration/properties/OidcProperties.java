@@ -13,5 +13,5 @@ public record OidcProperties(
         String clientId,
         String stampClaim,
         String usernameClaim,
-        String tokenHelper) {
+        String[] scopes) {
 }

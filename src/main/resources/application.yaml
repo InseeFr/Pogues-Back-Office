@@ -95,6 +95,7 @@ springdoc:
   swagger-ui:
     oauth:
       client-id: ${feature.oidc.client-id}
+      use-pkce-with-authorization-code-grant: true
     path: /
     syntax-highlight:
       activated: false
@@ -152,7 +153,9 @@ feature:
     role-claim: 'role-claim' # can be a json Path like 'deep.value.to.roles'
     stamp-claim: stamp
     username-claim: name
-    token-helper:
+    scopes:
+      - profile
+      - roles
   swagger:
     enabled: true
   database:
