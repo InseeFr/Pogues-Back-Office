@@ -1,4 +1,4 @@
-FROM eclipse-temurin:25.0.1_8-jre
+FROM eclipse-temurin:25.0.3_9-jre
 
 ENV PATH_TO_JAR=/opt/pogues/pogues-bo.jar
 WORKDIR /opt/pogues
