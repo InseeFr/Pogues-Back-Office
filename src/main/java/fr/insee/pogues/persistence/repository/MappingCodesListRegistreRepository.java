@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface MappingCodesListRegistreRepository
         extends JpaRepository<MappingCodesListRegistreDB, Long> {
 
-    Optional<MappingCodesListRegistreDB> findByPoguesCodesListId(String poguesId);
+    Optional<MappingCodesListRegistreDB> findByPoguesCodesListId(String poguesCodesListId);
 }
