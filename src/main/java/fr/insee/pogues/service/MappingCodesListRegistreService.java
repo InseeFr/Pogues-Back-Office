@@ -15,16 +15,16 @@ public class MappingCodesListRegistreService {
 
     private final MappingCodesListRegistreRepository repository;
 
-    public MappingCodesListRegistreDB create(String poguesId, UUID registreId) {
+    public MappingCodesListRegistreDB create(String poguesCodesListId, UUID registreCodesListId) {
 
-        repository.findByPoguesCodesListId(poguesId)
+        repository.findByPoguesCodesListId(poguesCodesListId)
                 .ifPresent(m -> {
                     throw new RuntimeException("Mapping already exists");
                 });
 
         MappingCodesListRegistreDB entity = new MappingCodesListRegistreDB();
-        entity.setPoguesCodesListId(poguesId);
-        entity.setRegistreCodesListId(registreId);
+        entity.setPoguesCodesListId(poguesCodesListId);
+        entity.setRegistreCodesListId(registreCodesListId);
 
         return repository.save(entity);
     }
