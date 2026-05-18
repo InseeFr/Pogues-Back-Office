@@ -5,13 +5,20 @@ on:
     branches:
       - "main"
     paths-ignore:
-      ["docs/**", "Dockerfile", "LICENSE", "CHANGELOG.md", "README.md", ".github/**"]
+      [
+        "docs/**",
+        "Dockerfile",
+        "LICENSE",
+        "CHANGELOG.md",
+        "README.md",
+        ".github/**",
+      ]
 
 env:
   JAVA_VERSION: "25"
+  RELEASE_NOTE_EXCLUDED_TYPES: docs,style,chore,other
 
 jobs:
-
   pogues-model:
     name: Check Pogues-Model lib version exists
     runs-on: ubuntu-latest
@@ -56,40 +63,78 @@ jobs:
     needs: pogues-model
     runs-on: ubuntu-latest
     outputs:
-      release-version: ${{ steps.version-step.outputs.version }}
+      release-version: ${{ steps.version-number.outputs.value }}
+      previous-version: ${{ steps.previousTag.outputs.previousTag }}
     steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+          fetch-depth: 0 # needed to get previous tag
+
       - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: ${{ env.JAVA_VERSION }}
 
-      - name: Checkout Pogues-Back-Office repo
-        uses: actions/checkout@v4
-
       - name: Get Version
         id: version-step
-        run: echo "version=$(mvn -f pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
+        run: |
+          echo "version=$(mvn -f pom.xml help:evaluate -Dexpression=project.version -q -DforceStdout)" >> $GITHUB_OUTPUT
 
-      - name: Print Version
-        run: echo ${{ steps.version-step.outputs.version }}
+      - name: Get previous final release tag
+        id: previousTag
+        run: echo "previousTag=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | grep "^[3-9]\.[0-9]\+\.[0-9]\+$" | tail -1)" >> $GITHUB_OUTPUT
+        # Note: the regex works for single digit major version, to be updated if the version goes 10.0.0 or more
 
-      - uses: mukunku/tag-exists-action@v1.7.0
-        name: Check tag existence
+      - name: Compare version to previous release tag
+        id: compare-step
+        run: |
+          echo ""
+          echo "Eno version:  ${{ steps.version-step.outputs.version }}"
+          echo "Previous tag: ${{ steps.previousTag.outputs.previousTag }}"
+
+          yesOrNo="no"
+          if [[ ${{steps.version-step.outputs.version != steps.previousTag.outputs.previousTag}} ]]; then
+            yesOrNo="yes"
+          fi
+          echo "Was the version changed? $yesOrNo"
+          echo "hasVersionChanged=$yesOrNo" >> $GITHUB_OUTPUT
+
+      - name: (Semantic version) Calculate release version
+        if: ${{ steps.compare-step.outputs.hasVersionChanged == 'no' }}
+        id: compute-version
+        #uses: <find an action that does the job>
+        run: |
+          echo "Semantic version is not implemented yet ❌️"
+          echo "Bump the version to trigger the release workflow."
+          exit 1
+
+      - name: Release version number
+        id: version-number
+        run: |
+          versionNumber="undefined" # update this when semantic version is done
+          if [[ ${{steps.compare-step.outputs.hasVersionChanged}} == "yes" ]]; then
+            versionNumber=${{ steps.version-step.outputs.version }}
+          fi
+          echo "Version to be released: $versionNumber"
+          echo "value=$versionNumber" >> $GITHUB_OUTPUT
+
+      - name: Check tag existence
         id: check-tag-exists
+        uses: mukunku/tag-exists-action@5c39604fe8aef7e65acb6fbcf96ec580f7680313 # v1.7.0
         with:
           tag: ${{ steps.version-step.outputs.version }}
 
       - name: Tag verification
-        id: check-tag
         run: |
           if [[ "${{ steps.check-tag-exists.outputs.exists }}" == "true" ]]; then
-            echo "Nothing to tag/release, the tag ${{ steps.version-step.outputs.version }} already exists"
+            echo "Version ${{ steps.version-number.outputs.value }} cannot be released, tag already exists"
             exit 1
           fi
 
-          if ! [[ "${{ steps.version-step.outputs.version }}" =~ ^[0-9]+.[0-9]+.[0-9]+$ ]]; then
-            echo "Nothing to tag/release, the tag ${{ steps.version-step.outputs.version }} is not in correct format X.Y.Z"
+          if ! [[ "${{ steps.version-number.outputs.value }}" =~ ^[0-9]+.[0-9]+.[0-9]+$ ]]; then
+            echo "The version ${{ steps.version-number.outputs.value }} is not in correct release format X.Y.Z"
             exit 1
           fi
 
@@ -139,53 +184,39 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Get previous release tag
-        id: previousTag
-        run: echo "previousTag=$(git --no-pager tag --sort=creatordate --merged ${{ github.ref_name }} | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$" | tail -1)" >> $GITHUB_OUTPUT
-
       - name: Create tag
-        uses: rickstaa/action-create-tag@v1
+        uses: rickstaa/action-create-tag@a1c7777fcb2fee4f19b0f283ba888afa11678b72 # v1.7.2
         with:
           tag: ${{ needs.check-version.outputs.release-version }}
 
       - name: Create release note
         id: changelog
-        uses: requarks/changelog-action@v1
+        uses: requarks/changelog-action@b78a3354a01f4a1affb484b9264b506a815c46b1 # v1.10.3
         with:
           fromTag: ${{ needs.check-version.outputs.release-version }}
-          toTag: ${{ steps.previousTag.outputs.previousTag}}
-          excludeTypes: docs,style,chore,other
+          toTag: ${{ needs.check-version.outputs.previous-version }}
+          excludeTypes: ${{ env.RELEASE_NOTE_EXCLUDED_TYPES }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          writeToFile: true
-          changelogFilePath: "CHANGELOG.md"
+          writeToFile: false
 
-      - name: Download jar
+      - name: Download build
         id: download
         uses: actions/download-artifact@v4
         with:
-          name: jar
-          path: target/
+          name: eno-ws-jar
+          path: eno-ws/target/
 
       - name: Create GitHub release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
         with:
           tag_name: ${{ needs.check-version.outputs.release-version }}
           target_commitish: ${{ github.head_ref || github.ref }}
           name: ${{ needs.check-version.outputs.release-version }}
-          body: ${{steps.changelog.outputs.changes}}
-          files: ./target/pogues-bo.jar
+          body: ${{ steps.changelog.outputs.changes }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      # - name: Commit changelog file
-      #   uses: stefanzweifel/git-auto-commit-action@v5
-      #   with:
-      #     branch: 'main'
-      #     commit_message: 'docs(changelog): ${{ needs.check-version.outputs.release-version }} update [skip ci]'
-      #     file_pattern: 'CHANGELOG.md'
-
   publish-docker:
-    needs: [check-version, create-release]
+    needs: [check-version]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
