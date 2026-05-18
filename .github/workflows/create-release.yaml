@@ -91,7 +91,7 @@ jobs:
         id: compare-step
         run: |
           echo ""
-          echo "Eno version:  ${{ steps.version-step.outputs.version }}"
+          echo "version:  ${{ steps.version-step.outputs.version }}"
           echo "Previous tag: ${{ steps.previousTag.outputs.previousTag }}"
 
           yesOrNo="no"
@@ -203,8 +203,8 @@ jobs:
         id: download
         uses: actions/download-artifact@v4
         with:
-          name: eno-ws-jar
-          path: eno-ws/target/
+          name: jar
+          path: target/
 
       - name: Create GitHub release
         uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b # v2.5.0
