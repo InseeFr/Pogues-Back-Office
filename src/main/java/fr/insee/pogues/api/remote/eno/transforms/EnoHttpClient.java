@@ -45,7 +45,7 @@ public class EnoHttpClient implements EnoClient {
     @Override
     public void getParameters() {
         URI uri = UriComponentsBuilder
-                .fromHttpUrl(enoHost)
+                .fromUriString(enoHost)
                 .path("/parameters/xml/all")
                 .build().toUri();
         String xmlParams = webClient.get()
@@ -135,7 +135,7 @@ public class EnoHttpClient implements EnoClient {
     private String callEnoApiWithParams(String inputAsString, String fileName, String wsPath, MultiValueMap<String,String> params)
             throws EnoException, PoguesException {
         URI uri = UriComponentsBuilder
-                .fromHttpUrl(enoHost)
+                .fromUriString(enoHost)
                 .path(wsPath)
                 .queryParams(params)
                 .build().toUri();

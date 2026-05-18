@@ -1,6 +1,5 @@
 package fr.insee.pogues.persistence.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.exceptions.EntityNotFoundException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
@@ -8,6 +7,7 @@ import fr.insee.pogues.persistence.repository.JSONLunaticRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 /**
  * Questionnaire Service to assume the persistance of questionnaires' JSON unatic representation.

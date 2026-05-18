@@ -1,8 +1,5 @@
 package fr.insee.pogues.persistence.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.exception.QuestionnaireNotFoundException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
@@ -12,6 +9,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.JsonNodeFactory;
+import tools.jackson.databind.node.ObjectNode;
 
 import java.sql.SQLException;
 

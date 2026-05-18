@@ -1,12 +1,12 @@
 package fr.insee.pogues.transforms.visualize.uri;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.persistence.service.JSONLunaticService;
 import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import fr.insee.pogues.exception.PoguesException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 import java.io.InputStream;
 import java.net.URI;
@@ -48,7 +48,7 @@ public class LunaticJSONToUriQueenImpl implements LunaticJSONToUriQueen{
 	@Override
 	public URI transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
 		JsonNode jsonContent = jsonStringtoJsonNode(new String(input.readAllBytes(), StandardCharsets.UTF_8));
-		String id  = jsonContent.get("id").asText();
+		String id  = jsonContent.get("id").asString();
 		try {
 			jsonLunaticService.createJsonLunatic(jsonContent);
 		} catch (PoguesException e) {

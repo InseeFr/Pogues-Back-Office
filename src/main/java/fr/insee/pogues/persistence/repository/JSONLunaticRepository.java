@@ -1,6 +1,7 @@
 package fr.insee.pogues.persistence.repository;
 
-import com.fasterxml.jackson.databind.JsonNode;
+
+import tools.jackson.databind.JsonNode;
 
 /**
  * Questionnaire Service Query interface to assume the persistance of questionnaires' JSON Lunatic representation.

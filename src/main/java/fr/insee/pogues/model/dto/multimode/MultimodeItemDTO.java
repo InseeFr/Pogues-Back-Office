@@ -1,6 +1,5 @@
 package fr.insee.pogues.model.dto.multimode;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,8 +1,8 @@
 package fr.insee.pogues.transforms.visualize;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.conversion.JSONToXMLTranslator;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;

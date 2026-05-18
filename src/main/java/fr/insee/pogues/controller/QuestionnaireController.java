@@ -1,7 +1,5 @@
 package fr.insee.pogues.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
 import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
@@ -24,6 +22,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -293,7 +293,7 @@ public class QuestionnaireController {
 	public ResponseEntity<Object> createJsonLunatic(
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
-		String id = jsonContent.get("id").asText();
+		String id = jsonContent.get("id").asString();
         if (! id.matches(QUESTIONNAIRE_ID_PATTERN))
             throw new QuestionnaireIdentifierException(id);
         jsonLunaticService.createJsonLunatic(jsonContent);

@@ -1,24 +1,22 @@
 package fr.insee.pogues.controller.error;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Calendar;
-import java.util.Date;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Objects;
 
 public class ApiError {
-    @JsonProperty("timestamp")
-    private Date date;
+    private LocalDateTime timestamp;
     private int status;
-    @JsonProperty("error")
-    private String statusMessage;
+    private String error;
     private String message;
 
-    public ApiError(int status, String statusMessage, String message) {
+    public ApiError(int status, String error, String message) {
         this.status = status;
-        this.statusMessage = statusMessage;
+        this.error = error;
         this.message = message;
-        this.date = Calendar.getInstance().getTime();
+        this.timestamp = LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault());
     }
 
     public int getStatus() {
@@ -29,12 +27,12 @@ public class ApiError {
         this.status = status;
     }
 
-    public String getStatusMessage() {
-        return statusMessage;
+    public String getError() {
+        return error;
     }
 
-    public void setStatusMessage(String statusMessage) {
-        this.statusMessage = statusMessage;
+    public void setError(String error) {
+        this.error = error;
     }
 
     public String getMessage() {
@@ -45,12 +43,12 @@ public class ApiError {
         this.message = message;
     }
 
-    public Date getDate() {
-        return date;
+    public LocalDateTime getTimestamp() {
+        return timestamp;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 
     @Override
@@ -58,21 +56,21 @@ public class ApiError {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ApiError apiError = (ApiError) o;
-        return status == apiError.status && Objects.equals(statusMessage, apiError.statusMessage) && Objects.equals(message, apiError.message) && Objects.equals(date, apiError.date);
+        return status == apiError.status && Objects.equals(error, apiError.error) && Objects.equals(message, apiError.message) && Objects.equals(timestamp, apiError.timestamp);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(status, statusMessage, message, date);
+        return Objects.hash(status, error, message, timestamp);
     }
 
     @Override
     public String toString() {
         return "ApiError{" +
                 "status=" + status +
-                ", statusMessage='" + statusMessage + '\'' +
+                ", statusMessage='" + error + '\'' +
                 ", message='" + message + '\'' +
-                ", date=" + date +
+                ", date=" + timestamp +
                 '}';
     }
 }

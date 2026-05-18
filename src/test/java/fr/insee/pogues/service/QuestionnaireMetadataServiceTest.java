@@ -1,12 +1,12 @@
 package fr.insee.pogues.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
 import fr.insee.pogues.transforms.visualize.eno.PoguesXMLToDDI;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -43,7 +43,7 @@ class QuestionnaireMetadataServiceTest {
 
         // Given
         String dummyJson = "{\"foo\":\"bar\"}";
-        JsonNode jsonNode = new ObjectMapper().readTree(dummyJson);
+        JsonNode jsonNode = JsonMapper.builder().build().readTree(dummyJson);
 
         ByteArrayOutputStream xmlStream = new ByteArrayOutputStream();
         xmlStream.write("<questionnaire/>".getBytes(StandardCharsets.UTF_8));

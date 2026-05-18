@@ -88,6 +88,7 @@ application:
     magma:
 
   external-secure-urls:
+  external-secure-urls-with-service-account:
     - ${application.metadata.ddi-as}
     - ${application.metadata.magma}
 
@@ -156,6 +157,13 @@ feature:
     scopes:
       - profile
       - roles
+    service-account:
+      enabled: ${feature.oidc.enabled}
+      auth-server-url: https://auth-server.host/auth
+      realm: my-realm
+      client-id: my-client-id
+      client-secret:
+      refresh-margin: 5 # in seconds
   swagger:
     enabled: true
   database:

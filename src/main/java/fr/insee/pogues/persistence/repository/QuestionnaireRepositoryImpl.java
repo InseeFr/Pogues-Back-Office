@@ -1,7 +1,5 @@
 package fr.insee.pogues.persistence.repository;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
 import fr.insee.pogues.configuration.cache.CacheName;
 import fr.insee.pogues.exception.PoguesException;
@@ -14,6 +12,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -147,7 +146,7 @@ public class QuestionnaireRepositoryImpl implements QuestionnaireRepository {
 	 */
 	public void createQuestionnaire(JsonNode questionnaire) throws Exception {
 		String qString = "INSERT INTO pogues (id, data) VALUES (?, ?)";
-		String id = questionnaire.get("id").asText();
+		String id = questionnaire.get("id").asString();
 		if (null != getQuestionnaireByID(id)) {
 			throw new NonUniqueResultException("Entity already exists");
 		}
@@ -197,13 +196,7 @@ public class QuestionnaireRepositoryImpl implements QuestionnaireRepository {
 
 	private List<JsonNode> pgToJSON(List<PGobject> data) {
 		return Objects.requireNonNull(data).stream()
-				.map(q -> {
-					try {
-						return jsonStringtoJsonNode(q.toString());
-					} catch (JsonProcessingException e) {
-						throw new RuntimeException("ERROR parsing Json DATA");
-                    }
-                })
+				.map(q -> jsonStringtoJsonNode(q.toString()))
 				.collect(Collectors.toList());
 	}
 	
@@ -213,7 +206,7 @@ public class QuestionnaireRepositoryImpl implements QuestionnaireRepository {
 	
 	private boolean isUserAuthorized(JsonNode questionnaire, String action) {
 		boolean isAuthorized=true;
-		String stamp = questionnaire.get("owner").asText();
+		String stamp = questionnaire.get("owner").asString();
 		if (isStampRestricted(stamp) && !stampsRestrictionsService.isQuestionnaireOwner(stamp)) {
 			isAuthorized=false;
 		}

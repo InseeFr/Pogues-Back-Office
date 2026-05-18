@@ -1,10 +1,10 @@
 package fr.insee.pogues.utils;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.exception.PoguesDeserializationException;
 import fr.insee.pogues.model.Questionnaire;
 import lombok.extern.slf4j.Slf4j;
+import tools.jackson.databind.JsonNode;
 
 import javax.xml.bind.JAXBException;
 import java.io.ByteArrayInputStream;

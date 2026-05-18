@@ -1,6 +1,5 @@
 package fr.insee.pogues.model.dto.variables;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

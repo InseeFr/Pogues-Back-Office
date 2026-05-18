@@ -29,7 +29,7 @@ public class DDIASClientImpl implements DDIASClient {
     @Override
     public List<Unit> getUnits() throws Exception {
         URI uri = UriComponentsBuilder
-                .fromHttpUrl(ddiAsHost)
+                .fromUriString(ddiAsHost)
                 .path(UNITS_PATH)
                 .build().toUri();
         log.info("Call DDIAS with URI : {}", uri);

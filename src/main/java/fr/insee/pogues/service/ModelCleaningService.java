@@ -1,7 +1,5 @@
 package fr.insee.pogues.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.conversion.JSONSerializer;
 import fr.insee.pogues.exception.PoguesDeserializationException;
@@ -17,6 +15,7 @@ import fr.insee.pogues.utils.model.cleaner.ModelCleaner;
 import fr.insee.pogues.utils.model.cleaner.TableDimensionCleaner;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
@@ -29,7 +28,7 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 @Slf4j
 public class ModelCleaningService implements ModelTransformer {
 
-    public JsonNode cleanModel(JsonNode jsonNodeQuestionnaire) throws PoguesDeserializationException, PoguesSerializationException, JsonProcessingException {
+    public JsonNode cleanModel(JsonNode jsonNodeQuestionnaire) throws PoguesDeserializationException, PoguesSerializationException {
         Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonNodeQuestionnaire);
         cleanModel(questionnaire);
         return jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaire));

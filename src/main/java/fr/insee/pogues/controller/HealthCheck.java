@@ -1,7 +1,6 @@
 package fr.insee.pogues.controller;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
 import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
 import org.springframework.web.util.UriComponentsBuilder;
+import tools.jackson.databind.node.JsonNodeFactory;
+import tools.jackson.databind.node.ObjectNode;
 
 import java.net.URI;
 import java.util.HashMap;
@@ -93,15 +94,15 @@ public class HealthCheck {
             finalResponse.put("DB PostgreSql","KO");
         }
 
-        URI uriExist = UriComponentsBuilder.fromHttpUrl(stromaeDbHost).path("/exist/apps/dashboard/index.html").build().toUri();
-        URI uriOrbeon = UriComponentsBuilder.fromHttpUrl(orbeonHost)
+        URI uriExist = UriComponentsBuilder.fromUriString(stromaeDbHost).path("/exist/apps/dashboard/index.html").build().toUri();
+        URI uriOrbeon = UriComponentsBuilder.fromUriString(orbeonHost)
                 .path("/rmesstromae/fr/esa-dc-2018/simpsons/new")
                 .queryParam("unite-enquete","123456789")
                 .build().toUri();
-        URI uriQueen = UriComponentsBuilder.fromHttpUrl(queenHost).path("/index.html").build().toUri();
-        // URI uriDDIAS = UriComponentsBuilder.fromHttpUrl(ddiAccessServicesUrl).path("/env").build().toUri();
-        URI uriStromaeV2 = UriComponentsBuilder.fromHttpUrl(stromaeV2Host).path("/index.html").build().toUri();
-        URI uriStromaeV3 = UriComponentsBuilder.fromHttpUrl(stromaeV3Host).path("/index.html").build().toUri();
+        URI uriQueen = UriComponentsBuilder.fromUriString(queenHost).path("/index.html").build().toUri();
+        // URI uriDDIAS = UriComponentsBuilder.fromUriString(ddiAccessServicesUrl).path("/env").build().toUri();
+        URI uriStromaeV2 = UriComponentsBuilder.fromUriString(stromaeV2Host).path("/index.html").build().toUri();
+        URI uriStromaeV3 = UriComponentsBuilder.fromUriString(stromaeV3Host).path("/index.html").build().toUri();
 
         Map<String, URI> externalServices = new HashMap<>();
 

@@ -1,6 +1,5 @@
 package fr.insee.pogues.transforms.visualize;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.conversion.JSONSerializer;
 import fr.insee.pogues.conversion.XMLSerializer;
@@ -10,6 +9,7 @@ import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.utils.PoguesSerializer;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import tools.jackson.databind.JsonNode;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

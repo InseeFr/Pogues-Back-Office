@@ -1,6 +1,5 @@
 package fr.insee.pogues.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.controller.error.ErrorCode;
 import fr.insee.pogues.exception.*;
 import fr.insee.pogues.model.*;
@@ -13,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tools.jackson.databind.JsonNode;
 
 import java.util.List;
 

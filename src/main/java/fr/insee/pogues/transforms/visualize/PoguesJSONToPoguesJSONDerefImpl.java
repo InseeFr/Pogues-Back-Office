@@ -1,6 +1,5 @@
 package fr.insee.pogues.transforms.visualize;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.utils.PoguesDeserializer;
@@ -9,6 +8,7 @@ import fr.insee.pogues.utils.suggester.SuggesterVisuService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;

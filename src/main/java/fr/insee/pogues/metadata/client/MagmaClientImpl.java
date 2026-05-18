@@ -33,7 +33,7 @@ public class MagmaClientImpl implements MagmaClient {
     @Override
     public List<Serie> getSeries() throws Exception {
         URI uri = UriComponentsBuilder
-                .fromHttpUrl(magmaHost)
+                .fromUriString(magmaHost)
                 .path(SERIES_PATH)
                 .queryParam("survey",true)
                 .build().toUri();
@@ -58,7 +58,7 @@ public class MagmaClientImpl implements MagmaClient {
     @Override
     public Serie getSerieById(String id) throws Exception {
         URI uri = UriComponentsBuilder
-                .fromHttpUrl(magmaHost)
+                .fromUriString(magmaHost)
                 .path(OPERATIONS_SERIE_PATH)
                 .pathSegment(id)
                 .build().toUri();
@@ -82,7 +82,7 @@ public class MagmaClientImpl implements MagmaClient {
     @Override
     public List<Operation> getOperationsByIdSerie(String id) throws Exception {
         URI uri = UriComponentsBuilder
-                .fromHttpUrl(magmaHost)
+                .fromUriString(magmaHost)
                 .path(OPERATIONS_SERIE_PATH)
                 .pathSegment(id)
                 .pathSegment(OPERATIONS_PATH)
@@ -107,7 +107,7 @@ public class MagmaClientImpl implements MagmaClient {
     @Override
     public Operation getOperationById(String idOperation) throws Exception {
         URI uri = UriComponentsBuilder
-                .fromHttpUrl(magmaHost)
+                .fromUriString(magmaHost)
                 .path(SINGLE_OPERATION_PATH)
                 .pathSegment(idOperation)
                 .build().toUri();

@@ -1,6 +1,5 @@
 package fr.insee.pogues.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
@@ -8,6 +7,7 @@ import fr.insee.pogues.transforms.visualize.eno.PoguesXMLToDDI;
 import fr.insee.pogues.utils.model.ZipFile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

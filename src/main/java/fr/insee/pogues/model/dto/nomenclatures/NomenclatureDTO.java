@@ -1,6 +1,5 @@
 package fr.insee.pogues.model.dto.nomenclatures;
 
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.10</version>
+		<version>4.0.6</version>
 		<relativePath/>
 	</parent>
 
@@ -18,7 +18,7 @@
 	<properties>
 		<!-- Project metadata properties -->
 		<final.asset.name>pogues-bo</final.asset.name>
-		<revision>4.26.9</revision> <!-- Version is managed by git tags -->
+		<revision>4.27.1</revision> <!-- Version is managed by git tags -->
 
 		<!-- Project build properties -->
 		<java.version>25</java.version>
@@ -26,16 +26,18 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 		<!-- !!! Version properties overridden from Spring Boot !!! -->
-		<liquibase.version>4.33.0</liquibase.version> <!-- ? -->
-		<caffeine.version>3.2.3</caffeine.version> <!-- ? -->
-		<jackson-bom.version>2.21.1</jackson-bom.version> <!-- CVE in Spring Boot 3.5.10 -->
+		<tomcat.version>11.0.21</tomcat.version>
+		<jackson-2-bom.version>2.21.1</jackson-2-bom.version>
+		<jackson-bom.version>3.1.1</jackson-bom.version>
 
 		<!-- Version properties not managed by Spring Boot -->
-		<pogues-model.version>1.15.2</pogues-model.version>
+		<pogues-model.version>1.15.3</pogues-model.version>
 		<fop.version>2.11</fop.version>
-		<springdoc-openapi-ui.version>2.8.15</springdoc-openapi-ui.version>
+		<springdoc-openapi-ui.version>3.0.3</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.14</jacoco.version>
 		<saxon.version>12.9</saxon.version>
+		<netty.version>4.2.13.Final</netty.version>
+		<postgresql.version>42.7.11</postgresql.version>
 
 		<!-- Sonar properties -->
 		<sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
@@ -61,21 +63,17 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jdbc</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jersey</artifactId>
-		</dependency>
 
 		<!-- Web-Client-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-webflux</artifactId>
+			<artifactId>spring-boot-starter-webclient</artifactId>
 		</dependency>
 		
 		<!-- Cache -->
@@ -86,7 +84,6 @@
 		<dependency>
 			<groupId>com.github.ben-manes.caffeine</groupId>
 			<artifactId>caffeine</artifactId>
-			<version>${caffeine.version}</version>
 		</dependency>
 
 		<!-- Actuator Metrics -->
@@ -117,22 +114,6 @@
 			<groupId>fr.insee.pogues</groupId>
 			<artifactId>pogues-model</artifactId>
 			<version>${pogues-model.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.rest-assured</groupId>
-			<artifactId>rest-assured</artifactId>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.commons</groupId>
-					<artifactId>commons-lang3</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<!-- For PDF generation using fop and saxon -->
 		<dependency>
@@ -166,7 +147,17 @@
 		<!-- Tests -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security-test</artifactId>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -184,7 +175,7 @@
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
-			<scope>true</scope>
+			<scope>provided</scope>
 		</dependency>
 		<!-- To remove when assertj included by spring-boot will be upgraded -->
 		<dependency>

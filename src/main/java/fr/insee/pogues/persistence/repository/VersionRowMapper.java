@@ -1,6 +1,5 @@
 package fr.insee.pogues.persistence.repository;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import fr.insee.pogues.domain.entity.db.Version;
 import fr.insee.pogues.utils.json.JSONFunctions;
 import lombok.extern.slf4j.Slf4j;
@@ -29,11 +28,7 @@ public class VersionRowMapper implements RowMapper<Version> {
         version.setTimestamp(convertTimestampToZonedDateTime(rs.getTimestamp("timestamp")));
         version.setAuthor(rs.getString("author"));
         if(withData){
-            try {
-                version.setData(JSONFunctions.jsonStringtoJsonNode(rs.getString("data")));
-            } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
-            }
+            version.setData(JSONFunctions.jsonStringtoJsonNode(rs.getString("data")));
         }
         return version;
     }

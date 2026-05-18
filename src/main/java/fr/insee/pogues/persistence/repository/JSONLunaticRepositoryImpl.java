@@ -1,6 +1,6 @@
 package fr.insee.pogues.persistence.repository;
 
-import com.fasterxml.jackson.databind.JsonNode;
+
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
@@ -59,7 +60,7 @@ public class JSONLunaticRepositoryImpl implements JSONLunaticRepository {
     public void createJsonLunatic(JsonNode questionnaireLunatic) throws Exception {
         String qString =
                 "INSERT INTO visu_lunatic (id, data_lunatic) VALUES (?, ?)";
-        String id  = questionnaireLunatic.get("id").asText();
+        String id  = questionnaireLunatic.get("id").asString();
         if(null != getJsonLunaticByID(id)){
             throw new NonUniqueResultException("Entity already exists");
         }

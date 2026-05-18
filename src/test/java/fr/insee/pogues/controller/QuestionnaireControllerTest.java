@@ -1,7 +1,5 @@
 package fr.insee.pogues.controller;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.QuestionnaireIdentifierException;
 import fr.insee.pogues.service.ModelValidationService;
@@ -10,6 +8,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import tools.jackson.databind.node.JsonNodeFactory;
+import tools.jackson.databind.node.ObjectNode;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ class QuestionnaireControllerTest {
 
     @BeforeEach
     void beforeEach() {
-        ApplicationProperties fooProperties = new ApplicationProperties("localhost", "http", null, null, null, null, null);
+        ApplicationProperties fooProperties = new ApplicationProperties("localhost", "http", null, null, null, null, null, null);
         questionnaireServiceStub = new QuestionnaireServiceStub();
         questionnaireController = new QuestionnaireController(fooProperties, questionnaireServiceStub, null, null, null, null, new ModelValidationService());
     }

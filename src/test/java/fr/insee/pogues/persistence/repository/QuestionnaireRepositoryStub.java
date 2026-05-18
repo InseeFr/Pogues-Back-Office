@@ -1,11 +1,11 @@
 package fr.insee.pogues.persistence.repository;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.configuration.cache.CacheName;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 import java.util.*;
 

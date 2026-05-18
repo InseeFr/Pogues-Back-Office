@@ -1,10 +1,10 @@
 package fr.insee.pogues.service.stub;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.exception.QuestionnaireNotFoundException;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import lombok.Getter;
+import tools.jackson.databind.JsonNode;
 
 import java.util.HashMap;
 import java.util.List;

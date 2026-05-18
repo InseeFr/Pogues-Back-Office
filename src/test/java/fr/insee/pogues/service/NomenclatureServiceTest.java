@@ -1,6 +1,5 @@
 package fr.insee.pogues.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
@@ -12,6 +11,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tools.jackson.databind.JsonNode;
 
 import java.util.List;
 import static fr.insee.pogues.utils.Utils.loadQuestionnaireFromResources;

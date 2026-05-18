@@ -1,6 +1,5 @@
 package fr.insee.pogues.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.exception.VariableNotFoundException;
 import fr.insee.pogues.model.*;
@@ -9,15 +8,20 @@ import fr.insee.pogues.model.dto.variables.VariableDTODatatype;
 import fr.insee.pogues.model.dto.variables.VariableDTODatatypeTypeEnum;
 import fr.insee.pogues.model.dto.variables.VariableDTOTypeEnum;
 import fr.insee.pogues.service.VariableService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -30,14 +34,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WithMockUser(username = "testUser", roles = {"ADMIN"})
 @WebMvcTest(VariableController.class)
 class VariableControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
+    @Autowired
     private VariableService variableService;
+
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public VariableService variableService() {
+            return Mockito.mock(VariableService.class);
+        }
+    }
+
+    @BeforeEach
+    void resetMocks() {
+        Mockito.reset(variableService);
+    }
 
     @Test
     @DisplayName("Should fetch questionnaires variables")
@@ -142,7 +160,7 @@ class VariableControllerTest {
         // Given a variable
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
         VariableDTO variable = new VariableDTO("id", "name", "description", VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = JsonMapper.builder().build();
         String expectedJSON = objectMapper.writeValueAsString(variable);
         Mockito.when(variableService.upsertQuestionnaireVariable(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getId(), variable.getId()))))
                 .thenReturn(true);
@@ -163,7 +181,7 @@ class VariableControllerTest {
         // Given a questionnaire with a variable
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
         VariableDTO variable = new VariableDTO("id", "name", "description", VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = JsonMapper.builder().build();
         String expectedJSON = objectMapper.writeValueAsString(variable);
         Mockito.when(variableService.upsertQuestionnaireVariable(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getId(), variable.getId()))))
                 .thenReturn(false);
@@ -184,7 +202,7 @@ class VariableControllerTest {
         // Given a variable
         VariableDTODatatype datatypeDTO = new VariableDTODatatype(VariableDTODatatypeTypeEnum.BOOLEAN, null, null, null, null, null, null, null);
         VariableDTO variable = new VariableDTO("id", "name", "description", VariableDTOTypeEnum.COLLECTED, null, null, datatypeDTO, null);
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = JsonMapper.builder().build();
         String expectedJSON = objectMapper.writeValueAsString(variable);
         Mockito.when(variableService.upsertQuestionnaireVariable(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getId(), variable.getId()))))
                 .thenThrow(new PoguesException(404, "Questionnaire not found", ""));

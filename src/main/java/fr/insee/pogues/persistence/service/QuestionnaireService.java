@@ -1,6 +1,5 @@
 package fr.insee.pogues.persistence.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
 import fr.insee.pogues.exception.NullReferenceException;
 import fr.insee.pogues.exception.PoguesException;
@@ -15,6 +14,7 @@ import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 import java.util.List;
 
@@ -137,7 +137,7 @@ public class QuestionnaireService implements IQuestionnaireService{
      */
     public void createQuestionnaire(JsonNode questionnaire) throws Exception {
         try {
-            String poguesId = questionnaire.get("id").asText();
+            String poguesId = questionnaire.get("id").asString();
             this.questionnaireRepository.createQuestionnaire(questionnaire);
             String author = stampsRestrictionsService.getUser().getUserId();
             this.versionService.createVersionOfQuestionnaire(poguesId, questionnaire, author);

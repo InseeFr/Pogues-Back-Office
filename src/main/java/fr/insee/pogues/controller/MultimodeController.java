@@ -1,6 +1,6 @@
 package fr.insee.pogues.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
+
 import fr.insee.pogues.mapper.MultimodeMapper;
 import fr.insee.pogues.model.Multimode;
 import fr.insee.pogues.model.dto.multimode.MultimodeDTO;
@@ -14,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import tools.jackson.databind.JsonNode;
 
 import java.util.UUID;
 

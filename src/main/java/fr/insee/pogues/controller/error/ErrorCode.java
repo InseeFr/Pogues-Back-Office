@@ -11,6 +11,7 @@ public enum ErrorCode {
     VERSION_NOT_FOUND("version:notfound"),
     QUESTIONNAIRE_FORMULA_LANGUAGE_NOT_VTL("questionnaire:formulalanguage:notvtl"),
     QUESTIONNAIRE_ROUNDABOUT_NOT_FOUND("questionnaire:roundaboutnotfound"),
+    TOKEN_ERROR("tokenValue:error"),
     ;
 
     public final String label;

@@ -4,13 +4,16 @@ import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
 import fr.insee.pogues.model.dto.nomenclatures.ExternalLinkDTO;
 import fr.insee.pogues.model.dto.nomenclatures.NomenclatureDTO;
 import fr.insee.pogues.service.NomenclatureService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -20,14 +23,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WithMockUser(username = "testUser", roles = {"ADMIN"})
 @WebMvcTest(NomenclatureController.class)
 class NomenclatureControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
+    @Autowired
     private NomenclatureService nomenclatureService;
+
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public NomenclatureService nomenclatureService() {
+            return Mockito.mock(NomenclatureService.class);
+        }
+    }
+
+    @BeforeEach
+    void resetMocks() {
+        Mockito.reset(nomenclatureService);
+    }
 
     @Test
     @DisplayName("Should fetch questionnaires nomenclatures")
@@ -36,7 +53,7 @@ class NomenclatureControllerTest {
         NomenclatureDTO nomenclature = new NomenclatureDTO("id", "label", "version", new ExternalLinkDTO("urn"));
         ExtendedNomenclatureDTO extendedNomenclature = new ExtendedNomenclatureDTO(nomenclature, List.of("Q1", "Q2"));
         Mockito.when(nomenclatureService.getQuestionnaireNomenclatures("my-q-id")).thenReturn(List.of(extendedNomenclature));
-        String expectedJSON = "[{\"id\":\"id\",\"label\":\"label\",\"version\":\"version\",\"externalLink\":{\"urn\":\"urn\"},\"relatedQuestionNames\":[\"Q1\",\"Q2\"]}]";
+        String expectedJSON = "[{\"externalLink\":{\"urn\":\"urn\"},\"id\":\"id\",\"label\":\"label\",\"relatedQuestionNames\":[\"Q1\",\"Q2\"],\"version\":\"version\"}]";
 
         // When we fetch the questionnaire nomenclatures
         mockMvc.perform(get("/api/questionnaires/my-q-id/nomenclatures")

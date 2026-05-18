@@ -1,7 +1,5 @@
 package fr.insee.pogues.controller;
 
-import com.fasterxml.jackson.databind.node.JsonNodeFactory;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -14,6 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import tools.jackson.databind.node.JsonNodeFactory;
+import tools.jackson.databind.node.ObjectNode;
 
 @RestController
 @RequestMapping("/api/env")
@@ -42,18 +42,18 @@ public class PoguesEnvironment {
 			visu.put("Stromae v3", env.getProperty("application.stromaev3.vis.host"));
 			visu.put("Queen", env.getProperty("application.queen.vis.host"));
 			visu.put("API Questionnaire", env.getProperty("application.api.nomenclatures"));
-			entity.put("Visualization",visu);
+			entity.put("Visualization", String.valueOf(visu));
 
 			ObjectNode external = JsonNodeFactory.instance.objectNode();
 			external.put("Metadata services - DDI.AS",env.getProperty("application.metadata.ddi-as"));
 			external.put("Metadata services - Magma",env.getProperty("application.metadata.magma"));
-			entity.put("External Services",external);
+			entity.put("External Services", String.valueOf(external));
 
 			ObjectNode auth = JsonNodeFactory.instance.objectNode();
 			auth.put("enabled",env.getProperty("feature.oidc.enabled"));
 			auth.put("server",env.getProperty("feature.oidc.auth-server-url"));
 			auth.put("realm",env.getProperty("feature.oidc.realm"));
-			entity.put("Authentication", auth);
+			entity.put("Authentication", String.valueOf(auth));
 			return ResponseEntity.status(HttpStatus.OK).body(entity);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);

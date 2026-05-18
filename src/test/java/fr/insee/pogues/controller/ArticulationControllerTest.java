@@ -1,21 +1,25 @@
 package fr.insee.pogues.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import fr.insee.pogues.exception.QuestionnaireNotFoundException;
 import fr.insee.pogues.exception.VersionNotFoundException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.model.dto.articulations.ArticulationDTO;
 import fr.insee.pogues.model.dto.articulations.ArticulationItemDTO;
 import fr.insee.pogues.service.ArticulationService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.TestConfiguration;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.util.List;
 import java.util.Objects;
@@ -28,14 +32,28 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+@WithMockUser(username = "testUser", roles = {"ADMIN"})
 @WebMvcTest(ArticulationController.class)
 class ArticulationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
-    @MockitoBean
+    @Autowired
     private ArticulationService articulationService;
+
+    @TestConfiguration
+    static class TestConfig {
+        @Bean
+        public ArticulationService articulationService() {
+            return Mockito.mock(ArticulationService.class);
+        }
+    }
+
+    @BeforeEach
+    void resetMocks() {
+        Mockito.reset(articulationService);
+    }
 
     @Test
     @DisplayName("Should fetch questionnaire articulation")
@@ -156,7 +174,7 @@ class ArticulationControllerTest {
                 new ArticulationItemDTO("my label", "my value"),
                 new ArticulationItemDTO("my other label", "my other value")
         ));
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = JsonMapper.builder().build();
         String expectedJSON = objectMapper.writeValueAsString(articulation);
         Mockito.when(articulationService.upsertQuestionnaireArticulation(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getItems().size(), articulation.getItems().size()))))
                 .thenReturn(true);
@@ -179,7 +197,7 @@ class ArticulationControllerTest {
                 new ArticulationItemDTO("my label", "my value"),
                 new ArticulationItemDTO("my other label", "my other value")
         ));
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = JsonMapper.builder().build();
         String expectedJSON = objectMapper.writeValueAsString(articulation);
         Mockito.when(articulationService.upsertQuestionnaireArticulation(eq("my-q-id"), argThat(arg -> Objects.equals(arg.getItems().size(), articulation.getItems().size()))))
                 .thenReturn(false);

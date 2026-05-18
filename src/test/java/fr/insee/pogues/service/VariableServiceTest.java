@@ -1,6 +1,5 @@
 package fr.insee.pogues.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.exception.QuestionnaireNotFoundException;
 import fr.insee.pogues.exception.VariableNotFoundException;
@@ -15,6 +14,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tools.jackson.databind.JsonNode;
 
 import java.math.BigInteger;
 import java.util.List;

@@ -1,6 +1,5 @@
 package fr.insee.pogues.persistence.service;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import fr.insee.pogues.domain.entity.db.Version;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
@@ -10,6 +9,7 @@ import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tools.jackson.databind.JsonNode;
 
 import java.sql.Date;
 import java.time.Instant;

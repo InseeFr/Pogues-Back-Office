@@ -33,7 +33,7 @@ public class XFormsToURIStromaeV1Impl implements XFormsToURIStromaeV1 {
     public URI transform(InputStream input, Map<String, Object> params, String surveyName) throws Exception {
         try {
             URI uri = UriComponentsBuilder
-                    .fromHttpUrl(serviceUriHost)
+                    .fromUriString(serviceUriHost)
                     .pathSegment(serviceUriVisualizationPath)
                     .pathSegment((String) params.get("dataCollection"))
                     .pathSegment((String) params.get("questionnaire")).build().toUri();
