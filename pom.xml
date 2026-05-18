@@ -7,8 +7,7 @@
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>4.0.6</version>
 		<relativePath/>
-	</parent>
-	
+	</parent>	
 	<groupId>fr.insee</groupId>
 	<artifactId>Pogues-BO</artifactId>
 	<packaging>jar</packaging>
