@@ -1,5 +1,6 @@
 package fr.insee.pogues.controller;
 
+import fr.insee.pogues.configuration.log.LogInterceptor;
 import fr.insee.pogues.exception.QuestionnaireNotFoundException;
 import fr.insee.pogues.exception.VersionNotFoundException;
 import fr.insee.pogues.model.*;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
@@ -44,6 +46,9 @@ class MultimodeControllerTest {
     @Autowired
     private MultimodeService multimodeService;
 
+    @MockitoBean
+    private LogInterceptor logInterceptor;
+
     @TestConfiguration
     static class TestConfig {
         @Bean
@@ -54,7 +59,12 @@ class MultimodeControllerTest {
 
     @BeforeEach
     void resetMocks() {
-        Mockito.reset(multimodeService);
+        Mockito.reset(multimodeService, logInterceptor);
+        Mockito.when(logInterceptor.preHandle(
+                Mockito.any(),
+                Mockito.any(),
+                Mockito.any()
+        )).thenReturn(true);
     }
 
     @Test

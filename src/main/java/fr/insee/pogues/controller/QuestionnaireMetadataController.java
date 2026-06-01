@@ -1,5 +1,6 @@
 package fr.insee.pogues.controller;
 
+import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.service.QuestionnaireMetadataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayOutputStream;
@@ -44,6 +46,7 @@ public class QuestionnaireMetadataController {
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping(value = "/{poguesId}/zip-metadata", produces = "application/zip")
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public ResponseEntity<byte[]> getMetadataZip(@PathVariable String poguesId) {
         if (poguesId == null || poguesId.trim().isEmpty()) {
             throw new IllegalArgumentException("Pogues ID cannot be null or empty");

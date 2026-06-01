@@ -1,5 +1,6 @@
 package fr.insee.pogues.controller;
 
+import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.model.VariableType;
 import fr.insee.pogues.service.VariableService;
 import fr.insee.pogues.mapper.VariablesMapper;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tools.jackson.databind.JsonNode;
 
@@ -39,6 +41,7 @@ public class VariableController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "404", description = "Questionnaire not found") })
 	@GetMapping("/questionnaire/{questionnaireId}/variables")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<List<VariableDTO>> getQuestionnaireVariables(
 			@PathVariable(value = "questionnaireId") String questionnaireId
 	) throws Exception {
@@ -53,6 +56,7 @@ public class VariableController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "404", description = "Version not found") })
 	@GetMapping("/questionnaire/{questionnaireId}/version/{versionId}/variables")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<List<VariableDTO>> getQuestionnaireVersionVariables(
 			@PathVariable(value = "questionnaireId") String ignoredQuestionnaireId,
 			@PathVariable(value = "versionId") UUID versionId
@@ -68,6 +72,7 @@ public class VariableController {
 			@ApiResponse(responseCode = "201", description = "Successfully created"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
 	@PostMapping("/questionnaire/{questionnaireId}/variable")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<List<VariableDTO>> upsertQuestionnaireVariable(
 			@PathVariable(value = "questionnaireId") String questionnaireId,
 			@RequestBody VariableDTO variableDTO
@@ -86,6 +91,7 @@ public class VariableController {
 			@ApiResponse(responseCode = "400", description = "Variable is in use"),
 			@ApiResponse(responseCode = "404", description = "Not found") })
 	@DeleteMapping("/questionnaire/{questionnaireId}/variable/{variableId}")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<JsonNode> deleteQuestionnaireVariable(
 			@PathVariable(value = "questionnaireId") String questionnaireId,
 			@PathVariable(value = "variableId") String variableId

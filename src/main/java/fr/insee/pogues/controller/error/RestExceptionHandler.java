@@ -5,8 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @ControllerAdvice
@@ -70,6 +72,13 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
                 exception.getMessage(),
                 ErrorCode.QUESTIONNAIRE_IDENTIFIER_INVALID.label);
         return new ResponseEntity<>(apiMessage, HttpStatus.valueOf(httpStatusCode));
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ApiError> accessDeniedException(AccessDeniedException exception, WebRequest request) {
+        int httpStatusCode = HttpStatus.FORBIDDEN.value();
+        ApiError apiErrorResponse = new ApiError(httpStatusCode, "Access denied", "habilitation missing");
+        return new ResponseEntity<>(apiErrorResponse, HttpStatus.valueOf(httpStatusCode));
     }
 
 }

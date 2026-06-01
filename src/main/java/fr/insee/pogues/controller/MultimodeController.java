@@ -1,6 +1,7 @@
 package fr.insee.pogues.controller;
 
 
+import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.mapper.MultimodeMapper;
 import fr.insee.pogues.model.Multimode;
 import fr.insee.pogues.model.dto.multimode.MultimodeDTO;
@@ -13,6 +14,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tools.jackson.databind.JsonNode;
 
@@ -41,6 +43,7 @@ public class MultimodeController {
 			@ApiResponse(responseCode = "404", description = "Questionnaire not found"),
 			@ApiResponse(responseCode = "422", description = "Questionnaire is not in VTL") })
 	@GetMapping("/questionnaire/{questionnaireId}/multimode")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<MultimodeDTO> getQuestionnaireMultimode(
 			@PathVariable(value = "questionnaireId") String questionnaireId
 	) throws Exception {
@@ -56,6 +59,7 @@ public class MultimodeController {
 			@ApiResponse(responseCode = "404", description = "Questionnaire not found"),
 			@ApiResponse(responseCode = "422", description = "Questionnaire is not in VTL") })
 	@GetMapping("/questionnaire/{questionnaireId}/version/{versionId}/multimode")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<MultimodeDTO> getQuestionnaireVersionMultimode(
 			@PathVariable(value = "questionnaireId") String ignoredQuestionnaireId,
 			@PathVariable(value = "versionId") UUID versionId
@@ -72,6 +76,7 @@ public class MultimodeController {
 			@ApiResponse(responseCode = "404", description = "Questionnaire not found"),
 			@ApiResponse(responseCode = "422", description = "Questionnaire is not in VTL") })
 	@PutMapping("/questionnaire/{questionnaireId}/multimode")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<JsonNode> upsertQuestionnaireMultimode(
 			@PathVariable(value = "questionnaireId") String questionnaireId,
 			@RequestBody MultimodeDTO multimodeDTO
@@ -90,6 +95,7 @@ public class MultimodeController {
 			@ApiResponse(responseCode = "404", description = "Questionnaire not found"),
 			@ApiResponse(responseCode = "422", description = "Questionnaire is not in VTL") })
 	@DeleteMapping("/questionnaire/{questionnaireId}/multimode")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<JsonNode> deleteQuestionnaireMultimode(
 			@PathVariable(value = "questionnaireId") String questionnaireId
 	) throws Exception {

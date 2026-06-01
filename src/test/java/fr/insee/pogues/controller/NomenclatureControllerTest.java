@@ -1,5 +1,6 @@
 package fr.insee.pogues.controller;
 
+import fr.insee.pogues.configuration.log.LogInterceptor;
 import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
 import fr.insee.pogues.model.dto.nomenclatures.ExternalLinkDTO;
 import fr.insee.pogues.model.dto.nomenclatures.NomenclatureDTO;
@@ -14,6 +15,7 @@ import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -33,6 +35,9 @@ class NomenclatureControllerTest {
     @Autowired
     private NomenclatureService nomenclatureService;
 
+    @MockitoBean
+    private LogInterceptor logInterceptor;
+
     @TestConfiguration
     static class TestConfig {
         @Bean
@@ -43,7 +48,12 @@ class NomenclatureControllerTest {
 
     @BeforeEach
     void resetMocks() {
-        Mockito.reset(nomenclatureService);
+        Mockito.reset(nomenclatureService, logInterceptor);
+        Mockito.when(logInterceptor.preHandle(
+                Mockito.any(),
+                Mockito.any(),
+                Mockito.any()
+        )).thenReturn(true);
     }
 
     @Test

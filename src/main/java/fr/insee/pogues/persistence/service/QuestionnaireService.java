@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
@@ -164,7 +165,7 @@ public class QuestionnaireService implements IQuestionnaireService{
 
     public Questionnaire deReference(JsonNode jsonQuestionnaire) throws Exception {
         Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonQuestionnaire);
-        List<String> references = questionnaire.getChildQuestionnaireRef();
+        List<String> references = new ArrayList<>(questionnaire.getChildQuestionnaireRef()); // make copy of references
         deReference(references, questionnaire);
         return questionnaire;
     }
@@ -185,6 +186,8 @@ public class QuestionnaireService implements IQuestionnaireService{
                 }
                 //
                 QuestionnaireComposition.insertReference(questionnaire, referencedQuestionnaire);
+                // remove reference of child questionnaire
+                questionnaire.getChildQuestionnaireRef().remove(reference);
             }
         }
     }

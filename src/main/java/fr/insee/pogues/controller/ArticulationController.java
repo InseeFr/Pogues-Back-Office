@@ -1,5 +1,6 @@
 package fr.insee.pogues.controller;
 
+import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.mapper.ArticulationMapper;
 import fr.insee.pogues.mapper.VariablesMapper;
 import fr.insee.pogues.model.Articulation;
@@ -15,6 +16,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import tools.jackson.databind.JsonNode;
 
@@ -45,6 +47,7 @@ public class ArticulationController {
 			@ApiResponse(responseCode = "422", description = "Questionnaire does not have a roundabout"),
 			@ApiResponse(responseCode = "422", description = "Questionnaire is not in VTL") })
 	@GetMapping("/questionnaire/{questionnaireId}/articulation")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<ArticulationDTO> getQuestionnaireArticulation(
 			@PathVariable(value = "questionnaireId") String questionnaireId
 	) throws Exception {
@@ -61,6 +64,7 @@ public class ArticulationController {
 			@ApiResponse(responseCode = "422", description = "Questionnaire does not have a roundabout"),
 			@ApiResponse(responseCode = "422", description = "Questionnaire is not in VTL") })
 	@GetMapping("/questionnaire/{questionnaireId}/version/{versionId}/articulation")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<ArticulationDTO> getQuestionnaireVersionArticulation(
 			@PathVariable(value = "questionnaireId") String ignoredQuestionnaireId,
 			@PathVariable(value = "versionId") UUID versionId
@@ -78,6 +82,7 @@ public class ArticulationController {
 			@ApiResponse(responseCode = "422", description = "Questionnaire does not have a roundabout"),
 			@ApiResponse(responseCode = "422", description = "Questionnaire is not in VTL") })
 	@GetMapping("/questionnaire/{questionnaireId}/articulation/variables")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<List<VariableDTO>> getQuestionnaireArticulationVariables(
 			@PathVariable(value = "questionnaireId") String questionnaireId
 	) throws Exception {
@@ -94,6 +99,7 @@ public class ArticulationController {
 			@ApiResponse(responseCode = "422", description = "Questionnaire does not have a roundabout"),
 			@ApiResponse(responseCode = "422", description = "Questionnaire is not in VTL") })
 	@PutMapping("/questionnaire/{questionnaireId}/articulation")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<JsonNode> upsertQuestionnaireArticulation(
 			@PathVariable(value = "questionnaireId") String questionnaireId,
 			@RequestBody ArticulationDTO articulationDTO
@@ -113,6 +119,7 @@ public class ArticulationController {
 			@ApiResponse(responseCode = "422", description = "Questionnaire does not have a roundabout"),
 			@ApiResponse(responseCode = "422", description = "Questionnaire is not in VTL") })
 	@DeleteMapping("/questionnaire/{questionnaireId}/articulation")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<JsonNode> deleteQuestionnaireArticulation(
 			@PathVariable(value = "questionnaireId") String questionnaireId
 	) throws Exception {

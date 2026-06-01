@@ -1,5 +1,6 @@
 package fr.insee.pogues.controller;
 
+import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.service.ModelCleaningService;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.visualize.*;
@@ -20,6 +21,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
@@ -71,6 +73,7 @@ public class ModelTransform {
 
 	@PostMapping(path = "visualize-spec", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization spec from JSON serialized Pogues entity", hidden = true)
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<StreamingResponseBody> visualizeSpecFromBody(@RequestBody String request,
 			@RequestParam(name = "references", defaultValue = "false") Boolean ref) {
 		log.info("Visualize questionnaire specifications (ODT format)...");
@@ -104,6 +107,7 @@ public class ModelTransform {
 
 	@PostMapping(path = "visualize-ddi", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization DDI file from JSON serialized Pogues entity")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<StreamingResponseBody> visualizeDDIFromBody(@RequestBody String request,
 			@RequestParam(name = "references", defaultValue = "false") Boolean ref) {
 		PipeLine pipeline = new PipeLine();
@@ -135,6 +139,7 @@ public class ModelTransform {
 
 	@PostMapping(path = "visualize-pdf", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization PDF questionnaire from JSON serialized Pogues entity")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<StreamingResponseBody> visualizePDFFromBody(@RequestBody String request,
 			@RequestParam(name = "references", defaultValue = "false") Boolean ref) {
 		log.info("Visualize questionnaire in paper (PDF) format...");
@@ -165,6 +170,7 @@ public class ModelTransform {
 
 	@PostMapping(path = "ddi2pdf", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization PDF questionnaire from DDI questionnaire")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<StreamingResponseBody> ddi2pdfWithParamTest(@RequestBody String questDDI,
 			@RequestParam(name = "columns") ColumnsEnum columns,
 			@RequestParam(name = "orientation") OrientationEnum orientation,
@@ -207,6 +213,7 @@ public class ModelTransform {
 
 	@PostMapping(path = "fo2pdf", consumes = MediaType.APPLICATION_XML_VALUE, produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
 	@Operation(summary = "Get visualization PDF questionnaire from FO questionnaire")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<StreamingResponseBody> fo2Pdf(@RequestBody String questFO) {
 		ByteArrayOutputStream boas = null;
 		String questionnaireName = "pdf";
@@ -234,6 +241,7 @@ public class ModelTransform {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "500", description = "Error")
 	})
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<StreamingResponseBody> json2XML(@RequestBody String questJson) {
 		String questionnaire = "xforms";
 		return transform(string2InputStream(questJson), jsonToXML,
@@ -246,6 +254,7 @@ public class ModelTransform {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "500", description = "Error") })
 	@ResponseBody
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<StreamingResponseBody> xml2Json(@RequestBody String questXML) {
 		String questionnaire = "xforms";
 		return transform(new ByteArrayInputStream(questXML.getBytes(StandardCharsets.UTF_8)), xmlToJson,
@@ -258,6 +267,7 @@ public class ModelTransform {
 			@ApiResponse(responseCode = "200", description = "OK"),
 			@ApiResponse(responseCode = "500", description = "Error") })
 	@ResponseBody
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<String> jsonRef2JsonDeref(@RequestBody String questJson) throws Exception {
 		Map<String, Object> params = new HashMap<>();
 		params.put("needDeref", true);

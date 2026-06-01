@@ -18,11 +18,11 @@ application:
     - /v3/api-docs/**
     - /api/healthcheck
     - /api/init
-    - /api/env
-    - /api/persistence/questionnaire/json-lunatic/**
   roles:
     admin: 'admin'
     designer: 'designer'
+    webclient: 'webclient'
+    designer-alternative: 'designer-alternative'
   # Stamp protected: only members of this stamp can be affect questionnaire of there stamp
   stamp:
     restricted: ''

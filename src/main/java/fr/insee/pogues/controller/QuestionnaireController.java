@@ -1,5 +1,6 @@
 package fr.insee.pogues.controller;
 
+import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.configuration.auth.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
@@ -20,6 +21,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import tools.jackson.databind.JsonNode;
@@ -66,7 +68,8 @@ public class QuestionnaireController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "404", description = "Not found")
-    })	
+    })
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<Object> getQuestionnaire(
 			@PathVariable(value = "id") String id,
 			@RequestParam(name = "references", defaultValue = "false") Boolean references
@@ -87,6 +90,7 @@ public class QuestionnaireController {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<Object> getJsonLunatic(
 			@PathVariable(value = "id") String id
 	) throws Exception {
@@ -105,6 +109,7 @@ public class QuestionnaireController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "400", description = "Bad request")
 	})
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public ResponseEntity<Object> searchQuestionnaires(
             @RequestParam("owner") String owner
     ) throws Exception {
@@ -125,6 +130,7 @@ public class QuestionnaireController {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "400", description = "Bad request")
     })
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<Object> getQuestionnairesMetadata(
             @RequestParam("owner") String owner
 	) throws Exception {
@@ -147,6 +153,7 @@ public class QuestionnaireController {
             @ApiResponse(responseCode = "400", description = "Bad request"),
             @ApiResponse(responseCode = "401", description = "Unauthorized")
     })
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<Object> getQuestionnaireStamps() throws Exception {
         List<JsonNode> questionnairesStamps = new ArrayList<>(questionnaireService.getQuestionnairesStamps());
 		return ResponseEntity.status(HttpStatus.OK).body(questionnairesStamps);
@@ -163,6 +170,7 @@ public class QuestionnaireController {
             @ApiResponse(responseCode = "204", description = "No content"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<Object> deleteQuestionnaire(Authentication auth,
 			@PathVariable(value = "id") String id
 	) throws Exception {
@@ -184,6 +192,7 @@ public class QuestionnaireController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "404", description = "Not found")
 	})
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<ArrayNode> getVariables(
 			@PathVariable(value = "id") String id
 	) {
@@ -201,6 +210,7 @@ public class QuestionnaireController {
             @ApiResponse(responseCode = "204", description = "No content"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<Object> deleteJsonLunatic(
 			@PathVariable(value = "id") String id
 	) throws Exception {
@@ -220,6 +230,7 @@ public class QuestionnaireController {
             @ApiResponse(responseCode = "400", description = "Invalid"),
             @ApiResponse(responseCode = "404", description = "Not found"),
     })
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<Object> updateQuestionnaire(
 			@PathVariable(value = "id") String id,
 			@RequestBody JsonNode jsonContent
@@ -242,6 +253,7 @@ public class QuestionnaireController {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<Object> updateJsonLunatic(
 			@PathVariable(value = "id") String id,
 			@RequestBody JsonNode jsonLunatic
@@ -262,6 +274,7 @@ public class QuestionnaireController {
             @ApiResponse(responseCode = "400", description = "Invalid"),
             @ApiResponse(responseCode = "409", description = "Entity already exists"),
     })
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<Object> createQuestionnaire(
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
@@ -290,6 +303,7 @@ public class QuestionnaireController {
             @ApiResponse(responseCode = "400", description = "Invalid"),
             @ApiResponse(responseCode = "409", description = "Entity already exists"),
     })
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<Object> createJsonLunatic(
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
@@ -317,6 +331,7 @@ public class QuestionnaireController {
 			@ApiResponse(responseCode = "200", description = "Success"),
 			@ApiResponse(responseCode = "404", description = "Not found")
 	})
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
 	public ResponseEntity<JsonNode> getNomenclaturesUrls(
 			@PathVariable(value = "id") String id
 	) throws Exception {

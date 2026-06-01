@@ -12,7 +12,10 @@ import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
 import java.util.List;
 
+import static fr.insee.pogues.utils.ModelCreatorUtils.createQuestionWithCodeList;
+import static fr.insee.pogues.utils.ModelCreatorUtils.initFakeNomenclature;
 import static fr.insee.pogues.utils.model.question.Table.*;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -308,6 +311,26 @@ class ModelCleaningServiceTest {
         assertEquals("4+2", tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getSize().getValue());
         assertEquals(ValueTypeEnum.VTL, tableQuestionChanged1.getResponseStructure().getDimension().getFirst().getSize().getType());
         assertNull(tableQuestionChanged0.getResponseStructure().getDimension().getFirst().getFixedLength());
+    }
+
+    @Test
+    @DisplayName("Should remove unused nomenclature - Integration test of NomenclatureCleaner")
+    void should_remove_unused_nomenclature(){
+        // Given (some nomenclature are used)
+        Questionnaire questionnaire = new Questionnaire();
+        CodeLists codeLists = new CodeLists();
+        questionnaire.setCodeLists(codeLists);
+        questionnaire.getCodeLists().getCodeList().add(initFakeNomenclature("nomenclature1","super nomenclature 1"));
+        questionnaire.getCodeLists().getCodeList().add(initFakeNomenclature("nomenclature2","super nomenclature 2"));
+        questionnaire.getCodeLists().getCodeList().add(initFakeNomenclature("nomenclature3","super nomenclature 3"));
+        questionnaire.getChild().add(createQuestionWithCodeList("nomenclature2"));
+
+        // When
+        modelCleaningService.cleanModel(questionnaire);
+
+        // Then (only used nomenclature should stay i.e "nomenclature2"
+        assertThat(questionnaire.getCodeLists().getCodeList()).hasSize(1);
+        assertThat(questionnaire.getCodeLists().getCodeList().stream().map(CodeList::getId)).contains("nomenclature2");
     }
 
     @Test

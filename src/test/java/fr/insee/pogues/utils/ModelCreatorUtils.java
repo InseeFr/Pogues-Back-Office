@@ -34,8 +34,8 @@ public class ModelCreatorUtils {
         return codeType;
     }
 
-    public static fr.insee.pogues.model.CodeList initFakeCodeList(String id, String label){
-        fr.insee.pogues.model.CodeList codeList = new fr.insee.pogues.model.CodeList();
+    public static CodeList initFakeCodeList(String id, String label){
+       CodeList codeList = new CodeList();
         codeList.setId(id);
         codeList.setLabel(label);
         codeList.getCode().addAll(List.of(
@@ -47,11 +47,35 @@ public class ModelCreatorUtils {
         return codeList;
     }
 
-    public static List<fr.insee.pogues.model.CodeList> initFakeCodeLists(int size){
-        List<fr.insee.pogues.model.CodeList> codeLists = new ArrayList<>();
+    public static List<CodeList> initFakeCodeLists(int size){
+        List<CodeList> codeLists = new ArrayList<>();
         for(int i = 0; i < size; i++){
             codeLists.add(initFakeCodeList("code-list-"+i, "Super code list "+i));
         }
         return codeLists;
+    }
+
+    public static CodeList initFakeNomenclature(String id, String label){
+        CodeList codeList = new CodeList();
+        codeList.setId(id);
+        codeList.setLabel(label);
+        codeList.setName("Name "+label);
+        SuggesterParametersType suggesterParameters = new SuggesterParametersType();
+        suggesterParameters.setId("sugg-id"+id);
+        codeList.setSuggesterParameters(suggesterParameters);
+        codeList.setUrn("urn::sugg-"+id);
+        return codeList;
+    }
+
+    public static QuestionType createQuestionWithCodeList(String codeListId){
+        ResponseType response = createResponse(DatatypeTypeEnum.TEXT);
+        response.setCodeListReference(codeListId);
+        QuestionType question = new QuestionType();
+        question.setQuestionType(QuestionTypeEnum.SINGLE_CHOICE);
+        question.setName("Question-Name"+codeListId);
+        question.getLabel().add("Question label "+codeListId);
+        question.setId(getNewUniqueId());
+        question.getResponse().add(response);
+        return question;
     }
 }

@@ -9,10 +9,7 @@ import fr.insee.pogues.service.modelcleaning.rules.ClarificationCleaner;
 import fr.insee.pogues.transforms.visualize.ModelTransformer;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
-import fr.insee.pogues.utils.model.cleaner.ControlCriticityCleaner;
-import fr.insee.pogues.utils.model.cleaner.LoopMinMaxCleaner;
-import fr.insee.pogues.utils.model.cleaner.ModelCleaner;
-import fr.insee.pogues.utils.model.cleaner.TableDimensionCleaner;
+import fr.insee.pogues.utils.model.cleaner.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
@@ -39,7 +36,8 @@ public class ModelCleaningService implements ModelTransformer {
                 new ControlCriticityCleaner(),
                 new TableDimensionCleaner(),
                 new ClarificationCleaner(),
-                new LoopMinMaxCleaner());
+                new LoopMinMaxCleaner(),
+                new NomenclatureCleaner());
         modelCleaners.forEach(modelCleaner -> modelCleaner.apply(questionnaire));
     }
 

@@ -24,6 +24,7 @@ import java.util.Optional;
 
 import static fr.insee.pogues.utils.IOStreamsUtils.string2InputStream;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -148,6 +149,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         String filteredReferenceEndMember = "l4i3b1na";
         assertEquals(filteredReferenceBeginMember, flowControlType.getIfTrue().split("-")[0]);
         assertEquals(filteredReferenceEndMember, flowControlType.getIfTrue().split("-")[1]);
+        assertThat(outQuestionnaire.getChildQuestionnaireRef()).isEmpty();
     }
 
     /**
@@ -246,6 +248,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         // The external variable in referenced questionnaire should have its scope updated
         String iterationId = "leybzt37";
         assertEquals(iterationId, externalVariableInReferenced.get().getScope());
+        assertThat(outQuestionnaire.getChildQuestionnaireRef()).isEmpty();
     }
 
     // ----- Using factorized code for the last tests ----- //
@@ -295,6 +298,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         // Then
         assertNotNull(outQuestionnaire);
         assertNotEquals("", PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+        assertThat(outQuestionnaire.getChildQuestionnaireRef()).isEmpty();
         // many things on out questionnaire's content could be tested here
         // (If you read this, and you're willing to, feel free :) )
     }
@@ -317,6 +321,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         // Then
         assertNotNull(outQuestionnaire);
         assertNotEquals("", PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+        assertThat(outQuestionnaire.getChildQuestionnaireRef()).isEmpty();
         // many things on out questionnaire's content could be tested here
         // (If you read this, and you're willing to, feel free :) )
     }
@@ -354,6 +359,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
             // Json to xml conversion is ok
             new PoguesJSONToPoguesXMLImpl().transform(new ByteArrayInputStream(result.getBytes()), null, null);
         });
+        assertThat(outQuestionnaire.getChildQuestionnaireRef()).isEmpty();
     }
 
     @Test
@@ -387,6 +393,7 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         assertTrue(loop.isPresent());
         assertTrue(linkedLoop.isPresent());
         assertEquals(loop.get().getId(), ((DynamicIterationType) linkedLoop.get()).getIterableReference());
+        assertThat(outQuestionnaire.getChildQuestionnaireRef()).isEmpty();
     }
 
     @Test
@@ -415,6 +422,8 @@ class PoguesJSONToPoguesJSONDerefImplTest {
         // Then
         assertNotNull(outQuestionnaire);
         assertNotEquals("", PoguesSerializer.questionnaireJavaToString(outQuestionnaire));
+
+        assertThat(outQuestionnaire.getChildQuestionnaireRef()).isEmpty();
     }
 
 }

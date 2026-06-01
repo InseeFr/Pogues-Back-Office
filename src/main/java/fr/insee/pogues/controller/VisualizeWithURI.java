@@ -1,5 +1,6 @@
 package fr.insee.pogues.controller;
 
+import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.model.EnoContext;
 import fr.insee.pogues.service.ModelCleaningService;
 import fr.insee.pogues.service.ModelValidationService;
@@ -23,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.ByteArrayInputStream;
@@ -58,6 +60,7 @@ public class VisualizeWithURI {
     @PostMapping(path = "visualize/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI from JSON serialized Pogues entity", description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
     @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "JSON representation of the Pogues Model")
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public ResponseEntity<String> visualizeFromBody(
             @RequestBody String request,
             @PathVariable(value = "dataCollection") String dataCollection,
@@ -85,6 +88,7 @@ public class VisualizeWithURI {
 
     @PostMapping(path = "visualize-queen-telephone/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI CATI Queen from JSON serialized Pogues entity", description = "Get visualization URI CATI Queen from JSON serialized Pogues entity")
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public ResponseEntity<String> visualizeCatiQueenFromBody(
             @RequestBody String request,
             @PathVariable(value = "questionnaire") String questionnaireName,
@@ -109,6 +113,7 @@ public class VisualizeWithURI {
 
     @PostMapping(path = "visualize-queen/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI CAPI Queen from JSON serialized Pogues entity", description = "Get visualization URI CAPI Queen from JSON serialized Pogues entity")
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public ResponseEntity<String> visualizeQueenFromBody(
             @RequestBody String request,
             @PathVariable(value = "questionnaire") String questionnaireName,
@@ -131,35 +136,9 @@ public class VisualizeWithURI {
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
     }
 
-    /**
-     * @deprecated 'Web V2' doesn't exist anymore.
-     */
-    @PostMapping(path = "visualize-stromae-v2/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Get visualization URI Stromae V2 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V2 from JSON serialized Pogues entity")
-    @Deprecated(since = "4.19.0", forRemoval = true)
-    public ResponseEntity<String> visualizeStromaeV2FromBody(
-            @RequestBody String request,
-            @PathVariable(value = "questionnaire") String questionnaireName,
-            @RequestParam(name = "references", defaultValue = "false") Boolean ref) throws Exception {
-        PipeLine pipeline = new PipeLine();
-        Map<String, Object> params = new HashMap<>();
-        params.put("questionnaire", questionnaireName.toLowerCase());
-        params.put("needDeref", ref);
-        params.put("mode", "CAWI");
-        params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
-
-        URI uri;
-        ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
-                .map(jsonToJsonDeref::transform, params, questionnaireName.toLowerCase())
-                .map(poguesJSONToLunaticJSON::transform, params, questionnaireName.toLowerCase())
-                .transform();
-
-        uri = lunaticJSONToUriStromaeV2.transform(output2Input(outputStream), params, questionnaireName.toLowerCase());
-        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.TEXT_PLAIN).body(uri.toString());
-    }
-
     @PostMapping(path = "visualize-stromae-v3/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI Stromae V3 from JSON serialized Pogues entity", description = "Get visualization URI Stromae V3 from JSON serialized Pogues entity")
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public ResponseEntity<String> visualizeStromaeV3FromBody(
             @RequestBody String request,
             @PathVariable(value = "questionnaire") String questionnaireName,
@@ -189,6 +168,7 @@ public class VisualizeWithURI {
 
     @PostMapping(path = "visualize-from-ddi/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI from DDI questionnaire", description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public ResponseEntity<String> visualizeFromDDIBody(
             @RequestBody String request,
             @PathVariable(value = "dataCollection") String dataCollection,
@@ -211,6 +191,7 @@ public class VisualizeWithURI {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
             @ApiResponse(responseCode = "500", description = "Error") })
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public String xForm2URI(
             @RequestBody String questXforms,
             @PathVariable(value = "dataCollection") String dataCollection,

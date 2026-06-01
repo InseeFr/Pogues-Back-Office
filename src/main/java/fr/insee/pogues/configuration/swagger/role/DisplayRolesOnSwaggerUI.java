@@ -26,7 +26,7 @@ public class DisplayRolesOnSwaggerUI implements OperationCustomizer {
         if(operation.getDescription() != null) {
             description
                     .append(operation.getDescription())
-                    .append("\n");
+                    .append("\n\n");
         }
         description.append(AUTHORIZED_ROLES);
         String roles = preAuthorizeAnnotation.value();

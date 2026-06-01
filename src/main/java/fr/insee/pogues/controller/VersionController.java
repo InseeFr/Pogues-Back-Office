@@ -1,5 +1,6 @@
 package fr.insee.pogues.controller;
 
+import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.domain.entity.db.Version;
 import fr.insee.pogues.persistence.service.VersionService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -8,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,6 +35,7 @@ public class VersionController {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public List<Version> getVersionsByQuestionnaireId(
             @PathVariable(value = "poguesId") String poguesId,
             @RequestParam(name = "withData", required = false, defaultValue = "false")  Boolean withData) throws Exception {
@@ -49,6 +52,7 @@ public class VersionController {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public Version getLastVersionByQuestionnaireId(
             @PathVariable(value = "poguesId") String poguesId,
             @RequestParam(name = "withData", required = false, defaultValue = "false") Boolean withData) throws Exception {
@@ -65,6 +69,7 @@ public class VersionController {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public void restoreVersionByVersionId(
             @PathVariable(value = "versionId") UUID versionId) throws Exception {
         versionService.restoreVersion(versionId);
@@ -80,6 +85,7 @@ public class VersionController {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public Version getVersionByVersionId(
             @PathVariable(value = "versionId") UUID versionId,
             @RequestParam(name = "withData", required = false, defaultValue = "false") Boolean withData) throws Exception {
@@ -96,6 +102,7 @@ public class VersionController {
             @ApiResponse(responseCode = "200", description = "Success"),
             @ApiResponse(responseCode = "404", description = "Not found")
     })
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public void deleteVersionsByQuestionnaireId(String poguesId) throws Exception {
         versionService.deleteVersionsByQuestionnaireId(poguesId);
     }
