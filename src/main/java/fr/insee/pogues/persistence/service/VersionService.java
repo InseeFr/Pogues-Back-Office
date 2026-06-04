@@ -41,6 +41,10 @@ public class VersionService {
         return version.getData();
     }
 
+    public Questionnaire getVersionDataQuestionnaireModelByVersionId(UUID versionId) throws Exception {
+        return PoguesDeserializer.questionnaireToJavaObject(getVersionDataByVersionId(versionId));
+    }
+
     public Version getVersionByVersionId(UUID versionId, boolean withData) throws Exception {
         return questionnaireVersionRepository.getVersionByVersionId(versionId, withData);
     }

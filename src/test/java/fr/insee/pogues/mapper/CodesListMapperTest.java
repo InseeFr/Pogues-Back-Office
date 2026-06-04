@@ -4,6 +4,7 @@ import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.CodeType;
 import fr.insee.pogues.model.dto.codeslists.CodeDTO;
 import fr.insee.pogues.model.dto.codeslists.CodesListDTO;
+import fr.insee.pogues.model.dto.nomenclatures.NomenclatureZipDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -103,5 +104,16 @@ class CodesListMapperTest {
         assertEquals("Femme 2", codesListDTO.getCodes().get(0).getCodes().get(1).getLabel());
     }
 
+    @Test
+    @DisplayName("Should convert model code list to nomenclature zip DTO")
+    void toDTO_success_nomenclatureZipDto() {
+        CodeList poguesModelCodeList = new CodeList();
+        poguesModelCodeList.setId("h-f");
+        poguesModelCodeList.setLabel("Homme-Femme");
+        NomenclatureZipDto nomenclatureZipDto = CodesListMapper.toNomenclatureZipDto(poguesModelCodeList);
+        assertEquals("h-f", nomenclatureZipDto.id());
+        assertEquals("Homme-Femme", nomenclatureZipDto.label());
+        assertEquals("h-f.json", nomenclatureZipDto.filename());
+    }
 
 }

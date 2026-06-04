@@ -2,7 +2,9 @@ package fr.insee.pogues.service.stub;
 
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.exception.QuestionnaireNotFoundException;
+import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
+import fr.insee.pogues.utils.PoguesDeserializer;
 import lombok.Getter;
 import tools.jackson.databind.JsonNode;
 
@@ -44,7 +46,17 @@ public class QuestionnaireServiceStub implements IQuestionnaireService {
     }
 
     @Override
+    public Questionnaire getQuestionnaireModelByID(String id) throws Exception {
+        return PoguesDeserializer.questionnaireToJavaObject(getQuestionnaireByID(id));
+    }
+
+    @Override
     public JsonNode getQuestionnaireByIDWithReferences(String id) throws Exception {
+        return null;
+    }
+
+    @Override
+    public Questionnaire getQuestionnaireModelByIDWithReferences(String id) throws Exception {
         return null;
     }
 

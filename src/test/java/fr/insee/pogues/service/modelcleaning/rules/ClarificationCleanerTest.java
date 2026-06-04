@@ -1,6 +1,7 @@
 package fr.insee.pogues.service.modelcleaning.rules;
 
 import fr.insee.pogues.model.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -10,10 +11,16 @@ import static org.junit.jupiter.api.Assertions.*;
 class ClarificationCleanerTest {
 
     @Test
+    @DisplayName("SINGLE_CHOICE + RADIO: it keeps only one clarification")
     void testLimitToSingleClarification() {
 
         QuestionType mainQuestion = new QuestionType();
         mainQuestion.setQuestionType(QuestionTypeEnum.SINGLE_CHOICE);
+        DatatypeType datatype = new DateDatatypeType();
+        datatype.setVisualizationHint(VisualizationHintEnum.RADIO);
+        ResponseType mainResponse = new ResponseType();
+        mainResponse.setDatatype(datatype);
+        mainQuestion.getResponse().add(mainResponse);
 
         // Clarification 1 - kept
         QuestionType clarificationToKeep = new QuestionType();
@@ -97,6 +104,71 @@ class ClarificationCleanerTest {
 
         assertEquals(1, remainingVariableIds.size());
         assertTrue(remainingVariableIds.contains("var-1"));
+    }
+
+    @Test
+    @DisplayName("SINGLE_CHOICE + DROPDOWN: all clarifications, flow controls and variables are removed")
+    void testDropdownSingleChoiceRemovesAllClarifications() {
+
+        // Given a question: SINGLE_CHOICE rendered as dropdown
+        QuestionType mainQuestion = new QuestionType();
+        mainQuestion.setQuestionType(QuestionTypeEnum.SINGLE_CHOICE);
+        DatatypeType datatype = new DateDatatypeType();
+        datatype.setVisualizationHint(VisualizationHintEnum.DROPDOWN);
+        ResponseType mainResponse = new ResponseType();
+        mainResponse.setDatatype(datatype);
+        mainQuestion.getResponse().add(mainResponse);
+
+        // Clarification 1
+        QuestionType clarif1 = new QuestionType();
+        clarif1.setId("clarif-1");
+        ResponseType resp1 = new ResponseType();
+        resp1.setCollectedVariableReference("var-1");
+        clarif1.getResponse().add(resp1);
+
+        // Clarification 2
+        QuestionType clarification2 = new QuestionType();
+        clarification2.setId("clarif-2");
+        ResponseType resp2 = new ResponseType();
+        resp2.setCollectedVariableReference("var-2");
+        clarification2.getResponse().add(resp2);
+
+        mainQuestion.getClarificationQuestion().addAll(List.of(clarif1, clarification2));
+
+        // FlowControls
+        FlowControlType flowControl1 = new FlowControlType();
+        flowControl1.setFlowControlType(FlowControlTypeEnum.CLARIFICATION);
+        flowControl1.setIfTrue("clarif-1");
+        FlowControlType flowControl2 = new FlowControlType();
+        flowControl2.setFlowControlType(FlowControlTypeEnum.CLARIFICATION);
+        flowControl2.setIfTrue("clarif-2");
+        mainQuestion.getFlowControl().addAll(List.of(flowControl1, flowControl2));
+
+        // Variables & questionnaire
+        CollectedVariableType variable1 = new CollectedVariableType();
+        variable1.setId("var-1");
+        CollectedVariableType variable2 = new CollectedVariableType();
+        variable2.setId("var-2");
+
+        Questionnaire questionnaire = new Questionnaire();
+        Questionnaire.Variables variables = new Questionnaire.Variables();
+        variables.getVariable().addAll(List.of(variable1, variable2));
+        questionnaire.setVariables(variables);
+
+        questionnaire.getChild().add(mainQuestion);
+
+        // When applying the clarification cleaner
+        new ClarificationCleaner().apply(questionnaire);
+
+        // Then the clarification questions should have been removed
+        assertTrue(mainQuestion.getClarificationQuestion().isEmpty());
+        // Then the related FlowControls should have been removed
+        assertTrue(mainQuestion.getFlowControl().isEmpty());
+
+        // Then the variables related to clarification responses should have been removed
+        assertNull(resp1.getCollectedVariableReference());
+        assertNull(resp2.getCollectedVariableReference());
+        assertTrue(questionnaire.getVariables().getVariable().isEmpty());
     }
 }
 

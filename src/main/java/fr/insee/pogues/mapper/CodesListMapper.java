@@ -1,11 +1,13 @@
 package fr.insee.pogues.mapper;
 
 
-import fr.insee.pogues.model.*;
+import fr.insee.pogues.model.CodeList;
+import fr.insee.pogues.model.CodeType;
 import fr.insee.pogues.model.dto.codeslists.CodeDTO;
 import fr.insee.pogues.model.dto.codeslists.CodesListDTO;
 import fr.insee.pogues.model.dto.nomenclatures.ExternalLinkDTO;
 import fr.insee.pogues.model.dto.nomenclatures.NomenclatureDTO;
+import fr.insee.pogues.model.dto.nomenclatures.NomenclatureZipDto;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -82,6 +84,15 @@ public class CodesListMapper {
         // TODO: fix me, use version instead of Name of codeList !!!
         // id, label, version, externalLink
         return new NomenclatureDTO(codeList.getId(), codeList.getLabel(), codeList.getName(), externalLinkDTO);
+    }
+
+    /**
+     * Compute the code list (which is a nomenclature #dirtyModel) into its nomenclatureZipDTO
+     * @param nomenclature Nomenclature to convert
+     * @return NomenclatureZipDto
+     */
+    public static NomenclatureZipDto toNomenclatureZipDto(CodeList nomenclature){
+        return new NomenclatureZipDto(nomenclature.getId(), nomenclature.getLabel(), String.format("%s.json",nomenclature.getId()));
     }
 
 }

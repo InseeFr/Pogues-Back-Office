@@ -1,13 +1,20 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.mapper.CodesListMapper;
+import fr.insee.pogues.model.CodeList;
+import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.model.dto.nomenclatures.NomenclatureZipDto;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
 import fr.insee.pogues.transforms.visualize.eno.PoguesXMLToDDI;
+import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.model.ZipFile;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -19,25 +26,18 @@ import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import static fr.insee.pogues.utils.json.JSONFunctions.objectNodeToPrettyJsonString;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class QuestionnaireMetadataService {
 
     private final QuestionnaireService questionnaireService;
+    private final NomenclatureService nomenclatureService;
     private final PoguesJSONToPoguesXML jsonToXml;
     private final PoguesXMLToDDI xmlToDdi;
 
-    public QuestionnaireMetadataService(
-            QuestionnaireService questionnaireService,
-            PoguesJSONToPoguesXML jsonToXml,
-            PoguesXMLToDDI xmlToDdi
-    ) {
-        this.questionnaireService = questionnaireService;
-        this.jsonToXml = jsonToXml;
-        this.xmlToDdi = xmlToDdi;
-    }
+    private static final ObjectMapper objectMapper = JsonMapper.builder().build();
 
     public void generateZip(List<ZipFile> files, OutputStream outputStream) throws IOException {
         try (ZipOutputStream zos = new ZipOutputStream(outputStream)) {
@@ -51,20 +51,33 @@ public class QuestionnaireMetadataService {
 
     public void generateZip(String poguesId, OutputStream outputStream) throws PoguesException {
         try {
-            JsonNode jsonWithRef = questionnaireService.getQuestionnaireByIDWithReferences(poguesId);
-            String jsonStr = objectNodeToPrettyJsonString(jsonWithRef);
-            byte[] jsonBytes = jsonStr.getBytes(StandardCharsets.UTF_8);
+            Questionnaire questionnaireWithRef = questionnaireService.getQuestionnaireModelByIDWithReferences(poguesId);
 
-            ByteArrayOutputStream xmlStream = jsonToXml.transform(
-                    new ByteArrayInputStream(jsonBytes), new HashMap<>(), poguesId);
+            List<NomenclatureZipDto> nomenclatureZipDtos = nomenclatureService.getQuestionnaireNomenclatures(questionnaireWithRef)
+                    .stream()
+                    .map(CodesListMapper::toNomenclatureZipDto)
+                    .toList();
 
-            ByteArrayOutputStream ddiStream = xmlToDdi.transform(
-                    new ByteArrayInputStream(xmlStream.toByteArray()), new HashMap<>(), poguesId);
+            byte[] jsonBytes = PoguesSerializer
+                    .questionnaireJavaToString(questionnaireWithRef)
+                    .getBytes(StandardCharsets.UTF_8);
+
+            byte[] poguesXmlBytes = jsonToXml
+                    .transform(new ByteArrayInputStream(jsonBytes), new HashMap<>(), poguesId)
+                    .toByteArray();
+
+            byte[] ddiBytes = xmlToDdi
+                    .transform(new ByteArrayInputStream(poguesXmlBytes), new HashMap<>(), poguesId)
+                    .toByteArray();
+
+            byte[] nomenclaturesBytes = objectMapper
+                    .writeValueAsString(nomenclatureZipDtos)
+                    .getBytes(StandardCharsets.UTF_8);
 
             List<ZipFile> files = List.of(
                     new ZipFile("pogues_" + poguesId + ".json", jsonBytes),
-                    new ZipFile("ddi_" + poguesId + ".xml", ddiStream.toByteArray())
-            );
+                    new ZipFile("ddi_" + poguesId + ".xml", ddiBytes),
+                    new ZipFile("nomenclatures.json", nomenclaturesBytes));
 
             generateZip(files, outputStream);
 

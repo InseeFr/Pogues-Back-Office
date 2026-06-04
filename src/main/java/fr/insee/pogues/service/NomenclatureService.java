@@ -1,14 +1,13 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.exception.PoguesException;
+import fr.insee.pogues.mapper.CodesListMapper;
 import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
-import fr.insee.pogues.mapper.CodesListMapper;
-import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.model.CodesList;
-import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -30,14 +29,6 @@ public class NomenclatureService {
         this.versionService = versionService;
     }
 
-    private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
-        return PoguesDeserializer.questionnaireToJavaObject(questionnaireService.getQuestionnaireByID(id));
-    }
-
-    private Questionnaire retrieveQuestionnaireByVersionId(UUID versionId) throws Exception {
-        return PoguesDeserializer.questionnaireToJavaObject(versionService.getVersionDataByVersionId(versionId));
-    }
-
     /**
      * Fetch the nomenclatures of a questionnaire.
      * @param questionnaireId ID of the questionnaire to fetch the nomenclatures from
@@ -45,7 +36,7 @@ public class NomenclatureService {
      * @throws PoguesException 404 questionnaire not found
      */
     public List<ExtendedNomenclatureDTO> getQuestionnaireNomenclatures(String questionnaireId) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireId(questionnaireId);
+        Questionnaire questionnaire = questionnaireService.getQuestionnaireModelByID(questionnaireId);
         List<CodeList> nomenclatures = getQuestionnaireNomenclatures(questionnaire);
         return computeNomenclatureDTO(nomenclatures, questionnaire);
     }
@@ -57,12 +48,12 @@ public class NomenclatureService {
      * @throws PoguesException 404 questionnaire not found
      */
     public List<ExtendedNomenclatureDTO> getVersionNomenclatures(UUID versionId) throws Exception {
-        Questionnaire questionnaire = retrieveQuestionnaireByVersionId(versionId);
+        Questionnaire questionnaire = versionService.getVersionDataQuestionnaireModelByVersionId(versionId);
         List<CodeList> nomenclatures = getQuestionnaireNomenclatures(questionnaire);
         return computeNomenclatureDTO(nomenclatures, questionnaire);
     }
 
-    private List<CodeList> getQuestionnaireNomenclatures(Questionnaire questionnaire) {
+    public List<CodeList> getQuestionnaireNomenclatures(Questionnaire questionnaire) {
         return questionnaire.getCodeLists().getCodeList().stream()
                 .filter(CodesList::isNomenclatureCodeList)
                 .toList();

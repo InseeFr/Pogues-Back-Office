@@ -1,6 +1,7 @@
 package fr.insee.pogues.persistence.service;
 
 
+import fr.insee.pogues.model.Questionnaire;
 import tools.jackson.databind.JsonNode;
 
 import java.util.List;
@@ -14,7 +15,11 @@ public interface IQuestionnaireService {
 
     JsonNode getQuestionnaireByID(String id) throws Exception;
 
+    Questionnaire getQuestionnaireModelByID(String id) throws Exception;
+
     JsonNode getQuestionnaireByIDWithReferences(String id) throws Exception;
+
+    Questionnaire getQuestionnaireModelByIDWithReferences(String id) throws Exception;
 
     JsonNode getQuestionnaireWithReferences(JsonNode jsonQuestionnaire) throws Exception;
 

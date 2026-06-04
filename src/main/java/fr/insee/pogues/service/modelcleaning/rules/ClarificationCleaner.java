@@ -17,6 +17,7 @@ public class ClarificationCleaner implements ModelCleaner {
     public void apply(Questionnaire questionnaire) {
         List<String> removedVariableIds = new ArrayList<>();
         singleClarification(questionnaire, removedVariableIds);
+        dropdownClarification(questionnaire, removedVariableIds);
         removeVariablesFromQuestionnaire(questionnaire, removedVariableIds);
     }
 
@@ -30,6 +31,16 @@ public class ClarificationCleaner implements ModelCleaner {
         }
     }
 
+    private void dropdownClarification(ComponentType component, List<String> removedVariableIds) {
+        if (component instanceof SequenceType sequence) {
+            sequence.getChild().forEach(child -> dropdownClarification(child, removedVariableIds));
+        }
+        if (isDropdownSingleChoiceQuestion(component)) {
+            assert component instanceof QuestionType;
+            removedVariableIds.addAll(removeAllClarifications((QuestionType) component));
+        }
+    }
+
     /**
      * Checks whether the given component is a question of type SINGLE_CHOICE or MULTIPLE_CHOICE.
      *
@@ -40,6 +51,18 @@ public class ClarificationCleaner implements ModelCleaner {
         return component instanceof QuestionType question &&
                 (QuestionTypeEnum.SINGLE_CHOICE.equals(question.getQuestionType())
                         || QuestionTypeEnum.MULTIPLE_CHOICE.equals(question.getQuestionType()));
+    }
+
+    /**
+     * Checks whether the given component is a SINGLE_CHOICE question rendered as a dropdown.
+     * 
+     * @param component the component to check
+     * @return true if it is a single choice question with a dropdown response, false otherwise
+     */
+    private boolean isDropdownSingleChoiceQuestion(ComponentType component) {
+        return component instanceof QuestionType question &&
+                QuestionTypeEnum.SINGLE_CHOICE.equals(question.getQuestionType()) &&
+                VisualizationHintEnum.DROPDOWN.equals(question.getResponse().getFirst().getDatatype().getVisualizationHint());
     }
 
     /**
@@ -73,6 +96,24 @@ public class ClarificationCleaner implements ModelCleaner {
         List<QuestionType> clarifications = question.getClarificationQuestion();
         clarifications.clear();
         clarifications.add(firstClarification);
+    }
+
+    /**
+     * Removes all clarification questions from the given question, removes the corresponding FlowControls,
+     * and clears variable references in the removed clarifications.
+     * The IDs of the removed variables are added to {@code removedVariableIds} so they can be
+     * deleted from the questionnaire at a later stage.
+     *
+     * @param question           the question to clean
+     * @param removedVariableIds the list to accumulate variable IDs to be removed
+     */
+    private static List<String> removeAllClarifications(QuestionType question) {
+        List<QuestionType> clarifications = question.getClarificationQuestion();
+        if (clarifications == null || clarifications.isEmpty()) return List.of();
+        List<String> removedVariableIds = clearClarificationResponses(new ArrayList<>(clarifications));
+        question.getFlowControl().removeIf(flowControl -> FlowControlTypeEnum.CLARIFICATION.equals(flowControl.getFlowControlType()));
+        clarifications.clear();
+        return removedVariableIds;
     }
 
     /**

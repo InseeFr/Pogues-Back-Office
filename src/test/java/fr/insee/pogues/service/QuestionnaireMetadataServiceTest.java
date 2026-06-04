@@ -1,5 +1,7 @@
 package fr.insee.pogues.service;
 
+import fr.insee.pogues.model.CodeList;
+import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
 import fr.insee.pogues.transforms.visualize.eno.PoguesXMLToDDI;
@@ -20,22 +22,25 @@ import java.util.zip.ZipInputStream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class QuestionnaireMetadataServiceTest {
 
     private QuestionnaireMetadataService service;
 
     private QuestionnaireService questionnaireService;
+    private NomenclatureService nomenclatureService;
     private PoguesJSONToPoguesXML jsonToXml;
     private PoguesXMLToDDI xmlToDdi;
 
     @BeforeEach
     void setup() {
         questionnaireService = mock(QuestionnaireService.class);
+        nomenclatureService = mock(NomenclatureService.class);
         jsonToXml = mock(PoguesJSONToPoguesXML.class);
         xmlToDdi = mock(PoguesXMLToDDI.class);
-        service = new QuestionnaireMetadataService(questionnaireService, jsonToXml, xmlToDdi);
+        service = new QuestionnaireMetadataService(questionnaireService, nomenclatureService, jsonToXml, xmlToDdi);
     }
 
     @Test
@@ -45,14 +50,21 @@ class QuestionnaireMetadataServiceTest {
         String dummyJson = "{\"foo\":\"bar\"}";
         JsonNode jsonNode = JsonMapper.builder().build().readTree(dummyJson);
 
+        CodeList dummyCodeList = new CodeList();
+        dummyCodeList.setId("h-f");
+        dummyCodeList.setLabel("Homme-Femme");
+
         ByteArrayOutputStream xmlStream = new ByteArrayOutputStream();
         xmlStream.write("<questionnaire/>".getBytes(StandardCharsets.UTF_8));
 
         ByteArrayOutputStream ddiStream = new ByteArrayOutputStream();
         ddiStream.write("<ddi/>".getBytes(StandardCharsets.UTF_8));
 
+        List<CodeList> nomenclatures = List.of(dummyCodeList);
+
         String poguesId = "test-id";
         when(questionnaireService.getQuestionnaireByIDWithReferences(poguesId)).thenReturn(jsonNode);
+        when(nomenclatureService.getQuestionnaireNomenclatures(any(Questionnaire.class))).thenReturn(nomenclatures);
         when(jsonToXml.transform(any(InputStream.class), anyMap(), eq(poguesId))).thenReturn(xmlStream);
         when(xmlToDdi.transform(any(InputStream.class), anyMap(), eq(poguesId))).thenReturn(ddiStream);
 
@@ -70,8 +82,9 @@ class QuestionnaireMetadataServiceTest {
         }
 
         assert outputZip.size() > 0;
-        assertEquals(2, zipEntryNames.size());
+        assertEquals(3, zipEntryNames.size());
         assertTrue(zipEntryNames.contains("pogues_" + poguesId + ".json"));
         assertTrue(zipEntryNames.contains("ddi_" + poguesId + ".xml"));
+        assertTrue(zipEntryNames.contains("nomenclatures.json"));
     }
 }

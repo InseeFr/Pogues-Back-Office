@@ -92,6 +92,11 @@ public class QuestionnaireService implements IQuestionnaireService{
         return questionnaire;
     }
 
+    @Override
+    public Questionnaire getQuestionnaireModelByID(String id) throws Exception {
+        return PoguesDeserializer.questionnaireToJavaObject(getQuestionnaireByID(id));
+    }
+
     /**
      * A questionnaire can "contain" other questionnaires. These questionnaires appear as references.
      * This method makes it possible to obtain the complete questionnaire, by replacing the references with the complete questionnaires.
@@ -104,6 +109,11 @@ public class QuestionnaireService implements IQuestionnaireService{
         JsonNode jsonQuestionnaire = this.getQuestionnaireByID(id);
 
         return getQuestionnaireWithReferences(jsonQuestionnaire);
+    }
+
+    @Override
+    public Questionnaire getQuestionnaireModelByIDWithReferences(String id) throws Exception {
+        return PoguesDeserializer.questionnaireToJavaObject(getQuestionnaireByIDWithReferences(id));
     }
 
     /**
