@@ -6,8 +6,12 @@ import fr.insee.pogues.model.*;
 import fr.insee.pogues.model.Questionnaire.Iterations;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
+import static fr.insee.pogues.utils.model.question.Table.isDynamicTable;
 
 /** Helper class to factorize methods on Pogues-Model objects.
  * Some parts of the model should be revised to make this class obsolete. */
@@ -30,6 +34,62 @@ public class PoguesModelUtils {
                 .filter(componentType -> !FAKE_LAST_ELEMENT_ID.equals(componentType.getId()))
                 .toList();
     }
+
+
+    /**
+     * Compute scopes of questionnaire
+     * Scope can be:
+     *   - the id,name of a Loop (main Loop, not Linked one)
+     *   - the id,name of DynamicTable Question
+     *   - the id,name of Pairwise Question
+     *  This information are inside Iterations object in Questionnaire.
+     * @param questionnaire
+     * @return couples of (id, name) corresponding to scopes
+     */
+    public static Map<String, String> getQuestionnaireScopes(Questionnaire questionnaire){
+        // compute Dynamic Table scope or Pairwise scope deep inside questionnaire
+        Map<String, String> scopes = getScopeInComponents(questionnaire.getChild());
+
+        // compute all other scopes based on Loop
+        Iterations iterations = questionnaire.getIterations();
+        if(iterations == null || iterations.getIteration().isEmpty()) return scopes;
+
+        for(IterationType iteration : iterations.getIteration()){
+            // IterationType is an abstract class, and it exists only one implementation: DynamicIterationType, so we can cast it
+            if(iteration instanceof DynamicIterationType iterationType){
+                String iterableRef = iterationType.getIterableReference();
+
+                // Keep only Main Iteration
+                if(iterableRef == null){
+                    scopes.put(iteration.getId(), iteration.getName());
+                    continue;
+                }
+                // already in computed scopes
+                if(scopes.get(iterableRef) != null) continue;
+                // Fallback to get the scope name -> we need to find the Name of iteration inside question
+                getQuestionByID(questionnaire.getChild(), iterableRef)
+                        .ifPresent(question -> scopes.put(iterableRef, question.getName()));
+            }
+
+        }
+        return scopes;
+    }
+
+    private static Map<String, String> getScopeInComponents(List<ComponentType> components){
+        Map<String, String> scopes = new HashMap<>();
+        if(components == null || components.isEmpty()) return scopes;
+
+        for(ComponentType component : components){
+            if(component instanceof QuestionType question &&
+                    (QuestionTypeEnum.PAIRWISE.equals(question.getQuestionType()) || isDynamicTable(question))){
+                scopes.put(component.getId(), component.getName());
+            } else if(component instanceof SequenceType sequence){
+                scopes.putAll(getScopeInComponents(sequence.getChild()));
+            }
+        }
+        return scopes;
+    }
+
 
     /**
      * The 'IfTrue' property defines begin/end member references (separated with '-') of the filter.
@@ -119,33 +179,6 @@ public class PoguesModelUtils {
     public static String getLinkedLoopReference(IterationType iterationType) throws IllegalIterationException {
         checkIterationInstance(iterationType);
         return ((DynamicIterationType) iterationType).getIterableReference();
-    }
-
-    /**
-     * The scope name of the given id.
-     * The scope is either the name of a "main" loop, or the name of a question.
-     * @param id The scope id.
-     * @return The scope name of the given id.
-     */
-    public static String getScopeNameFromID(Questionnaire questionnaire, String id) {
-        // Case 1: get the associated scope from loops
-        Iterations iterations = questionnaire.getIterations();
-        if (iterations != null) {
-            Optional<IterationType> loopIterable = questionnaire.getIterations().getIteration().stream().filter(v ->
-                id.equals(v.getId())
-            ).findFirst();
-            if (loopIterable.isPresent()) {
-                return loopIterable.get().getName();
-            }
-        }
-
-        // Case 2: get the associated scope from questions
-        Optional<QuestionType> questionIterable = getQuestionByID(questionnaire.getChild(), id);
-        if (questionIterable.isPresent()) {
-            return questionIterable.get().getName();
-        }
-
-        return null;
     }
 
     /**

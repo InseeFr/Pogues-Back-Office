@@ -9,17 +9,15 @@ import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.DateUtils;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
+import fr.insee.pogues.utils.model.PoguesModelUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 import static fr.insee.pogues.utils.ListUtils.replaceElementInListAccordingToCondition;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
-import static fr.insee.pogues.utils.model.PoguesModelUtils.getScopeNameFromID;
 
 /**
  * Variable Service used to fetch or update variables in questionnaires.
@@ -38,11 +36,15 @@ public class VariableService {
     }
 
     private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
-        return PoguesDeserializer.questionnaireToJavaObject(questionnaireService.getQuestionnaireByID(id));
+        return questionnaireService.getQuestionnaireModelByID(id);
+    }
+
+    private Questionnaire retrieveQuestionnaireByQuestionnaireIdWithReference(String id) throws Exception {
+        return questionnaireService.getQuestionnaireModelByIDWithReferences(id);
     }
 
     private Questionnaire retrieveQuestionnaireByVersionId(UUID versionId) throws Exception {
-        return PoguesDeserializer.questionnaireToJavaObject(versionService.getVersionDataByVersionId(versionId));
+        return versionService.getVersionDataQuestionnaireModelByVersionId(versionId);
     }
 
     /**
@@ -74,6 +76,11 @@ public class VariableService {
      */
     private List<VariableType> getQuestionnaireVariables(Questionnaire questionnaire) {
         return questionnaire.getVariables().getVariable().stream().toList();
+    }
+
+    public Map<String, String> getQuestionnaireScopes(String questionnaireId) throws Exception {
+        Questionnaire questionnaire = retrieveQuestionnaireByQuestionnaireIdWithReference(questionnaireId);
+        return PoguesModelUtils.getQuestionnaireScopes(questionnaire);
     }
 
     /**

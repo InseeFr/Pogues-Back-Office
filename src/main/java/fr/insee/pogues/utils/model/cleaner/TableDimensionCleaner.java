@@ -56,7 +56,7 @@ public class TableDimensionCleaner implements ModelCleaner {
             String dynamic = foundDimension.getDynamic();
             if(!ENUM_DIMENSION.contains(dynamic)){
                 List<Integer> minMax = Arrays.stream(dynamic.split("-"))
-                        .filter(value -> !value.isEmpty())
+                        .filter(v -> !v.isEmpty())
                         .map(Integer::parseInt).toList();
                 if(minMax.size() == 2) {
                     foundDimension.setMinLines(BigInteger.valueOf(minMax.get(0)));

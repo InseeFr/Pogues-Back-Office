@@ -2,16 +2,15 @@ package fr.insee.pogues.utils.model;
 
 import fr.insee.pogues.exception.IllegalFlowControlException;
 import fr.insee.pogues.exception.IllegalIterationException;
-import fr.insee.pogues.model.DynamicIterationType;
-import fr.insee.pogues.model.FlowControlType;
-import fr.insee.pogues.model.IterationType;
-import fr.insee.pogues.model.QuestionType;
-import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.model.*;
 import fr.insee.pogues.model.Questionnaire.Iterations;
-import fr.insee.pogues.model.SequenceType;
 
+import fr.insee.pogues.utils.model.question.Table;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PoguesModelUtilsTest {
@@ -92,30 +91,53 @@ class PoguesModelUtilsTest {
     }
 
     @Test
-    void getScopeNameFromID_unitTests() {
-        // 1: Given a loop
+    void getQuestionnaireScopes_withoutIterations(){
+        // Given empty questionnaire
+        Questionnaire questionnaire = new Questionnaire();
+
+        // When
+        Map<String, String> scopes = PoguesModelUtils.getQuestionnaireScopes(questionnaire);
+        // Then
+        assertThat(scopes).isEmpty();
+    }
+
+    @Test
+    void getQuestionnaireScopes_unitTests(){
+        // Given a loop
         DynamicIterationType loop = new DynamicIterationType();
         loop.setId("loop-id");
         loop.setName("ma_boucle");
-        // 2: Given a question "ma_question"
-        QuestionType question = new QuestionType();
-        question.setId("q-id");
-        question.setName("ma_question");
-        SequenceType sequence = new SequenceType();
-        sequence.getChild().add(question);
+        // Given a pairwise question
+        QuestionType pairwise = new QuestionType();
+        pairwise.setQuestionType(QuestionTypeEnum.PAIRWISE);
+        pairwise.setId("p-id");
+        pairwise.setName("PAIRWISE");
+        // Given a Table Loop
+        QuestionType dynamicTable = new QuestionType();
+        dynamicTable.setQuestionType(QuestionTypeEnum.TABLE);
+        dynamicTable.setId("d-id");
+        dynamicTable.setName("DYNAMIC_TABLE");
+        DimensionType dynamicDimension = new DimensionType();
+        dynamicDimension.setDimensionType(DimensionTypeEnum.PRIMARY);
+        dynamicDimension.setDynamic(Table.DYNAMIC_LENGTH_DIMENSION);
+        ResponseStructureType responseStructureType = new ResponseStructureType();
+        responseStructureType.getDimension().add(dynamicDimension);
+        dynamicTable.setResponseStructure(responseStructureType);
+
+        Questionnaire questionnaire = new Questionnaire();
         Iterations iterations = new Iterations();
         iterations.getIteration().add(loop);
-        Questionnaire questionnaire = new Questionnaire();
         questionnaire.setIterations(iterations);
-        questionnaire.getChild().add(sequence);
+        questionnaire.getChild().add(pairwise);
+        questionnaire.getChild().add(dynamicTable);
 
-        // When we get the linked loop reference name
-        // Then we return null
-        assertNull(PoguesModelUtils.getScopeNameFromID(questionnaire, "non-existing-scope-id"));
-        // 1: Then we return the loop name ("ma_boucle")
-        assertEquals("ma_boucle", PoguesModelUtils.getScopeNameFromID(questionnaire, "loop-id"));
-        // 2: Then we return the question name ("ma_question")
-        assertEquals("ma_question", PoguesModelUtils.getScopeNameFromID(questionnaire, "q-id"));
+        // When
+        Map<String, String> scopes = PoguesModelUtils.getQuestionnaireScopes(questionnaire);
+
+        // Then
+        assertThat(scopes).hasSize(3);
+        assertThat(scopes).containsKeys("loop-id","p-id","d-id");
+        assertThat(scopes).containsValues("DYNAMIC_TABLE", "ma_boucle", "PAIRWISE");
     }
 
 }

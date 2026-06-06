@@ -106,9 +106,12 @@ public class QuestionnaireService implements IQuestionnaireService{
      * @throws Exception
      */
     public JsonNode getQuestionnaireByIDWithReferences(String id) throws Exception {
+        long start = System.currentTimeMillis();
         JsonNode jsonQuestionnaire = this.getQuestionnaireByID(id);
-
-        return getQuestionnaireWithReferences(jsonQuestionnaire);
+        log.debug("Time to get main questionnaire (id: {}) in DB: {} ms", id, System.currentTimeMillis() - start);
+        JsonNode fullQuestionnaire = getQuestionnaireWithReferences(jsonQuestionnaire);
+        log.debug("Time to get a complete questionnaire with ref (id: {}) in DB: {} ms", id, System.currentTimeMillis() - start);
+        return fullQuestionnaire;
     }
 
     @Override
@@ -181,6 +184,7 @@ public class QuestionnaireService implements IQuestionnaireService{
     }
 
     private void deReference(List<String> references, Questionnaire questionnaire) throws Exception {
+        log.debug("--- START Deref of {} with {} refs---", questionnaire.getId(), references.size());
         for (String reference : references) {
             JsonNode referencedJsonQuestionnaire = this.getQuestionnaireByID(reference);
             if (referencedJsonQuestionnaire == null) {
@@ -200,5 +204,6 @@ public class QuestionnaireService implements IQuestionnaireService{
                 questionnaire.getChildQuestionnaireRef().remove(reference);
             }
         }
+        log.debug("--- END Deref of {}", questionnaire.getId());
     }
 }

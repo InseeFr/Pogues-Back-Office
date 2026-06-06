@@ -2,6 +2,7 @@ package fr.insee.pogues.controller;
 
 import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.model.VariableType;
+import fr.insee.pogues.model.dto.variables.VariableScopeDTO;
 import fr.insee.pogues.service.VariableService;
 import fr.insee.pogues.mapper.VariablesMapper;
 import fr.insee.pogues.model.dto.variables.VariableDTO;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import tools.jackson.databind.JsonNode;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -100,4 +102,20 @@ public class VariableController {
 		return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
 	}
 
+	@Operation(summary = "Get all scope variables of a questionnaire and it's dependencies, used for variables pages (creation)",
+			responses = { @ApiResponse(content = @Content(mediaType = "application/json")) })
+	@ApiResponses(value = {
+			@ApiResponse(responseCode = "200", description = "Success"),
+			@ApiResponse(responseCode = "404", description = "Questionnaire not found") })
+	@GetMapping("/questionnaire/{questionnaireId}/variables-scopes")
+	@PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
+	public ResponseEntity<List<VariableScopeDTO>> getQuestionnaireScope(
+			@PathVariable(value = "questionnaireId") String questionnaireId) throws Exception {
+		Map<String, String> scopes = variableService.getQuestionnaireScopes(questionnaireId);
+		List<VariableScopeDTO> variableScopeDTOs = scopes.entrySet().stream()
+				.map((entry -> new VariableScopeDTO(entry.getKey(), entry.getValue())))
+				.toList();
+		return ResponseEntity.status(HttpStatus.OK).body(variableScopeDTOs);
+
+	}
 }

@@ -30,6 +30,14 @@ public class Table {
             FIXED_LENGTH_DIMENSION,
             DYNAMIC_FIXED_DIMENSION); // Replace by enum of Pogues-Model when all questionnaire are updated
 
+
+
+    public static boolean isDynamicTable(QuestionType question){
+        return QuestionTypeEnum.TABLE.equals(question.getQuestionType()) &&
+                hasDynamicDimension(question.getResponseStructure().getDimension());
+    }
+
+
     private static boolean isDimensionBasedOnCodeListId(List<DimensionType> dimensions, String updatedCodeListId){
         return dimensions.stream().anyMatch(dimension -> (isDimensionPrimary(dimension) || isDimensionSecondary(dimension))
                 && updatedCodeListId.equals(dimension.getCodeListReference()));
@@ -39,8 +47,18 @@ public class Table {
         return dimensions.stream().anyMatch(Table::isDimensionSecondary);
     }
 
+    private static boolean hasDynamicDimension(List<DimensionType> dimensions){
+        return dimensions.stream().anyMatch(Table::isDimensionDynamic);
+    }
+
     private static boolean isDimensionSecondary(DimensionType dimension){
         return DimensionTypeEnum.SECONDARY.equals(dimension.getDimensionType());
+    }
+
+
+    private static boolean isDimensionDynamic(DimensionType dimension){
+        return DimensionTypeEnum.PRIMARY.equals(dimension.getDimensionType()) &&
+                !NON_DYNAMIC_DIMENSION.equals(dimension.getDynamic());
     }
 
     public static List<ResponseType> getUniqueResponseType(QuestionType table){

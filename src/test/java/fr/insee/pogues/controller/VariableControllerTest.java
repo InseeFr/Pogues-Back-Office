@@ -25,9 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 
-import java.util.List;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 
 import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.ArgumentMatchers.eq;
@@ -266,6 +264,24 @@ class VariableControllerTest {
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 // Then we receive a 404
                 .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("Should get correct scopes DTO for questionnaire")
+    void getQuestionnaireScope_should_success() throws Exception {
+        Map<String, String> mockScopes = new LinkedHashMap<>();
+        mockScopes.put("id1","ID_1");
+        mockScopes.put("id2","ID_3");
+        Mockito.when(variableService.getQuestionnaireScopes("my-q-id")).thenReturn(mockScopes);
+        String expectedJSON = """
+                [{"id":"id1","label":"ID_1"},{"id":"id2","label":"ID_3"}]""";
+
+        // When we fetch the questionnaire variables
+        mockMvc.perform(get("/api/persistence/questionnaire/my-q-id/variables-scopes")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
+                // Then we receive a 200 and the variables are returned
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedJSON));
     }
 
 }
