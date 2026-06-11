@@ -5,13 +5,21 @@ import fr.insee.pogues.mapper.CodesListMapper;
 import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
+import fr.insee.pogues.model.dto.nomenclatures.NomenclatureDTO;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.model.CodesList;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import tools.jackson.core.type.TypeReference;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionNameWhereCodesListIsUsed;
@@ -66,5 +74,20 @@ public class NomenclatureService {
                         nomenclature,
                         getListOfQuestionNameWhereCodesListIsUsed(questionnaire, nomenclature.getId())
                 )).toList();
+    }
+
+    public List<NomenclatureDTO> getAllNomenclatures() {
+        ObjectMapper objectMapper = JsonMapper.builder().build();
+
+        Resource mockResource = new ClassPathResource("nomenclatures/mock.json");
+        Map<String, NomenclatureDTO> mockNomenclatures = null;
+        try {
+            mockNomenclatures = objectMapper.readValue(
+                    mockResource.getInputStream(),
+                    new TypeReference<>() {});
+        } catch (IOException e) {
+            throw new PoguesException(500, "Error when retrieve nomenclatures", e.getMessage());
+        }
+        return mockNomenclatures.values().stream().toList();
     }
 }

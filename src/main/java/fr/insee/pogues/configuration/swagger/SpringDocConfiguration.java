@@ -6,7 +6,6 @@ import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.security.*;
-import io.swagger.v3.oas.models.servers.Server;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +63,7 @@ public class SpringDocConfiguration {
                                         <div><b>Pogues-Model version : </b><i>%s</i></div>
                                         """,poguesModelVersion))
                         .version(buildProperties.getVersion())
-        ).addServersItem(new Server()
-                .url(String.format("%s://%s",applicationProperties.scheme(), applicationProperties.host()))
-                .description("Generated server url from properties"));
+        );
     }
 
     private OAuthFlows getFlows(OidcProperties oidcProperties) {

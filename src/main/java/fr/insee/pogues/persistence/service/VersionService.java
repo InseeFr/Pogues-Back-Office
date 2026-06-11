@@ -10,6 +10,7 @@ import fr.insee.pogues.utils.PoguesSerializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
+import fr.insee.pogues.service.ModelCleaningService;
 
 import java.sql.Date;
 import java.time.Instant;
@@ -27,6 +28,9 @@ public class VersionService {
 
     @Autowired
     private QuestionnaireRepository questionnaireRepository;
+
+    @Autowired
+    private ModelCleaningService modelCleaningService;
 
     public List<Version> getVersionsByQuestionnaireId(String poguesId, boolean withData) throws Exception {
         return questionnaireVersionRepository.getVersionsByQuestionnaireId(poguesId, withData);
@@ -46,7 +50,9 @@ public class VersionService {
     }
 
     public Version getVersionByVersionId(UUID versionId, boolean withData) throws Exception {
-        return questionnaireVersionRepository.getVersionByVersionId(versionId, withData);
+        Version version = questionnaireVersionRepository.getVersionByVersionId(versionId, withData);
+        if (withData) version.setData(modelCleaningService.cleanModel(version.getData()));
+        return version;
     }
 
     public void createVersionOfQuestionnaire(String poguesId, JsonNode data, String author) throws Exception {

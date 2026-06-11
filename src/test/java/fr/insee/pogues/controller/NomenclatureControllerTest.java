@@ -2,7 +2,6 @@ package fr.insee.pogues.controller;
 
 import fr.insee.pogues.configuration.log.LogInterceptor;
 import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
-import fr.insee.pogues.model.dto.nomenclatures.ExternalLinkDTO;
 import fr.insee.pogues.model.dto.nomenclatures.NomenclatureDTO;
 import fr.insee.pogues.service.NomenclatureService;
 import org.junit.jupiter.api.BeforeEach;
@@ -60,13 +59,29 @@ class NomenclatureControllerTest {
     @DisplayName("Should fetch questionnaires nomenclatures")
     void getQuestionnaireVariables_success() throws Exception {
         // Given a questionnaire with nomenclatures
-        NomenclatureDTO nomenclature = new NomenclatureDTO("id", "label", "version", new ExternalLinkDTO("urn"));
+        NomenclatureDTO nomenclature = new NomenclatureDTO("id", "name", "label", "version", "urn", null);
         ExtendedNomenclatureDTO extendedNomenclature = new ExtendedNomenclatureDTO(nomenclature, List.of("Q1", "Q2"));
         Mockito.when(nomenclatureService.getQuestionnaireNomenclatures("my-q-id")).thenReturn(List.of(extendedNomenclature));
-        String expectedJSON = "[{\"externalLink\":{\"urn\":\"urn\"},\"id\":\"id\",\"label\":\"label\",\"relatedQuestionNames\":[\"Q1\",\"Q2\"],\"version\":\"version\"}]";
+        String expectedJSON = "[{\"id\":\"id\",\"label\":\"label\",\"name\":\"id\",\"relatedQuestionNames\":[\"Q1\",\"Q2\"],\"urn\":\"urn\",\"version\":\"version\"}]";
 
         // When we fetch the questionnaire nomenclatures
         mockMvc.perform(get("/api/questionnaires/my-q-id/nomenclatures")
+                        .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
+                // Then we receive a 200 and the nomenclatures are returned
+                .andExpect(status().isOk())
+                .andExpect(content().string(expectedJSON));
+    }
+
+    @Test
+    @DisplayName("Should fetch questionnaires nomenclatures")
+    void getAllNomenclatures_success() throws Exception {
+        // Given nomenclatures
+        List<NomenclatureDTO> nomenclatures = List.of(new NomenclatureDTO("id", "name", "label", "version", "urn", null));
+        Mockito.when(nomenclatureService.getAllNomenclatures()).thenReturn(nomenclatures);
+        String expectedJSON = "[{\"id\":\"id\",\"name\":\"name\",\"label\":\"label\",\"version\":\"version\",\"urn\":\"urn\"}]";
+
+        // When we fetch the questionnaire nomenclatures
+        mockMvc.perform(get("/api/nomenclatures")
                         .with(jwt().authorities(new SimpleGrantedAuthority("ROLE_ADMIN"))))
                 // Then we receive a 200 and the nomenclatures are returned
                 .andExpect(status().isOk())

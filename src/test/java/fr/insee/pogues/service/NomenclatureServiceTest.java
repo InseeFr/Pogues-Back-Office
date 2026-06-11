@@ -1,6 +1,7 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.model.*;
+import fr.insee.pogues.model.dto.nomenclatures.NomenclatureDTO;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
 import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
@@ -17,6 +18,8 @@ import java.util.List;
 import static fr.insee.pogues.utils.Utils.loadQuestionnaireFromResources;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 @ExtendWith(MockitoExtension.class)
@@ -51,5 +54,17 @@ class NomenclatureServiceTest {
         assertThat(nomenclatures).hasSize(29);
         assertThat(nomenclatures.getFirst().getRelatedQuestionNames())
                 .containsExactly("N_1");
+    }
+
+    @Test
+    @DisplayName("Should mock all Nomenclatures from resources")
+    void getAllNomenclatures_success(){
+        List<NomenclatureDTO> nomenclatures = nomenclatureService.getAllNomenclatures();
+
+        assertThat(nomenclatures).hasSize(34);
+
+        NomenclatureDTO activites = nomenclatures.stream().filter(n->"L_ACTIVITES-2-2-0".equals(n.getId())).findFirst().get();
+        assertEquals("urn:ddi:fr.insee:l_activites-2-2-0:1", activites.getUrn());
+        assertNotNull(activites.getSuggesterParameters());
     }
 }

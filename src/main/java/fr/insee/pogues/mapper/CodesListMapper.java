@@ -5,7 +5,6 @@ import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.CodeType;
 import fr.insee.pogues.model.dto.codeslists.CodeDTO;
 import fr.insee.pogues.model.dto.codeslists.CodesListDTO;
-import fr.insee.pogues.model.dto.nomenclatures.ExternalLinkDTO;
 import fr.insee.pogues.model.dto.nomenclatures.NomenclatureDTO;
 import fr.insee.pogues.model.dto.nomenclatures.NomenclatureZipDto;
 
@@ -80,10 +79,15 @@ public class CodesListMapper {
      * @param codeList Nomenclature to convert
      */
     public static NomenclatureDTO toNomenclatureDTO(CodeList codeList){
-        ExternalLinkDTO externalLinkDTO = new ExternalLinkDTO(codeList.getUrn());
         // TODO: fix me, use version instead of Name of codeList !!!
         // id, label, version, externalLink
-        return new NomenclatureDTO(codeList.getId(), codeList.getLabel(), codeList.getName(), externalLinkDTO);
+        return new NomenclatureDTO(
+                codeList.getId(),
+                codeList.getId(),
+                codeList.getLabel(),
+                codeList.getName(),
+                codeList.getUrn(),
+                codeList.getSuggesterParameters());
     }
 
     /**

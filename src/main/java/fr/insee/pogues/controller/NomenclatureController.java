@@ -1,6 +1,7 @@
 package fr.insee.pogues.controller;
 
 import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
+import fr.insee.pogues.model.dto.nomenclatures.NomenclatureDTO;
 import fr.insee.pogues.service.NomenclatureService;
 import fr.insee.pogues.controller.error.ApiMessage;
 import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
@@ -27,7 +28,7 @@ import java.util.UUID;
  * WebService class used to fetch the nomenclatures of a questionnaire.
  */
 @RestController
-@RequestMapping("/api/questionnaires")
+@RequestMapping("/api")
 @Tag(name = "5. Nomenclature Controller")
 @Slf4j
 public class NomenclatureController {
@@ -42,7 +43,7 @@ public class NomenclatureController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ExtendedNomenclatureDTO.class))) }),
             @ApiResponse(responseCode = "404", description = "Not found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class)) }) })
-    @GetMapping("/{questionnaireId}/nomenclatures")
+    @GetMapping("/questionnaires/{questionnaireId}/nomenclatures")
     @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public ResponseEntity<List<ExtendedNomenclatureDTO>> getQuestionnaireNomenclatures(
             @PathVariable(value = "questionnaireId") String questionnaireId
@@ -55,13 +56,24 @@ public class NomenclatureController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Success", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = ExtendedNomenclatureDTO.class))) }),
             @ApiResponse(responseCode = "404", description = "Version not found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class)) }) })
-    @GetMapping("/{questionnaireId}/version/{versionId}/nomenclatures")
+    @GetMapping("/questionnaires/{questionnaireId}/version/{versionId}/nomenclatures")
     @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
     public ResponseEntity<List<ExtendedNomenclatureDTO>> getQuestionnaireVersionNomenclatures(
             @PathVariable(value = "questionnaireId") String ignoredQuestionnaireId,
             @PathVariable(value = "versionId") UUID versionId
     ) throws Exception {
         List<ExtendedNomenclatureDTO> nomenclatures = nomenclatureService.getVersionNomenclatures(versionId);
+        return ResponseEntity.status(HttpStatus.OK).body(nomenclatures);
+    }
+
+    @Operation(summary = "Get All the possible nomenclatures from registry")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = NomenclatureDTO.class))) }),
+    })
+    @GetMapping("/nomenclatures")
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
+    public ResponseEntity<List<NomenclatureDTO>> getAllNomenclatures() throws Exception {
+        List<NomenclatureDTO> nomenclatures = nomenclatureService.getAllNomenclatures();
         return ResponseEntity.status(HttpStatus.OK).body(nomenclatures);
     }
 }
