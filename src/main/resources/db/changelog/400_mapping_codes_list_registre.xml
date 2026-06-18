@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+                   xmlns:pro="http://www.liquibase.org/xml/ns/pro"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-latest.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <changeSet author="admin (generated)" id="1779091546612-1">
+
+        <createTable tableName="mapping_codes_list_registre">
+
+            <column name="id"
+                    type="BIGINT"
+                    autoIncrement="true">
+
+                <constraints primaryKey="true"
+                             nullable="false"/>
+            </column>
+
+            <column name="pogues_codes_list_id"
+                    type="VARCHAR(255)">
+
+                <constraints nullable="false"
+                             unique="true"/>
+            </column>
+
+            <column name="registre_codes_list_id"
+                    type="UUID">
+
+                <constraints nullable="false"/>
+            </column>
+
+        </createTable>
+
+    </changeSet>
+
+    <changeSet author="admin (generated)" id="1779091546612-2">
+
+        <addUniqueConstraint
+                tableName="mapping_codes_list_registre"
+                columnNames="registre_codes_list_id"
+                constraintName="uk_mapping_codes_list_registre_registre_codes_list_id"/>
+
+    </changeSet>
+
+</databaseChangeLog>

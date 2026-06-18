@@ -137,6 +137,8 @@ spring:
     async:
       # Put time out on async requests to 5 minutes (default 30s is too few for visualization of BIG questionnaires)
       request-timeout: 300000
+    problemdetails:
+      enabled: true
   security:
     oauth2:
       resourceserver:
