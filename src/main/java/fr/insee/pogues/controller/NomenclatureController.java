@@ -2,6 +2,7 @@ package fr.insee.pogues.controller;
 
 import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.model.dto.nomenclatures.NomenclatureDTO;
+import fr.insee.pogues.model.dto.nomenclatures.NomenclatureUrlDTO;
 import fr.insee.pogues.service.NomenclatureService;
 import fr.insee.pogues.controller.error.ApiMessage;
 import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
@@ -66,9 +67,24 @@ public class NomenclatureController {
         return ResponseEntity.status(HttpStatus.OK).body(nomenclatures);
     }
 
-    @Operation(summary = "Get All the possible nomenclatures from registry")
+    @Operation(summary = "Get the nomenclatures' URLs of the questionnaire (and its dependencies)")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Success", content = {@Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = NomenclatureDTO.class))) }),
+            @ApiResponse(responseCode = "200", description = "Success", content = { @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = NomenclatureUrlDTO.class))) }),
+            @ApiResponse(responseCode = "404", description = "Not found", content = { @Content(mediaType = "application/json", schema = @Schema(implementation = ApiMessage.class)) }) })
+    @GetMapping("/questionnaires/{questionnaireId}/nomenclatures/urls")
+    @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)
+    public ResponseEntity<List<NomenclatureUrlDTO>> getQuestionnaireNomenclatureUrls(
+            @PathVariable(value = "questionnaireId") String questionnaireId
+    ) throws Exception {
+        List<NomenclatureUrlDTO> nomenclatureUrls = nomenclatureService.getNomenclaturesUrls(questionnaireId);
+        return ResponseEntity.status(HttpStatus.OK).body(nomenclatureUrls);
+    }
+
+    @Operation(summary = "Get the nomenclatures from registry that can be used by the users in the questionnaire.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Success", content = {
+                    @Content(mediaType = "application/json", array = @ArraySchema(schema = @Schema(implementation = NomenclatureDTO.class)))
+            }),
     })
     @GetMapping("/nomenclatures")
     @PreAuthorize(AuthorityPrivileges.HAS_USER_PRIVILEGES)

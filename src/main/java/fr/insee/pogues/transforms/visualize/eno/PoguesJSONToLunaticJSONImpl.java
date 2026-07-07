@@ -1,6 +1,6 @@
 package fr.insee.pogues.transforms.visualize.eno;
 
-import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
+import fr.insee.pogues.client.generation.EnoClient;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

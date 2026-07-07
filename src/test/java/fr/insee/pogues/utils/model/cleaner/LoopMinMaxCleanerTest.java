@@ -3,6 +3,7 @@ package fr.insee.pogues.utils.model.cleaner;
 import fr.insee.pogues.model.DynamicIterationType;
 import fr.insee.pogues.model.ExpressionType;
 import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.service.modelcleaning.cleaners.LoopMinMaxCleaner;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.NullSource;

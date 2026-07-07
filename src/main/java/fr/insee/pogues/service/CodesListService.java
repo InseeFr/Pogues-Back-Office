@@ -13,6 +13,7 @@ import fr.insee.pogues.utils.model.question.Common;
 import fr.insee.pogues.controller.error.ErrorCode;
 import fr.insee.pogues.model.dto.codeslists.CodesListDTO;
 import fr.insee.pogues.model.dto.codeslists.ExtendedCodesListDTO;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -35,16 +36,11 @@ import static fr.insee.pogues.utils.model.question.Table.updateTableQuestionAcco
  */
 @Service
 @Slf4j
+@AllArgsConstructor
 public class CodesListService {
 
     private final IQuestionnaireService questionnaireService;
     private final VersionService versionService;
-
-    public CodesListService(IQuestionnaireService questionnaireService,
-                            VersionService versionService) {
-        this.questionnaireService = questionnaireService;
-        this.versionService = versionService;
-    }
 
     private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
         return PoguesDeserializer.questionnaireToJavaObject(questionnaireService.getQuestionnaireByID(id));

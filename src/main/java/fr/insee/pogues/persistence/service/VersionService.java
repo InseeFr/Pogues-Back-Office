@@ -7,10 +7,10 @@ import fr.insee.pogues.persistence.repository.QuestionnaireVersionRepository;
 import fr.insee.pogues.utils.DateUtils;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
-import fr.insee.pogues.service.ModelCleaningService;
+import fr.insee.pogues.service.modelcleaning.ModelCleaningService;
 
 import java.sql.Date;
 import java.time.Instant;
@@ -21,15 +21,11 @@ import java.util.UUID;
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
 @Service
+@AllArgsConstructor
 public class VersionService {
 
-    @Autowired
     private QuestionnaireVersionRepository questionnaireVersionRepository;
-
-    @Autowired
     private QuestionnaireRepository questionnaireRepository;
-
-    @Autowired
     private ModelCleaningService modelCleaningService;
 
     public List<Version> getVersionsByQuestionnaireId(String poguesId, boolean withData) throws Exception {

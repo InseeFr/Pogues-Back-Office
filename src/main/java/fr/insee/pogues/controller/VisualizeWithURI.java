@@ -2,8 +2,8 @@ package fr.insee.pogues.controller;
 
 import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.model.EnoContext;
-import fr.insee.pogues.service.ModelCleaningService;
-import fr.insee.pogues.service.ModelValidationService;
+import fr.insee.pogues.service.modelcleaning.ModelCleaningService;
+import fr.insee.pogues.service.validation.ModelValidationService;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDeref;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesXML;
@@ -14,7 +14,7 @@ import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriQueen;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV2;
 import fr.insee.pogues.transforms.visualize.uri.LunaticJSONToUriStromaeV3;
 import fr.insee.pogues.transforms.visualize.uri.XFormsToURIStromaeV1;
-import fr.insee.pogues.utils.suggester.SuggesterVisuService;
+import fr.insee.pogues.service.SuggesterVisuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -56,6 +56,8 @@ public class VisualizeWithURI {
     SuggesterVisuService suggesterVisuService;
     ModelCleaningService modelCleaningService;
     ModelValidationService modelValidationService;
+
+    public static final String NOMENCLATURES_ID_KEY = "nomenclatureIds";
 
     @PostMapping(path = "visualize/{dataCollection}/{questionnaire}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Get visualization URI from JSON serialized Pogues entity", description = "dataCollection MUST refer to the name attribute owned by the nested DataCollectionObject")
@@ -99,7 +101,7 @@ public class VisualizeWithURI {
         Map<String, Object> params = new HashMap<>();
         params.put("mode", "CATI");
         params.put("needDeref", ref);
-        params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
+        params.put(NOMENCLATURES_ID_KEY, suggesterVisuService.getNomenclaturesIdsFromQuestionnaire(request));
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(string2InputStream(request))
                 .map(modelValidationService::transform, null, null)
@@ -124,7 +126,7 @@ public class VisualizeWithURI {
         Map<String, Object> params = new HashMap<>();
         params.put("mode", "CAPI");
         params.put("needDeref", ref);
-        params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
+        params.put(NOMENCLATURES_ID_KEY, suggesterVisuService.getNomenclaturesIdsFromQuestionnaire(request));
         URI uri;
         ByteArrayOutputStream outputStream = pipeline.from(new ByteArrayInputStream(request.getBytes(StandardCharsets.UTF_8)))
                 .map(modelValidationService::transform, null, null)
@@ -151,7 +153,7 @@ public class VisualizeWithURI {
         params.put("questionnaire", questionnaireName.toLowerCase());
         params.put("needDeref", ref);
         params.put("mode", "CAWI");
-        params.put("nomenclatureIds", suggesterVisuService.getNomenclatureIdsFromQuestionnaire(request));
+        params.put(NOMENCLATURES_ID_KEY, suggesterVisuService.getNomenclaturesIdsFromQuestionnaire(request));
         params.put("dsfr", true);
         params.put("context", context);
         URI uri;

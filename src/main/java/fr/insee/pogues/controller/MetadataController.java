@@ -2,10 +2,10 @@ package fr.insee.pogues.controller;
 
 
 import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
-import fr.insee.pogues.metadata.model.ddias.Unit;
-import fr.insee.pogues.metadata.model.pogues.DataCollection;
-import fr.insee.pogues.metadata.model.pogues.DataCollectionContext;
-import fr.insee.pogues.metadata.service.MetadataService;
+import fr.insee.pogues.client.metadata.model.ddias.Unit;
+import fr.insee.pogues.client.metadata.model.pogues.DataCollection;
+import fr.insee.pogues.client.metadata.model.pogues.DataCollectionContext;
+import fr.insee.pogues.service.metadata.MetadataService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Content;

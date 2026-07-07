@@ -1,7 +1,7 @@
 package fr.insee.pogues.controller;
 
 import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
-import fr.insee.pogues.service.ModelCleaningService;
+import fr.insee.pogues.service.modelcleaning.ModelCleaningService;
 import fr.insee.pogues.transforms.PipeLine;
 import fr.insee.pogues.transforms.visualize.*;
 import fr.insee.pogues.transforms.visualize.eno.DDIToFO;

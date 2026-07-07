@@ -2,7 +2,6 @@ package fr.insee.pogues.service;
 
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.mapper.CodesListMapper;
-import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.model.dto.nomenclatures.NomenclatureZipDto;
 import fr.insee.pogues.persistence.service.QuestionnaireService;
@@ -17,7 +16,6 @@ import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.charset.StandardCharsets;

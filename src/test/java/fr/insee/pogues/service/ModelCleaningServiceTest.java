@@ -1,6 +1,8 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.model.*;
+import fr.insee.pogues.service.modelcleaning.ModelCleaningService;
+import fr.insee.pogues.service.stub.ModelCleanerServiceStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -60,7 +62,7 @@ class ModelCleaningServiceTest {
 
     @BeforeEach
     void initService(){
-        modelCleaningService = new ModelCleaningService();
+        modelCleaningService = new ModelCleaningService(new ModelCleanerServiceStub());
     }
 
     @Test

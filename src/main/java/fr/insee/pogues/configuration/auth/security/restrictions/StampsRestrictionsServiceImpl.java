@@ -1,6 +1,6 @@
 package fr.insee.pogues.configuration.auth.security.restrictions;
 
-import fr.insee.pogues.configuration.auth.UserProvider;
+import fr.insee.pogues.configuration.auth.user.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

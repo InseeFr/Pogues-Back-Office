@@ -8,10 +8,11 @@ import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.exceptions.EntityNotFoundException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
 import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
-import fr.insee.pogues.service.ModelCleaningService;
+import fr.insee.pogues.service.modelcleaning.ModelCleaningService;
 import fr.insee.pogues.transforms.visualize.composition.QuestionnaireComposition;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
@@ -29,6 +30,7 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
  * PoguesPersistenceQuestionnaireList.java
  */
 @Service
+@AllArgsConstructor
 @Slf4j
 public class QuestionnaireService implements IQuestionnaireService{
 
@@ -36,17 +38,6 @@ public class QuestionnaireService implements IQuestionnaireService{
     private final VersionService versionService;
     private final StampsRestrictionsService stampsRestrictionsService;
     private final ModelCleaningService modelCleaningService;
-
-    public QuestionnaireService(
-            QuestionnaireRepository questionnaireRepository,
-            VersionService versionService,
-            StampsRestrictionsService stampsRestrictionsService) {
-        this.questionnaireRepository = questionnaireRepository;
-        this.versionService = versionService;
-        this.stampsRestrictionsService = stampsRestrictionsService;
-        this.modelCleaningService = new ModelCleaningService();
-    }
-
 
     public List<JsonNode> getQuestionnairesMetadata(String owner) throws Exception {
         if (null == owner || owner.isEmpty()) {

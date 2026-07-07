@@ -1,7 +1,7 @@
 package fr.insee.pogues.controller;
 
 import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
-import fr.insee.pogues.configuration.auth.UserProvider;
+import fr.insee.pogues.configuration.auth.user.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.QuestionnaireIdentifierException;
@@ -9,9 +9,9 @@ import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.JSONLunaticService;
 import fr.insee.pogues.persistence.service.PublicEnemyVariableService;
-import fr.insee.pogues.service.ModelValidationService;
+import fr.insee.pogues.service.validation.ModelValidationService;
 import fr.insee.pogues.utils.PoguesDeserializer;
-import fr.insee.pogues.utils.suggester.SuggesterVisuService;
+import fr.insee.pogues.service.SuggesterVisuService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -319,11 +319,13 @@ public class QuestionnaireController {
         return ResponseEntity.status(HttpStatus.CREATED).header("Location", jsonLunaticUri).build();
 	}
 
+	@Deprecated
 	@GetMapping("questionnaire/{id}/nomenclatures")
 	@Operation(
 			operationId  = "getNomenclaturesUrls",
 			summary = "Get object representation of id:url for suggester of a questionnaire",
-			description = "Gets the suggesters with questionnaire id {id}",
+			description = "Deprecated. Use GET /api/questionnaires/{questionnaireId}/nomenclatures/urls instead.",
+			deprecated = true,
 			responses = {
 					@ApiResponse(content = @Content(mediaType = "application/json"))}
 	)
@@ -336,7 +338,7 @@ public class QuestionnaireController {
 			@PathVariable(value = "id") String id
 	) throws Exception {
 		JsonNode jsonPoguesQuestionnaire = questionnaireService.getQuestionnaireByIDWithReferences(id);
-		List<String> nomenclaturesIds = suggesterVisuService.getNomenclatureIdsFromQuestionnaire(String.valueOf(jsonPoguesQuestionnaire));
+		List<String> nomenclaturesIds = suggesterVisuService.getNomenclaturesIdsFromQuestionnaire(String.valueOf(jsonPoguesQuestionnaire));
 		JsonNode nomenclaturesUrls = suggesterVisuService.createJsonNomenclaturesForVisu(nomenclaturesIds);
 		return ResponseEntity.status(HttpStatus.OK).body(nomenclaturesUrls);
 	}

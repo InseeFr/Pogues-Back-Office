@@ -1,7 +1,8 @@
 package fr.insee.pogues.transforms;
 
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.service.ModelCleaningService;
+import fr.insee.pogues.service.modelcleaning.ModelCleaningService;
+import fr.insee.pogues.service.stub.ModelCleanerServiceStub;
 import fr.insee.pogues.transforms.visualize.PoguesJSONToPoguesJSONDerefImpl;
 import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
@@ -147,7 +148,7 @@ class PipelineTest {
                 }""";
         Map<String, Object> params = new HashMap<>();
         params.put("needDeref", false);
-        var modelCleaningService = new ModelCleaningService();
+        var modelCleaningService = new ModelCleaningService(new ModelCleanerServiceStub());
         var jsonToJsonDeref = new PoguesJSONToPoguesJSONDerefImpl();
 
         // When

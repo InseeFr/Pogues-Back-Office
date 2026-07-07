@@ -17,7 +17,13 @@ public class ExtendedNomenclatureDTO extends NomenclatureDTO {
     private List<String> relatedQuestionNames;
 
     public ExtendedNomenclatureDTO(NomenclatureDTO nomenclatureDTO, List<String> relatedQuestionNames){
-        super(nomenclatureDTO.getId(), nomenclatureDTO.getId(), nomenclatureDTO.getLabel(), nomenclatureDTO.getVersion(), nomenclatureDTO.getUrn(), nomenclatureDTO.getSuggesterParameters());
+        super(nomenclatureDTO.getId(),
+                nomenclatureDTO.getLabel(),
+                nomenclatureDTO.getVersion(),
+                nomenclatureDTO.getUrn(),
+                nomenclatureDTO.getSuggesterParameters(),
+                nomenclatureDTO.getTheme(),
+                nomenclatureDTO.getReferenceYear());
         this.relatedQuestionNames = relatedQuestionNames;
     }
 }

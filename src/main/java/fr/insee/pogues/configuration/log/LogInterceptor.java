@@ -1,6 +1,6 @@
 package fr.insee.pogues.configuration.log;
 
-import fr.insee.pogues.configuration.rest.AuthenticationHelper;
+import fr.insee.pogues.configuration.auth.user.AuthenticationHelper;
 import jakarta.annotation.Nonnull;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

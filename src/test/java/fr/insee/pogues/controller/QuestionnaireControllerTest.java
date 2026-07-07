@@ -2,7 +2,7 @@ package fr.insee.pogues.controller;
 
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.exception.QuestionnaireIdentifierException;
-import fr.insee.pogues.service.ModelValidationService;
+import fr.insee.pogues.service.validation.ModelValidationService;
 import fr.insee.pogues.service.stub.QuestionnaireServiceStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

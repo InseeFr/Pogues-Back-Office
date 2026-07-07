@@ -75,10 +75,10 @@ application:
   eno:
     host:
 
-    # Nomenclatures API: actually, nomenclatures used in suggester are stored in PostegreSQL DB (not the pogues one), served by a API
-    # See source code: https://github.com/InseeFr/Queen-Back-Office
-  api:
-    nomenclatures:
+  # Registry API - used to fetch valid registered codes lists so that users can use them in Pogues UI.
+  # See source code: https://github.com/InseeFr/survey-registry-api
+  survey-registry:
+    host:
 
   metadata:
     # For codeList, nomenclature and units (it's a codeList)

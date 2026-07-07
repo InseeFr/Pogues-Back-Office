@@ -15,7 +15,6 @@ import org.springframework.boot.info.BuildProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 @Configuration
@@ -27,7 +26,6 @@ public class SpringDocConfiguration {
     @Autowired
     ApplicationProperties applicationProperties;
 
-    private static final Logger log = LoggerFactory.getLogger(SpringDocConfiguration.class);
     @Value("${application.pogues-model.version}")
     private String poguesModelVersion;
     @Bean

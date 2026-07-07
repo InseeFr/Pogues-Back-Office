@@ -4,6 +4,7 @@ import fr.insee.pogues.conversion.JSONDeserializer;
 import fr.insee.pogues.model.QuestionType;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.model.SequenceType;
+import fr.insee.pogues.service.validation.steps.MandatoryCodeListMCQCheck;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

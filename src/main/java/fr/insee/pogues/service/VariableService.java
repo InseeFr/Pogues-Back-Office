@@ -10,6 +10,7 @@ import fr.insee.pogues.utils.DateUtils;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.model.PoguesModelUtils;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -24,16 +25,11 @@ import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
  */
 @Service
 @Slf4j
+@AllArgsConstructor
 public class VariableService {
 
     private final IQuestionnaireService questionnaireService;
     private final VersionService versionService;
-
-    public VariableService(IQuestionnaireService questionnaireService,
-                           VersionService versionService) {
-        this.questionnaireService = questionnaireService;
-        this.versionService = versionService;
-    }
 
     private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
         return questionnaireService.getQuestionnaireModelByID(id);

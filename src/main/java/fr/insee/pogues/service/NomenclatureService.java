@@ -1,46 +1,41 @@
 package fr.insee.pogues.service;
 
+import fr.insee.pogues.client.surveyregistry.SurveyRegistryClient;
 import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.mapper.CodesListMapper;
 import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.model.dto.nomenclatures.ExtendedNomenclatureDTO;
 import fr.insee.pogues.model.dto.nomenclatures.NomenclatureDTO;
+import fr.insee.pogues.model.dto.nomenclatures.NomenclatureUrlDTO;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.model.CodesList;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
-import tools.jackson.core.type.TypeReference;
-import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.json.JsonMapper;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 import static fr.insee.pogues.utils.model.CodesList.getListOfQuestionNameWhereCodesListIsUsed;
 
 @Service
 @Slf4j
+@AllArgsConstructor
 public class NomenclatureService {
 
     private final IQuestionnaireService questionnaireService;
     private final VersionService versionService;
-
-    public NomenclatureService(IQuestionnaireService questionnaireService,
-                               VersionService versionService) {
-        this.questionnaireService = questionnaireService;
-        this.versionService = versionService;
-    }
+    private final SuggesterVisuService suggesterVisuService;
+    private final SurveyRegistryClient surveyRegistryRestClient;
 
     /**
      * Fetch the nomenclatures of a questionnaire.
      * @param questionnaireId ID of the questionnaire to fetch the nomenclatures from
-     * @throws Exception Could not read from the DB
+     * @throws Exception Could not read the questionnaire from the DB
      * @throws PoguesException 404 questionnaire not found
      */
     public List<ExtendedNomenclatureDTO> getQuestionnaireNomenclatures(String questionnaireId) throws Exception {
@@ -52,7 +47,7 @@ public class NomenclatureService {
     /**
      * Fetch the nomenclatures of a questionnaire's version.
      * @param versionId ID of the questionnaire's version to fetch the nomenclatures from
-     * @throws Exception Could not read from the DB
+     * @throws Exception Could not read the questionnaire from the DB
      * @throws PoguesException 404 questionnaire not found
      */
     public List<ExtendedNomenclatureDTO> getVersionNomenclatures(UUID versionId) throws Exception {
@@ -61,6 +56,14 @@ public class NomenclatureService {
         return computeNomenclatureDTO(nomenclatures, questionnaire);
     }
 
+    public List<NomenclatureUrlDTO> getNomenclaturesUrls(String questionnaireId) throws Exception {
+        return suggesterVisuService.computeNomenclaturesUrls(questionnaireId);
+    }
+
+    /**
+     * Return the nomenclatures of a questionnaire.
+     * @param questionnaire Questionnaire in the Pogues model format.
+     */
     public List<CodeList> getQuestionnaireNomenclatures(Questionnaire questionnaire) {
         return questionnaire.getCodeLists().getCodeList().stream()
                 .filter(CodesList::isNomenclatureCodeList)
@@ -76,18 +79,13 @@ public class NomenclatureService {
                 )).toList();
     }
 
-    public List<NomenclatureDTO> getAllNomenclatures() {
-        ObjectMapper objectMapper = JsonMapper.builder().build();
-
-        Resource mockResource = new ClassPathResource("nomenclatures/mock.json");
-        Map<String, NomenclatureDTO> mockNomenclatures = null;
-        try {
-            mockNomenclatures = objectMapper.readValue(
-                    mockResource.getInputStream(),
-                    new TypeReference<>() {});
-        } catch (IOException e) {
-            throw new PoguesException(500, "Error when retrieve nomenclatures", e.getMessage());
-        }
-        return mockNomenclatures.values().stream().toList();
+    /**
+     * Fetch the nomenclatures that can be used by the users in the questionnaire.
+     * Should include suggesterParameters
+     * @throws HttpClientErrorException Could not get it from the API because of a client error
+     * @throws HttpServerErrorException Could not get it from the API because of a server error
+     */
+    public List<NomenclatureDTO> getAllNomenclatures() throws HttpClientErrorException, HttpServerErrorException {
+        return surveyRegistryRestClient.getNomenclatures();
     }
 }

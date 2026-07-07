@@ -79,15 +79,19 @@ public class CodesListMapper {
      * @param codeList Nomenclature to convert
      */
     public static NomenclatureDTO toNomenclatureDTO(CodeList codeList){
-        // TODO: fix me, use version instead of Name of codeList !!!
-        // id, label, version, externalLink
+        // Handle nomenclature that are not in registry, version is fallback to id
+        String version = codeList.getVersion() != null
+                ? String.valueOf(codeList.getVersion())
+                : codeList.getId();
+
         return new NomenclatureDTO(
                 codeList.getId(),
-                codeList.getId(),
                 codeList.getLabel(),
-                codeList.getName(),
+                version,
                 codeList.getUrn(),
-                codeList.getSuggesterParameters());
+                null, // don't return suggesterParameters in NomenclaturePage
+                codeList.getTheme(),
+                codeList.getReferenceYear());
     }
 
     /**

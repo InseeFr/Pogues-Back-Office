@@ -1,7 +1,7 @@
 package fr.insee.pogues.transforms.visualize.uri;
 
 import fr.insee.pogues.persistence.service.JSONLunaticService;
-import fr.insee.pogues.utils.suggester.SuggesterVisuService;
+import fr.insee.pogues.service.SuggesterVisuService;
 import fr.insee.pogues.exception.PoguesException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;

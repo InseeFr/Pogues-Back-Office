@@ -1,5 +1,6 @@
 package fr.insee.pogues.service;
 
+import fr.insee.pogues.service.validation.ModelValidationService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

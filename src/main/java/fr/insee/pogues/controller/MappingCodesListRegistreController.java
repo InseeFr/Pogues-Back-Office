@@ -6,7 +6,7 @@ import fr.insee.pogues.mapper.MappingCodesListRegistreMapper;
 import fr.insee.pogues.model.dto.mapping.codes.list.registre.MappingCodesListRegistreCreateDTO;
 import fr.insee.pogues.model.dto.mapping.codes.list.registre.MappingCodesListRegistreResponseDTO;
 import fr.insee.pogues.model.dto.mapping.codes.list.registre.MappingCodesListRegistreUpdateDTO;
-import fr.insee.pogues.service.MappingCodesListRegistreService;
+import fr.insee.pogues.service.registrymapping.MappingCodesListRegistryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MappingCodesListRegistreController {
 
-    private final MappingCodesListRegistreService service;
+    private final MappingCodesListRegistryService service;
     private final MappingCodesListRegistreMapper mapper;
 
     @PostMapping

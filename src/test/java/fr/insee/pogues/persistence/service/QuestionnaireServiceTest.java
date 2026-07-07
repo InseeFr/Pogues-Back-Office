@@ -4,6 +4,7 @@ import fr.insee.pogues.exception.PoguesException;
 import fr.insee.pogues.exception.QuestionnaireNotFoundException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
 import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
+import fr.insee.pogues.service.modelcleaning.ModelCleaningService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,6 +28,9 @@ class QuestionnaireServiceTest {
 
     @InjectMocks
     QuestionnaireService questionnaireService;
+
+    @Mock
+    ModelCleaningService modelCleaningService;
 
     @Mock
     VersionService versionService;
@@ -66,6 +70,7 @@ class QuestionnaireServiceTest {
         q1.putArray("Control");
         q1.putArray("Child");
         when(questionnairesServiceQuery.getQuestionnaireByID("foo")).thenReturn(q1);
+        when(modelCleaningService.cleanModel(q1)).thenReturn(q1);
         JsonNode q2 = questionnaireService.getQuestionnaireByID("foo");
         assertEquals(q1, q2);
         assertEquals("foo", q2.get("id").asText());

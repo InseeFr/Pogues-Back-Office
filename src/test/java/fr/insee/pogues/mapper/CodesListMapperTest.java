@@ -2,15 +2,19 @@ package fr.insee.pogues.mapper;
 
 import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.CodeType;
+import fr.insee.pogues.model.SuggesterParametersType;
 import fr.insee.pogues.model.dto.codeslists.CodeDTO;
 import fr.insee.pogues.model.dto.codeslists.CodesListDTO;
+import fr.insee.pogues.model.dto.nomenclatures.NomenclatureDTO;
 import fr.insee.pogues.model.dto.nomenclatures.NomenclatureZipDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.UUID;
 
 import static fr.insee.pogues.mapper.CodesListMapper.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class CodesListMapperTest {
@@ -114,6 +118,55 @@ class CodesListMapperTest {
         assertEquals("h-f", nomenclatureZipDto.id());
         assertEquals("Homme-Femme", nomenclatureZipDto.label());
         assertEquals("h-f.json", nomenclatureZipDto.filename());
+    }
+
+    @Test
+    @DisplayName("Should convert model code list to nomenclature DTO, without suggesterParams")
+    void toDTO_success_nomenclatureToDto() {
+        CodeList poguesModelCodeListFromRegistry = new CodeList();
+        UUID uuid = UUID.randomUUID();
+        poguesModelCodeListFromRegistry.setId(uuid.toString());
+        poguesModelCodeListFromRegistry.setLabel("Registry nomenclature");
+        poguesModelCodeListFromRegistry.setVersion(10);
+        poguesModelCodeListFromRegistry.setSuggesterParameters(new SuggesterParametersType());
+
+        NomenclatureDTO expectedFromRegistry = new NomenclatureDTO(
+                uuid.toString(),
+                "Registry nomenclature",
+                "10",
+                null,
+                null,
+                null,
+                null
+        );
+
+        // When we convert it to Pogues DTO
+        NomenclatureDTO resultResgistry = CodesListMapper.toNomenclatureDTO(poguesModelCodeListFromRegistry);
+
+        // Then, it is correctly converted
+        assertThat(resultResgistry).usingRecursiveComparison().isEqualTo(expectedFromRegistry);
+
+        NomenclatureDTO expectedOldOne = new NomenclatureDTO(
+                "OLD_UI_2-0",
+                "old-from-ui-mock",
+                "OLD_UI_2-0",
+                null,
+                null,
+                null,
+                null
+        );
+
+
+        CodeList poguesModelCodeListOldOne = new CodeList();
+        poguesModelCodeListOldOne.setId("OLD_UI_2-0");
+        poguesModelCodeListOldOne.setLabel("old-from-ui-mock");
+        poguesModelCodeListOldOne.setName("OLD_UI_2-0");
+
+        // When we convert it to Pogues DTO
+        NomenclatureDTO resultOneOne = CodesListMapper.toNomenclatureDTO(poguesModelCodeListOldOne);
+
+        // Then, it is correctly converted
+        assertThat(resultOneOne).usingRecursiveComparison().isEqualTo(expectedOldOne);
     }
 
 }

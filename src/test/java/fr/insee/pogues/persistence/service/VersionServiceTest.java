@@ -1,9 +1,8 @@
 package fr.insee.pogues.persistence.service;
 
 import fr.insee.pogues.domain.entity.db.Version;
-import fr.insee.pogues.persistence.repository.QuestionnaireRepository;
 import fr.insee.pogues.persistence.repository.QuestionnaireVersionRepository;
-import fr.insee.pogues.service.ModelCleaningService;
+import fr.insee.pogues.service.modelcleaning.ModelCleaningService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

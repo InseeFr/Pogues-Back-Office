@@ -13,14 +13,12 @@ import lombok.Setter;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class NomenclatureDTO {
     private String id;
-    /**
-     * @deprecated name is always equal to id, remove name when Pogues-UI and Eno use id attribute instead
-     */
-    @Deprecated(forRemoval = true)
-    private String name;
     private String label;
     private String version;
     private String urn;
     // abstract suggesterParams
     private Object suggesterParameters;
+    private String theme;
+    private String referenceYear;
+
 }

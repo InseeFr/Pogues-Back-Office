@@ -41,10 +41,4 @@ public class JSONFunctions {
 		return inputNode;
 	}
 
-	public static String objectNodeToPrettyJsonString(JsonNode jsonNode) {
-			ObjectMapper objectMapper = JsonMapper.builder().build();
-			return objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(jsonNode);
-
-	}
-
 }

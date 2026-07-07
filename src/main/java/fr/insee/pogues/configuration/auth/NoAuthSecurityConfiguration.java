@@ -2,6 +2,7 @@ package fr.insee.pogues.configuration.auth;
 
 
 import fr.insee.pogues.configuration.auth.user.User;
+import fr.insee.pogues.configuration.auth.user.UserProvider;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;

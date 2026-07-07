@@ -1,6 +1,6 @@
 package fr.insee.pogues.transforms.visualize.eno;
 
-import fr.insee.pogues.api.remote.eno.transforms.EnoClient;
+import fr.insee.pogues.client.generation.EnoClient;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

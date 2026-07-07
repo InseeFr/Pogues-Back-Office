@@ -10,6 +10,7 @@ import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.DateUtils;
 import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -27,16 +28,11 @@ import static fr.insee.pogues.utils.model.PoguesModelUtils.*;
  */
 @Service
 @Slf4j
+@AllArgsConstructor
 public class ArticulationService {
 
     private final IQuestionnaireService questionnaireService;
     private final VersionService versionService;
-
-    public ArticulationService(IQuestionnaireService questionnaireService,
-                               VersionService versionService) {
-        this.questionnaireService = questionnaireService;
-        this.versionService = versionService;
-    }
 
     private Questionnaire retrieveQuestionnaireByQuestionnaireId(String id) throws Exception {
         return PoguesDeserializer.questionnaireToJavaObject(questionnaireService.getQuestionnaireByID(id));

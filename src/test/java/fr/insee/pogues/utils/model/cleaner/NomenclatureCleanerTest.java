@@ -3,6 +3,7 @@ package fr.insee.pogues.utils.model.cleaner;
 import fr.insee.pogues.model.CodeList;
 import fr.insee.pogues.model.CodeLists;
 import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.service.modelcleaning.cleaners.NomenclatureCleaner;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

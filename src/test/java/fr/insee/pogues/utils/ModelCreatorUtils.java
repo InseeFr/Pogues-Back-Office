@@ -78,4 +78,14 @@ public class ModelCreatorUtils {
         question.getResponse().add(response);
         return question;
     }
+
+    public static CollectedVariableType createCollectedVariableAccordingToResponse(ResponseType response){
+        CollectedVariableType variable = new CollectedVariableType();
+        variable.setId(response.getVariableReference());
+        variable.setName("VARIABLE");
+        variable.setDatatype(response.getDatatype());
+        variable.setLabel("Variable label");
+        variable.setCodeListReference(response.getCodeListReference());
+        return variable;
+    }
 }
