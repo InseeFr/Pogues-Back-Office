@@ -1,8 +1,9 @@
-package fr.insee.pogues.exception;
+package fr.insee.pogues.exception.questionnaire;
 
 import fr.insee.pogues.controller.error.ApiMessage;
 import fr.insee.pogues.controller.error.CodesListMessage;
 import fr.insee.pogues.controller.error.ErrorCode;
+import fr.insee.pogues.exception.PoguesException;
 import lombok.Getter;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class CodesListException extends PoguesException {
 
     @Override
     public ApiMessage toApiMessage(){
-        return new CodesListMessage(this.getStatus(), this.getMessage(),this.getDetails(), relatedQuestionNames, errorCode);
+        return new CodesListMessage(this.getStatus(), this.getMessage(), this.getDetail(), relatedQuestionNames, errorCode);
     }
 
 }

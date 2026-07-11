@@ -1,4 +1,4 @@
-package fr.insee.pogues.exception;
+package fr.insee.pogues.exception.questionnaire.composition;
 
 /**
  * Exception thrown if an error occurs during questionnaire de-referencing (composition feature).

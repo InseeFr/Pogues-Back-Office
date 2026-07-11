@@ -22,6 +22,15 @@ public class QuestionnaireRepositoryStub implements QuestionnaireRepository {
 		return questionnaires.get(id);
 	}
 
+	public Map<String, JsonNode> getQuestionnairesByIds(List<String> ids) throws Exception {
+		Map<String, JsonNode> res = new HashMap<>();
+		ids.forEach(id -> {
+			JsonNode questionnaire = questionnaires.get(id);
+			if (questionnaire != null) { res.put(id, questionnaire); }
+		});
+		return res;
+	}
+
 	public void deleteQuestionnaireByID(String id) throws Exception {
 		questionnaires.remove(id);
 	}

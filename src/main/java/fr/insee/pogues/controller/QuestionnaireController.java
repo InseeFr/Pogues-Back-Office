@@ -4,7 +4,7 @@ import fr.insee.pogues.configuration.auth.AuthorityPrivileges;
 import fr.insee.pogues.configuration.auth.user.UserProvider;
 import fr.insee.pogues.configuration.auth.user.User;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
-import fr.insee.pogues.exception.QuestionnaireIdentifierException;
+import fr.insee.pogues.exception.validation.QuestionnaireIdentifierException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.JSONLunaticService;
@@ -30,6 +30,8 @@ import tools.jackson.databind.node.ArrayNode;
 import java.util.ArrayList;
 import java.util.List;
 
+import static fr.insee.pogues.service.validation.steps.IdentifierCheck.QUESTIONNAIRE_ID_PATTERN;
+
 /**
  * WebService class for the Instrument Persistence
  * @author I6VWID
@@ -48,8 +50,6 @@ public class QuestionnaireController {
 	private final SuggesterVisuService suggesterVisuService;
 	private final UserProvider userProvider;
 	private final ModelValidationService modelValidationService;
-
-	private static final String QUESTIONNAIRE_ID_PATTERN ="[a-zA-Z0-9]*";
 
 	/**
 	 * @param id: the id of questionnaire
@@ -235,9 +235,7 @@ public class QuestionnaireController {
 			@PathVariable(value = "id") String id,
 			@RequestBody JsonNode jsonContent
 	) throws Exception {
-        if (! id.matches(QUESTIONNAIRE_ID_PATTERN))
-            throw new QuestionnaireIdentifierException(id);
-        modelValidationService.validate(PoguesDeserializer.questionnaireToJavaObject(jsonContent));
+        modelValidationService.validate(PoguesDeserializer.questionnaireToJavaObject(jsonContent), id);
         questionnaireService.updateQuestionnaire(id, jsonContent);
         log.info("Questionnaire {} updated", id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
@@ -280,9 +278,7 @@ public class QuestionnaireController {
 	) throws Exception {
 		Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonContent);
 		String id = questionnaire.getId();
-        if (! id.matches(QUESTIONNAIRE_ID_PATTERN))
-            throw new QuestionnaireIdentifierException(id);
-        modelValidationService.validate(questionnaire);
+        modelValidationService.validate(questionnaire, id);
         questionnaireService.createQuestionnaire(jsonContent);
         String questionnaireUri = String.format("%s://%s/api/persistence/questionnaire/%s",
                 applicationProperties.scheme(),

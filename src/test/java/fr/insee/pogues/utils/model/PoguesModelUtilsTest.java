@@ -1,7 +1,7 @@
 package fr.insee.pogues.utils.model;
 
-import fr.insee.pogues.exception.IllegalFlowControlException;
-import fr.insee.pogues.exception.IllegalIterationException;
+import fr.insee.pogues.exception.questionnaire.composition.IllegalFlowControlException;
+import fr.insee.pogues.exception.questionnaire.composition.IllegalIterationException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.model.Questionnaire.Iterations;
 

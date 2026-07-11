@@ -1,7 +1,7 @@
 package fr.insee.pogues.transforms.visualize.composition;
 
-import fr.insee.pogues.exception.DeReferencingException;
-import fr.insee.pogues.exception.IllegalIterationException;
+import fr.insee.pogues.exception.questionnaire.composition.DeReferencingException;
+import fr.insee.pogues.exception.questionnaire.composition.IllegalIterationException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.utils.model.PoguesModelUtils;
 import lombok.extern.slf4j.Slf4j;

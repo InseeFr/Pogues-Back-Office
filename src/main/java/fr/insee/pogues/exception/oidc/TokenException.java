@@ -1,4 +1,6 @@
-package fr.insee.pogues.exception;
+package fr.insee.pogues.exception.oidc;
+
+import fr.insee.pogues.exception.PoguesException;
 
 import static fr.insee.pogues.controller.error.ErrorCode.TOKEN_ERROR;
 

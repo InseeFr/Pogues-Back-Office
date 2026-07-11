@@ -1,4 +1,6 @@
-package fr.insee.pogues.exception;
+package fr.insee.pogues.exception.variables;
+
+import fr.insee.pogues.exception.PoguesException;
 
 import static fr.insee.pogues.controller.error.ErrorCode.VERSION_NOT_FOUND;
 

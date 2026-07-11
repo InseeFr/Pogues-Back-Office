@@ -49,7 +49,7 @@ public class PoguesException extends GenericException {
         return new ApiMessage(
                 this.getStatus(),
                 this.getMessage(),
-                this.getDetails(),
+                this.getDetail(),
                 this.getErrorCode() != null ? this.getErrorCode().label : null
         );
     }

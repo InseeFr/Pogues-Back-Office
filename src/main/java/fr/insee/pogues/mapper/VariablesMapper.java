@@ -1,7 +1,7 @@
 package fr.insee.pogues.mapper;
 
 
-import fr.insee.pogues.exception.VariableInvalidModelException;
+import fr.insee.pogues.exception.variables.VariableInvalidModelException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.model.dto.variables.*;
 import org.springframework.stereotype.Component;

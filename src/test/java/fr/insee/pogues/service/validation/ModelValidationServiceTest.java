@@ -1,6 +1,5 @@
-package fr.insee.pogues.service;
+package fr.insee.pogues.service.validation;
 
-import fr.insee.pogues.service.validation.ModelValidationService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -16,11 +15,10 @@ class ModelValidationServiceTest {
     void transformValid() throws Exception {
         String validPoguesJson = """
                 {
-                  "id": "foo-questionnaire"
+                  "id": "fooquestionnaire"
                 }"""; // "valid" according to the validation service
         ByteArrayOutputStream outputStream = new ModelValidationService().transform(
                 new ByteArrayInputStream(validPoguesJson.getBytes()), null, null);
         assertEquals(validPoguesJson, outputStream.toString());
     }
-
 }

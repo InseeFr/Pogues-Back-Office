@@ -1,4 +1,4 @@
-package fr.insee.pogues.exception;
+package fr.insee.pogues.exception.questionnaire.composition;
 
 public class IllegalIterationException extends Exception {
 

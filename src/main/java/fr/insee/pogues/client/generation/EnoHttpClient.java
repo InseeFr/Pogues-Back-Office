@@ -1,7 +1,7 @@
 package fr.insee.pogues.client.generation;
 
 import fr.insee.pogues.client.generation.model.ByteArrayResourceWithFileName;
-import fr.insee.pogues.exception.EnoException;
+import fr.insee.pogues.exception.generation.GenerationException;
 import fr.insee.pogues.model.EnoContext;
 import fr.insee.pogues.exception.PoguesException;
 import lombok.RequiredArgsConstructor;
@@ -58,45 +58,27 @@ public class EnoHttpClient implements EnoClient {
     }
 
     @Override
-    public String getPoguesXmlToDDI(String inputAsString) throws EnoException, PoguesException {
+    public String getPoguesXmlToDDI(String inputAsString) throws GenerationException, PoguesException {
         return callEnoApi(inputAsString,  POGUES_XML_FILE_NAME, "/questionnaire/poguesxml-2-ddi");
     }
 
     @Override
-    public String getDDIToODT (String inputAsString) throws EnoException, PoguesException {
+    public String getDDIToODT (String inputAsString) throws GenerationException, PoguesException {
         return callEnoApi(inputAsString, DDI_FILE_NAME, DEFAULT_CONTEXT_PATH +"/fodt");
     }
 
     @Override
-    public String getDDIToFO(String inputAsString) throws EnoException, PoguesException {
+    public String getDDIToFO(String inputAsString) throws GenerationException, PoguesException {
         return callEnoApi(inputAsString, DDI_FILE_NAME, DEFAULT_CONTEXT_PATH +"/fo");
     }
 
     @Override
-    public String getDDIToXForms(String inputAsString) throws EnoException, PoguesException {
+    public String getDDIToXForms(String inputAsString) throws GenerationException, PoguesException {
         return callEnoApi(inputAsString, DDI_FILE_NAME, DEFAULT_CONTEXT_PATH +"/xforms");
     }
 
-    /**
-     * @deprecated {@link EnoClient#getDDIToLunaticJSON(String, Map)}
-     */
     @Override
-    @Deprecated(since = "4.9.2")
-    public String getDDIToLunaticJSON(String inputAsString, Map<String, Object> params) throws EnoException, PoguesException {
-        log.info("getDDITOLunaticJSON - started");
-
-        EnoContext context = getContextParam(params);
-        String mode = getModeParam(params);
-        String wsPath = "questionnaire/" + context + "/lunatic-json/" + mode;
-
-        MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
-        queryParams.add(DSFR_QUERY_PARAM, getDsfrParam(params));
-
-        return callEnoApiWithParams(inputAsString, DDI_FILE_NAME, wsPath, queryParams);
-    }
-
-    @Override
-    public String getPoguesJsonToLunaticJson(String inputAsString, Map<String, Object> params) throws EnoException, PoguesException {
+    public String getPoguesJsonToLunaticJson(String inputAsString, Map<String, Object> params) throws GenerationException, PoguesException {
         log.info("getJSONPoguesToLunaticJson - started");
 
         EnoContext context = getContextParam(params);
@@ -128,13 +110,13 @@ public class EnoHttpClient implements EnoClient {
         return Boolean.TRUE.equals(params.get("dsfr")) ? "true" : "false";
     }
 
-    private String callEnoApi(String inputAsString, String fileName, String wsPath) throws EnoException, PoguesException {
+    private String callEnoApi(String inputAsString, String fileName, String wsPath) throws GenerationException, PoguesException {
         MultiValueMap<String,String> emptyParams = new LinkedMultiValueMap<>();
         return callEnoApiWithParams(inputAsString, fileName, wsPath, emptyParams);
     }
 
     private String callEnoApiWithParams(String inputAsString, String fileName, String wsPath, MultiValueMap<String,String> params)
-            throws EnoException, PoguesException {
+            throws GenerationException, PoguesException {
         URI uri = UriComponentsBuilder
                 .fromUriString(enoHost)
                 .path(wsPath)
@@ -158,7 +140,7 @@ public class EnoHttpClient implements EnoClient {
                     .block();
         } catch (WebClientResponseException e) {
             log.error(e.getMessage());
-            throw new EnoException(e.getResponseBodyAsString(), null);
+            throw new GenerationException(e.getResponseBodyAsString(), null);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new PoguesException(500, "Unknown error during generation", "");

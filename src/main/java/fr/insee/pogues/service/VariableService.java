@@ -1,13 +1,12 @@
 package fr.insee.pogues.service;
 
-import fr.insee.pogues.exception.IllegalIterationException;
+import fr.insee.pogues.exception.questionnaire.composition.IllegalIterationException;
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.exception.VariableNotFoundException;
+import fr.insee.pogues.exception.variables.VariableNotFoundException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.utils.DateUtils;
-import fr.insee.pogues.utils.PoguesDeserializer;
 import fr.insee.pogues.utils.PoguesSerializer;
 import fr.insee.pogues.utils.model.PoguesModelUtils;
 import lombok.AllArgsConstructor;

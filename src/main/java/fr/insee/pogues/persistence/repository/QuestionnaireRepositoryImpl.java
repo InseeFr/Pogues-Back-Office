@@ -15,7 +15,10 @@ import org.springframework.stereotype.Service;
 import tools.jackson.databind.JsonNode;
 
 import java.sql.SQLException;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -137,6 +140,24 @@ public class QuestionnaireRepositoryImpl implements QuestionnaireRepository {
 				""";
 		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class);
 		return pgToJSON(data);
+	}
+
+	/**
+	 * Fetches multiple questionnaires in a single SQL query, to avoid N+1 database calls during dereferencing.
+	 *
+	 * @param ids list of questionnaire ids to fetch
+	 * @return a Map of questionnaires keyed by questionnaire id
+	 */
+	public Map<String, JsonNode> getQuestionnairesByIds(List<String> ids) throws Exception {
+		if (ids.isEmpty()) {
+			return new HashMap<>();
+		}
+		String inSql = String.join(",", Collections.nCopies(ids.size(), "?"));
+		String qString = String.format("SELECT data FROM pogues WHERE id IN (%s)", inSql);
+
+		List<PGobject> data = jdbcTemplate.queryForList(qString, PGobject.class, ids.toArray());
+		return pgToJSON(data).stream()
+				.collect(Collectors.toMap(node -> node.get("id").asString(), node -> node));
 	}
 
 	/**

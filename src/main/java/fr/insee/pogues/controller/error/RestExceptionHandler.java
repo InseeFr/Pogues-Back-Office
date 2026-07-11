@@ -31,18 +31,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(apiErrorResponse, HttpStatus.valueOf(500));
     }
 
-    @ExceptionHandler(PoguesValidationException.class)
-    public ResponseEntity<ApiMessage> handleModelValidationException(PoguesValidationException validationException) {
-        log.error(validationException.getMessage());
-        int httpStatusCode = 400;
-        ApiMessage apiMessage = new ApiMessage(
-                httpStatusCode,
-                "Questionnaire validation failed.",
-                validationException.getMessage(),
-                ErrorCode.QUESTIONNAIRE_INVALID.label);
-        return new ResponseEntity<>(apiMessage, HttpStatus.valueOf(httpStatusCode));
-    }
-
     @ExceptionHandler(PoguesDeserializationException.class)
     public ResponseEntity<ApiMessage> handleDeserializationException(PoguesDeserializationException deserializationException) {
         log.error(deserializationException.getMessage());
@@ -60,18 +48,6 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error(exception.getMessage());
         return new ResponseEntity<>(
                 "Error when serializing Pogues questionnaire.", HttpStatus.valueOf(500));
-    }
-
-    @ExceptionHandler(QuestionnaireIdentifierException.class)
-    public ResponseEntity<ApiMessage> handleInvalidIdentifierException(QuestionnaireIdentifierException exception) {
-        log.error(exception.getMessage());
-        int httpStatusCode = 400;
-        ApiMessage apiMessage = new ApiMessage(
-                httpStatusCode,
-                "Questionnaire identifier is invalid.",
-                exception.getMessage(),
-                ErrorCode.QUESTIONNAIRE_IDENTIFIER_INVALID.label);
-        return new ResponseEntity<>(apiMessage, HttpStatus.valueOf(httpStatusCode));
     }
 
     @ExceptionHandler(AccessDeniedException.class)

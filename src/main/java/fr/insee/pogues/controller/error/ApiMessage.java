@@ -10,6 +10,6 @@ import lombok.Setter;
 public class ApiMessage {
     private int status;
     private String message;
-    private String details;
+    private String detail;
     private String errorCode;
 }

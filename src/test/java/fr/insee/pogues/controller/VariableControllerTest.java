@@ -2,7 +2,7 @@ package fr.insee.pogues.controller;
 
 import fr.insee.pogues.configuration.log.LogInterceptor;
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.exception.VariableNotFoundException;
+import fr.insee.pogues.exception.variables.VariableNotFoundException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.model.dto.variables.VariableDTO;
 import fr.insee.pogues.model.dto.variables.VariableDTODatatype;

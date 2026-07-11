@@ -1,9 +1,9 @@
 package fr.insee.pogues.persistence.service;
 
 import fr.insee.pogues.configuration.auth.security.restrictions.StampsRestrictionsService;
-import fr.insee.pogues.exception.NullReferenceException;
+import fr.insee.pogues.exception.questionnaire.composition.NullReferenceException;
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.exception.QuestionnaireNotFoundException;
+import fr.insee.pogues.exception.questionnaire.QuestionnaireNotFoundException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.exceptions.EntityNotFoundException;
 import fr.insee.pogues.persistence.exceptions.NonUniqueResultException;
@@ -19,6 +19,7 @@ import tools.jackson.databind.JsonNode;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static fr.insee.pogues.utils.json.JSONFunctions.jsonStringtoJsonNode;
 
@@ -70,16 +71,22 @@ public class QuestionnaireService implements IQuestionnaireService{
     /**
      *
      * @param id Id of requested object
-     * @return JSON representation of the questionnaire
+     * @return Cleaned JSON representation of the questionnaire
      * @throws Exception
      */
     public JsonNode getQuestionnaireByID(String id) throws Exception {
+        return modelCleaningService.cleanModel(getRawQuestionnaireByID(id));
+    }
+
+    public Map<String, JsonNode> getQuestionnairesByIds(List<String> ids) throws Exception {
+        return questionnaireRepository.getQuestionnairesByIds(ids);
+    }
+
+    private JsonNode getRawQuestionnaireByID(String id) throws Exception {
         JsonNode questionnaire = this.questionnaireRepository.getQuestionnaireByID(id);
         if (null == questionnaire) {
-            String message = String.format("Questionnaire with id %s does not exist", id);
-            throw new QuestionnaireNotFoundException(message);
+            throw new QuestionnaireNotFoundException(String.format("Questionnaire with id %s does not exist", id));
         }
-        questionnaire = modelCleaningService.cleanModel(questionnaire);
         return questionnaire;
     }
 
@@ -98,7 +105,7 @@ public class QuestionnaireService implements IQuestionnaireService{
      */
     public JsonNode getQuestionnaireByIDWithReferences(String id) throws Exception {
         long start = System.currentTimeMillis();
-        JsonNode jsonQuestionnaire = this.getQuestionnaireByID(id);
+        JsonNode jsonQuestionnaire = getRawQuestionnaireByID(id);
         log.debug("Time to get main questionnaire (id: {}) in DB: {} ms", id, System.currentTimeMillis() - start);
         JsonNode fullQuestionnaire = getQuestionnaireWithReferences(jsonQuestionnaire);
         log.debug("Time to get a complete questionnaire with ref (id: {}) in DB: {} ms", id, System.currentTimeMillis() - start);
@@ -176,8 +183,9 @@ public class QuestionnaireService implements IQuestionnaireService{
 
     private void deReference(List<String> references, Questionnaire questionnaire) throws Exception {
         log.debug("--- START Deref of {} with {} refs---", questionnaire.getId(), references.size());
+        Map<String, JsonNode> childrenMap = this.getQuestionnairesByIds(references);
         for (String reference : references) {
-            JsonNode referencedJsonQuestionnaire = this.getQuestionnaireByID(reference);
+            JsonNode referencedJsonQuestionnaire = childrenMap.get(reference);
             if (referencedJsonQuestionnaire == null) {
                 throw new NullReferenceException(String.format(
                         "Null reference behind reference '%s' in questionnaire '%s'.",

@@ -3,7 +3,7 @@ package fr.insee.pogues.client.interceptor;
 import fr.insee.pogues.configuration.properties.ApplicationProperties;
 import fr.insee.pogues.configuration.properties.OidcServiceAccount;
 import fr.insee.pogues.configuration.auth.user.AuthenticationHelper;
-import fr.insee.pogues.exception.TokenException;
+import fr.insee.pogues.exception.oidc.TokenException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

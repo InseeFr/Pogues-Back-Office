@@ -1,6 +1,6 @@
 package fr.insee.pogues.service;
 
-import fr.insee.pogues.exception.CodesListException;
+import fr.insee.pogues.exception.questionnaire.CodesListException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.VersionService;
 import fr.insee.pogues.service.stub.QuestionnaireServiceStub;

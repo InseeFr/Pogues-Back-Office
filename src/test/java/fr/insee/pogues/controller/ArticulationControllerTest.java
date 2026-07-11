@@ -1,8 +1,8 @@
 package fr.insee.pogues.controller;
 
 import fr.insee.pogues.configuration.log.LogInterceptor;
-import fr.insee.pogues.exception.QuestionnaireNotFoundException;
-import fr.insee.pogues.exception.VersionNotFoundException;
+import fr.insee.pogues.exception.questionnaire.QuestionnaireNotFoundException;
+import fr.insee.pogues.exception.variables.VersionNotFoundException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.model.dto.articulations.ArticulationDTO;
 import fr.insee.pogues.model.dto.articulations.ArticulationItemDTO;

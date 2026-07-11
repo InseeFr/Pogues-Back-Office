@@ -1,7 +1,7 @@
 package fr.insee.pogues.service.stub;
 
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.exception.QuestionnaireNotFoundException;
+import fr.insee.pogues.exception.questionnaire.QuestionnaireNotFoundException;
 import fr.insee.pogues.model.Questionnaire;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.utils.PoguesDeserializer;

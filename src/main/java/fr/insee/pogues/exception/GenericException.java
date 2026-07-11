@@ -6,14 +6,14 @@ import lombok.Getter;
 @Getter
 public abstract class GenericException extends RuntimeException {
 
-    private final String details;
+    private final String detail;
 
-    protected GenericException(String message, String details){
+    protected GenericException(String message, String detail){
         super(message);
-        this.details = details;
+        this.detail = detail;
     }
 
     public ApiMessage toApiMessage() {
-        return new ApiMessage(500, this.getMessage(), details, null);
+        return new ApiMessage(500, this.getMessage(), detail, null);
     }
 }

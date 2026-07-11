@@ -1,9 +1,9 @@
 package fr.insee.pogues.service;
 
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.exception.QuestionnaireFormulaLanguageNotVTLException;
-import fr.insee.pogues.exception.QuestionnaireRoundaboutNotFoundException;
-import fr.insee.pogues.exception.VariableNotFoundException;
+import fr.insee.pogues.exception.questionnaire.QuestionnaireFormulaLanguageNotVTLException;
+import fr.insee.pogues.exception.questionnaire.QuestionnaireRoundaboutNotFoundException;
+import fr.insee.pogues.exception.variables.VariableNotFoundException;
 import fr.insee.pogues.model.*;
 import fr.insee.pogues.persistence.service.IQuestionnaireService;
 import fr.insee.pogues.persistence.service.VersionService;

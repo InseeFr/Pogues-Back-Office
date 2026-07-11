@@ -4,13 +4,16 @@ package fr.insee.pogues.persistence.repository;
 import tools.jackson.databind.JsonNode;
 
 import java.util.List;
+import java.util.Map;
 
 /**
- * Questionnaire Service Query interface to assume the persistance of Pogues UI in JSON.
+ * Questionnaire Service Query interface to assume the persistence of Pogues UI in JSON.
  */
 public interface QuestionnaireRepository {
 
     JsonNode getQuestionnaireByID(String id) throws Exception;
+
+    Map<String, JsonNode> getQuestionnairesByIds(List<String> ids) throws Exception;
 
     void deleteQuestionnaireByID(String id) throws Exception;
 

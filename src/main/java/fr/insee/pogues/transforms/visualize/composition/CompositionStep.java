@@ -1,6 +1,6 @@
 package fr.insee.pogues.transforms.visualize.composition;
 
-import fr.insee.pogues.exception.DeReferencingException;
+import fr.insee.pogues.exception.questionnaire.composition.DeReferencingException;
 import fr.insee.pogues.model.Questionnaire;
 
 /**

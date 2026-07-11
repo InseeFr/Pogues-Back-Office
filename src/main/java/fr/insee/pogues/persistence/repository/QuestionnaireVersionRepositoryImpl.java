@@ -2,7 +2,7 @@ package fr.insee.pogues.persistence.repository;
 
 import fr.insee.pogues.domain.entity.db.Version;
 import fr.insee.pogues.exception.PoguesException;
-import fr.insee.pogues.exception.VersionNotFoundException;
+import fr.insee.pogues.exception.variables.VersionNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.postgresql.util.PGobject;
 import org.springframework.beans.factory.annotation.Autowired;

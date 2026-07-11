@@ -1,9 +1,9 @@
-package fr.insee.pogues.exception;
+package fr.insee.pogues.exception.validation;
 
 /**
  * Exception to be thrown when a Pogues questionnaire has an invalid identifier.
  */
-public class QuestionnaireIdentifierException extends Exception {
+public class QuestionnaireIdentifierException extends RuntimeException {
 
     /**
      * @param id Invalid questionnaire identifier value.

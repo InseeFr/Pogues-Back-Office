@@ -1,4 +1,6 @@
-package fr.insee.pogues.exception;
+package fr.insee.pogues.exception.questionnaire;
+
+import fr.insee.pogues.exception.PoguesException;
 
 import static fr.insee.pogues.controller.error.ErrorCode.QUESTIONNAIRE_FORMULA_LANGUAGE_NOT_VTL;
 

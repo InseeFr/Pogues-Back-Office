@@ -1,7 +1,8 @@
 package fr.insee.pogues.service.validation;
 
-import fr.insee.pogues.exception.PoguesValidationException;
+import fr.insee.pogues.exception.validation.ModelValidationException;
 import fr.insee.pogues.model.Questionnaire;
+import fr.insee.pogues.service.validation.steps.IdentifierCheck;
 import fr.insee.pogues.service.validation.steps.MandatoryCodeListMCQCheck;
 import fr.insee.pogues.transforms.visualize.ModelTransformer;
 import fr.insee.pogues.utils.PoguesDeserializer;
@@ -19,23 +20,20 @@ public class ModelValidationService implements ModelTransformer {
 
     /**
      * Checks if there is any issue in the questionnaire (e.g. an invalid question property).
-     * @throws PoguesValidationException if there is.
+     * @throws ModelValidationException if there is.
      */
-    public void validate(Questionnaire questionnaire) throws PoguesValidationException {
+    public void validate(Questionnaire questionnaire, String poguesId) throws ModelValidationException {
         List<ValidationStep> validationSteps = List.of(
+                new IdentifierCheck(),
                 new MandatoryCodeListMCQCheck()
         );
         List<String> errors = validationSteps.stream()
-                .map(validationStep -> validationStep.validate(questionnaire))
+                .map(validationStep -> validationStep.validate(questionnaire, poguesId))
                 .filter(validationResult -> !validationResult.isValid())
                 .map(ValidationResult::errorMessage)
                 .toList();
         int errorsCount = errors.size();
-        if (errorsCount > 0)
-            throw new PoguesValidationException(errors.getFirst() +
-                    " (%d other error%s)".formatted(
-                            errorsCount - 1,
-                            (errorsCount - 1) > 1 ? "s" : ""));
+        if (errorsCount > 0) throw new ModelValidationException("Validation failed", errors);
     }
 
     @Override
@@ -44,7 +42,7 @@ public class ModelValidationService implements ModelTransformer {
         // store input stream content since deserializing consumes the input stream
         byte[] content = inputStream.readAllBytes();
         Questionnaire poguesQuestionnaire = PoguesDeserializer.deserialize(new ByteArrayInputStream(content));
-        validate(poguesQuestionnaire);
+        validate(poguesQuestionnaire, poguesQuestionnaire.getId());
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         outputStream.write(content);
         return outputStream;
