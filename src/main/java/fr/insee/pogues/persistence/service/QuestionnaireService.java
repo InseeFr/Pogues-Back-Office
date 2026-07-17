@@ -126,9 +126,8 @@ public class QuestionnaireService implements IQuestionnaireService{
      * @throws Exception
      */
     public JsonNode getQuestionnaireWithReferences(JsonNode jsonQuestionnaire) throws Exception {
-        if (modelCleaningService != null)
-            jsonQuestionnaire = modelCleaningService.cleanModel(jsonQuestionnaire);
         Questionnaire questionnaireWithReferences = this.deReference(jsonQuestionnaire);
+        if(modelCleaningService != null) modelCleaningService.cleanModel(questionnaireWithReferences);
         return jsonStringtoJsonNode(PoguesSerializer.questionnaireJavaToString(questionnaireWithReferences));
     }
 
