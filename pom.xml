@@ -35,7 +35,7 @@
 		<fop.version>2.11</fop.version>
 		<springdoc-openapi-ui.version>3.0.3</springdoc-openapi-ui.version>
 		<jacoco.version>0.8.15</jacoco.version>
-		<saxon.version>12.9</saxon.version>
+		<saxon.version>12.10</saxon.version>
 		<netty.version>4.2.15.Final</netty.version>
 		<postgresql.version>42.7.11</postgresql.version>
 
