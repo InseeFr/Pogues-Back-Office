@@ -175,6 +175,7 @@ public class QuestionnaireService implements IQuestionnaireService{
 
     public Questionnaire deReference(JsonNode jsonQuestionnaire) throws Exception {
         Questionnaire questionnaire = PoguesDeserializer.questionnaireToJavaObject(jsonQuestionnaire);
+        if(modelCleaningService != null) modelCleaningService.cleanModel(questionnaire);
         List<String> references = new ArrayList<>(questionnaire.getChildQuestionnaireRef()); // make copy of references
         deReference(references, questionnaire);
         return questionnaire;
@@ -191,6 +192,7 @@ public class QuestionnaireService implements IQuestionnaireService{
                         reference, questionnaire.getId()));
             } else {
                 Questionnaire referencedQuestionnaire = PoguesDeserializer.questionnaireToJavaObject(referencedJsonQuestionnaire);
+                if(modelCleaningService != null) modelCleaningService.cleanModel(referencedQuestionnaire);
                 // Coherence check
                 if (! reference.equals(referencedQuestionnaire.getId())) {
                     log.warn("Reference '{}' found in questionnaire '{}' mismatch referenced questionnaire's id '{}'",

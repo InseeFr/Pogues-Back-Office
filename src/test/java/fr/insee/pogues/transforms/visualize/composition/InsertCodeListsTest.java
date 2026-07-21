@@ -6,6 +6,7 @@ import fr.insee.pogues.model.Questionnaire;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class InsertCodeListsTest {
@@ -34,7 +35,7 @@ class InsertCodeListsTest {
         //
         assertNotNull(questionnaire.getCodeLists());
         assertFalse(questionnaire.getCodeLists().getCodeList().isEmpty());
-        assertEquals("codes11", questionnaire.getCodeLists().getCodeList().get(0).getId());
+        assertEquals("codes11", questionnaire.getCodeLists().getCodeList().getFirst().getId());
     }
 
     @Test
@@ -61,7 +62,31 @@ class InsertCodeListsTest {
     }
 
     @Test
-    void insertCodeList_sameLabel() {
+    void insertCodeList_sameId() {
+        //
+        CodeList codeList = new CodeList();
+        codeList.setId("codes1");
+        codeList.setLabel("CODE_LIST_AB");
+        questionnaire.setCodeLists(new CodeLists());
+        questionnaire.getCodeLists().getCodeList().add(codeList);
+        //
+        CodeList codeListRef = new CodeList();
+        codeListRef.setId("codes1");
+        codeListRef.setLabel("CODE_LIST_A");
+        referenced1.setCodeLists(new CodeLists());
+        referenced1.getCodeLists().getCodeList().add(codeListRef);
+        //
+        InsertCodeLists insertCodeLists = new InsertCodeLists();
+        insertCodeLists.apply(questionnaire, referenced1);
+        //
+        assertNotNull(questionnaire.getCodeLists());
+        assertFalse(questionnaire.getCodeLists().getCodeList().isEmpty());
+        assertThat(questionnaire.getCodeLists().getCodeList()).hasSize(1);
+        assertEquals("codes1", questionnaire.getCodeLists().getCodeList().getFirst().getId());
+    }
+
+    @Test
+    void insertCodeList_sameLabel_should_insert_both() {
         //
         CodeList codeList = new CodeList();
         codeList.setId("codes1");
@@ -80,8 +105,9 @@ class InsertCodeListsTest {
         //
         assertNotNull(questionnaire.getCodeLists());
         assertFalse(questionnaire.getCodeLists().getCodeList().isEmpty());
-        assertEquals(1, questionnaire.getCodeLists().getCodeList().size());
-        assertEquals("codes1", questionnaire.getCodeLists().getCodeList().get(0).getId());
+        assertThat(questionnaire.getCodeLists().getCodeList()).hasSize(2);
+        assertThat(questionnaire.getCodeLists().getCodeList().stream().map(CodeList::getId).toList()).contains("codes1");
+        assertThat(questionnaire.getCodeLists().getCodeList().stream().map(CodeList::getId).toList()).contains("codes11");
     }
 
 }
