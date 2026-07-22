@@ -48,11 +48,7 @@ public class QuestionnaireService implements IQuestionnaireService{
     }
 
     public List<JsonNode> getQuestionnairesStamps() throws Exception {
-        List<JsonNode> stamps = questionnaireRepository.getStamps();
-        if (stamps.isEmpty()) {
-            throw new PoguesException(404, "Not found", "Aucun timbre enregistré");
-        }
-        return stamps;
+        return questionnaireRepository.getStamps();
     }
 
     /**
